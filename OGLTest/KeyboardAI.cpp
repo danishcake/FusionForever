@@ -12,7 +12,7 @@ KeyboardAI::~KeyboardAI(void)
 {
 }
 
-AIAction KeyboardAI::Tick(float _timespan, std::list<boost::shared_ptr<Core>>& _allies, std::list<boost::shared_ptr<Core>>& _enemies)
+AIAction KeyboardAI::Tick(float _timespan, std::list<boost::shared_ptr<Core>>& _allies, std::list<boost::shared_ptr<Core>>& _enemies, Core* _self)
 {
 	AIAction action;
 	Uint8* keystates = SDL_GetKeyState(0);
@@ -34,9 +34,7 @@ AIAction KeyboardAI::Tick(float _timespan, std::list<boost::shared_ptr<Core>>& _
 	if(point_to_face.lengthSq()!=0)
 	{
 		point_to_face.normalize();
-		//Vector3f pointed_faced = Vector3f(-sinf(DEG2RAD(_self->GetAngle())), cos(DEG2RAD(angle_)), 0);
-		//((Section*)_self)->GetAngle();
-		
+		Vector3f pointed_faced = Vector3f(-sinf(DEG2RAD(_self->GetAngle())), cos(DEG2RAD(_self->GetAngle())), 0);
 
 	}
 

@@ -16,7 +16,7 @@ RotatingAI::~RotatingAI(void)
 {
 }
 
-AIAction RotatingAI::Tick(float _timespan, std::list<boost::shared_ptr<Core>>& _allies, std::list<boost::shared_ptr<Core>>& _enemies)
+AIAction RotatingAI::Tick(float _timespan, std::list<boost::shared_ptr<Core>>& _allies, std::list<boost::shared_ptr<Core>>& _enemies, Core* _self)
 {
 	sum_time_ += _timespan;
 	return AIAction(0, 0, rotation_rate_, false);

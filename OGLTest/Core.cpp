@@ -18,7 +18,7 @@ void Core::Tick(float _timespan, std::list<boost::shared_ptr<Projectile>>& _spaw
 	AIAction action;
 	if(AI_!=NULL)
 	{
-		action = AI_->Tick(_timespan, _allies, _enemies);
+		action = AI_->Tick(_timespan, _allies, _enemies, this);
 		Vector2f dv= Vector2f(action.dx_, action.dy_);
 		if(dv.lengthSq()!=0)
 			dv.normalize();

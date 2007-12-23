@@ -1,5 +1,5 @@
 #pragma once
-#include "baseai.h"
+#include "Core.h"
 
 class RotatingAI :
 	public BaseAI
@@ -10,5 +10,5 @@ protected:
 public:
 	RotatingAI(float _rotation_rate);
 	virtual ~RotatingAI(void);
-	virtual AIAction Tick(float _timespan, std::list<boost::shared_ptr<Core>>& _allies, std::list<boost::shared_ptr<Core>>& _enemies);
+	virtual AIAction Tick(float _timespan, std::list<boost::shared_ptr<Core>>& _allies, std::list<boost::shared_ptr<Core>>& _enemies, Core* _self);
 };
