@@ -24,6 +24,11 @@ void Core::Tick(float _timespan, std::list<boost::shared_ptr<Projectile>>& _spaw
 			dv.normalize();
 		velocity_.x += dv.x * _timespan * CORE_MOVE_RATE_MAX;
 		velocity_.y += dv.y * _timespan * CORE_MOVE_RATE_MAX;
+		if(dv.lengthSq() <= 0.01f)
+		{
+			dv *= expf(-_timespan * CORE_EXP_BRAKING);
+			
+		}
 		angle_ += action.dtheta_ * _timespan * CORE_ROT_RATE_MAX;
 		firing_ = action.firing_;
 		

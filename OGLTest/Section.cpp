@@ -83,7 +83,10 @@ bool Section::CheckCollisions(boost::shared_ptr<Projectile> _projectile)
 
 bool Section::IsSectionDead(Section* section)
 {
-	return section->health_ <= 0;
+	bool dead = (section->health_ <= 0);
+	if(dead)
+		Camera::Instance().Shake();
+	return dead;
 }
 void Section::SetColor(GLColor _color)
 {

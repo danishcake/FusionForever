@@ -8,6 +8,8 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/foreach.hpp>
 
+#include "Camera.h"
+
 #include "Core.h"
 
 #include "SquareCore.h"
@@ -35,10 +37,8 @@ void Redraw()
 	glClear(GL_COLOR_BUFFER_BIT);
 	glColor3f(1.0f,0.0f,0.0f);
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-60,60,-60, 60,-100,100);
-
+	Camera::Instance().SetupCamera();
+	
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
@@ -68,6 +68,7 @@ void Redraw()
 	}
 
 	glFlush();
+	SDL_GL_SwapBuffers();
 }
 
 void Tick()
@@ -80,6 +81,7 @@ void Tick()
 	ltv_time = current_time;
 	const Matrix4f identity = Matrix4f();
 
+	Camera::Instance().TickCamera(time_elapsed);
 
 	BOOST_FOREACH(boost::shared_ptr<Core> core, friends)
 	{
@@ -201,11 +203,16 @@ void initSections()
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	srand(time(NULL));
+	
+	Camera::Instance().SetAspectRatio(300,300);
+	Camera::Instance().SetWidth(200);
+
 	bool isFinished = false;
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_WM_SetCaption("SDL Test", "SDL Test");
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0);
-	SDL_Surface* screen = SDL_SetVideoMode(200, 200, 32, SDL_HWSURFACE | SDL_OPENGL | SDL_DOUBLEBUF);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	SDL_Surface* screen = SDL_SetVideoMode(Camera::Instance().GetWindowWidth(), Camera::Instance().GetWindowHeight(), 32, SDL_HWSURFACE | SDL_OPENGL | SDL_DOUBLEBUF);
 
 	initSections();
 	glClearColor(0.0f,0.0f,0.7f,0.0f);

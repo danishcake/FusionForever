@@ -10,6 +10,7 @@
 #include "Decoration.h"
 #include "vmath-collisions.h"
 #include "Datastore.h"
+#include "Camera.h"
 
 class Section :
 	public BaseEntity, public Filled, public Outlined

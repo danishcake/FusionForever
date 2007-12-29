@@ -30,11 +30,23 @@ AIAction KeyboardAI::Tick(float _timespan, std::list<boost::shared_ptr<Core>>& _
 	Uint8 mouse_state = SDL_GetMouseState(&x, &y);
 	if(SDL_BUTTON_LEFT && mouse_state)
 		action.firing_ = true;
-	Vector3f point_to_face = Vector3f(x-(SDL_GetVideoSurface()->clip_rect.w/2),y-(SDL_GetVideoSurface()->clip_rect.h/2),0); //TODO change to reflect resolution
+	Vector3f point_to_face = Vector3f((x - Camera::Instance().GetWindowWidth()/2),
+		                              (Camera::Instance().GetWindowHeight()/2 - y), 0);
 	if(point_to_face.lengthSq()!=0)
 	{
 		point_to_face.normalize();
-		Vector3f pointed_faced = Vector3f(-sinf(DEG2RAD(_self->GetAngle())), cos(DEG2RAD(_self->GetAngle())), 0);
+		Vector3f point_faced = Vector3f(-sinf(_self->GetAngle() * M_PI / 180.0f), cosf(_self->GetAngle() * M_PI / 180.0f), 0);
+		Vector3f right_vector = Vector3f(-sinf((_self->GetAngle()+90) * M_PI / 180.0f), cosf((_self->GetAngle()+90) * M_PI / 180.0f), 0);
+		float dotprod = right_vector.dotProduct(point_to_face);
+		if(fabsf(dotprod)>=0.2f)
+		{
+			action.dtheta_ = dotprod < 0 ? -1.0f : 1.0f;
+		} else
+		{
+			action.dtheta_ = dotprod*5.0f;
+		}
+		//Position camera
+		Camera::Instance().SetCentre(_self->GetPosition().x + point_faced.x * Camera::Instance().GetWidth() * 0.4, _self->GetPosition().y + point_faced.y* Camera::Instance().GetHeight() * 0.4);
 
 	}
 

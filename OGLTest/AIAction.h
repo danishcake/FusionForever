@@ -9,5 +9,5 @@ public:
 	float dx_;
 	float dy_;
 	float dtheta_;
-	float firing_;
+	bool firing_;
 };
