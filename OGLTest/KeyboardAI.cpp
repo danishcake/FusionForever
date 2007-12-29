@@ -30,6 +30,7 @@ AIAction KeyboardAI::Tick(float _timespan, std::list<boost::shared_ptr<Core>>& _
 	Uint8 mouse_state = SDL_GetMouseState(&x, &y);
 	if(SDL_BUTTON_LEFT && mouse_state)
 		action.firing_ = true;
+
 	Vector3f point_to_face = Vector3f((x - Camera::Instance().GetWindowWidth()/2),
 		                              (Camera::Instance().GetWindowHeight()/2 - y), 0);
 	if(point_to_face.lengthSq()!=0)

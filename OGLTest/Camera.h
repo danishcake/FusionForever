@@ -32,10 +32,7 @@ public:
 
 	int GetWindowWidth(){return window_width_;}
 	int GetWindowHeight(){return window_height_;}
-	//Set with Width/Height
-	//width_  = ratio_
-	//-------
-	//height_
+
 	void SetAspectRatio(int _window_width, int _window_height) 
 	{
 		ratio_ = _window_width / _window_height;

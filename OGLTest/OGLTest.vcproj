@@ -224,6 +224,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Camera.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Filled.cpp"
 					>
 				</File>
@@ -343,6 +347,10 @@
 				>
 				<File
 					RelativePath=".\BaseEntity.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Camera.h"
 					>
 				</File>
 				<File
