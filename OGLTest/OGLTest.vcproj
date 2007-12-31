@@ -290,6 +290,10 @@
 						RelativePath=".\Decoration.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\Puff.cpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="AI"
@@ -410,6 +414,10 @@
 					>
 					<File
 						RelativePath=".\Decoration.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Puff.h"
 						>
 					</File>
 				</Filter>

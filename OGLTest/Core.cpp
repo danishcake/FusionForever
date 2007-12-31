@@ -15,6 +15,7 @@ Core::~Core(void)
 void Core::Tick(float _timespan, std::list<boost::shared_ptr<Projectile>>& _spawn_prj, std::list<boost::shared_ptr<Decoration>>& _spawn_dec, 
 				Matrix4f _transform, std::list<boost::shared_ptr<Core>>& _allies, std::list<boost::shared_ptr<Core>>& _enemies)
 {
+	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform);
 	AIAction action;
 	if(AI_!=NULL)
 	{
@@ -26,12 +27,10 @@ void Core::Tick(float _timespan, std::list<boost::shared_ptr<Projectile>>& _spaw
 		velocity_.y += dv.y * _timespan * CORE_MOVE_RATE_MAX;
 		if(dv.lengthSq() <= 0.01f)
 		{
-			dv *= expf(-_timespan * CORE_EXP_BRAKING);
-			
+			dv *= expf(-_timespan * CORE_EXP_BRAKING);			
 		}
 		angle_ += action.dtheta_ * _timespan * CORE_ROT_RATE_MAX;
 		firing_ = action.firing_;
 		
 	}
-	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform);
 }

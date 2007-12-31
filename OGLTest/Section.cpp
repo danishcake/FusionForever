@@ -4,6 +4,7 @@
 Section::Section(void) 
 : BaseEntity(), Outlined(), Filled()
 {
+	firing_ = false;
 }
 
 Section::~Section(void)

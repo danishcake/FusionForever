@@ -3,7 +3,7 @@
 #include "AIAction.h"
 #include <list>
 
-#define CORE_ROT_RATE_MAX 200.0f
+#define CORE_ROT_RATE_MAX 600.0f
 #define CORE_MOVE_RATE_MAX 100.0f
 #define CORE_EXP_BRAKING 1000.0f
 

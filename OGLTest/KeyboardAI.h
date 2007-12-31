@@ -7,8 +7,7 @@ class KeyboardAI :
 	public BaseAI
 {
 protected:
-	float dx_;
-	float dy_;
+	float zoom_time_;
 public:
 	KeyboardAI(void);
 	virtual ~KeyboardAI(void);

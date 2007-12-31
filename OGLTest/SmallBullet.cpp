@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "SmallBullet.h"
+#include "Puff.h"
 
 bool SmallBullet::initialised_ = false;
 int SmallBullet::smallbullet_outline_display_list_ = 0;
@@ -36,7 +37,9 @@ void SmallBullet::initialise_outline()
 	smallbullet_outline_display_list_ = CreateOutlinedDisplayList(temp_outline);
 }
 
-void SmallBullet::Hit(std::list<boost::shared_ptr<Decoration>> _spawn)
+void SmallBullet::Hit(std::list<boost::shared_ptr<Decoration>>& _spawn)
 {
-
+	boost::shared_ptr<Decoration> puff = boost::shared_ptr<Decoration>(new Puff());
+	puff->SetPosition(this->position_);
+	_spawn.push_back(puff);
 }

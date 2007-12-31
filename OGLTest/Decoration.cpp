@@ -3,6 +3,7 @@
 
 Decoration::Decoration(void)
 {
+	lifetime_ = 1.0f;
 }
 
 Decoration::~Decoration(void)
@@ -18,7 +19,9 @@ void Decoration::Tick(float _timespan, Matrix4f _transform)
 
 bool Decoration::IsRemovable(boost::shared_ptr<Decoration> dec)
 {
-	return dec->GetLifetime()<=0;
+	if(dec->GetLifetime()<=0)
+		return true;
+	return false;
 }
 
 void Decoration::DrawSelf()

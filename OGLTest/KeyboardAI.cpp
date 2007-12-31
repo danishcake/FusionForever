@@ -1,11 +1,11 @@
 #include "StdAfx.h"
 #include "KeyboardAI.h"
 
+#define ZOOM_TIME 0.3f
 
 KeyboardAI::KeyboardAI(void)
 {
-	dx_ = 0;
-	dy_ = 0;
+	zoom_time_= 0;
 }
 
 KeyboardAI::~KeyboardAI(void)
@@ -16,19 +16,41 @@ AIAction KeyboardAI::Tick(float _timespan, std::list<boost::shared_ptr<Core>>& _
 {
 	AIAction action;
 	Uint8* keystates = SDL_GetKeyState(0);
-	if(keystates[SDLK_UP])
-		action.dy_++;
-	if(keystates[SDLK_DOWN])
-		action.dy_--;
-	if(keystates[SDLK_LEFT])
-		action.dx_--;
-	if(keystates[SDLK_RIGHT])
-		action.dx_++;
-	
 	int x = 0;
 	int y = 0;
 	Uint8 mouse_state = SDL_GetMouseState(&x, &y);
-	if(SDL_BUTTON_LEFT && mouse_state)
+
+	if(SDL_BUTTON_RMASK & mouse_state)
+	{
+		Vector3f dv = Vector3f(0,0,0);
+		if(keystates[SDLK_UP])
+			dv.y++;
+		if(keystates[SDLK_DOWN])
+			dv.y--;
+		if(keystates[SDLK_LEFT])
+			dv.x--;
+		if(keystates[SDLK_RIGHT])
+			dv.x++;
+		if(dv.lengthSq()!=0)
+		{
+			dv.normalize();
+			dv.rotate(0, 0, _self->GetAngle());
+			action.dx_ = dv.x;
+			action.dy_ = dv.y;
+		}
+	}
+	else
+	{
+		if(keystates[SDLK_UP])
+			action.dy_++;
+		if(keystates[SDLK_DOWN])
+			action.dy_--;
+		if(keystates[SDLK_LEFT])
+			action.dx_--;
+		if(keystates[SDLK_RIGHT])
+			action.dx_++;
+	}
+	if(SDL_BUTTON_LMASK & mouse_state)
 		action.firing_ = true;
 
 	Vector3f point_to_face = Vector3f((x - Camera::Instance().GetWindowWidth()/2),
@@ -39,15 +61,26 @@ AIAction KeyboardAI::Tick(float _timespan, std::list<boost::shared_ptr<Core>>& _
 		Vector3f point_faced = Vector3f(-sinf(_self->GetAngle() * M_PI / 180.0f), cosf(_self->GetAngle() * M_PI / 180.0f), 0);
 		Vector3f right_vector = Vector3f(-sinf((_self->GetAngle()+90) * M_PI / 180.0f), cosf((_self->GetAngle()+90) * M_PI / 180.0f), 0);
 		float dotprod = right_vector.dotProduct(point_to_face);
-		if(fabsf(dotprod)>=0.2f)
+		if(fabsf(dotprod)>=0.4f)
 		{
 			action.dtheta_ = dotprod < 0 ? -1.0f : 1.0f;
 		} else
 		{
-			action.dtheta_ = dotprod*5.0f;
+			action.dtheta_ = dotprod*2.5f;
 		}
 		//Position camera
-		Camera::Instance().SetCentre(_self->GetPosition().x + point_faced.x * Camera::Instance().GetWidth() * 0.4, _self->GetPosition().y + point_faced.y* Camera::Instance().GetHeight() * 0.4);
+		if(SDL_BUTTON_MMASK & mouse_state)
+		{
+			zoom_time_ += _timespan;
+			zoom_time_ = zoom_time_ > ZOOM_TIME ? ZOOM_TIME : zoom_time_;
+		}
+		else
+		{
+			zoom_time_ -= _timespan;
+			zoom_time_ = zoom_time_ < 0.0f ? 0.0f : zoom_time_;
+		}
+		float zoom_scale = powf(zoom_time_ / ZOOM_TIME, 1.7f);
+		Camera::Instance().SetCentre(_self->GetPosition().x + point_faced.x * Camera::Instance().GetWidth() * 0.4 * zoom_scale, _self->GetPosition().y + point_faced.y* Camera::Instance().GetHeight() * 0.4 * zoom_scale);
 
 	}
 

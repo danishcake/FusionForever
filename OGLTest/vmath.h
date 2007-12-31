@@ -1877,6 +1877,25 @@ namespace VMATH_NAMESPACE
 	 }
 
 
+	 /// Creates scaling matrix
+	 /**
+	  * Creates translation matrix.
+	  * @param x X-direction translation
+	  * @param y Y-direction translation
+	  * @param z Z-direction translation
+	  * @param w for W-coordinate translation (impictily set to 1)
+	  */
+	 static Matrix4<T> createScale(T s)
+	 {
+	    Matrix4 ret;
+		ret.identity();
+		for(int i = 0; i<3; i++)
+			ret.at(i,i) = s;
+	    return ret;
+	 }
+
+
+
 	 //---------------------[ equiality operators ]------------------------------	
 	 /**
 	  * Equality test operator

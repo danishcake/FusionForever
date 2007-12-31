@@ -16,7 +16,7 @@ public:
 
 	void DrawSelf();
 	virtual void Tick(float _timespan, Matrix4f _transform);
-	virtual void Hit(std::list<boost::shared_ptr<Decoration>> _spawn) = 0;
+	virtual void Hit(std::list<boost::shared_ptr<Decoration>>& _spawn) = 0;
 	
 	float GetDamage(){return damage_;}
 	float GetLifetime(){return lifetime_;}
