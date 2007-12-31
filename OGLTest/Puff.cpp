@@ -43,7 +43,7 @@ void Puff::initialise_fill()
 
 	for(int i = 0; i < PUFF_SECTIONS; i++)
 	{
-		float rad = (PUFF_RADIUS/2.0f)+pow(((i*3)%PUFF_SECTIONS),2);
+//		float rad = (PUFF_RADIUS/2.0f)+pow(((i*3)%PUFF_SECTIONS),2);
 		temp_fill->push_back(Vector3f(0,0,0));
 		temp_fill->push_back(Vector3f(PUFF_RADIUS * cosf((float)i*2*M_PI/(float)PUFF_SECTIONS),PUFF_RADIUS*sinf((float)i*2*M_PI/(float)PUFF_SECTIONS),0));
 		temp_fill->push_back(Vector3f(PUFF_RADIUS* cosf((float)(i+1)*2*M_PI/(float)PUFF_SECTIONS),PUFF_RADIUS* sinf((float)(i+1)*2*M_PI/(float)PUFF_SECTIONS),0));
