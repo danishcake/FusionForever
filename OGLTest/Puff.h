@@ -13,7 +13,7 @@ protected:
 
 public:
 	Puff(void);
-	~Puff(void);
+	virtual ~Puff(void);
 
 	virtual void Tick(float _timespan, Matrix4f _transform);
 };

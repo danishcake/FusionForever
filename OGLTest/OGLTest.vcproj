@@ -294,6 +294,10 @@
 						RelativePath=".\Puff.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\StarPop.cpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="AI"
@@ -418,6 +422,10 @@
 					</File>
 					<File
 						RelativePath=".\Puff.h"
+						>
+					</File>
+					<File
+						RelativePath=".\StarPop.h"
 						>
 					</File>
 				</Filter>
