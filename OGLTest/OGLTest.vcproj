@@ -185,7 +185,27 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\BaseEntity.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Camera.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Datastore.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Filled.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OGLTest2.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Outlined.cpp"
 				>
 			</File>
 			<File
@@ -217,101 +237,89 @@
 				>
 			</File>
 			<Filter
-				Name="Refactored"
+				Name="Scenes"
 				>
 				<File
-					RelativePath=".\BaseEntity.cpp"
+					RelativePath=".\BaseScene.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Camera.cpp"
+					RelativePath=".\GameScene.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Filled.cpp"
+					RelativePath=".\MenuScene.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="AI"
+				>
+				<File
+					RelativePath=".\AIAction.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\OGLTest2.cpp"
+					RelativePath=".\KeyboardAI.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Outlined.cpp"
+					RelativePath=".\RotatingAI.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Decorations"
+				>
+				<File
+					RelativePath=".\Decoration.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Puff.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Projectiles"
+				>
+				<File
+					RelativePath=".\Projectile.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\SmallBullet.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Sections"
+				>
+				<File
+					RelativePath=".\Blaster.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FiringSection.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\RigidArm.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Section.cpp"
 					>
 				</File>
 				<Filter
-					Name="Sections"
+					Name="Core"
 					>
 					<File
-						RelativePath=".\Blaster.cpp"
+						RelativePath=".\Core.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\FiringSection.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\RigidArm.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\Section.cpp"
-						>
-					</File>
-					<Filter
-						Name="Core"
-						>
-						<File
-							RelativePath=".\Core.cpp"
-							>
-						</File>
-						<File
-							RelativePath=".\SquareCore.cpp"
-							>
-						</File>
-					</Filter>
-				</Filter>
-				<Filter
-					Name="Projectiles"
-					>
-					<File
-						RelativePath=".\Projectile.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\SmallBullet.cpp"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="Decorations"
-					>
-					<File
-						RelativePath=".\Decoration.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\Puff.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\StarPop.cpp"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="AI"
-					>
-					<File
-						RelativePath=".\AIAction.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\KeyboardAI.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\RotatingAI.cpp"
+						RelativePath=".\SquareCore.cpp"
 						>
 					</File>
 				</Filter>
@@ -323,11 +331,27 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\BaseEntity.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Camera.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Datastore.h"
 				>
 			</File>
 			<File
+				RelativePath=".\Filled.h"
+				>
+			</File>
+			<File
 				RelativePath=".\GLColor.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Outlined.h"
 				>
 			</File>
 			<File
@@ -351,97 +375,89 @@
 				>
 			</File>
 			<Filter
-				Name="Refactored"
+				Name="Scenes"
 				>
 				<File
-					RelativePath=".\BaseEntity.h"
+					RelativePath=".\BaseScene.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Camera.h"
+					RelativePath=".\GameScene.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Filled.h"
+					RelativePath=".\MenuScene.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="AI"
+				>
+				<File
+					RelativePath=".\AIAction.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Outlined.h"
+					RelativePath=".\KeyboardAI.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RotatingAI.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Decorations"
+				>
+				<File
+					RelativePath=".\Decoration.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Puff.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Projectiles"
+				>
+				<File
+					RelativePath=".\Projectile.h"
+					>
+				</File>
+				<File
+					RelativePath=".\SmallBullet.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Sections"
+				>
+				<File
+					RelativePath=".\Blaster.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FiringSection.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RigidArm.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Section.h"
 					>
 				</File>
 				<Filter
-					Name="Sections"
+					Name="Cores"
 					>
 					<File
-						RelativePath=".\Blaster.h"
+						RelativePath=".\Core.h"
 						>
 					</File>
 					<File
-						RelativePath=".\FiringSection.h"
-						>
-					</File>
-					<File
-						RelativePath=".\RigidArm.h"
-						>
-					</File>
-					<File
-						RelativePath=".\Section.h"
-						>
-					</File>
-					<Filter
-						Name="Cores"
-						>
-						<File
-							RelativePath=".\Core.h"
-							>
-						</File>
-						<File
-							RelativePath=".\SquareCore.h"
-							>
-						</File>
-					</Filter>
-				</Filter>
-				<Filter
-					Name="Projectiles"
-					>
-					<File
-						RelativePath=".\Projectile.h"
-						>
-					</File>
-					<File
-						RelativePath=".\SmallBullet.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="Decorations"
-					>
-					<File
-						RelativePath=".\Decoration.h"
-						>
-					</File>
-					<File
-						RelativePath=".\Puff.h"
-						>
-					</File>
-					<File
-						RelativePath=".\StarPop.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="AI"
-					>
-					<File
-						RelativePath=".\AIAction.h"
-						>
-					</File>
-					<File
-						RelativePath=".\KeyboardAI.h"
-						>
-					</File>
-					<File
-						RelativePath=".\RotatingAI.h"
+						RelativePath=".\SquareCore.h"
 						>
 					</File>
 				</Filter>
