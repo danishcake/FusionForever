@@ -244,7 +244,23 @@
 					>
 				</File>
 				<File
+					RelativePath=".\FadeInScene.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FadeOutInScene.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FadeOutScene.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\GameScene.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\IntroScene.cpp"
 					>
 				</File>
 				<File
@@ -382,7 +398,23 @@
 					>
 				</File>
 				<File
+					RelativePath=".\FadeInScene.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FadeOutInScene.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FadeOutScene.h"
+					>
+				</File>
+				<File
 					RelativePath=".\GameScene.h"
+					>
+				</File>
+				<File
+					RelativePath=".\IntroScene.h"
 					>
 				</File>
 				<File

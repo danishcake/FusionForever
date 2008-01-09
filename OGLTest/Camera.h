@@ -35,7 +35,7 @@ public:
 
 	void SetAspectRatio(int _window_width, int _window_height) 
 	{
-		ratio_ = _window_width / _window_height;
+		ratio_ = (float)_window_width / (float)_window_height;
 		window_height_ = _window_height;
 		window_width_ = _window_width;
 	}

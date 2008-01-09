@@ -9,7 +9,7 @@
 			Name="Debug|Win32"
 			>
 			<DebugSettings
-				Command="H:\ewoolhou\Visual Studio 2005\Projects\OGLTest\debug\OGLTest.exe"
+				Command="$(TargetPath)"
 				WorkingDirectory=""
 				CommandArguments=""
 				Attach="false"

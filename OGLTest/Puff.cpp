@@ -1,9 +1,9 @@
 #include "StdAfx.h"
 #include "Puff.h"
 
-#define PUFF_SECTIONS 12
-#define PUFF_SPIKE_SECTIONS 3
-#define PUFF_RADIUS 30
+#define PUFF_SECTIONS 30
+
+#define PUFF_RADIUS 10
 #define PUFF_LIFETIME 0.3f
 
 bool Puff::initialised_ = false;
@@ -33,28 +33,32 @@ Puff::~Puff(void)
 
 void Puff::Tick(float _timespan, Matrix4f _transform)
 {
-	//Matrix4f scaleM  = Matrix4f::createScale(sqrtf((PUFF_LIFETIME - lifetime_)/PUFF_LIFETIME));
 	Matrix4f scaleM  = Matrix4f::createScale(((PUFF_LIFETIME - lifetime_)/PUFF_LIFETIME));
 	Decoration::Tick(_timespan, _transform);
 	_transform = ltv_transform_ * scaleM;
 	ltv_transform_ = _transform;
 }
 
+float get_radius(int i)
+{
+	const float spike_factor = 2;
+	const float base = 0.8f;
+	const int spikes = 7;
+	const float fm = 2 * M_PI / spikes;
+	float ang = i * 2 * M_PI / PUFF_SECTIONS;
+	return (base + spike_factor * powf(fmodf(ang,fm) - (fm/2), 2.0f)) * PUFF_RADIUS;
+}
+
 void Puff::initialise_fill()
 {
-	boost::shared_ptr<std::vector<Vector3f>> temp_fill = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 
+	boost::shared_ptr<std::vector<Vector3f>> temp_fill = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
+	//$B$3+$B$2*(MOD(A7,$B$5)-($B$5/2))^$B$1
 	for(int i = 0; i < PUFF_SECTIONS; i++)
 	{
-		float rad = 0.5f+ 0.5f*powf((float)(i%PUFF_SPIKE_SECTIONS)-(float)PUFF_SPIKE_SECTIONS/2.0f,2.0f)/powf((float)PUFF_SPIKE_SECTIONS/2.0f,2.0f);
-		//float rad =  (float)rand()/((float)RAND_MAX*2)+1.0f;
-		rad*=PUFF_RADIUS;
 		temp_fill->push_back(Vector3f(0,0,0));
-		temp_fill->push_back(Vector3f(rad * cosf((float)i*2*M_PI/(float)PUFF_SECTIONS),rad *sinf((float)i*2*M_PI/(float)PUFF_SECTIONS),0));
-		temp_fill->push_back(Vector3f(rad * cosf((float)(i+1)*2*M_PI/(float)PUFF_SECTIONS),rad * sinf((float)(i+1)*2*M_PI/(float)PUFF_SECTIONS),0));
-		/*temp_fill->push_back(Vector3f(PUFF_RADIUS * cosf((float)i*2*M_PI/(float)PUFF_SECTIONS),PUFF_RADIUS*sinf((float)i*2*M_PI/(float)PUFF_SECTIONS),0));
-		temp_fill->push_back(Vector3f(PUFF_RADIUS* cosf((float)(i+1)*2*M_PI/(float)PUFF_SECTIONS),PUFF_RADIUS* sinf((float)(i+1)*2*M_PI/(float)PUFF_SECTIONS),0));*/
-
+		temp_fill->push_back(Vector3f(get_radius(i) * cosf((float)i*2*M_PI/(float)PUFF_SECTIONS),get_radius(i) * sinf((float)i*2*M_PI/(float)PUFF_SECTIONS),0));
+		temp_fill->push_back(Vector3f(get_radius(i + 1) * cosf((float)(i+1)*2*M_PI/(float)PUFF_SECTIONS),get_radius(i+1) * sinf((float)(i+1)*2*M_PI/(float)PUFF_SECTIONS),0));
 	}
 
 

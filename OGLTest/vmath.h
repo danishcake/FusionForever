@@ -1770,7 +1770,7 @@ namespace VMATH_NAMESPACE
 	 Matrix4() 
 	 {
 	    for (int i = 0; i < 16; i++)
-	       data[i] = (i % 5) ? 0 : 1;
+	       data[i] = (i % 5) ? 0.0f : 1.0f;
 	 }
 
 	 /**

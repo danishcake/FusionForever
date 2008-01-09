@@ -1,13 +1,8 @@
 #include "StdAfx.h"
 #include "GameScene.h"
-#include <vector>
-#include <list>
-#include <boost/shared_ptr.hpp>
-#include <boost/foreach.hpp>
 
 #include "Camera.h"
-
-#include "Core.h"
+#include <boost/foreach.hpp>
 
 #include "SquareCore.h"
 #include "RotatingAI.h"
@@ -15,17 +10,7 @@
 #include "RigidArm.h"
 #include "Blaster.h"
 
-typedef boost::shared_ptr<Projectile> Projectile_ptr;
-typedef boost::shared_ptr<Decoration> Decoration_ptr;
-
-std::list<Projectile_ptr> enemy_projectiles = std::list<Projectile_ptr>();
-std::list<Projectile_ptr> ownship_projectiles = std::list<Projectile_ptr>();
-std::list<Decoration_ptr> decorations = std::list<Decoration_ptr>();
-
-std::list<boost::shared_ptr<Core>> friends;
-std::list<boost::shared_ptr<Core>> enemies;
-
-void initSections()
+void GameScene::initSections()
 {
 	boost::shared_ptr<Core> core = boost::shared_ptr<Core>(new SquareCore(new KeyboardAI()));
 	friends.push_back(core);
@@ -39,7 +24,7 @@ void initSections()
 	b->SetPosition(Vector3f(0,7.5,0));
 	s_s->AddChild(b);
 	core->AddChild(s_s);
-	
+
 	s_s = new RigidArm();
 	s_s->SetPosition(Vector3f(4,10,0));
 	b = new Blaster();
@@ -55,7 +40,7 @@ void initSections()
 	b->SetPosition(Vector3f(-10,2,0));
 	b->SetAngle(30);
 	core->AddChild(b);
-	
+
 	core->AddChild(s_s);
 	core->SetColor(GLColor(0,128,0));
 
@@ -95,7 +80,7 @@ void GameScene::Tick(float _timespan, std::vector<boost::shared_ptr<BaseScene>>&
 	std::list<boost::shared_ptr<Projectile>> enemy_spawn;
 	std::list<boost::shared_ptr<Projectile>> ownship_spawn;
 	std::list<boost::shared_ptr<Decoration>> decoration_spawn;
-	
+
 	const Matrix4f identity = Matrix4f();
 
 	Camera::Instance().TickCamera(_timespan);
@@ -116,7 +101,7 @@ void GameScene::Tick(float _timespan, std::vector<boost::shared_ptr<BaseScene>>&
 	for(std::list<Projectile_ptr>::iterator it = enemy_projectiles.begin(); it != enemy_projectiles.end(); it++)
 	{
 		(*it)->Tick(_timespan, identity);
-		
+
 		BOOST_FOREACH(boost::shared_ptr<Core> core, friends)
 		{
 			core->CheckCollisions(*it);
@@ -131,7 +116,7 @@ void GameScene::Tick(float _timespan, std::vector<boost::shared_ptr<BaseScene>>&
 	for(std::list<Projectile_ptr>::iterator it = ownship_projectiles.begin(); it != ownship_projectiles.end(); it++)
 	{
 		(*it)->Tick(_timespan, identity);
-		
+
 		BOOST_FOREACH(boost::shared_ptr<Core> core, enemies)
 		{
 			core->CheckCollisions(*it);
@@ -141,7 +126,7 @@ void GameScene::Tick(float _timespan, std::vector<boost::shared_ptr<BaseScene>>&
 				break;
 			}
 		}
-		
+
 	}
 
 	for(std::list<Decoration_ptr>::iterator it = decorations.begin(); it != decorations.end(); it++)
@@ -159,13 +144,7 @@ void GameScene::Tick(float _timespan, std::vector<boost::shared_ptr<BaseScene>>&
 
 void GameScene::Draw()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
 	glColor3f(1.0f,0.0f,0.0f);
-
-	Camera::Instance().SetupCamera();
-	
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
 
 	BOOST_FOREACH(boost::shared_ptr<Core> core, friends)
 	{
@@ -191,14 +170,13 @@ void GameScene::Draw()
 	{
 		(*it)->DrawSelf();
 	}
-
-	glFlush();
-	SDL_GL_SwapBuffers();
 }
+
 bool GameScene::IsRoot()
 {
 	return true;
 }
+
 bool GameScene::IsRemovable()
 {
 	return false;
