@@ -17,8 +17,8 @@ SmallBullet::SmallBullet(Vector3f _position)
 	outline_verts_ = Datastore::Instance().GetVerts(outline_verts_index_);
 	outline_display_list_ = smallbullet_outline_display_list_;
 	damage_ = 25.0;
-	lifetime_ = 5.0;
-	velocity_.y = 100;
+	lifetime_ = 4.0;
+	velocity_.y = 160;
 	position_ = _position;
 }
 

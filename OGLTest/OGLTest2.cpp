@@ -93,7 +93,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	scene_stack.push_back(boost::shared_ptr<BaseScene>(new FadeInScene()));
 	
 
-	glClearColor(0.0f,0.0f,0.7f,0.0f);
+	glClearColor(0.0f,0.0f,0.0f,0.0f);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	ltv_time = clock();

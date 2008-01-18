@@ -295,6 +295,10 @@
 					RelativePath=".\Puff.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\Starfield.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Projectiles"
@@ -447,6 +451,10 @@
 				</File>
 				<File
 					RelativePath=".\Puff.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Starfield.h"
 					>
 				</File>
 			</Filter>

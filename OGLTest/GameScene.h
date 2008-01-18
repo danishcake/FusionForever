@@ -5,9 +5,11 @@
 #include <boost/shared_ptr.hpp>
 
 #include "Core.h"
+#include "Starfield.h"
 
 typedef boost::shared_ptr<Projectile> Projectile_ptr;
 typedef boost::shared_ptr<Decoration> Decoration_ptr;
+typedef boost::shared_ptr<Core> Core_ptr;
 
 
 class GameScene :
@@ -27,7 +29,9 @@ protected:
 	std::list<Projectile_ptr> ownship_projectiles;
 	std::list<Decoration_ptr> decorations;
 
-	std::list<boost::shared_ptr<Core>> friends;
-	std::list<boost::shared_ptr<Core>> enemies;
+	std::list<Core_ptr> friends_;
+	std::list<Core_ptr> enemies_;
+	Core_ptr ownship_;
+	Starfield starfield_;
 	virtual void initSections();
 };

@@ -23,6 +23,7 @@ void Camera::SetupCamera()
 	glLoadIdentity();
 	if(shake_time_ > 0)
 	{
+		glTranslatef((0.1f *shake_time_) * (((float)rand() - ((float)RAND_MAX/2))  / (float)RAND_MAX),(0.1f *shake_time_) * (((float)rand() - ((float)RAND_MAX/2))  / (float)RAND_MAX),0);
 		glRotatef((20 * shake_time_) * (((float)rand() - ((float)RAND_MAX/2))  / (float)RAND_MAX), 0, 0, 1);
 	}
 	glOrtho(GetLeft(), GetRight(), GetTop(), GetBottom(), -100, 100);

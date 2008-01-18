@@ -10,10 +10,12 @@
 #include "RigidArm.h"
 #include "Blaster.h"
 
+
 void GameScene::initSections()
 {
-	boost::shared_ptr<Core> core = boost::shared_ptr<Core>(new SquareCore(new KeyboardAI()));
-	friends.push_back(core);
+	Core_ptr core = Core_ptr(new SquareCore(new KeyboardAI()));
+	ownship_ = core;
+	friends_.push_back(core);
 
 	Section* s_s;
 	Blaster * b;
@@ -45,7 +47,7 @@ void GameScene::initSections()
 	core->SetColor(GLColor(0,128,0));
 
 
-	boost::shared_ptr<Core> en_core = boost::shared_ptr<Core>(new SquareCore(new RotatingAI(1)));
+	Core_ptr en_core = Core_ptr(new SquareCore(new RotatingAI(0.2f)));
 	s_s = new RigidArm();
 	s_s->SetPosition(Vector3f(4,10,0));
 	en_core->AddChild(s_s);
@@ -63,12 +65,13 @@ void GameScene::initSections()
 
 	en_core->SetPosition(Vector3f(20,20,0));
 
-	enemies.push_back(en_core);
+	enemies_.push_back(en_core);
 }
 
 GameScene::GameScene(void)
 {
 	initSections();
+	Camera::Instance().SetWidth(300);
 }
 
 GameScene::~GameScene(void)
@@ -77,22 +80,22 @@ GameScene::~GameScene(void)
 
 void GameScene::Tick(float _timespan, std::vector<boost::shared_ptr<BaseScene>>& _new_scenes)
 {
-	std::list<boost::shared_ptr<Projectile>> enemy_spawn;
-	std::list<boost::shared_ptr<Projectile>> ownship_spawn;
-	std::list<boost::shared_ptr<Decoration>> decoration_spawn;
+	std::list<Projectile_ptr> enemy_spawn;
+	std::list<Projectile_ptr> ownship_spawn;
+	std::list<Decoration_ptr> decoration_spawn;
 
 	const Matrix4f identity = Matrix4f();
 
 	Camera::Instance().TickCamera(_timespan);
 
-	BOOST_FOREACH(boost::shared_ptr<Core> core, friends)
+	BOOST_FOREACH(Core_ptr core, friends_)
 	{
-		core->Tick(_timespan, ownship_spawn, decoration_spawn, identity, friends , enemies);
+		core->Tick(_timespan, ownship_spawn, decoration_spawn, identity, friends_ , enemies_);
 	}
 
-	BOOST_FOREACH(boost::shared_ptr<Core> core, enemies)
+	BOOST_FOREACH(Core_ptr core, enemies_)
 	{
-		core->Tick(_timespan, enemy_spawn, decoration_spawn, identity, enemies, friends);
+		core->Tick(_timespan, enemy_spawn, decoration_spawn, identity, enemies_, friends_);
 	}
 
 	enemy_projectiles.splice(enemy_projectiles.begin(), enemy_spawn);
@@ -102,7 +105,7 @@ void GameScene::Tick(float _timespan, std::vector<boost::shared_ptr<BaseScene>>&
 	{
 		(*it)->Tick(_timespan, identity);
 
-		BOOST_FOREACH(boost::shared_ptr<Core> core, friends)
+		BOOST_FOREACH(Core_ptr core, friends_)
 		{
 			core->CheckCollisions(*it);
 			if((*it)->GetLifetime()<=0)
@@ -117,7 +120,7 @@ void GameScene::Tick(float _timespan, std::vector<boost::shared_ptr<BaseScene>>&
 	{
 		(*it)->Tick(_timespan, identity);
 
-		BOOST_FOREACH(boost::shared_ptr<Core> core, enemies)
+		BOOST_FOREACH(Core_ptr core, enemies_)
 		{
 			core->CheckCollisions(*it);
 			if((*it)->GetLifetime()<=0)
@@ -144,14 +147,15 @@ void GameScene::Tick(float _timespan, std::vector<boost::shared_ptr<BaseScene>>&
 
 void GameScene::Draw()
 {
-	glColor3f(1.0f,0.0f,0.0f);
+	glColor3f(0.0f,0.0f,0.0f);
 
-	BOOST_FOREACH(boost::shared_ptr<Core> core, friends)
+	starfield_.DrawStarfield(ownship_->GetPosition() );
+	BOOST_FOREACH(Core_ptr core, friends_)
 	{
 		core->DrawSelf();
 	}
 
-	BOOST_FOREACH(boost::shared_ptr<Core> core, enemies)
+	BOOST_FOREACH(Core_ptr core, enemies_)
 	{
 		core->DrawSelf();
 	}
