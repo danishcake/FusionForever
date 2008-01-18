@@ -20,7 +20,7 @@ AIAction KeyboardAI::Tick(float _timespan, std::list<boost::shared_ptr<Core>>& _
 	int y = 0;
 	Uint8 mouse_state = SDL_GetMouseState(&x, &y);
 
-	if(SDL_BUTTON_RMASK & mouse_state)
+	if(SDL_BUTTON_MMASK & mouse_state)
 	{
 		Vector3f dv = Vector3f(0,0,0);
 		if(keystates[SDLK_UP])
@@ -69,7 +69,7 @@ AIAction KeyboardAI::Tick(float _timespan, std::list<boost::shared_ptr<Core>>& _
 			action.dtheta_ = dotprod*2.5f;
 		}
 		//Position camera
-		if(SDL_BUTTON_MMASK & mouse_state)
+		if(SDL_BUTTON_RMASK & mouse_state)
 		{
 			zoom_time_ += _timespan;
 			zoom_time_ = zoom_time_ > ZOOM_TIME ? ZOOM_TIME : zoom_time_;

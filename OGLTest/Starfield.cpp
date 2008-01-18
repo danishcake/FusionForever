@@ -27,7 +27,7 @@ Starfield::Starfield()
 				glVertex3f(x * SF_GRIDSPACING, y * SF_GRIDSPACING, 0);
 			}
 		}*/
-		for(int i = 0; i< 1000; i++)
+		for(int i = 0; i< 500; i++)
 		{
 		glVertex3f(2*SF_GRIDSPACING*SF_GRIDSIZE*(float)(rand()-(RAND_MAX/2))/(float)RAND_MAX,2*SF_GRIDSPACING*SF_GRIDSIZE*(float)(rand()-(RAND_MAX/2))/(float)RAND_MAX,0);
 		}
@@ -64,7 +64,36 @@ void Starfield::DrawStarfield(Vector3f position_)
 	glCallList(display_list_);
 	glPopMatrix();
 
+	
+	glPushMatrix();
+	glTranslatef(2 * SF_GRIDSIZE * SF_GRIDSPACING,2 * SF_GRIDSIZE * SF_GRIDSPACING,0);
+	glCallList(display_list_);
+	glPopMatrix();
 
+	glPushMatrix();
+	glTranslatef(0,2 * SF_GRIDSIZE * SF_GRIDSPACING,0);
+	glCallList(display_list_);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-2 * SF_GRIDSIZE * SF_GRIDSPACING,2 * SF_GRIDSIZE * SF_GRIDSPACING,0);
+	glCallList(display_list_);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(2 * SF_GRIDSIZE * SF_GRIDSPACING, -2 * SF_GRIDSIZE * SF_GRIDSPACING,0);
+	glCallList(display_list_);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, -2 * SF_GRIDSIZE * SF_GRIDSPACING,0);
+	glCallList(display_list_);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-2 * SF_GRIDSIZE * SF_GRIDSPACING, -2 * SF_GRIDSIZE * SF_GRIDSPACING,0);
+	glCallList(display_list_);
+	glPopMatrix();
 
 
 
