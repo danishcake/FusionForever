@@ -185,55 +185,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\BaseEntity.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Camera.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Datastore.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Filled.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\OGLTest2.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Outlined.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\stdafx.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\vmath-collisions.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\vmath.cpp"
 				>
 			</File>
 			<Filter
@@ -331,6 +283,10 @@
 					RelativePath=".\Section.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\SpinningJoint.cpp"
+					>
+				</File>
 				<Filter
 					Name="Core"
 					>
@@ -344,56 +300,64 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="Utility"
+				>
+				<File
+					RelativePath=".\BaseEntity.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Camera.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Datastore.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Filled.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Outlined.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\stdafx.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="1"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="1"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\vmath-collisions.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\vmath.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\BaseEntity.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Camera.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Datastore.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Filled.h"
-				>
-			</File>
-			<File
-				RelativePath=".\GLColor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Outlined.h"
-				>
-			</File>
-			<File
-				RelativePath="D:\Boost\boost_1_34_1\boost\shared_ptr.hpp"
-				>
-			</File>
-			<File
-				RelativePath="D:\Boost\boost_1_34_1\boost\detail\shared_ptr_nmt.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\stdafx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\vmath-collisions.h"
-				>
-			</File>
-			<File
-				RelativePath=".\vmath.h"
-				>
-			</File>
 			<Filter
 				Name="Scenes"
 				>
@@ -489,6 +453,10 @@
 					RelativePath=".\Section.h"
 					>
 				</File>
+				<File
+					RelativePath=".\SpinningJoint.h"
+					>
+				</File>
 				<Filter
 					Name="Cores"
 					>
@@ -501,6 +469,54 @@
 						>
 					</File>
 				</Filter>
+			</Filter>
+			<Filter
+				Name="Utility"
+				>
+				<File
+					RelativePath=".\BaseEntity.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Camera.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Datastore.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Filled.h"
+					>
+				</File>
+				<File
+					RelativePath=".\GLColor.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Outlined.h"
+					>
+				</File>
+				<File
+					RelativePath="D:\Boost\boost_1_34_1\boost\shared_ptr.hpp"
+					>
+				</File>
+				<File
+					RelativePath="D:\Boost\boost_1_34_1\boost\detail\shared_ptr_nmt.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\stdafx.h"
+					>
+				</File>
+				<File
+					RelativePath=".\vmath-collisions.h"
+					>
+				</File>
+				<File
+					RelativePath=".\vmath.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

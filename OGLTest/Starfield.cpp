@@ -27,7 +27,7 @@ Starfield::Starfield()
 				glVertex3f(x * SF_GRIDSPACING, y * SF_GRIDSPACING, 0);
 			}
 		}*/
-		for(int i = 0; i< 500; i++)
+		for(int i = 0; i< 200; i++)
 		{
 		glVertex3f(2*SF_GRIDSPACING*SF_GRIDSIZE*(float)(rand()-(RAND_MAX/2))/(float)RAND_MAX,2*SF_GRIDSPACING*SF_GRIDSIZE*(float)(rand()-(RAND_MAX/2))/(float)RAND_MAX,0);
 		}

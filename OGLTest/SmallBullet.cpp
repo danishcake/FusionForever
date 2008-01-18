@@ -18,7 +18,7 @@ SmallBullet::SmallBullet(Vector3f _position)
 	outline_display_list_ = smallbullet_outline_display_list_;
 	damage_ = 25.0;
 	lifetime_ = 4.0;
-	velocity_.y = 160;
+	velocity_.y = 320;
 	position_ = _position;
 }
 

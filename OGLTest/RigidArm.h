@@ -1,5 +1,5 @@
 #pragma once
-#include "section.h"
+#include "Section.h"
 
 class RigidArm :
 	public Section
