@@ -23,7 +23,7 @@ SquareCore::SquareCore(BaseAI* _AI)
 
 	findRadius();
 
-	health_ = 3200;
+	health_ = 5000;
 }
 
 SquareCore::~SquareCore(void)

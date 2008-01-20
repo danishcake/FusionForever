@@ -12,13 +12,14 @@
 #include "Datastore.h"
 #include "Camera.h"
 
+class Section;
+typedef boost::shared_ptr<Section> Section_ptr;
+
 class Section :
 	public BaseEntity, public Filled, public Outlined
 {
-private:
-	static bool IsSectionDead(Section* section);
 protected:
-	std::vector<Section*> sub_sections_;
+	std::vector<Section_ptr> sub_sections_;
 	float health_;
 	bool firing_;
 
@@ -28,13 +29,15 @@ public:
 	virtual ~Section(void);
 	void AddChild(Section * child);
 	void DrawSelf();
-	bool CheckCollisions(boost::shared_ptr<Projectile> _projectile);
+	bool CheckCollisions(Projectile_ptr _projectile);
 	void SetColor(GLColor _color);
-	virtual void Tick(float _timespan, std::list<boost::shared_ptr<Projectile>>& _spawn_prj, std::list<boost::shared_ptr<Decoration>>& _spawn_dec, Matrix4f _transform);
+	virtual void Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform);
 	
 	//Getters/Setters
 	float GetHealth(){return health_;}
 	float TakeDamage(float _damage){health_-=_damage;}
 	void SetFiring(bool _firing){firing_ = _firing;}
 	
+	//Predicates
+	static bool IsRemovable(Section_ptr section);
 };

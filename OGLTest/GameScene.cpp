@@ -78,7 +78,7 @@ GameScene::~GameScene(void)
 {
 }
 
-void GameScene::Tick(float _timespan, std::vector<boost::shared_ptr<BaseScene>>& _new_scenes)
+void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 {
 	std::list<Projectile_ptr> enemy_spawn;
 	std::list<Projectile_ptr> ownship_spawn;
@@ -143,6 +143,8 @@ void GameScene::Tick(float _timespan, std::vector<boost::shared_ptr<BaseScene>>&
 	enemy_projectiles.remove_if(Projectile::IsProjectileRemovable);
 	ownship_projectiles.remove_if(Projectile::IsProjectileRemovable);
 	decorations.remove_if(Decoration::IsRemovable);
+	friends_.remove_if(Section::IsRemovable);
+	enemies_.remove_if(Section::IsRemovable);
 }
 
 void GameScene::Draw()

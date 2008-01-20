@@ -5,10 +5,10 @@ class FadeOutInScene :
 	public BaseScene
 {
 public:
-	FadeOutInScene(std::vector<boost::shared_ptr<BaseScene>> _fadeout_done_scenes);
+	FadeOutInScene(std::vector<BaseScene_ptr> _fadeout_done_scenes);
 	virtual ~FadeOutInScene(void);
 
-	virtual void Tick(float _timespan, std::vector<boost::shared_ptr<BaseScene>>& _new_scenes);
+	virtual void Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes);
 	virtual void Draw();
 	virtual bool IsRoot();
 	virtual bool IsRemovable();
@@ -17,6 +17,6 @@ public:
 	static const float FITime;
 protected:
 	float timeleft_;
-	std::vector<boost::shared_ptr<BaseScene>> fadeout_done_scenes_;
+	std::vector<BaseScene_ptr> fadeout_done_scenes_;
 	bool faded_out_;
 };

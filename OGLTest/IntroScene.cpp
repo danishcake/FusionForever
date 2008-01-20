@@ -13,7 +13,7 @@ IntroScene::~IntroScene(void)
 {
 }
 
-void IntroScene::Tick(float _timespan, std::vector<boost::shared_ptr<BaseScene>>& _new_scenes)
+void IntroScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 {
 	timeleft_ -= _timespan;
 	if(timeleft_<0)

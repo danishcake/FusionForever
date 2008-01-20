@@ -3,6 +3,10 @@
 #include "Outlined.h"
 #include "Decoration.h"
 #include "Datastore.h"
+#include <boost/shared_ptr.hpp>
+
+class Projectile;
+typedef boost::shared_ptr<Projectile> Projectile_ptr;
 
 class Projectile :
 	public BaseEntity, public Outlined
@@ -16,13 +20,13 @@ public:
 
 	void DrawSelf();
 	virtual void Tick(float _timespan, Matrix4f _transform);
-	virtual void Hit(std::list<boost::shared_ptr<Decoration>>& _spawn) = 0;
+	virtual void Hit(std::list<Decoration_ptr>& _spawn) = 0;
 	
 	float GetDamage(){return damage_;}
 	float GetLifetime(){return lifetime_;}
 	void SetLifetime(float _lifetime){lifetime_ = _lifetime;}
 
-	static bool IsProjectileRemovable(boost::shared_ptr<Projectile> prj)
+	static bool IsProjectileRemovable(Projectile_ptr prj)
 	{
 		return (prj->GetLifetime() <= 0);
 	}

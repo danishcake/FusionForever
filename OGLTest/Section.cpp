@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "Section.h"
+#include <boost/foreach.hpp>
 
 Section::Section(void) 
 : BaseEntity(), Outlined(), Filled()
@@ -19,16 +20,16 @@ void Section::DrawSelf(void)
 	Filled::DrawFillDisplayList();
 	Outlined::DrawOutlinedDisplayList();
 	//Draw children
-	for(int i = 0; i < sub_sections_.size(); i++)
+	BOOST_FOREACH(Section_ptr section, sub_sections_)
 	{
-		sub_sections_[i]->DrawSelf();
+		section->DrawSelf();
 	}
 
 	glPopMatrix();
 }
 void Section::AddChild(Section *child)
 {
-	this->sub_sections_.push_back(child);
+	this->sub_sections_.push_back(Section_ptr(child));
 	child->SetColor(fill_color_);
 }
 
@@ -41,20 +42,20 @@ void Section::findRadius(void)
 	}
 }
 
-void Section::Tick(float _timespan, std::list<boost::shared_ptr<Projectile>>& _spawn_prj, std::list<boost::shared_ptr<Decoration>>& _spawn_dec, Matrix4f _transform)
+void Section::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform)
 {
-
 	BaseEntity::Tick(_timespan, _transform); // Use ltv_transform after this as _transform is passed by value
 	
 	sub_sections_.erase(std::remove_if(sub_sections_.begin(), sub_sections_.end(), 
-		                Section::IsSectionDead), sub_sections_.end());
-	for(int i = 0; i < sub_sections_.size(); i++)
+		                Section::IsRemovable), sub_sections_.end());
+	
+	BOOST_FOREACH(Section_ptr section, sub_sections_)
 	{
-		sub_sections_[i]->SetFiring(firing_);
-		sub_sections_[i]->Tick(_timespan, _spawn_prj, _spawn_dec, ltv_transform_);
+		section->SetFiring(firing_);
+		section->Tick(_timespan, _spawn_prj, _spawn_dec, ltv_transform_);
 	}
 }
-bool Section::CheckCollisions(boost::shared_ptr<Projectile> _projectile)
+bool Section::CheckCollisions(Projectile_ptr _projectile)
 {
 	bool hasCollided = false;
 	if(Collisions2f::CirclesIntersect(_projectile->GetPosition(), _projectile->GetRadius(), ltv_position_, radius_))
@@ -72,9 +73,9 @@ bool Section::CheckCollisions(boost::shared_ptr<Projectile> _projectile)
 	}
 	if(!hasCollided)
 	{
-		for(std::vector<Section*>::iterator it = sub_sections_.begin(); it < sub_sections_.end(); it++)
+		BOOST_FOREACH(Section_ptr section, sub_sections_)
 		{
-			hasCollided |= (*it)->CheckCollisions(_projectile);
+			hasCollided |= section->CheckCollisions(_projectile);
 			if(hasCollided)
 				break;
 		}
@@ -82,7 +83,7 @@ bool Section::CheckCollisions(boost::shared_ptr<Projectile> _projectile)
 	return hasCollided;
 }
 
-bool Section::IsSectionDead(Section* section)
+bool Section::IsRemovable(Section_ptr section)
 {
 	bool dead = (section->health_ <= 0);
 	if(dead)

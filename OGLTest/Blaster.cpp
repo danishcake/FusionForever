@@ -65,7 +65,7 @@ void Blaster::initialise_outline(void)
 	blaster_outline_display_list_ = CreateOutlinedDisplayList(temp_outline);
 }
 
-void Blaster::Tick(float _timespan, std::list<boost::shared_ptr<Projectile>>& _spawn_prj, std::list<boost::shared_ptr<Decoration>>& _spawn_dec, Matrix4f _transform)
+void Blaster::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform)
 {
 	Section::Tick(_timespan, _spawn_prj, _spawn_dec,_transform);
 	cooldown_ -= _timespan;

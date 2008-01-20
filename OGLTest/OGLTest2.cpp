@@ -17,15 +17,15 @@
 #define WINDOW_SIZE 200
 
 clock_t ltv_time;
-std::vector<boost::shared_ptr<BaseScene>> scene_stack;
+std::vector<BaseScene_ptr> scene_stack;
 
 void Redraw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	Camera::Instance().SetupCamera();
 
-	std::vector<boost::shared_ptr<BaseScene>>::iterator last_root = scene_stack.begin();
-	for(std::vector<boost::shared_ptr<BaseScene>>::iterator it = scene_stack.begin(); it!=scene_stack.end(); it++)
+	std::vector<BaseScene_ptr>::iterator last_root = scene_stack.begin();
+	for(std::vector<BaseScene_ptr>::iterator it = scene_stack.begin(); it!=scene_stack.end(); it++)
 	{
 		if((*it)->IsRoot())
 		{
@@ -33,7 +33,7 @@ void Redraw()
 		}
 	}
 
-	for(std::vector<boost::shared_ptr<BaseScene>>::iterator it = last_root; it!=scene_stack.end(); it++)
+	for(std::vector<BaseScene_ptr>::iterator it = last_root; it!=scene_stack.end(); it++)
 	{
 		glClear(GL_DEPTH_BUFFER_BIT);
 
@@ -53,8 +53,8 @@ void Tick()
 	float time_elapsed = (float)(current_time - ltv_time) / (float)CLOCKS_PER_SEC;
 	ltv_time = current_time;
 
-	std::vector<boost::shared_ptr<BaseScene>>::iterator last_root = scene_stack.begin();
-	for(std::vector<boost::shared_ptr<BaseScene>>::iterator it = scene_stack.begin(); it!=scene_stack.end(); it++)
+	std::vector<BaseScene_ptr>::iterator last_root = scene_stack.begin();
+	for(std::vector<BaseScene_ptr>::iterator it = scene_stack.begin(); it!=scene_stack.end(); it++)
 	{
 		if((*it)->IsRoot())
 		{
@@ -62,13 +62,13 @@ void Tick()
 		}
 	}
 
-	for(std::vector<boost::shared_ptr<BaseScene>>::iterator it = last_root; it!=scene_stack.end(); it++)
+	for(std::vector<BaseScene_ptr>::iterator it = last_root; it!=scene_stack.end(); it++)
 	{
 		(*it)->Tick(time_elapsed, scene_stack);
 	}
 }
 
-bool IsSceneRemovable(boost::shared_ptr<BaseScene> _scene)
+bool IsSceneRemovable(BaseScene_ptr _scene)
 {
 	return _scene->IsRemovable();
 }
@@ -89,8 +89,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	SDL_WM_SetCaption("SDL Test", "SDL Test");
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_Surface* screen = SDL_SetVideoMode(Camera::Instance().GetWindowWidth(), Camera::Instance().GetWindowHeight(), 32, SDL_HWSURFACE | SDL_OPENGL | SDL_DOUBLEBUF);
-	scene_stack.push_back(boost::shared_ptr<BaseScene>(new GameScene()));
-	scene_stack.push_back(boost::shared_ptr<BaseScene>(new FadeInScene()));
+	scene_stack.push_back(BaseScene_ptr(new GameScene()));
+	scene_stack.push_back(BaseScene_ptr(new FadeInScene()));
 	
 
 	glClearColor(0.0f,0.0f,0.0f,0.0f);

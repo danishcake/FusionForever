@@ -18,8 +18,8 @@ Core::~Core(void)
 	delete AI_;
 }
 
-void Core::Tick(float _timespan, std::list<boost::shared_ptr<Projectile>>& _spawn_prj, std::list<boost::shared_ptr<Decoration>>& _spawn_dec, 
-				Matrix4f _transform, std::list<boost::shared_ptr<Core>>& _allies, std::list<boost::shared_ptr<Core>>& _enemies)
+void Core::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec,
+					  Matrix4f _transform, std::list<Core_ptr>& _allies, std::list<Core_ptr>& _enemies)
 {
 	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform);
 	AIAction action;
@@ -44,6 +44,5 @@ void Core::Tick(float _timespan, std::list<boost::shared_ptr<Projectile>>& _spaw
 
 		angle_ += action.dtheta_ * _timespan * CORE_ROT_RATE_MAX;
 		firing_ = action.firing_;
-		
 	}
 }

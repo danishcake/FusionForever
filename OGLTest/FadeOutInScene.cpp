@@ -8,7 +8,7 @@
 const float FadeOutInScene::FITime = 1.0f;
 const float FadeOutInScene::FOTime = 1.0f;
 
-FadeOutInScene::FadeOutInScene(std::vector<boost::shared_ptr<BaseScene>> _fadeout_done_scenes)
+FadeOutInScene::FadeOutInScene(std::vector<BaseScene_ptr> _fadeout_done_scenes)
 {
 	fadeout_done_scenes_ = _fadeout_done_scenes;
 	faded_out_ = false;
@@ -19,12 +19,12 @@ FadeOutInScene::~FadeOutInScene(void)
 {
 }
 
-void FadeOutInScene::Tick(float _timespan, std::vector<boost::shared_ptr<BaseScene>>& _new_scenes)
+void FadeOutInScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 {
 	timeleft_-=_timespan;
 	if((timeleft_ < FADETIME / 2)&& !faded_out_)
 	{
-		BOOST_FOREACH(boost::shared_ptr<BaseScene> scene, fadeout_done_scenes_)
+		BOOST_FOREACH(BaseScene_ptr scene, fadeout_done_scenes_)
 		{
 			_new_scenes.push_back(scene);
 		}

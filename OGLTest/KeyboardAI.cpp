@@ -12,7 +12,7 @@ KeyboardAI::~KeyboardAI(void)
 {
 }
 
-AIAction KeyboardAI::Tick(float _timespan, std::list<boost::shared_ptr<Core>>& _allies, std::list<boost::shared_ptr<Core>>& _enemies, Core* _self)
+AIAction KeyboardAI::Tick(float _timespan, std::list<Core_ptr>& _allies, std::list<Core_ptr>& _enemies, Core* _self)
 {
 	AIAction action;
 	Uint8* keystates = SDL_GetKeyState(0);
