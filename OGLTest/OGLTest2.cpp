@@ -81,8 +81,7 @@ void Cull()
 int _tmain(int argc, _TCHAR* argv[])
 {
 	srand((unsigned int)time(NULL));
-	Camera::Instance().SetAspectRatio(300,300);
-	Camera::Instance().SetWidth(200);
+	Camera::Instance().SetAspectRatio(500,500);
 
 	bool isFinished = false;
 	SDL_Init(SDL_INIT_VIDEO);

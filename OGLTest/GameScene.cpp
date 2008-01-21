@@ -71,7 +71,7 @@ void GameScene::initSections()
 GameScene::GameScene(void)
 {
 	initSections();
-	Camera::Instance().SetWidth(300);
+	Camera::Instance().SetWidth(500);
 }
 
 GameScene::~GameScene(void)
