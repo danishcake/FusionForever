@@ -12,8 +12,8 @@
 #include <stdio.h>
 #include <tchar.h>
 
-#include <AtlBase.h>
-#include <AtlConv.h>
+//#include <AtlBase.h>
+//#include <AtlConv.h>
 #include <vector>
 #include <list>
 

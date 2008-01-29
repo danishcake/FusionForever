@@ -21,7 +21,7 @@ Core::~Core(void)
 void Core::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec,
 					  Matrix4f _transform, std::list<Core_ptr>& _allies, std::list<Core_ptr>& _enemies)
 {
-	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform);
+	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies);
 	AIAction action;
 	if(AI_!=NULL)
 	{

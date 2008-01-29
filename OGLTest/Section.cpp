@@ -42,7 +42,7 @@ void Section::findRadius(void)
 	}
 }
 
-void Section::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform)
+void Section::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::list<Core_ptr>& _enemies)
 {
 	BaseEntity::Tick(_timespan, _transform); // Use ltv_transform after this as _transform is passed by value
 	
@@ -52,7 +52,7 @@ void Section::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::
 	BOOST_FOREACH(Section_ptr section, sub_sections_)
 	{
 		section->SetFiring(firing_);
-		section->Tick(_timespan, _spawn_prj, _spawn_dec, ltv_transform_);
+		section->Tick(_timespan, _spawn_prj, _spawn_dec, ltv_transform_, _enemies);
 	}
 }
 bool Section::CheckCollisions(Projectile_ptr _projectile)
@@ -76,6 +76,34 @@ bool Section::CheckCollisions(Projectile_ptr _projectile)
 		BOOST_FOREACH(Section_ptr section, sub_sections_)
 		{
 			hasCollided |= section->CheckCollisions(_projectile);
+			if(hasCollided)
+				break;
+		}
+	}
+	return hasCollided;
+}
+
+bool Section::CheckCollisions(Vector3f _location, Section*& _section)
+{
+	bool hasCollided = false;
+	
+	if(Collisions2f::PointInCircle(_location, ltv_position_, radius_))
+	{//Bounding circle test passed, do proper test
+		for(int vert = 0; vert < fill_verts_->size(); vert+=3)
+		{
+			if(Collisions2f::PointInTriangle(ltv_transform_ * (*fill_verts_)[vert], ltv_transform_ * (*fill_verts_)[vert+1], ltv_transform_ * (*fill_verts_)[vert+2], _location))
+			{
+				hasCollided = true; //This is where we decided that the collision has taken place
+				_section = this;
+				break;
+			}
+		}
+	}
+	if(!hasCollided)
+	{
+		BOOST_FOREACH(Section_ptr section, sub_sections_)
+		{
+			hasCollided |= section->CheckCollisions(_location, _section);
 			if(hasCollided)
 				break;
 		}

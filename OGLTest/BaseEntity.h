@@ -31,4 +31,11 @@ public:
 
 	void SetAngle(float _angle) {angle_ = _angle;}
 	float GetAngle() {return angle_;}
+
+	float GetGlobalAngle()
+	{
+		Vector3f v = Vector3f(0,1,0);
+		v = ltv_transform_ * v;
+		return atan2f(-v.x,v.y)*180.0f/M_PI;
+	}
 };

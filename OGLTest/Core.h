@@ -1,12 +1,12 @@
 #pragma once
-#include "section.h"
+#include "Section.h"
 #include "AIAction.h"
 #include <list>
 #include <boost/shared_ptr.hpp>
 
 class BaseAI;
-class Core;
-typedef boost::shared_ptr<Core> Core_ptr;
+//class Core;
+//typedef boost::shared_ptr<Core> Core_ptr;
 
 class Core :
 	public Section

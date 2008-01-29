@@ -14,6 +14,8 @@
 
 class Section;
 typedef boost::shared_ptr<Section> Section_ptr;
+class Core;
+typedef boost::shared_ptr<Core> Core_ptr;
 
 class Section :
 	public BaseEntity, public Filled, public Outlined
@@ -28,14 +30,15 @@ public:
 	Section(void);
 	virtual ~Section(void);
 	void AddChild(Section * child);
-	void DrawSelf();
+	virtual void DrawSelf();
 	bool CheckCollisions(Projectile_ptr _projectile);
+	bool CheckCollisions(Vector3f _location, Section*& _section);
 	void SetColor(GLColor _color);
-	virtual void Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform);
+	virtual void Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::list<Core_ptr>& _enemies);
 	
 	//Getters/Setters
 	float GetHealth(){return health_;}
-	float TakeDamage(float _damage){health_-=_damage;}
+	void TakeDamage(float _damage){health_-=_damage;}
 	void SetFiring(bool _firing){firing_ = _firing;}
 	
 	//Predicates

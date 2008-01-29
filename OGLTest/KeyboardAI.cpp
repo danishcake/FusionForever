@@ -53,8 +53,8 @@ AIAction KeyboardAI::Tick(float _timespan, std::list<Core_ptr>& _allies, std::li
 	if(SDL_BUTTON_LMASK & mouse_state)
 		action.firing_ = true;
 
-	Vector3f point_to_face = Vector3f((x - Camera::Instance().GetWindowWidth()/2),
-		                              (Camera::Instance().GetWindowHeight()/2 - y), 0);
+	Vector3f point_to_face = Vector3f((x - Camera::Instance().GetWindowWidth()/2.0f),
+		                              (Camera::Instance().GetWindowHeight()/2.0f - y), 0);
 	if(point_to_face.lengthSq()!=0)
 	{
 		point_to_face.normalize();
@@ -80,7 +80,7 @@ AIAction KeyboardAI::Tick(float _timespan, std::list<Core_ptr>& _allies, std::li
 			zoom_time_ = zoom_time_ < 0.0f ? 0.0f : zoom_time_;
 		}
 		float zoom_scale = powf(zoom_time_ / ZOOM_TIME, 1.7f);
-		Camera::Instance().SetCentre(_self->GetPosition().x + point_faced.x * Camera::Instance().GetWidth() * 0.4 * zoom_scale, _self->GetPosition().y + point_faced.y* Camera::Instance().GetHeight() * 0.4 * zoom_scale);
+		Camera::Instance().SetCentre(_self->GetPosition().x + point_faced.x * Camera::Instance().GetWidth() * 0.4f * zoom_scale, _self->GetPosition().y + point_faced.y* Camera::Instance().GetHeight() * 0.4f * zoom_scale);
 
 	}
 

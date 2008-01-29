@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "BaseEntity.h"
 
-static const float DEGTORAD = 3.14159265 / 180.0;
+static const float DEGTORAD = 3.14159265f / 180.0f;
 
 BaseEntity::BaseEntity(void)
 {

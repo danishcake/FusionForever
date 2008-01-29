@@ -2,9 +2,9 @@
 #include "RigidArm.h"
 
 bool RigidArm::initialised_ = false;
-int RigidArm::rigidarm_outline_display_list_ = 0;
+int RigidArm::outline_dl_ = 0;
 int RigidArm::outline_verts_index_ = 0;
-int RigidArm::rigidarm_fill_display_list_ = 0;
+int RigidArm::fill_dl_ = 0;
 int RigidArm::fill_verts_index_ = 0;
 
 RigidArm::RigidArm(void)
@@ -17,9 +17,9 @@ RigidArm::RigidArm(void)
 		initialised_ = true;
 	}
 	outline_verts_ = Datastore::Instance().GetVerts(outline_verts_index_);
-	outline_display_list_ = rigidarm_outline_display_list_;
+	outline_display_list_ = outline_dl_;
 	fill_verts_ = Datastore::Instance().GetVerts(fill_verts_index_);
-	fill_display_list_ = rigidarm_fill_display_list_;
+	fill_display_list_ = fill_dl_;
 	findRadius();
 
 	health_ = 800;
@@ -51,7 +51,7 @@ void RigidArm::initialise_fill(void)
 	temp_fill->push_back((*temp_outline)[5]);
 
 	fill_verts_index_ = Datastore::Instance().AddVerts(temp_fill);
-	rigidarm_fill_display_list_ = CreateFillDisplayList(temp_fill);
+	fill_dl_ = CreateFillDisplayList(temp_fill);
 }
 
 void RigidArm::initialise_outline(void)
@@ -72,5 +72,5 @@ void RigidArm::initialise_outline(void)
 	}
 
 	outline_verts_index_ = Datastore::Instance().AddVerts(temp_outline);
-	rigidarm_outline_display_list_ = CreateOutlinedDisplayList(temp_outline);	
+	outline_dl_ = CreateOutlinedDisplayList(temp_outline);	
 }

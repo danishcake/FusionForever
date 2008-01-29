@@ -248,6 +248,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Sparks.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Starfield.cpp"
 					>
 				</File>
@@ -268,14 +272,6 @@
 				Name="Sections"
 				>
 				<File
-					RelativePath=".\Blaster.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\FiringSection.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\RigidArm.cpp"
 					>
 				</File>
@@ -288,7 +284,7 @@
 					>
 				</File>
 				<Filter
-					Name="Core"
+					Name="Cores"
 					>
 					<File
 						RelativePath=".\Core.cpp"
@@ -296,6 +292,38 @@
 					</File>
 					<File
 						RelativePath=".\SquareCore.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Guns"
+					>
+					<File
+						RelativePath=".\BeamFiringSection.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Blaster.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\FiringSection.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\HeatBeamGun.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Beams"
+					>
+					<File
+						RelativePath=".\BeamSection.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\HeatBeam.cpp"
 						>
 					</File>
 				</Filter>
@@ -358,6 +386,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\Sparks.h"
+				>
+			</File>
 			<Filter
 				Name="Scenes"
 				>
@@ -438,14 +470,6 @@
 				Name="Sections"
 				>
 				<File
-					RelativePath=".\Blaster.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FiringSection.h"
-					>
-				</File>
-				<File
 					RelativePath=".\RigidArm.h"
 					>
 				</File>
@@ -466,6 +490,38 @@
 					</File>
 					<File
 						RelativePath=".\SquareCore.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Beams"
+					>
+					<File
+						RelativePath=".\BeamSection.h"
+						>
+					</File>
+					<File
+						RelativePath=".\HeatBeam.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Guns"
+					>
+					<File
+						RelativePath=".\BeamFiringSection.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Blaster.h"
+						>
+					</File>
+					<File
+						RelativePath=".\FiringSection.h"
+						>
+					</File>
+					<File
+						RelativePath=".\HeatBeamGun.h"
 						>
 					</File>
 				</Filter>

@@ -9,6 +9,7 @@
 #include "KeyboardAI.h"
 #include "RigidArm.h"
 #include "Blaster.h"
+#include "HeatBeamGun.h"
 
 
 void GameScene::initSections()
@@ -24,12 +25,14 @@ void GameScene::initSections()
 	s_s->SetPosition(Vector3f(-4,10,0));
 	b = new Blaster();
 	b->SetPosition(Vector3f(0,7.5,0));
+	b->SetAngle(30);
 	s_s->AddChild(b);
 	core->AddChild(s_s);
 
 	s_s = new RigidArm();
 	s_s->SetPosition(Vector3f(4,10,0));
 	b = new Blaster();
+	b->SetAngle(-30);
 	b->SetPosition(Vector3f(0,7.5,0));
 	s_s->AddChild(b);
 
@@ -44,7 +47,12 @@ void GameScene::initSections()
 	core->AddChild(b);
 
 	core->AddChild(s_s);
+
+	s_s = new HeatBeamGun();
+	core->AddChild(s_s);
+
 	core->SetColor(GLColor(0,128,0));
+
 
 
 	Core_ptr en_core = Core_ptr(new SquareCore(new RotatingAI(0.2f)));
