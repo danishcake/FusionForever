@@ -267,6 +267,18 @@
 					RelativePath=".\SmallBullet.cpp"
 					>
 				</File>
+				<Filter
+					Name="Beams"
+					>
+					<File
+						RelativePath=".\BeamSection.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\HeatBeam.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Sections"
@@ -312,18 +324,6 @@
 					</File>
 					<File
 						RelativePath=".\HeatBeamGun.cpp"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="Beams"
-					>
-					<File
-						RelativePath=".\BeamSection.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\HeatBeam.cpp"
 						>
 					</File>
 				</Filter>
@@ -386,10 +386,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\Sparks.h"
-				>
-			</File>
 			<Filter
 				Name="Scenes"
 				>
@@ -450,6 +446,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Sparks.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Starfield.h"
 					>
 				</File>
@@ -465,6 +465,18 @@
 					RelativePath=".\SmallBullet.h"
 					>
 				</File>
+				<Filter
+					Name="Beams"
+					>
+					<File
+						RelativePath=".\BeamSection.h"
+						>
+					</File>
+					<File
+						RelativePath=".\HeatBeam.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Sections"
@@ -490,18 +502,6 @@
 					</File>
 					<File
 						RelativePath=".\SquareCore.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="Beams"
-					>
-					<File
-						RelativePath=".\BeamSection.h"
-						>
-					</File>
-					<File
-						RelativePath=".\HeatBeam.h"
 						>
 					</File>
 				</Filter>
