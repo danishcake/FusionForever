@@ -24,6 +24,7 @@ HeatBeamGun::HeatBeamGun(void)
 	findRadius();
 
 	health_ = 800;
+	max_health_ = health_;
 	beam_ = BeamSection_ptr(new HeatBeam());
 }
 

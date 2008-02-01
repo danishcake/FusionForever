@@ -1,6 +1,5 @@
 #include "StdAfx.h"
 #include "BeamSection.h"
-#include "Core.h"
 #include <boost/foreach.hpp>
 #include "Puff.h"
 #include "Sparks.h"
@@ -9,7 +8,6 @@ static const float beam_accuracy = 5.0f;
 static const float beam_high_accuracy = 1.0f;
 
 BeamSection::BeamSection(void)
-: Section()
 {
 	max_distance_ = 100.0f;
 	distance_ = 0.0f;
@@ -19,9 +17,10 @@ BeamSection::~BeamSection(void)
 {
 }
 
-void BeamSection::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::list<Core_ptr>& _enemies)
+void BeamSection::Tick(float _timespan, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::list<Core_ptr>& _enemies)
 {
-	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies);
+	BaseEntity::Tick(_timespan, _transform);
+
 	deco_cooldown_ -= _timespan;
 	Section* closest_hit_section;
 	bool has_hit = false;

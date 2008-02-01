@@ -7,7 +7,7 @@ int SpinningJoint::outline_verts_index_ = 0;
 int SpinningJoint::fill_dl_ = 0;
 int SpinningJoint::fill_verts_index_ = 0;
 
-SpinningJoint::SpinningJoint(void)
+SpinningJoint::SpinningJoint(float _degrees_per_second)
 : Section()
 {
 	if(!initialised_)
@@ -23,10 +23,13 @@ SpinningJoint::SpinningJoint(void)
 	findRadius();
 
 	health_ = 800;
+	max_health_ = health_;
+	degrees_per_second_ = _degrees_per_second;
 }
 
-SpinningJoint::~SpinningJoint(void)
+SpinningJoint::~SpinningJoint()
 {
+	
 }
 
 void SpinningJoint::initialise_fill(void)
@@ -62,5 +65,5 @@ void SpinningJoint::initialise_outline(void)
 void SpinningJoint::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::list<Core_ptr>& _enemies)
 {
 	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies);
-	angle_ += _timespan * 1.0f;
+	angle_ += _timespan * degrees_per_second_;
 }

@@ -16,7 +16,7 @@ void BeamFiringSection::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_
 	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies);
 	if(firing_)
 	{
-		beam_->Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies);
+		beam_->Tick(_timespan, _spawn_dec, ltv_transform_, _enemies);
 	}
 	ltv_is_firing_ = firing_;
 }

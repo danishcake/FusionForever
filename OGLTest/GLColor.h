@@ -18,5 +18,10 @@ struct GLColor
 		g = 0;
 		b = 0;
 	}
+
+	GLColor GetFaded(GLclampf _fade_amount)
+	{
+		return GLColor((GLubyte)(r * _fade_amount), (GLubyte)(g * _fade_amount), (GLubyte)(b * _fade_amount));
+	}
 };
 #endif

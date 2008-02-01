@@ -14,8 +14,10 @@ protected:
 	static int fill_dl_;
 	static int fill_verts_index_;
 
+	float degrees_per_second_;
+
 public:
-	SpinningJoint(void);
+	SpinningJoint(float _degrees_per_second);
 	virtual ~SpinningJoint(void);
 	virtual void Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::list<Core_ptr>& _enemies);
 };

@@ -23,6 +23,7 @@ RigidArm::RigidArm(void)
 	findRadius();
 
 	health_ = 800;
+	max_health_ = health_;
 }
 
 RigidArm::~RigidArm(void)

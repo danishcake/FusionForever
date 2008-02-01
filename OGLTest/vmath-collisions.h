@@ -1,3 +1,5 @@
+#pragma once
+
 #include "vmath.h"
 #include <cmath>
 

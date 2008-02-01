@@ -19,9 +19,16 @@ Puff::Puff(void)
 	}
 	fill_verts_ = Datastore::Instance().GetVerts(fill_verts_index_);
 	fill_display_list_ = fill_dl_;
-	fill_color_ =GLColor(255,
-						 20 + 100 * ((float)rand()/(float)RAND_MAX),
-						  0 + 10 * ((float)rand()/(float)RAND_MAX));
+	if(rand() > RAND_MAX *0.8)
+	{
+		fill_color_ =GLColor(255, 255, 0);
+	}
+	else
+	{
+		fill_color_ =GLColor(255,
+							 20 + 100 * ((float)rand()/(float)RAND_MAX),
+							  0 + 10 * ((float)rand()/(float)RAND_MAX));
+	}
 	lifetime_ = PUFF_LIFETIME;
 	ltv_transform_ = Matrix4f::createScale(0);
 	angle_ = 360.0f* (float)rand()/ (float)RAND_MAX;

@@ -23,6 +23,7 @@ Blaster::Blaster(void)
 	findRadius();
 
 	health_ = 500;
+	max_health_ = health_;
 	cooldown_time_ = 0.1f;
 }
 

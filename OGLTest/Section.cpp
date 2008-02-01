@@ -1,11 +1,14 @@
 #include "StdAfx.h"
 #include "Section.h"
 #include <boost/foreach.hpp>
+#include "Puff.h"
 
 Section::Section(void) 
 : BaseEntity(), Outlined(), Filled()
 {
+	damage_timer_ = 0;
 	firing_ = false;
+	outline_color_base_ = GLColor(255, 255, 255);
 }
 
 Section::~Section(void)
@@ -42,18 +45,45 @@ void Section::findRadius(void)
 	}
 }
 
+void Section::GetDeathSpawn(std::list<Decoration_ptr>& _spawn_dec)
+{
+	BOOST_FOREACH(Section_ptr section, sub_sections_)
+	{
+		section->GetDeathSpawn(_spawn_dec);
+	}
+	BOOST_FOREACH(Vector3f vert, *outline_verts_)
+	{
+		Puff* puff = new Puff();
+		puff->SetPosition(ltv_transform_ * vert);
+		_spawn_dec.push_back(Decoration_ptr(puff));
+	}
+}
+
 void Section::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::list<Core_ptr>& _enemies)
 {
 	BaseEntity::Tick(_timespan, _transform); // Use ltv_transform after this as _transform is passed by value
 	
-	sub_sections_.erase(std::remove_if(sub_sections_.begin(), sub_sections_.end(), 
-		                Section::IsRemovable), sub_sections_.end());
-	
 	BOOST_FOREACH(Section_ptr section, sub_sections_)
 	{
-		section->SetFiring(firing_);
-		section->Tick(_timespan, _spawn_prj, _spawn_dec, ltv_transform_, _enemies);
+		if(section->GetHealth() <=0)
+		{
+			section->GetDeathSpawn(_spawn_dec);
+		}
+		else
+		{
+			section->SetFiring(firing_);
+			section->Tick(_timespan, _spawn_prj, _spawn_dec, ltv_transform_, _enemies);
+		}
 	}
+
+	sub_sections_.erase(std::remove_if(sub_sections_.begin(), sub_sections_.end(), 
+		                Section::IsRemovable), sub_sections_.end());
+	damage_timer_ -= _timespan;
+
+	if(fmodf(damage_timer_,health_/max_health_) > health_/max_health_ / 2.0f)
+		outline_color_ = outline_color_base_.GetFaded(0);
+	else
+		outline_color_ = outline_color_base_;
 }
 bool Section::CheckCollisions(Projectile_ptr _projectile)
 {
@@ -65,7 +95,7 @@ bool Section::CheckCollisions(Projectile_ptr _projectile)
 			if(Collisions2f::PointInTriangle(ltv_transform_ * (*fill_verts_)[vert], ltv_transform_ * (*fill_verts_)[vert+1], ltv_transform_ * (*fill_verts_)[vert+2], _projectile->GetPosition()))
 			{
 				hasCollided = true; //This is where we decided that the collision has taken place				
-				health_ -= _projectile->GetDamage();
+				TakeDamage(_projectile->GetDamage());
 				_projectile->SetLifetime(0);
 				break;
 			}

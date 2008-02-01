@@ -10,7 +10,7 @@
 #include "RigidArm.h"
 #include "Blaster.h"
 #include "HeatBeamGun.h"
-
+#include "SpinningJoint.h"
 
 void GameScene::initSections()
 {
@@ -19,8 +19,40 @@ void GameScene::initSections()
 	friends_.push_back(core);
 
 	Section* s_s;
-	Blaster * b;
+	Section* s_s2;
+	Blaster* b;
+	HeatBeamGun* beam;
 
+	beam = new HeatBeamGun();
+	beam->SetPosition(Vector3f(7.5,7.5,0));
+	beam->SetAngle(1);
+	core->AddChild(beam);
+
+	beam = new HeatBeamGun();
+	beam->SetPosition(Vector3f(-7.5,7.5,0));
+	beam->SetAngle(-1);
+	core->AddChild(beam);
+
+	beam = new HeatBeamGun();
+	beam->SetPosition(Vector3f(2.5,7.5,0));
+	core->AddChild(beam);
+
+	beam = new HeatBeamGun();
+	beam->SetPosition(Vector3f(-2.5,7.5,0));
+	core->AddChild(beam);
+
+	b = new Blaster();
+	b->SetPosition(Vector3f(9.5f,0,0));
+	b->SetAngle(-10);
+	core->AddChild(b);
+
+	b = new Blaster();
+	b->SetPosition(Vector3f(-9.5f,0,0));
+	b->SetAngle(10);
+	core->AddChild(b);
+
+
+	/* //The simple 4 blaster two laser core
 	s_s = new RigidArm();
 	s_s->SetPosition(Vector3f(-4,10,0));
 	b = new Blaster();
@@ -48,32 +80,48 @@ void GameScene::initSections()
 
 	core->AddChild(s_s);
 
+	Section * spin_joint = new SpinningJoint(60);
+	spin_joint->SetPosition(Vector3f(5,0,0));
 	s_s = new HeatBeamGun();
-	core->AddChild(s_s);
+	spin_joint->AddChild(s_s);
+	core->AddChild(spin_joint);
+	
+	spin_joint = new SpinningJoint(-60);
+	spin_joint->SetPosition(Vector3f(-5,0,0));
+	s_s = new HeatBeamGun();
+	spin_joint->AddChild(s_s);
+	core->AddChild(spin_joint);
+
+	
 
 	core->SetColor(GLColor(0,128,0));
+*/
 
+	for(int i = 0; i < 20; i ++)
+	{
+		Core_ptr en_core = Core_ptr(new SquareCore(new RotatingAI(0.2f)));
+		s_s = new RigidArm();
+		s_s->SetPosition(Vector3f(4,10,0));
+		en_core->AddChild(s_s);
+		s_s = new RigidArm();
+		s_s->SetPosition(Vector3f(-4,10,0));
+		en_core->AddChild(s_s);
+		s_s = new RigidArm();
+		s_s->SetPosition(Vector3f(4,-10,0));
+		s_s->SetAngle(180);
+		en_core->AddChild(s_s);
+		s_s = new RigidArm();
+		s_s->SetPosition(Vector3f(-4,-10,0));
+		s_s->SetAngle(180);
+		en_core->AddChild(s_s);
+		en_core->SetPosition(Vector3f(40 * i,20,0));
+		
+		Blaster* b = new Blaster();
+		b->SetPosition(Vector3f(0,5,0));
+		en_core->AddChild(b);
 
-
-	Core_ptr en_core = Core_ptr(new SquareCore(new RotatingAI(0.2f)));
-	s_s = new RigidArm();
-	s_s->SetPosition(Vector3f(4,10,0));
-	en_core->AddChild(s_s);
-	s_s = new RigidArm();
-	s_s->SetPosition(Vector3f(-4,10,0));
-	en_core->AddChild(s_s);
-	s_s = new RigidArm();
-	s_s->SetPosition(Vector3f(4,-10,0));
-	s_s->SetAngle(180);
-	en_core->AddChild(s_s);
-	s_s = new RigidArm();
-	s_s->SetPosition(Vector3f(-4,-10,0));
-	s_s->SetAngle(180);
-	en_core->AddChild(s_s);
-
-	en_core->SetPosition(Vector3f(20,20,0));
-
-	enemies_.push_back(en_core);
+		enemies_.push_back(en_core);
+	}
 }
 
 GameScene::GameScene(void)
@@ -103,7 +151,7 @@ void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 
 	BOOST_FOREACH(Core_ptr core, enemies_)
 	{
-		core->Tick(_timespan, enemy_spawn, decoration_spawn, identity, enemies_, friends_);
+		core->Tick(_timespan, enemy_spawn, decoration_spawn, identity, friends_ , enemies_);
 	}
 
 	enemy_projectiles.splice(enemy_projectiles.begin(), enemy_spawn);
@@ -137,16 +185,26 @@ void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 				break;
 			}
 		}
-
 	}
+
+	BOOST_FOREACH(Core_ptr core, friends_)
+	{
+		if(core->GetHealth() <= 0)
+			core->GetDeathSpawn(decoration_spawn);
+	}
+
+	BOOST_FOREACH(Core_ptr core, enemies_)
+	{
+		if(core->GetHealth() <= 0)
+			core->GetDeathSpawn(decoration_spawn);
+	}
+
+	decorations.splice(decorations.begin(), decoration_spawn);
 
 	for(std::list<Decoration_ptr>::iterator it = decorations.begin(); it != decorations.end(); it++)
 	{
 		(*it)->Tick(_timespan, identity);
 	}
-
-
-	decorations.splice(decorations.begin(), decoration_spawn);
 
 	enemy_projectiles.remove_if(Projectile::IsProjectileRemovable);
 	ownship_projectiles.remove_if(Projectile::IsProjectileRemovable);

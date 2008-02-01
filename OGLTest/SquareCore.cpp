@@ -24,6 +24,7 @@ SquareCore::SquareCore(BaseAI* _AI)
 	findRadius();
 
 	health_ = 5000;
+	max_health_ = health_;
 }
 
 SquareCore::~SquareCore(void)
