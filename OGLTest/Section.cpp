@@ -113,6 +113,28 @@ bool Section::CheckCollisions(Projectile_ptr _projectile)
 	return hasCollided;
 }
 
+bool Section::QuickRayCheck(Vector3f P1, Vector3f P2)
+{
+	bool hasCollided = false;
+	if(Collisions2f::LineInCircle(P1, P2, ltv_position_, radius_))
+	{
+		return true;
+	}
+	else
+	{
+		BOOST_FOREACH(Section_ptr section, sub_sections_)
+		{
+			if(section->QuickRayCheck(P1,P2))
+			{
+				hasCollided = true;
+				break;
+			}
+		}
+	}
+	return hasCollided;
+}
+
+
 bool Section::CheckCollisions(Vector3f _location, Section*& _section)
 {
 	bool hasCollided = false;

@@ -4,10 +4,10 @@
 #include <cmath>
 
 /**
-* Class for 2D collisions. 
+* Class for 2D collisions.
 * @note If you use a Vector3 derivative then the z component is ignored
 */
-template <class T> 
+template <class T>
 class Collisions2
 {
 public:
@@ -47,7 +47,7 @@ public:
 	{
 		T x = a.x - b.x;
 		T y = a.y - b.y;
-		
+
 		return (T)sqrt((double)(x * x + y * y));
 	}
 
@@ -60,7 +60,7 @@ public:
 	{
 		T x = a.x - b.x;
 		T y = a.y - b.y;
-		
+
 		return (T)sqrt((double)(x * x + y * y));
 	}
 
@@ -128,7 +128,7 @@ public:
 	* @param a_2 End of line A
 	* @param b_1 Start of line B
 	* @param b_2 End of line B
-	* @param out Intersection point. 
+	* @param out Intersection point.
 	*/
 	static bool LineSegmentsIntersect(Vector2<T> a_1, Vector2<T> a_2, Vector2<T> b_1, Vector2<T> b_2, Vector2<T>& out)
 	{
@@ -140,7 +140,7 @@ public:
 		{
 			T u_a = ((db.x * (a_1.y - b_1.y)) - (db.y * (a_1.x - b_1.x))) / d;
 			T u_b = ((da.x * (a_1.y - b_1.y)) - (da.y * (a_1.x - b_1.x))) / d;
-			
+
 			if(u_a < 1 && u_a > 0 && u_b > 0 && u_b < 1)
 			{
 				out.x = a_1.x + u_a * da.x;
@@ -151,12 +151,12 @@ public:
 			{
 				return false;
 			}
-			
+
 		}
 		else //Parallel lines
 		{
 			return false;
-		}			
+		}
 	}
 	/**
 	* Determines if two line segments intersect. If true then out is set to intersection point
@@ -164,7 +164,7 @@ public:
 	* @param a_2 End of line A
 	* @param b_1 Start of line B
 	* @param b_2 End of line B
-	* @param out Intersection point. 
+	* @param out Intersection point.
 	*/
 	static bool LineSegmentsIntersect(Vector3<T> a_1, Vector3<T> a_2, Vector3<T> b_1, Vector3<T> b_2, Vector3<T>& out)
 	{
@@ -176,7 +176,7 @@ public:
 		{
 			T u_a = ((db.x * (a_1.y - b_1.y)) - (db.y * (a_1.x - b_1.x))) / d;
 			T u_b = ((da.x * (a_1.y - b_1.y)) - (da.y * (a_1.x - b_1.x))) / d;
-			
+
 			if(u_a < 1 && u_a > 0 && u_b > 0 && u_b < 1)
 			{
 				out.x = a_1.x + u_a * da.x;
@@ -187,12 +187,12 @@ public:
 			{
 				return false;
 			}
-			
+
 		}
 		else //Parallel lines
 		{
 			return false;
-		}			
+		}
 	}
 
 	/**
@@ -250,10 +250,112 @@ public:
 			allNegative = false;
 		return allNegative || allPositive;
 	}
+   /**
+   * Determines if a line segment enters a circle
+   * @param P1 The first point in the line segment
+   * @param P2 The second point in the line segment
+   * @param c The centre of the circle
+   * @param radius The radius of the circle
+   * @param out The point of closest approach
+   */
+   static bool LineInCircle(Vector2<T> P1, Vector2<T> P2, Vector2<T> c, T radius)
+   {
+      Vector2<T> L = P2 - P1;
+	  Vector2<T> out;
+      T beta = ((c.x - P1.x) * L.x - (P1.y - c.y) * L.y) / L.lengthSq();
+      if(beta < 0)
+         out = P1;
+      else if (beta >1)
+         out = P2;
+      else
+         out = P1 + beta * L;
+      if((beta >=0.0f) && (beta <=1.0f) &&
+         (DistanceSqr(out, c) < radius * radius))
+         return true;
+      else
+         return false;
+   }
 
-private: 
+   /**
+   * Determines if a line segment enters a circle
+   * @param P1 The first point in the line segment
+   * @param P2 The second point in the line segment
+   * @param c The centre of the circle
+   * @param radius The radius of the circle
+   * @param out The point of closest approach
+   */
+   static bool LineInCircle(Vector3<T> P1, Vector3<T> P2, Vector3<T> c, T radius)
+   {
+      Vector3<T> L = P2 - P1;
+	  Vector3<T> out;
+      T beta = ((c.x - P1.x) * L.x - (P1.y - c.y) * L.y) / L.lengthSq();
+      if(beta < 0)
+         out = P1;
+      else if (beta >1)
+         out = P2;
+      else
+         out = P1 + L * beta;
+      if((beta >=0.0f) && (beta <=1.0f) &&
+         (DistanceSqr(out, c) < radius * radius))
+         return true;
+      else
+         return false;
+   }
+
+
+   /**
+   * Determines if a line segment enters a circle
+   * @param P1 The first point in the line segment
+   * @param P2 The second point in the line segment
+   * @param c The centre of the circle
+   * @param radius The radius of the circle
+   * @param out The point of closest approach
+   */
+   static bool LineInCircle(Vector2<T> P1, Vector2<T> P2, Vector2<T> c, T radius, Vector2<T>& out)
+   {
+      Vector2<T> L = P2 - P1;
+      T beta = ((c.x - P1.x) * L.x - (P1.y - c.y) * L.y) / L.lengthSq();
+      if(beta < 0)
+         out = P1;
+      else if (beta >1)
+         out = P2;
+      else
+         out = P1 + beta * L;
+      if((beta >=0.0f) && (beta <=1.0f) &&
+         (DistanceSqr(out, c) < radius * radius))
+         return true;
+      else
+         return false;
+   }
+
+   /**
+   * Determines if a line segment enters a circle
+   * @param P1 The first point in the line segment
+   * @param P2 The second point in the line segment
+   * @param c The centre of the circle
+   * @param radius The radius of the circle
+   * @param out The point of closest approach
+   */
+   static bool LineInCircle(Vector3<T> P1, Vector3<T> P2, Vector3<T> c, T radius, Vector3<T>& out)
+   {
+      Vector3<T> L = P2 - P1;
+      T beta = ((c.x - P1.x) * L.x - (P1.y - c.y) * L.y) / L.lengthSq();
+      if(beta < 0)
+         out = P1;
+      else if (beta >1)
+         out = P2;
+      else
+         out = P1 + beta * L;
+      if((beta >=0.0f) && (beta <=1.0f) &&
+         (DistanceSqr(out, c) < radius * radius))
+         return true;
+      else
+         return false;
+   }
+
+private:
 	/**
-	* Gets twice the area of a triangle using the determinant method. 
+	* Gets twice the area of a triangle using the determinant method.
 	* @param a Triangle point a
 	* @param b Triangle point b
 	* @param c Triangle point c
@@ -267,7 +369,7 @@ private:
 	}
 
 	/**
-	* Gets twice the area of a triangle using the determinant method. 
+	* Gets twice the area of a triangle using the determinant method.
 	* @param a Triangle point a
 	* @param b Triangle point b
 	* @param c Triangle point c
@@ -297,19 +399,19 @@ typedef Collisions2<double> Collisions2d;
 
 
 
-/*template <class T> 
+/*template <class T>
 class Collisions3
 {
-	
+
 };
 
 typedef Collisions3<Vector3f> Collisions3f;
 typedef Collisions3<Vector3d> Collisions3d;
 
-template <class T> 
+template <class T>
 class Collisions4
 {
-	
+
 };
 
 typedef Collisions4<Vector4f> Collisions4f;
