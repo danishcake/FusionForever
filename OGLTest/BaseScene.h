@@ -13,6 +13,6 @@ public:
 	virtual ~BaseScene(void);
 	virtual void Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes) = 0;
 	virtual void Draw() = 0;
-	virtual bool IsRoot() = 0;
+	virtual bool IsRoot() = 0;	//Rendering starts from last Root scene
 	virtual bool IsRemovable() = 0;
 };

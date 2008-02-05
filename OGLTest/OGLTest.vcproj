@@ -44,7 +44,7 @@
 				EnableIntrinsicFunctions="false"
 				FavorSizeOrSpeed="0"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost_1_34_1&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost_1_34_1&quot;;&quot;C:\Program Files\AntTweakBar\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -65,9 +65,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib SDL.lib SDLmain.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib SDL.lib SDLmain.lib AntTweakBar.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\SDL-1.2.12\lib&quot;"
+				AdditionalLibraryDirectories="&quot;C:\Program Files\SDL-1.2.12\lib&quot;;&quot;C:\Program Files\AntTweakBar\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -122,7 +122,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost_1_34_1&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost_1_34_1&quot;;&quot;C:\Program Files\AntTweakBar\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -141,9 +141,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib SDL.lib SDLmain.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib SDL.lib SDLmain.lib  AntTweakBar.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\SDL-1.2.12\lib&quot;"
+				AdditionalLibraryDirectories="&quot;C:\Program Files\SDL-1.2.12\lib&quot;;&quot;C:\Program Files\AntTweakBar\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"

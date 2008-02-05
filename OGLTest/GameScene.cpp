@@ -124,6 +124,8 @@ void GameScene::initSections()
 	}
 }
 
+
+
 GameScene::GameScene(void)
 {
 	initSections();

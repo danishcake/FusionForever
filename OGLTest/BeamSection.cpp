@@ -4,9 +4,7 @@
 #include "Puff.h"
 #include "Sparks.h"
 
-static const int beam_accuracy = 5;
-static const float linear_search_steps = 3.0f;
-static const int binary_search_depth = 10; //Provides sufficient accuracy for a range of up to 5000 (Typically I use 300)
+static const float beam_accuracy = 2.5f;
 
 BeamSection::BeamSection(void)
 {
@@ -27,67 +25,27 @@ void BeamSection::Tick(float _timespan, std::list<Decoration_ptr>& _spawn_dec, M
 	bool quick_hit_check = false;
 
 	bool has_hit = false;
-	float max_dist = max_distance_;	//The maximum distance including the collision
-	float max_dist_bs = max_distance_;	//The maxiumum distance being considered by the bs (may not include collision)
-	float low_dist = 0.0f;			//The minimum distance excluding any collisions
+	float max_dist = 0;	//The maximum distance including the collision
+	float low_dist = max_distance_;			//The minimum distance excluding any collisions
 
-	//Do a binary search to narrow down the range
-	for(int i = 0; i < 10; i++)
+	std::list<Section*> filtered_sections;
+
+	BOOST_FOREACH(Core_ptr core, _enemies)
 	{
-		bool bs_hit = false; 
-		BOOST_FOREACH(Core_ptr core, _enemies)
+		core->RayCollisionFilter(ltv_position_, ltv_transform_ * Vector3f(0, max_distance_, 0), filtered_sections, low_dist, max_dist);
+	}
+
+	BOOST_FOREACH(Section* section, filtered_sections)
+	{
+		Section* hit_section;
+		for(float dist = low_dist; dist <= max_dist; dist += beam_accuracy)
 		{
-			bs_hit |= core->QuickRayCheck(ltv_position_, ltv_transform_ * Vector3f(0, max_dist_bs, 0));
-			if(bs_hit)
+			if(section->CheckCollisions(ltv_transform_ * Vector3f(0,dist,0), hit_section))
+			{
+				closest_hit_section = hit_section;
+				max_dist = dist;
+				has_hit = true;
 				break;
-		}
-		if(i==0 && !bs_hit)
-			break;
-		if(bs_hit)
-		{
-			quick_hit_check = true;
-			max_dist = max_dist_bs;
-			max_dist_bs -= max_distance_ / pow(2.0f, i+1);
-		}
-		else
-		{
-			low_dist = max_dist_bs;
-			max_dist_bs += max_distance_ / pow(2.0f, i+1);
-		}
-	}
-
-	if(quick_hit_check)
-	{
-		BOOST_FOREACH(Core_ptr core, _enemies)
-		{
-			Section* hit_section;
-			for(float dist = low_dist; dist <= max_dist; dist += (max_dist - low_dist) / linear_search_steps)
-			{
-				if(core->CheckCollisions(ltv_transform_ * Vector3f(0,dist,0), hit_section))
-				{
-					closest_hit_section = hit_section;
-					max_dist = dist;
-					has_hit = true;
-					break;
-				}
-			}
-		}
-	}
-	if(!has_hit) //Earlier estimates of max_dist were too low, as bounding circle too loose. Do complete check (Expensive)
-	{
-		max_dist = max_distance_;
-		BOOST_FOREACH(Core_ptr core, _enemies)
-		{
-			Section* hit_section;
-			for(float dist = low_dist; dist <= max_dist; dist += beam_accuracy)
-			{
-				if(core->CheckCollisions(ltv_transform_ * Vector3f(0,dist,0), hit_section))
-				{
-					closest_hit_section = hit_section;
-					max_dist = dist;
-					has_hit = true;
-					break;
-				}
 			}
 		}
 	}

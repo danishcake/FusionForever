@@ -38,7 +38,7 @@ public:
 	virtual void DrawSelf();
 	bool CheckCollisions(Projectile_ptr _projectile);
 	bool CheckCollisions(Vector3f _location, Section*& _section);
-	bool QuickRayCheck(Vector3f P1, Vector3f P2);
+	void RayCollisionFilter(Vector3f P1, Vector3f P2, std::list<Section*>& _valid_sections, float& _min_distance, float& _max_distance);
 	void SetColor(GLColor _color);
 	virtual void Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::list<Core_ptr>& _enemies);
 	virtual void GetDeathSpawn(std::list<Decoration_ptr>& _spawn_dec);

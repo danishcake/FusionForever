@@ -18,6 +18,8 @@ public:
 	virtual void Draw();
 	virtual bool IsRoot();
 	virtual bool IsRemovable();
+	
+	void AddEnemy(Core* _enemy);
 
 protected:
 	std::list<Projectile_ptr> enemy_projectiles;

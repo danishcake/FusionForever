@@ -1,7 +1,8 @@
 // OGLTest.cpp : Defines the entry point for the console application.
 //
 #include "stdafx.h"
-#include "sdl.h"
+#include <sdl.h>
+#include <AntTweakBar.h>
 
 #include <vector>
 #include <list>
@@ -10,9 +11,10 @@
 #include <boost/foreach.hpp>
 
 #include "BaseScene.h"
-#include "GameScene.h"
+#include "MenuScene.h"
 #include "FadeInScene.h"
 #include "Camera.h"
+
 
 #define WINDOW_SIZE 200
 
@@ -61,10 +63,16 @@ void Tick()
 			last_root = it;
 		}
 	}
-
+	
+	std::vector<BaseScene_ptr> scene_spawn;
 	for(std::vector<BaseScene_ptr>::iterator it = last_root; it!=scene_stack.end(); it++)
 	{
-		(*it)->Tick(time_elapsed, scene_stack);
+		(*it)->Tick(time_elapsed, scene_spawn);
+	}
+
+	BOOST_FOREACH(BaseScene_ptr scene, scene_spawn)
+	{
+		scene_stack.push_back(scene);
 	}
 }
 
@@ -88,7 +96,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	SDL_WM_SetCaption("SDL Test", "SDL Test");
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_Surface* screen = SDL_SetVideoMode(Camera::Instance().GetWindowWidth(), Camera::Instance().GetWindowHeight(), 32, SDL_HWSURFACE | SDL_OPENGL | SDL_DOUBLEBUF);
-	scene_stack.push_back(BaseScene_ptr(new GameScene()));
+	
+	TwInit(TW_OPENGL, NULL);
+	TwWindowSize(Camera::Instance().GetWindowWidth(), Camera::Instance().GetWindowHeight());
+
+	scene_stack.push_back(BaseScene_ptr(new MenuScene()));
 	scene_stack.push_back(BaseScene_ptr(new FadeInScene()));
 	
 
@@ -102,11 +114,15 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		if(SDL_PollEvent(& sdl_event))
 		{
-			switch(sdl_event.type)
+			int handled = TwEventSDL(&sdl_event); // send event to AntTweakBar
+			if( !handled )                // if event has not been handled by AntTweakBar, process it
 			{
-				case SDL_QUIT:
-					isFinished = true;
-				break;
+				switch(sdl_event.type)
+				{
+					case SDL_QUIT:
+						isFinished = true;
+					break;
+				}
 			}
 		}
 		Sleep(5);
@@ -116,6 +132,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		SDL_Flip(screen);
 		Cull();
 	}
+	TwTerminate();
 	SDL_Quit();
 
 	return 0;

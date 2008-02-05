@@ -113,27 +113,25 @@ bool Section::CheckCollisions(Projectile_ptr _projectile)
 	return hasCollided;
 }
 
-bool Section::QuickRayCheck(Vector3f P1, Vector3f P2)
+void Section::RayCollisionFilter(Vector3f P1, Vector3f P2, std::list<Section*>& _valid_sections, float& _min_distance, float& _max_distance)
 {
 	bool hasCollided = false;
+	
 	if(Collisions2f::LineInCircle(P1, P2, ltv_position_, radius_))
 	{
-		return true;
-	}
-	else
-	{
-		BOOST_FOREACH(Section_ptr section, sub_sections_)
-		{
-			if(section->QuickRayCheck(P1,P2))
-			{
-				hasCollided = true;
-				break;
-			}
-		}
-	}
-	return hasCollided;
-}
+		_valid_sections.push_back(this);
+		float distance = Collisions2f::Distance(ltv_position_, P1);
+		if(distance - radius_ < _min_distance)
+			_min_distance = distance - radius_;
+		if(distance + radius_ > _max_distance)
+			_max_distance = distance + radius_;
 
+	}
+	BOOST_FOREACH(Section_ptr section, sub_sections_)
+	{
+		section->RayCollisionFilter(P1, P2, _valid_sections, _min_distance, _max_distance);
+	}
+}
 
 bool Section::CheckCollisions(Vector3f _location, Section*& _section)
 {
