@@ -51,6 +51,7 @@ void GameScene::initSections()
 	b->SetAngle(10);
 	core->AddChild(b);
 
+	core->SetColor(GLColor(0,0,200));
 
 	/* //The simple 4 blaster two laser core
 	s_s = new RigidArm();
