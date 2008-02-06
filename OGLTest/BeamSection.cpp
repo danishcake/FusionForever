@@ -4,7 +4,7 @@
 #include "Puff.h"
 #include "Sparks.h"
 
-static const float beam_accuracy = 2.5f;
+static const float beam_accuracy = 1.0f;
 
 BeamSection::BeamSection(void)
 {

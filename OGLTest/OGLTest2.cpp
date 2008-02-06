@@ -43,6 +43,8 @@ void Redraw()
 		glLoadIdentity();
 		glPushMatrix();
 		(*it)->Draw();
+		if((*it)->IsRoot())
+			TwDraw();
 		glPopMatrix();
 	}
 	glFlush();
@@ -99,6 +101,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	
 	TwInit(TW_OPENGL, NULL);
 	TwWindowSize(Camera::Instance().GetWindowWidth(), Camera::Instance().GetWindowHeight());
+	//TwDeleteAllBars(); //I would very much like to do this, but there is a bug whereby resizing menus after this causes a crash :(
 
 	scene_stack.push_back(BaseScene_ptr(new MenuScene()));
 	scene_stack.push_back(BaseScene_ptr(new FadeInScene()));
