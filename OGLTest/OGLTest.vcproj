@@ -348,6 +348,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\LuaCode.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Outlined.cpp"
 					>
 				</File>
@@ -547,6 +551,10 @@
 				</File>
 				<File
 					RelativePath=".\GLColor.h"
+					>
+				</File>
+				<File
+					RelativePath=".\LuaCode.h"
 					>
 				</File>
 				<File
