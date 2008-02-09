@@ -1,27 +1,25 @@
 #pragma once
 #include <stack>
+#include <list>
 #include "Section.h"
 #include "Core.h" //For BaseAI define therein
-
-enum AIType
-{
-	AI_Rotating,
-	AI_Keyboard 
-};
 
 class LuaCode
 {
 private:
-	std::stack<Section_ptr> section_stack_;
+	std::list<Core_ptr> enemies_;
+	std::list<Core_ptr> friends_;
+	std::stack<Section*> section_stack_;
 	BaseAI* GetAI();
-	AIType ai_type_;	
-	float ai_rot_rate_;
-
 public:
 	LuaCode(void);
 	~LuaCode(void);
 	
+	void PushCore(Core* _core);
+	void PushSection(Section* _section);
+	void PopSection();
+	void AddAsFriend();
+	void AddAsEnemy();
 
-	void PushSquareCore(void);
-	void SetAIRotating(float _rot_rate);
+
 };
