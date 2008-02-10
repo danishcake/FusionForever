@@ -6,6 +6,7 @@
 
 #include "Core.h"
 #include "Starfield.h"
+#include "GameLua.h"
 
 class GameScene :
 	public BaseScene
@@ -28,7 +29,8 @@ protected:
 
 	std::list<Core_ptr> friends_;
 	std::list<Core_ptr> enemies_;
-	Core_ptr ownship_;
 	Starfield starfield_;
+	GameLua game_lua_;
+
 	virtual void initSections();
 };

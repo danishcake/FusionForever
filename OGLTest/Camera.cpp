@@ -11,6 +11,8 @@ Camera::Camera(void)
 	shake_time_ = 0.0f;
 	window_width_ = 200;
 	window_height_ = 200;
+	focus_x_ = 0.0f;
+	focus_y_ = 0.0f;
 }
 
 Camera::~Camera(void)

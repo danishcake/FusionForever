@@ -11,9 +11,11 @@
 #include "Blaster.h"
 #include "HeatBeamGun.h"
 #include "SpinningJoint.h"
+#include <lauxlib.h>
 
 void GameScene::initSections()
 {
+	/*
 	Core_ptr core = Core_ptr(new SquareCore(new KeyboardAI()));
 	ownship_ = core;
 	friends_.push_back(core);
@@ -52,7 +54,7 @@ void GameScene::initSections()
 	core->AddChild(b);
 
 	core->SetColor(GLColor(0,0,200));
-
+*/
 	/* //The simple 4 blaster two laser core
 	s_s = new RigidArm();
 	s_s->SetPosition(Vector3f(-4,10,0));
@@ -97,7 +99,7 @@ void GameScene::initSections()
 
 	core->SetColor(GLColor(0,128,0));
 */
-
+/*
 	for(int i = 0; i < 20; i ++)
 	{
 		Core_ptr en_core = Core_ptr(new SquareCore(new RotatingAI(0.2f)));
@@ -123,6 +125,7 @@ void GameScene::initSections()
 
 		enemies_.push_back(en_core);
 	}
+*/
 }
 
 
@@ -131,6 +134,7 @@ GameScene::GameScene(void)
 {
 	initSections();
 	Camera::Instance().SetWidth(500);
+	luaL_dostring(game_lua_.GetLuaVM(), "PushCore(\"SquareCore\");");
 }
 
 GameScene::~GameScene(void)
@@ -139,6 +143,11 @@ GameScene::~GameScene(void)
 
 void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 {
+	enemies_.splice(enemies_.begin(), game_lua_.GetEnemies());
+	game_lua_.GetFriends().clear();
+	friends_.splice(friends_.begin(), game_lua_.GetFriends());
+	game_lua_.GetEnemies().clear();
+
 	std::list<Projectile_ptr> enemy_spawn;
 	std::list<Projectile_ptr> ownship_spawn;
 	std::list<Decoration_ptr> decoration_spawn;
@@ -219,8 +228,7 @@ void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 void GameScene::Draw()
 {
 	glColor3f(0.0f,0.0f,0.0f);
-
-	starfield_.DrawStarfield(ownship_->GetPosition() );
+	starfield_.DrawStarfield(Vector3f(Camera::Instance().GetFocusX(), Camera::Instance().GetFocusY(), 0));
 	BOOST_FOREACH(Core_ptr core, friends_)
 	{
 		core->DrawSelf();

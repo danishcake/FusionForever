@@ -8,6 +8,8 @@ private:
 	float height_;
 	float centre_x_;
 	float centre_y_;
+	float focus_x_;
+	float focus_y_;
 	float ratio_;
 	float shake_time_;
 
@@ -29,6 +31,8 @@ public:
 	float GetBottom() {return centre_y_ + (height_ / 2.0f);}
 	float GetCentreX() {return centre_x_;}
 	float GetCentreY() {return centre_y_;}
+	float GetFocusX() {return focus_x_;}
+	float GetFocusY() {return focus_y_;}
 
 	int GetWindowWidth(){return window_width_;}
 	int GetWindowHeight(){return window_height_;}
@@ -43,6 +47,11 @@ public:
 	{
 		centre_x_ = _x;
 		centre_y_ = _y;
+	}
+	void SetFocus(float _x, float _y)
+	{
+		focus_x_ = _x;
+		focus_y_ = _y;
 	}
 	void SetWidth(float _width)
 	{
