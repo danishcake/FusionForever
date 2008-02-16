@@ -3,7 +3,13 @@
 #include <list>
 #include "Section.h"
 #include "Core.h" //For BaseAI define therein
-#include <lua.h>
+
+extern "C"
+{
+#include "lua.h"
+#include "lualib.h"
+#include "lauxlib.h"
+}
 
 class GameLua
 {
@@ -16,9 +22,15 @@ public:
 	GameLua(void);
 	~GameLua(void);
 	
+	void LoadShip(const char* ship);
+
 	void PushCore(Core* _core);
 	void PushSection(Section* _section);
 	void PopSection();
+
+	void SetAngle(float _angle);
+	void SetPosition(float _x, float _y);
+
 	void AddAsFriend();
 	void AddAsEnemy();
 	lua_State* GetLuaVM();

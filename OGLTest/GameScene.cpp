@@ -15,117 +15,6 @@
 
 void GameScene::initSections()
 {
-	/*
-	Core_ptr core = Core_ptr(new SquareCore(new KeyboardAI()));
-	ownship_ = core;
-	friends_.push_back(core);
-
-	Section* s_s;
-	Section* s_s2;
-	Blaster* b;
-	HeatBeamGun* beam;
-
-	beam = new HeatBeamGun();
-	beam->SetPosition(Vector3f(7.5,7.5,0));
-	beam->SetAngle(1);
-	core->AddChild(beam);
-
-	beam = new HeatBeamGun();
-	beam->SetPosition(Vector3f(-7.5,7.5,0));
-	beam->SetAngle(-1);
-	core->AddChild(beam);
-
-	beam = new HeatBeamGun();
-	beam->SetPosition(Vector3f(2.5,7.5,0));
-	core->AddChild(beam);
-
-	beam = new HeatBeamGun();
-	beam->SetPosition(Vector3f(-2.5,7.5,0));
-	core->AddChild(beam);
-
-	b = new Blaster();
-	b->SetPosition(Vector3f(9.5f,0,0));
-	b->SetAngle(-10);
-	core->AddChild(b);
-
-	b = new Blaster();
-	b->SetPosition(Vector3f(-9.5f,0,0));
-	b->SetAngle(10);
-	core->AddChild(b);
-
-	core->SetColor(GLColor(0,0,200));
-*/
-	/* //The simple 4 blaster two laser core
-	s_s = new RigidArm();
-	s_s->SetPosition(Vector3f(-4,10,0));
-	b = new Blaster();
-	b->SetPosition(Vector3f(0,7.5,0));
-	b->SetAngle(30);
-	s_s->AddChild(b);
-	core->AddChild(s_s);
-
-	s_s = new RigidArm();
-	s_s->SetPosition(Vector3f(4,10,0));
-	b = new Blaster();
-	b->SetAngle(-30);
-	b->SetPosition(Vector3f(0,7.5,0));
-	s_s->AddChild(b);
-
-	b = new Blaster();
-	b->SetPosition(Vector3f(10,2,0));
-	b->SetAngle(-30);
-	core->AddChild(b);
-
-	b = new Blaster();
-	b->SetPosition(Vector3f(-10,2,0));
-	b->SetAngle(30);
-	core->AddChild(b);
-
-	core->AddChild(s_s);
-
-	Section * spin_joint = new SpinningJoint(60);
-	spin_joint->SetPosition(Vector3f(5,0,0));
-	s_s = new HeatBeamGun();
-	spin_joint->AddChild(s_s);
-	core->AddChild(spin_joint);
-	
-	spin_joint = new SpinningJoint(-60);
-	spin_joint->SetPosition(Vector3f(-5,0,0));
-	s_s = new HeatBeamGun();
-	spin_joint->AddChild(s_s);
-	core->AddChild(spin_joint);
-
-	
-
-	core->SetColor(GLColor(0,128,0));
-*/
-/*
-	for(int i = 0; i < 20; i ++)
-	{
-		Core_ptr en_core = Core_ptr(new SquareCore(new RotatingAI(0.2f)));
-		s_s = new RigidArm();
-		s_s->SetPosition(Vector3f(4,10,0));
-		en_core->AddChild(s_s);
-		s_s = new RigidArm();
-		s_s->SetPosition(Vector3f(-4,10,0));
-		en_core->AddChild(s_s);
-		s_s = new RigidArm();
-		s_s->SetPosition(Vector3f(4,-10,0));
-		s_s->SetAngle(180);
-		en_core->AddChild(s_s);
-		s_s = new RigidArm();
-		s_s->SetPosition(Vector3f(-4,-10,0));
-		s_s->SetAngle(180);
-		en_core->AddChild(s_s);
-		en_core->SetPosition(Vector3f(40 * i,20,0));
-		
-		Blaster* b = new Blaster();
-		b->SetPosition(Vector3f(0,5,0));
-		en_core->AddChild(b);
-
-		enemies_.push_back(en_core);
-	}
-*/
 }
 
 
@@ -134,7 +23,7 @@ GameScene::GameScene(void)
 {
 	initSections();
 	Camera::Instance().SetWidth(500);
-	luaL_dostring(game_lua_.GetLuaVM(), "PushCore(\"SquareCore\");");
+	game_lua_.LoadShip("HeroShip.ship_lua");
 }
 
 GameScene::~GameScene(void)

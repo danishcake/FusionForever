@@ -65,9 +65,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib SDL.lib SDLmain.lib AntTweakBar.lib lua51.lib"
+				AdditionalDependencies="lua51.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib AntTweakBar.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\SDL-1.2.12\lib&quot;;&quot;C:\Program Files\AntTweakBar\lib&quot;;&quot;C:\Program Files\Lua_5.1.3\lib&quot;"
+				AdditionalLibraryDirectories="&quot;C:\Program Files\Lua_5.1.3\lib&quot;; &quot;C:\Program Files\SDL-1.2.12\lib&quot;;&quot;C:\Program Files\AntTweakBar\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -141,9 +141,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib SDL.lib SDLmain.lib  AntTweakBar.lib lua51.lib"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\SDL-1.2.12\lib&quot;;&quot;C:\Program Files\AntTweakBar\lib&quot;;&quot;C:\Program Files\Lua_5.1.3\lib&quot;"
+				AdditionalDependencies="lua51.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib AntTweakBar.lib"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="&quot;C:\Program Files\Lua_5.1.3\lib&quot;; &quot;C:\Program Files\SDL-1.2.12\lib&quot;;&quot;C:\Program Files\AntTweakBar\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -588,6 +588,30 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+		</Filter>
+		<Filter
+			Name="Scripts"
+			>
+			<Filter
+				Name="Ships"
+				>
+				<File
+					RelativePath=".\HeroShip.ship_lua"
+					>
+				</File>
+				<File
+					RelativePath=".\LuaShip2.lua_ship"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Challenges"
+				>
+				<File
+					RelativePath=".\Challenge1.challenge_lua"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

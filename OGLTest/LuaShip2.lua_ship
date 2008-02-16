@@ -1,0 +1,16 @@
+Ship = {
+	SectionType = "SquareCore",
+	Name = "SpaceShip1",
+	Health = 1000,
+	Angle = 90,
+	Position = {x = 0, y = 10},
+	SubSections = 
+	{
+		{
+			SectionType = "RigidArm"
+		},
+		{
+			SectionType = "RigidArm"
+		}
+	}
+}
