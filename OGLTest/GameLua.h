@@ -23,6 +23,7 @@ public:
 	~GameLua(void);
 	
 	void LoadShip(const char* ship);
+	void LoadSections();
 
 	void PushCore(Core* _core);
 	void PushSection(Section* _section);
@@ -30,6 +31,7 @@ public:
 
 	void SetAngle(float _angle);
 	void SetPosition(float _x, float _y);
+	void SetHealth(float _health);
 
 	void AddAsFriend();
 	void AddAsEnemy();

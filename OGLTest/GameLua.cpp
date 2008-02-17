@@ -19,6 +19,7 @@ lua_State* luaVM;
 
 static enum SectionType
 {
+	unknown_key,
 	st_SquareCore, 
 	st_RigidArm,
 	st_Blaster,
@@ -229,6 +230,10 @@ void GameLua::SetPosition(float _x, float _y)
 	section_stack_.top()->SetPosition(Vector3f(_x, _y, 0));
 }
 
+void GameLua::SetHealth(float _health)
+{
+
+}
 std::list<Core_ptr>& GameLua::GetFriends()
 {
 	return friends_;	
@@ -246,94 +251,6 @@ lua_State* GameLua::GetLuaVM()
 
 void GameLua::LoadShip(const char* ship)
 {
-	lua_getglobal(luaVM, "Ship");
-	if(!lua_isnil(luaVM, -1))
-	{
-		lua_pushnil(luaVM);
-		lua_setglobal(luaVM, "Ship");
-	}
-	lua_pop(luaVM,1); //Pops ship from stack
-
-	luaL_dofile(luaVM, ship);
-	lua_getglobal(luaVM,"Ship");
-	lua_pushstring(luaVM, "CreateShip");
-	lua_gettable(luaVM, -2); //Should now have CreateShip function at top of stack
-	if(lua_isfunction(luaVM, -1))
-	{
-		lua_pcall(luaVM, 0, 0, 0); // Call CreateShip and pop it
-	} else
-	{
-		
-	}
-	lua_pop(luaVM, 1);	//Pop Ship
-}
-
-void LoadSectionRecursively()
-{
-	lua_pushstring(luaVM, "SectionType");
-	lua_gettable(luaVM, -2);
-	if(lua_isstring(luaVM, -1))
-	{//Got SectionType, is required
-		std::string section_type = lua_tostring(luaVM, -1);
-		lua_pop(luaVM, 1);
-
-		lua_pushstring(luaVM, "Health");
-		lua_gettable(luaVM, -1); //Puts any health value on the top of the stack
-		if(lua_isnumber(luaVM, -1))
-		{
-			
-		}
-		lua_pop(luaVM, -1);
-
-		lua_pushstring(luaVM, "Angle");
-		lua_gettable(luaVM, -1); //Puts any health value on the top of the stack
-		if(lua_isnumber(luaVM, -1))
-		{
-			
-		}
-		lua_pop(luaVM, -1);
-
-		lua_pushstring(luaVM, "Position");
-		lua_gettable(luaVM, -1); //Puts any health value on the top of the stack
-		if(lua_istable(luaVM, -1))
-		{
-			float x = 0;
-			float y = 0;
-			lua_pushstring(luaVM, "x");
-			lua_gettable(luaVM, -1); //Puts any health value on the top of the stack
-			if(lua_isnumber(luaVM, -1))
-			{
-				x = lua_tonumber(luaVM, -1);
-			}
-			lua_pop(luaVM, -1);
-			lua_pushstring(luaVM, "y");
-			lua_gettable(luaVM, -1); //Puts any health value on the top of the stack
-			if(lua_isnumber(luaVM, -1))
-			{
-				y = lua_tonumber(luaVM, -1);
-			}
-			lua_pop(luaVM, -1);
-		}
-		lua_pop(luaVM, -1);
-		
-		//Now load all the subsections
-		lua_getglobal(luaVM, "SubSections");
-		if(lua_istable(luaVM, -1))
-		{
-			 int sub_section_count = luaL_getn(luaVM, 1);
-			 for(int i = 1; i <= sub_section_count; i++)
-			 {
-				lua_rawgeti(luaVM, -1, i);
-				LoadSectionRecursively();
-				lua_pop(luaVM, 1);
-			 }
-		}
-		lua_pop(luaVM, 1);
-	}
-}
-
-void LoadShip2(const char* ship)
-{
 	lua_getglobal(luaVM,"Ship");
 	if(!lua_isnil(luaVM, -1))
 	{
@@ -342,21 +259,153 @@ void LoadShip2(const char* ship)
 	}
 	lua_pop(luaVM,1); //Pops ship from stack
 
-	luaL_dofile(luaVM, "LuaShip2.lua_ship");	//Loads the ship function
-	
-
+	luaL_dofile(luaVM, ship);	//Loads the ship function
 
 	lua_getglobal(luaVM, "Ship");
 	if(lua_istable(luaVM, -1))
 	{
 		//Get name
 		//Load the rest
-		LoadSectionRecursively();
+		LoadSections();
 		lua_pop(luaVM, 1);
+		this->AddAsFriend();
 	}
 	else
 	{
 		
 	}
-	
+
+}
+
+void GameLua::LoadSections()
+{
+	lua_pushstring(luaVM, "SectionType");
+	lua_gettable(luaVM, -2);
+	if(lua_isstring(luaVM, -1))
+	{//Got SectionType, is required
+		std::string section_type = lua_tostring(luaVM, -1);
+		std::transform(section_type.begin(), section_type.end(), section_type.begin(), toupper);
+		lua_pop(luaVM, 1);
+		SectionType s_type = SectionMap[section_type];
+		switch(s_type) //Get section custom parameters
+		{
+			{ //Cores
+			BaseAI* ai;
+			case st_SquareCore:
+				lua_pushstring(luaVM, "AI");
+				lua_gettable(luaVM, -2); //Pop AI and put AI table at top of stack
+				if(lua_istable(luaVM, -1))
+				{
+					lua_pushstring(luaVM, "AIType");
+					lua_gettable(luaVM, -2); //Pop AIType and puts the ai type on
+					if(lua_isstring(luaVM, -1))
+					{
+						std::string ai_type_string = lua_tostring(luaVM, -1);
+						std::transform(ai_type_string.begin(), ai_type_string.end(), ai_type_string.begin(), toupper);
+						SectionType ai_type = SectionMap[ai_type_string];
+						lua_pop(luaVM, 1); //Pop the AI type
+						switch(ai_type)
+						{
+						case ai_RotatingAI:
+							lua_pushstring(luaVM, "AIRotationRate");
+							lua_gettable(luaVM, -2); //Puts rotation rate at top of stack
+							if(lua_isnumber(luaVM, -1))
+							{
+								ai = new RotatingAI(lua_tonumber(luaVM, -1));
+							}
+							else
+							{
+								ai = new RotatingAI(0.2f); //Default to 20% rotation rate
+							}
+							lua_pop(luaVM, 1); //Pop the AI rotation rate
+							break;
+						case ai_KeyboardAI:
+							ai = new KeyboardAI();
+							break;
+						default:
+							ai = new RotatingAI(0.2f);
+							break;
+						}
+						
+					}
+					else
+					{
+						ai = new RotatingAI(0.2f);
+						lua_pop(luaVM, 1);
+					}
+					PushCore(new SquareCore(ai));
+					lua_pop(luaVM, 1); //Pop the AI
+				} else
+				{
+					lua_pop(luaVM, 1); //Probably have nill at top of stack, so pop
+				}
+				
+
+				break;
+			}
+			case st_RigidArm:
+				PushSection(new RigidArm());
+				break;
+
+		}
+
+
+		lua_pushstring(luaVM, "Health");
+		lua_gettable(luaVM, -2); //Puts any health value on the top of the stack
+		if(lua_isnumber(luaVM, -1))
+		{
+			SetHealth(lua_tonumber(luaVM, -1));
+		}
+		lua_pop(luaVM, 1);
+
+		lua_pushstring(luaVM, "Angle");
+		lua_gettable(luaVM, -2); //Puts any health value on the top of the stack
+		if(lua_isnumber(luaVM, -1))
+		{
+			SetAngle(lua_tonumber(luaVM, -1));
+		}
+		lua_pop(luaVM, 1);
+
+		lua_pushstring(luaVM, "Position");
+		lua_gettable(luaVM, -2); //Puts any health value on the top of the stack
+		if(lua_istable(luaVM, -1))
+		{
+			float x = 0;
+			float y = 0;
+			lua_pushstring(luaVM, "x");
+			lua_gettable(luaVM, -2); //Puts any health value on the top of the stack
+			if(lua_isnumber(luaVM, -1))
+			{
+				x = lua_tonumber(luaVM, -1);
+			}
+			lua_pop(luaVM, 1);
+			lua_pushstring(luaVM, "y");
+			lua_gettable(luaVM, -2); //Puts any health value on the top of the stack
+			if(lua_isnumber(luaVM, -1))
+			{
+				y = lua_tonumber(luaVM, -1);
+			}
+
+			SetPosition(x,y);
+			lua_pop(luaVM, 1);
+		}
+		lua_pop(luaVM, 1);
+		
+		//Now load all the subsections
+		lua_pushstring(luaVM, "SubSections");
+		lua_gettable(luaVM, -2);
+		if(lua_istable(luaVM, -1))
+		{
+			 int sub_section_count = luaL_getn(luaVM, -1);
+			 for(int i = 1; i <= sub_section_count; i++)
+			 {
+				lua_rawgeti(luaVM, -1, i);
+				LoadSections();
+				PopSection();
+				lua_pop(luaVM, 1);
+			 }
+		}
+		lua_pop(luaVM, 1);
+		
+	}
 }

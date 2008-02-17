@@ -596,7 +596,7 @@
 				Name="Ships"
 				>
 				<File
-					RelativePath=".\HeroShip.ship_lua"
+					RelativePath=".\HeroShip.lua_ship"
 					>
 				</File>
 				<File
