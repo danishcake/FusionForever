@@ -23,8 +23,7 @@ GameScene::GameScene(void)
 {
 	initSections();
 	Camera::Instance().SetWidth(500);
-	//game_lua_.LoadShip("HeroShip.ship_lua");
-	game_lua_.LoadShip("LuaShip2.lua_ship");
+	game_lua_.LoadChallenge("Challenge1.lua");
 }
 
 GameScene::~GameScene(void)
@@ -33,6 +32,8 @@ GameScene::~GameScene(void)
 
 void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 {
+	game_lua_.Tick();
+
 	enemies_.splice(enemies_.begin(), game_lua_.GetEnemies());
 	friends_.splice(friends_.begin(), game_lua_.GetFriends());
 	game_lua_.GetFriends().clear();

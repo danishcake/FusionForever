@@ -135,6 +135,36 @@ static int l_set_position(lua_State * luaVM)
 
 
 
+static int l_add_enemy(lua_State* luaVM)
+{
+	assert(last_instantiation!=NULL);
+	if(lua_isstring(luaVM, -1))
+	{
+		last_instantiation->LoadShip(lua_tostring(luaVM, -1));
+		last_instantiation->AddAsEnemy();
+	}
+	else
+	{
+		//Report that the function must pass a string
+	}
+	return 0;
+}
+
+static int l_add_friend(lua_State* luaVM)
+{
+	assert(last_instantiation!=NULL);
+	if(lua_isstring(luaVM, -1))
+	{
+		last_instantiation->LoadShip(lua_tostring(luaVM, -1));
+		last_instantiation->AddAsFriend();
+	}
+	else
+	{
+		//Report that the function must pass a string
+	}
+	return 0;
+}
+
 GameLua::GameLua(void)
 {
 	if(last_instantiation == NULL)
@@ -149,8 +179,11 @@ GameLua::GameLua(void)
 		lua_register(luaVM, "AddAsFriend", l_add_as_friend);
 		lua_register(luaVM, "SetAngle", l_set_angle);
 		lua_register(luaVM, "SetPosition", l_set_position);
+		lua_register(luaVM, "AddEnemy", l_add_enemy);
+		lua_register(luaVM, "AddFriend", l_add_friend);
 	}
 	last_instantiation = this;
+	is_script_running_ = false;
 }
 
 GameLua::~GameLua(void)
@@ -232,7 +265,7 @@ void GameLua::SetPosition(float _x, float _y)
 
 void GameLua::SetHealth(float _health)
 {
-
+	section_stack_.top()->SetMaxHealth(_health);
 }
 std::list<Core_ptr>& GameLua::GetFriends()
 {
@@ -266,9 +299,8 @@ void GameLua::LoadShip(const char* ship)
 	{
 		//Get name
 		//Load the rest
-		LoadSections();
-		lua_pop(luaVM, 1);
-		this->AddAsFriend();
+		ParseShip();
+		lua_pop(luaVM, 1); //Pop Ship
 	}
 	else
 	{
@@ -277,7 +309,7 @@ void GameLua::LoadShip(const char* ship)
 
 }
 
-void GameLua::LoadSections()
+void GameLua::ParseShip()
 {
 	lua_pushstring(luaVM, "SectionType");
 	lua_gettable(luaVM, -2);
@@ -400,7 +432,7 @@ void GameLua::LoadSections()
 			 for(int i = 1; i <= sub_section_count; i++)
 			 {
 				lua_rawgeti(luaVM, -1, i);
-				LoadSections();
+				ParseShip();
 				PopSection();
 				lua_pop(luaVM, 1);
 			 }
@@ -409,3 +441,50 @@ void GameLua::LoadSections()
 		
 	}
 }
+
+
+void GameLua::LoadChallenge(const char* challenge)
+{
+	lua_getglobal(luaVM,"Challenge");
+	if(!lua_isnil(luaVM, -1))
+	{
+		lua_pushnil(luaVM);
+		lua_setglobal(luaVM, "Challenge");
+	}
+	lua_pop(luaVM,1); //Pops challenge from stack
+
+	if(!luaL_dofile(luaVM, challenge))
+		is_script_running_ = true;	//Loads the challenge table
+}
+
+void GameLua::Tick()
+{
+	lua_getglobal(luaVM, "Challenge");
+	if(lua_istable(luaVM, -1))
+	{
+		lua_pushstring(luaVM, "EntryPoint");
+		lua_gettable(luaVM, -2);
+		if(lua_isfunction(luaVM, -1))
+		{
+			lua_pcall(luaVM, 0, 1, 0); //Should pop EntryPoint and replace with either true or false
+			if(lua_isboolean(luaVM, -1))
+			{
+				bool isDone = lua_toboolean(luaVM, -1);
+				is_script_running_ = !isDone;
+			}
+			lua_pop(luaVM, 1); //Pop the boolean isDone
+		}
+		else
+		{
+			//Should report errors here
+		}
+
+		//ParseChallenge();
+		lua_pop(luaVM, 1); //Pop the Challenge
+	}
+	else
+	{
+		
+	}
+}
+

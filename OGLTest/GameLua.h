@@ -18,12 +18,14 @@ private:
 	std::list<Core_ptr> friends_;
 	std::stack<Section*> section_stack_;
 	BaseAI* GetAI();
+	bool is_script_running_;
 public:
 	GameLua(void);
 	~GameLua(void);
 	
+	void LoadChallenge(const char* challenge);
 	void LoadShip(const char* ship);
-	void LoadSections();
+	void ParseShip();
 
 	void PushCore(Core* _core);
 	void PushSection(Section* _section);
@@ -35,6 +37,8 @@ public:
 
 	void AddAsFriend();
 	void AddAsEnemy();
+
+	void Tick();
 	lua_State* GetLuaVM();
 
 	std::list<Core_ptr>& GetEnemies();

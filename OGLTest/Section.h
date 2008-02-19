@@ -45,6 +45,7 @@ public:
 
 	//Getters/Setters
 	float GetHealth(){return health_;}
+	void SetMaxHealth(float _max_health){float health_fraction = health_ / max_health_; max_health_ = _max_health; health_ = max_health_ * health_fraction;}
 	void TakeDamage(float _damage){health_-=_damage; damage_timer_ = SECTION_FLASH_TIME;}
 	void SetFiring(bool _firing){firing_ = _firing;}
 	

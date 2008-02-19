@@ -25,6 +25,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				Description="Copying script files"
+				CommandLine="copy /Y &quot;$(InputDir)*.lua&quot; &quot;$(OutDir)\&quot;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -107,6 +109,8 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				Description="Copying script files"
+				CommandLine="xcopy $(InputDir)*.lua $(OutDir)"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -596,11 +600,11 @@
 				Name="Ships"
 				>
 				<File
-					RelativePath=".\HeroShip.lua_ship"
+					RelativePath=".\LuaShip2.lua"
 					>
 				</File>
 				<File
-					RelativePath=".\LuaShip2.lua_ship"
+					RelativePath=".\ProceduralShip.lua"
 					>
 				</File>
 			</Filter>
@@ -608,7 +612,7 @@
 				Name="Challenges"
 				>
 				<File
-					RelativePath=".\Challenge1.challenge_lua"
+					RelativePath=".\Challenge1.lua"
 					>
 				</File>
 			</Filter>
