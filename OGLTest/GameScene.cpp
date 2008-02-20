@@ -54,7 +54,7 @@ void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 
 	BOOST_FOREACH(Core_ptr core, enemies_)
 	{
-		core->Tick(_timespan, enemy_spawn, decoration_spawn, identity, friends_ , enemies_);
+		core->Tick(_timespan, enemy_spawn, decoration_spawn, identity, enemies_, friends_);
 	}
 
 	enemy_projectiles.splice(enemy_projectiles.begin(), enemy_spawn);

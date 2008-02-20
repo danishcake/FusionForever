@@ -288,6 +288,10 @@
 				Name="Sections"
 				>
 				<File
+					RelativePath=".\JointAngles.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\RigidArm.cpp"
 					>
 				</File>
@@ -489,6 +493,10 @@
 			<Filter
 				Name="Sections"
 				>
+				<File
+					RelativePath=".\JointAngles.h"
+					>
+				</File>
 				<File
 					RelativePath=".\RigidArm.h"
 					>

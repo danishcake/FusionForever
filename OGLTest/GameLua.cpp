@@ -6,6 +6,7 @@
 #include "Blaster.h"
 #include "HeatBeamGun.h"
 #include "SpinningJoint.h"
+#include "JointAngles.h"
 
 #include "RotatingAI.h"
 #include "KeyboardAI.h"
@@ -25,6 +26,7 @@ static enum SectionType
 	st_Blaster,
 	st_HeatBeam,
 	st_SpinningJoint,
+	st_JointAngles,
 	ai_RotatingAI,
 	ai_KeyboardAI
 };
@@ -38,6 +40,7 @@ static void InitialiseMap()
 	SectionMap["BLASTER"] = st_Blaster;
 	SectionMap["HEATBEAM"] = st_HeatBeam;
 	SectionMap["SPINNINGJOINT"] = st_SpinningJoint;
+	SectionMap["JOINTANGLES"] = st_JointAngles;
 }
 
 static int l_add_as_enemy(lua_State* luaVM)
@@ -343,11 +346,34 @@ void GameLua::ParseShip()
 				PushSection(new HeatBeamGun());
 				break;
 			case st_SpinningJoint:
+				{
 				lua_pushstring(luaVM, "RotationRate");
 				lua_gettable(luaVM, -2);
 				float spin_rate_deg_per_sec = lua_tonumber(luaVM, -1);
 				PushSection(new SpinningJoint(spin_rate_deg_per_sec));
 				lua_pop(luaVM, 1);
+				}
+				break;
+			case st_JointAngles:
+				{
+				lua_pushstring(luaVM, "FirstAngle");
+				lua_gettable(luaVM, -2);
+				float first_angle = lua_tonumber(luaVM, -1);
+				lua_pop(luaVM, 1);
+				lua_pushstring(luaVM, "SecondAngle");
+				lua_gettable(luaVM, -2);
+				float second_angle = lua_tonumber(luaVM, -1);
+				lua_pop(luaVM, 1);
+				lua_pushstring(luaVM, "TransitionTime");
+				lua_gettable(luaVM, -2);
+				float transition_time = lua_tonumber(luaVM, -1);
+				lua_pop(luaVM, 1);
+				lua_pushstring(luaVM, "PauseTime");
+				lua_gettable(luaVM, -2);
+				float pause_time = lua_tonumber(luaVM, -1);
+				lua_pop(luaVM, 1);
+				PushSection(new JointAngles(first_angle, second_angle, transition_time, pause_time));
+				}
 				break;
 
 		}
