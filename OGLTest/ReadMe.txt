@@ -1,33 +1,23 @@
-========================================================================
-    CONSOLE APPLICATION : OGLTest Project Overview
-========================================================================
+The game is base around challenges - the challenges are loaded and then must be completed.
 
-AppWizard has created this OGLTest application for you.  
+A challenge consist of a script that will load a series of ships, set their AI, colors, etc, then wait for progress before continuing. When the script is complete the challenge is won
 
-This file contains a summary of what you will find in each of the files that
-make up your OGLTest application.
+A challenge has two parts:
+a) The EntryPoint
+b) The Script
 
+Challenge = {
+Script = coroutine.create(function()
+--Script actions in here
+end),
+EntryPoint = function()
+if coroutine.status(Challenge.Script) ~= "dead" then
+	coroutine.resume(Challenge.Script)
+	return false	--not over yet
+else
+	return true		--Over now
+end
+end
+}
 
-OGLTest.vcproj
-    This is the main project file for VC++ projects generated using an Application Wizard. 
-    It contains information about the version of Visual C++ that generated the file, and 
-    information about the platforms, configurations, and project features selected with the
-    Application Wizard.
-
-OGLTest.cpp
-    This is the main application source file.
-
-/////////////////////////////////////////////////////////////////////////////
-Other standard files:
-
-StdAfx.h, StdAfx.cpp
-    These files are used to build a precompiled header (PCH) file
-    named OGLTest.pch and a precompiled types file named StdAfx.obj.
-
-/////////////////////////////////////////////////////////////////////////////
-Other notes:
-
-AppWizard uses "TODO:" comments to indicate parts of the source code you
-should add to or customize.
-
-/////////////////////////////////////////////////////////////////////////////
+I may add multiple scripts and win conditions in future.

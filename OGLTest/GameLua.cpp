@@ -40,70 +40,6 @@ static void InitialiseMap()
 	SectionMap["SPINNINGJOINT"] = st_SpinningJoint;
 }
 
-static int l_push_section(lua_State* luaVM)
-{
-	assert(last_instantiation!=NULL);
-
-	std::string section_string = lua_tostring(luaVM, 1);
-	std::transform(section_string.begin(),section_string.end(),section_string.begin(),toupper);
-	SectionType s_type = SectionMap[section_string];
-	switch(s_type)
-	{
-		BaseAI* ai;
-		case st_SquareCore:
-			{
-				std::string ai_string = lua_tostring(luaVM, 2);
-				std::transform(ai_string.begin(), ai_string.end(), ai_string.begin(), toupper);
-				
-				SectionType ai_type = SectionMap[ai_string];
-				switch(ai_type)
-				{
-				case ai_RotatingAI:
-					{
-					float rotRate = (float)lua_tonumber(luaVM, 3);
-					ai = new RotatingAI(rotRate);
-					}
-					break;
-				case ai_KeyboardAI:
-					ai = new KeyboardAI();
-					break;
-				default:
-					ai = new RotatingAI(0.2f);
-					break;
-				}
-			}
-			last_instantiation->PushCore(new SquareCore(ai));
-		break;
-		case st_RigidArm:
-			last_instantiation->PushSection(new RigidArm());
-		break;
-		case st_Blaster:
-			last_instantiation->PushSection(new Blaster());
-			break;
-		case st_HeatBeam:
-			last_instantiation->PushSection(new HeatBeamGun());
-			break;
-		case st_SpinningJoint:
-			{
-				float deg_per_second = lua_tonumber(luaVM, 2);
-				last_instantiation->PushSection(new SpinningJoint(deg_per_second));
-			}
-			break;
-		default:
-			return -1; //Not handled
-			break;
-	}
-	return 0;
-}
-
-static int l_pop(lua_State* luaVM)
-{
-	assert(last_instantiation!=NULL);
-
-	last_instantiation->PopSection();
-	return 0;
-}
-
 static int l_add_as_enemy(lua_State* luaVM)
 {
 	assert(last_instantiation!=NULL);
@@ -133,35 +69,62 @@ static int l_set_position(lua_State * luaVM)
 	return 0;
 }
 
-
-
-static int l_add_enemy(lua_State* luaVM)
+static int l_load_ship(lua_State* luaVM)
 {
 	assert(last_instantiation!=NULL);
 	if(lua_isstring(luaVM, -1))
 	{
 		last_instantiation->LoadShip(lua_tostring(luaVM, -1));
-		last_instantiation->AddAsEnemy();
 	}
 	else
 	{
-		//Report that the function must pass a string
+		//Report incorrect params
 	}
 	return 0;
 }
 
-static int l_add_friend(lua_State* luaVM)
+static int l_set_color(lua_State* luaVM)
 {
-	assert(last_instantiation!=NULL);
-	if(lua_isstring(luaVM, -1))
+	assert(last_instantiation != NULL);
+	if(lua_gettop(luaVM) == 3)
 	{
-		last_instantiation->LoadShip(lua_tostring(luaVM, -1));
-		last_instantiation->AddAsFriend();
+		double r = lua_tonumber(luaVM, 1);
+		double g = lua_tonumber(luaVM, 2);
+		double b = lua_tonumber(luaVM, 3);
+		//TODO check bounds here
+
+		last_instantiation->SetColor(GLColor(r,g,b));
 	}
 	else
-	{
-		//Report that the function must pass a string
+	{ 
+		//Report incorrect params here
 	}
+	return 0;
+}
+
+
+static int l_override_ai(lua_State* luaVM)
+{
+	assert(last_instantiation!=NULL);
+	std::string ai_string = lua_tostring(luaVM, 1);
+	std::transform(ai_string.begin(), ai_string.end(), ai_string.begin(), toupper);
+	
+	SectionType ai_type = SectionMap[ai_string];
+	BaseAI* ai = NULL;
+	switch(ai_type)
+	{
+	case ai_RotatingAI:
+		{
+		float rotRate = (float)lua_tonumber(luaVM, 2);
+		ai = new RotatingAI(rotRate);
+		}
+		break;
+	case ai_KeyboardAI:
+		ai = new KeyboardAI();
+		break;
+	}
+	if(ai != NULL)
+		last_instantiation->OverrideAI(ai);
 	return 0;
 }
 
@@ -173,17 +136,16 @@ GameLua::GameLua(void)
 		luaVM = lua_open();
 		luaL_openlibs(luaVM);
 		//Register all the lua functions
-		lua_register(luaVM, "PushSection", l_push_section);
-		lua_register(luaVM, "PopSection", l_pop);
 		lua_register(luaVM, "AddAsEnemy", l_add_as_enemy);
 		lua_register(luaVM, "AddAsFriend", l_add_as_friend);
 		lua_register(luaVM, "SetAngle", l_set_angle);
 		lua_register(luaVM, "SetPosition", l_set_position);
-		lua_register(luaVM, "AddEnemy", l_add_enemy);
-		lua_register(luaVM, "AddFriend", l_add_friend);
+		lua_register(luaVM, "SetColor", l_set_color);
+		lua_register(luaVM, "LoadShip", l_load_ship);
+		lua_register(luaVM, "SetAI", l_override_ai);
 	}
 	last_instantiation = this;
-	is_script_running_ = false;
+	is_script_running_ = false; 
 }
 
 GameLua::~GameLua(void)
@@ -232,10 +194,7 @@ void GameLua::AddAsFriend()
 {
 	if(!section_stack_.empty())
 	{
-		while(section_stack_.size() > 1)
-		{
-			section_stack_.pop();
-		}
+		StackToCore(); //Pop everything but the Core from the stack
 		friends_.push_back(Core_ptr((Core*)section_stack_.top()));
 		section_stack_.pop();
 	}
@@ -245,10 +204,7 @@ void GameLua::AddAsEnemy()
 {
 	if(!section_stack_.empty())
 	{
-		while(section_stack_.size() > 1)
-		{
-			section_stack_.pop();
-		}
+		StackToCore(); //Pop everything but the Core from the stack
 		enemies_.push_back(Core_ptr((Core*)section_stack_.top()));
 		section_stack_.pop();
 	}
@@ -301,6 +257,7 @@ void GameLua::LoadShip(const char* ship)
 		//Load the rest
 		ParseShip();
 		lua_pop(luaVM, 1); //Pop Ship
+		StackToCore(); //Pop everything but the Core from the stack
 	}
 	else
 	{
@@ -319,6 +276,7 @@ void GameLua::ParseShip()
 		std::transform(section_type.begin(), section_type.end(), section_type.begin(), toupper);
 		lua_pop(luaVM, 1);
 		SectionType s_type = SectionMap[section_type];
+		//TODO handle errors unknown section type
 		switch(s_type) //Get section custom parameters
 		{
 			{ //Cores
@@ -369,7 +327,7 @@ void GameLua::ParseShip()
 					lua_pop(luaVM, 1); //Pop the AI
 				} else
 				{
-					lua_pop(luaVM, 1); //Probably have nill at top of stack, so pop
+					lua_pop(luaVM, 1); //Probably have nil at top of stack, so pop
 				}
 				
 
@@ -377,6 +335,19 @@ void GameLua::ParseShip()
 			}
 			case st_RigidArm:
 				PushSection(new RigidArm());
+				break;
+			case st_Blaster:
+				PushSection(new Blaster());
+				break;
+			case st_HeatBeam:
+				PushSection(new HeatBeamGun());
+				break;
+			case st_SpinningJoint:
+				lua_pushstring(luaVM, "RotationRate");
+				lua_gettable(luaVM, -2);
+				float spin_rate_deg_per_sec = lua_tonumber(luaVM, -1);
+				PushSection(new SpinningJoint(spin_rate_deg_per_sec));
+				lua_pop(luaVM, 1);
 				break;
 
 		}
@@ -457,8 +428,15 @@ void GameLua::LoadChallenge(const char* challenge)
 		is_script_running_ = true;	//Loads the challenge table
 }
 
-void GameLua::Tick()
+void GameLua::Tick(int _friend_count, int _enemy_count, float _timespan)
 {
+	int a = lua_gettop(luaVM);
+	lua_pushinteger(luaVM, _friend_count);
+	lua_setglobal(luaVM, "FRIEND_COUNT");
+	lua_pushinteger(luaVM, _enemy_count);
+	lua_setglobal(luaVM, "ENEMY_COUNT");
+	int b = lua_gettop(luaVM);
+	//TODO copy in the timespan and total time	
 	lua_getglobal(luaVM, "Challenge");
 	if(lua_istable(luaVM, -1))
 	{
@@ -484,7 +462,41 @@ void GameLua::Tick()
 	}
 	else
 	{
-		
+		lua_pop(luaVM, 1); //Pop what is probably nil
+	}
+	int c = lua_gettop(luaVM);
+}
+
+void GameLua::StackToCore()
+{
+	while(section_stack_.size() > 1)
+	{
+		section_stack_.pop();
 	}
 }
 
+void GameLua::OverrideAI(BaseAI* _AI)
+{
+	StackToCore();
+	if(section_stack_.size()==1)
+	{
+		((Core*)section_stack_.top())->OverrideAI(_AI);
+	}
+	else
+	{
+		//TODO report errors
+	}	
+}
+
+void GameLua::SetColor(GLColor _color)
+{
+	StackToCore();
+	if(section_stack_.size()==1)
+	{
+		section_stack_.top()->SetColor(_color);
+	}
+	else
+	{
+		//TODO report errors
+	}
+}

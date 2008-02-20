@@ -46,3 +46,8 @@ void Core::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::lis
 		firing_ = action.firing_;
 	}
 }
+void Core::OverrideAI(BaseAI* _new_AI)
+{
+	delete AI_;
+	AI_ = _new_AI;
+}

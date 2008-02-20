@@ -18,6 +18,7 @@ public:
 	virtual ~Core(void);
 	virtual void Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec,
 					  Matrix4f _transform, std::list<Core_ptr>& _allies, std::list<Core_ptr>& _enemies);
+	void OverrideAI(BaseAI* _new_AI);
 };
 
 

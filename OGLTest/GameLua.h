@@ -3,6 +3,7 @@
 #include <list>
 #include "Section.h"
 #include "Core.h" //For BaseAI define therein
+#include "GLColor.h"
 
 extern "C"
 {
@@ -34,11 +35,15 @@ public:
 	void SetAngle(float _angle);
 	void SetPosition(float _x, float _y);
 	void SetHealth(float _health);
+	void SetColor(GLColor _color);
 
 	void AddAsFriend();
 	void AddAsEnemy();
 
-	void Tick();
+	void StackToCore();
+	void OverrideAI(BaseAI*);
+
+	void Tick(int _friend_count, int _enemy_count, float _timespan);
 	lua_State* GetLuaVM();
 
 	std::list<Core_ptr>& GetEnemies();
