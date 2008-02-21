@@ -3,10 +3,14 @@
 
 #include "SquareCore.h"
 #include "RigidArm.h"
+#include "LongRigidArm.h"
 #include "Blaster.h"
 #include "HeatBeamGun.h"
 #include "SpinningJoint.h"
 #include "JointAngles.h"
+#include "ProngLH.h"
+#include "ProngRH.h"
+#include "WidePlate.h"
 
 #include "RotatingAI.h"
 #include "KeyboardAI.h"
@@ -27,6 +31,10 @@ static enum SectionType
 	st_HeatBeam,
 	st_SpinningJoint,
 	st_JointAngles,
+	st_LongRigidArm,
+	st_ProngLH,
+	st_ProngRH,
+	st_WidePlate,
 	ai_RotatingAI,
 	ai_KeyboardAI
 };
@@ -41,6 +49,10 @@ static void InitialiseMap()
 	SectionMap["HEATBEAM"] = st_HeatBeam;
 	SectionMap["SPINNINGJOINT"] = st_SpinningJoint;
 	SectionMap["JOINTANGLES"] = st_JointAngles;
+	SectionMap["LONGRIGIDARM"] = st_LongRigidArm;
+	SectionMap["PRONGRH"] = st_ProngRH;
+	SectionMap["PRONGLH"] = st_ProngLH;
+	SectionMap["WIDEPLATE"] = st_WidePlate;
 }
 
 static int l_add_as_enemy(lua_State* luaVM)
@@ -106,6 +118,13 @@ static int l_set_color(lua_State* luaVM)
 }
 
 
+static int l_scale_health(lua_State* luaVM)
+{
+	assert(last_instantiation != NULL);
+	double scale = lua_tonumber(luaVM, -1);
+	last_instantiation->ScaleHealth(scale);
+	return 0;
+}
 static int l_override_ai(lua_State* luaVM)
 {
 	assert(last_instantiation!=NULL);
@@ -145,6 +164,7 @@ GameLua::GameLua(void)
 		lua_register(luaVM, "SetPosition", l_set_position);
 		lua_register(luaVM, "SetColor", l_set_color);
 		lua_register(luaVM, "LoadShip", l_load_ship);
+		lua_register(luaVM, "ScaleHealth", l_scale_health);	
 		lua_register(luaVM, "SetAI", l_override_ai);
 	}
 	last_instantiation = this;
@@ -375,6 +395,19 @@ void GameLua::ParseShip()
 				PushSection(new JointAngles(first_angle, second_angle, transition_time, pause_time));
 				}
 				break;
+			case st_LongRigidArm:
+				PushSection(new LongRigidArm());
+				break;
+			case st_ProngLH:
+				PushSection(new ProngLH());
+				break;
+			case st_ProngRH:
+				PushSection(new ProngRH());
+				break;
+			case st_WidePlate:
+				PushSection(new WidePlate());
+				break;
+
 
 		}
 
@@ -520,6 +553,19 @@ void GameLua::SetColor(GLColor _color)
 	if(section_stack_.size()==1)
 	{
 		section_stack_.top()->SetColor(_color);
+	}
+	else
+	{
+		//TODO report errors
+	}
+}
+
+void GameLua::ScaleHealth(float _scale)
+{
+		StackToCore();
+	if(section_stack_.size()==1)
+	{
+		section_stack_.top()->ScaleHealth(_scale);
 	}
 	else
 	{

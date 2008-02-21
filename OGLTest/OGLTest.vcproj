@@ -292,6 +292,18 @@
 					>
 				</File>
 				<File
+					RelativePath=".\LongRigidArm.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ProngLH.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ProngRH.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\RigidArm.cpp"
 					>
 				</File>
@@ -301,6 +313,10 @@
 				</File>
 				<File
 					RelativePath=".\SpinningJoint.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\WidePlate.cpp"
 					>
 				</File>
 				<Filter
@@ -498,6 +514,18 @@
 					>
 				</File>
 				<File
+					RelativePath=".\LongRigidArm.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ProngLH.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ProngRH.h"
+					>
+				</File>
+				<File
 					RelativePath=".\RigidArm.h"
 					>
 				</File>
@@ -507,6 +535,10 @@
 				</File>
 				<File
 					RelativePath=".\SpinningJoint.h"
+					>
+				</File>
+				<File
+					RelativePath=".\WidePlate.h"
 					>
 				</File>
 				<Filter

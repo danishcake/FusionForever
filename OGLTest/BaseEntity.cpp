@@ -12,6 +12,7 @@ BaseEntity::BaseEntity(void)
 
 	ltv_transform_ = Matrix4f();
 	ltv_position_ = Vector3f();
+  position_specified_ = false;
 }
 
 BaseEntity::~BaseEntity(void)

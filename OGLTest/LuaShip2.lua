@@ -9,14 +9,29 @@ Ship = {
 	SubSections = 
 	{
 		{
-			SectionType = "HeatBeam",
-			Position = {x = 10, y = 5},
-			Angle = -10
+			SectionType = "WidePlate",
+			Position = {x = 0, y = -12.5},
+			Angle = 180
 		},
 		{
-			SectionType = "HeatBeam",
-			Position = {x = -10, y = 5},
-			Angle = 10
+			SectionType = "ProngRH",
+			Position = {x = 7.5, y = 15},
+			SubSections = 
+			{
+				{
+					SectionType = "HeatBeam"
+				}
+			}
+		},
+		{
+			SectionType = "ProngLH",
+			Position = {x = -7.5, y = 15},
+			SubSections = 
+			{
+				{
+					SectionType = "HeatBeam"
+				}
+			}
 		},
 		{
 			SectionType = "Blaster"

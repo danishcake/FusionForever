@@ -35,6 +35,7 @@ public:
 	void SetAngle(float _angle);
 	void SetPosition(float _x, float _y);
 	void SetHealth(float _health);
+	void ScaleHealth(float _scale);
 	void SetColor(GLColor _color);
 
 	void AddAsFriend();

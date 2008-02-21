@@ -6,9 +6,12 @@
 Section::Section(void) 
 : BaseEntity(), Outlined(), Filled()
 {
+	health_ = 800;
+	max_health_ = 800;
 	damage_timer_ = 0;
 	firing_ = false;
 	outline_color_base_ = GLColor(255, 255, 255);
+	default_sub_section_position_ = Vector3f(0,0,0);
 }
 
 Section::~Section(void)
@@ -32,6 +35,10 @@ void Section::DrawSelf(void)
 }
 void Section::AddChild(Section *child)
 {
+	if(!child->GetPositionSpecified())
+	{
+		child->SetPosition(default_sub_section_position_);
+	}
 	this->sub_sections_.push_back(Section_ptr(child));
 	child->SetColor(fill_color_);
 }
@@ -177,3 +184,12 @@ void Section::SetColor(GLColor _color)
 	}
 }
 
+
+void Section::ScaleHealth(float _factor)
+{
+	SetMaxHealth(max_health_ * _factor);
+	BOOST_FOREACH(Section_ptr sub_section, sub_sections_)
+	{
+		sub_section->ScaleHealth(_factor);
+	}
+}

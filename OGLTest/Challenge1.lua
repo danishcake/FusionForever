@@ -11,18 +11,25 @@ LoadShip("LuaShip2.lua")
 SetAI("KeyboardAI")
 AddAsFriend()
 
-for i = 0, 10 do
-  LoadShip("LuaShip2.lua")
-  SetAI("RotatingAI", 0.2)
-  SetColor(0,255,0)
-  SetPosition(i * 20, 0)
-  AddAsEnemy()
-  Challenge.WaitTillDead()
+for z = 1, 3 do
+	for x = 1, 8 do
+		for y = 1, 8 do
+		  LoadShip("LuaShip2.lua")
+		  SetAI("RotatingAI", 0.2)
+		  SetColor(0,128,0)
+		  SetPosition(x * 50, y * 50)
+		  ScaleHealth(0.0001)
+		  AddAsEnemy()
+		end
+	end
+	Challenge.WaitTillDead()
 end
+Challenge.WaitTillDead()
 LoadShip("LuaShip2.lua")
 SetAI("RotatingAI", -0.2)
 SetColor(0,255,0)
 SetPosition(50, 20)
+ScaleHealth(5)
 AddAsEnemy()
 
 end),
