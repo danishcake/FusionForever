@@ -20,6 +20,7 @@ private:
 	std::stack<Section*> section_stack_;
 	BaseAI* GetAI();
 	bool is_script_running_;
+	float sum_time_;
 public:
 	GameLua(void);
 	~GameLua(void);

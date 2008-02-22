@@ -1,10 +1,6 @@
+require "Utility"
+
 Challenge = {
-WaitTillDead = function()
-  coroutine.yield() -- I would ideally like to reduce this to one command wait_till_enemy_dead
-  while ENEMY_COUNT > 0 do
-    coroutine.yield()
-  end
-end,
 
 Script = coroutine.create(function()
 LoadShip("LuaShip2.lua")
@@ -18,19 +14,21 @@ for z = 1, 3 do
 		  SetAI("RotatingAI", 0.2)
 		  SetColor(0,128,0)
 		  SetPosition(x * 50, y * 50)
-		  ScaleHealth(0.0001)
+		  ScaleHealth(0.01)
 		  AddAsEnemy()
+		  Predicate.WaitFor(0.1)
 		end
 	end
-	Challenge.WaitTillDead()
+	Predicate.WaitTillDead()
 end
-Challenge.WaitTillDead()
-LoadShip("LuaShip2.lua")
-SetAI("RotatingAI", -0.2)
-SetColor(0,255,0)
-SetPosition(50, 20)
-ScaleHealth(5)
+Predicate.WaitTillDead()
+
+LoadShip("SpaceStation.lua")
+SetAI("RotatingAI", 0.05)
+SetColor(0,128,128)
+SetPosition(300,0)
 AddAsEnemy()
+
 
 end),
 EntryPoint = function()

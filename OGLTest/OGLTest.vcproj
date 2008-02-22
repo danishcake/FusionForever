@@ -239,6 +239,10 @@
 					RelativePath=".\RotatingAI.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\SimpleAI.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Decorations"
@@ -461,6 +465,10 @@
 					RelativePath=".\RotatingAI.h"
 					>
 				</File>
+				<File
+					RelativePath=".\SimpleAI.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Decorations"
@@ -643,12 +651,24 @@
 					RelativePath=".\LuaShip2.lua"
 					>
 				</File>
+				<File
+					RelativePath=".\SpaceStation.lua"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Challenges"
 				>
 				<File
 					RelativePath=".\Challenge1.lua"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Common"
+				>
+				<File
+					RelativePath=".\Utility.lua"
 					>
 				</File>
 			</Filter>

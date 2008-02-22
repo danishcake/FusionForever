@@ -169,6 +169,7 @@ GameLua::GameLua(void)
 	}
 	last_instantiation = this;
 	is_script_running_ = false; 
+	sum_time_ = 0;
 }
 
 GameLua::~GameLua(void)
@@ -407,6 +408,9 @@ void GameLua::ParseShip()
 			case st_WidePlate:
 				PushSection(new WidePlate());
 				break;
+			default:
+				//Handle spelling mistakes and whatnot.
+				break;
 
 
 		}
@@ -489,13 +493,14 @@ void GameLua::LoadChallenge(const char* challenge)
 
 void GameLua::Tick(int _friend_count, int _enemy_count, float _timespan)
 {
-	int a = lua_gettop(luaVM);
+	sum_time_ += _timespan;
 	lua_pushinteger(luaVM, _friend_count);
 	lua_setglobal(luaVM, "FRIEND_COUNT");
 	lua_pushinteger(luaVM, _enemy_count);
 	lua_setglobal(luaVM, "ENEMY_COUNT");
-	int b = lua_gettop(luaVM);
-	//TODO copy in the timespan and total time	
+	lua_pushnumber(luaVM, sum_time_);
+	lua_setglobal(luaVM, "TOTAL_TIME");
+
 	lua_getglobal(luaVM, "Challenge");
 	if(lua_istable(luaVM, -1))
 	{
@@ -523,7 +528,6 @@ void GameLua::Tick(int _friend_count, int _enemy_count, float _timespan)
 	{
 		lua_pop(luaVM, 1); //Pop what is probably nil
 	}
-	int c = lua_gettop(luaVM);
 }
 
 void GameLua::StackToCore()

@@ -8,6 +8,26 @@ Ship = {
 	--AI = {AIType = "KeyboardAI"},
 	SubSections = 
 	{
+    {
+      SectionType = "LongRigidArm",
+      Position = {x = 0, y = -10},
+      Angle = 180,
+      SubSections = 
+      {
+        {
+          SectionType = "SpinningJoint",
+          --Position = {x = 0, y = 0},
+          RotationRate = 90,
+          SubSections = 
+          {
+            {
+              SectionType = "Blaster",
+              Position = {x = 0, y = 5}
+            }
+          }			
+        }
+      }
+    },
 		{
 			SectionType = "WidePlate",
 			Position = {x = 0, y = -12.5},
@@ -37,36 +57,12 @@ Ship = {
 			SectionType = "Blaster"
 		},
 		{
-			SectionType = "SpinningJoint",
-			Position = {x = 10, y = 0},
-			RotationRate = 90,
-			SubSections = 
-			{
-				{
-					SectionType = "Blaster",
-					Position = {x = 0, y = 5}
-				}
-			}			
-		},
-		{
-			SectionType = "SpinningJoint",
-			Position = {x = -10, y = 0},
-			RotationRate = -90,
-			SubSections = 
-			{
-				{
-					SectionType = "Blaster",
-					Position = {x = 0, y = 5}
-				}
-			}			
-		},
-		{
 			SectionType = "JointAngles",
 			Position = {x = 0, y = 10},
-			FirstAngle = 30,
-			SecondAngle = -30,
-			TransitionTime = 1,
-			PauseTime = 1,
+			FirstAngle = 10,
+			SecondAngle = -10,
+			TransitionTime = 0.2,
+			PauseTime = 0.3,
 			SubSections = 
 			{
 				{
