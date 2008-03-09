@@ -55,7 +55,7 @@ AIAction KeyboardAI::Tick(float _timespan, std::list<Core_ptr>& _allies, std::li
 		action.firing_ = true;
 
 	Vector3f point_to_face = Vector3f((x - Camera::Instance().GetWindowWidth()/2.0f),
-		                              (Camera::Instance().GetWindowHeight()/2.0f - y), 0);
+		                              (y - Camera::Instance().GetWindowHeight()/2.0f), 0);
 	if(point_to_face.lengthSq()!=0)
 	{
 		float dotprod = GetTurnDirection(_self->GetAngle(), point_to_face);

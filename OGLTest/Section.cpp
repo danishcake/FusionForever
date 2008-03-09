@@ -13,14 +13,15 @@ Section::Section(void)
 	firing_ = false;
 	outline_color_base_ = GLColor(255, 255, 255);
 	default_sub_section_position_ = Vector3f(0,0,0);
-	homing_join_ = NULL;
 }
 
 Section::~Section(void)
 {
-	if(homing_join_ != NULL)
-		homing_join_->UnregisterSection();
-	homing_join_ = NULL;
+	BOOST_FOREACH(HomingJoin* homing_join, homing_joins_)
+	{
+		homing_join->UnregisterSection();
+	}
+	homing_joins_.clear();	
 }
 
 void Section::DrawSelf(void)
@@ -198,7 +199,11 @@ void Section::ScaleHealth(float _factor)
 		sub_section->ScaleHealth(_factor);
 	}
 }
-void Section::Unregister()
+void Section::UnregisterHomingJoin(HomingJoin* _homing_join)
 {
-	homing_join_ = NULL;
+	homing_joins_.remove(_homing_join);
+}
+void Section::RegisterHomingJoin(HomingJoin* _homing_join)
+{
+	homing_joins_.push_back(_homing_join);
 }

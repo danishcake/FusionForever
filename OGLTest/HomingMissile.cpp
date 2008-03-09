@@ -6,8 +6,17 @@ bool HomingMissile::initialised_ = false;
 int HomingMissile::outline_dl_ = 0;
 int HomingMissile::outline_verts_index_ = 0;
 
-HomingMissile::HomingMissile(HomingJoin* _homing_join, Vector3f _position)
-:HomingProjectile(_homing_join)
+static const float TOTAL_LIFETIME = 5;
+static const float ACCELERATION_START = 0.5f;
+static const float ACCELERATION_END = 1.5f;
+static const float SPEED_MIN = 100;
+static const float SPEED_MAX = 400;
+static const float TURN_START = 300;
+static const float TURN_END = 50;
+
+
+HomingMissile::HomingMissile(Vector3f _position)
+:HomingProjectile()
 {
 	if(!initialised_)
 	{
@@ -16,10 +25,11 @@ HomingMissile::HomingMissile(HomingJoin* _homing_join, Vector3f _position)
 	}
 	outline_verts_ = Datastore::Instance().GetVerts(outline_verts_index_);
 	outline_display_list_ = outline_dl_;
-	lifetime_ = 8;
-	damage_ = 500;
-	turn_rate_ = 10;
-	velocity_.y = 200;
+	lifetime_ = TOTAL_LIFETIME;
+	damage_ = 350;
+	turn_rate_ = 150;
+	scalar_speed_ = 200;
+	velocity_.y = scalar_speed_;
 	position_ = _position;
 }
 
@@ -45,4 +55,19 @@ void HomingMissile::initialise_outline()
 
 	outline_verts_index_ = Datastore::Instance().AddVerts(temp_outline);
 	outline_dl_ = CreateOutlinedDisplayList(temp_outline);
+}
+
+void HomingMissile::Tick(float _timespan, Matrix4f _transform)
+{
+	float scale;
+	if(lifetime_ > TOTAL_LIFETIME - ACCELERATION_START)
+		scale = 0.0f;
+	else if(lifetime_ > TOTAL_LIFETIME - ACCELERATION_END)
+		scale = ((TOTAL_LIFETIME-ACCELERATION_START) - lifetime_) / (ACCELERATION_END - ACCELERATION_START);
+	else
+		scale = 1.0f;
+
+	turn_rate_ = TURN_START + (TURN_END - TURN_START) * scale;
+	scalar_speed_ = SPEED_MIN + (SPEED_MAX - SPEED_MIN) * scale;
+	HomingProjectile::Tick(_timespan, _transform);
 }

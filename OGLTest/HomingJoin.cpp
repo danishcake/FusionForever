@@ -17,13 +17,13 @@ HomingJoin::~HomingJoin()
 void HomingJoin::UnregisterProjectile()
 {
 	//This should be called by the destructor of A. It unregisters B and then delete the join.
-	b_->Unregister();
+	b_->UnregisterHomingJoin(this);
 	delete this;
 }
 void HomingJoin::UnregisterSection()
 {
 	//This should be called by the destructor of B. It unregisters A and then delete the join.
-	a_->Unregister();
+	a_->UnregisterHomingJoin();
 	delete this;
 }
 

@@ -6,12 +6,14 @@ class HomingProjectile :
 	public Projectile
 {
 public:
-	HomingProjectile(HomingJoin* _homing_join);
+	HomingProjectile();
 	virtual ~HomingProjectile(void);
 	virtual void Tick(float _timespan, Matrix4f _transform);
-	void Unregister();
+	void UnregisterHomingJoin();
+	void RegisterHomingJoin(HomingJoin* _homing_join);
 protected:
 	HomingJoin* homing_join_;
 	float turn_rate_;
+	float scalar_speed_;
 };
 

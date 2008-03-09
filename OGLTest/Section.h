@@ -32,7 +32,7 @@ protected:
 	float damage_timer_;
 	GLColor outline_color_base_;
 	Vector3f default_sub_section_position_;
-	HomingJoin* homing_join_;
+	std::list<HomingJoin*> homing_joins_;
 	void findRadius();
 public:
 	Section(void);
@@ -45,7 +45,8 @@ public:
 	void SetColor(GLColor _color);
 	virtual void Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::list<Core_ptr>& _enemies);
 	virtual void GetDeathSpawn(std::list<Decoration_ptr>& _spawn_dec);
-	void Unregister();
+	void UnregisterHomingJoin(HomingJoin* _homing_join);
+	void RegisterHomingJoin(HomingJoin* _homing_join);
 
 
 	//Getters/Setters

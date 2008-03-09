@@ -8,6 +8,27 @@ Ship = {
 	--AI = {AIType = "KeyboardAI"},
 	SubSections = 
 	{
+	{
+		SectionType = "WidePlate",
+		Position = {x = 11, y = 5},
+		Angle = -60
+	},
+	{
+		SectionType = "WidePlate",
+		Position = {x = 11, y = -5},
+		Angle = -120
+	},
+	{
+		SectionType = "WidePlate",
+		Position = {x = -11, y = 5},
+		Angle = 60
+	},
+	{
+		SectionType = "WidePlate",
+		Position = {x = -11, y = -5},
+		Angle = 120
+	},
+	
     {
       SectionType = "LongRigidArm",
       Position = {x = 0, y = -10},

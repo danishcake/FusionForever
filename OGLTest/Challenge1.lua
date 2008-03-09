@@ -21,10 +21,29 @@ AddAsFriend()						--Adds the ship as a friend
 
 
 LoadShip("SpaceStation.lua")
+SetAI("RotatingAI", -0.05)
+SetColor(0,128,128)
+SetPosition(-150,-150)
+AddAsEnemy()
+
+LoadShip("SpaceStation.lua")
 SetAI("RotatingAI", 0.05)
 SetColor(0,128,128)
-SetPosition(300,0)
+SetPosition(150,-150)
 AddAsEnemy()
+
+LoadShip("SpaceStation.lua")
+SetAI("RotatingAI", -0.05)
+SetColor(0,128,128)
+SetPosition(150,150)
+AddAsEnemy()
+
+LoadShip("SpaceStation.lua")
+SetAI("RotatingAI", 0.05)
+SetColor(0,128,128)
+SetPosition(-150,150)
+AddAsEnemy()
+
 Predicate.WaitTillEnemiesDead()
 
 							--The following loops load 3x64 enemies
