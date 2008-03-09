@@ -252,6 +252,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MuzzleFlash.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Puff.cpp"
 					>
 				</File>
@@ -495,6 +499,10 @@
 				>
 				<File
 					RelativePath=".\Decoration.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MuzzleFlash.h"
 					>
 				</File>
 				<File

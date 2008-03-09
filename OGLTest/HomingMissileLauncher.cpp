@@ -1,21 +1,22 @@
 #include "StdAfx.h"
-#include "Blaster.h"
-#include "MuzzleFlash.h"
+#include "HomingMissileLauncher.h"
+#include "HomingMissile.h"
+#include "SmallBullet.h"
 
 //Initialise all static class members
-bool Blaster::initialised_ = false;
-int Blaster::outline_dl_ = 0;
-int Blaster::outline_verts_index_ = 0;
-int Blaster::fill_dl_ = 0;
-int Blaster::fill_verts_index_ = 0;
+bool HomingMissileLauncher::initialised_ = false;
+int HomingMissileLauncher::outline_dl_ = 0;
+int HomingMissileLauncher::outline_verts_index_ = 0;
+int HomingMissileLauncher::fill_dl_ = 0;
+int HomingMissileLauncher::fill_verts_index_ = 0;
 
-Blaster::Blaster(void)
+HomingMissileLauncher::HomingMissileLauncher(void)
 : FiringSection()
 {
 	if(!initialised_)
 	{
-		Blaster::initialise_outline();
-		Blaster::initialise_fill();
+		HomingMissileLauncher::initialise_outline();
+		HomingMissileLauncher::initialise_fill();
 		initialised_ = true;
 	}
    //Get the cached vertices
@@ -25,16 +26,16 @@ Blaster::Blaster(void)
 	fill_display_list_ = fill_dl_;
 	findRadius();
 
-	health_ = 500;
+	health_ = 1000;
 	max_health_ = health_;
-	cooldown_time_ = 0.1f;
+	cooldown_time_ = 0.4f;
 }
 
-Blaster::~Blaster(void)
+HomingMissileLauncher::~HomingMissileLauncher(void)
 {
 }
 
-void Blaster::initialise_fill(void)
+void HomingMissileLauncher::initialise_fill(void)
 {
 	boost::shared_ptr<std::vector<Vector3f>> temp_fill = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 	boost::shared_ptr<std::vector<Vector3f>> temp_outline = Datastore::Instance().GetVerts(outline_verts_index_);
@@ -55,7 +56,7 @@ void Blaster::initialise_fill(void)
 	fill_dl_ = CreateFillDisplayList(temp_fill);
 }
 
-void Blaster::initialise_outline(void)
+void HomingMissileLauncher::initialise_outline(void)
 {
 	boost::shared_ptr<std::vector<Vector3f>> temp_outline = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 
@@ -69,7 +70,7 @@ void Blaster::initialise_outline(void)
 	outline_dl_ = CreateOutlinedDisplayList(temp_outline);
 }
 
-void Blaster::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::list<Core_ptr>& _enemies)
+void HomingMissileLauncher::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::list<Core_ptr>& _enemies)
 {
 	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies);
 	cooldown_ -= _timespan;
@@ -77,7 +78,16 @@ void Blaster::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::
 	{
 		if(cooldown_ <= 0.0f)
 		{
-			fire_projectile(new SmallBullet(Vector3f(0, 5, 0)), _spawn_prj);
+			HomingMissile* hm = new HomingMissile(Vector3f(0, 5, 0));
+			if(_enemies.size() > 0)
+			{
+				int index = rand() % _enemies.size();
+				Section* target = (Section*)(*_enemies.begin()).get();
+				HomingJoin* hj = new HomingJoin(hm, target);
+				hm->RegisterHomingJoin(hj);
+				target->RegisterHomingJoin(hj);
+			}
+			fire_projectile(hm, _spawn_prj);
 			cooldown_ = cooldown_time_;
 		}
 	}

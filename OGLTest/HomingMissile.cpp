@@ -8,7 +8,7 @@ int HomingMissile::outline_verts_index_ = 0;
 
 static const float TOTAL_LIFETIME = 5;
 static const float ACCELERATION_START = 0.5f;
-static const float ACCELERATION_END = 1.5f;
+static const float ACCELERATION_END = 1.4f;
 static const float SPEED_MIN = 100;
 static const float SPEED_MAX = 400;
 static const float TURN_START = 300;
@@ -26,7 +26,7 @@ HomingMissile::HomingMissile(Vector3f _position)
 	outline_verts_ = Datastore::Instance().GetVerts(outline_verts_index_);
 	outline_display_list_ = outline_dl_;
 	lifetime_ = TOTAL_LIFETIME;
-	damage_ = 350;
+	damage_ = 380;
 	turn_rate_ = 150;
 	scalar_speed_ = 200;
 	velocity_.y = scalar_speed_;

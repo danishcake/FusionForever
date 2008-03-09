@@ -76,7 +76,6 @@ Ship = {
       Angle = 140,
       Position = {x = 10 * math.sin(math.rad(-150)), y = 10 * math.cos(math.rad(-150))},
       SubSections = {{SectionType = "WidePlate", Health = 50000}}      
-    },
-    
+    }
 	}
 }
