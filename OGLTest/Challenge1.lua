@@ -20,6 +20,13 @@ SetAI("KeyboardAI")					--Sets the last loaded ships AI
 AddAsFriend()						--Adds the ship as a friend
 
 
+LoadShip("SpaceStation.lua")
+SetAI("RotatingAI", 0.05)
+SetColor(0,128,128)
+SetPosition(300,0)
+AddAsEnemy()
+Predicate.WaitTillEnemiesDead()
+
 							--The following loops load 3x64 enemies
 for z = 1, 3 do						--with a 0.1s gap between each enemy and
 	for x = 1, 8 do					--in batches of 64 that must be killed entirely
@@ -35,13 +42,6 @@ for z = 1, 3 do						--with a 0.1s gap between each enemy and
 	end
 	Predicate.WaitTillEnemiesDead()
 end
-Predicate.WaitTillEnemiesDead()
-
-LoadShip("SpaceStation.lua")
-SetAI("RotatingAI", 0.05)
-SetColor(0,128,128)
-SetPosition(300,0)
-AddAsEnemy()
 
 end),							--End of resumable coroutine
 							--Now the coroutine status is "dead"

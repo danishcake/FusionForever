@@ -5,6 +5,7 @@
 #include "RigidArm.h"
 #include "LongRigidArm.h"
 #include "Blaster.h"
+#include "HomingMissileLauncher.h"
 #include "HeatBeamGun.h"
 #include "SpinningJoint.h"
 #include "JointAngles.h"
@@ -28,6 +29,7 @@ static enum SectionType
 	st_SquareCore,
 	st_RigidArm,
 	st_Blaster,
+	st_HomingMissileLauncher,
 	st_HeatBeam,
 	st_SpinningJoint,
 	st_JointAngles,
@@ -53,6 +55,7 @@ static void InitialiseMap()
 	SectionMap["PRONGRH"] = st_ProngRH;
 	SectionMap["PRONGLH"] = st_ProngLH;
 	SectionMap["WIDEPLATE"] = st_WidePlate;
+	SectionMap["HOMINGMISSILELAUNCHER"] = st_HomingMissileLauncher;
 }
 
 static int l_add_as_enemy(lua_State* luaVM)
@@ -408,11 +411,12 @@ void GameLua::ParseShip()
 			case st_WidePlate:
 				PushSection(new WidePlate());
 				break;
+			case st_HomingMissileLauncher:
+				PushSection(new HomingMissileLauncher());
+				break;
 			default:
 				//Handle spelling mistakes and whatnot.
 				break;
-
-
 		}
 
 

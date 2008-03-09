@@ -116,4 +116,14 @@ public:
 		v = ltv_transform_ * v;
 		return atan2f(-v.x,v.y)*180.0f/M_PI;
 	}
+
+	/**
+	  * Gets the position in global coordinates.
+	  * Useful for obtaining absolute positions of subsections
+	  * @return The position 0,0,0 transformed by ltv_transform_
+	  */
+	Vector3f GetGlobalPosition()
+	{
+		return ltv_position_;
+	}
 };

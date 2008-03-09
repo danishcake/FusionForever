@@ -189,10 +189,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\HomingMissile.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\OGLTest2.cpp"
 				>
 			</File>
@@ -273,6 +269,10 @@
 				>
 				<File
 					RelativePath=".\HomingJoin.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\HomingMissile.cpp"
 					>
 				</File>
 				<File
@@ -366,6 +366,10 @@
 						RelativePath=".\HeatBeamGun.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\HomingMissileLauncher.cpp"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -414,6 +418,10 @@
 							UsePrecompiledHeader="1"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\TurningRoutines.cpp"
+					>
 				</File>
 				<File
 					RelativePath=".\vmath-collisions.cpp"
@@ -604,6 +612,10 @@
 						RelativePath=".\HeatBeamGun.h"
 						>
 					</File>
+					<File
+						RelativePath=".\HomingMissileLauncher.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -647,6 +659,10 @@
 				</File>
 				<File
 					RelativePath=".\stdafx.h"
+					>
+				</File>
+				<File
+					RelativePath=".\TurningRoutines.h"
 					>
 				</File>
 				<File

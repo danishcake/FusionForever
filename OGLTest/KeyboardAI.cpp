@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "KeyboardAI.h"
+#include "TurningRoutines.h"
 
 #define ZOOM_TIME 0.3f
 
@@ -57,17 +58,10 @@ AIAction KeyboardAI::Tick(float _timespan, std::list<Core_ptr>& _allies, std::li
 		                              (Camera::Instance().GetWindowHeight()/2.0f - y), 0);
 	if(point_to_face.lengthSq()!=0)
 	{
-		point_to_face.normalize();
+		float dotprod = GetTurnDirection(_self->GetAngle(), point_to_face);
+		action.dtheta_ = ClampTurnDirection(dotprod, 0.4f);
 		Vector3f point_faced = Vector3f(-sinf(_self->GetAngle() * M_PI / 180.0f), cosf(_self->GetAngle() * M_PI / 180.0f), 0);
-		Vector3f right_vector = Vector3f(-sinf((_self->GetAngle()+90) * M_PI / 180.0f), cosf((_self->GetAngle()+90) * M_PI / 180.0f), 0);
-		float dotprod = right_vector.dotProduct(point_to_face);
-		if(fabsf(dotprod)>=0.4f)
-		{
-			action.dtheta_ = dotprod < 0 ? -1.0f : 1.0f;
-		} else
-		{
-			action.dtheta_ = dotprod*2.5f;
-		}
+
 		//Position camera
 		if(SDL_BUTTON_RMASK & mouse_state)
 		{
