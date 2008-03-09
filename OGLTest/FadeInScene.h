@@ -1,6 +1,10 @@
 #pragma once
 #include "BaseScene.h"
 
+/**
+  * The FadeInScene represents a fade in and should be push onto the scene vector after
+  * the item to be faded in.
+  */
 class FadeInScene :
 	public BaseScene
 {

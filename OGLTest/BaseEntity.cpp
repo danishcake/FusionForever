@@ -12,7 +12,7 @@ BaseEntity::BaseEntity(void)
 
 	ltv_transform_ = Matrix4f();
 	ltv_position_ = Vector3f();
-  position_specified_ = false;
+   position_specified_ = false;
 }
 
 BaseEntity::~BaseEntity(void)
@@ -27,9 +27,19 @@ void BaseEntity::Tick(float _timespan, Matrix4f _transform)
 	Matrix4f rotation = Matrix4f::createRotationAroundAxis(0,0,-angle_* DEGTORAD);
 	_transform = _transform * translation * rotation ;
 
+   /*Store position and transform
+    * As _transform is passed by value any overriding Tick methods structured like
+      Tick(float _timespan, Matrix4f _transform, ...)
+      {
+         BaseEntity::Tick(_timespan, _transform);
+         //Custom tick stuff
+      }
+      should ensure they use ltv_transform_, not _transform.
+    */
 	ltv_position_ = _transform.getTranslation();
 	ltv_transform_ = _transform;
 }
+
 BaseEntity* BaseEntity::localTransToGlobal(BaseEntity* _baseEntity)
 {
 	_baseEntity->SetPosition(ltv_transform_ * _baseEntity->GetPosition());

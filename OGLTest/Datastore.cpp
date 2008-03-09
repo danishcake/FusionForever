@@ -8,9 +8,8 @@ Datastore::Datastore(void)
 
 Datastore::~Datastore(void)
 {
-	
-}
 
+}
 
 int Datastore::AddVerts(boost::shared_ptr<std::vector<Vector3f>> _data)
 {
@@ -19,7 +18,7 @@ int Datastore::AddVerts(boost::shared_ptr<std::vector<Vector3f>> _data)
 }
 
 boost::shared_ptr<std::vector<Vector3f>> Datastore::GetVerts(int _index)
-{	
+{
 	return vert_list_[_index];
 }
 

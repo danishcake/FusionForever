@@ -19,9 +19,7 @@ void Decoration::Tick(float _timespan, Matrix4f _transform)
 
 bool Decoration::IsRemovable(Decoration_ptr dec)
 {
-	if(dec->GetLifetime()<=0)
-		return true;
-	return false;
+	return (dec->lifetime_ <= 0);
 }
 
 void Decoration::DrawSelf()

@@ -189,6 +189,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\HomingMissile.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OGLTest2.cpp"
 				>
 			</File>
@@ -267,6 +271,14 @@
 			<Filter
 				Name="Projectiles"
 				>
+				<File
+					RelativePath=".\HomingJoin.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\HomingProjectile.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\Projectile.cpp"
 					>
@@ -493,6 +505,18 @@
 			<Filter
 				Name="Projectiles"
 				>
+				<File
+					RelativePath=".\HomingJoin.h"
+					>
+				</File>
+				<File
+					RelativePath=".\HomingMissile.h"
+					>
+				</File>
+				<File
+					RelativePath=".\HomingProjectile.h"
+					>
+				</File>
 				<File
 					RelativePath=".\Projectile.h"
 					>

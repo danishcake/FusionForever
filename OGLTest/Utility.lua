@@ -1,7 +1,17 @@
+--Utility.lua
+--Contains various scripting utilities for flow control. 
+--When called these routines will not return until their conditions are fulfilled.
+
 Predicate = {
-WaitTillDead = function()
-  coroutine.yield() -- I would ideally like to reduce this to one command wait_till_enemy_dead
+WaitTillEnemiesDead = function()
+  coroutine.yield()
   while ENEMY_COUNT > 0 do
+    coroutine.yield()
+  end
+end,
+WaitTillFriendsDead = function()
+  coroutine.yield()
+  while FRIEND_COUNT > 0 do
     coroutine.yield()
   end
 end,

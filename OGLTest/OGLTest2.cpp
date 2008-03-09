@@ -16,8 +16,6 @@
 #include "Camera.h"
 
 
-#define WINDOW_SIZE 200
-
 clock_t ltv_time;
 std::vector<BaseScene_ptr> scene_stack;
 
@@ -65,7 +63,7 @@ void Tick()
 			last_root = it;
 		}
 	}
-	
+
 	std::vector<BaseScene_ptr> scene_spawn;
 	for(std::vector<BaseScene_ptr>::iterator it = last_root; it!=scene_stack.end(); it++)
 	{
@@ -98,14 +96,14 @@ int _tmain(int argc, _TCHAR* argv[])
 	SDL_WM_SetCaption("SDL Test", "SDL Test");
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_Surface* screen = SDL_SetVideoMode(Camera::Instance().GetWindowWidth(), Camera::Instance().GetWindowHeight(), 32, SDL_HWSURFACE | SDL_OPENGL | SDL_DOUBLEBUF);
-	
+
 	TwInit(TW_OPENGL, NULL);
 	TwWindowSize(Camera::Instance().GetWindowWidth(), Camera::Instance().GetWindowHeight());
 	//TwDeleteAllBars(); //I would very much like to do this, but there is a bug whereby resizing menus after this causes a crash :(
 
 	scene_stack.push_back(BaseScene_ptr(new MenuScene()));
 	scene_stack.push_back(BaseScene_ptr(new FadeInScene()));
-	
+
 
 	glClearColor(0.0f,0.0f,0.0f,0.0f);
 	glEnable(GL_BLEND);

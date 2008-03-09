@@ -25,7 +25,7 @@ lua_State* luaVM;
 static enum SectionType
 {
 	unknown_key,
-	st_SquareCore, 
+	st_SquareCore,
 	st_RigidArm,
 	st_Blaster,
 	st_HeatBeam,
@@ -111,7 +111,7 @@ static int l_set_color(lua_State* luaVM)
 		last_instantiation->SetColor(GLColor(r,g,b));
 	}
 	else
-	{ 
+	{
 		//Report incorrect params here
 	}
 	return 0;
@@ -130,7 +130,7 @@ static int l_override_ai(lua_State* luaVM)
 	assert(last_instantiation!=NULL);
 	std::string ai_string = lua_tostring(luaVM, 1);
 	std::transform(ai_string.begin(), ai_string.end(), ai_string.begin(), toupper);
-	
+
 	SectionType ai_type = SectionMap[ai_string];
 	BaseAI* ai = NULL;
 	switch(ai_type)
@@ -164,11 +164,11 @@ GameLua::GameLua(void)
 		lua_register(luaVM, "SetPosition", l_set_position);
 		lua_register(luaVM, "SetColor", l_set_color);
 		lua_register(luaVM, "LoadShip", l_load_ship);
-		lua_register(luaVM, "ScaleHealth", l_scale_health);	
+		lua_register(luaVM, "ScaleHealth", l_scale_health);
 		lua_register(luaVM, "SetAI", l_override_ai);
 	}
 	last_instantiation = this;
-	is_script_running_ = false; 
+	is_script_running_ = false;
 	sum_time_ = 0;
 }
 
@@ -200,9 +200,9 @@ void GameLua::PushCore(Core* _core)
 void GameLua::PushSection(Section* _section)
 {
 	if(!section_stack_.empty())
-	{		
+	{
 		section_stack_.top()->AddChild(_section);
-		section_stack_.push(_section);		
+		section_stack_.push(_section);
 	}
 }
 
@@ -249,12 +249,12 @@ void GameLua::SetHealth(float _health)
 }
 std::list<Core_ptr>& GameLua::GetFriends()
 {
-	return friends_;	
+	return friends_;
 }
 
 std::list<Core_ptr>& GameLua::GetEnemies()
 {
-	return enemies_;	
+	return enemies_;
 }
 
 lua_State* GameLua::GetLuaVM()
@@ -285,7 +285,7 @@ void GameLua::LoadShip(const char* ship)
 	}
 	else
 	{
-		
+
 	}
 
 }
@@ -340,7 +340,7 @@ void GameLua::ParseShip()
 							ai = new RotatingAI(0.2f);
 							break;
 						}
-						
+
 					}
 					else
 					{
@@ -353,7 +353,7 @@ void GameLua::ParseShip()
 				{
 					lua_pop(luaVM, 1); //Probably have nil at top of stack, so pop
 				}
-				
+
 
 				break;
 			}
@@ -456,7 +456,7 @@ void GameLua::ParseShip()
 			lua_pop(luaVM, 1);
 		}
 		lua_pop(luaVM, 1);
-		
+
 		//Now load all the subsections
 		lua_pushstring(luaVM, "SubSections");
 		lua_gettable(luaVM, -2);
@@ -472,7 +472,7 @@ void GameLua::ParseShip()
 			 }
 		}
 		lua_pop(luaVM, 1);
-		
+
 	}
 }
 
@@ -487,8 +487,37 @@ void GameLua::LoadChallenge(const char* challenge)
 	}
 	lua_pop(luaVM,1); //Pops challenge from stack
 
-	if(!luaL_dofile(luaVM, challenge))
+   is_script_running_ = false;
+   int load_result = luaL_loadfile(luaVM, challenge);
+
+   if(load_result == LUA_ERRSYNTAX)
+   {//Syntax error, should report what went wrong and abandon
+
+   } else if(load_result == LUA_ERRMEM)
+   {//Memory allocation error, should report error and abandon
+
+   } else
+   {//Loaded OK. Function ready to run at top of stack.
+      int run_result = lua_pcall(luaVM, 0, LUA_MULTRET, 0);
+      if(run_result == LUA_ERRRUN)
+      {//Runtime error, should report and abandon
+
+      } else if(run_result == LUA_ERRMEM)
+      {//Memory allocation error, should report and abandon
+
+      }else
+      {//Everything worked OK, script loaded
+         is_script_running_ = true;
+      }
+   }
+
+
+	/*if(!luaL_dofile(luaVM, challenge))
 		is_script_running_ = true;	//Loads the challenge table
+   else
+   {
+      //Unable to load challenge
+   }*/
 }
 
 void GameLua::Tick(int _friend_count, int _enemy_count, float _timespan)
@@ -548,7 +577,7 @@ void GameLua::OverrideAI(BaseAI* _AI)
 	else
 	{
 		//TODO report errors
-	}	
+	}
 }
 
 void GameLua::SetColor(GLColor _color)

@@ -2,6 +2,7 @@
 #include "Section.h"
 #include <boost/foreach.hpp>
 #include "Puff.h"
+#include "HomingJoin.h"
 
 Section::Section(void) 
 : BaseEntity(), Outlined(), Filled()
@@ -12,10 +13,14 @@ Section::Section(void)
 	firing_ = false;
 	outline_color_base_ = GLColor(255, 255, 255);
 	default_sub_section_position_ = Vector3f(0,0,0);
+	homing_join_ = NULL;
 }
 
 Section::~Section(void)
 {
+	if(homing_join_ != NULL)
+		homing_join_->UnregisterSection();
+	homing_join_ = NULL;
 }
 
 void Section::DrawSelf(void)
@@ -192,4 +197,8 @@ void Section::ScaleHealth(float _factor)
 	{
 		sub_section->ScaleHealth(_factor);
 	}
+}
+void Section::Unregister()
+{
+	homing_join_ = NULL;
 }

@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "Blaster.h"
 
+//Initialise all static class members
 bool Blaster::initialised_ = false;
 int Blaster::outline_dl_ = 0;
 int Blaster::outline_verts_index_ = 0;
@@ -16,6 +17,7 @@ Blaster::Blaster(void)
 		Blaster::initialise_fill();
 		initialised_ = true;
 	}
+   //Get the cached vertices
 	outline_verts_ = Datastore::Instance().GetVerts(outline_verts_index_);
 	outline_display_list_ = outline_dl_;
 	fill_verts_ = Datastore::Instance().GetVerts(fill_verts_index_);
@@ -59,8 +61,8 @@ void Blaster::initialise_outline(void)
 	temp_outline->push_back(Vector3f(0, -2.5f, 0));	//0
 	temp_outline->push_back(Vector3f(2.5f, 0, 0));	//1
 	temp_outline->push_back(Vector3f(1, 5, 0));		//2
-	temp_outline->push_back(Vector3f(-1, 5, 0));//3
-	temp_outline->push_back(Vector3f(-2.5f, 0, 0));		//4
+	temp_outline->push_back(Vector3f(-1, 5, 0));    //3
+	temp_outline->push_back(Vector3f(-2.5f, 0, 0));	//4
 
 	outline_verts_index_ = Datastore::Instance().AddVerts(temp_outline);
 	outline_dl_ = CreateOutlinedDisplayList(temp_outline);
@@ -68,7 +70,7 @@ void Blaster::initialise_outline(void)
 
 void Blaster::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::list<Core_ptr>& _enemies)
 {
-	Section::Tick(_timespan, _spawn_prj, _spawn_dec,_transform, _enemies);
+	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies);
 	cooldown_ -= _timespan;
 	if(firing_)
 	{

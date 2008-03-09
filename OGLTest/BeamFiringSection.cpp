@@ -4,7 +4,6 @@
 BeamFiringSection::BeamFiringSection(void)
 : Section()
 {
-	ltv_is_firing_ = false;
 }
 
 BeamFiringSection::~BeamFiringSection(void)
@@ -18,7 +17,6 @@ void BeamFiringSection::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_
 	{
 		beam_->Tick(_timespan, _spawn_dec, ltv_transform_, _enemies);
 	}
-	ltv_is_firing_ = firing_;
 }
 
 void BeamFiringSection::DrawSelf()
