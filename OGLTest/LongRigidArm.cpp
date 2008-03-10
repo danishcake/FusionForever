@@ -12,8 +12,8 @@ LongRigidArm::LongRigidArm(void)
 {
 	if(!initialised_)
 	{
-		LongRigidArm::initialise_outline();
-		LongRigidArm::initialise_fill();
+		initialise_outline();
+		initialise_fill();
 		initialised_ = true;
 	}
 	outline_verts_ = Datastore::Instance().GetVerts(outline_verts_index_);

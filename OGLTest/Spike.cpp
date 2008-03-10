@@ -12,8 +12,8 @@ Spike::Spike(void)
 {
 	if(!initialised_)
 	{
-		Spike::initialise_outline();
-		Spike::initialise_fill();
+		initialise_outline();
+		initialise_fill();
 		initialised_ = true;
 	}
 	outline_verts_ = Datastore::Instance().GetVerts(outline_verts_index_);

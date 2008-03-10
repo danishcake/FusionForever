@@ -13,8 +13,8 @@ Blaster::Blaster(void)
 {
 	if(!initialised_)
 	{
-		Blaster::initialise_outline();
-		Blaster::initialise_fill();
+		initialise_outline();
+		initialise_fill();
 		initialised_ = true;
 	}
    //Get the cached vertices

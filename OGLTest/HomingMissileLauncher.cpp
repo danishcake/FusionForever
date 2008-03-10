@@ -15,8 +15,8 @@ HomingMissileLauncher::HomingMissileLauncher(void)
 {
 	if(!initialised_)
 	{
-		HomingMissileLauncher::initialise_outline();
-		HomingMissileLauncher::initialise_fill();
+		initialise_outline();
+		initialise_fill();
 		initialised_ = true;
 	}
    //Get the cached vertices

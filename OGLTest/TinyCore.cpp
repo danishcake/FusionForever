@@ -1,14 +1,14 @@
 #include "StdAfx.h"
-#include "RigidArm.h"
+#include "TinyCore.h"
 
-bool RigidArm::initialised_ = false;
-int RigidArm::outline_dl_ = 0;
-int RigidArm::outline_verts_index_ = 0;
-int RigidArm::fill_dl_ = 0;
-int RigidArm::fill_verts_index_ = 0;
+bool TinyCore::initialised_ = false;
+int TinyCore::outline_dl_ = 0;
+int TinyCore::outline_verts_index_ = 0;
+int TinyCore::fill_dl_ = 0;
+int TinyCore::fill_verts_index_ = 0;
 
-RigidArm::RigidArm(void)
-: Section()
+TinyCore::TinyCore(BaseAI* _AI)
+: Core(_AI)
 {
 	if(!initialised_)
 	{
@@ -20,18 +20,18 @@ RigidArm::RigidArm(void)
 	outline_display_list_ = outline_dl_;
 	fill_verts_ = Datastore::Instance().GetVerts(fill_verts_index_);
 	fill_display_list_ = fill_dl_;
+
 	findRadius();
 
-	health_ = 800;
+	health_ = 5000;
 	max_health_ = health_;
-	default_sub_section_position_ = Vector3f(0, 7.5f, 0);
 }
 
-RigidArm::~RigidArm(void)
+TinyCore::~TinyCore(void)
 {
 }
 
-void RigidArm::initialise_fill(void)
+void TinyCore::initialise_fill(void)
 {
 	boost::shared_ptr<std::vector<Vector3f>> temp_fill = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 	boost::shared_ptr<std::vector<Vector3f>> temp_outline = Datastore::Instance().GetVerts(outline_verts_index_);
@@ -44,11 +44,11 @@ void RigidArm::initialise_fill(void)
 	temp_fill->push_back((*temp_outline)[2]);
 	temp_fill->push_back((*temp_outline)[3]);
 
-	temp_fill->push_back((*temp_outline)[0]);
+	temp_fill->push_back((*temp_outline)[0]);	
 	temp_fill->push_back((*temp_outline)[3]);
 	temp_fill->push_back((*temp_outline)[4]);
 
-	temp_fill->push_back((*temp_outline)[0]);
+	temp_fill->push_back((*temp_outline)[0]);	
 	temp_fill->push_back((*temp_outline)[4]);
 	temp_fill->push_back((*temp_outline)[5]);
 
@@ -56,22 +56,17 @@ void RigidArm::initialise_fill(void)
 	fill_dl_ = CreateFillDisplayList(temp_fill);
 }
 
-void RigidArm::initialise_outline(void)
+void TinyCore::initialise_outline(void)
 {
 	boost::shared_ptr<std::vector<Vector3f>> temp_outline = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
-	Vector3f rotate_point_ = Vector3f(2.5f,2.5f,0);
 
-	temp_outline->push_back(Vector3f(2.5f,0,0));	//0
-	temp_outline->push_back(Vector3f(0,2.5f,0));	//1
-	temp_outline->push_back(Vector3f(0,10,0));		//2
-	temp_outline->push_back(Vector3f(2.5f,7.5f,0));//3
-	temp_outline->push_back(Vector3f(5,10,0));		//4
-	temp_outline->push_back(Vector3f(5,2.5,0));	//5
-
-	for(int i = 0; i < temp_outline->size(); i++)
-	{
-		(*temp_outline)[i] -= rotate_point_;
-	}
+	temp_outline->push_back(Vector3f(-3.75f,0,0));	//0
+	temp_outline->push_back(Vector3f(-1.25f,5,0));	//1
+	temp_outline->push_back(Vector3f(1.25f,5,0));		//2
+	temp_outline->push_back(Vector3f(3.75f,0,0)); //3
+	temp_outline->push_back(Vector3f(3.75f,0,0)); //4
+	temp_outline->push_back(Vector3f(1.25f,-2.5f,0)); //5
+	temp_outline->push_back(Vector3f(-1.25f,-2.5f,0)); //6
 
 	outline_verts_index_ = Datastore::Instance().AddVerts(temp_outline);
 	outline_dl_ = CreateOutlinedDisplayList(temp_outline);	

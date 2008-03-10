@@ -312,6 +312,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\NarrowProngLH.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\ProngLH.cpp"
 					>
 				</File>
@@ -348,6 +352,10 @@
 					</File>
 					<File
 						RelativePath=".\SquareCore.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\TinyCore.cpp"
 						>
 					</File>
 				</Filter>
@@ -562,6 +570,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\NarrowProngLH.h"
+					>
+				</File>
+				<File
 					RelativePath=".\ProngLH.h"
 					>
 				</File>
@@ -598,6 +610,10 @@
 					</File>
 					<File
 						RelativePath=".\SquareCore.h"
+						>
+					</File>
+					<File
+						RelativePath=".\TinyCore.h"
 						>
 					</File>
 				</Filter>

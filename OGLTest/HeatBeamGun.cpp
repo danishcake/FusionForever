@@ -13,8 +13,8 @@ HeatBeamGun::HeatBeamGun(void)
 {
 	if(!initialised_)
 	{
-		HeatBeamGun::initialise_outline();
-		HeatBeamGun::initialise_fill();
+		initialise_outline();
+		initialise_fill();
 		initialised_ = true;
 	}
 	outline_verts_ = Datastore::Instance().GetVerts(outline_verts_index_);
