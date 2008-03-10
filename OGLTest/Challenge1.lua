@@ -44,6 +44,12 @@ SetColor(0,128,128)
 SetPosition(-150,150)
 AddAsEnemy()
 
+LoadShip("SpikeyShip.lua")
+SetAI("RotatingAI", 0.3)
+SetColor(0,128,128)
+SetPosition(0,0)
+AddAsEnemy()
+
 Predicate.WaitTillEnemiesDead()
 
 							--The following loops load 3x64 enemies

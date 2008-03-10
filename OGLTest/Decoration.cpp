@@ -28,4 +28,4 @@ void Decoration::DrawSelf()
 	glLoadMatrixf(ltv_transform_);
 	Filled::DrawFillDisplayList();
 	glPopMatrix();
-}
+} 

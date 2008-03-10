@@ -252,10 +252,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\MuzzleFlash.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\Puff.cpp"
 					>
 				</File>
@@ -329,6 +325,10 @@
 				</File>
 				<File
 					RelativePath=".\Section.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Spike.cpp"
 					>
 				</File>
 				<File
@@ -502,10 +502,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\MuzzleFlash.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Puff.h"
 					>
 				</File>
@@ -579,6 +575,10 @@
 				</File>
 				<File
 					RelativePath=".\Section.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Spike.h"
 					>
 				</File>
 				<File
@@ -695,6 +695,10 @@
 				</File>
 				<File
 					RelativePath=".\SpaceStation.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\SpikeyShip.lua"
 					>
 				</File>
 			</Filter>

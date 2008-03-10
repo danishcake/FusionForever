@@ -8,10 +8,10 @@ Ship = {
 	--AI = {AIType = "KeyboardAI"},
 	SubSections = 
 	{
-	  {
+	{
 	    SectionType = "HomingMissileLauncher"
-	  },
-	  {
+    },
+    {
       SectionType = "LongRigidArm", Health = 50000,
       Position = {x = 0, y = 10},
       Angle = 0,      

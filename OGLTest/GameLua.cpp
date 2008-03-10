@@ -12,6 +12,7 @@
 #include "ProngLH.h"
 #include "ProngRH.h"
 #include "WidePlate.h"
+#include "Spike.h"
 
 #include "RotatingAI.h"
 #include "KeyboardAI.h"
@@ -36,6 +37,7 @@ static enum SectionType
 	st_LongRigidArm,
 	st_ProngLH,
 	st_ProngRH,
+	st_Spike,
 	st_WidePlate,
 	ai_RotatingAI,
 	ai_KeyboardAI
@@ -56,6 +58,7 @@ static void InitialiseMap()
 	SectionMap["PRONGLH"] = st_ProngLH;
 	SectionMap["WIDEPLATE"] = st_WidePlate;
 	SectionMap["HOMINGMISSILELAUNCHER"] = st_HomingMissileLauncher;
+	SectionMap["SPIKE"] = st_Spike;
 }
 
 static int l_add_as_enemy(lua_State* luaVM)
@@ -413,6 +416,9 @@ void GameLua::ParseShip()
 				break;
 			case st_HomingMissileLauncher:
 				PushSection(new HomingMissileLauncher());
+				break;
+			case st_Spike: 
+				PushSection(new Spike());
 				break;
 			default:
 				//Handle spelling mistakes and whatnot.

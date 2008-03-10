@@ -1,6 +1,5 @@
 #include "StdAfx.h"
 #include "Blaster.h"
-#include "MuzzleFlash.h"
 
 //Initialise all static class members
 bool Blaster::initialised_ = false;
