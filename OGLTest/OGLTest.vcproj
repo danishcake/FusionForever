@@ -304,43 +304,7 @@
 				Name="Sections"
 				>
 				<File
-					RelativePath=".\JointAngles.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\LongRigidArm.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\NarrowProngLH.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\ProngLH.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\ProngRH.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\RigidArm.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\Section.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Spike.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\SpinningJoint.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\WidePlate.cpp"
 					>
 				</File>
 				<Filter
@@ -380,6 +344,106 @@
 					</File>
 					<File
 						RelativePath=".\HomingMissileLauncher.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Active"
+					>
+					<File
+						RelativePath=".\JointAngles.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\SpinningJoint.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Inactive"
+					>
+					<File
+						RelativePath=".\ForwardWingLH.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ForwardWingRH.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\LargeSquare.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\LongRigidArm.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\NarrowProngLH.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\NarrowProngRH.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ProngLH.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ProngRH.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\QuarterCircle.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\RightAngleTriangle.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\RigidArm.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\SemiCircle.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\SmallSquare.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Spike.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\SpikeLH.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\SpikeRH.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\SweptWingLH.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\SweptWingRH.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\WidePlate.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\WingLH.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\WingRH.cpp"
 						>
 					</File>
 				</Filter>
@@ -562,43 +626,7 @@
 				Name="Sections"
 				>
 				<File
-					RelativePath=".\JointAngles.h"
-					>
-				</File>
-				<File
-					RelativePath=".\LongRigidArm.h"
-					>
-				</File>
-				<File
-					RelativePath=".\NarrowProngLH.h"
-					>
-				</File>
-				<File
-					RelativePath=".\ProngLH.h"
-					>
-				</File>
-				<File
-					RelativePath=".\ProngRH.h"
-					>
-				</File>
-				<File
-					RelativePath=".\RigidArm.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Section.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Spike.h"
-					>
-				</File>
-				<File
-					RelativePath=".\SpinningJoint.h"
-					>
-				</File>
-				<File
-					RelativePath=".\WidePlate.h"
 					>
 				</File>
 				<Filter
@@ -638,6 +666,106 @@
 					</File>
 					<File
 						RelativePath=".\HomingMissileLauncher.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Active"
+					>
+					<File
+						RelativePath=".\JointAngles.h"
+						>
+					</File>
+					<File
+						RelativePath=".\SpinningJoint.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Inactive"
+					>
+					<File
+						RelativePath=".\ForwardWingLH.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ForwardWingRH.h"
+						>
+					</File>
+					<File
+						RelativePath=".\LargeSquare.h"
+						>
+					</File>
+					<File
+						RelativePath=".\LongRigidArm.h"
+						>
+					</File>
+					<File
+						RelativePath=".\NarrowProngLH.h"
+						>
+					</File>
+					<File
+						RelativePath=".\NarrowProngRH.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ProngLH.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ProngRH.h"
+						>
+					</File>
+					<File
+						RelativePath=".\QuarterCircle.h"
+						>
+					</File>
+					<File
+						RelativePath=".\RightAngleTriangle.h"
+						>
+					</File>
+					<File
+						RelativePath=".\RigidArm.h"
+						>
+					</File>
+					<File
+						RelativePath=".\SemiCircle.h"
+						>
+					</File>
+					<File
+						RelativePath=".\SmallSquare.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Spike.h"
+						>
+					</File>
+					<File
+						RelativePath=".\SpikeLH.h"
+						>
+					</File>
+					<File
+						RelativePath=".\SpikeRH.h"
+						>
+					</File>
+					<File
+						RelativePath=".\SweptWingLH.h"
+						>
+					</File>
+					<File
+						RelativePath=".\SweptWingRH.h"
+						>
+					</File>
+					<File
+						RelativePath=".\WidePlate.h"
+						>
+					</File>
+					<File
+						RelativePath=".\WingLH.h"
+						>
+					</File>
+					<File
+						RelativePath=".\WingRH.h"
 						>
 					</File>
 				</Filter>

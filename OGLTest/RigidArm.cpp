@@ -68,7 +68,7 @@ void RigidArm::initialise_outline(void)
 	temp_outline->push_back(Vector3f(5,10,0));		//4
 	temp_outline->push_back(Vector3f(5,2.5,0));	//5
 
-	for(int i = 0; i < temp_outline->size(); i++)
+	for(unsigned int i = 0; i < temp_outline->size(); i++)
 	{
 		(*temp_outline)[i] -= rotate_point_;
 	}

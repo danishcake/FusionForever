@@ -4,12 +4,20 @@
 #include "Puff.h"
 #include "HomingJoin.h"
 
-Section::Section(void) 
+bool zero_or_less(float _value)
+{
+	return (_value <= 0);
+}
+
+
+Section::Section(void)
 : BaseEntity(), Outlined(), Filled()
 {
 	health_ = 800;
 	max_health_ = 800;
 	damage_timer_ = 0;
+	firing_delay_ = 0;
+	ltv_firing_ = false;
 	firing_ = false;
 	outline_color_base_ = GLColor(255, 255, 255);
 	default_sub_section_position_ = Vector3f(0,0,0);
@@ -21,7 +29,7 @@ Section::~Section(void)
 	{
 		homing_join->UnregisterSection();
 	}
-	homing_joins_.clear();	
+	homing_joins_.clear();
 }
 
 void Section::DrawSelf(void)
@@ -75,7 +83,20 @@ void Section::GetDeathSpawn(std::list<Decoration_ptr>& _spawn_dec)
 void Section::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::list<Core_ptr>& _enemies)
 {
 	BaseEntity::Tick(_timespan, _transform); // Use ltv_transform after this as _transform is passed by value
-	
+
+	BOOST_FOREACH(float& delay, firing_edges_)
+	{
+		delay -= _timespan;
+		if(delay <= 0)
+		{
+ 			firing_ = !firing_;
+		}
+	}
+	firing_edges_.erase(std::remove_if(firing_edges_.begin(), firing_edges_.end(),
+		                zero_or_less), firing_edges_.end());
+
+
+
 	BOOST_FOREACH(Section_ptr section, sub_sections_)
 	{
 		if(section->GetHealth() <=0)
@@ -89,7 +110,7 @@ void Section::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::
 		}
 	}
 
-	sub_sections_.erase(std::remove_if(sub_sections_.begin(), sub_sections_.end(), 
+	sub_sections_.erase(std::remove_if(sub_sections_.begin(), sub_sections_.end(),
 		                Section::IsRemovable), sub_sections_.end());
 	damage_timer_ -= _timespan;
 
@@ -98,16 +119,17 @@ void Section::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::
 	else
 		outline_color_ = outline_color_base_;
 }
+
 bool Section::CheckCollisions(Projectile_ptr _projectile)
 {
 	bool hasCollided = false;
 	if(Collisions2f::CirclesIntersect(_projectile->GetPosition(), _projectile->GetRadius(), ltv_position_, radius_))
 	{//Bounding circle test passed, do proper test
-		for(int vert = 0; vert < fill_verts_->size(); vert+=3)
+		for(unsigned int vert = 0; vert < fill_verts_->size(); vert+=3)
 		{
 			if(Collisions2f::PointInTriangle(ltv_transform_ * (*fill_verts_)[vert], ltv_transform_ * (*fill_verts_)[vert+1], ltv_transform_ * (*fill_verts_)[vert+2], _projectile->GetPosition()))
 			{
-				hasCollided = true; //This is where we decided that the collision has taken place				
+				hasCollided = true; //This is where we decided that the collision has taken place
 				TakeDamage(_projectile->GetDamage());
 				_projectile->SetLifetime(0);
 				break;
@@ -129,7 +151,7 @@ bool Section::CheckCollisions(Projectile_ptr _projectile)
 void Section::RayCollisionFilter(Vector3f P1, Vector3f P2, std::list<Section*>& _valid_sections, float& _min_distance, float& _max_distance)
 {
 	bool hasCollided = false;
-	
+
 	if(Collisions2f::LineInCircle(P1, P2, ltv_position_, radius_))
 	{
 		_valid_sections.push_back(this);
@@ -149,10 +171,10 @@ void Section::RayCollisionFilter(Vector3f P1, Vector3f P2, std::list<Section*>& 
 bool Section::CheckCollisions(Vector3f _location, Section*& _section)
 {
 	bool hasCollided = false;
-	
+
 	if(Collisions2f::PointInCircle(_location, ltv_position_, radius_))
 	{//Bounding circle test passed, do proper test
-		for(int vert = 0; vert < fill_verts_->size(); vert+=3)
+		for(unsigned int vert = 0; vert < fill_verts_->size(); vert+=3)
 		{
 			if(Collisions2f::PointInTriangle(ltv_transform_ * (*fill_verts_)[vert], ltv_transform_ * (*fill_verts_)[vert+1], ltv_transform_ * (*fill_verts_)[vert+2], _location))
 			{
@@ -184,7 +206,7 @@ bool Section::IsRemovable(Section_ptr section)
 void Section::SetColor(GLColor _color)
 {
 	this->fill_color_= _color;
-	for(int i = 0; i < sub_sections_.size(); i++)
+	for(unsigned int i = 0; i < sub_sections_.size(); i++)
 	{
 		sub_sections_[i]->SetColor(_color);
 	}
@@ -206,4 +228,13 @@ void Section::UnregisterHomingJoin(HomingJoin* _homing_join)
 void Section::RegisterHomingJoin(HomingJoin* _homing_join)
 {
 	homing_joins_.push_back(_homing_join);
+}
+
+void Section::SetFiring(bool _firing)
+{
+	if(_firing != ltv_firing_)
+	{
+		firing_edges_.push_back(firing_delay_);
+		ltv_firing_ = _firing;
+	}
 }

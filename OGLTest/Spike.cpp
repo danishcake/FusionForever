@@ -48,9 +48,9 @@ void Spike::initialise_outline(void)
 {
 	boost::shared_ptr<std::vector<Vector3f>> temp_outline = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 
-	temp_outline->push_back(Vector3f(4,0,0));	//0
+	temp_outline->push_back(Vector3f(2.5f,0,0));	//0
 	temp_outline->push_back(Vector3f(0, 10, 0));	//1
-	temp_outline->push_back(Vector3f(-4,0,0));		//2
+	temp_outline->push_back(Vector3f(-2.5f,0,0));		//2
 
 	outline_verts_index_ = Datastore::Instance().AddVerts(temp_outline);
 	outline_dl_ = CreateOutlinedDisplayList(temp_outline);	

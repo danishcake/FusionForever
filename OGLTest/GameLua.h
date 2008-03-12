@@ -38,6 +38,7 @@ public:
 	void SetHealth(float _health);
 	void ScaleHealth(float _scale);
 	void SetColor(GLColor _color);
+	void SetFiringDelay(float _firing_delay);
 
 	void AddAsFriend();
 	void AddAsEnemy();

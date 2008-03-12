@@ -25,6 +25,7 @@ SquareCore::SquareCore(BaseAI* _AI)
 
 	health_ = 5000;
 	max_health_ = health_;
+	default_sub_section_position_ = Vector3f(0, 10, 0);
 }
 
 SquareCore::~SquareCore(void)

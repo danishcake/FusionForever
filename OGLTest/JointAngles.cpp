@@ -28,6 +28,7 @@ JointAngles::JointAngles(float _first_angle, float _second_angle, float _transit
 	second_angle_ = _second_angle;
 	transition_time_ = _transition_time;
 	pause_time_ = _pause_time;
+	default_sub_section_position_ = Vector3f(0, 0, 0);
 }
 
 JointAngles::~JointAngles()

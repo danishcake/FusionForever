@@ -23,8 +23,9 @@ TinyCore::TinyCore(BaseAI* _AI)
 
 	findRadius();
 
-	health_ = 5000;
+	health_ = 3000;
 	max_health_ = health_;
+	default_sub_section_position_ = Vector3f(0, 5, 0);
 }
 
 TinyCore::~TinyCore(void)
@@ -60,13 +61,12 @@ void TinyCore::initialise_outline(void)
 {
 	boost::shared_ptr<std::vector<Vector3f>> temp_outline = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 
-	temp_outline->push_back(Vector3f(-3.75f,0,0));	//0
-	temp_outline->push_back(Vector3f(-1.25f,5,0));	//1
-	temp_outline->push_back(Vector3f(1.25f,5,0));		//2
-	temp_outline->push_back(Vector3f(3.75f,0,0)); //3
-	temp_outline->push_back(Vector3f(3.75f,0,0)); //4
-	temp_outline->push_back(Vector3f(1.25f,-2.5f,0)); //5
-	temp_outline->push_back(Vector3f(-1.25f,-2.5f,0)); //6
+	temp_outline->push_back(Vector3f(-7.5f,0,0));	//0
+	temp_outline->push_back(Vector3f(-2.5f,10,0));	//1
+	temp_outline->push_back(Vector3f(2.5f,10,0));		//2
+	temp_outline->push_back(Vector3f(7.5f,0,0)); //3
+	temp_outline->push_back(Vector3f(2.5f,-5,0)); //4
+	temp_outline->push_back(Vector3f(-2.5f,-5,0)); //5
 
 	outline_verts_index_ = Datastore::Instance().AddVerts(temp_outline);
 	outline_dl_ = CreateOutlinedDisplayList(temp_outline);	

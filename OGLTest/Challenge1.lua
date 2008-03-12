@@ -19,12 +19,15 @@ LoadShip("LuaShip2.lua")				--Loads a ship but doesn't add it to the world
 SetAI("KeyboardAI")					--Sets the last loaded ships AI
 AddAsFriend()						--Adds the ship as a friend
 
+Predicate.WaitFor(0.5)
 
-LoadShip("SpaceStation.lua")
-SetAI("RotatingAI", -0.05)
+LoadShip("SpikeyShip.lua")
+SetAI("RotatingAI", 0.3)
 SetColor(0,128,128)
-SetPosition(-150,-150)
+SetPosition(0,0)
 AddAsEnemy()
+
+Predicate.WaitFor(5)
 
 LoadShip("SpaceStation.lua")
 SetAI("RotatingAI", 0.05)
@@ -44,10 +47,10 @@ SetColor(0,128,128)
 SetPosition(-150,150)
 AddAsEnemy()
 
-LoadShip("SpikeyShip.lua")
-SetAI("RotatingAI", 0.3)
+LoadShip("SpaceStation.lua")
+SetAI("RotatingAI", -0.05)
 SetColor(0,128,128)
-SetPosition(0,0)
+SetPosition(-150,-150)
 AddAsEnemy()
 
 Predicate.WaitTillEnemiesDead()

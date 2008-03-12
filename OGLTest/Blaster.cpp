@@ -27,6 +27,7 @@ Blaster::Blaster(void)
 	health_ = 500;
 	max_health_ = health_;
 	cooldown_time_ = 0.1f;
+	default_sub_section_position_ = Vector3f(0, 0, 0);
 }
 
 Blaster::~Blaster(void)

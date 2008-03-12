@@ -32,7 +32,7 @@ GameScene::~GameScene(void)
 
 void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 {
-	game_lua_.Tick(friends_.size(), enemies_.size(), _timespan);
+	game_lua_.Tick(static_cast<int>(friends_.size()), static_cast<int>(enemies_.size()), _timespan);
 
 	enemies_.splice(enemies_.begin(), game_lua_.GetEnemies());
 	friends_.splice(friends_.begin(), game_lua_.GetFriends());

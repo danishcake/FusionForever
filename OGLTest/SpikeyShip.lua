@@ -3,39 +3,62 @@ Ship = {
 	Name = "SpikeyShip",
 	Health = 1000,
 	Angle = 0,
-	Position = {x = 0, y = 10},
 	AI = {AIType = "RotatingAI", AIRotationRate = 0.5},
 	SubSections = 
 	{
 		{
-		SectionType = "Spike",
-		Position = {x = 0, y = 10},
-		Angle = 0
+			SectionType = "ProngLH",
+			Position = {x = -10, y = 5},
 		},
 		{
-		SectionType = "Spike",
-		Position = {x = 8, y = 10},
-		Angle = 0
+			SectionType = "ProngRH",
+			Position = {x = 10, y = 5},
 		},
 		{
-		SectionType = "Spike",
-		Position = {x = -8, y = 10},
-		Angle = 0
+			SectionType = "WingRH",
+			Position = {x = 7.5, y = 0},
+			SubSections = 
+			{
+				{
+					SectionType = "RigidArm",
+					Delay = 0.5,
+					SubSections = 
+					{
+						{
+							SectionType = "Blaster",
+							Angle = 90,
+						},
+						{
+							SectionType = "RigidArm",
+							Delay = 0.5,
+							SubSections = 
+							{
+								{
+									SectionType = "Blaster",
+									Angle = 90,
+								},
+							},
+						},
+					},
+				},
+			},
 		},
 		{
-		SectionType = "Spike",
-		Position = {x = 0, y = -10},
-		Angle = 180
+			SectionType = "WingLH",
+			Position = {x = -7.5, y =0},
 		},
 		{
-		SectionType = "Spike",
-		Position = {x = 8, y = -10},
-		Angle = 180
+			SectionType = "SweptWingLH",
+			Position = {x = -7.5, y = -5},
 		},
 		{
-		SectionType = "Spike",
-		Position = {x = -8, y = -10},
-		Angle = 180
+			SectionType = "SweptWingRH",
+			Position = {x = 7.5, y = -5},
 		},
+		{
+			SectionType = "SemiCircle",
+			Position = {x = 0, y = -5},
+			Angle = 180
+		}
 	}
 }

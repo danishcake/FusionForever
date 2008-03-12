@@ -25,6 +25,7 @@ SpinningJoint::SpinningJoint(float _degrees_per_second)
 	health_ = 800;
 	max_health_ = health_;
 	degrees_per_second_ = _degrees_per_second;
+	default_sub_section_position_ = Vector3f(0, 0, 0);
 }
 
 SpinningJoint::~SpinningJoint()

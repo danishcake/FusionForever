@@ -13,6 +13,21 @@
 #include "ProngRH.h"
 #include "WidePlate.h"
 #include "Spike.h"
+#include "SpikeLH.h"
+#include "SpikeRH.h"
+#include "ForwardWingLH.h"
+#include "ForwardWingRH.h"
+#include "LargeSquare.h"
+#include "SmallSquare.h"
+#include "NarrowProngLH.h"
+#include "NarrowProngRH.h"
+#include "QuarterCircle.h"
+#include "SemiCircle.h"
+#include "SweptWingLH.h"
+#include "SweptWingRH.h"
+#include "WingLH.h"
+#include "WingRH.h"
+#include "TinyCore.h"
 
 #include "RotatingAI.h"
 #include "KeyboardAI.h"
@@ -28,6 +43,7 @@ static enum SectionType
 {
 	unknown_key,
 	st_SquareCore,
+	st_TinyCore,
 	st_RigidArm,
 	st_Blaster,
 	st_HomingMissileLauncher,
@@ -38,7 +54,21 @@ static enum SectionType
 	st_ProngLH,
 	st_ProngRH,
 	st_Spike,
+	st_SpikeLH,
+	st_SpikeRH,
 	st_WidePlate,
+	st_ForwardWingLH,
+	st_ForwardWingRH,
+	st_LargeSquare,
+	st_SmallSquare,
+	st_NarrowProngLH,
+	st_NarrowProngRH,
+	st_QuarterCircle,
+	st_SemiCircle,
+	st_SweptWingLH,
+	st_SweptWingRH,
+	st_WingLH,
+	st_WingRH,
 	ai_RotatingAI,
 	ai_KeyboardAI
 };
@@ -58,7 +88,22 @@ static void InitialiseMap()
 	SectionMap["PRONGLH"] = st_ProngLH;
 	SectionMap["WIDEPLATE"] = st_WidePlate;
 	SectionMap["HOMINGMISSILELAUNCHER"] = st_HomingMissileLauncher;
-	SectionMap["SPIKE"] = st_Spike;
+	SectionMap["SPIKE"] = st_Spike;	
+	SectionMap["SPIKELH"] = st_SpikeLH;
+	SectionMap["SPIKERH"] = st_SpikeRH;
+	SectionMap["FORWARDWINGLH"] = st_ForwardWingLH;
+	SectionMap["FORWARDWINGRH"] = st_ForwardWingRH;
+	SectionMap["LARGESQUARE"] = st_LargeSquare;
+	SectionMap["SMALLSQUARE"] = st_SmallSquare;
+	SectionMap["NARROWPRONGLH"] = st_NarrowProngLH;
+	SectionMap["NARROWPRONGRH"] = st_NarrowProngRH;
+	SectionMap["QUARTERCIRCLE"] = st_QuarterCircle;
+	SectionMap["SEMICIRCLE"] = st_SemiCircle;
+	SectionMap["SWEPTWINGLH"] = st_SweptWingLH;
+	SectionMap["SWEPTWINGRH"] = st_SweptWingRH;
+	SectionMap["WINGLH"] = st_WingLH;
+	SectionMap["WINGRH"] = st_WingRH;
+	SectionMap["TINYCORE"] = st_TinyCore;
 }
 
 static int l_add_as_enemy(lua_State* luaVM)
@@ -127,10 +172,10 @@ static int l_set_color(lua_State* luaVM)
 static int l_scale_health(lua_State* luaVM)
 {
 	assert(last_instantiation != NULL);
-	double scale = lua_tonumber(luaVM, -1);
-	last_instantiation->ScaleHealth(scale);
+	last_instantiation->ScaleHealth(static_cast<float>(lua_tonumber(luaVM, -1)));
 	return 0;
 }
+
 static int l_override_ai(lua_State* luaVM)
 {
 	assert(last_instantiation!=NULL);
@@ -309,60 +354,12 @@ void GameLua::ParseShip()
 		//TODO handle errors unknown section type
 		switch(s_type) //Get section custom parameters
 		{
-			{ //Cores
-			BaseAI* ai;
 			case st_SquareCore:
-				lua_pushstring(luaVM, "AI");
-				lua_gettable(luaVM, -2); //Pop AI and put AI table at top of stack
-				if(lua_istable(luaVM, -1))
-				{
-					lua_pushstring(luaVM, "AIType");
-					lua_gettable(luaVM, -2); //Pop AIType and puts the ai type on
-					if(lua_isstring(luaVM, -1))
-					{
-						std::string ai_type_string = lua_tostring(luaVM, -1);
-						std::transform(ai_type_string.begin(), ai_type_string.end(), ai_type_string.begin(), toupper);
-						SectionType ai_type = SectionMap[ai_type_string];
-						lua_pop(luaVM, 1); //Pop the AI type
-						switch(ai_type)
-						{
-						case ai_RotatingAI:
-							lua_pushstring(luaVM, "AIRotationRate");
-							lua_gettable(luaVM, -2); //Puts rotation rate at top of stack
-							if(lua_isnumber(luaVM, -1))
-							{
-								ai = new RotatingAI(lua_tonumber(luaVM, -1));
-							}
-							else
-							{
-								ai = new RotatingAI(0.2f); //Default to 20% rotation rate
-							}
-							lua_pop(luaVM, 1); //Pop the AI rotation rate
-							break;
-						case ai_KeyboardAI:
-							ai = new KeyboardAI();
-							break;
-						default:
-							ai = new RotatingAI(0.2f);
-							break;
-						}
-
-					}
-					else
-					{
-						ai = new RotatingAI(0.2f);
-						lua_pop(luaVM, 1);
-					}
-					PushCore(new SquareCore(ai));
-					lua_pop(luaVM, 1); //Pop the AI
-				} else
-				{
-					lua_pop(luaVM, 1); //Probably have nil at top of stack, so pop
-				}
-
-
+				PushCore(new SquareCore(GetAI()));
 				break;
-			}
+			case st_TinyCore:
+				PushCore(new TinyCore(GetAI()));
+				break;
 			case st_RigidArm:
 				PushSection(new RigidArm());
 				break;
@@ -376,7 +373,7 @@ void GameLua::ParseShip()
 				{
 				lua_pushstring(luaVM, "RotationRate");
 				lua_gettable(luaVM, -2);
-				float spin_rate_deg_per_sec = lua_tonumber(luaVM, -1);
+				float spin_rate_deg_per_sec = static_cast<float>(lua_tonumber(luaVM, -1));
 				PushSection(new SpinningJoint(spin_rate_deg_per_sec));
 				lua_pop(luaVM, 1);
 				}
@@ -385,19 +382,19 @@ void GameLua::ParseShip()
 				{
 				lua_pushstring(luaVM, "FirstAngle");
 				lua_gettable(luaVM, -2);
-				float first_angle = lua_tonumber(luaVM, -1);
+				float first_angle = static_cast<float>(lua_tonumber(luaVM, -1));
 				lua_pop(luaVM, 1);
 				lua_pushstring(luaVM, "SecondAngle");
 				lua_gettable(luaVM, -2);
-				float second_angle = lua_tonumber(luaVM, -1);
+				float second_angle = static_cast<float>(lua_tonumber(luaVM, -1));
 				lua_pop(luaVM, 1);
 				lua_pushstring(luaVM, "TransitionTime");
 				lua_gettable(luaVM, -2);
-				float transition_time = lua_tonumber(luaVM, -1);
+				float transition_time = static_cast<float>(lua_tonumber(luaVM, -1));
 				lua_pop(luaVM, 1);
 				lua_pushstring(luaVM, "PauseTime");
 				lua_gettable(luaVM, -2);
-				float pause_time = lua_tonumber(luaVM, -1);
+				float pause_time = static_cast<float>(lua_tonumber(luaVM, -1));
 				lua_pop(luaVM, 1);
 				PushSection(new JointAngles(first_angle, second_angle, transition_time, pause_time));
 				}
@@ -420,17 +417,66 @@ void GameLua::ParseShip()
 			case st_Spike: 
 				PushSection(new Spike());
 				break;
+			case st_SpikeLH:
+				PushSection(new SpikeLH());
+				break;
+			case st_SpikeRH:
+				PushSection(new SpikeRH());
+				break;
+			case st_ForwardWingLH:
+				PushSection(new ForwardWingLH());
+				break;
+			case st_ForwardWingRH:
+				PushSection(new ForwardWingRH());
+				break;
+			case st_LargeSquare:
+				PushSection(new LargeSquare());
+				break;
+			case st_SmallSquare:
+				PushSection(new SmallSquare());
+				break;
+			case st_NarrowProngLH:
+				PushSection(new NarrowProngLH());
+				break;
+			case st_NarrowProngRH:
+				PushSection(new NarrowProngRH());
+				break;
+			case st_QuarterCircle:
+				PushSection(new QuarterCircle());
+				break;
+			case st_SemiCircle:
+				PushSection(new SemiCircle());
+				break;
+			case st_SweptWingLH:
+				PushSection(new SweptWingLH());
+				break;
+			case st_SweptWingRH:
+				PushSection(new SweptWingRH());
+				break;
+			case st_WingLH:
+				PushSection(new WingLH());
+				break;
+			case st_WingRH:
+				PushSection(new WingRH());
+				break;
 			default:
 				//Handle spelling mistakes and whatnot.
 				break;
 		}
 
+		lua_pushstring(luaVM, "Delay");
+		lua_gettable(luaVM, -2); //Puts any firing delay length on the top of the stack
+		if(lua_isnumber(luaVM, -1))
+		{
+			SetFiringDelay(static_cast<float>(lua_tonumber(luaVM, -1)));
+		}
+		lua_pop(luaVM, 1);
 
 		lua_pushstring(luaVM, "Health");
 		lua_gettable(luaVM, -2); //Puts any health value on the top of the stack
 		if(lua_isnumber(luaVM, -1))
 		{
-			SetHealth(lua_tonumber(luaVM, -1));
+			SetHealth(static_cast<float>(lua_tonumber(luaVM, -1)));
 		}
 		lua_pop(luaVM, 1);
 
@@ -438,7 +484,7 @@ void GameLua::ParseShip()
 		lua_gettable(luaVM, -2); //Puts any health value on the top of the stack
 		if(lua_isnumber(luaVM, -1))
 		{
-			SetAngle(lua_tonumber(luaVM, -1));
+			SetAngle(static_cast<float>(lua_tonumber(luaVM, -1)));
 		}
 		lua_pop(luaVM, 1);
 
@@ -452,14 +498,14 @@ void GameLua::ParseShip()
 			lua_gettable(luaVM, -2); //Puts any health value on the top of the stack
 			if(lua_isnumber(luaVM, -1))
 			{
-				x = lua_tonumber(luaVM, -1);
+				x = static_cast<float>(lua_tonumber(luaVM, -1));
 			}
 			lua_pop(luaVM, 1);
 			lua_pushstring(luaVM, "y");
 			lua_gettable(luaVM, -2); //Puts any health value on the top of the stack
 			if(lua_isnumber(luaVM, -1))
 			{
-				y = lua_tonumber(luaVM, -1);
+				y = static_cast<float>(lua_tonumber(luaVM, -1));
 			}
 
 			SetPosition(x,y);
@@ -550,8 +596,8 @@ void GameLua::Tick(int _friend_count, int _enemy_count, float _timespan)
 			lua_pcall(luaVM, 0, 1, 0); //Should pop EntryPoint and replace with either true or false
 			if(lua_isboolean(luaVM, -1))
 			{
-				bool isDone = lua_toboolean(luaVM, -1);
-				is_script_running_ = !isDone;
+				int isDone = lua_toboolean(luaVM, -1);
+				is_script_running_ = (isDone == 0);
 			}
 			lua_pop(luaVM, 1); //Pop the boolean isDone
 		}
@@ -603,6 +649,11 @@ void GameLua::SetColor(GLColor _color)
 	}
 }
 
+void GameLua::SetFiringDelay(float _firing_delay)
+{
+	section_stack_.top()->SetFiringDelay(_firing_delay);
+}
+
 void GameLua::ScaleHealth(float _scale)
 {
 		StackToCore();
@@ -614,4 +665,60 @@ void GameLua::ScaleHealth(float _scale)
 	{
 		//TODO report errors
 	}
+}
+
+BaseAI* GameLua::GetAI()
+{
+	BaseAI* ai = NULL;
+	lua_pushstring(luaVM, "AI");
+	lua_gettable(luaVM, -2); //Pop AI and put AI table at top of stack
+	if(lua_istable(luaVM, -1))
+	{
+		lua_pushstring(luaVM, "AIType");
+		lua_gettable(luaVM, -2); //Pop AIType and puts the ai type on
+		if(lua_isstring(luaVM, -1))
+		{
+			std::string ai_type_string = lua_tostring(luaVM, -1);
+			std::transform(ai_type_string.begin(), ai_type_string.end(), ai_type_string.begin(), toupper);
+			SectionType ai_type = SectionMap[ai_type_string];
+			lua_pop(luaVM, 1); //Pop the AI type
+			switch(ai_type)
+			{
+			case ai_RotatingAI:
+				lua_pushstring(luaVM, "AIRotationRate");
+				lua_gettable(luaVM, -2); //Puts rotation rate at top of stack
+				if(lua_isnumber(luaVM, -1))
+				{
+					ai = new RotatingAI(static_cast<float>(lua_tonumber(luaVM, -1)));
+				}
+				else
+				{
+					ai = new RotatingAI(0.2f); //Default to 20% rotation rate
+				}
+				lua_pop(luaVM, 1); //Pop the AI rotation rate
+				break;
+			case ai_KeyboardAI:
+				ai = new KeyboardAI();
+				break;
+			default:
+				//Report error in AI string
+				break;
+			}
+
+		}
+		else
+		{
+			//Report AIType must be string
+			lua_pop(luaVM, 1);
+		}
+		lua_pop(luaVM, 1); //Pop the AI table
+	} else
+	{
+		lua_pop(luaVM, 1); //Probably have nil at top of stack, so pop
+	}
+	if(ai == NULL)
+	{
+		ai = new RotatingAI(0.2f);
+	}
+	return ai;
 }

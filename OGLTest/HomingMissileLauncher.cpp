@@ -29,6 +29,7 @@ HomingMissileLauncher::HomingMissileLauncher(void)
 	health_ = 1000;
 	max_health_ = health_;
 	cooldown_time_ = 0.4f;
+	default_sub_section_position_ = Vector3f(0, 0, 0);
 }
 
 HomingMissileLauncher::~HomingMissileLauncher(void)
@@ -81,7 +82,7 @@ void HomingMissileLauncher::Tick(float _timespan, std::list<Projectile_ptr>& _sp
 			HomingMissile* hm = new HomingMissile(Vector3f(0, 5, 0));
 			if(_enemies.size() > 0)
 			{
-				int index = rand() % _enemies.size();
+				int index = rand() % static_cast<int>(_enemies.size());
 				Section* target = (Section*)(*_enemies.begin()).get();
 				HomingJoin* hj = new HomingJoin(hm, target);
 				hm->RegisterHomingJoin(hj);

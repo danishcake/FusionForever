@@ -15,7 +15,7 @@ void Filled::DrawFill(void)
 {
 	glColor3ub(fill_color_.r,fill_color_.g, fill_color_.b);
 	glBegin(GL_TRIANGLES);
-	for(int i = 0; i < fill_verts_->size(); i++)
+	for(unsigned int i = 0; i < fill_verts_->size(); i++)
 	{
 		glVertex3fv((*fill_verts_)[i]);
 	}
@@ -32,7 +32,7 @@ int Filled::CreateFillDisplayList(boost::shared_ptr<std::vector<Vector3f>> _vert
 {
 	int list_id = Datastore::Instance().BeginDisplayList();
 	glBegin(GL_TRIANGLES);
-	for(int i = 0; i < _verts->size(); i++)
+	for(unsigned int i = 0; i < _verts->size(); i++)
 	{
 	  glVertex3fv((*_verts)[i]);
 	}
