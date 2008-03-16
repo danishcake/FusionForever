@@ -6,7 +6,8 @@
 #include <boost/shared_ptr.hpp>
 
 class Projectile;
-typedef boost::shared_ptr<Projectile> Projectile_ptr;
+//typedef boost::shared_ptr<Projectile> Projectile_ptr;
+typedef Projectile* Projectile_ptr;
 
 class Projectile :
 	public BaseEntity, public Outlined
@@ -28,6 +29,12 @@ public:
 
 	static bool IsProjectileRemovable(Projectile_ptr prj)
 	{
-		return (prj->GetLifetime() <= 0);
+		if(prj->GetLifetime() <= 0)
+		{
+			delete prj;
+			return true;
+		}
+		return false;
+		
 	}
 };

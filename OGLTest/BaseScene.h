@@ -6,7 +6,8 @@ class BaseScene;
 /**
   * A scene smart pointer
   */
-typedef boost::shared_ptr<BaseScene> BaseScene_ptr;
+//typedef boost::shared_ptr<BaseScene> BaseScene_ptr;
+typedef BaseScene* BaseScene_ptr;
 
 /**
   * The BaseScene class represents the methods that must be overriden by a scene.

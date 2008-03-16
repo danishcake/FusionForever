@@ -78,7 +78,12 @@ void Tick()
 
 bool IsSceneRemovable(BaseScene_ptr _scene)
 {
-	return _scene->IsRemovable();
+	if(_scene->IsRemovable())
+	{
+		delete _scene;
+		return true;
+	}
+	return false;
 }
 
 void Cull()

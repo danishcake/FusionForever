@@ -7,7 +7,8 @@ class Decoration;
 /**
   * A Decoration smart pointer
   */
-typedef boost::shared_ptr<Decoration> Decoration_ptr;
+//typedef boost::shared_ptr<Decoration> Decoration_ptr;
+typedef Decoration* Decoration_ptr;
 
 /**
   * The Decoration class represent a solid filled shape such as an explosion or spark.
@@ -39,7 +40,15 @@ public:
      * Gets if the Decoration is ready for culling.
      * @return True is ready for culling, else false.
      */
-	static bool IsRemovable(Decoration_ptr dec);
+	static bool IsRemovable(Decoration_ptr dec)
+	{
+		if(dec->lifetime_ <= 0)
+		{
+			delete dec;
+			return true;
+		}
+		return false;
+	}
 
    /**
      * Gets the remaining lifetime of the Decoration.

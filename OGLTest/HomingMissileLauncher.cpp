@@ -83,7 +83,7 @@ void HomingMissileLauncher::Tick(float _timespan, std::list<Projectile_ptr>& _sp
 			if(_enemies.size() > 0)
 			{
 				int index = rand() % static_cast<int>(_enemies.size());
-				Section* target = (Section*)(*_enemies.begin()).get();
+				Section* target = (Section*)(*_enemies.begin());
 				HomingJoin* hj = new HomingJoin(hm, target);
 				hm->RegisterHomingJoin(hj);
 				target->RegisterHomingJoin(hj);

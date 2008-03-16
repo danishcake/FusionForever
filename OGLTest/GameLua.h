@@ -17,7 +17,7 @@ class GameLua
 private:
 	std::list<Core_ptr> enemies_;
 	std::list<Core_ptr> friends_;
-	std::stack<Section*> section_stack_;
+	std::stack<Section_ptr> section_stack_;
 	BaseAI* GetAI();
 	bool is_script_running_;
 	float sum_time_;
@@ -29,8 +29,8 @@ public:
 	void LoadShip(const char* ship);
 	void ParseShip();
 
-	void PushCore(Core* _core);
-	void PushSection(Section* _section);
+	void PushCore(Core_ptr _core);
+	void PushSection(Section_ptr _section);
 	void PopSection();
 
 	void SetAngle(float _angle);

@@ -15,16 +15,21 @@
 
 class HomingJoin;
 class Section;
-typedef boost::shared_ptr<Section> Section_ptr;
+//typedef boost::shared_ptr<Section> Section_ptr;
+typedef Section* Section_ptr;
 class Core;
-typedef boost::shared_ptr<Core> Core_ptr;
+//typedef boost::shared_ptr<Core> Core_ptr;
+typedef Core* Core_ptr;
 
 static const float SECTION_FLASH_TIME = 2.0f;
 
 class Section :
 	public BaseEntity, public Filled, public Outlined
 {
+private:
+	static int section_count_;
 protected:
+	int section_id_;
 	std::vector<Section_ptr> sub_sections_;
 	float health_;
 	float max_health_;
@@ -64,5 +69,14 @@ public:
 	void SetFiringDelay(float _firing_delay) {firing_delay_ = _firing_delay;}
 
 	//Predicates
-	static bool IsRemovable(Section_ptr section);
+	static bool IsRemovable(Section_ptr section)
+	{
+		bool dead = (section->health_ <= 0);
+		if(dead)
+		{
+			Camera::Instance().Shake();
+			delete section;
+		}
+		return dead;
+	}
 };

@@ -235,7 +235,7 @@ GameLua::~GameLua(void)
 	}
 }
 
-void GameLua::PushCore(Core* _core)
+void GameLua::PushCore(Core_ptr _core)
 {
 	while(!section_stack_.empty())
 	{
@@ -270,7 +270,7 @@ void GameLua::AddAsFriend()
 	if(!section_stack_.empty())
 	{
 		StackToCore(); //Pop everything but the Core from the stack
-		friends_.push_back(Core_ptr((Core*)section_stack_.top()));
+		friends_.push_back((Core_ptr)section_stack_.top());
 		section_stack_.pop();
 	}
 }
@@ -280,7 +280,7 @@ void GameLua::AddAsEnemy()
 	if(!section_stack_.empty())
 	{
 		StackToCore(); //Pop everything but the Core from the stack
-		enemies_.push_back(Core_ptr((Core*)section_stack_.top()));
+		enemies_.push_back((Core_ptr)section_stack_.top());
 		section_stack_.pop();
 	}
 }
@@ -628,7 +628,7 @@ void GameLua::OverrideAI(BaseAI* _AI)
 	StackToCore();
 	if(section_stack_.size()==1)
 	{
-		((Core*)section_stack_.top())->OverrideAI(_AI);
+		((Core_ptr)section_stack_.top())->OverrideAI(_AI);
 	}
 	else
 	{

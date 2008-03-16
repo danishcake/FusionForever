@@ -4,6 +4,8 @@
 #include "Puff.h"
 #include "HomingJoin.h"
 
+int Section::section_count_ = 0;
+
 bool zero_or_less(float _value)
 {
 	return (_value <= 0);
@@ -21,6 +23,7 @@ Section::Section(void)
 	firing_ = false;
 	outline_color_base_ = GLColor(255, 255, 255);
 	default_sub_section_position_ = Vector3f(0,0,0);
+	section_id_ = section_count_++;
 }
 
 Section::~Section(void)
@@ -53,7 +56,7 @@ void Section::AddChild(Section *child)
 	{
 		child->SetPosition(default_sub_section_position_);
 	}
-	this->sub_sections_.push_back(Section_ptr(child));
+	this->sub_sections_.push_back(child);
 	child->SetColor(fill_color_);
 }
 
@@ -196,13 +199,6 @@ bool Section::CheckCollisions(Vector3f _location, Section*& _section)
 	return hasCollided;
 }
 
-bool Section::IsRemovable(Section_ptr section)
-{
-	bool dead = (section->health_ <= 0);
-	if(dead)
-		Camera::Instance().Shake();
-	return dead;
-}
 void Section::SetColor(GLColor _color)
 {
 	this->fill_color_= _color;
