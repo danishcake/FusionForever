@@ -151,7 +151,7 @@ bool Section::CheckCollisions(Projectile_ptr _projectile)
 	return hasCollided;
 }
 
-void Section::RayCollisionFilter(Vector3f P1, Vector3f P2, std::list<Section*>& _valid_sections, float& _min_distance, float& _max_distance)
+void Section::RayCollisionFilter(Vector3f P1, Vector3f P2, std::list<Section_ptr>& _valid_sections, float& _min_distance, float& _max_distance)
 {
 	bool hasCollided = false;
 
@@ -171,7 +171,7 @@ void Section::RayCollisionFilter(Vector3f P1, Vector3f P2, std::list<Section*>& 
 	}
 }
 
-bool Section::CheckCollisions(Vector3f _location, Section*& _section)
+bool Section::CheckCollisions(Vector3f _location, Section_ptr& _section)
 {
 	bool hasCollided = false;
 

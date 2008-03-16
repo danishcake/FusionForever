@@ -2,7 +2,6 @@
 #include "Section.h"
 #include "AIAction.h"
 #include <list>
-#include <boost/shared_ptr.hpp>
 
 /*
 The BaseAI class and the Section class are fairly tightly coupled and are so declared in
@@ -70,5 +69,5 @@ public:
      * @param _enemies A list of enemies.
      * @param _self The owning core.
      */
-	virtual AIAction Tick(float _timespan, std::list<Core_ptr>& _allies, std::list<Core_ptr>& _enemies, Core* _self) = 0;
+	virtual AIAction Tick(float _timespan, std::list<Core_ptr>& _allies, std::list<Core_ptr>& _enemies, Core_ptr _self) = 0;
 };

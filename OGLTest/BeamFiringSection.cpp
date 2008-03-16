@@ -4,10 +4,12 @@
 BeamFiringSection::BeamFiringSection(void)
 : Section()
 {
+	beam_ = NULL;
 }
 
 BeamFiringSection::~BeamFiringSection(void)
 {
+	delete beam_;
 }
 
 void BeamFiringSection::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::list<Core_ptr>& _enemies)

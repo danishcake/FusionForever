@@ -248,7 +248,7 @@ void GameLua::PushCore(Core_ptr _core)
 	section_stack_.push(_core);
 }
 
-void GameLua::PushSection(Section* _section)
+void GameLua::PushSection(Section_ptr _section)
 {
 	if(!section_stack_.empty())
 	{

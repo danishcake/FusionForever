@@ -16,7 +16,7 @@ RotatingAI::~RotatingAI(void)
 {
 }
 
-AIAction RotatingAI::Tick(float _timespan, std::list<Core_ptr>& _allies, std::list<Core_ptr>& _enemies, Core* _self)
+AIAction RotatingAI::Tick(float _timespan, std::list<Core_ptr>& _allies, std::list<Core_ptr>& _enemies, Core_ptr _self)
 {
 	sum_time_ += _timespan;
 	fire_for_next_ -= _timespan;

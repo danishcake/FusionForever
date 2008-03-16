@@ -5,15 +5,14 @@ static const float SimpleAIFocusTime = 10;
 
 SimpleAI::SimpleAI(float _rotation_rate)
 {
-	sum_time_ = 0;
-	
+	sum_time_ = 0;	 
 }
 
 SimpleAI::~SimpleAI(void)
 {
 }
 
-AIAction SimpleAI::Tick(float _timespan, std::list<Core_ptr>& _allies, std::list<Core_ptr>& _enemies, Core* _self)
+AIAction SimpleAI::Tick(float _timespan, std::list<Core_ptr>& _allies, std::list<Core_ptr>& _enemies, Core_ptr _self)
 {
 	sum_time_ += _timespan;
 	focus_time_ += _timespan;

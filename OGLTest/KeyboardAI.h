@@ -11,5 +11,5 @@ protected:
 public:
 	KeyboardAI(void);
 	virtual ~KeyboardAI(void);
-	virtual AIAction Tick(float _timespan, std::list<Core_ptr>& _allies, std::list<Core_ptr>& _enemies, Core* _self);
+	virtual AIAction Tick(float _timespan, std::list<Core_ptr>& _allies, std::list<Core_ptr>& _enemies, Core_ptr _self);
 };

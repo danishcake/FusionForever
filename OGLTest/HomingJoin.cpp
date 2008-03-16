@@ -4,7 +4,7 @@
 #include "Section.h"
 #include "HomingProjectile.h"
 
-HomingJoin::HomingJoin(HomingProjectile* _a, Section* _b)
+HomingJoin::HomingJoin(HomingProjectile* _a, Section_ptr _b)
 {
 	a_ = _a;
 	b_ = _b;

@@ -21,23 +21,23 @@ void BeamSection::Tick(float _timespan, std::list<Decoration_ptr>& _spawn_dec, M
 	BaseEntity::Tick(_timespan, _transform);
 
 	deco_cooldown_ -= _timespan;
-	Section* closest_hit_section;
+	Section_ptr closest_hit_section;
 	bool quick_hit_check = false;
 
 	bool has_hit = false;
 	float max_dist = 0;	//The maximum distance including the collision
 	float low_dist = max_distance_;			//The minimum distance excluding any collisions
 
-	std::list<Section*> filtered_sections;
+	std::list<Section_ptr> filtered_sections; //TODO test a vector here for performance
 
 	BOOST_FOREACH(Core_ptr core, _enemies)
 	{
 		core->RayCollisionFilter(ltv_position_, ltv_transform_ * Vector3f(0, max_distance_, 0), filtered_sections, low_dist, max_dist);
 	}
 
-	BOOST_FOREACH(Section* section, filtered_sections)
+	BOOST_FOREACH(Section_ptr section, filtered_sections)
 	{
-		Section* hit_section;
+		Section_ptr hit_section;
 		for(float dist = low_dist; dist <= max_dist; dist += beam_accuracy)
 		{
 			if(section->CheckCollisions(ltv_transform_ * Vector3f(0,dist,0), hit_section))

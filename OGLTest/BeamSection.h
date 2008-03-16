@@ -1,7 +1,6 @@
 #pragma once
 #include "vmath.h"
 #include "vmath-collisions.h"
-#include <boost/shared_ptr.hpp>
 #include "Decoration.h"
 #include "Core.h"
 #include "BaseEntity.h"
@@ -10,7 +9,8 @@
   * A BeamSection smart pointer
   */
 class BeamSection;
-typedef boost::shared_ptr<BeamSection> BeamSection_ptr;
+//typedef boost::shared_ptr<BeamSection> BeamSection_ptr;
+typedef BeamSection* BeamSection_ptr;
 
 /**
   * The BeamSection class represents a laser-like beam.

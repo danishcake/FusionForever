@@ -4,7 +4,6 @@
 #include "vmath.h"
 #include <boost/shared_ptr.hpp>
 
-
 /**
   * The Datastore class represents a repository of vertices and display lists that are lazily
   * instantiated by their respective owners. Follows singleton pattern.

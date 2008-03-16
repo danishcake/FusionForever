@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseEntity.h"
 #include "Filled.h"
-#include <boost/shared_ptr.hpp>
+
 
 class Decoration;
 /**

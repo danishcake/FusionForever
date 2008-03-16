@@ -58,7 +58,6 @@ float get_radius(int i)
 
 void Puff::initialise_fill()
 {
-
 	boost::shared_ptr<std::vector<Vector3f>> temp_fill = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 	//$B$3+$B$2*(MOD(A7,$B$5)-($B$5/2))^$B$1
 	for(int i = 0; i < PUFF_SECTIONS; i++)

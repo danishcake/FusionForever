@@ -1,7 +1,6 @@
 #pragma once
 #include "vmath.h"
 #include <list>
-#include <boost/shared_ptr.hpp>
 
 /**
   * The BaseEntity class represents the common properties shared by all entities.
