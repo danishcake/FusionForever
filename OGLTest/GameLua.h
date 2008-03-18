@@ -30,8 +30,8 @@ public:
 	
 
 	void LoadChallenge(const char* challenge);
-	int LoadShip(const char* ship);
-	void ParseShip();
+	int LoadShip(const char* _ship);
+	void ParseShip(const char* _ship);
 
 	void PushCore(Core_ptr _core);
 	void PushSection(Section_ptr _section);

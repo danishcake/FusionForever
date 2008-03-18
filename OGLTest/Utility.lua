@@ -15,17 +15,17 @@ WaitTillFriendsDead = function()
     coroutine.yield()
   end
 end,
-WaitTillShipDead = function(ship_id)
-  coroutine.yield()
-  while IsAlive(ship_id) do
-	WaitFor(0.25)
-    coroutine.yield()
-  end  
-end,
 WaitFor = function(time)
   local end_time = time + TOTAL_TIME
   while TOTAL_TIME < end_time do
     coroutine.yield()
   end
+end,
+WaitTillShipDead = function(ship_id)
+  coroutine.yield()
+  while IsAlive(ship_id) do
+    Predicate.WaitFor(0.25)
+    coroutine.yield()
+  end  
 end,
 }

@@ -35,6 +35,8 @@
 #include <string>
 #include <map>
 #include <algorithm>
+#include <sstream>
+#include <string>
 #include "GameScene.h"
 
 static GameLua* last_instantiation = NULL;
@@ -107,46 +109,106 @@ static void InitialiseMap()
 	SectionMap["TINYCORE"] = st_TinyCore;
 }
 
+
+static std::string lua_stack_dump(lua_State* luaVM)
+{
+	int top = lua_gettop(luaVM);
+	std::stringstream output;
+	output << "Stack dump\n" << "Size of stack: " << top << "\n";
+	for(int i = 1; i <= top; i++)
+	{
+		int t = lua_type(luaVM, i);
+		switch (t) {    
+			case LUA_TSTRING:  /* strings */
+				output << "`" << lua_tostring(luaVM, i) << "'" << "\n";
+				break;    
+			case LUA_TBOOLEAN:  /* booleans */
+				if(lua_toboolean(luaVM, i))
+					output << "true" << "\n";
+				else
+					output << "false" << "\n";
+				break;    
+			case LUA_TNUMBER:  /* numbers */
+				output << lua_tonumber(luaVM, i) << "\n";
+				break;    
+			default:  /* other values */
+				output << lua_typename(luaVM, t) << "\n";
+				break;    
+		}
+	}
+	return output.str();
+}
+
 static int l_add_as_enemy(lua_State* luaVM)
 {
 	assert(last_instantiation!=NULL);
-
-	last_instantiation->AddAsEnemy();
+	if(lua_gettop(luaVM) == 0)
+	{
+		last_instantiation->AddAsEnemy();
+	}
+	else
+	{
+		luaL_error(luaVM, "AddAsEnemy must be called with no parameters");
+	}
 	return 0;
 }
 
 static int l_add_as_friend(lua_State* luaVM)
 {
 	assert(last_instantiation!=NULL);
-
-	last_instantiation->AddAsFriend();
+	if(lua_gettop(luaVM) == 0)
+	{
+		last_instantiation->AddAsFriend();	
+	}
+	else
+	{
+		luaL_error(luaVM, "AddAsFriend must be called with no parameters");
+	}
 	return 0;
 }
 
 static int l_set_angle(lua_State * luaVM)
 {
 	assert(last_instantiation!=NULL);
-	last_instantiation->SetAngle((float)lua_tonumber(luaVM, 1));
+	if((lua_gettop(luaVM) == 1) && (lua_isnumber(luaVM, -1)))
+	{
+		last_instantiation->SetAngle((float)lua_tonumber(luaVM, 1));
+	}
+	else
+	{
+		luaL_error(luaVM, "SetAngle must be called with 1 numeric parameter");
+	}
 	return 0;
 }
 static int l_set_position(lua_State * luaVM)
 {
 	assert(last_instantiation!=NULL);
-	last_instantiation->SetPosition((float)lua_tonumber(luaVM,1), (float)lua_tonumber(luaVM,2));
+	if((lua_gettop(luaVM) == 2) && (lua_isnumber(luaVM, -1)) && (lua_isnumber(luaVM, -2)))
+	{
+		last_instantiation->SetPosition((float)lua_tonumber(luaVM,1), (float)lua_tonumber(luaVM,2));
+	}
+	else
+	{
+		luaL_error(luaVM, "SetPosition must be called with 2 numeric parameters");
+	}
 	return 0;
 }
 
 static int l_load_ship(lua_State* luaVM)
 {
 	assert(last_instantiation!=NULL);
-	if(lua_isstring(luaVM, -1))
+	if((lua_gettop(luaVM) == 1) && (lua_isstring(luaVM, -1)))
 	{
 		int ship_id = last_instantiation->LoadShip(lua_tostring(luaVM, -1));
+		if(ship_id==-1)
+		{
+			luaL_error(luaVM,"LoadShip failed");
+		}
 		lua_pushnumber(luaVM, ship_id); //Push -1 in case of error, else ship Core section ID
 	}
 	else
 	{
-		//Report incorrect params
+		luaL_error(luaVM, "LoadShip must be called with 1 string parameter");
 	}
 	return 1;
 }
@@ -154,18 +216,27 @@ static int l_load_ship(lua_State* luaVM)
 static int l_set_color(lua_State* luaVM)
 {
 	assert(last_instantiation != NULL);
-	if(lua_gettop(luaVM) == 3)
+	if((lua_gettop(luaVM) == 3) && (lua_isnumber(luaVM, -1)) &&
+																 (lua_isnumber(luaVM, -2)) &&
+																 (lua_isnumber(luaVM, -3)))
 	{
 		double r = lua_tonumber(luaVM, 1);
 		double g = lua_tonumber(luaVM, 2);
 		double b = lua_tonumber(luaVM, 3);
 		//TODO check bounds here
-
-		last_instantiation->SetColor(GLColor(r,g,b));
+		if((r >= 0.0 && r <= 1.0) &&
+			 (r >= 0.0 && r <= 1.0) &&
+			 (r >= 0.0 && r <= 1.0))
+		{
+			last_instantiation->SetColor(GLColor(r,g,b));
+		} else
+		{
+			luaL_error(luaVM, "SetColor parameters must be in range 0 to 1);");
+		}
 	}
 	else
 	{
-		//Report incorrect params here
+		luaL_error(luaVM, "SetColor must be called with 3 numeric parameters");
 	}
 	return 0;
 }
@@ -174,42 +245,77 @@ static int l_set_color(lua_State* luaVM)
 static int l_scale_health(lua_State* luaVM)
 {
 	assert(last_instantiation != NULL);
-	last_instantiation->ScaleHealth(static_cast<float>(lua_tonumber(luaVM, -1)));
+	if((lua_gettop(luaVM) == 1) && (lua_isnumber(luaVM, -1)))
+	{
+		last_instantiation->ScaleHealth(static_cast<float>(lua_tonumber(luaVM, -1)));
+	}
+	else
+	{
+		luaL_error(luaVM, "ScaleHealth must be called with 1 numeric parameter");
+	}
 	return 0;
 }
 
 static int l_override_ai(lua_State* luaVM)
 {
 	assert(last_instantiation!=NULL);
-	std::string ai_string = lua_tostring(luaVM, 1);
-	std::transform(ai_string.begin(), ai_string.end(), ai_string.begin(), toupper);
-
-	SectionType ai_type = SectionMap[ai_string];
-	BaseAI* ai = NULL;
-	switch(ai_type)
+	if(lua_gettop(luaVM) >= 1)
 	{
-	case ai_RotatingAI:
+		std::string ai_string = lua_tostring(luaVM, 1);
+		std::transform(ai_string.begin(), ai_string.end(), ai_string.begin(), toupper);
+
+		SectionType ai_type = SectionMap[ai_string];
+		BaseAI* ai = NULL;
+		switch(ai_type)
 		{
-		float rotRate = (float)lua_tonumber(luaVM, 2);
-		ai = new RotatingAI(rotRate);
+		case ai_RotatingAI:
+			{
+				if(lua_gettop(luaVM) == 2)
+				{
+					float rotRate = (float)lua_tonumber(luaVM, 2);
+					ai = new RotatingAI(rotRate);
+				}
+				else
+				{
+					luaL_error(luaVM, "SetAI(\"RotatingAI\"... expects a two parameters, the second being the rotation rate");
+				}
+			}
+			break;
+		case ai_KeyboardAI:
+			if(lua_gettop(luaVM) == 1)
+			{
+				ai = new KeyboardAI();
+			} else
+			{
+				luaL_error(luaVM, "SetAI(\"KeyboardAI\"... expects a one parameter");
+			}
+			break;
+		default:
+			luaL_error(luaVM, "SetAI must be called with one of the following AI types:\n(\"KeyboardAI\")\n(\"RotatingAI\",rot_rate)");
+			break;
 		}
-		break;
-	case ai_KeyboardAI:
-		ai = new KeyboardAI();
-		break;
+		if(ai != NULL)
+			last_instantiation->OverrideAI(ai);
 	}
-	if(ai != NULL)
-		last_instantiation->OverrideAI(ai);
+	else
+	{
+		luaL_error(luaVM, "IsAlive must be called with 1 or more parameters, depending on the AI type specified in the first parameter");
+	}
 	return 0;
 }
 
 static int l_is_alive(lua_State* luaVM)
 {
-	Logger::Log("Called is_alive()\n");
 	assert(last_instantiation!=NULL);
-	int section_id = lua_tonumber(luaVM, -1);
-	bool isalive = last_instantiation->IsAlive(section_id);
-	lua_pushboolean(luaVM, isalive);
+	if((lua_gettop(luaVM) == 1) && (lua_isnumber(luaVM, -1)))
+	{
+		int section_id = lua_tonumber(luaVM, -1);
+		lua_pushboolean(luaVM, last_instantiation->IsAlive(section_id));
+	}
+	else
+	{
+		luaL_error(luaVM, "IsAlive must be called with 1 numeric parameter");
+	}
 	return 1;
 }
 
@@ -379,25 +485,40 @@ int GameLua::LoadShip(const char* ship)
 	}
 	lua_pop(luaVM,1); //Pops ship from stack
 
-	luaL_dofile(luaVM, ship);	//Loads the ship function
-
-	lua_getglobal(luaVM, "Ship");
-	if(lua_istable(luaVM, -1))
-	{
-		//Get name
-		//Load the rest
-		ParseShip();
-		lua_pop(luaVM, 1); //Pop Ship
-		StackToCore(); //Pop everything but the Core from the stack
-		return section_stack_.top()->GetSectionID();
-	}
-	else
-	{
+	int run_result = luaL_dofile(luaVM, ship);	//Loads the ship function
+	if(run_result == LUA_ERRRUN)
+	{//Runtime error, should report and abandon
+		Logger::LogError("GameLua::LoadShip: A runtime error occurred\n");
 		return -1;
+	} else if(run_result == LUA_ERRMEM)
+	{
+		Logger::LogError("GameLua::LoadShip: A memory allocation error occurred while running\n");
+		return -1;
+	} else if(run_result == LUA_ERRERR)
+	{
+		Logger::LogError("GameLua::LoadShip: Error handler error\n");
+		return -1;
+	} else
+	{
+		lua_getglobal(luaVM, "Ship");
+		if(lua_istable(luaVM, -1))
+		{
+			//Get name
+			//Load the rest
+			ParseShip(ship);
+			lua_pop(luaVM, 1); //Pop Ship
+			StackToCore(); //Pop everything but the Core from the stack
+			return section_stack_.top()->GetSectionID();
+		}
+		else
+		{			
+			Logger::LogError(std::string("GameLua::LoadShip: Unable to find Ship table in \n") + std::string(ship));
+			return -1;
+		}
 	}
 }
 
-void GameLua::ParseShip()
+void GameLua::ParseShip(const char* _ship)
 {
 	lua_pushstring(luaVM, "SectionType");
 	lua_gettable(luaVM, -2);
@@ -429,30 +550,49 @@ void GameLua::ParseShip()
 				{
 				lua_pushstring(luaVM, "RotationRate");
 				lua_gettable(luaVM, -2);
-				float spin_rate_deg_per_sec = static_cast<float>(lua_tonumber(luaVM, -1));
-				PushSection(new SpinningJoint(spin_rate_deg_per_sec));
+				if(lua_isnumber(luaVM, -1))
+				{
+					float spin_rate_deg_per_sec = static_cast<float>(lua_tonumber(luaVM, -1));
+					PushSection(new SpinningJoint(spin_rate_deg_per_sec));
+				}
+				else
+				{
+					luaL_error(luaVM, "Error parsing %s\nSpinningJoints require a key:value pair RotationRate:number\n%s", _ship, lua_stack_dump(luaVM).c_str());
+				}
 				lua_pop(luaVM, 1);
 				}
 				break;
 			case st_JointAngles:
 				{
+				bool param_error = false;
 				lua_pushstring(luaVM, "FirstAngle");
 				lua_gettable(luaVM, -2);
 				float first_angle = static_cast<float>(lua_tonumber(luaVM, -1));
+				param_error |= !lua_isnumber(luaVM, -1);
 				lua_pop(luaVM, 1);
+
 				lua_pushstring(luaVM, "SecondAngle");
 				lua_gettable(luaVM, -2);
 				float second_angle = static_cast<float>(lua_tonumber(luaVM, -1));
+				param_error |= !lua_isnumber(luaVM, -1);
 				lua_pop(luaVM, 1);
+
 				lua_pushstring(luaVM, "TransitionTime");
 				lua_gettable(luaVM, -2);
 				float transition_time = static_cast<float>(lua_tonumber(luaVM, -1));
+				param_error |= !lua_isnumber(luaVM, -1);
 				lua_pop(luaVM, 1);
+
 				lua_pushstring(luaVM, "PauseTime");
 				lua_gettable(luaVM, -2);
 				float pause_time = static_cast<float>(lua_tonumber(luaVM, -1));
+				param_error |= !lua_isnumber(luaVM, -1);
 				lua_pop(luaVM, 1);
-				PushSection(new JointAngles(first_angle, second_angle, transition_time, pause_time));
+				
+				if(param_error)
+					luaL_error(luaVM, "Error parsing %s\nJointAngles requires four key:value pairs:\nFirstAngle:number\nSecondAngle:number\nTransitionTime:number\nPauseTime:number", _ship);
+				else
+					PushSection(new JointAngles(first_angle, second_angle, transition_time, pause_time));
 				}
 				break;
 			case st_LongRigidArm:
@@ -517,31 +657,32 @@ void GameLua::ParseShip()
 				break;
 			default:
 				//Handle spelling mistakes and whatnot.
+				luaL_error(luaVM, "Error parsing %s\nUnrecognised SectionType",_ship);
 				break;
 		}
 
 		lua_pushstring(luaVM, "Delay");
 		lua_gettable(luaVM, -2); //Puts any firing delay length on the top of the stack
 		if(lua_isnumber(luaVM, -1))
-		{
 			SetFiringDelay(static_cast<float>(lua_tonumber(luaVM, -1)));
-		}
+		else if(!lua_isnil(luaVM, -1))
+			Logger::Log(std::string("Nonfatal error in ")+std::string(_ship) + std::string(": Delay key must have a numeric value"));
 		lua_pop(luaVM, 1);
 
 		lua_pushstring(luaVM, "Health");
 		lua_gettable(luaVM, -2); //Puts any health value on the top of the stack
 		if(lua_isnumber(luaVM, -1))
-		{
 			SetHealth(static_cast<float>(lua_tonumber(luaVM, -1)));
-		}
+		else if(!lua_isnil(luaVM, -1))
+			Logger::Log(std::string("Nonfatal error in ")+std::string(_ship) + std::string(": Health key must have a numeric value"));
 		lua_pop(luaVM, 1);
 
 		lua_pushstring(luaVM, "Angle");
 		lua_gettable(luaVM, -2); //Puts any health value on the top of the stack
 		if(lua_isnumber(luaVM, -1))
-		{
 			SetAngle(static_cast<float>(lua_tonumber(luaVM, -1)));
-		}
+		else if(!lua_isnil(luaVM, -1))
+			Logger::Log(std::string("Nonfatal error in ")+std::string(_ship) + std::string(": Angle key must have a numeric value"));
 		lua_pop(luaVM, 1);
 
 		lua_pushstring(luaVM, "Position");
@@ -555,6 +696,9 @@ void GameLua::ParseShip()
 			if(lua_isnumber(luaVM, -1))
 			{
 				x = static_cast<float>(lua_tonumber(luaVM, -1));
+			} else if(!lua_isnil(luaVM, -1))
+			{
+				Logger::Log(std::string("Nonfatal error in ")+std::string(_ship) + std::string(": Position.x key must have a numeric value"));		
 			}
 			lua_pop(luaVM, 1);
 			lua_pushstring(luaVM, "y");
@@ -562,11 +706,16 @@ void GameLua::ParseShip()
 			if(lua_isnumber(luaVM, -1))
 			{
 				y = static_cast<float>(lua_tonumber(luaVM, -1));
+			} else if(!lua_isnil(luaVM, -1))
+			{
+				Logger::Log(std::string("Nonfatal error in ")+std::string(_ship) + std::string(": Position.y key must have a numeric value"));
 			}
 
 			SetPosition(x,y);
 			lua_pop(luaVM, 1);
 		}
+		else if(!lua_isnil(luaVM, -1))
+			Logger::Log(std::string("Nonfatal error in ")+std::string(_ship) + std::string(": Position key must have a table value"));
 		lua_pop(luaVM, 1);
 
 		//Now load all the subsections
@@ -578,10 +727,13 @@ void GameLua::ParseShip()
 			 for(int i = 1; i <= sub_section_count; i++)
 			 {
 				lua_rawgeti(luaVM, -1, i);
-				ParseShip();
+				ParseShip(_ship);
 				PopSection();
 				lua_pop(luaVM, 1);
 			 }
+		} else if(!lua_isnil(luaVM, -1))
+		{
+			Logger::Log(std::string("Nonfatal error in ")+std::string(_ship) + std::string(": SubSections key must have a table value"));
 		}
 		lua_pop(luaVM, 1);
 
@@ -591,7 +743,6 @@ void GameLua::ParseShip()
 
 void GameLua::LoadChallenge(const char* challenge)
 {
-	
 	lua_getglobal(luaVM,"Challenge");
 	if(!lua_isnil(luaVM, -1))
 	{
@@ -606,29 +757,38 @@ void GameLua::LoadChallenge(const char* challenge)
 	int load_result = luaL_loadfile(luaVM, challenge);
 
 	if(load_result == LUA_ERRSYNTAX)
-	{//Syntax error, should report what went wrong and abandon
+	{
 		Logger::LogError("GameLua::LoadChallenge: A syntax error occurred while loading\n");
 	} else if(load_result == LUA_ERRMEM)
-	{//Memory allocation error, should report error and abandon
+	{
 		Logger::LogError("GameLua::LoadChallenge: A memory allocation error occurred while loading\n");
 	} else
 	{//Loaded OK. Function ready to run at top of stack.
 		int run_result = lua_pcall(luaVM, 0, LUA_MULTRET, 0);
 		if(run_result == LUA_ERRRUN)
-		{//Runtime error, should report and abandon
-			Logger::LogError("GameLua::LoadChallenge: A runtime error occurred while running\n");
-		} else if(run_result == LUA_ERRMEM)
-		{//Memory allocation error, should report and abandon
+		{
+			Logger::LogError("GameLua::LoadChallenge: A runtime error occurred\n");
+			if(lua_isstring(luaVM, -1))
+				Logger::LogError(lua_tostring(luaVM, -1));
+		}
+		else if(run_result == LUA_ERRMEM)
+		{
 			Logger::LogError("GameLua::LoadChallenge: A memory allocation error occurred while running\n");
-		}else if (run_result == 0)
+			if(lua_isstring(luaVM, -1))
+				Logger::LogError(lua_tostring(luaVM, -1));
+		}
+		else if(run_result == LUA_ERRERR)
+		{
+			Logger::Log("GameLua::LoadChallenge: Error handling function error\n");
+			if(lua_isstring(luaVM, -1))
+				Logger::LogError(lua_tostring(luaVM, -1));
+		}
+		else
 		{//Everything worked OK, script loaded
 			 is_script_running_ = true;
 			 Logger::Log("GameLua::LoadChallenge: Challenge script loaded and run without problem\n");
-		}else
-		{
-			Logger::Log("GameLua::LoadChallenge: Mystery error\n");
 		}
-	 }
+	}
 }
 
 void GameLua::Tick(int _friend_count, int _enemy_count, float _timespan)
@@ -650,19 +810,32 @@ void GameLua::Tick(int _friend_count, int _enemy_count, float _timespan)
 		lua_gettable(luaVM, -2);
 		if(lua_isfunction(luaVM, -1))
 		{
-			int run_result = lua_pcall(luaVM, 0, 1, 0); //Should pop EntryPoint and replace with either true or false
+			int run_result = lua_pcall(luaVM, 0, LUA_MULTRET, 0); //Should pop EntryPoint and replace with either true or false, then any error codes
 			int parameter_count = lua_gettop(luaVM);
 			if(run_result == LUA_ERRRUN)
 			{//Runtime error, should report and abandon
 				Logger::LogError("GameLua::Tick: A runtime error occurred\n");
+				if(lua_isstring(luaVM, -1))
+				{
+					Logger::LogError(lua_tostring(luaVM, -1));
+				}
 				is_script_running_ = false;
 			} else if(run_result == LUA_ERRMEM)
 			{//Memory allocation error, should report and abandon
 				Logger::LogError("GameLua::Tick: A memory allocation error occurred while running\n");
+				if(lua_isstring(luaVM, -1))
+				{
+					Logger::LogError(lua_tostring(luaVM, -1));
+				}
 				is_script_running_ = false;
-			} else if(run_result != 0)
-			{
-				Logger::LogError("GameLua::Tick: Mystery adventure error\n");
+			} else if(run_result == LUA_ERRERR)
+			{ 
+				Logger::LogError("GameLua::Tick: Error handler error\n");
+				if(lua_isstring(luaVM, -1))
+				{
+					Logger::LogError(lua_tostring(luaVM, -1));
+				}
+				is_script_running_ = false;
 			} else
 			{
 				int pt = lua_type(luaVM, -1);
@@ -671,17 +844,22 @@ void GameLua::Tick(int _friend_count, int _enemy_count, float _timespan)
 					int isDone = lua_toboolean(luaVM, -1);
 					if(isDone)
 						is_script_running_ = false;
+				} else if((parameter_count == 2) && lua_isstring(luaVM, -1))
+				{
+					Logger::LogError("GameLua::Tick: EntryPoint returned an error\n");
+					Logger::LogError(lua_tostring(luaVM, -1));
+ 					is_script_running_ = false;
 				} else
 				{
-					Logger::LogError("EntryPoint should return true or false\n");
- 					is_script_running_ = false;
+					Logger::LogError("GameLua::Tick: EntryPoint should return true or false, or an error string\n");
+					is_script_running_ = false;
 				}
 				lua_pop(luaVM, 1); //Pop the boolean isDone
 			}
 		}
 		else
 		{
-			Logger::LogError("Unable to find EntryPoint function\n");
+			Logger::LogError("GameLua::Tick: Unable to find EntryPoint function\n");
 			is_script_running_ = false;
 		}
 
@@ -690,7 +868,7 @@ void GameLua::Tick(int _friend_count, int _enemy_count, float _timespan)
 	}
 	else
 	{
-		Logger::LogError("Unable to find Challenge table\n");
+		Logger::LogError("GameLua::Tick: Unable to find Challenge table\n");
 		lua_pop(luaVM, 1); //Pop what is probably nil
 		is_script_running_ = false;
 	}
@@ -786,7 +964,7 @@ BaseAI* GameLua::GetAI()
 				ai = new KeyboardAI();
 				break;
 			default:
-				//Report error in AI string
+				luaL_error(luaVM, "Unrecognised AIType");
 				break;
 			}
 
@@ -794,11 +972,13 @@ BaseAI* GameLua::GetAI()
 		else
 		{
 			//Report AIType must be string
+			luaL_error(luaVM, "AI table require a string AIType property");
 			lua_pop(luaVM, 1);
 		}
 		lua_pop(luaVM, 1); //Pop the AI table
 	} else
 	{
+		luaL_error(luaVM, "Cores require an AI table property");
 		lua_pop(luaVM, 1); //Probably have nil at top of stack, so pop
 	}
 	if(ai == NULL)
@@ -807,4 +987,5 @@ BaseAI* GameLua::GetAI()
 	}
 	return ai;
 }
+
 
