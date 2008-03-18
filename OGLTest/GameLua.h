@@ -12,6 +12,8 @@ extern "C"
 #include "lauxlib.h"
 }
 
+class GameScene;
+
 class GameLua
 {
 private:
@@ -21,12 +23,14 @@ private:
 	BaseAI* GetAI();
 	bool is_script_running_;
 	float sum_time_;
+	GameScene* game_scene_;
 public:
-	GameLua(void);
+	GameLua(GameScene* _game_scene);
 	~GameLua(void);
 	
+
 	void LoadChallenge(const char* challenge);
-	void LoadShip(const char* ship);
+	int LoadShip(const char* ship);
 	void ParseShip();
 
 	void PushCore(Core_ptr _core);
@@ -42,6 +46,8 @@ public:
 
 	void AddAsFriend();
 	void AddAsEnemy();
+
+	bool IsAlive(int _section_id);
 
 	void StackToCore();
 	void OverrideAI(BaseAI*);

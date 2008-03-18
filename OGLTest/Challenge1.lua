@@ -19,15 +19,16 @@ LoadShip("LuaShip2.lua")				--Loads a ship but doesn't add it to the world
 SetAI("KeyboardAI")					--Sets the last loaded ships AI
 AddAsFriend()						--Adds the ship as a friend
 
-Predicate.WaitFor(0.5)
+--Predicate.WaitFor(1)
 
-LoadShip("SpikeyShip.lua")
+ship_id = LoadShip("SpikeyShip.lua")
 SetAI("RotatingAI", 0.3)
 SetColor(0,128,128)
 SetPosition(0,0)
 AddAsEnemy()
 
-Predicate.WaitFor(5)
+--Predicate.WaitTillShipDead(ship_id)
+Predicate.WaitFor(1)
 
 LoadShip("SpaceStation.lua")
 SetAI("RotatingAI", 0.05)
@@ -76,9 +77,19 @@ end),							--End of resumable coroutine
 
 EntryPoint = function()
 if coroutine.status(Challenge.Script) ~= "dead" then
-	coroutine.resume(Challenge.Script)
-	return false	--Script still executing
+  LogError("Running lua1")
+  local run_ok = coroutine.resume(Challenge.Script)
+  LogError("Running lua2")
+  return false
+  if run_ok then
+   LogError("Lua: Ran OK")
+    return false	--Script still executing    
+  else
+   LogError("Lua: An error occurred in the coroutine")
+   return true	
+  end
 else
+    LogError("Lua: Script over")
 	return true	--Script finished
 end
 end

@@ -13,31 +13,26 @@
 #include "SpinningJoint.h"
 #include <lauxlib.h>
 
-void GameScene::initSections()
-{
-}
-
-
-
 GameScene::GameScene(void)
 {
-	initSections();
 	Camera::Instance().SetWidth(500);
-	game_lua_.LoadChallenge("Challenge1.lua");
+	game_lua_ = new GameLua(this);
+	game_lua_->LoadChallenge("Challenge1.lua");
 }
 
 GameScene::~GameScene(void)
 {
+	delete game_lua_;
 }
 
 void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 {
-	game_lua_.Tick(static_cast<int>(friends_.size()), static_cast<int>(enemies_.size()), _timespan);
+	game_lua_->Tick(static_cast<int>(friends_.size()), static_cast<int>(enemies_.size()), _timespan);
 
-	enemies_.splice(enemies_.begin(), game_lua_.GetEnemies());
-	friends_.splice(friends_.begin(), game_lua_.GetFriends());
-	game_lua_.GetFriends().clear();
-	game_lua_.GetEnemies().clear();
+	enemies_.splice(enemies_.begin(), game_lua_->GetEnemies());
+	friends_.splice(friends_.begin(), game_lua_->GetFriends());
+	game_lua_->GetFriends().clear();
+	game_lua_->GetEnemies().clear();
 
 	std::list<Projectile_ptr> enemy_spawn;
 	std::list<Projectile_ptr> ownship_spawn;
@@ -153,5 +148,26 @@ bool GameScene::IsRoot()
 
 bool GameScene::IsRemovable()
 {
+	return false;
+}
+
+bool GameScene::IsSectionAlive(int _section_id)
+{
+	BOOST_FOREACH(Core_ptr core, friends_)
+	{
+		if(core->GetSectionID() == _section_id)
+		{
+			return true;
+		}
+	}
+
+	BOOST_FOREACH(Core_ptr core, enemies_)
+	{
+		if(core->GetSectionID() == _section_id)
+		{
+			return true;
+		}
+	}
+
 	return false;
 }

@@ -66,6 +66,7 @@ public:
 	void ScaleHealth(float _factor);
 	void SetFiring(bool _firing);
 	void SetFiringDelay(float _firing_delay) {firing_delay_ = _firing_delay;}
+	int GetSectionID(){return section_id_;}
 
 	//Predicates
 	static bool IsRemovable(Section_ptr section)

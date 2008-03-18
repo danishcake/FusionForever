@@ -35,6 +35,7 @@
 #include <string>
 #include <map>
 #include <algorithm>
+#include "GameScene.h"
 
 static GameLua* last_instantiation = NULL;
 lua_State* luaVM;
@@ -140,13 +141,14 @@ static int l_load_ship(lua_State* luaVM)
 	assert(last_instantiation!=NULL);
 	if(lua_isstring(luaVM, -1))
 	{
-		last_instantiation->LoadShip(lua_tostring(luaVM, -1));
+		int ship_id = last_instantiation->LoadShip(lua_tostring(luaVM, -1));
+		lua_pushnumber(luaVM, ship_id); //Push -1 in case of error, else ship Core section ID
 	}
 	else
 	{
 		//Report incorrect params
 	}
-	return 0;
+	return 1;
 }
 
 static int l_set_color(lua_State* luaVM)
@@ -201,7 +203,56 @@ static int l_override_ai(lua_State* luaVM)
 	return 0;
 }
 
-GameLua::GameLua(void)
+static int l_is_alive(lua_State* luaVM)
+{
+	Logger::Log("Called is_alive()\n");
+	assert(last_instantiation!=NULL);
+	int section_id = lua_tonumber(luaVM, -1);
+	bool isalive = last_instantiation->IsAlive(section_id);
+	lua_pushboolean(luaVM, isalive);
+	return 1;
+}
+
+static int l_log_error(lua_State* luaVM)
+{
+	if(lua_gettop(luaVM)==1 && lua_isstring(luaVM, -1))
+	{
+		Logger::LogError(lua_tostring(luaVM, -1));
+	}
+	else
+	{
+		lua_pop(luaVM, 1);
+		Logger::LogError("Lua Error: LogError() must be called with a string parameter\n");
+	}
+	return 0;
+}
+static int l_log_to_screen(lua_State* luaVM)
+{
+	if(lua_gettop(luaVM)==1 && lua_isstring(luaVM, -1))
+	{
+		Logger::LogGameMessage(lua_tostring(luaVM, -1));
+	}
+	else
+	{
+		lua_pop(luaVM, 1);
+		Logger::LogError("Lua Error: LogToScreen() must be called with a string parameter\n");
+	}
+	return 0;
+}
+static int l_log_diagnostic(lua_State* luaVM)
+{
+	if(lua_gettop(luaVM)==1 && lua_isstring(luaVM, -1))
+	{
+		Logger::Log(lua_tostring(luaVM, -1));
+	}
+	else
+	{
+		lua_pop(luaVM, 1); 
+		Logger::LogError("Lua Error: Log() must be called with a string parameter\n");
+	}
+	return 0;
+}
+GameLua::GameLua(GameScene* _game_scene)
 {
 	if(last_instantiation == NULL)
 	{
@@ -217,7 +268,12 @@ GameLua::GameLua(void)
 		lua_register(luaVM, "LoadShip", l_load_ship);
 		lua_register(luaVM, "ScaleHealth", l_scale_health);
 		lua_register(luaVM, "SetAI", l_override_ai);
+		lua_register(luaVM, "IsAlive", l_is_alive);
+		lua_register(luaVM, "LogError", l_log_error);
+		lua_register(luaVM, "LogToScreen", l_log_to_screen);
+		lua_register(luaVM, "Log", l_log_diagnostic);
 	}
+	game_scene_ = _game_scene;
 	last_instantiation = this;
 	is_script_running_ = false;
 	sum_time_ = 0;
@@ -313,7 +369,7 @@ lua_State* GameLua::GetLuaVM()
 	return luaVM;
 }
 
-void GameLua::LoadShip(const char* ship)
+int GameLua::LoadShip(const char* ship)
 {
 	lua_getglobal(luaVM,"Ship");
 	if(!lua_isnil(luaVM, -1))
@@ -333,12 +389,12 @@ void GameLua::LoadShip(const char* ship)
 		ParseShip();
 		lua_pop(luaVM, 1); //Pop Ship
 		StackToCore(); //Pop everything but the Core from the stack
+		return section_stack_.top()->GetSectionID();
 	}
 	else
 	{
-
+		return -1;
 	}
-
 }
 
 void GameLua::ParseShip()
@@ -535,49 +591,50 @@ void GameLua::ParseShip()
 
 void GameLua::LoadChallenge(const char* challenge)
 {
+	
 	lua_getglobal(luaVM,"Challenge");
 	if(!lua_isnil(luaVM, -1))
 	{
 		lua_pushnil(luaVM);
 		lua_setglobal(luaVM, "Challenge");
+		Logger::Log("GameLua::LoadChallenge: Wiping previous challenge\n");
 	}
 	lua_pop(luaVM,1); //Pops challenge from stack
+	 
+	Logger::Log("GameLua::LoadChallenge: Attempting to load challenge\n");
+	is_script_running_ = false;
+	int load_result = luaL_loadfile(luaVM, challenge);
 
-   is_script_running_ = false;
-   int load_result = luaL_loadfile(luaVM, challenge);
-
-   if(load_result == LUA_ERRSYNTAX)
-   {//Syntax error, should report what went wrong and abandon
-
-   } else if(load_result == LUA_ERRMEM)
-   {//Memory allocation error, should report error and abandon
-
-   } else
-   {//Loaded OK. Function ready to run at top of stack.
-      int run_result = lua_pcall(luaVM, 0, LUA_MULTRET, 0);
-      if(run_result == LUA_ERRRUN)
-      {//Runtime error, should report and abandon
-
-      } else if(run_result == LUA_ERRMEM)
-      {//Memory allocation error, should report and abandon
-
-      }else
-      {//Everything worked OK, script loaded
-         is_script_running_ = true;
-      }
-   }
-
-
-	/*if(!luaL_dofile(luaVM, challenge))
-		is_script_running_ = true;	//Loads the challenge table
-   else
-   {
-      //Unable to load challenge
-   }*/
+	if(load_result == LUA_ERRSYNTAX)
+	{//Syntax error, should report what went wrong and abandon
+		Logger::LogError("GameLua::LoadChallenge: A syntax error occurred while loading\n");
+	} else if(load_result == LUA_ERRMEM)
+	{//Memory allocation error, should report error and abandon
+		Logger::LogError("GameLua::LoadChallenge: A memory allocation error occurred while loading\n");
+	} else
+	{//Loaded OK. Function ready to run at top of stack.
+		int run_result = lua_pcall(luaVM, 0, LUA_MULTRET, 0);
+		if(run_result == LUA_ERRRUN)
+		{//Runtime error, should report and abandon
+			Logger::LogError("GameLua::LoadChallenge: A runtime error occurred while running\n");
+		} else if(run_result == LUA_ERRMEM)
+		{//Memory allocation error, should report and abandon
+			Logger::LogError("GameLua::LoadChallenge: A memory allocation error occurred while running\n");
+		}else if (run_result == 0)
+		{//Everything worked OK, script loaded
+			 is_script_running_ = true;
+			 Logger::Log("GameLua::LoadChallenge: Challenge script loaded and run without problem\n");
+		}else
+		{
+			Logger::Log("GameLua::LoadChallenge: Mystery error\n");
+		}
+	 }
 }
 
 void GameLua::Tick(int _friend_count, int _enemy_count, float _timespan)
 {
+	if(!is_script_running_)
+		return;
 	sum_time_ += _timespan;
 	lua_pushinteger(luaVM, _friend_count);
 	lua_setglobal(luaVM, "FRIEND_COUNT");
@@ -593,17 +650,39 @@ void GameLua::Tick(int _friend_count, int _enemy_count, float _timespan)
 		lua_gettable(luaVM, -2);
 		if(lua_isfunction(luaVM, -1))
 		{
-			lua_pcall(luaVM, 0, 1, 0); //Should pop EntryPoint and replace with either true or false
-			if(lua_isboolean(luaVM, -1))
+			int run_result = lua_pcall(luaVM, 0, 1, 0); //Should pop EntryPoint and replace with either true or false
+			int parameter_count = lua_gettop(luaVM);
+			if(run_result == LUA_ERRRUN)
+			{//Runtime error, should report and abandon
+				Logger::LogError("GameLua::Tick: A runtime error occurred\n");
+				is_script_running_ = false;
+			} else if(run_result == LUA_ERRMEM)
+			{//Memory allocation error, should report and abandon
+				Logger::LogError("GameLua::Tick: A memory allocation error occurred while running\n");
+				is_script_running_ = false;
+			} else if(run_result != 0)
 			{
-				int isDone = lua_toboolean(luaVM, -1);
-				is_script_running_ = (isDone == 0);
+				Logger::LogError("GameLua::Tick: Mystery adventure error\n");
+			} else
+			{
+				int pt = lua_type(luaVM, -1);
+				if((parameter_count == 2) && lua_isboolean(luaVM, -1)) //Stack should be Challenge.isDone
+				{
+					int isDone = lua_toboolean(luaVM, -1);
+					if(isDone)
+						is_script_running_ = false;
+				} else
+				{
+					Logger::LogError("EntryPoint should return true or false\n");
+ 					is_script_running_ = false;
+				}
+				lua_pop(luaVM, 1); //Pop the boolean isDone
 			}
-			lua_pop(luaVM, 1); //Pop the boolean isDone
 		}
 		else
 		{
-			//Should report errors here
+			Logger::LogError("Unable to find EntryPoint function\n");
+			is_script_running_ = false;
 		}
 
 		//ParseChallenge();
@@ -611,7 +690,9 @@ void GameLua::Tick(int _friend_count, int _enemy_count, float _timespan)
 	}
 	else
 	{
+		Logger::LogError("Unable to find Challenge table\n");
 		lua_pop(luaVM, 1); //Pop what is probably nil
+		is_script_running_ = false;
 	}
 }
 
@@ -667,6 +748,10 @@ void GameLua::ScaleHealth(float _scale)
 	}
 }
 
+bool GameLua::IsAlive(int _section_id)
+{
+	return this->game_scene_->IsSectionAlive(_section_id);
+}
 BaseAI* GameLua::GetAI()
 {
 	BaseAI* ai = NULL;
@@ -722,3 +807,4 @@ BaseAI* GameLua::GetAI()
 	}
 	return ai;
 }
+

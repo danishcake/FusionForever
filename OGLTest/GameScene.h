@@ -17,6 +17,7 @@ public:
 	virtual void Draw();
 	virtual bool IsRoot();
 	virtual bool IsRemovable();
+	bool IsSectionAlive(int _section_id);
 
 protected:
 	std::list<Projectile_ptr> enemy_projectiles;
@@ -26,7 +27,5 @@ protected:
 	std::list<Core_ptr> friends_;
 	std::list<Core_ptr> enemies_;
 	Starfield starfield_;
-	GameLua game_lua_;
-
-	virtual void initSections();
+	GameLua* game_lua_;
 };
