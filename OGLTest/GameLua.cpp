@@ -28,6 +28,7 @@
 #include "WingLH.h"
 #include "WingRH.h"
 #include "TinyCore.h"
+#include "LuaSection.h"
 
 #include "RotatingAI.h"
 #include "KeyboardAI.h"
@@ -72,6 +73,7 @@ static enum SectionType
 	st_SweptWingRH,
 	st_WingLH,
 	st_WingRH,
+	st_LuaSection,
 	ai_RotatingAI,
 	ai_KeyboardAI
 };
@@ -107,6 +109,7 @@ static void InitialiseMap()
 	SectionMap["WINGLH"] = st_WingLH;
 	SectionMap["WINGRH"] = st_WingRH;
 	SectionMap["TINYCORE"] = st_TinyCore;
+	SectionMap["LUASECTION"] = st_LuaSection;
 }
 
 
@@ -654,6 +657,21 @@ void GameLua::ParseShip(const char* _ship)
 				break;
 			case st_WingRH:
 				PushSection(new WingRH());
+				break;
+			case st_LuaSection:
+				{
+					lua_pushstring(luaVM, "LuaSectionType");
+					lua_gettable(luaVM, -2);
+					if(lua_isstring( luaVM, -1))
+					{
+						std::string lua_section_type = lua_tostring(luaVM, -1);
+						PushSection(LuaSection::CreateLuaSection(lua_section_type, luaVM));
+					} else
+					{
+						luaL_error(luaVM, "Error parsing LuaSection: LuaSectionType must be string",_ship);
+					}
+					lua_pop(luaVM, 1);
+				}
 				break;
 			default:
 				//Handle spelling mistakes and whatnot.

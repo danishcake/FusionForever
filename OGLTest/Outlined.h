@@ -13,7 +13,7 @@ protected:
 	int outline_display_list_;
 
 	void DrawOutline();
-	int CreateOutlinedDisplayList(boost::shared_ptr<std::vector<Vector3f>> _verts);
+	static int CreateOutlinedDisplayList(boost::shared_ptr<std::vector<Vector3f>> _verts);
 	void DrawOutlinedDisplayList();
 	virtual void initialise_outline() = 0;
 	

@@ -19,61 +19,61 @@ Ship = {
     },
     {
       SectionType = "LongRigidArm", Health = 50000,
-      Angle = -30,
+      Angle = 30,
       Position = {x = 10 * math.sin(math.rad(30)), y = 10 * math.cos(math.rad(30))},
       SubSections = {{SectionType = "WidePlate", Health = 50000}}         
     },
     {
       SectionType = "LongRigidArm", Health = 50000,
-      Angle = -60,
+      Angle = 60,
       Position = {x = 10 * math.sin(math.rad(60)), y = 10 * math.cos(math.rad(60))},
       SubSections = {{SectionType = "WidePlate", Health = 50000}}      
     },
     {
       SectionType = "LongRigidArm", Health = 50000,
-      Angle = -90,
+      Angle = 90,
       Position = {x = 10 * math.sin(math.rad(90)), y = 10 * math.cos(math.rad(90))},
       SubSections = {{SectionType = "WidePlate", Health = 50000}}      
     },
     {
       SectionType = "LongRigidArm", Health = 50000,
-      Angle = -120,
+      Angle = 120,
       Position = {x = 10 * math.sin(math.rad(120)), y = 10 * math.cos(math.rad(120))},
       SubSections = {{SectionType = "WidePlate", Health = 50000}}      
     },
     {
       SectionType = "LongRigidArm", Health = 50000,
-      Angle = -140,
+      Angle = 140,
       Position = {x = 10 * math.sin(math.rad(150)), y = 10 * math.cos(math.rad(150))},
       SubSections = {{SectionType = "WidePlate", Health = 50000}}      
     },
     {
       SectionType = "LongRigidArm", Health = 50000,
-      Angle = 30,
+      Angle = -30,
       Position = {x = 10 * math.sin(math.rad(-30)), y = 10 * math.cos(math.rad(-30))},
       SubSections = {{SectionType = "WidePlate", Health = 50000}}      
     },
     {
       SectionType = "LongRigidArm", Health = 50000,
-      Angle = 60,
+      Angle = -60,
       Position = {x = 10 * math.sin(math.rad(-60)), y = 10 * math.cos(math.rad(-60))},
       SubSections = {{SectionType = "WidePlate", Health = 50000}}      
     },
     {
       SectionType = "LongRigidArm", Health = 50000,
-      Angle = 90,
+      Angle = -90,
       Position = {x = 10 * math.sin(math.rad(-90)), y = 10 * math.cos(math.rad(-90))},
       SubSections = {{SectionType = "WidePlate", Health = 50000}}      
     },
     {
       SectionType = "LongRigidArm", Health = 50000,
-      Angle = 120,
+      Angle = -120,
       Position = {x = 10 * math.sin(math.rad(-120)), y = 10 * math.cos(math.rad(-120))},
       SubSections = {{SectionType = "WidePlate", Health = 50000}}      
     },
     {
       SectionType = "LongRigidArm", Health = 50000,
-      Angle = 140,
+      Angle = -140,
       Position = {x = 10 * math.sin(math.rad(-150)), y = 10 * math.cos(math.rad(-150))},
       SubSections = {{SectionType = "WidePlate", Health = 50000}}      
     }

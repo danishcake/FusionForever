@@ -9,6 +9,16 @@ Ship = {
 	SubSections = 
 	{
 	{
+		SectionType = "LuaSection",
+		LuaSectionType = "OctoSection.lua",
+		Position = {x = 25, y = 25}
+	},
+	{
+		SectionType = "LuaSection",
+		LuaSectionType = "OctoSection.lua",
+		Position = {x = -25, y = 25}
+	},
+	{
 		SectionType = "WidePlate",
 		Position = {x = 11, y = 5},
 		Angle = -60
@@ -42,8 +52,8 @@ Ship = {
           SubSections = 
           {
             {
-              SectionType = "Blaster",
-              Position = {x = 0, y = 5}
+              SectionType = "LuaSection",
+              LuaSectionType = "SpunStar.lua"
             }
           }			
         }

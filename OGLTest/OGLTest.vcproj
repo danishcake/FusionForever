@@ -379,6 +379,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\LuaSection.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\NarrowProngLH.cpp"
 						>
 					</File>
@@ -498,6 +502,10 @@
 							UsePrecompiledHeader="1"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\Triangulate.cpp"
+					>
 				</File>
 				<File
 					RelativePath=".\TurningRoutines.cpp"
@@ -705,6 +713,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\LuaSection.h"
+						>
+					</File>
+					<File
 						RelativePath=".\NarrowProngLH.h"
 						>
 					</File>
@@ -822,6 +834,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Triangulate.h"
+					>
+				</File>
+				<File
 					RelativePath=".\TurningRoutines.h"
 					>
 				</File>
@@ -867,6 +883,22 @@
 				>
 				<File
 					RelativePath=".\Utility.lua"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="LuaSections"
+				>
+				<File
+					RelativePath=".\DecoPlateSection.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\OctoSection.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\SpunStar.lua"
 					>
 				</File>
 			</Filter>

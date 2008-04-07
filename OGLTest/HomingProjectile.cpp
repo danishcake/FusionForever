@@ -32,7 +32,8 @@ void HomingProjectile::Tick(float _timespan, Matrix4f _transform)
 		//I'm not entirely sure why I have to do this negation, 
 		//I guess it has something to do with the turning algorithm 
 		//being tuned to mouse position coordinate system 
-		float turn_rate = -GetTurnDirection(this->angle_, target_position); 
+		TurnData turn_data = GetTurnDirection(this->angle_, target_position);
+		float turn_rate = turn_data.turn_factor;
 		angle_ += turn_rate * _timespan * turn_rate_;
 		velocity_  = Vector3f(scalar_speed_ * sin(angle_ * M_PI / 180.0f), scalar_speed_ * cos(angle_ * M_PI / 180.0f),0);
 	}

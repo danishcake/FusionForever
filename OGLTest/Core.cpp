@@ -24,7 +24,7 @@ void Core::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::lis
    //Do all the standard moving and rotating
 	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies);
 	//Get the AI instructions (how to move, rotate and fire)
-   AIAction action;
+	AIAction action;
 	if(AI_!=NULL)
 	{
 		action = AI_->Tick(_timespan, _allies, _enemies, this);
@@ -43,8 +43,13 @@ void Core::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::lis
 			velocity_*=CORE_MOVE_RATE_MAX;
 		}
 
-
-		angle_ += action.dtheta_ * _timespan * CORE_ROT_RATE_MAX;
+		if(fabsf(action.dtheta_ * _timespan) <= fabsf(action.max_turn_))
+			angle_ += action.dtheta_ * _timespan * CORE_ROT_RATE_MAX;
+		else
+		{
+			angle_ += action.max_turn_;
+			printf("Max turn = %f\n", action.max_turn_);
+		}
 		firing_ = action.firing_;
 	}
 }

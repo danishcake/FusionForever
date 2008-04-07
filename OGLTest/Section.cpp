@@ -52,6 +52,7 @@ void Section::DrawSelf(void)
 }
 void Section::AddChild(Section *child)
 {
+	assert(child!=NULL);
 	if(!child->GetPositionSpecified())
 	{
 		child->SetPosition(default_sub_section_position_);

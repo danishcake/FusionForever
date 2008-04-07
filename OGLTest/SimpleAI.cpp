@@ -22,7 +22,7 @@ AIAction SimpleAI::Tick(float _timespan, std::list<Core_ptr>& _allies, std::list
 		//Pick a new target
 		
 	}
-	AIAction a = AIAction(0, 0, 0, false); 
+	AIAction a = AIAction(0, 0, 0, 360, false); 
 
 	return a;
 }

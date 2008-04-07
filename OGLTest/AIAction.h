@@ -17,7 +17,7 @@ public:
      * @param _dtheta Normalised angular acceleration
      * @param _firing Firing state
      */
-	AIAction(float _dx, float _dy, float _dtheta, bool _firing);
+	AIAction(float _dx, float _dy, float _dtheta, float _max_turn, bool _firing);
 
    /**
      * Clamped x-axis acceleration (-1 to 1)
@@ -35,4 +35,9 @@ public:
      * Firing state
      */
 	bool firing_;
+	/**
+	  * The maximum angle to turn in low frame rate situations
+	  */
+
+	float max_turn_;
 };

@@ -13,7 +13,7 @@ protected:
 	int fill_display_list_;
 
 	void DrawFill();
-	int CreateFillDisplayList(boost::shared_ptr<std::vector<Vector3f>> _verts);
+	static int CreateFillDisplayList(boost::shared_ptr<std::vector<Vector3f>> _verts);
 	void DrawFillDisplayList();
 	virtual void initialise_fill() = 0;
 

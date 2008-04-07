@@ -54,13 +54,15 @@ AIAction KeyboardAI::Tick(float _timespan, std::list<Core_ptr>& _allies, std::li
 	if(SDL_BUTTON_LMASK & mouse_state)
 		action.firing_ = true;
 
-	Vector3f point_to_face = Vector3f((x - Camera::Instance().GetWindowWidth()/2.0f),
-		                              (y - Camera::Instance().GetWindowHeight()/2.0f), 0);
+	Vector3f point_to_face = Vector3f((x - Camera::Instance().GetWindowWidth() / 2.0f),
+		                              (Camera::Instance().GetWindowHeight() / 2.0f) - y, 0); // Mouse y coordinates are screen coordinates and so upside down
 	if(point_to_face.lengthSq()!=0)
 	{
-		float dotprod = GetTurnDirection(_self->GetAngle(), point_to_face);
+		TurnData turn_data = GetTurnDirection(_self->GetAngle(), point_to_face);
+		float dotprod = turn_data.turn_factor;
 		action.dtheta_ = ClampTurnDirection(dotprod, 0.4f);
-		Vector3f point_faced = Vector3f(-sinf(_self->GetAngle() * M_PI / 180.0f), cosf(_self->GetAngle() * M_PI / 180.0f), 0);
+		action.max_turn_ = turn_data.angle_difference ;
+		Vector3f point_faced = Vector3f(sinf(_self->GetAngle() * M_PI / 180.0f), cosf(_self->GetAngle() * M_PI / 180.0f), 0);
 
 		//Position camera
 		if(SDL_BUTTON_RMASK & mouse_state)

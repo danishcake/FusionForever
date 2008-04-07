@@ -24,7 +24,7 @@ void BaseEntity::Tick(float _timespan, Matrix4f _transform)
 	position_ += velocity_ * _timespan;
 
 	Matrix4f translation = Matrix4f::createTranslation(position_.x, position_.y, 0.0f);
-	Matrix4f rotation = Matrix4f::createRotationAroundAxis(0,0,-angle_* DEGTORAD);
+	Matrix4f rotation = Matrix4f::createRotationAroundAxis(0, 0, angle_* DEGTORAD);
 	_transform = _transform * translation * rotation ;
 
    /*Store position and transform

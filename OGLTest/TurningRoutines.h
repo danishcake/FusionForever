@@ -1,5 +1,12 @@
 #include "vmath.h"
 
+struct TurnData
+{
+	float turn_factor;
+	float angle_difference;
+};
+
+
 /**
   * Gets the direction to turn to face a point
   * Untested - may be wrong!
@@ -8,7 +15,7 @@
   * @param _point_to_face The point to face
   * @return A factor between 1 and -1 representing the angle change needed.
   */
-extern float GetTurnDirection(Vector3f _point_faced, Vector3f _point_to_face);
+extern TurnData GetTurnDirection(Vector3f _point_faced, Vector3f _point_to_face);
 /**
   * Gets the direction to turn to face a point
   * Expects central coordinates (ie with turning entity at 0,0)
@@ -16,7 +23,7 @@ extern float GetTurnDirection(Vector3f _point_faced, Vector3f _point_to_face);
   * @param _point_to_face The point to face
   * @return A factor between 1 and -1 representing the angle change needed.
   */
-extern float GetTurnDirection(float _angle, Vector3f _point_to_face);
+extern TurnData GetTurnDirection(float _angle, Vector3f _point_to_face);
 /**
   * Gets the direction to turn to face a point
   * Untested - may be wrong!
@@ -24,7 +31,7 @@ extern float GetTurnDirection(float _angle, Vector3f _point_to_face);
   * @param _angle_to_face The angle to face
   * @return A factor between 1 and -1 representing the angle change needed.
   */
-extern float GetTurnDirection(float _angle, float _angle_to_face);
+extern TurnData GetTurnDirection(float _angle, float _angle_to_face);
 
 /**
   * Scales the turn rate so that full speed turns are achieved expect in a centre deadzone
