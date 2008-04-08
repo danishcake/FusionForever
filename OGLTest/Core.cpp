@@ -48,7 +48,6 @@ void Core::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::lis
 		else
 		{
 			angle_ += action.max_turn_;
-			printf("Max turn = %f\n", action.max_turn_);
 		}
 		firing_ = action.firing_;
 	}

@@ -15,6 +15,7 @@ public:
      * @param _dx Clamped x-axis acceleration (-1 to 1)
      * @param _dy Clamped y-axis acceleration (-1 to 1)
      * @param _dtheta Normalised angular acceleration
+	 * @param _max_turn Maximum angle to turn in one tick. Typically the total angle turn required
      * @param _firing Firing state
      */
 	AIAction(float _dx, float _dy, float _dtheta, float _max_turn, bool _firing);

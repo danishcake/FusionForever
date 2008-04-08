@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 class Logger
 {
@@ -8,6 +9,7 @@ private:
 	Logger(void);
 	static Logger& Instance()
 	{
+		
 		static Logger logger;
 		return logger;
 	}

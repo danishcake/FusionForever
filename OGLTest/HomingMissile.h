@@ -1,5 +1,6 @@
 #pragma once
 #include "HomingProjectile.h"
+#include "LineTrace.h"
 
 class HomingMissile :
 	public HomingProjectile

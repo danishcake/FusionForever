@@ -35,7 +35,7 @@ public:
    /**
      * Draws the decoration
      */
-	void DrawSelf();
+	virtual void DrawSelf();
    /**
      * Gets if the Decoration is ready for culling.
      * @return True is ready for culling, else false.
