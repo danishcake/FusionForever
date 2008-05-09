@@ -45,7 +45,7 @@ public:
    /**
      * Creates a HomingMissileLauncher
      */
-	HomingMissileLauncher(void);
+	HomingMissileLauncher();
 	virtual ~HomingMissileLauncher(void);
 
    /**

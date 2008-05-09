@@ -57,7 +57,7 @@ void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 
 	for(std::list<Projectile_ptr>::iterator it = enemy_projectiles.begin(); it != enemy_projectiles.end(); it++)
 	{
-		(*it)->Tick(_timespan, identity);
+		(*it)->Tick(_timespan, decoration_spawn, identity);
 
 		BOOST_FOREACH(Core_ptr core, friends_)
 		{
@@ -72,7 +72,7 @@ void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 
 	for(std::list<Projectile_ptr>::iterator it = ownship_projectiles.begin(); it != ownship_projectiles.end(); it++)
 	{
-		(*it)->Tick(_timespan, identity);
+		(*it)->Tick(_timespan, decoration_spawn, identity);
 
 		BOOST_FOREACH(Core_ptr core, enemies_)
 		{

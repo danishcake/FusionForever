@@ -15,8 +15,8 @@ static const float TURN_START = 300;
 static const float TURN_END = 50;
 
 
-HomingMissile::HomingMissile(Vector3f _position)
-:HomingProjectile()
+HomingMissile::HomingMissile(Vector3f _position, BaseEntity* _target)
+: HomingProjectile(_target)
 {
 	if(!initialised_)
 	{
@@ -31,6 +31,7 @@ HomingMissile::HomingMissile(Vector3f _position)
 	scalar_speed_ = 200;
 	velocity_.y = scalar_speed_;
 	position_ = _position;
+	first_run_ = true;
 }
 
 HomingMissile::~HomingMissile(void)
@@ -50,15 +51,21 @@ void HomingMissile::initialise_outline()
 	boost::shared_ptr<std::vector<Vector3f>> temp_outline = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 
 	temp_outline->push_back(Vector3f(0,0,0));
-	temp_outline->push_back(Vector3f(-2,5,0));
-	temp_outline->push_back(Vector3f(2,5,0));
+	temp_outline->push_back(Vector3f(-2,-5,0));
+	temp_outline->push_back(Vector3f(2,-5,0));
 
 	outline_verts_index_ = Datastore::Instance().AddVerts(temp_outline);
 	outline_dl_ = CreateOutlinedDisplayList(temp_outline);
 }
 
-void HomingMissile::Tick(float _timespan, Matrix4f _transform)
+void HomingMissile::Tick(float _timespan, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform)
 {
+	if(first_run_)
+	{
+		first_run_ = false;
+		line_trace_ = new LineTrace((BaseEntity*)this);
+		_spawn_dec.push_back(line_trace_);
+	}
 	float scale;
 	if(lifetime_ > TOTAL_LIFETIME - ACCELERATION_START)
 		scale = 0.0f;
@@ -69,5 +76,5 @@ void HomingMissile::Tick(float _timespan, Matrix4f _transform)
 
 	turn_rate_ = TURN_START + (TURN_END - TURN_START) * scale;
 	scalar_speed_ = SPEED_MIN + (SPEED_MAX - SPEED_MIN) * scale;
-	HomingProjectile::Tick(_timespan, _transform);
+	HomingProjectile::Tick(_timespan, _spawn_dec, _transform);
 }

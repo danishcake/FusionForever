@@ -1,6 +1,5 @@
-// OGLTest.cpp : Defines the entry point for the console application.
-//
 #include "stdafx.h"
+#include <ctime>
 #include <sdl.h>
 #include <AntTweakBar.h>
 

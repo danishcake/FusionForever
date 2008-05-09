@@ -1,7 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OGLTest", "OGLTest\OGLTest.vcproj", "{808546DA-755E-4123-9867-69BE06547FC5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OGLTest_lib", "OGLTest_lib\OGLTest_lib.vcproj", "{808546DA-755E-4123-9867-69BE06547FC5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OGLTest_bin", "OGLTest_bin\OGLTest_bin.vcproj", "{9D1BDD7E-EC0F-458A-BD22-0512476A99C7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{808546DA-755E-4123-9867-69BE06547FC5} = {808546DA-755E-4123-9867-69BE06547FC5}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +18,10 @@ Global
 		{808546DA-755E-4123-9867-69BE06547FC5}.Debug|Win32.Build.0 = Debug|Win32
 		{808546DA-755E-4123-9867-69BE06547FC5}.Release|Win32.ActiveCfg = Release|Win32
 		{808546DA-755E-4123-9867-69BE06547FC5}.Release|Win32.Build.0 = Release|Win32
+		{9D1BDD7E-EC0F-458A-BD22-0512476A99C7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9D1BDD7E-EC0F-458A-BD22-0512476A99C7}.Debug|Win32.Build.0 = Debug|Win32
+		{9D1BDD7E-EC0F-458A-BD22-0512476A99C7}.Release|Win32.ActiveCfg = Release|Win32
+		{9D1BDD7E-EC0F-458A-BD22-0512476A99C7}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

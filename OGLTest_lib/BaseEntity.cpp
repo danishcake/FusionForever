@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "BaseEntity.h"
+#include <boost/foreach.hpp>
 
 static const float DEGTORAD = 3.14159265f / 180.0f;
 
@@ -12,11 +13,15 @@ BaseEntity::BaseEntity(void)
 
 	ltv_transform_ = Matrix4f();
 	ltv_position_ = Vector3f();
-   position_specified_ = false;
+	position_specified_ = false;
 }
 
 BaseEntity::~BaseEntity(void)
 {
+	BOOST_FOREACH(BaseEntity* subscriber, subscribers_)
+	{
+		subscriber->EndSubscription(this);
+	}
 }
 
 void BaseEntity::Tick(float _timespan, Matrix4f _transform)
@@ -45,4 +50,19 @@ BaseEntity* BaseEntity::localTransToGlobal(BaseEntity* _baseEntity)
 	_baseEntity->SetPosition(ltv_transform_ * _baseEntity->GetPosition());
 	_baseEntity->SetVelocity(ltv_transform_ * _baseEntity->GetVelocity() - ltv_position_);
 	return _baseEntity;
+}
+
+void BaseEntity::AddSubscriber(BaseEntity* _subscriber)
+{
+	subscribers_.push_back(_subscriber);
+}
+
+void BaseEntity::RemoveSubscriber(BaseEntity* _subscriber)
+{
+	subscribers_.remove(_subscriber);
+}
+
+void BaseEntity::EndSubscription(BaseEntity* _source)
+{
+	//Do nothing, but overloaded versions should check the incoming pointer, and invalidate them if they match
 }

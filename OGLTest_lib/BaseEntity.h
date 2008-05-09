@@ -4,6 +4,10 @@
 
 /**
   * The BaseEntity class represents the common properties shared by all entities.
+  * A BaseEntity can subscribe to other BaseEntities by using AddSubscriber. When the subscribed to 
+  * BaseEntity dies it calls the EndSubscription method on each subscriber. Similarly, a subscriber
+  * must call RemoveSubscriber when it dies
+  * The EndSubscription method should be overloaded to deal with incoming EndSubscriptions
   */
 class BaseEntity
 {
@@ -39,6 +43,11 @@ protected:
      */
 	Vector3f ltv_position_;
 
+	/**
+	  * A list of subscribers to alert on death
+	  */
+	std::list<BaseEntity*> subscribers_;
+
 public:
    /**
      * Sets up default values for BaseEntity.
@@ -58,6 +67,21 @@ public:
      * @param _transform The transform of the parent object.
      */
 	virtual void Tick(float _timespan, Matrix4f _transform);
+	
+	/**
+	  * Add a subscriber to alert on death
+	  */
+	void AddSubscriber(BaseEntity* _subscriber);
+	
+	/**
+	  * Remove a subscriber if it has died
+	  */
+	void RemoveSubscriber(BaseEntity* _subscriber);
+
+	/**
+	  * Alert a subscription that it is about to be invalidated
+	  */
+	virtual void EndSubscription(BaseEntity* _source);
 
    /**
      * Sets the position. Sets position_specified_ to true.
@@ -113,7 +137,8 @@ public:
 	{
 		Vector3f v = Vector3f(0,1,0);
 		v = ltv_transform_ * v;
-		return atan2f(-v.x,v.y)*180.0f/M_PI;
+		v -= ltv_position_;
+		return atan2f(v.x,v.y)*180.0f/M_PI;
 	}
 
 	/**

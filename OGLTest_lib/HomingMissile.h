@@ -11,9 +11,11 @@ protected:
 	static bool initialised_;
 	static int outline_dl_;
 	static int outline_verts_index_;
+	LineTrace* line_trace_;
+	bool first_run_;
 public:
-	HomingMissile(Vector3f _position);
+	HomingMissile(Vector3f _position, BaseEntity* _target);
 	virtual ~HomingMissile(void);
 	virtual void Hit(std::list<Decoration_ptr>& _spawn);
-	virtual void Tick(float _timespan, Matrix4f _transform);
+	virtual void Tick(float _timespan, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform);
 };

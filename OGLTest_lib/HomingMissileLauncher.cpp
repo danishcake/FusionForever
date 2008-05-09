@@ -79,15 +79,14 @@ void HomingMissileLauncher::Tick(float _timespan, std::list<Projectile_ptr>& _sp
 	{
 		if(cooldown_ <= 0.0f)
 		{
-			HomingMissile* hm = new HomingMissile(Vector3f(0, 5, 0));
+			BaseEntity* target = NULL;
 			if(_enemies.size() > 0)
 			{
 				int index = rand() % static_cast<int>(_enemies.size());
-				Section_ptr target = (Section_ptr)(*_enemies.begin());
-				HomingJoin* hj = new HomingJoin(hm, target);
-				hm->RegisterHomingJoin(hj);
-				target->RegisterHomingJoin(hj);
+				target = (BaseEntity*)(*_enemies.begin());
 			}
+			HomingMissile* hm = new HomingMissile(Vector3f(0, 5, 0), target);
+
 			fire_projectile(hm, _spawn_prj);
 			cooldown_ = cooldown_time_;
 		}

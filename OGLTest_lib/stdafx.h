@@ -18,6 +18,6 @@
 #include <windows.h>
 #include <gl\gl.h>
 
-#include <time.h>
+#include <ctime>
 #include "Logger.h"
 // TODO: reference additional headers your program requires here

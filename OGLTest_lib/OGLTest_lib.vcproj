@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="OGLTest"
+	Name="OGLTest_lib"
 	ProjectGUID="{808546DA-755E-4123-9867-69BE06547FC5}"
 	RootNamespace="OGLTest"
 	Keyword="Win32Proj"
@@ -17,16 +17,16 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="$(ProjectDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
+			ConfigurationType="4"
 			CharacterSet="1"
 			WholeProgramOptimization="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="Copying Lua Scripts"
-				CommandLine="copy /Y &quot;$(InputDir)*.lua&quot; &quot;$(OutDir)\&quot;"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -46,7 +46,7 @@
 				EnableIntrinsicFunctions="false"
 				FavorSizeOrSpeed="0"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost_1_34_1&quot;;&quot;C:\Program Files\AntTweakBar\include&quot;;&quot;C:\Program Files\Lua_5.1.3\include&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost_1_34_1&quot;;&quot;C:\Program Files\Lua_5.1.3\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -66,19 +66,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="lua51.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib AntTweakBar.lib"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Lua_5.1.3\lib&quot;; &quot;C:\Program Files\SDL-1.2.12\lib&quot;;&quot;C:\Program Files\AntTweakBar\lib&quot;"
-				GenerateDebugInformation="true"
-				SubSystem="1"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -90,27 +81,21 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="$(ProjectDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
+			ConfigurationType="4"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
 				Description="Copying Lua Scripts"
-				CommandLine="copy /Y &quot;$(InputDir)*.lua&quot; &quot;$(OutDir)\&quot;"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -126,7 +111,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost_1_34_1&quot;;&quot;C:\Program Files\AntTweakBar\include&quot;;&quot;C:\Program Files\Lua_5.1.3\include&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost_1_34_1&quot;;&quot;C:\Program Files\Lua_5.1.3\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -144,21 +129,10 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="lua51.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib AntTweakBar.lib"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Lua_5.1.3\lib&quot;; &quot;C:\Program Files\SDL-1.2.12\lib&quot;;&quot;C:\Program Files\AntTweakBar\lib&quot;"
-				GenerateDebugInformation="true"
-				SubSystem="1"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -168,12 +142,6 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -188,14 +156,6 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File
-				RelativePath=".\LineTrace.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\OGLTest2.cpp"
-				>
-			</File>
 			<Filter
 				Name="Scenes"
 				>
@@ -213,18 +173,6 @@
 				</File>
 				<File
 					RelativePath=".\FadeOutScene.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\GameScene.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\IntroScene.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\MenuScene.cpp"
 					>
 				</File>
 			</Filter>
@@ -256,6 +204,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\LineTrace.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Puff.cpp"
 					>
 				</File>
@@ -271,10 +223,6 @@
 			<Filter
 				Name="Projectiles"
 				>
-				<File
-					RelativePath=".\HomingJoin.cpp"
-					>
-				</File>
 				<File
 					RelativePath=".\HomingMissile.cpp"
 					>
@@ -476,10 +424,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\GameLua.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\Logger.cpp"
 					>
 				</File>
@@ -530,10 +474,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\LineTrace.h"
-				>
-			</File>
 			<Filter
 				Name="Scenes"
 				>
@@ -551,18 +491,6 @@
 				</File>
 				<File
 					RelativePath=".\FadeOutScene.h"
-					>
-				</File>
-				<File
-					RelativePath=".\GameScene.h"
-					>
-				</File>
-				<File
-					RelativePath=".\IntroScene.h"
-					>
-				</File>
-				<File
-					RelativePath=".\MenuScene.h"
 					>
 				</File>
 			</Filter>
@@ -594,6 +522,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\LineTrace.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Puff.h"
 					>
 				</File>
@@ -609,10 +541,6 @@
 			<Filter
 				Name="Projectiles"
 				>
-				<File
-					RelativePath=".\HomingJoin.h"
-					>
-				</File>
 				<File
 					RelativePath=".\HomingMissile.h"
 					>
@@ -814,10 +742,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\GameLua.h"
-					>
-				</File>
-				<File
 					RelativePath=".\GLColor.h"
 					>
 				</File>
@@ -855,58 +779,6 @@
 				</File>
 				<File
 					RelativePath=".\vmath.h"
-					>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="Scripts"
-			>
-			<Filter
-				Name="Ships"
-				>
-				<File
-					RelativePath=".\LuaShip2.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\SpaceStation.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\SpikeyShip.lua"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Challenges"
-				>
-				<File
-					RelativePath=".\Challenge1.lua"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Common"
-				>
-				<File
-					RelativePath=".\Utility.lua"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="LuaSections"
-				>
-				<File
-					RelativePath=".\DecoPlateSection.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\OctoSection.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\SpunStar.lua"
 					>
 				</File>
 			</Filter>

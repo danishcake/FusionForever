@@ -2,7 +2,6 @@
 #include "Section.h"
 #include <boost/foreach.hpp>
 #include "Puff.h"
-#include "HomingJoin.h"
 
 int Section::section_count_ = 0;
 
@@ -24,15 +23,12 @@ Section::Section(void)
 	outline_color_base_ = GLColor(255, 255, 255);
 	default_sub_section_position_ = Vector3f(0,0,0);
 	section_id_ = section_count_++;
+  parent_ = NULL;
+  root_ = NULL;
 }
 
 Section::~Section(void)
 {
-	BOOST_FOREACH(HomingJoin* homing_join, homing_joins_)
-	{
-		homing_join->UnregisterSection();
-	}
-	homing_joins_.clear();
 }
 
 void Section::DrawSelf(void)
@@ -59,6 +55,7 @@ void Section::AddChild(Section *child)
 	}
 	this->sub_sections_.push_back(child);
 	child->SetColor(fill_color_);
+  child->SetParentAndRoot(this, root_ == NULL ? this : root_);
 }
 
 void Section::findRadius(void)
@@ -218,14 +215,6 @@ void Section::ScaleHealth(float _factor)
 		sub_section->ScaleHealth(_factor);
 	}
 }
-void Section::UnregisterHomingJoin(HomingJoin* _homing_join)
-{
-	homing_joins_.remove(_homing_join);
-}
-void Section::RegisterHomingJoin(HomingJoin* _homing_join)
-{
-	homing_joins_.push_back(_homing_join);
-}
 
 void Section::SetFiring(bool _firing)
 {
@@ -234,4 +223,10 @@ void Section::SetFiring(bool _firing)
 		firing_edges_.push_back(firing_delay_);
 		ltv_firing_ = _firing;
 	}
+}
+
+void Section::SetParentAndRoot(Section* _parent, Section* _root)
+{
+  parent_ = _parent;
+  root_ = _root;
 }

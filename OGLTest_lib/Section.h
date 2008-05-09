@@ -29,9 +29,13 @@ private:
 	static int section_count_;
 protected:
 	int section_id_;
+  Section* parent_;
+  Section* root_;
+
 	std::vector<Section_ptr> sub_sections_;
 	float health_;
 	float max_health_;
+
 
 	bool firing_;
 	bool ltv_firing_;
@@ -43,6 +47,8 @@ protected:
 	Vector3f default_sub_section_position_;
 	std::list<HomingJoin*> homing_joins_;
 	void findRadius();
+  
+  void SetParentAndRoot(Section* _parent, Section* _root);
 
 public:
 	Section(void);
