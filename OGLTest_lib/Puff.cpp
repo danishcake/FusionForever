@@ -19,19 +19,17 @@ Puff::Puff(void)
 	}
 	fill_verts_ = Datastore::Instance().GetVerts(fill_verts_index_);
 	fill_display_list_ = fill_dl_;
-	if(rand() > RAND_MAX *0.8)
+	if(Random::RandomChance(0.2))
 	{
-		fill_color_ =GLColor(255, 255, 0);
+		fill_color_ = GLColor(255, 255, 0);
 	}
 	else
 	{
-		fill_color_ =GLColor(255,
-							 20 + 100 * ((float)rand()/(float)RAND_MAX),
-							  0 + 10 * ((float)rand()/(float)RAND_MAX));
+		fill_color_ = GLColor(255, Random::RandomRange(20,120), Random::RandomRange(0,20));
 	}
 	lifetime_ = PUFF_LIFETIME;
 	ltv_transform_ = Matrix4f::createScale(0);
-	angle_ = 360.0f* (float)rand()/ (float)RAND_MAX;
+	angle_ = Random::RandomRange(0,360);
 }
 
 Puff::~Puff(void)

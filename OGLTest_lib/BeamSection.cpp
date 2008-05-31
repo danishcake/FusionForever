@@ -16,7 +16,7 @@ BeamSection::~BeamSection(void)
 {
 }
 
-void BeamSection::Tick(float _timespan, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::list<Core_ptr>& _enemies)
+void BeamSection::Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies)
 {
 	BaseEntity::Tick(_timespan, _transform);
 
@@ -28,7 +28,7 @@ void BeamSection::Tick(float _timespan, std::list<Decoration_ptr>& _spawn_dec, M
 	float max_dist = 0;	//The maximum distance including the collision
 	float low_dist = max_distance_;			//The minimum distance excluding any collisions
 
-	std::list<Section_ptr> filtered_sections; //TODO test a vector here for performance
+	std::vector<Section_ptr> filtered_sections; 
 
 	BOOST_FOREACH(Core_ptr core, _enemies)
 	{

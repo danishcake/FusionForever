@@ -1,13 +1,13 @@
 #pragma once
 #include "Decoration.h"
 
-#define MAX_LINE_SECTIONS 20
-
+#define MAX_LINE_SECTIONS 100
+#define LINE_SECTION_TIME 0.05f
 class LineTrace :
 	public Decoration
 {
 protected:
-	Vector3f line_trace_[MAX_LINE_SECTIONS];
+	Vector3f line_trace_[MAX_LINE_SECTIONS+1];
 	int front_index_;
 	virtual void initialise_fill();
 	BaseEntity* source_;

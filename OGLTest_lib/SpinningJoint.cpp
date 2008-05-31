@@ -63,7 +63,7 @@ void SpinningJoint::initialise_outline(void)
 	outline_dl_ = CreateOutlinedDisplayList(temp_outline);	
 }
 
-void SpinningJoint::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::list<Core_ptr>& _enemies)
+void SpinningJoint::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies)
 {
 	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies);
 	angle_ += _timespan * degrees_per_second_;

@@ -12,7 +12,7 @@ FiringSection::~FiringSection(void)
 {
 }
 
-void FiringSection::fire_projectile(Projectile_ptr _projectile, std::list<Projectile_ptr>& _spawn_prj)
+void FiringSection::fire_projectile(Projectile_ptr _projectile, std::vector<Projectile_ptr>& _spawn_prj)
 {
 	_projectile->SetPosition(ltv_transform_ * _projectile->GetPosition());
 	_projectile->SetVelocity(ltv_transform_ * _projectile->GetVelocity() - ltv_position_);

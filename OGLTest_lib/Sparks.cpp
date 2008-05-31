@@ -17,9 +17,8 @@ Sparks::Sparks(void)
 	}
 	fill_verts_ = Datastore::Instance().GetVerts(fill_verts_index_);
 	fill_display_list_ = fill_dl_;
-	fill_color_ = GLColor(255,
-						 200 + 55 * ((float)rand()/(float)RAND_MAX),
-						 200 + 55 * ((float)rand()/(float)RAND_MAX));
+	fill_color_ = GLColor(255, Random::RandomRange(200,255), Random::RandomRange(200,255));
+
 	lifetime_ = SPARKS_LIFETIME;
 	ltv_transform_ = Matrix4f::createScale(0);
 }

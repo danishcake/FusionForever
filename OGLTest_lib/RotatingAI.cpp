@@ -16,11 +16,11 @@ RotatingAI::~RotatingAI(void)
 {
 }
 
-AIAction RotatingAI::Tick(float _timespan, std::list<Core_ptr>& _allies, std::list<Core_ptr>& _enemies, Core_ptr _self)
+AIAction RotatingAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vector<Core_ptr>& _enemies, Core_ptr _self)
 {
 	sum_time_ += _timespan;
 	fire_for_next_ -= _timespan;
-	if((float)rand()/(float)RAND_MAX < 0.2 * _timespan)
+	if(Random::RandomChance(0.2f * _timespan))
 		fire_for_next_ = 3.0f;
 	return AIAction(0, 0, rotation_rate_, 36, fire_for_next_ > 0);
 }

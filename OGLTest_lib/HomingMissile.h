@@ -16,6 +16,6 @@ protected:
 public:
 	HomingMissile(Vector3f _position, BaseEntity* _target);
 	virtual ~HomingMissile(void);
-	virtual void Hit(std::list<Decoration_ptr>& _spawn);
-	virtual void Tick(float _timespan, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform);
+	virtual void Hit(std::vector<Decoration_ptr>& _spawn);
+	virtual void Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform);
 };

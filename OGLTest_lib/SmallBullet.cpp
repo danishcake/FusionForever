@@ -37,7 +37,7 @@ void SmallBullet::initialise_outline()
 	outline_dl_ = CreateOutlinedDisplayList(temp_outline);
 }
 
-void SmallBullet::Hit(std::list<Decoration_ptr>& _spawn)
+void SmallBullet::Hit(std::vector<Decoration_ptr>& _spawn)
 {
 	Decoration_ptr puff = Decoration_ptr(new Puff());
 	puff->SetPosition(this->position_);

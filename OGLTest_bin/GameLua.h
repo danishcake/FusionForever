@@ -17,8 +17,8 @@ class GameScene;
 class GameLua
 {
 private:
-	std::list<Core_ptr> enemies_;
-	std::list<Core_ptr> friends_;
+	std::vector<Core_ptr> enemies_;
+	std::vector<Core_ptr> friends_;
 	std::stack<Section_ptr> section_stack_;
 	BaseAI* GetAI();
 	bool is_script_running_;
@@ -55,6 +55,6 @@ public:
 	void Tick(int _friend_count, int _enemy_count, float _timespan);
 	lua_State* GetLuaVM();
 
-	std::list<Core_ptr>& GetEnemies();
-	std::list<Core_ptr>& GetFriends();
+	std::vector<Core_ptr>& GetEnemies();
+	std::vector<Core_ptr>& GetFriends();
 };

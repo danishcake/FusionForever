@@ -308,7 +308,47 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\LongRigidArm.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\NarrowProngLH.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\NarrowProngRH.lua"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\OctoSection.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\ProngLH.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\ProngRH.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\RightAngleTriangle.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\RigidArm.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Spike.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\SpikeLH.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\SpikeRH.lua"
 					>
 				</File>
 				<File

@@ -39,7 +39,7 @@ HomingMissile::~HomingMissile(void)
 
 }
 
-void HomingMissile::Hit(std::list<Decoration_ptr>& _spawn)
+void HomingMissile::Hit(std::vector<Decoration_ptr>& _spawn)
 {
 	Puff* p = new Puff();
 	p->SetPosition(ltv_position_);
@@ -58,7 +58,7 @@ void HomingMissile::initialise_outline()
 	outline_dl_ = CreateOutlinedDisplayList(temp_outline);
 }
 
-void HomingMissile::Tick(float _timespan, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform)
+void HomingMissile::Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform)
 {
 	if(first_run_)
 	{

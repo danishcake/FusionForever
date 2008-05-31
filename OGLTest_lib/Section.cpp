@@ -67,7 +67,7 @@ void Section::findRadius(void)
 	}
 }
 
-void Section::GetDeathSpawn(std::list<Decoration_ptr>& _spawn_dec)
+void Section::GetDeathSpawn(std::vector<Decoration_ptr>& _spawn_dec)
 {
 	BOOST_FOREACH(Section_ptr section, sub_sections_)
 	{
@@ -81,7 +81,7 @@ void Section::GetDeathSpawn(std::list<Decoration_ptr>& _spawn_dec)
 	}
 }
 
-void Section::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::list<Core_ptr>& _enemies)
+void Section::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies)
 {
 	BaseEntity::Tick(_timespan, _transform); // Use ltv_transform after this as _transform is passed by value
 
@@ -149,7 +149,7 @@ bool Section::CheckCollisions(Projectile_ptr _projectile)
 	return hasCollided;
 }
 
-void Section::RayCollisionFilter(Vector3f P1, Vector3f P2, std::list<Section_ptr>& _valid_sections, float& _min_distance, float& _max_distance)
+void Section::RayCollisionFilter(Vector3f P1, Vector3f P2, std::vector<Section_ptr>& _valid_sections, float& _min_distance, float& _max_distance)
 {
 	bool hasCollided = false;
 

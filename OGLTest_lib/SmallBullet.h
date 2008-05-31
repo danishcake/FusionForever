@@ -13,5 +13,5 @@ protected:
 public:
 	SmallBullet(Vector3f _position);
 	virtual ~SmallBullet(void);
-	virtual void Hit(std::list<Decoration_ptr>& _spawn);
+	virtual void Hit(std::vector<Decoration_ptr>& _spawn);
 };

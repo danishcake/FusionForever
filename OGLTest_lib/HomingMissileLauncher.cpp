@@ -71,7 +71,7 @@ void HomingMissileLauncher::initialise_outline(void)
 	outline_dl_ = CreateOutlinedDisplayList(temp_outline);
 }
 
-void HomingMissileLauncher::Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::list<Core_ptr>& _enemies)
+void HomingMissileLauncher::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies)
 {
 	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies);
 	cooldown_ -= _timespan;
@@ -82,7 +82,7 @@ void HomingMissileLauncher::Tick(float _timespan, std::list<Projectile_ptr>& _sp
 			BaseEntity* target = NULL;
 			if(_enemies.size() > 0)
 			{
-				int index = rand() % static_cast<int>(_enemies.size());
+				int index = Random::RandomIndex(static_cast<int>(_enemies.size()));
 				target = (BaseEntity*)(*_enemies.begin());
 			}
 			HomingMissile* hm = new HomingMissile(Vector3f(0, 5, 0), target);

@@ -9,13 +9,11 @@ Ship = {
 	SubSections = 
 	{
 	{
-		SectionType = "LuaSection",
-		LuaSectionType = "OctoSection.lua",
+		SectionType = "SpikeLH",
 		Position = {x = 25, y = 25}
 	},
 	{
-		SectionType = "LuaSection",
-		LuaSectionType = "OctoSection.lua",
+		SectionType = "SpikeRH",
 		Position = {x = -25, y = 25}
 	},
 	{
@@ -52,10 +50,9 @@ Ship = {
           SubSections = 
           {
             {
-              SectionType = "LuaSection",
-              LuaSectionType = "SpunStar.lua"
+              SectionType = "SpunStar",
             }
-          }			
+          }
         }
       }
     },

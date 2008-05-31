@@ -14,7 +14,6 @@
 #include "FadeInScene.h"
 #include "Camera.h"
 
-
 clock_t ltv_time;
 std::vector<BaseScene_ptr> scene_stack;
 

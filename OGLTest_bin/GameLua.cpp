@@ -2,25 +2,16 @@
 #include "GameLua.h"
 
 #include "SquareCore.h"
-#include "RigidArm.h"
-#include "LongRigidArm.h"
 #include "Blaster.h"
 #include "HomingMissileLauncher.h"
 #include "HeatBeamGun.h"
 #include "SpinningJoint.h"
 #include "JointAngles.h"
-#include "ProngLH.h"
-#include "ProngRH.h"
 #include "WidePlate.h"
-#include "Spike.h"
-#include "SpikeLH.h"
-#include "SpikeRH.h"
 #include "ForwardWingLH.h"
 #include "ForwardWingRH.h"
 #include "LargeSquare.h"
 #include "SmallSquare.h"
-#include "NarrowProngLH.h"
-#include "NarrowProngRH.h"
 #include "QuarterCircle.h"
 #include "SemiCircle.h"
 #include "SweptWingLH.h"
@@ -48,32 +39,22 @@ static enum SectionType
 	unknown_key,
 	st_SquareCore,
 	st_TinyCore,
-	st_RigidArm,
 	st_Blaster,
 	st_HomingMissileLauncher,
 	st_HeatBeam,
 	st_SpinningJoint,
 	st_JointAngles,
-	st_LongRigidArm,
-	st_ProngLH,
-	st_ProngRH,
-	st_Spike,
-	st_SpikeLH,
-	st_SpikeRH,
 	st_WidePlate,
 	st_ForwardWingLH,
 	st_ForwardWingRH,
 	st_LargeSquare,
 	st_SmallSquare,
-	st_NarrowProngLH,
-	st_NarrowProngRH,
 	st_QuarterCircle,
 	st_SemiCircle,
 	st_SweptWingLH,
 	st_SweptWingRH,
 	st_WingLH,
 	st_WingRH,
-	st_LuaSection,
 	ai_RotatingAI,
 	ai_KeyboardAI
 };
@@ -81,27 +62,18 @@ static std::map<std::string, SectionType> SectionMap;
 static void InitialiseMap()
 {
 	SectionMap["SQUARECORE"] = st_SquareCore;
-	SectionMap["RIGIDARM"] = st_RigidArm;
 	SectionMap["KEYBOARDAI"] = ai_KeyboardAI;
 	SectionMap["ROTATINGAI"] = ai_RotatingAI;
 	SectionMap["BLASTER"] = st_Blaster;
 	SectionMap["HEATBEAM"] = st_HeatBeam;
 	SectionMap["SPINNINGJOINT"] = st_SpinningJoint;
 	SectionMap["JOINTANGLES"] = st_JointAngles;
-	SectionMap["LONGRIGIDARM"] = st_LongRigidArm;
-	SectionMap["PRONGRH"] = st_ProngRH;
-	SectionMap["PRONGLH"] = st_ProngLH;
 	SectionMap["WIDEPLATE"] = st_WidePlate;
 	SectionMap["HOMINGMISSILELAUNCHER"] = st_HomingMissileLauncher;
-	SectionMap["SPIKE"] = st_Spike;	
-	SectionMap["SPIKELH"] = st_SpikeLH;
-	SectionMap["SPIKERH"] = st_SpikeRH;
 	SectionMap["FORWARDWINGLH"] = st_ForwardWingLH;
 	SectionMap["FORWARDWINGRH"] = st_ForwardWingRH;
 	SectionMap["LARGESQUARE"] = st_LargeSquare;
 	SectionMap["SMALLSQUARE"] = st_SmallSquare;
-	SectionMap["NARROWPRONGLH"] = st_NarrowProngLH;
-	SectionMap["NARROWPRONGRH"] = st_NarrowProngRH;
 	SectionMap["QUARTERCIRCLE"] = st_QuarterCircle;
 	SectionMap["SEMICIRCLE"] = st_SemiCircle;
 	SectionMap["SWEPTWINGLH"] = st_SweptWingLH;
@@ -109,7 +81,6 @@ static void InitialiseMap()
 	SectionMap["WINGLH"] = st_WingLH;
 	SectionMap["WINGRH"] = st_WingRH;
 	SectionMap["TINYCORE"] = st_TinyCore;
-	SectionMap["LUASECTION"] = st_LuaSection;
 }
 
 
@@ -463,12 +434,12 @@ void GameLua::SetHealth(float _health)
 {
 	section_stack_.top()->SetMaxHealth(_health);
 }
-std::list<Core_ptr>& GameLua::GetFriends()
+std::vector<Core_ptr>& GameLua::GetFriends()
 {
 	return friends_;
 }
 
-std::list<Core_ptr>& GameLua::GetEnemies()
+std::vector<Core_ptr>& GameLua::GetEnemies()
 {
 	return enemies_;
 }
@@ -530,8 +501,8 @@ void GameLua::ParseShip(const char* _ship)
 		std::string section_type = lua_tostring(luaVM, -1);
 		std::transform(section_type.begin(), section_type.end(), section_type.begin(), toupper);
 		lua_pop(luaVM, 1);
+
 		SectionType s_type = SectionMap[section_type];
-		//TODO handle errors unknown section type
 		switch(s_type) //Get section custom parameters
 		{
 			case st_SquareCore:
@@ -539,9 +510,6 @@ void GameLua::ParseShip(const char* _ship)
 				break;
 			case st_TinyCore:
 				PushCore(new TinyCore(GetAI()));
-				break;
-			case st_RigidArm:
-				PushSection(new RigidArm());
 				break;
 			case st_Blaster:
 				PushSection(new Blaster());
@@ -598,29 +566,11 @@ void GameLua::ParseShip(const char* _ship)
 					PushSection(new JointAngles(first_angle, second_angle, transition_time, pause_time));
 				}
 				break;
-			case st_LongRigidArm:
-				PushSection(new LongRigidArm());
-				break;
-			case st_ProngLH:
-				PushSection(new ProngLH());
-				break;
-			case st_ProngRH:
-				PushSection(new ProngRH());
-				break;
 			case st_WidePlate:
 				PushSection(new WidePlate());
 				break;
 			case st_HomingMissileLauncher:
 				PushSection(new HomingMissileLauncher());
-				break;
-			case st_Spike: 
-				PushSection(new Spike());
-				break;
-			case st_SpikeLH:
-				PushSection(new SpikeLH());
-				break;
-			case st_SpikeRH:
-				PushSection(new SpikeRH());
 				break;
 			case st_ForwardWingLH:
 				PushSection(new ForwardWingLH());
@@ -633,12 +583,6 @@ void GameLua::ParseShip(const char* _ship)
 				break;
 			case st_SmallSquare:
 				PushSection(new SmallSquare());
-				break;
-			case st_NarrowProngLH:
-				PushSection(new NarrowProngLH());
-				break;
-			case st_NarrowProngRH:
-				PushSection(new NarrowProngRH());
 				break;
 			case st_QuarterCircle:
 				PushSection(new QuarterCircle());
@@ -658,24 +602,16 @@ void GameLua::ParseShip(const char* _ship)
 			case st_WingRH:
 				PushSection(new WingRH());
 				break;
-			case st_LuaSection:
-				{
-					lua_pushstring(luaVM, "LuaSectionType");
-					lua_gettable(luaVM, -2);
-					if(lua_isstring( luaVM, -1))
-					{
-						std::string lua_section_type = lua_tostring(luaVM, -1);
-						PushSection(LuaSection::CreateLuaSection(lua_section_type, luaVM));
-					} else
-					{
-						luaL_error(luaVM, "Error parsing LuaSection: LuaSectionType must be string",_ship);
-					}
-					lua_pop(luaVM, 1);
-				}
-				break;
 			default:
-				//Handle spelling mistakes and whatnot.
-				luaL_error(luaVM, "Error parsing %s\nUnrecognised SectionType",_ship);
+				LuaSection* lua_section = LuaSection::CreateLuaSection(section_type, luaVM);
+				if(lua_section)
+				{
+					PushSection(lua_section);
+				} else
+				{
+					luaL_error(luaVM, "Error parsing '%s'", section_type.c_str()); //TODO find a better way of returning an error 
+					//luaL_error(luaVM, "OH SHI"); //TODO find a better way of returning an error 
+				}
 				break;
 		}
 
@@ -832,11 +768,14 @@ void GameLua::Tick(int _friend_count, int _enemy_count, float _timespan)
 			int parameter_count = lua_gettop(luaVM);
 			if(run_result == LUA_ERRRUN)
 			{//Runtime error, should report and abandon
-				Logger::LogError("GameLua::Tick: A runtime error occurred\n");
+        Logger::LogError("GameLua::Tick: A runtime error occurred:\n");
 				if(lua_isstring(luaVM, -1))
 				{
 					Logger::LogError(lua_tostring(luaVM, -1));
-				}
+				} else
+        {
+          Logger::LogError("No extra data\n");
+        }
 				is_script_running_ = false;
 			} else if(run_result == LUA_ERRMEM)
 			{//Memory allocation error, should report and abandon

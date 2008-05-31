@@ -11,7 +11,6 @@
 #include "Datastore.h"
 #include "Camera.h"
 
-
 class HomingJoin;
 class Section;
 //typedef boost::shared_ptr<Section> Section_ptr;
@@ -21,6 +20,8 @@ class Core;
 typedef Core* Core_ptr;
 
 static const float SECTION_FLASH_TIME = 2.0f;
+
+
 
 class Section :
 	public BaseEntity, public Filled, public Outlined
@@ -45,7 +46,6 @@ protected:
 	float damage_timer_;
 	GLColor outline_color_base_;
 	Vector3f default_sub_section_position_;
-	std::list<HomingJoin*> homing_joins_;
 	void findRadius();
   
   void SetParentAndRoot(Section* _parent, Section* _root);
@@ -57,10 +57,10 @@ public:
 	virtual void DrawSelf();
 	bool CheckCollisions(Projectile_ptr _projectile);
 	bool CheckCollisions(Vector3f _location, Section_ptr& _section);
-	void RayCollisionFilter(Vector3f P1, Vector3f P2, std::list<Section_ptr>& _valid_sections, float& _min_distance, float& _max_distance);
+	void RayCollisionFilter(Vector3f P1, Vector3f P2, std::vector<Section_ptr>& _valid_sections, float& _min_distance, float& _max_distance);
 	void SetColor(GLColor _color);
-	virtual void Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::list<Core_ptr>& _enemies);
-	virtual void GetDeathSpawn(std::list<Decoration_ptr>& _spawn_dec);
+	virtual void Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies);
+	virtual void GetDeathSpawn(std::vector<Decoration_ptr>& _spawn_dec);
 	void UnregisterHomingJoin(HomingJoin* _homing_join);
 	void RegisterHomingJoin(HomingJoin* _homing_join);
 

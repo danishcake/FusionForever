@@ -20,8 +20,8 @@ public:
 	virtual ~Projectile(void);
 
 	void DrawSelf();
-	virtual void Tick(float _timespan, std::list<Decoration_ptr>& _spawn_dec,  Matrix4f _transform);
-	virtual void Hit(std::list<Decoration_ptr>& _spawn) = 0;
+	virtual void Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec,  Matrix4f _transform);
+	virtual void Hit(std::vector<Decoration_ptr>& _spawn) = 0;
 	
 	float GetDamage(){return damage_;}
 	float GetLifetime(){return lifetime_;}

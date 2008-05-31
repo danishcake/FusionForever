@@ -20,12 +20,12 @@ public:
 	bool IsSectionAlive(int _section_id);
 
 protected:
-	std::list<Projectile_ptr> enemy_projectiles;
-	std::list<Projectile_ptr> ownship_projectiles;
-	std::list<Decoration_ptr> decorations;
+	std::vector<Projectile_ptr> enemy_projectiles;
+	std::vector<Projectile_ptr> ownship_projectiles;
+	std::vector<Decoration_ptr> decorations;
 
-	std::list<Core_ptr> friends_;
-	std::list<Core_ptr> enemies_;
+	std::vector<Core_ptr> friends_;
+	std::vector<Core_ptr> enemies_;
 	Starfield starfield_;
 	GameLua* game_lua_;
 };

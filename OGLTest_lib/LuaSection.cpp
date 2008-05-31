@@ -41,6 +41,8 @@ void LuaSection::initialise_outline(void)
 
 LuaSection* LuaSection::CreateLuaSection(std::string _name, lua_State* luaVM)
 {
+	std::string file_name = std::string(_name);
+	file_name.append(".lua");
 	if(name_map_.find(_name) != name_map_.end())
 	{
 		return new LuaSection(name_map_[_name]);
@@ -52,18 +54,21 @@ LuaSection* LuaSection::CreateLuaSection(std::string _name, lua_State* luaVM)
 		{
 			lua_pushnil(luaVM);
 			lua_setglobal(luaVM, "LuaSection");
-			Logger::Log("LuaSection::CreateLuaSection: Wiping previous LuaSection\n");
 		}
 		lua_pop(luaVM,1); //Pops LuaSection from stack
 
-		Logger::Log("LuaSection::CreateLuaSection: Attempting to load LuaSection\n");
-		int load_result = luaL_loadfile(luaVM, _name.c_str());
+		int load_result = luaL_loadfile(luaVM, file_name.c_str());
 		if(load_result == LUA_ERRSYNTAX)
 		{
 			Logger::LogError("LuaSection::CreateLuaSection: A syntax error occurred while loading\n");
 		} else if(load_result == LUA_ERRMEM)
 		{
 			Logger::LogError("LuaSection::CreateLuaSection: A memory allocation error occurred while loading\n");
+		} else if(load_result == LUA_ERRFILE)
+		{
+			Logger::LogError("LuaSection::CreateLuaSection: Unable to load file:");
+			Logger::LogError(_name);
+			Logger::LogError("\n");
 		} else
 		{//Loaded OK. Function ready to run at top of stack.
 			int run_result = lua_pcall(luaVM, 0, LUA_MULTRET, 0);
@@ -88,7 +93,6 @@ LuaSection* LuaSection::CreateLuaSection(std::string _name, lua_State* luaVM)
 			else
 			{//Everything worked OK, script loaded
 				 loaded_and_run_ok = true;
-				 Logger::Log("LuaSection::CreateLuaSection: LuaSection script loaded and run without problem\n");
 			}
 		}
 

@@ -42,8 +42,8 @@ public:
      * @param _friends A list of friends.
      * @param _enemies A list of enemies.
      */
-	virtual void Tick(float _timespan, std::list<Projectile_ptr>& _spawn_prj, std::list<Decoration_ptr>& _spawn_dec,
-					  Matrix4f _transform, std::list<Core_ptr>& _allies, std::list<Core_ptr>& _enemies);
+	virtual void Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec,
+					  Matrix4f _transform, std::vector<Core_ptr>& _allies, std::vector<Core_ptr>& _enemies);
 
   /**
   * Sets the AI to a new AI, clearing up the old one in the process.
@@ -69,5 +69,5 @@ public:
      * @param _enemies A list of enemies.
      * @param _self The owning core.
      */
-	virtual AIAction Tick(float _timespan, std::list<Core_ptr>& _allies, std::list<Core_ptr>& _enemies, Core_ptr _self) = 0;
+	virtual AIAction Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vector<Core_ptr>& _enemies, Core_ptr _self) = 0;
 };

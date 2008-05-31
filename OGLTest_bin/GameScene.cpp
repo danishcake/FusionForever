@@ -29,14 +29,17 @@ void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 {
 	game_lua_->Tick(static_cast<int>(friends_.size()), static_cast<int>(enemies_.size()), _timespan);
 
-	enemies_.splice(enemies_.begin(), game_lua_->GetEnemies());
-	friends_.splice(friends_.begin(), game_lua_->GetFriends());
+	//enemies_.splice(enemies_.begin(), game_lua_->GetEnemies());
+	enemies_.insert(enemies_.end(), game_lua_->GetEnemies().begin(), game_lua_->GetEnemies().end());
+	//friends_.splice(friends_.begin(), game_lua_->GetFriends());
+	friends_.insert(friends_.end(), game_lua_->GetFriends().begin(), game_lua_->GetFriends().end());
+	
 	game_lua_->GetFriends().clear();
 	game_lua_->GetEnemies().clear();
 
-	std::list<Projectile_ptr> enemy_spawn;
-	std::list<Projectile_ptr> ownship_spawn;
-	std::list<Decoration_ptr> decoration_spawn;
+	std::vector<Projectile_ptr> enemy_spawn;
+	std::vector<Projectile_ptr> ownship_spawn;
+	std::vector<Decoration_ptr> decoration_spawn;
 
 	const Matrix4f identity = Matrix4f();
 
@@ -52,10 +55,12 @@ void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 		core->Tick(_timespan, enemy_spawn, decoration_spawn, identity, enemies_, friends_);
 	}
 
-	enemy_projectiles.splice(enemy_projectiles.begin(), enemy_spawn);
-	ownship_projectiles.splice(ownship_projectiles.begin(), ownship_spawn);
+	//enemy_projectiles.splice(enemy_projectiles.begin(), enemy_spawn);
+	enemy_projectiles.insert(enemy_projectiles.begin(), enemy_spawn.begin(), enemy_spawn.end());
+	//ownship_projectiles.splice(ownship_projectiles.begin(), ownship_spawn);
+	ownship_projectiles.insert(ownship_projectiles.begin(), ownship_spawn.begin(), ownship_spawn.end());
 
-	for(std::list<Projectile_ptr>::iterator it = enemy_projectiles.begin(); it != enemy_projectiles.end(); it++)
+	for(std::vector<Projectile_ptr>::iterator it = enemy_projectiles.begin(); it != enemy_projectiles.end(); it++)
 	{
 		(*it)->Tick(_timespan, decoration_spawn, identity);
 
@@ -70,7 +75,7 @@ void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 		}
 	}
 
-	for(std::list<Projectile_ptr>::iterator it = ownship_projectiles.begin(); it != ownship_projectiles.end(); it++)
+	for(std::vector<Projectile_ptr>::iterator it = ownship_projectiles.begin(); it != ownship_projectiles.end(); it++)
 	{
 		(*it)->Tick(_timespan, decoration_spawn, identity);
 
@@ -97,18 +102,27 @@ void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 			core->GetDeathSpawn(decoration_spawn);
 	}
 
-	decorations.splice(decorations.begin(), decoration_spawn);
+	//decorations.splice(decorations.begin(), decoration_spawn);
+	decorations.insert(decorations.end(), decoration_spawn.begin(), decoration_spawn.end());
 
-	for(std::list<Decoration_ptr>::iterator it = decorations.begin(); it != decorations.end(); it++)
+	for(std::vector<Decoration_ptr>::iterator it = decorations.begin(); it != decorations.end(); it++)
 	{
 		(*it)->Tick(_timespan, identity);
 	}
+	enemy_projectiles.erase(std::remove_if(enemy_projectiles.begin(), enemy_projectiles.end(), Projectile::IsProjectileRemovable), enemy_projectiles.end());
+	//enemy_projectiles.remove_if(Projectile::IsProjectileRemovable);
+	
+	ownship_projectiles.erase(std::remove_if(ownship_projectiles.begin(), ownship_projectiles.end(), Projectile::IsProjectileRemovable),ownship_projectiles.end());
+	//ownship_projectiles.remove_if(Projectile::IsProjectileRemovable);
+	
+	//decorations.remove_if(Decoration::IsRemovable);
+	decorations.erase(std::remove_if(decorations.begin(), decorations.end(), Decoration::IsRemovable), decorations.end());
 
-	enemy_projectiles.remove_if(Projectile::IsProjectileRemovable);
-	ownship_projectiles.remove_if(Projectile::IsProjectileRemovable);
-	decorations.remove_if(Decoration::IsRemovable);
-	friends_.remove_if(Section::IsRemovable);
-	enemies_.remove_if(Section::IsRemovable);
+	friends_.erase(std::remove_if(friends_.begin(), friends_.end(), Section::IsRemovable), friends_.end());
+	//friends_.remove_if(Section::IsRemovable);
+	
+	enemies_.erase(std::remove_if(enemies_.begin(), enemies_.end(), Section::IsRemovable), enemies_.end());
+	//enemies_.remove_if(Section::IsRemovable);
 }
 
 void GameScene::Draw()
@@ -125,17 +139,17 @@ void GameScene::Draw()
 		core->DrawSelf();
 	}
 
-	for(std::list<Projectile_ptr>::iterator it = enemy_projectiles.begin(); it != enemy_projectiles.end(); it++)
+	for(std::vector<Projectile_ptr>::iterator it = enemy_projectiles.begin(); it != enemy_projectiles.end(); it++)
 	{
 		(*it)->DrawSelf();
 	}
 
-	for(std::list<Projectile_ptr>::iterator it = ownship_projectiles.begin(); it != ownship_projectiles.end(); it++)
+	for(std::vector<Projectile_ptr>::iterator it = ownship_projectiles.begin(); it != ownship_projectiles.end(); it++)
 	{
 		(*it)->DrawSelf();
 	}
 
-	for(std::list<Decoration_ptr>::iterator it = decorations.begin(); it != decorations.end(); it++)
+	for(std::vector<Decoration_ptr>::iterator it = decorations.begin(); it != decorations.end(); it++)
 	{
 		(*it)->DrawSelf();
 	}

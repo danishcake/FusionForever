@@ -29,7 +29,9 @@ Starfield::Starfield()
 		}*/
 		for(int i = 0; i< 200; i++)
 		{
-		glVertex3f(2*SF_GRIDSPACING*SF_GRIDSIZE*(float)(rand()-(RAND_MAX/2))/(float)RAND_MAX,2*SF_GRIDSPACING*SF_GRIDSIZE*(float)(rand()-(RAND_MAX/2))/(float)RAND_MAX,0);
+			glVertex3f(SF_GRIDSPACING * SF_GRIDSIZE * Random::RandomFactorPM(),
+				       SF_GRIDSPACING * SF_GRIDSIZE * Random::RandomFactorPM(),
+					   0);
 		}
 		glEnd();
 		Datastore::Instance().EndDisplayList();

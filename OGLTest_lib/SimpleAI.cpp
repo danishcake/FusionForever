@@ -12,7 +12,7 @@ SimpleAI::~SimpleAI(void)
 {
 }
 
-AIAction SimpleAI::Tick(float _timespan, std::list<Core_ptr>& _allies, std::list<Core_ptr>& _enemies, Core_ptr _self)
+AIAction SimpleAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vector<Core_ptr>& _enemies, Core_ptr _self)
 {
 	sum_time_ += _timespan;
 	focus_time_ += _timespan;
