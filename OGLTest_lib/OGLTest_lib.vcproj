@@ -331,39 +331,11 @@
 						>
 					</File>
 					<File
-						RelativePath=".\LongRigidArm.cpp"
-						>
-					</File>
-					<File
 						RelativePath=".\LuaSection.cpp"
 						>
 					</File>
 					<File
-						RelativePath=".\NarrowProngLH.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\NarrowProngRH.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\ProngLH.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\ProngRH.cpp"
-						>
-					</File>
-					<File
 						RelativePath=".\QuarterCircle.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\RightAngleTriangle.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\RigidArm.cpp"
 						>
 					</File>
 					<File
@@ -372,18 +344,6 @@
 					</File>
 					<File
 						RelativePath=".\SmallSquare.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\Spike.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\SpikeLH.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\SpikeRH.cpp"
 						>
 					</File>
 					<File
@@ -653,39 +613,11 @@
 						>
 					</File>
 					<File
-						RelativePath=".\LongRigidArm.h"
-						>
-					</File>
-					<File
 						RelativePath=".\LuaSection.h"
 						>
 					</File>
 					<File
-						RelativePath=".\NarrowProngLH.h"
-						>
-					</File>
-					<File
-						RelativePath=".\NarrowProngRH.h"
-						>
-					</File>
-					<File
-						RelativePath=".\ProngLH.h"
-						>
-					</File>
-					<File
-						RelativePath=".\ProngRH.h"
-						>
-					</File>
-					<File
 						RelativePath=".\QuarterCircle.h"
-						>
-					</File>
-					<File
-						RelativePath=".\RightAngleTriangle.h"
-						>
-					</File>
-					<File
-						RelativePath=".\RigidArm.h"
 						>
 					</File>
 					<File
@@ -694,18 +626,6 @@
 					</File>
 					<File
 						RelativePath=".\SmallSquare.h"
-						>
-					</File>
-					<File
-						RelativePath=".\Spike.h"
-						>
-					</File>
-					<File
-						RelativePath=".\SpikeLH.h"
-						>
-					</File>
-					<File
-						RelativePath=".\SpikeRH.h"
 						>
 					</File>
 					<File
