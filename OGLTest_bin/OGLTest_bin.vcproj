@@ -308,6 +308,18 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\ForwardWingLH.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\ForwardWingRH.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\LargeSquare.lua"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\LongRigidArm.lua"
 					>
 				</File>
@@ -340,6 +352,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\SmallSquare.lua"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\Spike.lua"
 					>
 				</File>
@@ -353,6 +369,22 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\SpunStar.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\SweptWingLH.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\SweptWingRH.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\WingLH.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\WingRH.lua"
 					>
 				</File>
 			</Filter>

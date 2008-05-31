@@ -319,18 +319,6 @@
 					Name="Inactive"
 					>
 					<File
-						RelativePath=".\ForwardWingLH.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\ForwardWingRH.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\LargeSquare.cpp"
-						>
-					</File>
-					<File
 						RelativePath=".\LuaSection.cpp"
 						>
 					</File>
@@ -343,27 +331,7 @@
 						>
 					</File>
 					<File
-						RelativePath=".\SmallSquare.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\SweptWingLH.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\SweptWingRH.cpp"
-						>
-					</File>
-					<File
 						RelativePath=".\WidePlate.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\WingLH.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\WingRH.cpp"
 						>
 					</File>
 				</Filter>
@@ -601,18 +569,6 @@
 					Name="Inactive"
 					>
 					<File
-						RelativePath=".\ForwardWingLH.h"
-						>
-					</File>
-					<File
-						RelativePath=".\ForwardWingRH.h"
-						>
-					</File>
-					<File
-						RelativePath=".\LargeSquare.h"
-						>
-					</File>
-					<File
 						RelativePath=".\LuaSection.h"
 						>
 					</File>
@@ -625,27 +581,7 @@
 						>
 					</File>
 					<File
-						RelativePath=".\SmallSquare.h"
-						>
-					</File>
-					<File
-						RelativePath=".\SweptWingLH.h"
-						>
-					</File>
-					<File
-						RelativePath=".\SweptWingRH.h"
-						>
-					</File>
-					<File
 						RelativePath=".\WidePlate.h"
-						>
-					</File>
-					<File
-						RelativePath=".\WingLH.h"
-						>
-					</File>
-					<File
-						RelativePath=".\WingRH.h"
 						>
 					</File>
 				</Filter>

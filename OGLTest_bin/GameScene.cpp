@@ -7,10 +7,6 @@
 #include "SquareCore.h"
 #include "RotatingAI.h"
 #include "KeyboardAI.h"
-#include "RigidArm.h"
-#include "Blaster.h"
-#include "HeatBeamGun.h"
-#include "SpinningJoint.h"
 #include <lauxlib.h>
 
 GameScene::GameScene(void)

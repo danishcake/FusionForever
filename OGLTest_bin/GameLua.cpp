@@ -8,16 +8,8 @@
 #include "SpinningJoint.h"
 #include "JointAngles.h"
 #include "WidePlate.h"
-#include "ForwardWingLH.h"
-#include "ForwardWingRH.h"
-#include "LargeSquare.h"
-#include "SmallSquare.h"
 #include "QuarterCircle.h"
 #include "SemiCircle.h"
-#include "SweptWingLH.h"
-#include "SweptWingRH.h"
-#include "WingLH.h"
-#include "WingRH.h"
 #include "TinyCore.h"
 #include "LuaSection.h"
 
@@ -45,16 +37,8 @@ static enum SectionType
 	st_SpinningJoint,
 	st_JointAngles,
 	st_WidePlate,
-	st_ForwardWingLH,
-	st_ForwardWingRH,
-	st_LargeSquare,
-	st_SmallSquare,
 	st_QuarterCircle,
 	st_SemiCircle,
-	st_SweptWingLH,
-	st_SweptWingRH,
-	st_WingLH,
-	st_WingRH,
 	ai_RotatingAI,
 	ai_KeyboardAI
 };
@@ -70,16 +54,8 @@ static void InitialiseMap()
 	SectionMap["JOINTANGLES"] = st_JointAngles;
 	SectionMap["WIDEPLATE"] = st_WidePlate;
 	SectionMap["HOMINGMISSILELAUNCHER"] = st_HomingMissileLauncher;
-	SectionMap["FORWARDWINGLH"] = st_ForwardWingLH;
-	SectionMap["FORWARDWINGRH"] = st_ForwardWingRH;
-	SectionMap["LARGESQUARE"] = st_LargeSquare;
-	SectionMap["SMALLSQUARE"] = st_SmallSquare;
 	SectionMap["QUARTERCIRCLE"] = st_QuarterCircle;
 	SectionMap["SEMICIRCLE"] = st_SemiCircle;
-	SectionMap["SWEPTWINGLH"] = st_SweptWingLH;
-	SectionMap["SWEPTWINGRH"] = st_SweptWingRH;
-	SectionMap["WINGLH"] = st_WingLH;
-	SectionMap["WINGRH"] = st_WingRH;
 	SectionMap["TINYCORE"] = st_TinyCore;
 }
 
@@ -572,35 +548,11 @@ void GameLua::ParseShip(const char* _ship)
 			case st_HomingMissileLauncher:
 				PushSection(new HomingMissileLauncher());
 				break;
-			case st_ForwardWingLH:
-				PushSection(new ForwardWingLH());
-				break;
-			case st_ForwardWingRH:
-				PushSection(new ForwardWingRH());
-				break;
-			case st_LargeSquare:
-				PushSection(new LargeSquare());
-				break;
-			case st_SmallSquare:
-				PushSection(new SmallSquare());
-				break;
 			case st_QuarterCircle:
 				PushSection(new QuarterCircle());
 				break;
 			case st_SemiCircle:
 				PushSection(new SemiCircle());
-				break;
-			case st_SweptWingLH:
-				PushSection(new SweptWingLH());
-				break;
-			case st_SweptWingRH:
-				PushSection(new SweptWingRH());
-				break;
-			case st_WingLH:
-				PushSection(new WingLH());
-				break;
-			case st_WingRH:
-				PushSection(new WingRH());
 				break;
 			default:
 				LuaSection* lua_section = LuaSection::CreateLuaSection(section_type, luaVM);
@@ -610,7 +562,6 @@ void GameLua::ParseShip(const char* _ship)
 				} else
 				{
 					luaL_error(luaVM, "Error parsing '%s'", section_type.c_str()); //TODO find a better way of returning an error 
-					//luaL_error(luaVM, "OH SHI"); //TODO find a better way of returning an error 
 				}
 				break;
 		}

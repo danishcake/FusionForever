@@ -49,7 +49,7 @@ LuaSection* LuaSection::CreateLuaSection(std::string _name, lua_State* luaVM)
 	} else
 	{
 		bool loaded_and_run_ok = false;
-		lua_getglobal(luaVM,"LuaSection");
+		lua_getglobal(luaVM, "LuaSection");
 		if(!lua_isnil(luaVM, -1))
 		{
 			lua_pushnil(luaVM);
@@ -67,7 +67,7 @@ LuaSection* LuaSection::CreateLuaSection(std::string _name, lua_State* luaVM)
 		} else if(load_result == LUA_ERRFILE)
 		{
 			Logger::LogError("LuaSection::CreateLuaSection: Unable to load file:");
-			Logger::LogError(_name);
+			Logger::LogError(file_name);
 			Logger::LogError("\n");
 		} else
 		{//Loaded OK. Function ready to run at top of stack.
