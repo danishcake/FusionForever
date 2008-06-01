@@ -46,6 +46,18 @@ Ship = {
 		{
 			SectionType = "WingLH",
 			Position = {x = -7.5, y =0},
+			SubSections = 
+			{
+				{
+					SectionType = "TrackerJoint",
+					SubSections = 
+					{
+						{
+							SectionType = "Blaster",
+						},
+					},
+				},
+			}
 		},
 		{
 			SectionType = "SweptWingLH",

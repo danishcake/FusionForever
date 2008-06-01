@@ -2,16 +2,21 @@
 #include "GameLua.h"
 
 #include "SquareCore.h"
+#include "TinyCore.h"
+
 #include "Blaster.h"
 #include "HomingMissileLauncher.h"
 #include "HeatBeamGun.h"
+
 #include "SpinningJoint.h"
 #include "JointAngles.h"
+#include "JointTracker.h"
+
 #include "WidePlate.h"
 #include "QuarterCircle.h"
 #include "SemiCircle.h"
-#include "TinyCore.h"
 #include "LuaSection.h"
+
 
 #include "RotatingAI.h"
 #include "KeyboardAI.h"
@@ -39,6 +44,7 @@ static enum SectionType
 	st_WidePlate,
 	st_QuarterCircle,
 	st_SemiCircle,
+	st_TrackerJoint,
 	ai_RotatingAI,
 	ai_KeyboardAI
 };
@@ -57,6 +63,7 @@ static void InitialiseMap()
 	SectionMap["QUARTERCIRCLE"] = st_QuarterCircle;
 	SectionMap["SEMICIRCLE"] = st_SemiCircle;
 	SectionMap["TINYCORE"] = st_TinyCore;
+	SectionMap["TRACKERJOINT"] = st_TrackerJoint;
 }
 
 
@@ -68,7 +75,7 @@ static std::string lua_stack_dump(lua_State* luaVM)
 	for(int i = 1; i <= top; i++)
 	{
 		int t = lua_type(luaVM, i);
-		switch (t) {    
+		switch (t) {
 			case LUA_TSTRING:  /* strings */
 				output << "`" << lua_tostring(luaVM, i) << "'" << "\n";
 				break;    
@@ -553,6 +560,9 @@ void GameLua::ParseShip(const char* _ship)
 				break;
 			case st_SemiCircle:
 				PushSection(new SemiCircle());
+				break;
+			case st_TrackerJoint:
+				PushSection(new JointTracker());
 				break;
 			default:
 				LuaSection* lua_section = LuaSection::CreateLuaSection(section_type, luaVM);

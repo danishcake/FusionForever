@@ -83,7 +83,7 @@ void HomingMissileLauncher::Tick(float _timespan, std::vector<Projectile_ptr>& _
 			if(_enemies.size() > 0)
 			{
 				int index = Random::RandomIndex(static_cast<int>(_enemies.size()));
-				target = (BaseEntity*)(*_enemies.begin());
+				target = (BaseEntity*)(_enemies[index]);
 			}
 			HomingMissile* hm = new HomingMissile(Vector3f(0, 5, 0), target);
 

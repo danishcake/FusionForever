@@ -156,10 +156,6 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File
-				RelativePath=".\Random.cpp"
-				>
-			</File>
 			<Filter
 				Name="Scenes"
 				>
@@ -311,6 +307,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\JointTracker.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\SpinningJoint.cpp"
 						>
 					</File>
@@ -364,6 +364,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Random.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\stdafx.cpp"
 					>
 					<FileConfiguration
@@ -406,10 +410,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\Random.h"
-				>
-			</File>
 			<Filter
 				Name="Scenes"
 				>
@@ -561,6 +561,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\JointTracker.h"
+						>
+					</File>
+					<File
 						RelativePath=".\SpinningJoint.h"
 						>
 					</File>
@@ -615,6 +619,10 @@
 				</File>
 				<File
 					RelativePath=".\Outlined.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Random.h"
 					>
 				</File>
 				<File

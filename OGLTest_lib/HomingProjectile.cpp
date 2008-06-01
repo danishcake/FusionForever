@@ -26,11 +26,7 @@ void HomingProjectile::Tick(float _timespan, std::vector<Decoration_ptr>& _spawn
 	float turn_rate = 0;
 	if(target_ != NULL)
 	{//Turn to face target
-		Vector3f target_position = target_->GetGlobalPosition();
-		target_position -= this->position_;
-		//I'm not entirely sure why I have to do this negation, 
-		//I guess it has something to do with the turning algorithm 
-		//being tuned to mouse position coordinate system 
+		Vector3f target_position = target_->GetGlobalPosition() -= this->position_;
 		TurnData turn_data = GetTurnDirection(this->angle_, target_position);
 		turn_rate = turn_data.turn_factor;
 	}
@@ -46,5 +42,4 @@ void HomingProjectile::EndSubscription(BaseEntity* _source)
 {
 	if(target_ == _source)
 		target_ = NULL;
-//	BaseEntity::EndSubscription(_source); 
 }

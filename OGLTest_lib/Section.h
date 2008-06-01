@@ -48,7 +48,7 @@ protected:
 	Vector3f default_sub_section_position_;
 	void findRadius();
   
-  void SetParentAndRoot(Section* _parent, Section* _root);
+	void SetParentAndRoot(Section* _parent, Section* _root);
 
 public:
 	Section(void);

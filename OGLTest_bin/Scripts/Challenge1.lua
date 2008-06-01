@@ -8,7 +8,6 @@
 --Predicate.WaitTillDead()      Waits for all enemies to die
 require "Utility"
 
-
 --This is the Challenge table. It must contain the function EntryPoint to be valid.
 --EntryPoint is called by the simulation every frame until it returns true.
 --The intention is for it to resume coroutine(s).
@@ -18,6 +17,14 @@ Script = coroutine.create(function()
 LoadShip("LuaShip2.lua")				--Loads a ship but doesn't add it to the world
 SetAI("KeyboardAI")					--Sets the last loaded ships AI
 AddAsFriend()						--Adds the ship as a friend
+
+for i = 1, 0 do					--in batches of 64 that must be killed entirely
+	LoadShip("LuaShip2.lua")				--Loads a ship but doesn't add it to the world
+	SetAI("RotatingAI", -0.3)					--Sets the last loaded ships AI
+	SetPosition(50*i,200)
+	AddAsFriend()						--Adds the ship as a friend
+	Predicate.WaitFor(0.2)
+end
 
 Predicate.WaitFor(1)
 
