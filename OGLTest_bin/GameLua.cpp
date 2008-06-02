@@ -6,13 +6,13 @@
 
 #include "Blaster.h"
 #include "HomingMissileLauncher.h"
+#include "Swarmer.h"
 #include "HeatBeamGun.h"
 
 #include "SpinningJoint.h"
 #include "JointAngles.h"
 #include "JointTracker.h"
 
-#include "WidePlate.h"
 #include "QuarterCircle.h"
 #include "SemiCircle.h"
 #include "LuaSection.h"
@@ -38,10 +38,10 @@ static enum SectionType
 	st_TinyCore,
 	st_Blaster,
 	st_HomingMissileLauncher,
+	st_Swarmer,
 	st_HeatBeam,
 	st_SpinningJoint,
 	st_JointAngles,
-	st_WidePlate,
 	st_QuarterCircle,
 	st_SemiCircle,
 	st_TrackerJoint,
@@ -58,12 +58,12 @@ static void InitialiseMap()
 	SectionMap["HEATBEAM"] = st_HeatBeam;
 	SectionMap["SPINNINGJOINT"] = st_SpinningJoint;
 	SectionMap["JOINTANGLES"] = st_JointAngles;
-	SectionMap["WIDEPLATE"] = st_WidePlate;
 	SectionMap["HOMINGMISSILELAUNCHER"] = st_HomingMissileLauncher;
 	SectionMap["QUARTERCIRCLE"] = st_QuarterCircle;
 	SectionMap["SEMICIRCLE"] = st_SemiCircle;
 	SectionMap["TINYCORE"] = st_TinyCore;
 	SectionMap["TRACKERJOINT"] = st_TrackerJoint;
+	SectionMap["SWARMER"] = st_Swarmer;
 }
 
 
@@ -315,6 +315,14 @@ static int l_log_diagnostic(lua_State* luaVM)
 	}
 	return 0;
 }
+
+static int l_luaError( lua_State *L )
+{
+	Logger::LogError(lua_tostring(luaVM, -1));
+    lua_pop(L, 1);
+    return 0;
+}
+
 GameLua::GameLua(GameScene* _game_scene)
 {
 	if(last_instantiation == NULL)
@@ -335,6 +343,7 @@ GameLua::GameLua(GameScene* _game_scene)
 		lua_register(luaVM, "LogError", l_log_error);
 		lua_register(luaVM, "LogToScreen", l_log_to_screen);
 		lua_register(luaVM, "Log", l_log_diagnostic);
+		lua_register(luaVM, "_ALERT", l_luaError);
 	}
 	game_scene_ = _game_scene;
 	last_instantiation = this;
@@ -442,20 +451,52 @@ int GameLua::LoadShip(const char* ship)
 	}
 	lua_pop(luaVM,1); //Pops ship from stack
 
-	int run_result = luaL_dofile(luaVM, ship);	//Loads the ship function
-	if(run_result == LUA_ERRRUN)
-	{//Runtime error, should report and abandon
-		Logger::LogError("GameLua::LoadShip: A runtime error occurred\n");
-		return -1;
-	} else if(run_result == LUA_ERRMEM)
+	bool loaded_and_run_ok = false;
+	int load_result = luaL_loadfile(luaVM, ship);
+	if(load_result == LUA_ERRSYNTAX)
 	{
-		Logger::LogError("GameLua::LoadShip: A memory allocation error occurred while running\n");
-		return -1;
-	} else if(run_result == LUA_ERRERR)
+		Logger::LogError("GameLua::LoadShip: A syntax error occurred while loading\n");
+		Logger::LogError(lua_tostring(luaVM, -1));
+		lua_pop(luaVM, 1);
+		
+	} else if(load_result == LUA_ERRMEM)
 	{
-		Logger::LogError("GameLua::LoadShip: Error handler error\n");
-		return -1;
+		Logger::LogError("GameLua::LoadShip: A memory allocation error occurred while loading\n");
+		Logger::LogError(lua_tostring(luaVM, -1));
+		lua_pop(luaVM, 1);
+	} else if(load_result == LUA_ERRFILE)
+	{
+		Logger::LogError("GameLua::LoadShip: Unable to load file:");
+		Logger::LogError(lua_tostring(luaVM, -1));
+		lua_pop(luaVM, 1);
 	} else
+	{
+		int run_result = lua_pcall(luaVM, 0, LUA_MULTRET, 0);
+		if(run_result == LUA_ERRRUN)
+		{
+			Logger::LogError("GameLua::LoadShip: A runtime error occurred\n");
+			Logger::LogError(lua_tostring(luaVM, -1));
+			lua_pop(luaVM, 1);
+		}
+		else if(run_result == LUA_ERRMEM)
+		{
+			Logger::LogError("GameLua::LoadShip: A memory allocation error occurred while running\n");
+			Logger::LogError(lua_tostring(luaVM, -1));
+			lua_pop(luaVM, 1);
+		}
+		else if(run_result == LUA_ERRERR)
+		{
+			Logger::LogError("GameLua::LoadShip: Error handling function error\n");
+			Logger::LogError(lua_tostring(luaVM, -1));
+			lua_pop(luaVM, 1);
+		}
+		else
+		{//Everything worked OK, script loaded
+			 loaded_and_run_ok = true;
+		}
+	}
+	
+	if(loaded_and_run_ok)
 	{
 		lua_getglobal(luaVM, "Ship");
 		if(lua_istable(luaVM, -1))
@@ -472,6 +513,10 @@ int GameLua::LoadShip(const char* ship)
 			Logger::LogError(std::string("GameLua::LoadShip: Unable to find Ship table in \n") + std::string(ship));
 			return -1;
 		}
+	}
+	else
+	{
+		return -1;
 	}
 }
 
@@ -549,11 +594,11 @@ void GameLua::ParseShip(const char* _ship)
 					PushSection(new JointAngles(first_angle, second_angle, transition_time, pause_time));
 				}
 				break;
-			case st_WidePlate:
-				PushSection(new WidePlate());
-				break;
 			case st_HomingMissileLauncher:
 				PushSection(new HomingMissileLauncher());
+				break;
+			case st_Swarmer:
+				PushSection(new Swarmer());
 				break;
 			case st_QuarterCircle:
 				PushSection(new QuarterCircle());

@@ -46,7 +46,7 @@ Ship = {
         {
           SectionType = "SpinningJoint",
           --Position = {x = 0, y = 0},
-          RotationRate = 90,
+          RotationRate = 50,
           SubSections = 
           {
             {

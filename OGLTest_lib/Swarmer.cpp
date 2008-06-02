@@ -1,15 +1,15 @@
 #include "StdAfx.h"
-#include "HomingMissileLauncher.h"
-#include "HomingMissile.h"
+#include "Swarmer.h"
+#include "SwarmMissile.h"
 
 //Initialise all static class members
-bool HomingMissileLauncher::initialised_ = false;
-int HomingMissileLauncher::outline_dl_ = 0;
-int HomingMissileLauncher::outline_verts_index_ = 0;
-int HomingMissileLauncher::fill_dl_ = 0;
-int HomingMissileLauncher::fill_verts_index_ = 0;
+bool Swarmer::initialised_ = false;
+int Swarmer::outline_dl_ = 0;
+int Swarmer::outline_verts_index_ = 0;
+int Swarmer::fill_dl_ = 0;
+int Swarmer::fill_verts_index_ = 0;
 
-HomingMissileLauncher::HomingMissileLauncher(void)
+Swarmer::Swarmer(void)
 : FiringSection()
 {
 	if(!initialised_)
@@ -25,17 +25,17 @@ HomingMissileLauncher::HomingMissileLauncher(void)
 	fill_display_list_ = fill_dl_;
 	findRadius();
 
-	health_ = 1000;
+	health_ = 600;
 	max_health_ = health_;
-	cooldown_time_ = 0.9f;
+	cooldown_time_ = 0.2f;
 	default_sub_section_position_ = Vector3f(0, 0, 0);
 }
 
-HomingMissileLauncher::~HomingMissileLauncher(void)
+Swarmer::~Swarmer(void)
 {
 }
 
-void HomingMissileLauncher::initialise_fill(void)
+void Swarmer::initialise_fill(void)
 {
 	boost::shared_ptr<std::vector<Vector3f>> temp_fill = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 	boost::shared_ptr<std::vector<Vector3f>> temp_outline = Datastore::Instance().GetVerts(outline_verts_index_);
@@ -56,7 +56,7 @@ void HomingMissileLauncher::initialise_fill(void)
 	fill_dl_ = CreateFillDisplayList(temp_fill);
 }
 
-void HomingMissileLauncher::initialise_outline(void)
+void Swarmer::initialise_outline(void)
 {
 	boost::shared_ptr<std::vector<Vector3f>> temp_outline = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 
@@ -70,7 +70,7 @@ void HomingMissileLauncher::initialise_outline(void)
 	outline_dl_ = CreateOutlinedDisplayList(temp_outline);
 }
 
-void HomingMissileLauncher::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies)
+void Swarmer::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies)
 {
 	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies);
 	cooldown_ -= _timespan;
@@ -84,7 +84,7 @@ void HomingMissileLauncher::Tick(float _timespan, std::vector<Projectile_ptr>& _
 				int index = Random::RandomIndex(static_cast<int>(_enemies.size()));
 				target = (BaseEntity*)(_enemies[index]);
 			}
-			HomingMissile* hm = new HomingMissile(Vector3f(0, 5, 0), target);
+			SwarmMissile* hm = new SwarmMissile(Vector3f(0, 5, 0), target);
 
 			fire_projectile(hm, _spawn_prj);
 			cooldown_ = cooldown_time_;

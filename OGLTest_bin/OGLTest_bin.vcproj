@@ -13,6 +13,9 @@
 		/>
 	</Platforms>
 	<ToolFiles>
+		<DefaultToolFile
+			FileName="ScriptCopier.rules"
+		/>
 	</ToolFiles>
 	<Configurations>
 		<Configuration
@@ -24,11 +27,13 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Script copier"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -105,11 +110,13 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				Description=""
 				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Script copier"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -280,7 +287,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -288,12 +295,13 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\Scripts\MissilePlatform.lua"
+					>
 				</File>
 				<File
 					RelativePath=".\Scripts\SpaceStation.lua"
@@ -304,7 +312,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -312,10 +320,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -328,7 +333,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -336,10 +341,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -356,7 +358,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -364,10 +366,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -384,7 +383,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -392,10 +391,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -412,7 +408,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -420,10 +416,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -436,7 +429,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -444,10 +437,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -460,7 +450,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -468,10 +458,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -484,7 +471,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -492,10 +479,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -508,7 +492,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -516,10 +500,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -532,7 +513,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -540,10 +521,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -556,7 +534,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -564,10 +542,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -580,7 +555,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -588,10 +563,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -604,7 +576,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -612,10 +584,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -628,7 +597,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -636,10 +605,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -652,7 +618,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -660,10 +626,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -676,7 +639,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -684,10 +647,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -700,7 +660,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -708,10 +668,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -724,7 +681,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -732,10 +689,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -748,7 +702,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -756,10 +710,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -772,7 +723,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -780,10 +731,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -796,7 +744,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -804,10 +752,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -820,7 +765,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -828,10 +773,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -844,7 +786,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -852,12 +794,13 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\Scripts\WidePlate.lua"
+					>
 				</File>
 				<File
 					RelativePath=".\Scripts\WingLH.lua"
@@ -868,7 +811,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -876,10 +819,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>
@@ -892,7 +832,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)\$(InputFileName)"
 						/>
 					</FileConfiguration>
@@ -900,10 +840,7 @@
 						Name="Release|Win32"
 						>
 						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
-							Outputs="$(OutDir)\$(InputFileName)"
+							Name="Script copier"
 						/>
 					</FileConfiguration>
 				</File>

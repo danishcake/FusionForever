@@ -86,7 +86,7 @@ LuaSection* LuaSection::CreateLuaSection(std::string _name, lua_State* luaVM)
 			}
 			else if(run_result == LUA_ERRERR)
 			{
-				Logger::Log("LuaSection::CreateLuaSection: Error handling function error\n");
+				Logger::LogError("LuaSection::CreateLuaSection: Error handling function error\n");
 				if(lua_isstring(luaVM, -1))
 					Logger::LogError(lua_tostring(luaVM, -1));
 			}

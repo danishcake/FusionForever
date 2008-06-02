@@ -8,7 +8,7 @@ int JointTracker::outline_verts_index_ = 0;
 int JointTracker::fill_dl_ = 0;
 int JointTracker::fill_verts_index_ = 0;
 
-static const float TURN_RATE = 500.0f;
+static const float TURN_RATE = 90.0f;
 
 JointTracker::JointTracker()
 : Section()
@@ -82,7 +82,7 @@ void JointTracker::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj
 	{
 		TurnData turn_data = GetTurnDirection(GetGlobalAngle(), target_->GetGlobalPosition() - GetGlobalPosition());
 		
-		angle_ += ClampTurnDirection(turn_data.turn_factor, 0.1f) * TURN_RATE * _timespan;
+		angle_ += ClampTurnDirection(turn_data.turn_factor, 0.01f) * TURN_RATE * _timespan;
 	}
 }
 

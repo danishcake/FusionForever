@@ -5,7 +5,6 @@ Ship = {
 	Angle = 90,
 	Position = {x = 0, y = 10},
 	AI = {AIType = "RotatingAI", AIRotationRate = 0.5},
-	--AI = {AIType = "KeyboardAI"},
 	SubSections = 
 	{
 	{

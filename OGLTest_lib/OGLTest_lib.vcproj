@@ -239,6 +239,10 @@
 					RelativePath=".\SmallBullet.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\SwarmMissile.cpp"
+					>
+				</File>
 				<Filter
 					Name="Beams"
 					>
@@ -298,6 +302,10 @@
 						RelativePath=".\HomingMissileLauncher.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\Swarmer.cpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Active"
@@ -328,10 +336,6 @@
 					</File>
 					<File
 						RelativePath=".\SemiCircle.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\WidePlate.cpp"
 						>
 					</File>
 				</Filter>
@@ -493,6 +497,10 @@
 					RelativePath=".\SmallBullet.h"
 					>
 				</File>
+				<File
+					RelativePath=".\SwarmMissile.h"
+					>
+				</File>
 				<Filter
 					Name="Beams"
 					>
@@ -552,6 +560,10 @@
 						RelativePath=".\HomingMissileLauncher.h"
 						>
 					</File>
+					<File
+						RelativePath=".\Swarmer.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Active"
@@ -582,10 +594,6 @@
 					</File>
 					<File
 						RelativePath=".\SemiCircle.h"
-						>
-					</File>
-					<File
-						RelativePath=".\WidePlate.h"
 						>
 					</File>
 				</Filter>

@@ -51,6 +51,8 @@ void Tick()
 {
 	clock_t current_time = clock();
 	float time_elapsed = (float)(current_time - ltv_time) / (float)CLOCKS_PER_SEC;
+	if(time_elapsed > 1.0f/40.0f)
+		time_elapsed = 1.0f/40.0f;
 	ltv_time = current_time;
 
 	std::vector<BaseScene_ptr>::iterator last_root = scene_stack.begin();
