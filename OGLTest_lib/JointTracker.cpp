@@ -67,9 +67,9 @@ void JointTracker::initialise_outline(void)
 	outline_dl_ = CreateOutlinedDisplayList(temp_outline);	
 }
 
-void JointTracker::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies)
+void JointTracker::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager)
 {
-	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies);
+	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies, _collision_manager);
 	if(!target_)
 	{
 		if(_enemies.size() > 0)

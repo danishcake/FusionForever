@@ -26,6 +26,9 @@ protected:
 
 	std::vector<Core_ptr> friends_;
 	std::vector<Core_ptr> enemies_;
+
+	ICollisionManager* enemies_sp_;
+	ICollisionManager* friends_sp_;
 	Starfield starfield_;
 	GameLua* game_lua_;
 };

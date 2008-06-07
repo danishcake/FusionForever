@@ -66,9 +66,9 @@ void JointAngles::initialise_outline(void)
 	outline_dl_ = CreateOutlinedDisplayList(temp_outline);	
 }
 
-void JointAngles::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies)
+void JointAngles::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager)
 {
-	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies);
+	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies, _collision_manager);
 	total_time_ += _timespan;
 	total_time_ = fmodf(total_time_, 2 * transition_time_ + 2 * pause_time_);
 	if(total_time_ < pause_time_)

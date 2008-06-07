@@ -68,19 +68,28 @@ Predicate.WaitTillEnemiesDead()
 
 							--The following loops load 3x64 enemies
 for z = 1, 3 do						--with a 0.1s gap between each enemy and
-	for x = 1, 4 do					--in batches of 64 that must be killed entirely
-		for y = 1, 4 do
+	for x = 1,12 do					--in batches of 64 that must be killed entirely
+		for y = 1, 6 do
 		  LoadShip("LuaShip2.lua")
 		  SetAI("RotatingAI", 0.02)		--Sets the AI to rotate at 20% speed
 		  SetColor(0,128,0)
 		  SetPosition(x * 50, y * 50)
-		  --ScaleHealth(0.01)			--Makes the ship very weak
+		  ScaleHealth(0.02)			--Makes the ship very weak
 		  AddAsEnemy()				--Adds to the enemy team
-		  Predicate.WaitFor(0.1)
+		  Predicate.WaitFor(0.05)
 		end
 	end
 	Predicate.WaitTillEnemiesDead()
 end
+
+for i = 1, 3 do					--in batches of 64 that must be killed entirely
+	LoadShip("MissilePlatform.lua")				--Loads a ship but doesn't add it to the world
+	SetAI("RotatingAI", -0.1)					--Sets the last loaded ships AI
+	SetPosition(50*i,-200)
+	AddAsEnemy()						--Adds the ship as a friend
+	Predicate.WaitFor(0.2)
+end
+
 
 end),							--End of resumable coroutine
 							--Now the coroutine status is "dead"

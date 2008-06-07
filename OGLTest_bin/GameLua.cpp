@@ -607,7 +607,19 @@ void GameLua::ParseShip(const char* _ship)
 				PushSection(new SemiCircle());
 				break;
 			case st_TrackerJoint:
+				{
+				bool param_error = false;
+				lua_pushstring(luaVM, "OnlyWhenFiring");
+				lua_gettable(luaVM, -2);
+				bool firing_only = static_cast<float>(lua_toboolean(luaVM, -1));
+				
+				param_error |= !lua_isboolean(luaVM, -1);
+				lua_pop(luaVM, 1);
+				if(param_error)
+					luaL_error(luaVM, "Error parsing %s\nTrackerJoint requires key:value pair OnlyWhenFiring:boolean", _ship);
+				else
 				PushSection(new JointTracker());
+				}
 				break;
 			default:
 				LuaSection* lua_section = LuaSection::CreateLuaSection(section_type, luaVM);
@@ -719,29 +731,34 @@ void GameLua::LoadChallenge(const char* challenge)
 	if(load_result == LUA_ERRSYNTAX)
 	{
 		Logger::LogError("GameLua::LoadChallenge: A syntax error occurred while loading\n");
+		Logger::LogError(lua_tostring(luaVM, -1));
+		lua_pop(luaVM, 1);
 	} else if(load_result == LUA_ERRMEM)
 	{
 		Logger::LogError("GameLua::LoadChallenge: A memory allocation error occurred while loading\n");
+		Logger::LogError(lua_tostring(luaVM, -1));
+		lua_pop(luaVM, 1);
 	} else
 	{//Loaded OK. Function ready to run at top of stack.
 		int run_result = lua_pcall(luaVM, 0, LUA_MULTRET, 0);
 		if(run_result == LUA_ERRRUN)
 		{
 			Logger::LogError("GameLua::LoadChallenge: A runtime error occurred\n");
-			if(lua_isstring(luaVM, -1))
-				Logger::LogError(lua_tostring(luaVM, -1));
+			Logger::LogError(lua_tostring(luaVM, -1));
+			Logger::LogError(lua_tostring(luaVM, -1));
+			lua_pop(luaVM, 1);
 		}
 		else if(run_result == LUA_ERRMEM)
 		{
 			Logger::LogError("GameLua::LoadChallenge: A memory allocation error occurred while running\n");
-			if(lua_isstring(luaVM, -1))
-				Logger::LogError(lua_tostring(luaVM, -1));
+			Logger::LogError(lua_tostring(luaVM, -1));
+			lua_pop(luaVM, 1);
 		}
 		else if(run_result == LUA_ERRERR)
 		{
 			Logger::Log("GameLua::LoadChallenge: Error handling function error\n");
-			if(lua_isstring(luaVM, -1))
-				Logger::LogError(lua_tostring(luaVM, -1));
+			Logger::LogError(lua_tostring(luaVM, -1));
+			lua_pop(luaVM, 1);
 		}
 		else
 		{//Everything worked OK, script loaded

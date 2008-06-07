@@ -8,9 +8,13 @@
 #include "RotatingAI.h"
 #include "KeyboardAI.h"
 #include <lauxlib.h>
+#include "ICollisionManager.h"
+#include "GridCollisionManager.h"
 
 GameScene::GameScene(void)
 {
+	enemies_sp_ = new GridCollisionManager();
+	friends_sp_ = new GridCollisionManager();
 	Camera::Instance().SetWidth(500);
 	game_lua_ = new GameLua(this);
 	game_lua_->LoadChallenge("Challenge1.lua");
@@ -19,10 +23,15 @@ GameScene::GameScene(void)
 GameScene::~GameScene(void)
 {
 	delete game_lua_;
+	delete friends_sp_;
+	delete enemies_sp_;
 }
 
 void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 {
+	friends_sp_->Clear();
+	enemies_sp_->Clear();
+
 	game_lua_->Tick(static_cast<int>(friends_.size()), static_cast<int>(enemies_.size()), _timespan);
 
 	//enemies_.splice(enemies_.begin(), game_lua_->GetEnemies());
@@ -43,12 +52,12 @@ void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 
 	BOOST_FOREACH(Core_ptr core, friends_)
 	{
-		core->Tick(_timespan, ownship_spawn, decoration_spawn, identity, friends_ , enemies_);
+		core->Tick(_timespan, ownship_spawn, decoration_spawn, identity, friends_ , enemies_, friends_sp_);
 	}
 
 	BOOST_FOREACH(Core_ptr core, enemies_)
 	{
-		core->Tick(_timespan, enemy_spawn, decoration_spawn, identity, enemies_, friends_);
+		core->Tick(_timespan, enemy_spawn, decoration_spawn, identity, enemies_, friends_, enemies_sp_);
 	}
 
 	//enemy_projectiles.splice(enemy_projectiles.begin(), enemy_spawn);
@@ -56,13 +65,17 @@ void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 	//ownship_projectiles.splice(ownship_projectiles.begin(), ownship_spawn);
 	ownship_projectiles.insert(ownship_projectiles.begin(), ownship_spawn.begin(), ownship_spawn.end());
 
+	std::vector<Section_ptr> filtered;
+	filtered.reserve(50);
+	//friends_sp_->GetAtPoint(filtered, Vector3f());
 	for(std::vector<Projectile_ptr>::iterator it = enemy_projectiles.begin(); it != enemy_projectiles.end(); it++)
 	{
 		(*it)->Tick(_timespan, decoration_spawn, identity);
-
-		BOOST_FOREACH(Core_ptr core, friends_)
+		filtered.clear();
+		friends_sp_->GetAtPoint(filtered, (*it)->GetPosition());
+		BOOST_FOREACH(Section_ptr section, filtered)
 		{
-			core->CheckCollisions(*it);
+			section->CheckCollisions(*it);
 			if((*it)->GetLifetime()<=0)
 			{
 				(*it)->Hit(decoration_spawn);
@@ -70,14 +83,16 @@ void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 			}
 		}
 	}
-
+	
+	//enemies_sp_->GetAtPoint(filtered, Vector3f());
 	for(std::vector<Projectile_ptr>::iterator it = ownship_projectiles.begin(); it != ownship_projectiles.end(); it++)
 	{
 		(*it)->Tick(_timespan, decoration_spawn, identity);
-
-		BOOST_FOREACH(Core_ptr core, enemies_)
+		filtered.clear();
+		enemies_sp_->GetAtPoint(filtered, (*it)->GetPosition());
+		BOOST_FOREACH(Section_ptr section, filtered)
 		{
-			core->CheckCollisions(*it);
+			section->CheckCollisions(*it);
 			if((*it)->GetLifetime()<=0)
 			{
 				(*it)->Hit(decoration_spawn);

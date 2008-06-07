@@ -26,13 +26,13 @@ void Camera::SetupCamera()
 	if(shake_time_ > 0)
 	{
 		glTranslatef((0.05f *shake_time_) * Random::RandomFactor(), (0.05f *shake_time_) * Random::RandomFactor(), 0);
-		glRotatef((10 * shake_time_) * Random::RandomFactor(), 0, 0, 1);
+		glRotatef((4 * shake_time_) * Random::RandomFactor(), 0, 0, 1);
 	}
 	glOrtho(GetLeft(), GetRight(), GetTop(), GetBottom(), -100, 100);
 
 }
 
-void Camera::Shake()
+void Camera::Shake(float _amount)
 {
-	shake_time_ = 1.0f;
+	shake_time_ = max(shake_time_, _amount);
 }

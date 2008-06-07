@@ -12,9 +12,9 @@ BeamFiringSection::~BeamFiringSection(void)
 	delete beam_;
 }
 
-void BeamFiringSection::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies)
+void BeamFiringSection::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager)
 {
-	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies);
+	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies, _collision_manager);
 	if(firing_)
 	{
 		beam_->Tick(_timespan, _spawn_dec, ltv_transform_, _enemies);

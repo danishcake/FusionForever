@@ -50,6 +50,7 @@ Ship = {
 			{
 				{
 					SectionType = "TrackerJoint",
+					OnlyWhenFiring = false,
 					SubSections = 
 					{
 						{

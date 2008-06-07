@@ -23,5 +23,9 @@ void Logger::Log_internal(std::string _message)
 		printf(_message.c_str());
 		output_ << _message.c_str();
 	}
-	
+}
+
+std::ofstream& Logger::Log_internal_stream()
+{
+	return output_;
 }

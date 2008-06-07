@@ -180,7 +180,8 @@ public:
    /**
      * Causes the camera to shake
      */
-	void Shake();
+	void Shake(float _amount);
+
 	void TickCamera(float _timespan)
 	{
 		shake_time_ -= _timespan;

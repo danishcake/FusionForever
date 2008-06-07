@@ -11,11 +11,13 @@
 #include "Datastore.h"
 #include "Camera.h"
 
+
 class HomingJoin;
 class Section;
 //typedef boost::shared_ptr<Section> Section_ptr;
 typedef Section* Section_ptr;
 class Core;
+class ICollisionManager;
 //typedef boost::shared_ptr<Core> Core_ptr;
 typedef Core* Core_ptr;
 
@@ -59,7 +61,7 @@ public:
 	bool CheckCollisions(Vector3f _location, Section_ptr& _section);
 	void RayCollisionFilter(Vector3f P1, Vector3f P2, std::vector<Section_ptr>& _valid_sections, float& _min_distance, float& _max_distance);
 	void SetColor(GLColor _color);
-	virtual void Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies);
+	virtual void Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager);
 	virtual void GetDeathSpawn(std::vector<Decoration_ptr>& _spawn_dec);
 	void UnregisterHomingJoin(HomingJoin* _homing_join);
 	void RegisterHomingJoin(HomingJoin* _homing_join);
@@ -80,7 +82,7 @@ public:
 		bool dead = (section->health_ <= 0);
 		if(dead)
 		{
-			Camera::Instance().Shake();
+			Camera::Instance().Shake(0.3);
 			delete section;
 		}
 		return dead;

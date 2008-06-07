@@ -18,7 +18,7 @@ public:
 	 * @param _max_turn Maximum angle to turn in one tick. Typically the total angle turn required
      * @param _firing Firing state
      */
-	AIAction(float _dx, float _dy, float _dtheta, float _max_turn, bool _firing);
+	AIAction(float _dx, float _dy, float _dtheta, bool _firing);
 
    /**
      * Clamped x-axis acceleration (-1 to 1)
@@ -39,6 +39,4 @@ public:
 	/**
 	  * The maximum angle to turn in low frame rate situations
 	  */
-
-	float max_turn_;
 };

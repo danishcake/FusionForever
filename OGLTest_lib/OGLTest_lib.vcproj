@@ -360,6 +360,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\GridCollisionManager.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Logger.cpp"
 					>
 				</File>
@@ -369,6 +373,10 @@
 				</File>
 				<File
 					RelativePath=".\Random.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\SimpleCollisionManager.cpp"
 					>
 				</File>
 				<File
@@ -622,6 +630,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\GridCollisionManager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ICollisionManager.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Logger.h"
 					>
 				</File>
@@ -639,6 +655,10 @@
 				</File>
 				<File
 					RelativePath="D:\Boost\boost_1_34_1\boost\detail\shared_ptr_nmt.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\SimpleCollisionManager.h"
 					>
 				</File>
 				<File

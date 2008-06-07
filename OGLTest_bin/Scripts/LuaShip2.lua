@@ -55,26 +55,31 @@ Ship = {
               {
 				{
 					SectionType = "TrackerJoint",
+					OnlyWhenFiring = false,
 					Position = {x = -16.18034, y = 11.755705},
 					SubSections = {{SectionType = "Blaster"}},
 				},
 				{
 					SectionType = "TrackerJoint",
+					OnlyWhenFiring = false,
 					Position = {x = 6.1803399, y = 19.02113},
 					SubSections = {{SectionType = "Blaster"}},
 				},
 				{
 					SectionType = "TrackerJoint",
+					OnlyWhenFiring = false,
 					Position = {x = -16.18034, y = -11.755705},
 					SubSections = {{SectionType = "Blaster"}},
 				},
 				{
 					SectionType = "TrackerJoint",
+					OnlyWhenFiring = false,
 					Position = {x = 6.1803399, y = -19.02113},
 					SubSections = {{SectionType = "Blaster"}},
 				},
 				{
 					SectionType = "TrackerJoint",
+					OnlyWhenFiring = false,
 					Position = {x = 20, y = 0},
 					SubSections = {{SectionType = "Blaster"}},
 				},

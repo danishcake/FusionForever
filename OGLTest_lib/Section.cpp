@@ -2,6 +2,7 @@
 #include "Section.h"
 #include <boost/foreach.hpp>
 #include "Puff.h"
+#include "ICollisionManager.h"
 
 int Section::section_count_ = 0;
 
@@ -9,7 +10,6 @@ bool zero_or_less(float _value)
 {
 	return (_value <= 0);
 }
-
 
 Section::Section(void)
 : BaseEntity(), Outlined(), Filled()
@@ -23,8 +23,8 @@ Section::Section(void)
 	outline_color_base_ = GLColor(255, 255, 255);
 	default_sub_section_position_ = Vector3f(0,0,0);
 	section_id_ = section_count_++;
-  parent_ = NULL;
-  root_ = NULL;
+	parent_ = NULL;
+	root_ = NULL;
 }
 
 Section::~Section(void)
@@ -81,10 +81,10 @@ void Section::GetDeathSpawn(std::vector<Decoration_ptr>& _spawn_dec)
 	}
 }
 
-void Section::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies)
+void Section::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager)
 {
 	BaseEntity::Tick(_timespan, _transform); // Use ltv_transform after this as _transform is passed by value
-
+	_collision_manager->Register(this);
 	BOOST_FOREACH(float& delay, firing_edges_)
 	{
 		delay -= _timespan;
@@ -107,7 +107,7 @@ void Section::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 		else
 		{
 			section->SetFiring(firing_);
-			section->Tick(_timespan, _spawn_prj, _spawn_dec, ltv_transform_, _enemies);
+			section->Tick(_timespan, _spawn_prj, _spawn_dec, ltv_transform_, _enemies, _collision_manager);
 		}
 	}
 
@@ -137,6 +137,7 @@ bool Section::CheckCollisions(Projectile_ptr _projectile)
 			}
 		}
 	}
+	/*
 	if(!hasCollided)
 	{
 		BOOST_FOREACH(Section_ptr section, sub_sections_)
@@ -146,6 +147,7 @@ bool Section::CheckCollisions(Projectile_ptr _projectile)
 				break;
 		}
 	}
+	*/
 	return hasCollided;
 }
 
@@ -227,6 +229,6 @@ void Section::SetFiring(bool _firing)
 
 void Section::SetParentAndRoot(Section* _parent, Section* _root)
 {
-  parent_ = _parent;
-  root_ = _root;
+	parent_ = _parent;
+	root_ = _root;
 }

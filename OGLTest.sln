@@ -35,4 +35,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		AMDCaProjectFile = C:\Documents and Settings\Edward Woolhouse\My Documents\Visual Studio 2005\Projects\OGLTest\CodeAnalyst\OGLTest.caw
+	EndGlobalSection
 EndGlobal

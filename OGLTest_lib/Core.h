@@ -43,7 +43,7 @@ public:
      * @param _enemies A list of enemies.
      */
 	virtual void Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec,
-					  Matrix4f _transform, std::vector<Core_ptr>& _allies, std::vector<Core_ptr>& _enemies);
+					  Matrix4f _transform, std::vector<Core_ptr>& _allies, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager);
 
   /**
   * Sets the AI to a new AI, clearing up the old one in the process.

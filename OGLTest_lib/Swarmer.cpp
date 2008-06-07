@@ -27,7 +27,7 @@ Swarmer::Swarmer(void)
 
 	health_ = 600;
 	max_health_ = health_;
-	cooldown_time_ = 0.2f;
+	cooldown_time_ = 0.15f;
 	default_sub_section_position_ = Vector3f(0, 0, 0);
 }
 
@@ -70,9 +70,9 @@ void Swarmer::initialise_outline(void)
 	outline_dl_ = CreateOutlinedDisplayList(temp_outline);
 }
 
-void Swarmer::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies)
+void Swarmer::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager)
 {
-	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies);
+	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies, _collision_manager);
 	cooldown_ -= _timespan;
 	if(firing_)
 	{

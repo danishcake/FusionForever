@@ -19,10 +19,10 @@ Core::~Core(void)
 }
 
 void Core::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec,
-					  Matrix4f _transform, std::vector<Core_ptr>& _allies, std::vector<Core_ptr>& _enemies)
+					  Matrix4f _transform, std::vector<Core_ptr>& _allies, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager)
 {
    //Do all the standard moving and rotating
-	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies);
+	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies, _collision_manager);
 	//Get the AI instructions (how to move, rotate and fire)
 	AIAction action;
 	if(AI_!=NULL)
@@ -43,12 +43,7 @@ void Core::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::v
 			velocity_*=CORE_MOVE_RATE_MAX;
 		}
 
-		if(fabsf(action.dtheta_ * _timespan) <= fabsf(action.max_turn_))
-			angle_ += action.dtheta_ * _timespan * CORE_ROT_RATE_MAX;
-		else
-		{
-			angle_ += action.max_turn_;
-		}
+		angle_ += action.dtheta_ * _timespan * CORE_ROT_RATE_MAX;
 		firing_ = action.firing_;
 	}
 }

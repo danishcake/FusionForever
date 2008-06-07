@@ -3,7 +3,6 @@
 struct TurnData
 {
 	float turn_factor;
-	float angle_difference;
 };
 
 
