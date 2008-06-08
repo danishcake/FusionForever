@@ -68,13 +68,13 @@ Predicate.WaitTillEnemiesDead()
 
 							--The following loops load 3x64 enemies
 for z = 1, 3 do						--with a 0.1s gap between each enemy and
-	for x = 1,12 do					--in batches of 64 that must be killed entirely
-		for y = 1, 6 do
+	for x = 1,8 do					--in batches of 64 that must be killed entirely
+		for y = 1, 8 do
 		  LoadShip("LuaShip2.lua")
 		  SetAI("RotatingAI", 0.02)		--Sets the AI to rotate at 20% speed
 		  SetColor(0,128,0)
-		  SetPosition(x * 50, y * 50)
-		  ScaleHealth(0.02)			--Makes the ship very weak
+		  SetPosition(x * 50, y * 50-200)
+		  ScaleHealth(0.5)			--Makes the ship very weak
 		  AddAsEnemy()				--Adds to the enemy team
 		  Predicate.WaitFor(0.05)
 		end

@@ -164,6 +164,8 @@ void GameScene::Draw()
 	{
 		(*it)->DrawSelf();
 	}
+	this->friends_sp_->Render();
+	this->enemies_sp_->Render();
 }
 
 bool GameScene::IsRoot()

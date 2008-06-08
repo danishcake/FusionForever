@@ -11,6 +11,7 @@ public:
 	virtual void Clear() = 0;
 	virtual void Register(Section_ptr _section) = 0;
 	virtual void GetAtPoint(std::vector<Section_ptr>& _result, Vector3f _point) = 0;
+	virtual void Render() = 0;
 
 protected: 
 	int total_returned_;

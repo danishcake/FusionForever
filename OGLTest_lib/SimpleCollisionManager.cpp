@@ -23,3 +23,7 @@ void SimpleCollisionManager::GetAtPoint(std::vector<Section_ptr>& _result, Vecto
 {
 	_result.insert(_result.begin(), sections_.begin(), sections_.end());
 }
+
+void SimpleCollisionManager::Render()
+{
+}
