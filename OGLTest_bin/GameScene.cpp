@@ -13,8 +13,8 @@
 
 GameScene::GameScene(void)
 {
-	enemies_sp_ = new GridCollisionManager();
-	friends_sp_ = new GridCollisionManager();
+	enemies_sp_ = new GridCollisionManager(GLColor(0,127,127));
+	friends_sp_ = new GridCollisionManager(GLColor(255,0,0));
 	Camera::Instance().SetWidth(500);
 	game_lua_ = new GameLua(this);
 	game_lua_->LoadChallenge("Challenge1.lua");
