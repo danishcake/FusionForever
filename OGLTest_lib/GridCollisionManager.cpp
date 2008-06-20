@@ -1,14 +1,15 @@
 #include "StdAfx.h"
 #include "GridCollisionManager.h"
 
-GridCollisionManager::GridCollisionManager(void)
+GridCollisionManager::GridCollisionManager(GLColor _color)
 {
+	color_ = _color;
 	left_edge_ = -GRID_SECTIONS * MINIMUM_GRID_SIZE / 2.0f;
 	width_ = GRID_SECTIONS * MINIMUM_GRID_SIZE;
 	bottom_edge_ = -GRID_SECTIONS * MINIMUM_GRID_SIZE / 2.0f;
 	height_ = GRID_SECTIONS * MINIMUM_GRID_SIZE;
 	grid_width_ = width_/GRID_SECTIONS;
-		grid_height_ = height_/GRID_SECTIONS;
+	grid_height_ = height_/GRID_SECTIONS;
 	total_returned_ = 0;
 	largest_returned_ = 0;
 	total_tracked_ = 0;
@@ -170,7 +171,7 @@ void GridCollisionManager::GetAtPoint(std::vector<Section_ptr>& _result, Vector3
 void GridCollisionManager::Render()
 {
 	glPushMatrix();
-	glColor4f(1,1,1,0.5f);
+	glColor3ub(color_.r, color_.g, color_.b);
 	glLoadIdentity();
 	glBegin(GL_LINES);
 	for(int x = 1; x < GRID_SECTIONS; x++)

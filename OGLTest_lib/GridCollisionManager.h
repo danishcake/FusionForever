@@ -1,5 +1,6 @@
 #pragma once
 #include "ICollisionManager.h"
+#include "GLColor.h"
 
 #define GRID_SECTIONS 20
 #define MINIMUM_GRID_SIZE 25.0f
@@ -8,7 +9,7 @@ class GridCollisionManager :
 	public ICollisionManager
 {
 public:
-	GridCollisionManager(void);
+	GridCollisionManager(GLColor _color);
 	virtual ~GridCollisionManager(void);
 
 	virtual void Clear();
@@ -32,4 +33,5 @@ private:
 
 	std::vector<Section_ptr>* adjacency_lookup_[GRID_SECTIONS][GRID_SECTIONS][9];
 	int adjacency_lookup_count_[GRID_SECTIONS][GRID_SECTIONS];
+	GLColor color_;
 };
