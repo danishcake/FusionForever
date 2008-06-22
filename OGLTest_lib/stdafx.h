@@ -14,6 +14,9 @@
 
 #include <vector>
 #include <list>
+#include <map>
+#include <stack>
+#include <string>
 
 #include <windows.h>
 #include <gl\gl.h>
@@ -21,3 +24,7 @@
 #include <ctime>
 #include "Logger.h"
 #include "Random.h"
+#include "vmath.h"
+#include "vmath-collisions.h"
+#include <boost/foreach.hpp>
+

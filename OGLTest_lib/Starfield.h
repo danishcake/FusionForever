@@ -1,5 +1,4 @@
 #pragma once
-#include "vmath.h"
 
 class Starfield
 {

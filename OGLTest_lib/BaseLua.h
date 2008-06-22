@@ -1,9 +1,8 @@
 #pragma once
-#include <stack>
-#include <list>
 #include "Section.h"
-#include "Core.h" //For BaseAI define therein
+#include "Core.h" //For BaseAI defined therein
 #include "GLColor.h"
+#include "BaseGame.h"
 
 extern "C"
 {
@@ -12,22 +11,23 @@ extern "C"
 #include "lauxlib.h"
 }
 
-class GameScene;
-
-class GameLua
+class BaseLua
 {
 private:
-	std::vector<Core_ptr> enemies_;
-	std::vector<Core_ptr> friends_;
-	std::stack<Section_ptr> section_stack_;
 	BaseAI* GetAI();
+
+	std::stack<Section_ptr> section_stack_;
+	BaseGame* game_;
 	bool is_script_running_;
 	float sum_time_;
-	GameScene* game_scene_;
+	GLColor force_colors_[MAX_FORCES];
+
+protected:
+	void StackToCore();
+
 public:
-	GameLua(GameScene* _game_scene);
-	~GameLua(void);
-	
+	BaseLua(BaseGame* _game);
+	~BaseLua(void);
 
 	void LoadChallenge(const char* challenge);
 	int LoadShip(const char* _ship);
@@ -41,20 +41,12 @@ public:
 	void SetPosition(float _x, float _y);
 	void SetHealth(float _health);
 	void ScaleHealth(float _scale);
-	void SetColor(GLColor _color);
+	void SetForceColor(int _force, GLColor _color);
 	void SetFiringDelay(float _firing_delay);
 
-	void AddAsFriend();
-	void AddAsEnemy();
-
+	void AddToForce(int _force_id);
 	bool IsAlive(int _section_id);
-
-	void StackToCore();
 	void OverrideAI(BaseAI*);
 
-	void Tick(int _friend_count, int _enemy_count, float _timespan);
-	lua_State* GetLuaVM();
-
-	std::vector<Core_ptr>& GetEnemies();
-	std::vector<Core_ptr>& GetFriends();
+	void Tick(float _timespan);
 };

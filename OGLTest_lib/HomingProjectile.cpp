@@ -2,7 +2,6 @@
 #include "HomingProjectile.h"
 #include "Section.h"
 #include "TurningRoutines.h"
-#include "vmath.h"
 
 HomingProjectile::HomingProjectile(BaseEntity* _target) 
 	: Projectile()

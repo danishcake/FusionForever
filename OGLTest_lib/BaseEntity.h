@@ -1,6 +1,5 @@
 #pragma once
 #include "vmath.h"
-#include <list>
 
 /**
   * The BaseEntity class represents the common properties shared by all entities.

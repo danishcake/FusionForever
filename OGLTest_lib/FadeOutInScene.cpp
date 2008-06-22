@@ -1,7 +1,6 @@
 #include "StdAfx.h"
 #include "FadeOutInScene.h"
 #include "Camera.h"
-#include <boost/foreach.hpp>
 
 #define FADETIME 2.0f
 

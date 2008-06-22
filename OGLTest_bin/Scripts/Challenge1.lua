@@ -16,13 +16,13 @@ Challenge = {
 Script = coroutine.create(function()
 LoadShip("LuaShip2.lua")				--Loads a ship but doesn't add it to the world
 SetAI("KeyboardAI")					--Sets the last loaded ships AI
-AddAsFriend()						--Adds the ship as a friend
+AddToForce(0)						--Adds the ship as a friend
 
 for i = 1, 5 do					--in batches of 64 that must be killed entirely
 	LoadShip("MissilePlatform.lua")				--Loads a ship but doesn't add it to the world
 	SetAI("RotatingAI", -0.1)					--Sets the last loaded ships AI
 	SetPosition(50*i,400)
-	AddAsFriend()						--Adds the ship as a friend
+	AddToForce(0)						--Adds the ship as a friend
 	Predicate.WaitFor(0.2)
 end
 
@@ -30,63 +30,59 @@ Predicate.WaitFor(1)
 
 ship_id = LoadShip("SpikeyShip.lua")
 SetAI("RotatingAI", 0.3)
-SetColor(0,128,128)
 SetPosition(0,0)
-AddAsEnemy()
+AddToForce(1)
 
 Predicate.WaitTillShipDead(ship_id)
 Predicate.WaitFor(1)
 
 LoadShip("SpaceStation.lua")
 SetAI("RotatingAI", 0.05)
-SetColor(0,128,128)
 SetPosition(150,-150)
-AddAsEnemy()
+AddToForce(1)
 Predicate.WaitFor(1)
 
 LoadShip("SpaceStation.lua")
 SetAI("RotatingAI", -0.05)
-SetColor(0,128,128)
 SetPosition(150,150)
-AddAsEnemy()
+AddToForce(1)
 Predicate.WaitFor(1)
 
 LoadShip("SpaceStation.lua")
 SetAI("RotatingAI", 0.05)
-SetColor(0,128,128)
 SetPosition(-150,150)
-AddAsEnemy()
+LogError("Lua: Force 2")
+AddToForce(2)
 Predicate.WaitFor(1)
 
 LoadShip("SpaceStation.lua")
 SetAI("RotatingAI", -0.05)
-SetColor(0,128,128)
 SetPosition(-150,-150)
-AddAsEnemy()
+AddToForce(1)
 
-Predicate.WaitTillEnemiesDead()
+LogError("Lua: Waiting for enemies to die")
+Predicate.WaitTillEnemiesDead(0)
 
 							--The following loops load 3x64 enemies
-for z = 1, 3 do						--with a 0.1s gap between each enemy and
+for z = 1, 1 do						--with a 0.1s gap between each enemy and
 	for x = 1,8 do					--in batches of 64 that must be killed entirely
 		for y = 1, 8 do
 		  LoadShip("LuaShip2.lua")
 		  SetAI("RotatingAI", 0.02)		--Sets the AI to rotate at 20% speed
-		  SetColor(0,128,0)
 		  SetPosition(x * 50, y * 50-200)
-		  ScaleHealth(0.5)			--Makes the ship very weak
-		  AddAsEnemy()				--Adds to the enemy team
+		  ScaleHealth(0.1)			--Makes the ship very weak
+		  AddToForce(1)				--Adds to the enemy team
 		  Predicate.WaitFor(0.05)
 		end
 	end
-	Predicate.WaitTillEnemiesDead()
+	--Predicate.WaitTillEnemiesDead(0)
 end
 
-for i = 1, 3 do					--in batches of 64 that must be killed entirely
+for i = 1, 3 do
 	LoadShip("MissilePlatform.lua")				--Loads a ship but doesn't add it to the world
 	SetAI("RotatingAI", -0.1)					--Sets the last loaded ships AI
 	SetPosition(50*i,-200)
-	AddAsEnemy()						--Adds the ship as a friend
+	AddToForce(4)						--Adds the ship as a friend
 	Predicate.WaitFor(0.2)
 end
 

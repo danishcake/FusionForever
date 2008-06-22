@@ -3,7 +3,6 @@
 #include "Outlined.h"
 #include "Decoration.h"
 #include "Datastore.h"
-#include <boost/shared_ptr.hpp>
 
 class Projectile;
 //typedef boost::shared_ptr<Projectile> Projectile_ptr;

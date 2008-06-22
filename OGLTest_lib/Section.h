@@ -76,13 +76,14 @@ public:
 	void SetFiringDelay(float _firing_delay) {firing_delay_ = _firing_delay;}
 	int GetSectionID(){return section_id_;}
 
+	bool IsCore(){return root_ == NULL;}
 	//Predicates
 	static bool IsRemovable(Section_ptr section)
 	{
 		bool dead = (section->health_ <= 0);
 		if(dead)
 		{
-			Camera::Instance().Shake(0.3);
+			Camera::Instance().Shake(0.3f);
 			delete section;
 		}
 		return dead;

@@ -1,7 +1,6 @@
 #pragma once
 #include "Section.h"
 #include "AIAction.h"
-#include <list>
 
 /*
 The BaseAI class and the Section class are fairly tightly coupled and are so declared in

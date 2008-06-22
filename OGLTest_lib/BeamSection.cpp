@@ -1,6 +1,5 @@
 #include "StdAfx.h"
 #include "BeamSection.h"
-#include <boost/foreach.hpp>
 #include "Puff.h"
 #include "Sparks.h"
 

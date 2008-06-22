@@ -1,6 +1,5 @@
 #include "StdAfx.h"
 #include "Section.h"
-#include <boost/foreach.hpp>
 #include "Puff.h"
 #include "ICollisionManager.h"
 

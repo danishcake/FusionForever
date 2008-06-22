@@ -13,7 +13,7 @@ protected:
 	BaseEntity* source_;
 	bool first_run_;
 public:
-	LineTrace(BaseEntity* _source);
+	LineTrace(BaseEntity* _source, GLColor trail_color_);
 	virtual ~LineTrace(void);
 
 	virtual void Tick(float _timespan, Matrix4f _transform);

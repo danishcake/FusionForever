@@ -31,21 +31,22 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+				ExecutionBucket="2"
 			/>
 			<Tool
-				Name="Script copier"
+				Name="VCWebServiceProxyGeneratorTool"
+				ExecutionBucket="3"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
 			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
 				Name="VCMIDLTool"
+				ExecutionBucket="4"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				ExecutionBucket="5"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;C:\Program Files\Lua_5.1.3\include&quot;;..\OGLTest_lib;&quot;C:\Program Files\AntTweakBar\include&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost_1_34_1&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
@@ -59,15 +60,19 @@
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
+				ExecutionBucket="6"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				ExecutionBucket="7"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
+				ExecutionBucket="8"
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				ExecutionBucket="9"
 				AdditionalDependencies="AntTweakBar.lib lua51.lib OGLTest_lib.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib "
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\SDL-1.2.12\lib&quot;;../OGLTest_lib/Debug;&quot;C:\Program Files\Lua_5.1.3\lib&quot;;&quot;C:\Program Files\AntTweakBar\lib&quot;"
@@ -77,27 +82,38 @@
 			/>
 			<Tool
 				Name="VCALinkTool"
+				ExecutionBucket="10"
 			/>
 			<Tool
 				Name="VCManifestTool"
+				ExecutionBucket="11"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
+				ExecutionBucket="12"
+			/>
+			<Tool
+				Name="Script copier"
+				ExecutionBucket="13"
 			/>
 			<Tool
 				Name="VCBscMakeTool"
+				ExecutionBucket="14"
 			/>
 			<Tool
 				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
+				ExecutionBucket="15"
 			/>
 			<Tool
 				Name="VCWebDeploymentTool"
+				ExecutionBucket="16"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				ExecutionBucket="17"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
 			/>
 		</Configuration>
 		<Configuration
@@ -192,10 +208,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\GameLua.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\OGLTest_bin.cpp"
 				>
 			</File>
@@ -242,10 +254,6 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\GameLua.h"
-				>
-			</File>
-			<File
 				RelativePath=".\stdafx.h"
 				>
 			</File>
@@ -281,23 +289,6 @@
 				<File
 					RelativePath=".\Scripts\LuaShip2.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\MissilePlatform.lua"
@@ -306,44 +297,10 @@
 				<File
 					RelativePath=".\Scripts\SpaceStation.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\SpikeyShip.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -352,23 +309,6 @@
 				<File
 					RelativePath=".\Scripts\Challenge1.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -377,23 +317,6 @@
 				<File
 					RelativePath=".\Scripts\Utility.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -402,401 +325,78 @@
 				<File
 					RelativePath=".\Scripts\DecoPlateSection.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\ForwardWingLH.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\ForwardWingRH.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\LargeSquare.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\LongRigidArm.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\NarrowProngLH.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\NarrowProngRH.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\OctoSection.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\ProngLH.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\ProngRH.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\RightAngleTriangle.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\RigidArm.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\SmallSquare.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\Spike.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\SpikeLH.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\SpikeRH.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\SpunStar.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\SweptWingLH.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\SweptWingRH.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\WidePlate.lua"
@@ -805,44 +405,10 @@
 				<File
 					RelativePath=".\Scripts\WingLH.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\Scripts\WingRH.lua"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Copying script $(InputFileName)"
-							CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)\$(InputFileName)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="Script copier"
-						/>
-					</FileConfiguration>
 				</File>
 			</Filter>
 		</Filter>

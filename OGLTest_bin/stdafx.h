@@ -16,4 +16,6 @@
 #include <gl/gl.h>
 
 #include "Logger.h"
+#include <vector>
+#include <list>
 // TODO: reference additional headers your program requires here

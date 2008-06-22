@@ -1,34 +1,27 @@
 #include "StdAfx.h"
-#include "GameLua.h"
+#include "BaseLua.h"
 
 #include "SquareCore.h"
 #include "TinyCore.h"
-
 #include "Blaster.h"
 #include "HomingMissileLauncher.h"
 #include "Swarmer.h"
 #include "HeatBeamGun.h"
-
 #include "SpinningJoint.h"
 #include "JointAngles.h"
 #include "JointTracker.h"
-
 #include "QuarterCircle.h"
 #include "SemiCircle.h"
 #include "LuaSection.h"
-
-
 #include "RotatingAI.h"
 #include "KeyboardAI.h"
 
 #include <string>
-#include <map>
 #include <algorithm>
 #include <sstream>
-#include <string>
-#include "GameScene.h"
+#include "BaseGame.h"
 
-static GameLua* last_instantiation = NULL;
+static BaseLua* last_instantiation = NULL;
 lua_State* luaVM;
 
 static enum SectionType
@@ -48,7 +41,9 @@ static enum SectionType
 	ai_RotatingAI,
 	ai_KeyboardAI
 };
+
 static std::map<std::string, SectionType> SectionMap;
+
 static void InitialiseMap()
 {
 	SectionMap["SQUARECORE"] = st_SquareCore;
@@ -66,60 +61,20 @@ static void InitialiseMap()
 	SectionMap["SWARMER"] = st_Swarmer;
 }
 
-
-static std::string lua_stack_dump(lua_State* luaVM)
-{
-	int top = lua_gettop(luaVM);
-	std::stringstream output;
-	output << "Stack dump\n" << "Size of stack: " << top << "\n";
-	for(int i = 1; i <= top; i++)
-	{
-		int t = lua_type(luaVM, i);
-		switch (t) {
-			case LUA_TSTRING:  /* strings */
-				output << "`" << lua_tostring(luaVM, i) << "'" << "\n";
-				break;    
-			case LUA_TBOOLEAN:  /* booleans */
-				if(lua_toboolean(luaVM, i))
-					output << "true" << "\n";
-				else
-					output << "false" << "\n";
-				break;    
-			case LUA_TNUMBER:  /* numbers */
-				output << lua_tonumber(luaVM, i) << "\n";
-				break;    
-			default:  /* other values */
-				output << lua_typename(luaVM, t) << "\n";
-				break;    
-		}
-	}
-	return output.str();
-}
-
-static int l_add_as_enemy(lua_State* luaVM)
+static int l_add_to_force(lua_State* luaVM)
 {
 	assert(last_instantiation!=NULL);
-	if(lua_gettop(luaVM) == 0)
+	if(lua_gettop(luaVM) == 1 &&(lua_isnumber(luaVM, -1)))
 	{
-		last_instantiation->AddAsEnemy();
+		int force = lua_tonumber(luaVM, -1);
+		if(force >= 0 && force < MAX_FORCES)
+			last_instantiation->AddToForce(static_cast<int>(lua_tonumber(luaVM, 1)));
+		else
+			luaL_error(luaVM, "AddToForce force parameter must be in range 0 to %d",  MAX_FORCES-1);
 	}
 	else
 	{
-		luaL_error(luaVM, "AddAsEnemy must be called with no parameters");
-	}
-	return 0;
-}
-
-static int l_add_as_friend(lua_State* luaVM)
-{
-	assert(last_instantiation!=NULL);
-	if(lua_gettop(luaVM) == 0)
-	{
-		last_instantiation->AddAsFriend();	
-	}
-	else
-	{
-		luaL_error(luaVM, "AddAsFriend must be called with no parameters");
+		luaL_error(luaVM, "AddToForce must be called with 1 numeric parameter");
 	}
 	return 0;
 }
@@ -170,30 +125,34 @@ static int l_load_ship(lua_State* luaVM)
 	return 1;
 }
 
-static int l_set_color(lua_State* luaVM)
+static int l_set_force_color(lua_State* luaVM)
 {
 	assert(last_instantiation != NULL);
 	if((lua_gettop(luaVM) == 3) && (lua_isnumber(luaVM, -1)) &&
 																 (lua_isnumber(luaVM, -2)) &&
 																 (lua_isnumber(luaVM, -3)))
 	{
-		double r = lua_tonumber(luaVM, 1);
-		double g = lua_tonumber(luaVM, 2);
-		double b = lua_tonumber(luaVM, 3);
+		int force = static_cast<int>(lua_tonumber(luaVM, 1));
+		double r = lua_tonumber(luaVM, 2);
+		double g = lua_tonumber(luaVM, 3);
+		double b = lua_tonumber(luaVM, 4);
 		//TODO check bounds here
-		if((r >= 0.0 && r <= 1.0) &&
-			 (r >= 0.0 && r <= 1.0) &&
-			 (r >= 0.0 && r <= 1.0))
+		if((r >= 0.0 && r <= 255) &&
+			 (g >= 0.0 && g <= 255) &&
+			 (b >= 0.0 && b <= 255) &&
+			 (force >=0 && force < MAX_FORCES))
 		{
-			last_instantiation->SetColor(GLColor(r,g,b));
+			last_instantiation->SetForceColor(force, GLColor(static_cast<GLubyte>(r),
+															 static_cast<GLubyte>(g),
+															 static_cast<GLubyte>(b)));
 		} else
 		{
-			luaL_error(luaVM, "SetColor parameters must be in range 0 to 1);");
+			luaL_error(luaVM, "SetColor parameters must be in range force(0-%d), color(0 to 255);",MAX_FORCES-1);
 		}
 	}
 	else
 	{
-		luaL_error(luaVM, "SetColor must be called with 3 numeric parameters");
+		luaL_error(luaVM, "SetColor must be called with 4 numeric parameters, force, red, green, blue");
 	}
 	return 0;
 }
@@ -266,7 +225,7 @@ static int l_is_alive(lua_State* luaVM)
 	assert(last_instantiation!=NULL);
 	if((lua_gettop(luaVM) == 1) && (lua_isnumber(luaVM, -1)))
 	{
-		int section_id = lua_tonumber(luaVM, -1);
+		int section_id = static_cast<int>(lua_tonumber(luaVM, -1));
 		lua_pushboolean(luaVM, last_instantiation->IsAlive(section_id));
 	}
 	else
@@ -323,19 +282,27 @@ static int l_luaError( lua_State *L )
     return 0;
 }
 
-GameLua::GameLua(GameScene* _game_scene)
+BaseLua::BaseLua(BaseGame* _game)
 {
+	force_colors_[0] = GLColor(210, 0  , 0  );
+	force_colors_[1] = GLColor(0  , 210, 0  );
+	force_colors_[2] = GLColor(0  , 0  , 210);
+	force_colors_[3] = GLColor(210, 210, 0  );
+	force_colors_[4] = GLColor(0  , 210, 210);
+	force_colors_[5] = GLColor(210, 0  , 210);
+	force_colors_[6] = GLColor(50 , 50 , 50 );
+	force_colors_[7] = GLColor(205, 205, 205);
+
 	if(last_instantiation == NULL)
 	{
 		InitialiseMap(); //Allows me to use a big switch statement
 		luaVM = lua_open();
 		luaL_openlibs(luaVM);
 		//Register all the lua functions
-		lua_register(luaVM, "AddAsEnemy", l_add_as_enemy);
-		lua_register(luaVM, "AddAsFriend", l_add_as_friend);
+		lua_register(luaVM, "AddToForce", l_add_to_force);
 		lua_register(luaVM, "SetAngle", l_set_angle);
 		lua_register(luaVM, "SetPosition", l_set_position);
-		lua_register(luaVM, "SetColor", l_set_color);
+		lua_register(luaVM, "SetForceColor", l_set_force_color);
 		lua_register(luaVM, "LoadShip", l_load_ship);
 		lua_register(luaVM, "ScaleHealth", l_scale_health);
 		lua_register(luaVM, "SetAI", l_override_ai);
@@ -345,13 +312,13 @@ GameLua::GameLua(GameScene* _game_scene)
 		lua_register(luaVM, "Log", l_log_diagnostic);
 		lua_register(luaVM, "_ALERT", l_luaError);
 	}
-	game_scene_ = _game_scene;
+	game_ = _game;
 	last_instantiation = this;
 	is_script_running_ = false;
 	sum_time_ = 0;
 }
 
-GameLua::~GameLua(void)
+BaseLua::~BaseLua(void)
 {
 	while(!section_stack_.empty())
 	{
@@ -363,7 +330,7 @@ GameLua::~GameLua(void)
 	}
 }
 
-void GameLua::PushCore(Core_ptr _core)
+void BaseLua::PushCore(Core_ptr _core)
 {
 	while(!section_stack_.empty())
 	{
@@ -376,7 +343,7 @@ void GameLua::PushCore(Core_ptr _core)
 	section_stack_.push(_core);
 }
 
-void GameLua::PushSection(Section_ptr _section)
+void BaseLua::PushSection(Section_ptr _section)
 {
 	if(!section_stack_.empty())
 	{
@@ -385,7 +352,7 @@ void GameLua::PushSection(Section_ptr _section)
 	}
 }
 
-void GameLua::PopSection()
+void BaseLua::PopSection()
 {
 	if(section_stack_.size() > 1)
 	{
@@ -393,55 +360,33 @@ void GameLua::PopSection()
 	}
 }
 
-void GameLua::AddAsFriend()
+void BaseLua::AddToForce(int _force)
 {
 	if(!section_stack_.empty())
 	{
 		StackToCore(); //Pop everything but the Core from the stack
-		friends_.push_back((Core_ptr)section_stack_.top());
+		section_stack_.top()->SetColor(force_colors_[_force]);
+		game_->AddShip(static_cast<Core_ptr>(section_stack_.top()),_force);
 		section_stack_.pop();
 	}
 }
 
-void GameLua::AddAsEnemy()
-{
-	if(!section_stack_.empty())
-	{
-		StackToCore(); //Pop everything but the Core from the stack
-		enemies_.push_back((Core_ptr)section_stack_.top());
-		section_stack_.pop();
-	}
-}
-
-void GameLua::SetAngle(float _angle)
+void BaseLua::SetAngle(float _angle)
 {
 	section_stack_.top()->SetAngle(_angle);
 }
-void GameLua::SetPosition(float _x, float _y)
+
+void BaseLua::SetPosition(float _x, float _y)
 {
 	section_stack_.top()->SetPosition(Vector3f(_x, _y, 0));
 }
 
-void GameLua::SetHealth(float _health)
+void BaseLua::SetHealth(float _health)
 {
 	section_stack_.top()->SetMaxHealth(_health);
 }
-std::vector<Core_ptr>& GameLua::GetFriends()
-{
-	return friends_;
-}
 
-std::vector<Core_ptr>& GameLua::GetEnemies()
-{
-	return enemies_;
-}
-
-lua_State* GameLua::GetLuaVM()
-{
-	return luaVM;
-}
-
-int GameLua::LoadShip(const char* ship)
+int BaseLua::LoadShip(const char* ship)
 {
 	lua_getglobal(luaVM,"Ship");
 	if(!lua_isnil(luaVM, -1))
@@ -520,7 +465,7 @@ int GameLua::LoadShip(const char* ship)
 	}
 }
 
-void GameLua::ParseShip(const char* _ship)
+void BaseLua::ParseShip(const char* _ship)
 {
 	lua_pushstring(luaVM, "SectionType");
 	lua_gettable(luaVM, -2);
@@ -556,7 +501,7 @@ void GameLua::ParseShip(const char* _ship)
 				}
 				else
 				{
-					luaL_error(luaVM, "Error parsing %s\nSpinningJoints require a key:value pair RotationRate:number\n%s", _ship, lua_stack_dump(luaVM).c_str());
+					luaL_error(luaVM, "Error parsing %s\nSpinningJoints require a key:value pair RotationRate:number\n", _ship);
 				}
 				lua_pop(luaVM, 1);
 				}
@@ -611,7 +556,7 @@ void GameLua::ParseShip(const char* _ship)
 				bool param_error = false;
 				lua_pushstring(luaVM, "OnlyWhenFiring");
 				lua_gettable(luaVM, -2);
-				bool firing_only = static_cast<float>(lua_toboolean(luaVM, -1));
+				bool firing_only = static_cast<bool>(lua_toboolean(luaVM, -1));
 				
 				param_error |= !lua_isboolean(luaVM, -1);
 				lua_pop(luaVM, 1);
@@ -713,7 +658,7 @@ void GameLua::ParseShip(const char* _ship)
 }
 
 
-void GameLua::LoadChallenge(const char* challenge)
+void BaseLua::LoadChallenge(const char* challenge)
 {
 	lua_getglobal(luaVM,"Challenge");
 	if(!lua_isnil(luaVM, -1))
@@ -768,17 +713,35 @@ void GameLua::LoadChallenge(const char* challenge)
 	}
 }
 
-void GameLua::Tick(int _friend_count, int _enemy_count, float _timespan)
+void BaseLua::Tick(float _timespan)
 {
 	if(!is_script_running_)
 		return;
 	sum_time_ += _timespan;
-	lua_pushinteger(luaVM, _friend_count);
+
+	lua_newtable(luaVM);
+	for(int force = 0; force <MAX_FORCES; force++)
+	{
+		lua_pushinteger(luaVM, force);
+		lua_pushinteger(luaVM, game_->GetFriendCount(force));
+		lua_settable(luaVM, -3);
+	}
 	lua_setglobal(luaVM, "FRIEND_COUNT");
-	lua_pushinteger(luaVM, _enemy_count);
+
+
+	lua_newtable(luaVM);
+	for(int force = 0; force <MAX_FORCES; force++)
+	{
+		lua_pushinteger(luaVM, force);
+		lua_pushinteger(luaVM, game_->GetEnemyCount(force));
+		lua_settable(luaVM, -3);
+	}
 	lua_setglobal(luaVM, "ENEMY_COUNT");
+
+
 	lua_pushnumber(luaVM, sum_time_);
 	lua_setglobal(luaVM, "TOTAL_TIME");
+
 
 	lua_getglobal(luaVM, "Challenge");
 	if(lua_istable(luaVM, -1))
@@ -791,7 +754,7 @@ void GameLua::Tick(int _friend_count, int _enemy_count, float _timespan)
 			int parameter_count = lua_gettop(luaVM);
 			if(run_result == LUA_ERRRUN)
 			{//Runtime error, should report and abandon
-        Logger::LogError("GameLua::Tick: A runtime error occurred:\n");
+				Logger::LogError("GameLua::Tick: A runtime error occurred:\n");
 				if(lua_isstring(luaVM, -1))
 				{
 					Logger::LogError(lua_tostring(luaVM, -1));
@@ -854,7 +817,7 @@ void GameLua::Tick(int _friend_count, int _enemy_count, float _timespan)
 	}
 }
 
-void GameLua::StackToCore()
+void BaseLua::StackToCore()
 {
 	while(section_stack_.size() > 1)
 	{
@@ -862,7 +825,7 @@ void GameLua::StackToCore()
 	}
 }
 
-void GameLua::OverrideAI(BaseAI* _AI)
+void BaseLua::OverrideAI(BaseAI* _AI)
 {
 	StackToCore();
 	if(section_stack_.size()==1)
@@ -875,27 +838,19 @@ void GameLua::OverrideAI(BaseAI* _AI)
 	}
 }
 
-void GameLua::SetColor(GLColor _color)
+void BaseLua::SetForceColor(int force, GLColor _color)
 {
-	StackToCore();
-	if(section_stack_.size()==1)
-	{
-		section_stack_.top()->SetColor(_color);
-	}
-	else
-	{
-		//TODO report errors
-	}
+	force_colors_[force] = _color;
 }
 
-void GameLua::SetFiringDelay(float _firing_delay)
+void BaseLua::SetFiringDelay(float _firing_delay)
 {
 	section_stack_.top()->SetFiringDelay(_firing_delay);
 }
 
-void GameLua::ScaleHealth(float _scale)
+void BaseLua::ScaleHealth(float _scale)
 {
-		StackToCore();
+	StackToCore();
 	if(section_stack_.size()==1)
 	{
 		section_stack_.top()->ScaleHealth(_scale);
@@ -906,11 +861,12 @@ void GameLua::ScaleHealth(float _scale)
 	}
 }
 
-bool GameLua::IsAlive(int _section_id)
+bool BaseLua::IsAlive(int _section_id)
 {
-	return this->game_scene_->IsSectionAlive(_section_id);
+	return game_->IsSectionAlive(_section_id);
 }
-BaseAI* GameLua::GetAI()
+
+BaseAI* BaseLua::GetAI()
 {
 	BaseAI* ai = NULL;
 	lua_pushstring(luaVM, "AI");

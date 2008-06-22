@@ -1,7 +1,6 @@
 #include "StdAfx.h"
 #include "FadeOutScene.h"
 #include "Camera.h"
-#include <boost/foreach.hpp>
 
 const float FadeOutScene::FOTime = 1.0f;
 

@@ -19,7 +19,7 @@ Puff::Puff(void)
 	}
 	fill_verts_ = Datastore::Instance().GetVerts(fill_verts_index_);
 	fill_display_list_ = fill_dl_;
-	if(Random::RandomChance(0.2))
+	if(Random::RandomChance(0.2f))
 	{
 		fill_color_ = GLColor(255, 255, 0);
 	}

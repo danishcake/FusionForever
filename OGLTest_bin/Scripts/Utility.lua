@@ -3,15 +3,15 @@
 --When called these routines will not return until their conditions are fulfilled.
 
 Predicate = {
-WaitTillEnemiesDead = function()
+WaitTillEnemiesDead = function(force)
   coroutine.yield()
-  while ENEMY_COUNT > 0 do
+  while ENEMY_COUNT[force] > 0 do
     coroutine.yield()
   end
 end,
-WaitTillFriendsDead = function()
+WaitTillFriendsDead = function(force)
   coroutine.yield()
-  while FRIEND_COUNT > 0 do
+  while FRIEND_COUNT[force] > 0 do
     coroutine.yield()
   end
 end,

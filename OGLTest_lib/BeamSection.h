@@ -1,6 +1,4 @@
 #pragma once
-#include "vmath.h"
-#include "vmath-collisions.h"
 #include "Decoration.h"
 #include "Core.h"
 #include "BaseEntity.h"

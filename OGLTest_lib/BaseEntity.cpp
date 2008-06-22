@@ -1,6 +1,5 @@
 #include "StdAfx.h"
 #include "BaseEntity.h"
-#include <boost/foreach.hpp>
 
 static const float DEGTORAD = 3.14159265f / 180.0f;
 

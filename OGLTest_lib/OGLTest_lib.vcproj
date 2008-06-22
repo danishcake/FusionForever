@@ -344,10 +344,6 @@
 				Name="Utility"
 				>
 				<File
-					RelativePath=".\BaseEntity.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\Camera.cpp"
 					>
 				</File>
@@ -356,19 +352,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Filled.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\GridCollisionManager.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\Logger.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\Outlined.cpp"
 					>
 				</File>
 				<File
@@ -413,6 +401,30 @@
 				</File>
 				<File
 					RelativePath=".\vmath.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Bases"
+				>
+				<File
+					RelativePath=".\BaseEntity.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\BaseGame.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\BaseLua.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Filled.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Outlined.cpp"
 					>
 				</File>
 			</Filter>
@@ -610,19 +622,11 @@
 				Name="Utility"
 				>
 				<File
-					RelativePath=".\BaseEntity.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Camera.h"
 					>
 				</File>
 				<File
 					RelativePath=".\Datastore.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Filled.h"
 					>
 				</File>
 				<File
@@ -639,10 +643,6 @@
 				</File>
 				<File
 					RelativePath=".\Logger.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Outlined.h"
 					>
 				</File>
 				<File
@@ -679,6 +679,30 @@
 				</File>
 				<File
 					RelativePath=".\vmath.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Bases"
+				>
+				<File
+					RelativePath=".\BaseEntity.h"
+					>
+				</File>
+				<File
+					RelativePath=".\BaseGame.h"
+					>
+				</File>
+				<File
+					RelativePath=".\BaseLua.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Filled.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Outlined.h"
 					>
 				</File>
 			</Filter>

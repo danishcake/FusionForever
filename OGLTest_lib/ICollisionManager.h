@@ -1,6 +1,5 @@
 #pragma once
 #include "Section.h"
-#include <vector>
 
 
 class ICollisionManager

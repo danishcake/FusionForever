@@ -84,7 +84,7 @@ void HomingMissileLauncher::Tick(float _timespan, std::vector<Projectile_ptr>& _
 				int index = Random::RandomIndex(static_cast<int>(_enemies.size()));
 				target = (BaseEntity*)(_enemies[index]);
 			}
-			HomingMissile* hm = new HomingMissile(Vector3f(0, 5, 0), target);
+			HomingMissile* hm = new HomingMissile(Vector3f(0, 5, 0), target, fill_color_);
 
 			fire_projectile(hm, _spawn_prj);
 			cooldown_ = cooldown_time_;

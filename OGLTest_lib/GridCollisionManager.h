@@ -9,7 +9,7 @@ class GridCollisionManager :
 	public ICollisionManager
 {
 public:
-	GridCollisionManager(GLColor _color);
+	GridCollisionManager();
 	virtual ~GridCollisionManager(void);
 
 	virtual void Clear();
@@ -33,5 +33,4 @@ private:
 
 	std::vector<Section_ptr>* adjacency_lookup_[GRID_SECTIONS][GRID_SECTIONS][9];
 	int adjacency_lookup_count_[GRID_SECTIONS][GRID_SECTIONS];
-	GLColor color_;
 };

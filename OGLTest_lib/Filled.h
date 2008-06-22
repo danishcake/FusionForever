@@ -1,8 +1,5 @@
 #pragma once
-#include <vector>
-#include "vmath.h"
 #include "GLColor.h"
-#include <boost/shared_ptr.hpp>
 #include "Datastore.h"
 
 class Filled

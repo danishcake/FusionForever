@@ -15,7 +15,7 @@ static const float TURN_START = 300;
 static const float TURN_END = 50;
 
 
-HomingMissile::HomingMissile(Vector3f _position, BaseEntity* _target)
+HomingMissile::HomingMissile(Vector3f _position, BaseEntity* _target, GLColor _trail_color)
 : HomingProjectile(_target)
 {
 	if(!initialised_)
@@ -32,6 +32,7 @@ HomingMissile::HomingMissile(Vector3f _position, BaseEntity* _target)
 	velocity_.y = scalar_speed_;
 	position_ = _position;
 	first_run_ = true;
+  trail_color_ = _trail_color;
 }
 
 HomingMissile::~HomingMissile(void)
@@ -63,7 +64,7 @@ void HomingMissile::Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_de
 	if(first_run_)
 	{
 		first_run_ = false;
-		line_trace_ = new LineTrace((BaseEntity*)this);
+		line_trace_ = new LineTrace((BaseEntity*)this, trail_color_);
 		_spawn_dec.push_back(line_trace_);
 	}
 	float scale;

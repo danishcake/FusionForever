@@ -1,7 +1,6 @@
 #pragma once
 #include "Core.h"
 #include "sdl.h"
-#include "vmath.h"
 
 class KeyboardAI :
 	public BaseAI

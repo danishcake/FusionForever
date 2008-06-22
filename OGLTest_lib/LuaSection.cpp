@@ -1,10 +1,7 @@
 #include "StdAfx.h"
 #include "LuaSection.h"
-#include "Logger.h"
-
 #include <sstream>
 #include "Triangulate.h"
-#include <boost/foreach.hpp>
 
 std::map<std::string, FilledOutlinedData> LuaSection::name_map_ = std::map<std::string, FilledOutlinedData>();
 

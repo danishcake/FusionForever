@@ -1,7 +1,6 @@
 #pragma once
-#include <vector>
 #include <string>
-#include "vmath.h"
+#include <vector>
 #include <boost/shared_ptr.hpp>
 
 /**

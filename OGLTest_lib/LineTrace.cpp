@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "LineTrace.h"
 
-LineTrace::LineTrace(BaseEntity* _source)
+LineTrace::LineTrace(BaseEntity* _source, GLColor trail_color_)
 {
 	source_ = _source;
 	assert(source_ != NULL);
@@ -9,7 +9,7 @@ LineTrace::LineTrace(BaseEntity* _source)
 	lifetime_ = 20;
 	front_index_ = 0;
 	first_run_ = true;
-  fill_color_ = GLColor(200,50,0);
+	fill_color_ = trail_color_;
 }
 
 LineTrace::~LineTrace(void)

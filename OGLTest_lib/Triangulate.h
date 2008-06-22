@@ -13,8 +13,6 @@
 // ** SUBMITTED BY JOHN W. RATCLIFF (jratcliff@verant.com) July 22, 2000
 
 #pragma once
-#include <vector>  // Include STL vector class.
-#include "vmath.h"
 #include <boost/shared_ptr.hpp>
 // Typedef an STL vector of vertices which are used to represent
 // a polygon/contour and a series of triangles.
