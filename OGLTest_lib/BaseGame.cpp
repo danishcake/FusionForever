@@ -2,6 +2,19 @@
 #include "BaseGame.h"
 #include "BaseLua.h"
 
+class RangeSort: public std::binary_function<Section_ptr, Section_ptr, bool> 
+{
+	const Projectile_ptr projectile_;
+public:
+	RangeSort( const Projectile_ptr _projectile) : projectile_(_projectile) {}
+
+	bool operator()(Section_ptr a, Section_ptr b) const
+	{
+		return Collisions2f::DistanceSqr(a->GetGlobalPosition(),projectile_->GetPosition()) <
+			   Collisions2f::DistanceSqr(b->GetGlobalPosition(),projectile_->GetPosition());
+	}
+};
+
 BaseGame::BaseGame(void)
 {
   for(int x = 0; x < MAX_FORCES; x++)
@@ -16,6 +29,7 @@ BaseGame::BaseGame(void)
 
 BaseGame::~BaseGame(void)
 {
+  //Todo - fix leak if we quit back to menu
 }
 
 void BaseGame::Draw()
@@ -53,7 +67,7 @@ void BaseGame::Tick(float _timespan)
 	std::vector<Decoration_ptr> decoration_spawn;
 	std::vector<Section_ptr> filtered;
 	filtered.reserve(50);
-
+	
 	//Tick scripts
 	lua_->Tick(_timespan);
 	Camera::Instance().TickCamera(_timespan);
@@ -108,14 +122,15 @@ void BaseGame::Tick(float _timespan)
 				if(other_force != force && hostility_[force][other_force] == Hostility::Hostile)
 				{
 					collision_managers_[other_force].GetAtPoint(filtered, projectile->GetPosition());
-				}
-				BOOST_FOREACH(Section_ptr section, filtered)
-				{
-					section->CheckCollisions(projectile); //Checks the collisions and does damage
-					if(projectile->GetLifetime()<=0)
+					std::sort(filtered.begin(),filtered.end(),RangeSort(projectile));
+					BOOST_FOREACH(Section_ptr section, filtered)
 					{
-						projectile->Hit(decoration_spawn);
-						break;
+						section->CheckCollisions(projectile); //Checks the collisions and does damage
+						if(projectile->GetLifetime()<=0)
+						{
+							projectile->Hit(decoration_spawn);
+							break;
+						}
 					}
 				}
 			}
@@ -147,23 +162,28 @@ void BaseGame::Tick(float _timespan)
 	}
 }
 
-void BaseGame::LoadChallenge(const char* _challenge)
+void BaseGame::LoadChallenge(std::string _challenge)
 {
-	lua_->LoadChallenge(_challenge);
+	lua_->LoadChallenge("Scripts/Challenges/" + _challenge);
 }
 void BaseGame::AddShip(Core* _core, int _force)
 {
 	ships_[_force].push_back(_core);
 }
 
+int BaseGame::GetForceCount(int _force)
+{
+	return static_cast<int>(ships_[_force].size());
+}
+
 int BaseGame::GetEnemyCount(int _force)
 {
-	return enemies[_force].size();
+	return static_cast<int>(enemies[_force].size());
 }
 
 int BaseGame::GetFriendCount(int _force)
 {
-	return friends[_force].size();
+	return static_cast<int>(friends[_force].size());
 }
 
 bool BaseGame::IsSectionAlive(int _section_id)
@@ -177,4 +197,9 @@ bool BaseGame::IsSectionAlive(int _section_id)
 		}
 	}
 	return false;
+}
+
+lua_State* BaseGame::GetLua()
+{
+	return this->lua_->GetLua();
 }

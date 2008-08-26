@@ -1,0 +1,8 @@
+LuaSection = 
+{
+	data = "M 0,5 L 4,0 L 5,-10 L 0,-9 L -5,-10 L -4,0 L 0,5 z",
+	Health = 500,
+	Mass = 100,
+	Thrust = 35,
+	PowerGeneration = -2
+}

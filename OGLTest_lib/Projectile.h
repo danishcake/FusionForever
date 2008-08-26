@@ -9,14 +9,15 @@ class Projectile;
 typedef Projectile* Projectile_ptr;
 
 class Projectile :
-	public BaseEntity, public Outlined
+	public BaseEntity
 {
 protected:
 	float damage_;
 	float lifetime_;
+	Outlined outline_;
 public:
 	Projectile(void);
-	virtual ~Projectile(void);
+	virtual ~Projectile(void);	
 
 	void DrawSelf();
 	virtual void Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec,  Matrix4f _transform);

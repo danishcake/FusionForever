@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #include <ctime>
-#include <sdl.h>
-#include <AntTweakBar.h>
-
 #include <vector>
 #include <list>
 #include <algorithm>
 #include <boost/shared_ptr.hpp>
 #include <boost/foreach.hpp>
+#include <sdl.h>
+#include <../RendererModules/OpenGLGUIRenderer/openglrenderer.h>
+#include <CEGUI.h>
 
 #include "BaseScene.h"
 #include "MenuScene.h"
@@ -40,9 +40,12 @@ void Redraw()
 		glPushMatrix();
 		(*it)->Draw();
 		if((*it)->IsRoot())
-			TwDraw();
+		{
+			CEGUI::System::getSingleton().renderGUI();
+		}
 		glPopMatrix();
 	}
+	
 	glFlush();
 	SDL_GL_SwapBuffers();
 }
@@ -74,6 +77,8 @@ void Tick()
 	{
 		scene_stack.push_back(scene);
 	}
+
+	CEGUI::System::getSingleton().injectTimePulse(time_elapsed);
 }
 
 bool IsSceneRemovable(BaseScene_ptr _scene)
@@ -91,10 +96,53 @@ void Cull()
 	scene_stack.erase(std::remove_if(scene_stack.begin(), scene_stack.end(), IsSceneRemovable), scene_stack.end());
 }
 
+void handle_mouse_down(Uint8 button)
+{
+switch ( button )
+	{
+	// handle real mouse buttons
+	case SDL_BUTTON_LEFT:
+		CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::LeftButton);
+		break;
+	case SDL_BUTTON_MIDDLE:
+		CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::MiddleButton);
+		break;
+	case SDL_BUTTON_RIGHT:
+		CEGUI::System::getSingleton().injectMouseButtonDown(CEGUI::RightButton);
+		break;
+	
+	// handle the mouse wheel
+	case SDL_BUTTON_WHEELDOWN:
+		CEGUI::System::getSingleton().injectMouseWheelChange( -1 );
+		Camera::Instance().ZoomOut();
+		break;
+	case SDL_BUTTON_WHEELUP:
+		CEGUI::System::getSingleton().injectMouseWheelChange( +1 );
+		Camera::Instance().ZoomIn();
+		break;
+	}
+}
+
+void handle_mouse_up(Uint8 button)
+{
+switch ( button )
+	{
+	case SDL_BUTTON_LEFT:
+		CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::LeftButton);
+		break;
+	case SDL_BUTTON_MIDDLE:
+		CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::MiddleButton);
+		break;
+	case SDL_BUTTON_RIGHT:
+		CEGUI::System::getSingleton().injectMouseButtonUp(CEGUI::RightButton);
+		break;
+	}
+}
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	srand((unsigned int)time(NULL));
-	Camera::Instance().SetAspectRatio(500,500);
+	Camera::Instance().SetAspectRatio(1024,600);
 
 	bool isFinished = false;
 	SDL_Init(SDL_INIT_VIDEO);
@@ -102,33 +150,87 @@ int _tmain(int argc, _TCHAR* argv[])
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_Surface* screen = SDL_SetVideoMode(Camera::Instance().GetWindowWidth(), Camera::Instance().GetWindowHeight(), 32, SDL_HWSURFACE | SDL_OPENGL | SDL_DOUBLEBUF);
 
-	TwInit(TW_OPENGL, NULL);
-	TwWindowSize(Camera::Instance().GetWindowWidth(), Camera::Instance().GetWindowHeight());
-	//TwDeleteAllBars(); //I would very much like to do this, but there is a bug whereby resizing menus after this causes a crash :(
-
-	scene_stack.push_back(BaseScene_ptr(new MenuScene()));
-	scene_stack.push_back(BaseScene_ptr(new FadeInScene()));
-
-
 	glClearColor(0.0f,0.0f,0.0f,0.0f);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	ltv_time = clock();
 
+	CEGUI::OpenGLRenderer* renderer = new CEGUI::OpenGLRenderer(0, Camera::Instance().GetWindowWidth(), Camera::Instance().GetWindowHeight());
+	new CEGUI::System(renderer);
+
+	SDL_ShowCursor(SDL_DISABLE);
+	SDL_EnableUNICODE(1);
+	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+
+	// load in the scheme file, which auto-loads the TaharezLook imageset
+	CEGUI::SchemeManager::getSingleton().loadScheme( "TaharezLook.scheme" );
+
+	// load in a font.  The first font loaded automatically becomes the default font.
+	if(! CEGUI::FontManager::getSingleton().isFontPresent( "Commonwealth-10" ) )
+		CEGUI::FontManager::getSingleton().createFont( "Commonwealth-10.font" );
+	CEGUI::System::getSingleton().setDefaultFont( "Commonwealth-10" );
+	CEGUI::System::getSingleton().setDefaultMouseCursor( "TaharezLook", "MouseArrow" );
+
+	scene_stack.push_back(BaseScene_ptr(new MenuScene()));
+	scene_stack.push_back(BaseScene_ptr(new FadeInScene()));
+
 	SDL_Event sdl_event;
 	while(!isFinished)
 	{
-		if(SDL_PollEvent(& sdl_event))
+		if(scene_stack.empty())
+			isFinished = true;
+		while(SDL_PollEvent(& sdl_event))
 		{
-			int handled = TwEventSDL(&sdl_event); // send event to AntTweakBar
-			if( !handled )                // if event has not been handled by AntTweakBar, process it
+			// we use a switch to determine the event type
+			switch (sdl_event.type)
 			{
-				switch(sdl_event.type)
+			// mouse motion handler
+			case SDL_MOUSEMOTION:
+				// we inject the mouse position directly.
+				CEGUI::System::getSingleton().injectMousePosition(
+					static_cast<float>(sdl_event.motion.x),
+					static_cast<float>(sdl_event.motion.y)
+				);
+				break;
+			
+			// mouse down handler
+			case SDL_MOUSEBUTTONDOWN:
+				// let a special function handle the mouse button down event
+				handle_mouse_down(sdl_event.button.button);
+				break;
+			
+			// mouse up handler
+			case SDL_MOUSEBUTTONUP:
+				// let a special function handle the mouse button up event
+				handle_mouse_up(sdl_event.button.button);
+				break;
+			
+			
+			// key down
+			case SDL_KEYDOWN:
+				// to tell CEGUI that a key was pressed, we inject the scancode.
+				CEGUI::System::getSingleton().injectKeyDown(sdl_event.key.keysym.scancode);
+				
+				// as for the character it's a litte more complicated. we'll use for translated unicode value.
+				// this is described in more detail below.
+				if (sdl_event.key.keysym.unicode != 0)
 				{
-					case SDL_QUIT:
-						isFinished = true;
-					break;
+					CEGUI::System::getSingleton().injectChar(sdl_event.key.keysym.unicode);
 				}
+				break;
+			
+			// key up
+			case SDL_KEYUP:
+				// like before we inject the scancode directly.
+				CEGUI::System::getSingleton().injectKeyUp(sdl_event.key.keysym.scancode);
+				break;
+			
+			
+			// WM quit event occured
+			case SDL_QUIT:
+				isFinished = true;
+				break;
+			
 			}
 		}
 		Sleep(5);
@@ -138,7 +240,6 @@ int _tmain(int argc, _TCHAR* argv[])
 		SDL_Flip(screen);
 		Cull();
 	}
-	TwTerminate();
 	SDL_Quit();
 
 	return 0;

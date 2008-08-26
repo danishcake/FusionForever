@@ -11,18 +11,9 @@ class Blaster :
 {
 protected:
    /**
-     * Initialises the outline vertices
-     */
-	virtual void initialise_outline();
-   /**
-     * Initialises the fill.
-     * This should be called after initialise_outline and make use of the same vertices.
-     */
-	virtual void initialise_fill();
-   /**
      * Triggers initialisation.
      * Defaults to false. Constructor should check for false and
-     * call the initialise_* functions, then set to true. This ensure the class is
+     * call the InitialiseGraphics functions, then set to true. This ensure the class is
      * only initialised once. This should speed up all subsequent constructions.
      */
 	static bool initialised_;
@@ -42,6 +33,10 @@ protected:
      * Stores the index of the fill vertices in DataStore.
      */
 	static int fill_verts_index_;
+   /*
+    * Initialises the display list and collision geometry on first instantiation
+    */
+	virtual void InitialiseGraphics();
 
 public:
    /**

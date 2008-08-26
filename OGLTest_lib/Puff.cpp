@@ -14,18 +14,18 @@ Puff::Puff(void)
 {
 	if(!initialised_)
 	{
-		initialise_fill();
+		InitialiseGraphics();
 		initialised_ = true;
 	}
-	fill_verts_ = Datastore::Instance().GetVerts(fill_verts_index_);
-	fill_display_list_ = fill_dl_;
+	fill_.GetFillVerts() = Datastore::Instance().GetVerts(fill_verts_index_);
+	fill_.SetDisplayList(fill_dl_);
 	if(Random::RandomChance(0.2f))
 	{
-		fill_color_ = GLColor(255, 255, 0);
+		fill_.SetFillColor(GLColor(255, 255, 0));
 	}
 	else
 	{
-		fill_color_ = GLColor(255, Random::RandomRange(20,120), Random::RandomRange(0,20));
+		fill_.SetFillColor(GLColor(255, static_cast<int>(Random::RandomRange(20,120)), static_cast<int>(Random::RandomRange(0,20))));
 	}
 	lifetime_ = PUFF_LIFETIME;
 	ltv_transform_ = Matrix4f::createScale(0);
@@ -54,7 +54,7 @@ float get_radius(int i)
 	return (base + spike_factor * powf(fmodf(ang,fm) - (fm/2), 2.0f)) * PUFF_RADIUS;
 }
 
-void Puff::initialise_fill()
+void Puff::InitialiseGraphics()
 {
 	boost::shared_ptr<std::vector<Vector3f>> temp_fill = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 	//$B$3+$B$2*(MOD(A7,$B$5)-($B$5/2))^$B$1
@@ -67,6 +67,6 @@ void Puff::initialise_fill()
 
 
 	fill_verts_index_ = Datastore::Instance().AddVerts(temp_fill);
-	fill_dl_ = CreateFillDisplayList(temp_fill);
+	fill_dl_ = Filled::CreateFillDisplayList(temp_fill);
 }
 

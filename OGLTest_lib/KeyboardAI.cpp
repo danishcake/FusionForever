@@ -52,8 +52,15 @@ AIAction KeyboardAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::
 		if(keystates[SDLK_RIGHT])
 			action.dx_++;
 	}
+
+
 	if(SDL_BUTTON_LMASK & mouse_state)
 		action.firing_ = true;
+
+	if(keystates[SDLK_PLUS] || keystates[SDLK_EQUALS])
+		Camera::Instance().ZoomIn();
+	if(keystates[SDLK_MINUS] || keystates[SDLK_UNDERSCORE])
+		Camera::Instance().ZoomOut();
 
 	Vector3f point_to_face = Vector3f((x - Camera::Instance().GetWindowWidth() / 2.0f),
 		                              (Camera::Instance().GetWindowHeight() / 2.0f) - y, 0); // Mouse y coordinates are screen coordinates and so upside down
@@ -79,8 +86,8 @@ AIAction KeyboardAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::
 		float zoom_scale = powf(zoom_time_ / ZOOM_TIME, 1.7f);
 		Camera::Instance().SetCentre(_self->GetPosition().x + point_faced.x * Camera::Instance().GetWidth() * 0.4f * zoom_scale, _self->GetPosition().y + point_faced.y* Camera::Instance().GetHeight() * 0.4f * zoom_scale);
 		Camera::Instance().SetFocus(_self->GetPosition().x, _self->GetPosition().y);
-
+		Logger::Log(boost::lexical_cast<std::string, float>(_self->GetEnergy().GetValue()) + "/" + boost::lexical_cast<std::string, float>(_self->GetEnergy().GetMaxValue()));
 	}
-
+	
 	return action;
 }

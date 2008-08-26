@@ -3,25 +3,35 @@
 
 struct GLColor
 {
-	GLubyte r;
-	GLubyte g;
-	GLubyte b;
-	GLColor(GLubyte _r, GLubyte _g, GLubyte _b)
+	unsigned char r;
+	unsigned char g;
+	unsigned char b;
+	unsigned char a;
+	GLColor(unsigned char _r, unsigned char _g, unsigned char _b)
 	{
 		r = _r;
 		g = _g;
 		b = _b;
+		a = 255;
 	}
 	GLColor()
 	{
 		r = 0;
 		g = 0;
 		b = 0;
+		a = 255;
+	}
+	GLColor(unsigned char _r, unsigned char _g, unsigned char _b, unsigned char _a)
+	{
+		r = _r;
+		g = _g;
+		b = _b;
+		a = _a;
 	}
 
-	GLColor GetFaded(GLclampf _fade_amount)
+	GLColor GetFaded(float _fade_amount)
 	{
-		return GLColor((GLubyte)(r * _fade_amount), (GLubyte)(g * _fade_amount), (GLubyte)(b * _fade_amount));
+		return GLColor((unsigned char)(r * _fade_amount), (unsigned char)(g * _fade_amount), (unsigned char)(b * _fade_amount));
 	}
 };
 #endif

@@ -17,6 +17,12 @@ struct FilledOutlinedData
 	int fill_verts_index;
 
 	float default_health;
+	
+	float mass;
+	float energy_storage;
+	float power_generation;
+	float thrust;
+
 	Vector3f default_subsection_position;
 	Vector3f size;
 };
@@ -26,10 +32,9 @@ class LuaSection :
 {
 private:
 	LuaSection(FilledOutlinedData _fill_outline_data);
-	void initialise_outline();
-	void initialise_fill();
 	static std::map<std::string, FilledOutlinedData> name_map_;
-
+protected:
+	virtual void InitialiseGraphics();
 public:	
 	virtual ~LuaSection(void);
 	static bool ParseSVGPath(std::string _path, FilledOutlinedData& _out);

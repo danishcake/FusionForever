@@ -6,7 +6,7 @@ class HomingMissile :
 	public HomingProjectile
 {
 protected:
-	virtual void initialise_outline();
+	virtual void InitialiseGraphics();
 
 	static bool initialised_;
 	static int outline_dl_;

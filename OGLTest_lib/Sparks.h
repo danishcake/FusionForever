@@ -5,7 +5,7 @@ class Sparks :
 	public Decoration
 {
 protected:
-	virtual void initialise_fill();
+	virtual void InitialiseGraphics();
 	
 	static bool initialised_;
 	static int fill_dl_;

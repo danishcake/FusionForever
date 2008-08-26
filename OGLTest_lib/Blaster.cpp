@@ -13,31 +13,41 @@ Blaster::Blaster(void)
 {
 	if(!initialised_)
 	{
-		initialise_outline();
-		initialise_fill();
+		InitialiseGraphics();
 		initialised_ = true;
 	}
-   //Get the cached vertices
-	outline_verts_ = Datastore::Instance().GetVerts(outline_verts_index_);
-	outline_display_list_ = outline_dl_;
-	fill_verts_ = Datastore::Instance().GetVerts(fill_verts_index_);
-	fill_display_list_ = fill_dl_;
+	//Get the cached vertices
+	outline_.GetOutlineVerts() = Datastore::Instance().GetVerts(outline_verts_index_);
+	outline_.SetDisplayList(outline_dl_);
+	fill_.GetFillVerts() = Datastore::Instance().GetVerts(fill_verts_index_);
+	fill_.SetDisplayList(fill_dl_);
 	findRadius();
 
-	health_ = 500;
-	max_health_ = health_;
+	health_ = FlexFloat(500, 500);
 	cooldown_time_ = 0.1f;
 	default_sub_section_position_ = Vector3f(0, 0, 0);
+	mass_ = 150;
 }
 
 Blaster::~Blaster(void)
 {
 }
 
-void Blaster::initialise_fill(void)
+void Blaster::InitialiseGraphics()
 {
+	//Initialise outline
+	boost::shared_ptr<std::vector<Vector3f>> temp_outline = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
+
+	temp_outline->push_back(Vector3f(0, -2.5f, 0));	//0
+	temp_outline->push_back(Vector3f(2.5f, 0, 0));	//1
+	temp_outline->push_back(Vector3f(1, 5, 0));		//2
+	temp_outline->push_back(Vector3f(-1, 5, 0));    //3
+	temp_outline->push_back(Vector3f(-2.5f, 0, 0));	//4
+
+	outline_verts_index_ = Datastore::Instance().AddVerts(temp_outline);
+	outline_dl_ = Outlined::CreateOutlinedDisplayList(temp_outline);
+
 	boost::shared_ptr<std::vector<Vector3f>> temp_fill = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
-	boost::shared_ptr<std::vector<Vector3f>> temp_outline = Datastore::Instance().GetVerts(outline_verts_index_);
 
 	temp_fill->push_back((*temp_outline)[0]);
 	temp_fill->push_back((*temp_outline)[1]);
@@ -52,21 +62,7 @@ void Blaster::initialise_fill(void)
 	temp_fill->push_back((*temp_outline)[4]);
 
 	fill_verts_index_ = Datastore::Instance().AddVerts(temp_fill);
-	fill_dl_ = CreateFillDisplayList(temp_fill);
-}
-
-void Blaster::initialise_outline(void)
-{
-	boost::shared_ptr<std::vector<Vector3f>> temp_outline = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
-
-	temp_outline->push_back(Vector3f(0, -2.5f, 0));	//0
-	temp_outline->push_back(Vector3f(2.5f, 0, 0));	//1
-	temp_outline->push_back(Vector3f(1, 5, 0));		//2
-	temp_outline->push_back(Vector3f(-1, 5, 0));    //3
-	temp_outline->push_back(Vector3f(-2.5f, 0, 0));	//4
-
-	outline_verts_index_ = Datastore::Instance().AddVerts(temp_outline);
-	outline_dl_ = CreateOutlinedDisplayList(temp_outline);
+	fill_dl_ = Filled::CreateFillDisplayList(temp_fill);
 }
 
 void Blaster::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager)
@@ -75,10 +71,11 @@ void Blaster::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 	cooldown_ -= _timespan;
 	if(firing_)
 	{
-		if(cooldown_ <= 0.0f)
+		if(cooldown_ <= 0.0f && PowerRequirement(5))
 		{
-			fire_projectile(new SmallBullet(Vector3f(0, 5, 0)), _spawn_prj);
+			fire_projectile(new SmallBullet(Vector3f(Random::RandomRange(-2, 2), Random::RandomRange(1, 7), 0)), _spawn_prj);
 			cooldown_ = cooldown_time_;
+			PowerTick(-1);
 		}
 	}
 }

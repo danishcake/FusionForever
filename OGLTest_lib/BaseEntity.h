@@ -1,5 +1,6 @@
 #pragma once
 #include "vmath.h"
+#include "Subscriber.h"
 
 /**
   * The BaseEntity class represents the common properties shared by all entities.
@@ -8,7 +9,7 @@
   * must call RemoveSubscriber when it dies
   * The EndSubscription method should be overloaded to deal with incoming EndSubscriptions
   */
-class BaseEntity
+class BaseEntity : public Subscriber
 {
 protected:
    /**
@@ -24,15 +25,27 @@ protected:
      */
 	float radius_;
    /**
-     * The angle of the entity. This is measured from the y-axis in a CCW direction.
+     * The angle of the entity. This is measured from the y-axis in a CCW direction in degrees
      */
 	float angle_;
+	/*
+	 * Rotational rate
+	 */
+	float spin_;
+	/*
+	 * The mass of the entity
+	 */
+	float mass_;
+	/*
+	 * The moment of the entity
+	 */
+	float moment_;
    /**
      * Whether or not the position has been explicitly set.
      * If false then when added as a sub-section the position can be set to a default position.
      * Modified to true by calls to SetPosition.
      */
-   bool position_specified_;   //If this is false then sections can set a default positions
+	bool position_specified_;   //If this is false then sections can set a default positions
    /**
      * The cached transform. Set by calls to BaseEntity::Tick
      */
@@ -41,12 +54,10 @@ protected:
      * The cached position. The position the (0,0,0) ends up when transformed by ltv_transform_.
      */
 	Vector3f ltv_position_;
-
-	/**
-	  * A list of subscribers to alert on death
-	  */
-	std::list<BaseEntity*> subscribers_;
-
+	/*
+	 * The previous frame's position
+	 */
+	Vector3f prev_position_;
 public:
    /**
      * Sets up default values for BaseEntity.
@@ -66,21 +77,6 @@ public:
      * @param _transform The transform of the parent object.
      */
 	virtual void Tick(float _timespan, Matrix4f _transform);
-	
-	/**
-	  * Add a subscriber to alert on death
-	  */
-	void AddSubscriber(BaseEntity* _subscriber);
-	
-	/**
-	  * Remove a subscriber if it has died
-	  */
-	void RemoveSubscriber(BaseEntity* _subscriber);
-
-	/**
-	  * Alert a subscription that it is about to be invalidated
-	  */
-	virtual void EndSubscription(BaseEntity* _source);
 
    /**
      * Sets the position. Sets position_specified_ to true.
@@ -92,8 +88,11 @@ public:
      * @return The position.
      */
 	Vector3f GetPosition() {return position_;}
-
-   /**
+	/*
+	 * Gets the previous position
+	 */
+	Vector3f GetPreviousPosition() {return prev_position_;}
+	/**
      * Sets the velocity.
      * @param _velocity The new velocity.
      */
@@ -149,4 +148,20 @@ public:
 	{
 		return ltv_position_;
 	}
+
+	void ImpartMomentum(Vector3f _momentum, Vector3f _position);
+
+	float GetMass(){return mass_;}
+	void SetMass(float _mass){mass_ = _mass;}
+
+	float GetMoment(){return moment_;}
+	void SetMoment(float _moment){moment_ = _moment;}
+
+	float AddMass(float _mass){mass_ += _mass; return mass_;}
+	float AddMoment(float _moment){moment_ += _moment; return moment_;}
+
+	float GetSpin(){return spin_;}
+	void SetSpin(float _spin){spin_ = _spin;}
+
+	virtual void InitialiseGraphics() = 0;
 };

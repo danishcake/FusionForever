@@ -2,10 +2,12 @@
 #include "Projectile.h"
 
 Projectile::Projectile(void)
-: BaseEntity(), Outlined()
+: BaseEntity()
 {
 	damage_ = 10;
 	lifetime_ = 5;
+	mass_ = 100;
+	moment_ = 1;
 }
 
 Projectile::~Projectile(void)
@@ -22,6 +24,6 @@ void Projectile::DrawSelf()
 {
 	glPushMatrix();
 	glLoadMatrixf(ltv_transform_);
-	Outlined::DrawOutlinedDisplayList();
+	outline_.DrawOutlinedDisplayList();
 	glPopMatrix();
 }

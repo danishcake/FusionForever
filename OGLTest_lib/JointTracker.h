@@ -5,8 +5,7 @@ class JointTracker :
 	public Section
 {
 protected:
-	virtual void initialise_outline();
-	virtual void initialise_fill();
+	virtual void InitialiseGraphics();
 	
 	static bool initialised_;
 	static int outline_dl_;
@@ -15,12 +14,13 @@ protected:
 	static int fill_verts_index_;
 
 	BaseEntity* target_;
+	bool only_when_firing_;
 
 public:
-	JointTracker();
+	JointTracker(bool _only_when_firing);
 	virtual ~JointTracker(void);
 	virtual void Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager);
 
 protected:
-	virtual void EndSubscription(BaseEntity* _source);
+	virtual void EndSubscription(Subscriber* _source);
 };

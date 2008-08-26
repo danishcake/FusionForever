@@ -5,11 +5,15 @@
 #include "ICollisionManager.h"
 #include "GridCollisionManager.h"
 
-GameScene::GameScene(void)
+GameScene::GameScene(std::string _challenge)
 {
 	Camera::Instance().SetWidth(500);
 	game_ = new BaseGame();
-	game_->LoadChallenge("Challenge1.lua");
+	//game_->LoadChallenge("JuggernautFight.luaChallenge");
+	//game_->LoadChallenge("ReverseJuggernaut.luaChallenge");
+	game_->LoadChallenge(_challenge + ".luaChallenge");
+	for(int i = 0; i < 4; i++)
+		Camera::Instance().ZoomOut();
 }
 
 GameScene::~GameScene(void)

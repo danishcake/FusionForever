@@ -15,13 +15,14 @@ typedef Decoration* Decoration_ptr;
   * It is not intented to interact with other entities.
   */
 class Decoration :
-	public BaseEntity, public Filled
+	public BaseEntity
 {
 protected:
    /**
      * The amount of time left for the decoration to live
      */
 	float lifetime_;
+	Filled fill_;
 public:
 	Decoration(void);
 	virtual ~Decoration(void);

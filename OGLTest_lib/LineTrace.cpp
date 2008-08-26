@@ -9,7 +9,7 @@ LineTrace::LineTrace(BaseEntity* _source, GLColor trail_color_)
 	lifetime_ = 20;
 	front_index_ = 0;
 	first_run_ = true;
-	fill_color_ = trail_color_;
+	fill_.SetFillColor(trail_color_);
 }
 
 LineTrace::~LineTrace(void)
@@ -49,39 +49,20 @@ void LineTrace::Tick(float _timespan, Matrix4f _transform)
 
 void LineTrace::DrawSelf()
 {
-  glColor4ub(fill_color_.r,fill_color_.g, fill_color_.b, (GLubyte)(255.0f*lifetime_));
+	glColor4ub(fill_.GetFillColor().r,fill_.GetFillColor().g, fill_.GetFillColor().b, (unsigned char)(255.0f*lifetime_));
 	glPushMatrix();
 	glLoadIdentity();
 
-	
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, line_trace_);
 	
-	//glDrawArrays(GL_LINE_STRIP, 0, MAX_LINE_SECTIONS);
 	glDrawArrays(GL_LINE_STRIP, 0, front_index_);
 	glDrawArrays(GL_LINE_STRIP, front_index_+1, MAX_LINE_SECTIONS - front_index_);
-	
-	/*
-	//glBegin(GL_LINE_STRIP);
-	//int points_left = MAX_LINE_SECTIONS;
-	//int index = front_index_;
-	while(points_left > 0)
-	{
-		index++;
-		index %= MAX_LINE_SECTIONS;
-		glVertex3fv(line_trace_[index]);
-		points_left--;
-	}
-	glEnd();
-	*/
+
 	glPopMatrix();
 }
 
-void LineTrace::initialise_fill()
-{
-}
-
-void LineTrace::EndSubscription(BaseEntity* _source)
+void LineTrace::EndSubscription(Subscriber* _source)
 {
 	if(source_ == _source)
 		source_ = NULL;

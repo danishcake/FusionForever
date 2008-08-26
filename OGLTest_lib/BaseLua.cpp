@@ -10,11 +10,10 @@
 #include "SpinningJoint.h"
 #include "JointAngles.h"
 #include "JointTracker.h"
-#include "QuarterCircle.h"
-#include "SemiCircle.h"
 #include "LuaSection.h"
 #include "RotatingAI.h"
 #include "KeyboardAI.h"
+#include "SimpleAI.h"
 
 #include <string>
 #include <algorithm>
@@ -35,27 +34,26 @@ static enum SectionType
 	st_HeatBeam,
 	st_SpinningJoint,
 	st_JointAngles,
-	st_QuarterCircle,
-	st_SemiCircle,
 	st_TrackerJoint,
 	ai_RotatingAI,
-	ai_KeyboardAI
+	ai_KeyboardAI,
+	ai_SimpleAI
 };
 
 static std::map<std::string, SectionType> SectionMap;
 
 static void InitialiseMap()
 {
-	SectionMap["SQUARECORE"] = st_SquareCore;
 	SectionMap["KEYBOARDAI"] = ai_KeyboardAI;
 	SectionMap["ROTATINGAI"] = ai_RotatingAI;
+	SectionMap["SIMPLEAI"] = ai_SimpleAI;
+
+	SectionMap["SQUARECORE"] = st_SquareCore;
 	SectionMap["BLASTER"] = st_Blaster;
 	SectionMap["HEATBEAM"] = st_HeatBeam;
 	SectionMap["SPINNINGJOINT"] = st_SpinningJoint;
 	SectionMap["JOINTANGLES"] = st_JointAngles;
 	SectionMap["HOMINGMISSILELAUNCHER"] = st_HomingMissileLauncher;
-	SectionMap["QUARTERCIRCLE"] = st_QuarterCircle;
-	SectionMap["SEMICIRCLE"] = st_SemiCircle;
 	SectionMap["TINYCORE"] = st_TinyCore;
 	SectionMap["TRACKERJOINT"] = st_TrackerJoint;
 	SectionMap["SWARMER"] = st_Swarmer;
@@ -66,7 +64,7 @@ static int l_add_to_force(lua_State* luaVM)
 	assert(last_instantiation!=NULL);
 	if(lua_gettop(luaVM) == 1 &&(lua_isnumber(luaVM, -1)))
 	{
-		int force = lua_tonumber(luaVM, -1);
+		int force = static_cast<int>(lua_tonumber(luaVM, -1));
 		if(force >= 0 && force < MAX_FORCES)
 			last_instantiation->AddToForce(static_cast<int>(lua_tonumber(luaVM, 1)));
 		else
@@ -136,15 +134,14 @@ static int l_set_force_color(lua_State* luaVM)
 		double r = lua_tonumber(luaVM, 2);
 		double g = lua_tonumber(luaVM, 3);
 		double b = lua_tonumber(luaVM, 4);
-		//TODO check bounds here
 		if((r >= 0.0 && r <= 255) &&
 			 (g >= 0.0 && g <= 255) &&
 			 (b >= 0.0 && b <= 255) &&
 			 (force >=0 && force < MAX_FORCES))
 		{
-			last_instantiation->SetForceColor(force, GLColor(static_cast<GLubyte>(r),
-															 static_cast<GLubyte>(g),
-															 static_cast<GLubyte>(b)));
+			last_instantiation->SetForceColor(force, GLColor(static_cast<unsigned char>(r),
+															 static_cast<unsigned char>(g),
+															 static_cast<unsigned char>(b)));
 		} else
 		{
 			luaL_error(luaVM, "SetColor parameters must be in range force(0-%d), color(0 to 255);",MAX_FORCES-1);
@@ -204,6 +201,15 @@ static int l_override_ai(lua_State* luaVM)
 			} else
 			{
 				luaL_error(luaVM, "SetAI(\"KeyboardAI\"... expects a one parameter");
+			}
+			break;
+		case ai_SimpleAI:
+			if(lua_gettop(luaVM) == 1)
+			{
+				ai = new SimpleAI();
+			} else
+			{
+				luaL_error(luaVM, "SetAI(\"SimpleAI\"... expects a one parameter");
 			}
 			break;
 		default:
@@ -297,6 +303,7 @@ BaseLua::BaseLua(BaseGame* _game)
 	{
 		InitialiseMap(); //Allows me to use a big switch statement
 		luaVM = lua_open();
+		lua_vm_ = luaVM;
 		luaL_openlibs(luaVM);
 		//Register all the lua functions
 		lua_register(luaVM, "AddToForce", l_add_to_force);
@@ -386,7 +393,7 @@ void BaseLua::SetHealth(float _health)
 	section_stack_.top()->SetMaxHealth(_health);
 }
 
-int BaseLua::LoadShip(const char* ship)
+int BaseLua::LoadShip(std::string _ship)
 {
 	lua_getglobal(luaVM,"Ship");
 	if(!lua_isnil(luaVM, -1))
@@ -397,7 +404,8 @@ int BaseLua::LoadShip(const char* ship)
 	lua_pop(luaVM,1); //Pops ship from stack
 
 	bool loaded_and_run_ok = false;
-	int load_result = luaL_loadfile(luaVM, ship);
+	_ship = "Scripts/Ships/" + _ship;
+	int load_result = luaL_loadfile(luaVM, _ship.c_str());
 	if(load_result == LUA_ERRSYNTAX)
 	{
 		Logger::LogError("GameLua::LoadShip: A syntax error occurred while loading\n");
@@ -448,14 +456,14 @@ int BaseLua::LoadShip(const char* ship)
 		{
 			//Get name
 			//Load the rest
-			ParseShip(ship);
+			ParseShip(_ship);
 			lua_pop(luaVM, 1); //Pop Ship
 			StackToCore(); //Pop everything but the Core from the stack
 			return section_stack_.top()->GetSectionID();
 		}
 		else
 		{			
-			Logger::LogError(std::string("GameLua::LoadShip: Unable to find Ship table in \n") + std::string(ship));
+			Logger::LogError(std::string("GameLua::LoadShip: Unable to find Ship table in \n") + _ship);
 			return -1;
 		}
 	}
@@ -465,7 +473,7 @@ int BaseLua::LoadShip(const char* ship)
 	}
 }
 
-void BaseLua::ParseShip(const char* _ship)
+void BaseLua::ParseShip(std::string _ship)
 {
 	lua_pushstring(luaVM, "SectionType");
 	lua_gettable(luaVM, -2);
@@ -545,12 +553,6 @@ void BaseLua::ParseShip(const char* _ship)
 			case st_Swarmer:
 				PushSection(new Swarmer());
 				break;
-			case st_QuarterCircle:
-				PushSection(new QuarterCircle());
-				break;
-			case st_SemiCircle:
-				PushSection(new SemiCircle());
-				break;
 			case st_TrackerJoint:
 				{
 				bool param_error = false;
@@ -563,7 +565,7 @@ void BaseLua::ParseShip(const char* _ship)
 				if(param_error)
 					luaL_error(luaVM, "Error parsing %s\nTrackerJoint requires key:value pair OnlyWhenFiring:boolean", _ship);
 				else
-				PushSection(new JointTracker());
+				PushSection(new JointTracker(firing_only));
 				}
 				break;
 			default:
@@ -658,7 +660,7 @@ void BaseLua::ParseShip(const char* _ship)
 }
 
 
-void BaseLua::LoadChallenge(const char* challenge)
+void BaseLua::LoadChallenge(std::string _challenge)
 {
 	lua_getglobal(luaVM,"Challenge");
 	if(!lua_isnil(luaVM, -1))
@@ -671,7 +673,7 @@ void BaseLua::LoadChallenge(const char* challenge)
 	 
 	Logger::Log("GameLua::LoadChallenge: Attempting to load challenge\n");
 	is_script_running_ = false;
-	int load_result = luaL_loadfile(luaVM, challenge);
+	int load_result = luaL_loadfile(luaVM, _challenge.c_str());
 
 	if(load_result == LUA_ERRSYNTAX)
 	{
@@ -728,6 +730,14 @@ void BaseLua::Tick(float _timespan)
 	}
 	lua_setglobal(luaVM, "FRIEND_COUNT");
 
+	lua_newtable(luaVM);
+	for(int force = 0; force <MAX_FORCES; force++)
+	{
+		lua_pushinteger(luaVM, force);
+		lua_pushinteger(luaVM, game_->GetForceCount(force));
+		lua_settable(luaVM, -3);
+	}
+	lua_setglobal(luaVM, "FORCE_COUNT");
 
 	lua_newtable(luaVM);
 	for(int force = 0; force <MAX_FORCES; force++)
@@ -759,9 +769,9 @@ void BaseLua::Tick(float _timespan)
 				{
 					Logger::LogError(lua_tostring(luaVM, -1));
 				} else
-        {
-          Logger::LogError("No extra data\n");
-        }
+				{
+					Logger::LogError("No extra data\n");
+				}
 				is_script_running_ = false;
 			} else if(run_result == LUA_ERRMEM)
 			{//Memory allocation error, should report and abandon
@@ -786,7 +796,10 @@ void BaseLua::Tick(float _timespan)
 				{
 					int isDone = lua_toboolean(luaVM, -1);
 					if(isDone)
+					{
 						is_script_running_ = false;
+						Logger::Log("Script over");
+					}
 				} else if((parameter_count == 2) && lua_isstring(luaVM, -1))
 				{
 					Logger::LogError("GameLua::Tick: EntryPoint returned an error\n");
@@ -834,6 +847,7 @@ void BaseLua::OverrideAI(BaseAI* _AI)
 	}
 	else
 	{
+		luaL_error(luaVM, "GameLua::Unable to override AI, no ship on stack");
 		//TODO report errors
 	}
 }
@@ -857,7 +871,7 @@ void BaseLua::ScaleHealth(float _scale)
 	}
 	else
 	{
-		//TODO report errors
+		luaL_error(luaVM, "GameLua::Unable to scale health, no ship on stack");
 	}
 }
 
@@ -898,6 +912,9 @@ BaseAI* BaseLua::GetAI()
 				break;
 			case ai_KeyboardAI:
 				ai = new KeyboardAI();
+				break;
+			case ai_SimpleAI:
+				ai = new SimpleAI();
 				break;
 			default:
 				luaL_error(luaVM, "Unrecognised AIType");

@@ -12,12 +12,12 @@ Sparks::Sparks(void)
 {
 	if(!initialised_)
 	{
-		initialise_fill();
+		InitialiseGraphics();
 		initialised_ = true;
 	}
-	fill_verts_ = Datastore::Instance().GetVerts(fill_verts_index_);
-	fill_display_list_ = fill_dl_;
-	fill_color_ = GLColor(255, Random::RandomRange(200,255), Random::RandomRange(200,255));
+	fill_.GetFillVerts() = Datastore::Instance().GetVerts(fill_verts_index_);
+	fill_.SetDisplayList(fill_dl_);
+	fill_.SetFillColor(GLColor(255, static_cast<unsigned char>(Random::RandomRange(200,255)), static_cast<unsigned char>(Random::RandomRange(200,255))));
 
 	lifetime_ = SPARKS_LIFETIME;
 	ltv_transform_ = Matrix4f::createScale(0);
@@ -35,7 +35,7 @@ void Sparks::Tick(float _timespan, Matrix4f _transform)
 	ltv_transform_ = _transform;
 }
 
-void Sparks::initialise_fill()
+void Sparks::InitialiseGraphics()
 {
 	boost::shared_ptr<std::vector<Vector3f>> temp_fill = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 	boost::shared_ptr<std::vector<Vector3f>> temp_outline = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
@@ -66,7 +66,7 @@ void Sparks::initialise_fill()
 
 	temp_fill->push_back((*temp_outline)[6]);
 	temp_fill->push_back((*temp_outline)[5]);
-	temp_fill->push_back((*temp_outline)[2]);	
+	temp_fill->push_back((*temp_outline)[2]);
 
 	temp_fill->push_back((*temp_outline)[5]);
 	temp_fill->push_back((*temp_outline)[3]);
@@ -99,6 +99,6 @@ void Sparks::initialise_fill()
 	temp_fill->push_back((*temp_outline)[11]);
 
 	fill_verts_index_ = Datastore::Instance().AddVerts(temp_fill);
-	fill_dl_ = CreateFillDisplayList(temp_fill);
+	fill_dl_ = Filled::CreateFillDisplayList(temp_fill);
 }
 

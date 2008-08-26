@@ -1,4 +1,7 @@
 #pragma once
+#include "vmath.h"
+
+#define CAMERA_ZOOM_TIME 0.3f
 
 /**
   * The Camera class represents the view on the world.
@@ -54,7 +57,26 @@ private:
      * The height on the window.
      */
 	int window_height_;
-
+   /**
+     * The width of the projection that will be zoomed to over time
+     */
+	float desired_width_;
+    /*
+     * The width to zoom from
+     */
+	float old_width_;
+   /**
+     * Time counter for zoom
+     */
+	float zoom_time_;
+    /*
+     * Sets the width without setting the desired width
+     */
+	void SetZoomWidth(float _width)
+	{
+		width_= _width;
+		height_ = width_ / ratio_;
+	}
 public:
 	virtual ~Camera(void);
    /**
@@ -166,6 +188,7 @@ public:
 	void SetWidth(float _width)
 	{
 		width_= _width;
+		desired_width_ = _width;
 		height_ = width_ / ratio_;
 	}
    /**
@@ -181,11 +204,37 @@ public:
      * Causes the camera to shake
      */
 	void Shake(float _amount);
+   /**
+     * Projects screen coordinates to world coordinates
+     * @param _screen_position The coordinates on the screen, eg mouse position
+     * @return The world coordinates corresponding to _screen_position
+     */
+	Vector3f ScreenToWorld(Vector3f _screen_position);
 
 	void TickCamera(float _timespan)
 	{
 		shake_time_ -= _timespan;
+		zoom_time_ -= _timespan;
+		if(zoom_time_ < 0)
+			zoom_time_ = 0;
 	}
 	void SetupCamera();
+
+	void ZoomOut()
+	{
+		zoom_time_ = CAMERA_ZOOM_TIME;
+		desired_width_ *= 1.2f;
+		if(desired_width_ > 2000)
+			desired_width_ = 2000;
+		old_width_ = width_;
+	}
+	void ZoomIn()
+	{
+		zoom_time_ = CAMERA_ZOOM_TIME;
+		desired_width_ /= 1.2f;
+		if(desired_width_ < 50)
+			desired_width_ = 50;
+		old_width_ = width_;
+	}
 
 };

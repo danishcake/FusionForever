@@ -8,7 +8,7 @@
 float Triangulate::Area(const Vector2dVector_ptr contour)
 {
 
-  size_t n = contour->size();
+  int n = static_cast<int>(contour->size());
 
   float A=0.0f;
 
@@ -77,7 +77,7 @@ bool Triangulate::Process(const Vector2dVector_ptr contour, Vector2dVector_ptr r
 {
   /* allocate and initialize list of Vertices in polygon */
 
-  size_t n = contour->size();
+  int n = static_cast<int>(contour->size());
   if ( n < 3 ) return false;
 
   int *V = new int[n];

@@ -12,7 +12,7 @@ Outlined::~Outlined(void)
 
 void Outlined::DrawOutline(void)
 {
-	glColor3ub(outline_color_.r, outline_color_.g, outline_color_.b);
+	glColor4ub(outline_color_.r, outline_color_.g, outline_color_.b, outline_color_.a);
 	glBegin(GL_LINE_LOOP);
 	for(unsigned int i = 0; i < outline_verts_->size(); i++)
 	{
@@ -24,7 +24,7 @@ void Outlined::DrawOutline(void)
 
 void Outlined::DrawOutlinedDisplayList(void)
 {
-	glColor3ub(outline_color_.r, outline_color_.g, outline_color_.b);
+	glColor4ub(outline_color_.r, outline_color_.g, outline_color_.b, outline_color_.a);
 	glCallList(outline_display_list_);
 }
 

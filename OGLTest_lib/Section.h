@@ -10,9 +10,9 @@
 #include "vmath-collisions.h"
 #include "Datastore.h"
 #include "Camera.h"
+#include "FlexFloat.h"
 
 
-class HomingJoin;
 class Section;
 //typedef boost::shared_ptr<Section> Section_ptr;
 typedef Section* Section_ptr;
@@ -26,31 +26,48 @@ static const float SECTION_FLASH_TIME = 2.0f;
 
 
 class Section :
-	public BaseEntity, public Filled, public Outlined
+	public BaseEntity
 {
 private:
 	static int section_count_;
+	bool first_tick_;
 protected:
 	int section_id_;
-  Section* parent_;
-  Section* root_;
+	Section* parent_;
+	Section* root_;
+	Filled fill_;
+	std::vector<Vector3f> transformed_fill_verts_;
+	bool transformed_fill_verts_valid_;
+	Outlined outline_;
 
 	std::vector<Section_ptr> sub_sections_;
-	float health_;
-	float max_health_;
-
+	FlexFloat health_;
 
 	bool firing_;
 	bool ltv_firing_;
 	std::vector<float> firing_edges_;
 	float firing_delay_;
 
-	float damage_timer_;
+	float damage_flash_timer_;
+	float flash_timer_;
+	bool flash_state_;
 	GLColor outline_color_base_;
 	Vector3f default_sub_section_position_;
 	void findRadius();
-  
+
 	void SetParentAndRoot(Section* _parent, Section* _root);
+
+	FlexFloat thrust_;
+	FlexFloat GetThrust() {return thrust_;}
+	void SetThrust(FlexFloat _thrust) {thrust_ = _thrust;}
+	void AddThrust(FlexFloat _thrust_delta) {thrust_ += _thrust_delta;}
+	void AddThrust(float _thrust_delta) {thrust_ += _thrust_delta;}
+
+	FlexFloat energy_;
+	FlexFloat power_generation_;
+	void PowerTick(float _power_delta);
+	bool PowerRequirement(float _minimum_power);
+	void AddEnergyCap(float _energy_cap) {energy_.AddMaxValue(_energy_cap);}
 
 public:
 	Section(void);
@@ -63,14 +80,15 @@ public:
 	void SetColor(GLColor _color);
 	virtual void Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager);
 	virtual void GetDeathSpawn(std::vector<Decoration_ptr>& _spawn_dec);
-	void UnregisterHomingJoin(HomingJoin* _homing_join);
-	void RegisterHomingJoin(HomingJoin* _homing_join);
 
 
 	//Getters/Setters
-	float GetHealth(){return health_;}
-	void SetMaxHealth(float _max_health){float health_fraction = health_ / max_health_; max_health_ = _max_health; health_ = max_health_ * health_fraction;}
-	void TakeDamage(float _damage){health_-=_damage; damage_timer_ = SECTION_FLASH_TIME;}
+	float GetHealth(){return health_.GetValue();}
+	void SetMaxHealth(float _max_health){health_.SetMaxValue(_max_health);}
+	void TakeDamage(float _damage);
+	
+	void SetFlashing(){flash_state_ = true;}
+	void SetNotFlashing(){flash_state_ = false;}
 	void ScaleHealth(float _factor);
 	void SetFiring(bool _firing);
 	void SetFiringDelay(float _firing_delay) {firing_delay_ = _firing_delay;}
@@ -88,4 +106,7 @@ public:
 		}
 		return dead;
 	}
+	//Editor support
+	std::vector<Section_ptr> DetachChildren();
+	void AttachChildren(std::vector<Section_ptr> _children);
 };

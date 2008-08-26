@@ -3,6 +3,7 @@
 #include "Core.h"
 #include "Starfield.h"
 #include "GridCollisionManager.h"
+#include <string>
 
 static const int MAX_FORCES = 8;
 
@@ -16,6 +17,7 @@ namespace Hostility
 }
 
 class BaseLua;
+struct lua_State;
 
 class BaseGame
 {
@@ -25,12 +27,13 @@ public:
 
 	virtual void Tick(float _timespan);
 	virtual void Draw();
-	void LoadChallenge(const char* _challenge);
+	void LoadChallenge(std::string _challenge);
 	void AddShip(Core* _core, int _force);
+	int GetForceCount(int _force);
 	int GetEnemyCount(int _force);
 	int GetFriendCount(int _force);
 	bool IsSectionAlive(int _section_id);
-
+	lua_State* GetLua();
 
 protected:
 	std::vector<Projectile_ptr> projectiles_[MAX_FORCES];
@@ -41,6 +44,6 @@ protected:
 	std::vector<Core_ptr> enemies[MAX_FORCES];
 	std::vector<Core_ptr> friends[MAX_FORCES];
 
-  Starfield starfield_;
+	Starfield starfield_;
 	BaseLua* lua_;
 };

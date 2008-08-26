@@ -43,13 +43,10 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				EnableIntrinsicFunctions="false"
-				FavorSizeOrSpeed="0"
-				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost_1_34_1&quot;;&quot;C:\Program Files\Lua_5.1.3\include&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;e:\Program Files\boost\boost_1_35_0&quot;;&quot;C:\Program Files\Lua_5.1.3\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
+				BasicRuntimeChecks="0"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
@@ -111,13 +108,13 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost_1_34_1&quot;;&quot;C:\Program Files\Lua_5.1.3\include&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;e:\Program Files\boost\boost_1_35_0&quot;;&quot;C:\Program Files\Lua_5.1.3\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="3"
+				DebugInformationFormat="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -200,6 +197,10 @@
 				Name="Decorations"
 				>
 				<File
+					RelativePath=".\BeamCharge.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Decoration.cpp"
 					>
 				</File>
@@ -209,6 +210,10 @@
 				</File>
 				<File
 					RelativePath=".\Puff.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Ricochet.cpp"
 					>
 				</File>
 				<File
@@ -330,14 +335,6 @@
 						RelativePath=".\LuaSection.cpp"
 						>
 					</File>
-					<File
-						RelativePath=".\QuarterCircle.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\SemiCircle.cpp"
-						>
-					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -349,6 +346,10 @@
 				</File>
 				<File
 					RelativePath=".\Datastore.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FlexFloat.cpp"
 					>
 				</File>
 				<File
@@ -427,6 +428,10 @@
 					RelativePath=".\Outlined.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\Subscriber.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -434,26 +439,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<Filter
-				Name="Scenes"
-				>
-				<File
-					RelativePath=".\BaseScene.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FadeInScene.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FadeOutInScene.h"
-					>
-				</File>
-				<File
-					RelativePath=".\FadeOutScene.h"
-					>
-				</File>
-			</Filter>
 			<Filter
 				Name="AI"
 				>
@@ -478,6 +463,10 @@
 				Name="Decorations"
 				>
 				<File
+					RelativePath=".\BeamCharge.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Decoration.h"
 					>
 				</File>
@@ -487,6 +476,10 @@
 				</File>
 				<File
 					RelativePath=".\Puff.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Ricochet.h"
 					>
 				</File>
 				<File
@@ -608,14 +601,6 @@
 						RelativePath=".\LuaSection.h"
 						>
 					</File>
-					<File
-						RelativePath=".\QuarterCircle.h"
-						>
-					</File>
-					<File
-						RelativePath=".\SemiCircle.h"
-						>
-					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -627,6 +612,10 @@
 				</File>
 				<File
 					RelativePath=".\Datastore.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FlexFloat.h"
 					>
 				</File>
 				<File
@@ -703,6 +692,10 @@
 				</File>
 				<File
 					RelativePath=".\Outlined.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Subscriber.h"
 					>
 				</File>
 			</Filter>

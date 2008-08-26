@@ -20,11 +20,12 @@ HomingMissile::HomingMissile(Vector3f _position, BaseEntity* _target, GLColor _t
 {
 	if(!initialised_)
 	{
-		 initialise_outline();
+		 InitialiseGraphics();
 		 initialised_ = true;
 	}
-	outline_verts_ = Datastore::Instance().GetVerts(outline_verts_index_);
-	outline_display_list_ = outline_dl_;
+	outline_.GetOutlineVerts() = Datastore::Instance().GetVerts(outline_verts_index_);
+	outline_.SetDisplayList(outline_dl_);
+
 	lifetime_ = TOTAL_LIFETIME;
 	damage_ = 380;
 	turn_rate_ = 150;
@@ -32,7 +33,8 @@ HomingMissile::HomingMissile(Vector3f _position, BaseEntity* _target, GLColor _t
 	velocity_.y = scalar_speed_;
 	position_ = _position;
 	first_run_ = true;
-  trail_color_ = _trail_color;
+	trail_color_ = _trail_color;
+	mass_ = 300;
 }
 
 HomingMissile::~HomingMissile(void)
@@ -47,7 +49,7 @@ void HomingMissile::Hit(std::vector<Decoration_ptr>& _spawn)
 	_spawn.push_back(Decoration_ptr(p));
 }
 
-void HomingMissile::initialise_outline()
+void HomingMissile::InitialiseGraphics()
 {
 	boost::shared_ptr<std::vector<Vector3f>> temp_outline = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 
@@ -56,7 +58,7 @@ void HomingMissile::initialise_outline()
 	temp_outline->push_back(Vector3f(2,-5,0));
 
 	outline_verts_index_ = Datastore::Instance().AddVerts(temp_outline);
-	outline_dl_ = CreateOutlinedDisplayList(temp_outline);
+	outline_dl_ = Outlined::CreateOutlinedDisplayList(temp_outline);
 }
 
 void HomingMissile::Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform)

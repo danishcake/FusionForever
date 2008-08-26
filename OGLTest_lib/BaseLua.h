@@ -21,6 +21,7 @@ private:
 	bool is_script_running_;
 	float sum_time_;
 	GLColor force_colors_[MAX_FORCES];
+	lua_State* lua_vm_;
 
 protected:
 	void StackToCore();
@@ -29,9 +30,9 @@ public:
 	BaseLua(BaseGame* _game);
 	~BaseLua(void);
 
-	void LoadChallenge(const char* challenge);
-	int LoadShip(const char* _ship);
-	void ParseShip(const char* _ship);
+	void LoadChallenge(std::string _challenge);
+	int LoadShip(std::string _ship);
+	void ParseShip(std::string _ship);
 
 	void PushCore(Core_ptr _core);
 	void PushSection(Section_ptr _section);
@@ -49,4 +50,6 @@ public:
 	void OverrideAI(BaseAI*);
 
 	void Tick(float _timespan);
+
+	lua_State* GetLua(){return lua_vm_;}
 };

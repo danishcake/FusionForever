@@ -37,7 +37,7 @@ void HomingProjectile::Tick(float _timespan, std::vector<Decoration_ptr>& _spawn
 	Projectile::Tick(_timespan, _spawn_dec, _transform);
 }
 
-void HomingProjectile::EndSubscription(BaseEntity* _source)
+void HomingProjectile::EndSubscription(Subscriber* _source)
 {
 	if(target_ == _source)
 		target_ = NULL;

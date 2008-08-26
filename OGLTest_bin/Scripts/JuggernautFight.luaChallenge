@@ -1,0 +1,60 @@
+--JuggernautFight.luaChallenge
+--This loads a single hard enemy who will be a challenge for the player to kill.
+
+require "Utility"
+
+Challenge = {
+	Script = coroutine.create(function()
+		Predicate.WaitFor(2)
+		
+		local juggernaut_id = LoadShip("JuggernautA.luaShip")
+		SetPosition(0, 500)
+		ScaleHealth(2)
+		AddToForce(1)
+
+		Predicate.WaitTillShipDead(juggernaut_id)
+
+	end),
+	LivesScript = coroutine.create(function()
+		LogError("Creating ownship as LuaShip")
+		local ownship_id = LoadShip("LuaShip2.luaShip")
+		SetAI("KeyboardAI")
+		AddToForce(0)
+		
+		Predicate.WaitTillShipDead(ownship_id)
+		Predicate.WaitFor(1)
+		
+		LogError("Respawning ownship as SpikeyShip")
+		ownship_id = LoadShip("SpikeyShip.luaShip")
+		SetAI("KeyboardAI")
+		AddToForce(0)
+		Predicate.WaitTillShipDead(ownship_id)		
+	end),
+
+	EntryPoint = function()
+		local player_dead = false
+		if coroutine.status(Challenge.LivesScript) ~= "dead" then
+			local run_ok, error_message = coroutine.resume(Challenge.LivesScript)
+			if run_ok ~= true then
+				return error_message
+			end
+		else
+			player_dead = true
+		end
+		
+		if player_dead == true then
+			return true
+		end
+		
+		if coroutine.status(Challenge.Script) ~= "dead" then
+			local run_ok, error_message = coroutine.resume(Challenge.Script)
+			if run_ok then
+				return false	--Script still executing
+			else
+				return error_message
+			end
+		else
+			return true	--Script finished
+		end
+	end
+}

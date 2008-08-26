@@ -9,6 +9,25 @@ WaitTillEnemiesDead = function(force)
     coroutine.yield()
   end
 end,
+WaitTillEnemyCountLessThan = function(force, count)
+	coroutine.yield()
+	while ENEMY_COUNT[force] > count do
+		coroutine.yield()
+	end
+end,
+WaitTillFriendCountLessThan = function(force, count)
+	coroutine.yield()
+	LogError(FRIEND_COUNT[force])
+	while FRIEND_COUNT[force] > count do
+		coroutine.yield()
+	end
+end,
+WaitTillForceCountLessThan = function(force, count)
+	coroutine.yield()
+	while FORCE_COUNT[force] > count do
+		coroutine.yield()
+	end
+end,
 WaitTillFriendsDead = function(force)
   coroutine.yield()
   while FRIEND_COUNT[force] > 0 do

@@ -56,7 +56,7 @@ void BeamSection::Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec,
 		{
 			deco_cooldown_ = 0.025f;
 
-			Decoration_ptr spark =Decoration_ptr(new Sparks());
+			Decoration_ptr spark = Decoration_ptr(new Sparks());
 			spark->SetPosition(ltv_transform_ * Vector3f(0,max_dist+beam_accuracy,0));
 			spark->SetAngle(GetGlobalAngle());
 			_spawn_dec.push_back(spark);

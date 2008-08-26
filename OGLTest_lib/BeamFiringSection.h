@@ -1,6 +1,7 @@
 #pragma once
 #include "Section.h"
 #include "BeamSection.h"
+#include "BeamCharge.h"
 
 /**
   * The BeamFiringSection represents a section that fires a beam.
@@ -9,10 +10,38 @@ class BeamFiringSection :
 	public Section
 {
 protected:
-   /**
-     * The beam to be tick and drawn when firing.
+	/**
+	  * The charging animation
+	  */
+	BeamCharge beam_charge_;
+    /**
+     * The beam to be ticked and drawn when firing.
      */
 	BeamSection_ptr beam_;
+	/*
+	 * Beam charge up time
+	 */
+	float beam_charge_time_;
+	/*
+	 * Beam firing time
+	 */
+	float beam_fire_time_;
+	/*
+	 * Beam cooldown time - cools down for this long before charging can begin again
+	 */
+	float beam_cooldown_time_;
+	/*
+	 * Beam time, position of beam weapon in charge-discharge-cooldown cycle
+	 */
+	float beam_sum_time_;
+	/*
+	 * Beam last frame firing value
+	 */
+	bool ltv_firing_;
+	/*
+	 * Beam decoration spawn counter
+	 */
+	float beam_deco_spawn_;
 public:
    /**
      * Creates a BeamFiringSection.

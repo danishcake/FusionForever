@@ -139,8 +139,10 @@ void GridCollisionManager::Register(Section_ptr _section)
 
 	y = (int)(1.0f + (g_position.y - bottom_edge_) / grid_height_);
 	y = y < 1 ? 0 : y > GRID_SECTIONS - 2 ? GRID_SECTIONS-1 : y;
-
-	sections_[x][y].push_back(_section);
+	for(int i = 0; i < adjacency_lookup_count_[x][y]; i++)
+	{
+		adjacency_lookup_[x][y][i]->push_back(_section);
+	}
 	left_edge_count_ += (x == 0);
 	right_edge_count_ += (x == (GRID_SECTIONS-1));
 	top_edge_count_ += (y == (GRID_SECTIONS-1));
@@ -157,14 +159,15 @@ void GridCollisionManager::GetAtPoint(std::vector<Section_ptr>& _result, Vector3
 	y = (int)(1.0f + (_point.y - bottom_edge_) / grid_height_);
 	y = y < 1 ? 0 : y > GRID_SECTIONS - 2 ? GRID_SECTIONS-1 : y;
 
-	for(int i = 0; i < adjacency_lookup_count_[x][y]; i++)
-	{
-		_result.insert(_result.end(), adjacency_lookup_[x][y][i]->begin(), adjacency_lookup_[x][y][i]->end());
-	}
+	//for(int i = 0; i < adjacency_lookup_count_[x][y]; i++)
+	//{
+	//	_result.insert(_result.end(), adjacency_lookup_[x][y][i]->begin(), adjacency_lookup_[x][y][i]->end());
+	//}
+	_result.insert(_result.end(), sections_[x][y].begin(), sections_[x][y].end());
 
-	total_returned_ += _result.size();
+	total_returned_ += static_cast<int>(_result.size());
 	if(_result.size() > largest_returned_)
-		largest_returned_ = _result.size();
+		largest_returned_ = static_cast<int>(_result.size());
 }
 
 void GridCollisionManager::Render()

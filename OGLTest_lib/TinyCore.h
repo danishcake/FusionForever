@@ -5,8 +5,7 @@ class TinyCore :
 	public Core
 {
 protected:
-	virtual void initialise_outline();
-	virtual void initialise_fill();
+	virtual void InitialiseGraphics();
 	
 	static bool initialised_;
 	static int outline_dl_;

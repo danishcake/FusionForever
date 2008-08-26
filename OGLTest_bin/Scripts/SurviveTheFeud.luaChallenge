@@ -1,0 +1,87 @@
+--SurviveTheFeud.luaChallenge
+--This loads a war between two enemies who will fight each other.
+
+require "Utility"
+
+Challenge = {
+	SpawnForceOneScript = coroutine.create(function()
+		for i = 0, 50 do
+			LoadShip("SpikeyShip.luaShip")
+			SetPosition(250 - 10 *i, 500)
+			ScaleHealth(0.5)
+			SetAI("SimpleAI")
+			AddToForce(1)
+			Predicate.WaitFor(0.1)
+			Predicate.WaitTillForceCountLessThan(1, 5)
+		end
+	end),
+	
+	SpawnForceTwoScript = coroutine.create(function()
+		for i = 0, 50 do
+			LoadShip("SpikeyShip.luaShip")
+			SetPosition(-250 + 10 *i, -500)
+			ScaleHealth(0.5)
+			SetAI("SimpleAI")
+			AddToForce(2)
+			Predicate.WaitFor(0.1)
+			Predicate.WaitTillForceCountLessThan(2, 5)
+		end
+	end),
+
+	LivesScript = coroutine.create(function()
+		LogError("Creating ownship as LuaShip")
+		Predicate.WaitFor(2)
+		local ownship_id = LoadShip("LuaShip2.luaShip")
+		SetAI("KeyboardAI")
+		SetPosition(-500, 0)
+		AddToForce(0)
+		Predicate.WaitTillShipDead(ownship_id)
+	end),
+
+	EntryPoint = function()
+		local player_dead = false
+		local team_one_dead = false
+		local team_two_dead = false
+		if coroutine.status(Challenge.LivesScript) ~= "dead" then
+			local run_ok, error_message = coroutine.resume(Challenge.LivesScript)
+			if run_ok ~= true then
+				return error_message
+			end
+		else
+			player_dead = true
+		end
+		
+		if player_dead == true then
+			LogError("Ending, player dead")
+			return true
+		end
+		
+		if coroutine.status(Challenge.SpawnForceTwoScript) ~= "dead" then
+			local run_ok, error_message = coroutine.resume(Challenge.SpawnForceTwoScript)
+			if run_ok ~= true then
+				return error_message
+			end
+		else
+			team_one_dead = true
+			LogError("Team two finished spawning")
+		end
+		
+		if coroutine.status(Challenge.SpawnForceOneScript) ~= "dead" then
+			local run_ok, error_message = coroutine.resume(Challenge.SpawnForceOneScript)
+			if run_ok ~= true then
+				return error_message
+			end
+		else
+			LogError("Team one finished spawning")
+			team_two_dead = true
+		end
+		
+		
+		if(team_one_dead == true) then
+			if(team_two_dead == true) then
+				return true
+			end
+		end
+		return false
+	end
+}

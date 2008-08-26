@@ -34,24 +34,37 @@
 				ExecutionBucket="2"
 			/>
 			<Tool
+				Name="Lua utilities copier"
+			/>
+			<Tool
+				Name="LuaShip copier"
+			/>
+			<Tool
+				Name="ChallengeScript copier"
+			/>
+			<Tool
+				Name="LuaSection copier"
+			/>
+			<Tool
 				Name="VCWebServiceProxyGeneratorTool"
-				ExecutionBucket="3"
+				ExecutionBucket="4"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				ExecutionBucket="4"
+				ExecutionBucket="5"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				ExecutionBucket="5"
+				ExecutionBucket="6"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\Lua_5.1.3\include&quot;;..\OGLTest_lib;&quot;C:\Program Files\AntTweakBar\include&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost_1_34_1&quot;"
+				WholeProgramOptimization="false"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\Lua_5.1.3\include&quot;;..\OGLTest_lib;&quot;C:\Program Files\CEGUI-SDK-0.6.0-vc8\include&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;E:\Program Files\boost\boost_1_35_0&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
+				BasicRuntimeChecks="0"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
@@ -60,37 +73,38 @@
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
-				ExecutionBucket="6"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
 				ExecutionBucket="7"
 			/>
 			<Tool
-				Name="VCPreLinkEventTool"
+				Name="VCResourceCompilerTool"
 				ExecutionBucket="8"
 			/>
 			<Tool
-				Name="VCLinkerTool"
+				Name="VCPreLinkEventTool"
 				ExecutionBucket="9"
-				AdditionalDependencies="AntTweakBar.lib lua51.lib OGLTest_lib.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib "
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				ExecutionBucket="10"
+				AdditionalDependencies="lua51.lib OGLTest_lib.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib CEGUIBase_d.lib OpenGLGUIRenderer_d.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\SDL-1.2.12\lib&quot;;../OGLTest_lib/Debug;&quot;C:\Program Files\Lua_5.1.3\lib&quot;;&quot;C:\Program Files\AntTweakBar\lib&quot;"
+				AdditionalLibraryDirectories="&quot;E:\Program Files\boost\boost_1_35_0\lib&quot;;&quot;C:\Program Files\SDL-1.2.12\lib&quot;;../OGLTest_lib/Debug;&quot;C:\Program Files\Lua_5.1.3\lib&quot;;&quot;C:\Program Files\CEGUI-SDK-0.6.0-vc8\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
+				LinkTimeCodeGeneration="0"
 				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
-				ExecutionBucket="10"
-			/>
-			<Tool
-				Name="VCManifestTool"
 				ExecutionBucket="11"
 			/>
 			<Tool
-				Name="VCXDCMakeTool"
+				Name="VCManifestTool"
 				ExecutionBucket="12"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+				ExecutionBucket="13"
 			/>
 			<Tool
 				Name="Script copier"
@@ -129,10 +143,19 @@
 				CommandLine=""
 			/>
 			<Tool
+				Name="LuaShip copier"
+			/>
+			<Tool
+				Name="Lua utilities copier"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
-				Name="Script copier"
+				Name="ChallengeScript copier"
+			/>
+			<Tool
+				Name="LuaSection copier"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -145,13 +168,13 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\Lua_5.1.3\include&quot;;..\OGLTest_lib;&quot;C:\Program Files\AntTweakBar\include&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost_1_34_1&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\Lua_5.1.3\include&quot;;..\OGLTest_lib;&quot;C:\Program Files\CEGUI-SDK-0.6.0-vc8\include&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;E:\Program Files\boost\boost_1_35_0&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="3"
+				DebugInformationFormat="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -164,9 +187,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="AntTweakBar.lib lua51.lib OGLTest_lib.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib "
+				AdditionalDependencies="lua51.lib OGLTest_lib.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib CEGUIBase.lib OpenGLGUIRenderer.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\SDL-1.2.12\lib&quot;;../OGLTest_lib/Release;&quot;C:\Program Files\Lua_5.1.3\lib&quot;;&quot;C:\Program Files\AntTweakBar\lib&quot;"
+				AdditionalLibraryDirectories="&quot;E:\Program Files\boost\boost_1_35_0\lib&quot;;&quot;C:\Program Files\SDL-1.2.12\lib&quot;;../OGLTest_lib/Release;&quot;C:\Program Files\Lua_5.1.3\lib&quot;;&quot;C:\Program Files\CEGUI-SDK-0.6.0-vc8\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -208,6 +231,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\EditorGame.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OGLTest_bin.cpp"
 				>
 			</File>
@@ -235,6 +262,10 @@
 				Name="Scenes"
 				>
 				<File
+					RelativePath=".\EditorScene.cpp"
+					>
+				</File>
+				<File
 					RelativePath="GameScene.cpp"
 					>
 				</File>
@@ -254,12 +285,20 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\EditorGame.h"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.h"
 				>
 			</File>
 			<Filter
 				Name="Scenes"
 				>
+				<File
+					RelativePath=".\EditorScene.h"
+					>
+				</File>
 				<File
 					RelativePath="GameScene.h"
 					>
@@ -275,31 +314,29 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
-			>
-		</Filter>
-		<Filter
 			Name="Scripts"
 			>
 			<Filter
 				Name="Ships"
 				>
 				<File
-					RelativePath=".\Scripts\LuaShip2.lua"
+					RelativePath=".\Scripts\JuggernautA.luaShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\MissilePlatform.lua"
+					RelativePath=".\Scripts\LuaShip2.luaShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\SpaceStation.lua"
+					RelativePath=".\Scripts\MissilePlatform.luaShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\SpikeyShip.lua"
+					RelativePath=".\Scripts\SpaceStation.luaShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\SpikeyShip.luaShip"
 					>
 				</File>
 			</Filter>
@@ -307,7 +344,19 @@
 				Name="Challenges"
 				>
 				<File
-					RelativePath=".\Scripts\Challenge1.lua"
+					RelativePath=".\Scripts\Challenge1.luaChallenge"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\JuggernautFight.luaChallenge"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\ReverseJuggernaut.luaChallenge"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\SurviveTheFeud.luaChallenge"
 					>
 				</File>
 			</Filter>
@@ -322,94 +371,148 @@
 			<Filter
 				Name="LuaSections"
 				>
-				<File
-					RelativePath=".\Scripts\DecoPlateSection.lua"
+				<Filter
+					Name="Large - 40x40"
 					>
-				</File>
-				<File
-					RelativePath=".\Scripts\ForwardWingLH.lua"
+					<File
+						RelativePath=".\Scripts\BearEars.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\Bulkhead.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\CenterFrontBody.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\FrontPlatingLH.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\FrontPlatingRH.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\SmallBulkhead.luaSection"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Medium 20x20"
 					>
-				</File>
-				<File
-					RelativePath=".\Scripts\ForwardWingRH.lua"
+					<File
+						RelativePath=".\Scripts\DecoPlateSection.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\DriveUnit.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\ForwardWingLH.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\ForwardWingRH.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\LargeSquare.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\LongRigidArm.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\OctoSection.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\ProngLH.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\ProngRH.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\SmallRocket.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\SpunStar.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\SweptWingLH.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\SweptWingRH.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\WidePlate.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\WingLH.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\WingRH.luaSection"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Small - 10x10 or less"
 					>
-				</File>
-				<File
-					RelativePath=".\Scripts\LargeSquare.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\LongRigidArm.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\NarrowProngLH.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\NarrowProngRH.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\OctoSection.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\ProngLH.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\ProngRH.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\RightAngleTriangle.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\RigidArm.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\SmallSquare.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\Spike.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\SpikeLH.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\SpikeRH.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\SpunStar.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\SweptWingLH.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\SweptWingRH.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\WidePlate.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\WingLH.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\WingRH.lua"
-					>
-				</File>
+					<File
+						RelativePath=".\Scripts\EnergyStorageSmall.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\NarrowProngLH.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\NarrowProngRH.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\RightAngleTriangle.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\RigidArm.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\SmallSquare.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\Spike.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\SpikeLH.luaSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\SpikeRH.luaSection"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Resource Files"
+				Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+				UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+				>
 			</Filter>
 		</Filter>
 		<File

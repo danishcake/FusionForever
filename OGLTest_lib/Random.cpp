@@ -12,7 +12,7 @@ Random::~Random(void)
 
 void Random::Seed()
 {
-	srand(time(NULL));
+	srand(static_cast<unsigned int>(time(NULL)));
 }
 
 void Random::Seed(unsigned int _seed)

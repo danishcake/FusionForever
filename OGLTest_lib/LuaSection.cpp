@@ -9,15 +9,18 @@ std::map<std::string, FilledOutlinedData> LuaSection::name_map_ = std::map<std::
 LuaSection::LuaSection(FilledOutlinedData _fill_outline_data)
 : Section()
 {
-	outline_verts_ = Datastore::Instance().GetVerts(_fill_outline_data.outline_verts_index); 
-	outline_display_list_ = _fill_outline_data.outline_dl;
-	fill_verts_ = Datastore::Instance().GetVerts(_fill_outline_data.fill_verts_index);
-	fill_display_list_ = _fill_outline_data.fill_dl;
+	outline_.GetOutlineVerts() = Datastore::Instance().GetVerts(_fill_outline_data.outline_verts_index); 
+	outline_.SetDisplayList(_fill_outline_data.outline_dl);
+	fill_.GetFillVerts() = Datastore::Instance().GetVerts(_fill_outline_data.fill_verts_index);
+	fill_.SetDisplayList(_fill_outline_data.fill_dl);
 	findRadius();
 
-	health_ = _fill_outline_data.default_health;
-	max_health_ = health_;
+	health_ = FlexFloat(_fill_outline_data.default_health, _fill_outline_data.default_health);
 	default_sub_section_position_ = _fill_outline_data.default_subsection_position;
+	mass_ = _fill_outline_data.mass;
+	energy_ = FlexFloat(_fill_outline_data.energy_storage, _fill_outline_data.energy_storage);
+	power_generation_ = FlexFloat(_fill_outline_data.power_generation);
+	thrust_ = FlexFloat(_fill_outline_data.thrust);
 }
 
 LuaSection::~LuaSection(void)
@@ -25,21 +28,11 @@ LuaSection::~LuaSection(void)
 }
 
 
-void LuaSection::initialise_fill(void)
-{
-
-}
-
-void LuaSection::initialise_outline(void)
-{
-
-}
-
-
 LuaSection* LuaSection::CreateLuaSection(std::string _name, lua_State* luaVM)
 {
 	std::string file_name = std::string(_name);
-	file_name.append(".lua");
+	file_name = "Scripts/Sections/" + file_name + ".luaSection";
+	//file_name.append(".lua");
 	if(name_map_.find(_name) != name_map_.end())
 	{
 		return new LuaSection(name_map_[_name]);
@@ -102,7 +95,10 @@ LuaSection* LuaSection::CreateLuaSection(std::string _name, lua_State* luaVM)
 				indices.size = Vector3f(0,0,0);
 				indices.default_subsection_position = Vector3f(0,0,0);
 				indices.default_health = 1000;
-
+				indices.mass = 100;
+				indices.energy_storage = 0;
+				indices.power_generation = 0;
+				indices.thrust = 0;
 
 				//Get the health
 				lua_pushstring(luaVM, "Health");
@@ -110,6 +106,42 @@ LuaSection* LuaSection::CreateLuaSection(std::string _name, lua_State* luaVM)
 				if(lua_isnumber(luaVM, -1))
 				{
 					indices.default_health = lua_tonumber(luaVM, -1);
+				}
+				lua_pop(luaVM, 1);
+
+				//Get the energy storage
+				lua_pushstring(luaVM, "EnergyStorage");
+				lua_gettable(luaVM, -2);
+				if(lua_isnumber(luaVM, -1))
+				{
+					indices.energy_storage = lua_tonumber(luaVM, -1);
+				}
+				lua_pop(luaVM, 1);
+
+				//Get the power (negative drains, positive powers)
+				lua_pushstring(luaVM, "PowerGeneration");
+				lua_gettable(luaVM, -2);
+				if(lua_isnumber(luaVM, -1))
+				{
+					indices.power_generation = lua_tonumber(luaVM, -1);
+				}
+				lua_pop(luaVM, 1);
+
+				//Get the thrust
+				lua_pushstring(luaVM, "Thrust");
+				lua_gettable(luaVM, -2);
+				if(lua_isnumber(luaVM, -1))
+				{
+					indices.thrust = lua_tonumber(luaVM, -1);
+				}
+				lua_pop(luaVM, 1);
+
+				//Get the mass
+				lua_pushstring(luaVM, "Mass");
+				lua_gettable(luaVM, -2);
+				if(lua_isnumber(luaVM, -1))
+				{
+					indices.mass = lua_tonumber(luaVM, -1);
 				}
 				lua_pop(luaVM, 1);
 				//Get the size
@@ -287,12 +319,15 @@ bool LuaSection::ParseSVGPath(std::string _path, FilledOutlinedData& _out)
 		temp_outline->pop_back(); //Remove last item - this is a line loop afterall!
 		Triangulate::Process(temp_outline, temp_fill); //Form fill
 		
-
-		_out.fill_dl = CreateFillDisplayList(boost::shared_ptr<std::vector<Vector3f>>(temp_fill));
+		_out.fill_dl = Filled::CreateFillDisplayList(boost::shared_ptr<std::vector<Vector3f>>(temp_fill));
 		_out.fill_verts_index = Datastore::Instance().AddVerts(temp_fill);
-		_out.outline_dl = CreateOutlinedDisplayList(temp_outline);
+		_out.outline_dl = Outlined::CreateOutlinedDisplayList(temp_outline);
 		_out.outline_verts_index = Datastore::Instance().AddVerts(temp_outline);
 	}
 
 	return !error_found;
+}
+
+void LuaSection::InitialiseGraphics()
+{
 }

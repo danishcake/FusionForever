@@ -49,13 +49,18 @@ public:
   * @param _new_AI The new AI
   */
 	void OverrideAI(BaseAI* _new_AI);
+
+	/*
+	 * Gets the energy of the Core
+	 */
+	FlexFloat GetEnergy(){return energy_;}
 };
 
 
 /**
   * The BaseAI class represents a AI that makes decisions about what a core should do
   */
-class BaseAI
+class BaseAI : public Subscriber
 {
 public:
 	BaseAI(void) {};

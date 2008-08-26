@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)OGLTest_lib&quot;;&quot;$(SolutionDir)UnitTest++Redist\Include&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\boost_1_34_1&quot;;&quot;$(SolutionDir)OGLTest_lib&quot;;&quot;$(SolutionDir)UnitTest++Redist\Include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -120,7 +120,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)OGLTest_lib&quot;;&quot;$(SolutionDir)UnitTest++Redist\Include&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\boost_1_34_1&quot;;&quot;$(SolutionDir)OGLTest_lib&quot;;&quot;$(SolutionDir)UnitTest++Redist\Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -185,15 +185,39 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\CheckFlexFloat.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CheckPhysics.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Tests.cpp"
 				>
 			</File>
+			<Filter
+				Name="Physics"
+				>
+				<File
+					RelativePath=".\TestBaseEntity.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<Filter
+				Name="Physics"
+				>
+				<File
+					RelativePath=".\TestBaseEntity.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"

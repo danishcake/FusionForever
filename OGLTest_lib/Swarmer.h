@@ -9,18 +9,13 @@ class Swarmer :
 {
 protected:
    /**
-     * Initialises the outline vertices
+     * Initialises the outline and fill vertices
      */
-	virtual void initialise_outline();
-   /**
-     * Initialises the fill.
-     * This should be called after initialise_outline and make use of the same vertices.
-     */
-	virtual void initialise_fill();
+	virtual void InitialiseGraphics();
    /**
      * Triggers initialisation.
      * Defaults to false. Constructor should check for false and
-     * call the initialise_* functions, then set to true. This ensure the class is
+     * call the InitialiseGraphics function, then set to true. This ensure the class is
      * only initialised once. This should speed up all subsequent constructions.
      */
 	static bool initialised_;

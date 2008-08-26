@@ -13,7 +13,7 @@ Filled::~Filled(void)
 
 void Filled::DrawFill(void)
 {
-	glColor3ub(fill_color_.r,fill_color_.g, fill_color_.b);
+	glColor4b(fill_color_.r,fill_color_.g, fill_color_.b, fill_color_.a);
 	glBegin(GL_TRIANGLES);
 	for(unsigned int i = 0; i < fill_verts_->size(); i++)
 	{
@@ -24,7 +24,7 @@ void Filled::DrawFill(void)
 
 void Filled::DrawFillDisplayList(void)
 {
-	glColor3ub(fill_color_.r,fill_color_.g, fill_color_.b);
+	glColor4ub(fill_color_.r,fill_color_.g, fill_color_.b, fill_color_.a);
 	glCallList(fill_display_list_);
 }
 

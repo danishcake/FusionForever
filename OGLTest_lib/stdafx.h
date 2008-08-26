@@ -27,4 +27,5 @@
 #include "vmath.h"
 #include "vmath-collisions.h"
 #include <boost/foreach.hpp>
+#include <boost/lexical_cast.hpp>
 

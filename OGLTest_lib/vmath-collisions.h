@@ -123,6 +123,46 @@ public:
 	}
 
 	/**
+	* Determines if line segment intersects with a triangle.
+	* @param a_1 Point 1 in triangle
+	* @param a_2 Point 2 in triangle
+	* @param a_3 Point 3 in triangle
+	* @param b_1 Start of line B
+	* @param b_2 End of line B
+	*/
+	static bool LineTriangleIntersect(Vector2<T> a_1, Vector2<T> a_2, Vector2<T> a_3, Vector2<T> b_1, Vector2<T> b_2)
+	{
+		Vector2<T> out; //Ignored
+		if(Collisions2<T>::LineSegmentsIntersect(a_1, a_2, b_1, b_2, &out) ||
+		   Collisions2<T>::LineSegmentsIntersect(a_1, a_3, b_1, b_2, &out) ||
+		   Collisions2<T>::LineSegmentsIntersect(a_2, a_3, b_1, b_2, &out))
+		   return true;
+		return false;
+
+	}
+	
+	/**
+	* Determines if line segment intersects with a triangle.
+	* @param a_1 Point 1 in triangle
+	* @param a_2 Point 2 in triangle
+	* @param a_3 Point 3 in triangle
+	* @param b_1 Start of line B
+	* @param b_2 End of line B
+	* @param out Intersection point.
+	*/
+	
+	static bool LineTriangleIntersect(Vector3<T> a_1, Vector3<T> a_2, Vector3<T> a_3, Vector3<T> b_1, Vector3<T> b_2)
+	{
+		Vector3<T> out; //Ignored
+		if(Collisions2<T>::LineSegmentsIntersect(a_1, a_2, b_1, b_2, out) ||
+		   Collisions2<T>::LineSegmentsIntersect(a_1, a_3, b_1, b_2, out) ||
+		   Collisions2<T>::LineSegmentsIntersect(a_2, a_3, b_1, b_2, out))
+		   return true;
+		return false;
+	}
+
+
+	/**
 	* Determines if two line segments intersect. If true then out is set to intersection point
 	* @param a_1 Start of line A
 	* @param a_2 End of line A
@@ -168,8 +208,8 @@ public:
 	*/
 	static bool LineSegmentsIntersect(Vector3<T> a_1, Vector3<T> a_2, Vector3<T> b_1, Vector3<T> b_2, Vector3<T>& out)
 	{
-		Vector2<T> da = a_2 - a_1;
-		Vector2<T> db = b_2 - b_1;
+		Vector3<T> da = a_2 - a_1;
+		Vector3<T> db = b_2 - b_1;
 		T d = db.y * da.x - db.x * da.y;
 
 		if(d != 0)

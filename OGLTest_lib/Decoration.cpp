@@ -22,6 +22,6 @@ void Decoration::DrawSelf()
 {
 	glPushMatrix();
 	glLoadMatrixf(ltv_transform_);
-	Filled::DrawFillDisplayList();
+	fill_.DrawFillDisplayList();
 	glPopMatrix();
 } 

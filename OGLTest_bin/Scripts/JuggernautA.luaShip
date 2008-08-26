@@ -1,0 +1,220 @@
+Ship = {
+	SectionType = "SquareCore",
+	Name = "Juggernaut A",
+	Health = 10000,
+	Angle = 0,
+	AI = {AIType = "SimpleAI", AIRotationRate = 0.5},
+	SubSections = 
+	{
+		{
+			SectionType = "BearEars",
+			Position = {x = 0, y = 30},
+			SubSections = 
+			{
+				{
+					SectionType = "CenterFrontBody",
+					Position = {x = 0, y = 20},
+					SubSections = 
+					{
+						{
+							SectionType = "Blaster",
+							Position = {x = 0, y = 35}
+						},
+						{
+							SectionType = "Blaster",
+							Position = {x = -5, y = 35}
+						},
+						{
+							SectionType = "Blaster",
+							Position = {x = 5, y = 35}
+						},
+						{
+							SectionType = "Blaster",
+							Position = {x = 10, y = 30}
+						},
+						{
+							SectionType = "Blaster",
+							Position = {x = -10, y = 30}
+						},
+						{
+							SectionType = "Blaster",
+							Position = {x = 13, y = 22}
+						},
+						{
+							SectionType = "Blaster",
+							Position = {x = -13, y = 22}
+						},
+						{
+							SectionType = "HeatBeam",
+							Position = {x = 0, y = 10},
+							Delay = 1.5
+						},
+					}
+				},
+				{
+					SectionType = "FrontPlatingLH",
+					Position = {x = -20, y = 0},
+					SubSections = 
+					{
+						{
+							SectionType = "HeatBeam",
+							Position = {x = 0, y = 20},
+						},
+						{
+							SectionType = "HeatBeam",
+							Position = {x = -10, y = 20},
+							Delay = 0.5,
+						},
+					},
+				},
+				{
+					SectionType = "FrontPlatingRH",
+					Position = {x = 20, y = 0},
+					SubSections = 
+					{
+						{
+							SectionType = "HeatBeam",
+							Position = {x = 0, y = 20},
+						},
+						{
+							SectionType = "HeatBeam",
+							Position = {x = 10, y = 20},
+							Delay = 0.5,
+						},
+					},
+				},
+			}
+		},
+		{
+			SectionType = "BearEars",
+			Position = {x = 0, y = -30},
+			Angle = 180,
+			SubSections = 
+			{
+				{
+					SectionType = "Bulkhead",
+					Position = {x = 0, y = 20},
+					Angle = 0,
+					SubSections = 
+					{
+						{
+							SectionType = "Spike",
+							Position = {x = 0, y = 20},
+						},
+						{
+							SectionType = "Spike",
+							Position = {x = 5, y = 19},
+						},
+ 						{
+							SectionType = "Spike",
+							Position = {x = -5, y = 19},
+						},
+					}
+				},
+				{
+					SectionType = "SmallBulkhead",
+					Position = {x = 20, y = 0},
+					Angle = 90,
+					SubSections = 
+					{
+						{
+							SectionType = "Blaster",
+							Angle = 5,
+							Position = {x = -10, y = 12},
+						},
+						{
+							SectionType = "Blaster",
+							Angle = -45,
+							Position = {x = -15, y = 8},
+						},
+					},
+				},
+				{
+					SectionType = "SmallBulkhead",
+					Position = {x = -20, y = 0},
+					Angle = -90,
+					SubSections = 
+					{
+						{
+							SectionType = "Blaster",
+							Angle = 5,
+							Position = {x = 10, y = 12},
+						},
+						{
+							SectionType = "Blaster",
+							Angle = 45,
+							Position = {x = 15, y = 8},
+						},
+					},
+				},
+			}
+		},
+		{
+			SectionType = "BearEars",
+			Position = {x = 30, y = 0},
+			Angle = 90,
+			SubSections = 
+			{
+				{
+					SectionType = "Bulkhead",
+					Position = {x = 0, y = 20},
+					Angle = 0,
+					SubSections = 
+					{
+						{
+							SectionType = "ProngRH",
+							Angle = -90,
+							Position = {x = -20, y = 5},
+							SubSections = 
+							{
+								{
+									SectionType = "HeatBeam",
+									Delay = 1,
+								},
+							}
+						},
+					}
+				},
+				{
+					SectionType = "SmallBulkhead",
+					Position = {x = 20, y = 0},
+					Angle = 90,
+				},
+
+			}
+		},
+		{
+			SectionType = "BearEars",
+			Position = {x = -30, y = 0},
+			Angle = -90,
+			SubSections = 
+			{
+				{
+					SectionType = "Bulkhead",
+					Position = {x = 0, y = 20},
+					Angle = 0,
+					SubSections = 
+					{
+						{
+							SectionType = "ProngLH",
+							Angle = 90,
+							Position = {x = 20, y = 5},
+							SubSections = 
+							{
+								{
+									SectionType = "HeatBeam",
+									Delay = 1,
+								},
+							}
+						},
+					}
+				},
+				{
+					SectionType = "SmallBulkhead",
+					Position = {x = -20, y = 0},
+					Angle = -90,
+				},
+			}
+		},
+	}
+}
