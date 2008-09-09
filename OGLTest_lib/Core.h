@@ -9,6 +9,8 @@ the same header to resolve circular dependancies
 
 //Forward declare the BaseAI class.
 class BaseAI;
+//Forward declare TiXML element
+class TiXmlElement;
 
 /**
   * The Core class represents a root section onto which other sections are attached
@@ -54,6 +56,13 @@ public:
 	 * Gets the energy of the Core
 	 */
 	FlexFloat GetEnergy(){return energy_;}
+
+	/*
+	 * Creates a core from an XML file
+	 */
+	static Core* CreateCore(std::string _filename);
+
+	static bool ParseShip(TiXmlElement* _section);
 };
 
 

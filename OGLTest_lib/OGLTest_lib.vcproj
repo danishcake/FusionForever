@@ -43,8 +43,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;e:\Program Files\boost\boost_1_35_0&quot;;&quot;C:\Program Files\Lua_5.1.3\include&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				AdditionalIncludeDirectories="&quot;E:\Program Files\tinyxml&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;e:\Program Files\boost\boost_1_35_0&quot;;&quot;C:\Program Files\Lua_5.1.3\include&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
 				RuntimeLibrary="3"
@@ -108,8 +108,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;e:\Program Files\boost\boost_1_35_0&quot;;&quot;C:\Program Files\Lua_5.1.3\include&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
+				AdditionalIncludeDirectories="&quot;E:\Program Files\tinyxml&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;e:\Program Files\boost\boost_1_35_0&quot;;&quot;C:\Program Files\Lua_5.1.3\include&quot;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
@@ -333,6 +333,10 @@
 					>
 					<File
 						RelativePath=".\LuaSection.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\XMLSection.cpp"
 						>
 					</File>
 				</Filter>
@@ -599,6 +603,10 @@
 					>
 					<File
 						RelativePath=".\LuaSection.h"
+						>
+					</File>
+					<File
+						RelativePath=".\XMLSection.h"
 						>
 					</File>
 				</Filter>

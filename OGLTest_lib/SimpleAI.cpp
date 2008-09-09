@@ -38,9 +38,9 @@ AIAction SimpleAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::ve
 		if(Random::RandomChance(0.4f))
 			strafe_clockwise_ = !strafe_clockwise_;
 		if(Random::RandomChance(0.8f))
-			preferred_minimum_range_ = SimpleAIMinimumRange * 1.5;
+			preferred_minimum_range_ = SimpleAIMinimumRange * 1.5f;
 		else
-			preferred_minimum_range_ = SimpleAIMinimumRange * 1;
+			preferred_minimum_range_ = SimpleAIMinimumRange * 1.0f;
 	}
 
 	if(focus_time_ > max_focus_time_ || target_ == NULL)

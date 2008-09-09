@@ -1,4 +1,5 @@
 #include "StdAfx.h"
+#include <TinyXML.h>
 #include "Core.h"
 
 static const float CORE_ROT_RATE_MAX = 400.0f;
@@ -83,4 +84,26 @@ void Core::OverrideAI(BaseAI* _new_AI)
 {
 	delete AI_;
 	AI_ = _new_AI;
+}
+
+Core_ptr Core::CreateCore(std::string _name)
+{
+	std::string file_name = std::string(_name);
+	file_name = "Scripts/Ships/" + file_name + ".xmlShip";
+
+	TiXmlDocument ship_document = TiXmlDocument(file_name.c_str());
+	if(ship_document.LoadFile())
+	{
+		TiXmlHandle section_handle = TiXmlHandle(&ship_document);
+		//ParseShip(section_handle.FirstChildElement(
+		
+	} else
+	{
+		Logger::LogError(std::string("Unable to open file '") + file_name + std::string("' :") + std::string(ship_document.ErrorDesc()));
+	}
+	return NULL;
+}
+bool Core::ParseShip(TiXmlElement* _section)
+{
+	return true;
 }
