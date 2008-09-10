@@ -550,6 +550,10 @@
 					</File>
 				</Filter>
 			</Filter>
+			<Filter
+				Name="XMLShips"
+				>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

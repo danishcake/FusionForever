@@ -62,7 +62,11 @@ public:
 	 */
 	static Core* CreateCore(std::string _filename);
 
-	static bool ParseShip(TiXmlElement* _section);
+	static bool ParseShip(TiXmlElement* _section, Section** _parent);
+
+	static Core* ParseCore(TiXmlElement* _core);
+
+	static Section* ParseSection(TiXmlElement* _section);
 };
 
 

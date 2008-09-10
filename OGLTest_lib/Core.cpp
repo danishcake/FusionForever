@@ -2,6 +2,19 @@
 #include <TinyXML.h>
 #include "Core.h"
 
+#include "SquareCore.h"
+#include "TinyCore.h"
+#include "RotatingAI.h"
+
+#include "JointAngles.h"
+#include "JointTracker.h"
+#include "SpinningJoint.h"
+#include "Blaster.h"
+#include "HeatBeamGun.h"
+#include "HomingMissileLauncher.h"
+#include "Swarmer.h"
+
+
 static const float CORE_ROT_RATE_MAX = 400.0f;
 static const float CORE_MOVE_RATE_MAX = 300.0f;
 static const float CORE_MOVE_EXP_BRAKING = 10.0f;
@@ -11,6 +24,97 @@ static const float CORE_EXP_BRAKING =   3000.0f;
 
 static const float CORE_BASIC_MASS = 1000.0f;
 static const float CORE_TOP_MASS = 20000.0;
+
+#define STR_ME( X ) ( # X )
+/*
+ * Maps the Core type strings used in XML files onto enums
+ */
+namespace Core_types
+{
+	static enum Enum
+	{
+		UnknownCore,
+		SquareCore,
+		TinyCore
+	};
+
+	static const std::string ToStr[] = {
+		STR_ME( UnknownCore ),
+		STR_ME( SquareCore ),
+		STR_ME( TinyCore ),
+		};
+
+	static std::map<std::string, Enum> core_type_map;
+
+	static Enum FromStr(std::string _type)
+	{
+		if(core_type_map.find(_type) != core_type_map.end())
+			return core_type_map[_type];
+		else
+			return UnknownCore;
+	}
+
+	static void InitialiseMap()
+	{
+		core_type_map[ToStr[SquareCore]] = SquareCore;
+		core_type_map[ToStr[TinyCore]] = TinyCore;
+	}
+
+	static bool initialised = false;
+}
+
+/*
+ * Maps the section types strings used in XML files onto enums
+ */
+namespace Section_types
+{
+	static enum Enum
+	{
+		UnknownSection,
+		JointAngles,
+		JointTracker,
+		SpinningJoint,
+		Blaster,
+		HeatBeamGun,
+		HomingMissileLauncher,
+		Swarmer
+	};
+
+	static const std::string ToStr[] = {
+		STR_ME( UnknownSection ),
+		STR_ME( JointAngles ),
+		STR_ME( JointTracker ),
+		STR_ME( SpinningJoint ),
+		STR_ME( Blaster ),
+		STR_ME( HeatBeamGun ),
+		STR_ME( HomingMissileLauncher ),
+		STR_ME( Swarmer ),
+		};
+
+	static std::map<std::string, Enum> section_type_map;
+
+	static Enum FromStr(std::string _type)
+	{
+		if(section_type_map.find(_type) != section_type_map.end())
+			return section_type_map[_type];
+		else
+			return UnknownSection;
+	}
+
+	static void InitialiseMap()
+	{
+		section_type_map[ToStr[JointAngles]]			= JointAngles;
+		section_type_map[ToStr[JointTracker]]			= JointTracker;
+		section_type_map[ToStr[SpinningJoint]]			= SpinningJoint;
+		section_type_map[ToStr[Blaster]]				= Blaster;
+		section_type_map[ToStr[HeatBeamGun]]			= HeatBeamGun;
+		section_type_map[ToStr[HomingMissileLauncher]]	= HomingMissileLauncher;
+		section_type_map[ToStr[Swarmer]]				= Swarmer;
+	}
+
+	static bool initialised = false;
+}
+
 
 Core::Core(BaseAI* _AI)
 :Section()
@@ -88,6 +192,9 @@ void Core::OverrideAI(BaseAI* _new_AI)
 
 Core_ptr Core::CreateCore(std::string _name)
 {
+	if(!Core_types::initialised)
+		Core_types::InitialiseMap();
+
 	std::string file_name = std::string(_name);
 	file_name = "Scripts/Ships/" + file_name + ".xmlShip";
 
@@ -95,15 +202,163 @@ Core_ptr Core::CreateCore(std::string _name)
 	if(ship_document.LoadFile())
 	{
 		TiXmlHandle section_handle = TiXmlHandle(&ship_document);
-		//ParseShip(section_handle.FirstChildElement(
-		
+		TiXmlElement* core_element = section_handle.FirstChild("Section").Element();
+		if(core_element)
+		{
+			Core_ptr core;
+			ParseShip(core_element, ((Section_ptr*)&core));
+		}
+		else
+		{
+			Logger::LogError(std::string("Ship :") + file_name + std::string(" has no root section"));
+			return NULL;
+		}
 	} else
 	{
 		Logger::LogError(std::string("Unable to open file '") + file_name + std::string("' :") + std::string(ship_document.ErrorDesc()));
 	}
 	return NULL;
 }
-bool Core::ParseShip(TiXmlElement* _section)
+bool Core::ParseShip(TiXmlElement* _section, Section_ptr* _parent)
 {
+	Section_ptr self = NULL;
+	//If *_parent==NULL then it's a root and we have to set root
+	if(!(*_parent))
+	{
+		Core_ptr n_core = ParseCore(_section);
+		if(n_core)
+		{
+			*_parent = n_core;
+			self  = *_parent;
+		}
+		else
+			return false; //Error!
+	} else
+	{
+		Section_ptr n_section = ParseSection(_section);
+		if(n_section)
+		{
+			(*_parent)->AddChild(n_section);
+			self = n_section;
+		}
+		else
+			return false; //Error!
+	}
+	//Consider self
+	std::string health_attribute;
+	if(_section->QueryValueAttribute("Health", &health_attribute))
+	{
+		try
+		{
+			float health = boost::lexical_cast<float, std::string>(health_attribute);
+			self->SetMaxHealth(health);
+		} catch(boost::bad_lexical_cast &)
+		{
+			Logger::LogError("Health not numeric:" + health_attribute);
+		}
+	}
+
+	//Consider children
+	for(TiXmlElement* child_section = _section->FirstChildElement("Section"); child_section != NULL; child_section = child_section->NextSiblingElement())
+	{
+		ParseShip(child_section, _parent);
+	}
+
+
 	return true;
+}
+
+Core_ptr Core::ParseCore(TiXmlElement* _core)
+{
+	Core_ptr core = NULL;
+	std::string core_string;
+	if(_core->QueryValueAttribute("SectionType", &core_string))
+	{
+		//Lookup Core in map of hardcoded Cores
+		Core_types::Enum core_type = Core_types::FromStr(core_string);
+		switch(core_type)
+		{
+			case Core_types::SquareCore:
+				core = new SquareCore(new RotatingAI(0.5f));
+				break;
+			case Core_types::TinyCore:
+				core = new TinyCore(new RotatingAI(0.5f));
+				break;
+			default:
+				Logger::LogError("Unable to find core type" + core_string);
+				break;
+		}
+		if(core)
+		{
+			//Now query any core only section atttributes
+			//Now query any standard section atttributes
+		}
+	}
+
+	return core;
+}
+
+Section_ptr Core::ParseSection(TiXmlElement* _section)
+{
+	Section_ptr section = NULL;
+	std::string section_string;
+	if(_section->QueryValueAttribute("SectionType", &section_string))
+	{
+		//Lookup section in map of hardcoded Cores
+		Section_types::Enum section_type = Section_types::FromStr(section_string);
+		switch(section_type)
+		{
+			case Section_types::JointAngles:
+				{
+					float first_angle = 30;
+					float second_angle = -30;
+					float transition_time = 1;
+					float pause_time = 1;
+					//Query parameters specific to JointAngles
+					_section->QueryFloatAttribute("FirstAngle", &first_angle);
+					_section->QueryFloatAttribute("SecondAngle", &second_angle);
+					_section->QueryFloatAttribute("TransitionTime", &transition_time);
+					_section->QueryFloatAttribute("PauseTime", &pause_time);
+					section = new JointAngles(first_angle, second_angle, transition_time, pause_time);
+				}
+				break;
+			case Section_types::JointTracker:
+				{
+					bool only_when_firing = false;
+					//Query parameters specific to JointTrackers
+					section = new JointTracker(only_when_firing);
+				}
+				break;
+			case Section_types::SpinningJoint:
+				{
+					float degrees_per_second = 45;
+					_section->QueryFloatAttribute("RotationRate", &degrees_per_second);
+					section = new SpinningJoint(degrees_per_second);
+				}
+				break;
+			case Section_types::Blaster:
+				section = new Blaster();
+				break;
+			case Section_types::HeatBeamGun:
+				section = new HeatBeamGun;
+				break;
+			case Section_types::HomingMissileLauncher:
+				section = new HomingMissileLauncher();
+				break;
+			case Section_types::Swarmer:
+				section = new Swarmer();
+				break;
+			default:
+				//Attempt to find XMLSection
+				//Can't find, log error
+				Logger::LogError("Unable to find section type" + section_string);
+				break;
+		}
+		if(section)
+		{
+			//Now query any standard section atttributes
+		}
+	}
+
+	return section;
 }
