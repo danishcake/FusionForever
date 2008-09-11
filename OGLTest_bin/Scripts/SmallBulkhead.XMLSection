@@ -1,0 +1,6 @@
+<SectionDefinition> 
+	<Outline> M 10,-5 L 15,0 L 15,5 L 10,10 L -1.9428903e-16,15 L -10,10 L -15,5 L -15,0 L -10,-5 L 10,-5 z </Outline>
+	<Health> 6000 </Health>
+	<Mass> 2000 </Mass>
+	<SubSectionPosition x = 0, y = 15/>
+</SectionDefinition>

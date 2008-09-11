@@ -45,56 +45,24 @@ XMLSection* XMLSection::CreateXMLSection(std::string _name)
 			TiXmlElement* health_element =					section_handle.FirstChild("SectionDefinition").FirstChild("Health").Element();
 			TiXmlElement* mass_element =					section_handle.FirstChild("SectionDefinition").FirstChild("Mass").Element();
 			TiXmlElement* outline_element =					section_handle.FirstChild("SectionDefinition").FirstChild("Outline").Element();
-			TiXmlElement* subsection_position_x_element =	section_handle.FirstChild("SectionDefinition").FirstChild("SubSectionPosition").FirstChild("x").Element();
-			TiXmlElement* subsection_position_y_element =	section_handle.FirstChild("SectionDefinition").FirstChild("SubSectionPosition").FirstChild("y").Element();
-			TiXmlElement* size_x_element =					section_handle.FirstChild("SectionDefinition").FirstChild("Size").FirstChild("x").Element();
-			TiXmlElement* size_y_element =					section_handle.FirstChild("SectionDefinition").FirstChild("Size").FirstChild("y").Element();
+			TiXmlElement* subsection_position_element =		section_handle.FirstChild("SectionDefinition").FirstChild("SubSectionPosition").Element();
+			TiXmlElement* size_element =					section_handle.FirstChild("SectionDefinition").FirstChild("Size").Element();
 			TiXmlElement* thrust_element =					section_handle.FirstChild("SectionDefinition").FirstChild("Thrust").Element();
 			TiXmlElement* power_generation_element =		section_handle.FirstChild("SectionDefinition").FirstChild("PowerGeneration").Element();
 			TiXmlElement* energy_storage_element =			section_handle.FirstChild("SectionDefinition").FirstChild("EnergyStorage").Element();
 
 			indicies.default_subsection_position = Vector3f();
-			if(subsection_position_x_element && subsection_position_y_element)
+			if(subsection_position_element)
 			{
-				try
-				{
-					indicies.default_subsection_position.x = boost::lexical_cast<float,std::string>(subsection_position_x_element->Value());
-				}
-				catch(boost::bad_lexical_cast &)
-				{
-					Logger::LogError("Default x subsection position in " + file_name + " not numeric:" + subsection_position_x_element->Value());
-				}
-
-				try
-				{
-					indicies.default_subsection_position.y = boost::lexical_cast<float,std::string>(subsection_position_y_element->Value());
-				}
-				catch(boost::bad_lexical_cast &)
-				{
-					Logger::LogError("Default y subsection position in " + file_name + " not numeric:" + subsection_position_y_element->Value());
-				}
+				subsection_position_element->QueryValueAttribute("x", &indicies.default_subsection_position.x);
+				subsection_position_element->QueryValueAttribute("y", &indicies.default_subsection_position.y);
 			}
 
 			indicies.size = Vector3f();
-			if(size_x_element && size_y_element)
+			if(size_element)
 			{
-				try
-				{
-					indicies.size.x = boost::lexical_cast<float,std::string>(size_x_element->Value());
-				}
-				catch(boost::bad_lexical_cast &)
-				{
-					Logger::LogError("X size in " + file_name + " not numeric:" + size_x_element->Value());
-				}
-
-				try
-				{
-					indicies.default_subsection_position.y = boost::lexical_cast<float,std::string>(size_y_element->Value());
-				}
-				catch(boost::bad_lexical_cast &)
-				{
-					Logger::LogError("Y size in " + file_name + " not numeric:" + size_y_element->Value());
-				}
+				size_element->QueryValueAttribute("x", &indicies.size.x);
+				size_element->QueryValueAttribute("y", &indicies.size.y);
 			}
 
 			indicies.default_health = 500;
@@ -194,7 +162,7 @@ bool XMLSection::ParseSVGPath(std::string _path, XMLFilledOutlinedData& _out)
 	bool ltv_is_absolute = false;
 	int prev_stored = 0;
 	int comma_pos = 0;
-	for(int i = 0; i < _path.length(); i++)
+	for(unsigned int i = 0; i < _path.length(); i++)
 	{
 		ltv_is_absolute = is_absolute;
 		bool found = false; //Found an M, L, m or l

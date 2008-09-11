@@ -66,7 +66,9 @@ public:
 
 	static Core* ParseCore(TiXmlElement* _core);
 
-	static Section* ParseSection(TiXmlElement* _section);
+	static Section* ParseSection(TiXmlElement* _section_element);
+
+	static void ParseCommon(TiXmlElement* _section_element, Section* _section);
 };
 
 

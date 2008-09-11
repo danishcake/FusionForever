@@ -517,35 +517,35 @@
 					Name="Small"
 					>
 					<File
-						RelativePath=".\Scripts\NarrowProngLH.xml"
+						RelativePath=".\Scripts\NarrowProngLH.xmlSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\NarrowProngRH.xml"
+						RelativePath=".\Scripts\NarrowProngRH.xmlSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\RightAngleTriangle.xml"
+						RelativePath=".\Scripts\RightAngleTriangle.xmlSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\RigidArm.xml"
+						RelativePath=".\Scripts\RigidArm.xmlSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\SmallSquare.xml"
+						RelativePath=".\Scripts\SmallSquare.xmlSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\Spike.xml"
+						RelativePath=".\Scripts\Spike.xmlSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\SpikeLH.xml"
+						RelativePath=".\Scripts\SpikeLH.xmlSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\SpikeRH.xml"
+						RelativePath=".\Scripts\SpikeRH.xmlSection"
 						>
 					</File>
 				</Filter>

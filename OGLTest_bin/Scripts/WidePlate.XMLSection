@@ -1,0 +1,6 @@
+<SectionDefinition> 
+	<Outline> M -7.5,-2.5 L -7.5,2.5 L -5,5 L 5,5 L 7.5,2.5 L 7.5,-2.5 L -7.5,-2.5 z </Outline>
+	<Health> 1600 </Health>
+	<SubSectionPosition x = 0, y = 2.5/>
+	<Mass> 500 </Mass>
+</SectionDefinition>

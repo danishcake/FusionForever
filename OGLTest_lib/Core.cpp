@@ -14,6 +14,7 @@
 #include "HomingMissileLauncher.h"
 #include "Swarmer.h"
 
+#include "XMLSection.h"
 
 static const float CORE_ROT_RATE_MAX = 400.0f;
 static const float CORE_MOVE_RATE_MAX = 300.0f;
@@ -268,11 +269,11 @@ bool Core::ParseShip(TiXmlElement* _section, Section_ptr* _parent)
 	return true;
 }
 
-Core_ptr Core::ParseCore(TiXmlElement* _core)
+Core_ptr Core::ParseCore(TiXmlElement* _core_element)
 {
 	Core_ptr core = NULL;
 	std::string core_string;
-	if(_core->QueryValueAttribute("SectionType", &core_string))
+	if(_core_element->QueryValueAttribute("SectionType", &core_string))
 	{
 		//Lookup Core in map of hardcoded Cores
 		Core_types::Enum core_type = Core_types::FromStr(core_string);
@@ -290,19 +291,21 @@ Core_ptr Core::ParseCore(TiXmlElement* _core)
 		}
 		if(core)
 		{
-			//Now query any core only section atttributes
 			//Now query any standard section atttributes
+			ParseCommon(_core_element, core);
+			//Now query any core only section atttributes
+			
 		}
 	}
 
 	return core;
 }
 
-Section_ptr Core::ParseSection(TiXmlElement* _section)
+Section_ptr Core::ParseSection(TiXmlElement* _section_element)
 {
 	Section_ptr section = NULL;
 	std::string section_string;
-	if(_section->QueryValueAttribute("SectionType", &section_string))
+	if(_section_element->QueryValueAttribute("SectionType", &section_string))
 	{
 		//Lookup section in map of hardcoded Cores
 		Section_types::Enum section_type = Section_types::FromStr(section_string);
@@ -315,10 +318,10 @@ Section_ptr Core::ParseSection(TiXmlElement* _section)
 					float transition_time = 1;
 					float pause_time = 1;
 					//Query parameters specific to JointAngles
-					_section->QueryFloatAttribute("FirstAngle", &first_angle);
-					_section->QueryFloatAttribute("SecondAngle", &second_angle);
-					_section->QueryFloatAttribute("TransitionTime", &transition_time);
-					_section->QueryFloatAttribute("PauseTime", &pause_time);
+					_section_element->QueryFloatAttribute("FirstAngle", &first_angle);
+					_section_element->QueryFloatAttribute("SecondAngle", &second_angle);
+					_section_element->QueryFloatAttribute("TransitionTime", &transition_time);
+					_section_element->QueryFloatAttribute("PauseTime", &pause_time);
 					section = new JointAngles(first_angle, second_angle, transition_time, pause_time);
 				}
 				break;
@@ -326,13 +329,14 @@ Section_ptr Core::ParseSection(TiXmlElement* _section)
 				{
 					bool only_when_firing = false;
 					//Query parameters specific to JointTrackers
+					_section_element->QueryValueAttribute("OnlyWhenFiring", &only_when_firing);
 					section = new JointTracker(only_when_firing);
 				}
 				break;
 			case Section_types::SpinningJoint:
 				{
 					float degrees_per_second = 45;
-					_section->QueryFloatAttribute("RotationRate", &degrees_per_second);
+					_section_element->QueryFloatAttribute("RotationRate", &degrees_per_second);
 					section = new SpinningJoint(degrees_per_second);
 				}
 				break;
@@ -340,7 +344,7 @@ Section_ptr Core::ParseSection(TiXmlElement* _section)
 				section = new Blaster();
 				break;
 			case Section_types::HeatBeamGun:
-				section = new HeatBeamGun;
+				section = new HeatBeamGun();
 				break;
 			case Section_types::HomingMissileLauncher:
 				section = new HomingMissileLauncher();
@@ -350,15 +354,39 @@ Section_ptr Core::ParseSection(TiXmlElement* _section)
 				break;
 			default:
 				//Attempt to find XMLSection
-				//Can't find, log error
-				Logger::LogError("Unable to find section type" + section_string);
+				section = XMLSection::CreateXMLSection(section_string);
+				if(!section)
+				{
+					//Can't find, log error
+					Logger::LogError("Unable to find section type" + section_string);
+				}
 				break;
 		}
 		if(section)
 		{
 			//Now query any standard section atttributes
+			ParseCommon(_section_element, section);
+			//Now query any non core attributes
+			Vector3f position = section->GetPosition();
+			if(_section_element->QueryValueAttribute("x", &position.x) == TIXML_SUCCESS ||
+			   _section_element->QueryValueAttribute("y", &position.y) == TIXML_SUCCESS)
+			   section->SetPosition(position);
 		}
 	}
 
 	return section;
+}
+
+void Core::ParseCommon(TiXmlElement* _section_element, Section* _section)
+{
+	//Now query any standard section atttributes
+	float health = 100;
+	if(_section_element->QueryValueAttribute("Health", &health) == TIXML_SUCCESS)
+		_section->SetMaxHealth(health);
+	float angle = 0;
+	if(_section_element->QueryValueAttribute("Angle", &angle) == TIXML_SUCCESS)
+		_section->SetAngle(angle);
+	float delay = 0;
+	if(_section_element->QueryValueAttribute("Delay", &delay) == TIXML_SUCCESS)
+		_section->SetFiringDelay(delay);
 }

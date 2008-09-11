@@ -1,9 +1,0 @@
-LuaSection = 
-{
-	data = "M -5,35 L -15,15 L -10,10 L -15,5 L -15,0 L -10,-5 L 10,-5 L 15,0 L 15,5 L 10,10 L 15,15 L 5,35 L -5,35 z",
-	Health = 12000,
-	SubSectionPosition = {x = 0, y = 15},
-	Mass = 2000
-}
-
-
