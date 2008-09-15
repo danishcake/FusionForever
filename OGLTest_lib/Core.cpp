@@ -195,9 +195,11 @@ Core_ptr Core::CreateCore(std::string _name)
 {
 	if(!Core_types::initialised)
 		Core_types::InitialiseMap();
-
-	std::string file_name = std::string(_name);
-	file_name = "Scripts/Ships/" + file_name + ".xmlShip";
+	std::string file_name;
+	if(_name.find("Scripts/Ships") == std::string::npos)
+		file_name = "Scripts/Ships/" + _name + ".xmlShip";
+	else
+		file_name = _name + ".xmlShip";
 
 	TiXmlDocument ship_document = TiXmlDocument(file_name.c_str());
 	if(ship_document.LoadFile())
@@ -206,7 +208,7 @@ Core_ptr Core::CreateCore(std::string _name)
 		TiXmlElement* core_element = section_handle.FirstChild("Section").Element();
 		if(core_element)
 		{
-			Core_ptr core;
+			Core_ptr core = NULL;
 			ParseShip(core_element, ((Section_ptr*)&core));
 		}
 		else
@@ -245,24 +247,11 @@ bool Core::ParseShip(TiXmlElement* _section, Section_ptr* _parent)
 		else
 			return false; //Error!
 	}
-	//Consider self
-	std::string health_attribute;
-	if(_section->QueryValueAttribute("Health", &health_attribute))
-	{
-		try
-		{
-			float health = boost::lexical_cast<float, std::string>(health_attribute);
-			self->SetMaxHealth(health);
-		} catch(boost::bad_lexical_cast &)
-		{
-			Logger::LogError("Health not numeric:" + health_attribute);
-		}
-	}
-
 	//Consider children
 	for(TiXmlElement* child_section = _section->FirstChildElement("Section"); child_section != NULL; child_section = child_section->NextSiblingElement())
 	{
-		ParseShip(child_section, _parent);
+		if(!ParseShip(child_section, &self))
+			return false;
 	}
 
 
@@ -273,7 +262,7 @@ Core_ptr Core::ParseCore(TiXmlElement* _core_element)
 {
 	Core_ptr core = NULL;
 	std::string core_string;
-	if(_core_element->QueryValueAttribute("SectionType", &core_string))
+	if(_core_element->QueryValueAttribute("SectionType", &core_string) == TIXML_SUCCESS)
 	{
 		//Lookup Core in map of hardcoded Cores
 		Core_types::Enum core_type = Core_types::FromStr(core_string);
@@ -305,7 +294,7 @@ Section_ptr Core::ParseSection(TiXmlElement* _section_element)
 {
 	Section_ptr section = NULL;
 	std::string section_string;
-	if(_section_element->QueryValueAttribute("SectionType", &section_string))
+	if(_section_element->QueryValueAttribute("SectionType", &section_string) == TIXML_SUCCESS)
 	{
 		//Lookup section in map of hardcoded Cores
 		Section_types::Enum section_type = Section_types::FromStr(section_string);

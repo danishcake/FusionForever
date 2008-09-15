@@ -109,11 +109,12 @@ static int l_load_ship(lua_State* luaVM)
 	assert(last_instantiation!=NULL);
 	if((lua_gettop(luaVM) == 1) && (lua_isstring(luaVM, -1)))
 	{
-		int ship_id = last_instantiation->LoadShip(lua_tostring(luaVM, -1));
-		if(ship_id==-1)
-		{
+		int ship_id=-1;
+		Core_ptr core = Core::CreateCore(lua_tostring(luaVM, -1));
+		if(core)
+			ship_id = core->GetSectionID();
+		else
 			luaL_error(luaVM,"LoadShip failed");
-		}
 		lua_pushnumber(luaVM, ship_id); //Push -1 in case of error, else ship Core section ID
 	}
 	else

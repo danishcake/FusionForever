@@ -30,8 +30,12 @@ XMLSection::~XMLSection(void)
 
 XMLSection* XMLSection::CreateXMLSection(std::string _name)
 {
-	std::string file_name = std::string(_name);
-	file_name = "Scripts/Sections/" + file_name + ".xmlSection";
+	std::string file_name;
+	if(_name.find("Scripts/Sections") == std::string::npos)
+		file_name = "Scripts/Sections/" + _name + ".xmlSection";
+	else
+		file_name = _name + ".xmlSection";
+
 	if(name_map_.find(_name) != name_map_.end())
 	{
 		return new XMLSection(name_map_[_name]);
@@ -70,11 +74,11 @@ XMLSection* XMLSection::CreateXMLSection(std::string _name)
 			{
 				try
 				{
-					indicies.default_health = boost::lexical_cast<float,std::string>(health_element->Value());
+					indicies.default_health = boost::lexical_cast<float,std::string>(health_element->GetText());
 				}
 				catch(boost::bad_lexical_cast &)
 				{
-					Logger::LogError("Health in " + file_name + " not numeric:" + health_element->Value());
+					Logger::LogError("Health in " + file_name + " not numeric:" + health_element->GetText());
 				}
 			}
 
@@ -83,11 +87,11 @@ XMLSection* XMLSection::CreateXMLSection(std::string _name)
 			{
 				try
 				{
-					indicies.mass = boost::lexical_cast<float,std::string>(mass_element->Value());
+					indicies.mass = boost::lexical_cast<float,std::string>(mass_element->GetText());
 				}
 				catch(boost::bad_lexical_cast &)
 				{
-					Logger::LogError("Mass in " + file_name + " not numeric:" + mass_element->Value());
+					Logger::LogError("Mass in " + file_name + " not numeric:" + mass_element->GetText());
 				}
 			}
 
@@ -96,11 +100,11 @@ XMLSection* XMLSection::CreateXMLSection(std::string _name)
 			{
 				try
 				{
-					indicies.thrust = boost::lexical_cast<float,std::string>(thrust_element->Value());
+					indicies.thrust = boost::lexical_cast<float,std::string>(thrust_element->GetText());
 				}
 				catch(boost::bad_lexical_cast &)
 				{
-					Logger::LogError("Thrust in " + file_name + " not numeric:" + thrust_element->Value());
+					Logger::LogError("Thrust in " + file_name + " not numeric:" + thrust_element->GetText());
 				}
 			}
 
@@ -109,11 +113,11 @@ XMLSection* XMLSection::CreateXMLSection(std::string _name)
 			{
 				try
 				{
-					indicies.energy_storage = boost::lexical_cast<float,std::string>(energy_storage_element->Value());
+					indicies.energy_storage = boost::lexical_cast<float,std::string>(energy_storage_element->GetText());
 				}
 				catch(boost::bad_lexical_cast &)
 				{
-					Logger::LogError("Energy storage in " + file_name + " not numeric:" + energy_storage_element->Value());
+					Logger::LogError("Energy storage in " + file_name + " not numeric:" + energy_storage_element->GetText());
 				}
 			}
 
@@ -122,17 +126,17 @@ XMLSection* XMLSection::CreateXMLSection(std::string _name)
 			{
 				try
 				{
-					indicies.power_generation = boost::lexical_cast<float,std::string>(power_generation_element->Value());
+					indicies.power_generation = boost::lexical_cast<float,std::string>(power_generation_element->GetText());
 				}
 				catch(boost::bad_lexical_cast &)
 				{
-					Logger::LogError("Power generation in " + file_name + " not numeric:" + power_generation_element->Value());
+					Logger::LogError("Power generation in " + file_name + " not numeric:" + power_generation_element->GetText());
 				}
 			}
 
 			if(outline_element)
 			{
-				if(ParseSVGPath(outline_element->Value(), indicies))
+				if(ParseSVGPath(outline_element->GetText(), indicies))
 				{
 					name_map_[_name] = indicies;
 					return new XMLSection(indicies);

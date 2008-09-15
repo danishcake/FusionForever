@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <SectionDefinition> 
 	<Outline> M 0,5 L 4,0 L 5,-10 L 0,-9 L -5,-10 L -4,0 L 0,5 z </Outline>
 	<Health> 500 </Health>

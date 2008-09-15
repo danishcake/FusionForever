@@ -51,7 +51,7 @@ AIAction SimpleAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::ve
 		{
 			if(target_ != NULL)
 				target_->RemoveSubscriber(this);
-			int index = Random::RandomIndex(_enemies.size());
+			int index = Random::RandomIndex(static_cast<int>(_enemies.size()));
 
 			target_ = _enemies[index];
 			target_->AddSubscriber(this);

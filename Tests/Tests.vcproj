@@ -13,6 +13,9 @@
 		/>
 	</Platforms>
 	<ToolFiles>
+		<DefaultToolFile
+			FileName="ScriptCopier.rules"
+		/>
 	</ToolFiles>
 	<Configurations>
 		<Configuration
@@ -26,7 +29,19 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="XMLShip copier"
+			/>
+			<Tool
+				Name="Lua utilities copier"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="ChallengeScript copier"
+			/>
+			<Tool
+				Name="XMLSection copier"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -61,9 +76,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="UnitTest++.vsnet2005.lib"
+				AdditionalDependencies="UnitTest++.vsnet2005.lib opengl32.lib glu32.lib tinyxmld_STL.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="$(SolutionDir)UnitTest++Redist\Debug"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)UnitTest++Redist\Debug&quot;;&quot;E:\Program Files\tinyxml\Debug_STL&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -107,7 +122,19 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
+				Name="XMLShip copier"
+			/>
+			<Tool
+				Name="Lua utilities copier"
+			/>
+			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="ChallengeScript copier"
+			/>
+			<Tool
+				Name="XMLSection copier"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -139,9 +166,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="UnitTest++.vsnet2005.lib"
+				AdditionalDependencies="UnitTest++.vsnet2005.lib opengl32.lib glu32.lib tinyxml_STL.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(SolutionDir)UnitTest++Redist\Release"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)UnitTest++Redist\Release&quot;;&quot;E:\Program Files\tinyxml\Release_STL&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -175,6 +202,77 @@
 				CommandLine="&quot;$(TargetPath)&quot;"
 			/>
 		</Configuration>
+		<Configuration
+			Name="Tests|Win32"
+			ConfigurationType="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="XMLShip copier"
+			/>
+			<Tool
+				Name="Lua utilities copier"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="ChallengeScript copier"
+			/>
+			<Tool
+				Name="XMLSection copier"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
 	</Configurations>
 	<References>
 	</References>
@@ -190,6 +288,10 @@
 			</File>
 			<File
 				RelativePath=".\CheckPhysics.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CheckXML.cpp"
 				>
 			</File>
 			<File
@@ -224,6 +326,18 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+		</Filter>
+		<Filter
+			Name="TestScripts"
+			>
+			<File
+				RelativePath=".\Scripts\TestSection.XMLSection"
+				>
+			</File>
+			<File
+				RelativePath=".\Scripts\TestShip.XMLShip"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

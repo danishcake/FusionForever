@@ -2,13 +2,6 @@
 #include "Section.h"
 #include <map>
 
-extern "C"
-{
-#include "lua.h"
-#include "lualib.h"
-#include "lauxlib.h"
-}
-
 struct XMLFilledOutlinedData
 {
 	int outline_dl;

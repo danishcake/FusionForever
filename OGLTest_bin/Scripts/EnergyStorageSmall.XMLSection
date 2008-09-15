@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <SectionDefinition> 
 	<Outline> M 0,5 L 3,4 L 4,2 L 4,0 L 3,-4 L 3,-6 L 4,-10 L 4,-12 L 3,-14 L 0,-15 L -3,-14 L -4,-12 L -4,-10 L -3,-6 L -3,-4 L -4,0 L -4,2 L -3,4 L 0,5 z </Outline>
 	<Health> 300 </Health>
-	<SubSectionPosition x = 1.25, y = 10/>
+	<SubSectionPosition x = "1.25" y = "10"/>
 	<Mass> 150 </Mass>
 	<EnergyStorage> 75 </EnergyStorage>
 	<PowerGeneration> 1 </PowerGeneration>

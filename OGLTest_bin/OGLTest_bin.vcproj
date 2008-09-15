@@ -37,13 +37,13 @@
 				Name="Lua utilities copier"
 			/>
 			<Tool
-				Name="LuaShip copier"
+				Name="XMLShip copier"
 			/>
 			<Tool
 				Name="ChallengeScript copier"
 			/>
 			<Tool
-				Name="LuaSection copier"
+				Name="XMLSection copier"
 			/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"
@@ -139,7 +139,7 @@
 				CommandLine=""
 			/>
 			<Tool
-				Name="LuaShip copier"
+				Name="XMLShip copier"
 			/>
 			<Tool
 				Name="Lua utilities copier"
@@ -151,7 +151,7 @@
 				Name="ChallengeScript copier"
 			/>
 			<Tool
-				Name="LuaSection copier"
+				Name="XMLSection copier"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -191,6 +191,77 @@
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Tests|Win32"
+			ConfigurationType="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="XMLShip copier"
+			/>
+			<Tool
+				Name="Lua utilities copier"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="ChallengeScript copier"
+			/>
+			<Tool
+				Name="XMLSection copier"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -365,146 +436,6 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="LuaSections"
-				>
-				<Filter
-					Name="Large - 40x40"
-					>
-					<File
-						RelativePath=".\Scripts\BearEars.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\Bulkhead.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\CenterFrontBody.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\FrontPlatingLH.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\FrontPlatingRH.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\SmallBulkhead.luaSection"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="Medium 20x20"
-					>
-					<File
-						RelativePath=".\Scripts\DecoPlateSection.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\DriveUnit.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\ForwardWingLH.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\ForwardWingRH.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\LargeSquare.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\LongRigidArm.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\OctoSection.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\ProngLH.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\ProngRH.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\SmallRocket.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\SpunStar.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\SweptWingLH.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\SweptWingRH.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\WidePlate.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\WingLH.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\WingRH.luaSection"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="Small - 10x10 or less"
-					>
-					<File
-						RelativePath=".\Scripts\EnergyStorageSmall.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\NarrowProngLH.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\NarrowProngRH.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\RightAngleTriangle.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\RigidArm.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\SmallSquare.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\Spike.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\SpikeLH.luaSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\SpikeRH.luaSection"
-						>
-					</File>
-				</Filter>
-			</Filter>
-			<Filter
 				Name="Resource Files"
 				Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 				UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
@@ -514,38 +445,138 @@
 				Name="XMLSections"
 				>
 				<Filter
-					Name="Small"
+					Name="Large - 40x40"
 					>
 					<File
-						RelativePath=".\Scripts\NarrowProngLH.xmlSection"
+						RelativePath=".\Scripts\BearEars.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\NarrowProngRH.xmlSection"
+						RelativePath=".\Scripts\Bulkhead.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\RightAngleTriangle.xmlSection"
+						RelativePath=".\Scripts\CenterFrontBody.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\RigidArm.xmlSection"
+						RelativePath=".\Scripts\FrontPlatingLH.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\SmallSquare.xmlSection"
+						RelativePath=".\Scripts\FrontPlatingRH.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\Spike.xmlSection"
+						RelativePath=".\Scripts\SmallBulkhead.XMLSection"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Medium 20x20"
+					>
+					<File
+						RelativePath=".\Scripts\DecoPlateSection.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\SpikeLH.xmlSection"
+						RelativePath=".\Scripts\DriveUnit.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\SpikeRH.xmlSection"
+						RelativePath=".\Scripts\ForwardWingLH.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\ForwardWingRH.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\LargeSquare.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\LongRigidArm.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\OctoSection.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\ProngLH.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\ProngRH.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\SmallRocket.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\SpunStar.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\SweptWingLH.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\SweptWingRH.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\WidePlate.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\WingLH.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\WingRH.XMLSection"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Small - 10x10 or less"
+					>
+					<File
+						RelativePath=".\Scripts\EnergyStorageSmall.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\NarrowProngLH.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\NarrowProngRH.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\RightAngleTriangle.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\RigidArm.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\SmallSquare.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\Spike.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\SpikeLH.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\SpikeRH.XMLSection"
 						>
 					</File>
 				</Filter>
@@ -553,6 +584,10 @@
 			<Filter
 				Name="XMLShips"
 				>
+				<File
+					RelativePath=".\Protoship.xmlShip"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<File

@@ -2,13 +2,25 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OGLTest_lib", "OGLTest_lib\OGLTest_lib.vcproj", "{808546DA-755E-4123-9867-69BE06547FC5}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OGLTest_bin", "OGLTest_bin\OGLTest_bin.vcproj", "{9D1BDD7E-EC0F-458A-BD22-0512476A99C7}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{808546DA-755E-4123-9867-69BE06547FC5} = {808546DA-755E-4123-9867-69BE06547FC5}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tests", "Tests\Tests.vcproj", "{9B806D5D-A610-4D19-B0FF-44E77CC72DA8}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(ProjectDependencies) = postProject
 		{808546DA-755E-4123-9867-69BE06547FC5} = {808546DA-755E-4123-9867-69BE06547FC5}
 	EndProjectSection
