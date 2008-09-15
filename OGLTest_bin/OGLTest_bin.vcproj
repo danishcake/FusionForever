@@ -426,6 +426,10 @@
 					RelativePath=".\Scripts\SurviveTheFeud.luaChallenge"
 					>
 				</File>
+				<File
+					RelativePath=".\XMLTester.luaChallenge"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Common"

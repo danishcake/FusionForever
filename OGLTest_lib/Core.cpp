@@ -210,6 +210,8 @@ Core_ptr Core::CreateCore(std::string _name)
 		{
 			Core_ptr core = NULL;
 			ParseShip(core_element, ((Section_ptr*)&core));
+			if(core)
+				return core;
 		}
 		else
 		{
@@ -220,6 +222,7 @@ Core_ptr Core::CreateCore(std::string _name)
 	{
 		Logger::LogError(std::string("Unable to open file '") + file_name + std::string("' :") + std::string(ship_document.ErrorDesc()));
 	}
+
 	return NULL;
 }
 bool Core::ParseShip(TiXmlElement* _section, Section_ptr* _parent)

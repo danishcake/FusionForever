@@ -16,28 +16,19 @@ class BaseLua
 private:
 	BaseAI* GetAI();
 
-	std::stack<Section_ptr> section_stack_;
 	BaseGame* game_;
+	Core_ptr core_;
 	bool is_script_running_;
 	float sum_time_;
 	GLColor force_colors_[MAX_FORCES];
 	lua_State* lua_vm_;
-
-protected:
-	void StackToCore();
 
 public:
 	BaseLua(BaseGame* _game);
 	~BaseLua(void);
 
 	void LoadChallenge(std::string _challenge);
-	int LoadShip(std::string _ship);
-	void ParseShip(std::string _ship);
-
-	void PushCore(Core_ptr _core);
-	void PushSection(Section_ptr _section);
-	void PopSection();
-
+	void SetCore(Core_ptr _core) {core_ = _core;}
 	void SetAngle(float _angle);
 	void SetPosition(float _x, float _y);
 	void SetHealth(float _health);

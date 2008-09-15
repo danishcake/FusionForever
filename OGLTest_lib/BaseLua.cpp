@@ -112,9 +112,15 @@ static int l_load_ship(lua_State* luaVM)
 		int ship_id=-1;
 		Core_ptr core = Core::CreateCore(lua_tostring(luaVM, -1));
 		if(core)
+		{
+			last_instantiation->SetCore(core);
 			ship_id = core->GetSectionID();
+		}
 		else
+		{
 			luaL_error(luaVM,"LoadShip failed");
+			
+		}
 		lua_pushnumber(luaVM, ship_id); //Push -1 in case of error, else ship Core section ID
 	}
 	else
@@ -285,8 +291,8 @@ static int l_log_diagnostic(lua_State* luaVM)
 static int l_luaError( lua_State *L )
 {
 	Logger::LogError(lua_tostring(luaVM, -1));
-    lua_pop(L, 1);
-    return 0;
+	lua_pop(L, 1);
+	return 0;
 }
 
 BaseLua::BaseLua(BaseGame* _game)
@@ -328,338 +334,32 @@ BaseLua::BaseLua(BaseGame* _game)
 
 BaseLua::~BaseLua(void)
 {
-	while(!section_stack_.empty())
-	{
-		if(section_stack_.size() == 1)
-		{
-			delete section_stack_.top();
-		}
-		section_stack_.pop();
-	}
-}
-
-void BaseLua::PushCore(Core_ptr _core)
-{
-	while(!section_stack_.empty())
-	{
-		if(section_stack_.size() == 1)
-		{
-			delete section_stack_.top();
-		}
-		section_stack_.pop();
-	}
-	section_stack_.push(_core);
-}
-
-void BaseLua::PushSection(Section_ptr _section)
-{
-	if(!section_stack_.empty())
-	{
-		section_stack_.top()->AddChild(_section);
-		section_stack_.push(_section);
-	}
-}
-
-void BaseLua::PopSection()
-{
-	if(section_stack_.size() > 1)
-	{
-		section_stack_.pop();
-	}
 }
 
 void BaseLua::AddToForce(int _force)
 {
-	if(!section_stack_.empty())
+	if(core_)
 	{
-		StackToCore(); //Pop everything but the Core from the stack
-		section_stack_.top()->SetColor(force_colors_[_force]);
-		game_->AddShip(static_cast<Core_ptr>(section_stack_.top()),_force);
-		section_stack_.pop();
+		core_->SetColor(force_colors_[_force]);
+		game_->AddShip(core_, _force);
+		core_ = NULL;
 	}
 }
 
 void BaseLua::SetAngle(float _angle)
 {
-	section_stack_.top()->SetAngle(_angle);
+	core_->SetAngle(_angle);
 }
 
 void BaseLua::SetPosition(float _x, float _y)
 {
-	section_stack_.top()->SetPosition(Vector3f(_x, _y, 0));
+	core_->SetPosition(Vector3f(_x, _y, 0));
 }
 
 void BaseLua::SetHealth(float _health)
 {
-	section_stack_.top()->SetMaxHealth(_health);
+	core_->SetMaxHealth(_health);
 }
-
-int BaseLua::LoadShip(std::string _ship)
-{
-	lua_getglobal(luaVM,"Ship");
-	if(!lua_isnil(luaVM, -1))
-	{
-		lua_pushnil(luaVM);
-		lua_setglobal(luaVM, "Ship");
-	}
-	lua_pop(luaVM,1); //Pops ship from stack
-
-	bool loaded_and_run_ok = false;
-	_ship = "Scripts/Ships/" + _ship;
-	int load_result = luaL_loadfile(luaVM, _ship.c_str());
-	if(load_result == LUA_ERRSYNTAX)
-	{
-		Logger::LogError("GameLua::LoadShip: A syntax error occurred while loading\n");
-		Logger::LogError(lua_tostring(luaVM, -1));
-		lua_pop(luaVM, 1);
-		
-	} else if(load_result == LUA_ERRMEM)
-	{
-		Logger::LogError("GameLua::LoadShip: A memory allocation error occurred while loading\n");
-		Logger::LogError(lua_tostring(luaVM, -1));
-		lua_pop(luaVM, 1);
-	} else if(load_result == LUA_ERRFILE)
-	{
-		Logger::LogError("GameLua::LoadShip: Unable to load file:");
-		Logger::LogError(lua_tostring(luaVM, -1));
-		lua_pop(luaVM, 1);
-	} else
-	{
-		int run_result = lua_pcall(luaVM, 0, LUA_MULTRET, 0);
-		if(run_result == LUA_ERRRUN)
-		{
-			Logger::LogError("GameLua::LoadShip: A runtime error occurred\n");
-			Logger::LogError(lua_tostring(luaVM, -1));
-			lua_pop(luaVM, 1);
-		}
-		else if(run_result == LUA_ERRMEM)
-		{
-			Logger::LogError("GameLua::LoadShip: A memory allocation error occurred while running\n");
-			Logger::LogError(lua_tostring(luaVM, -1));
-			lua_pop(luaVM, 1);
-		}
-		else if(run_result == LUA_ERRERR)
-		{
-			Logger::LogError("GameLua::LoadShip: Error handling function error\n");
-			Logger::LogError(lua_tostring(luaVM, -1));
-			lua_pop(luaVM, 1);
-		}
-		else
-		{//Everything worked OK, script loaded
-			 loaded_and_run_ok = true;
-		}
-	}
-	
-	if(loaded_and_run_ok)
-	{
-		lua_getglobal(luaVM, "Ship");
-		if(lua_istable(luaVM, -1))
-		{
-			//Get name
-			//Load the rest
-			ParseShip(_ship);
-			lua_pop(luaVM, 1); //Pop Ship
-			StackToCore(); //Pop everything but the Core from the stack
-			return section_stack_.top()->GetSectionID();
-		}
-		else
-		{			
-			Logger::LogError(std::string("GameLua::LoadShip: Unable to find Ship table in \n") + _ship);
-			return -1;
-		}
-	}
-	else
-	{
-		return -1;
-	}
-}
-
-void BaseLua::ParseShip(std::string _ship)
-{
-	lua_pushstring(luaVM, "SectionType");
-	lua_gettable(luaVM, -2);
-	if(lua_isstring(luaVM, -1))
-	{//Got SectionType, is required
-		std::string section_type = lua_tostring(luaVM, -1);
-		std::transform(section_type.begin(), section_type.end(), section_type.begin(), toupper);
-		lua_pop(luaVM, 1);
-
-		SectionType s_type = SectionMap[section_type];
-		switch(s_type) //Get section custom parameters
-		{
-			case st_SquareCore:
-				PushCore(new SquareCore(GetAI()));
-				break;
-			case st_TinyCore:
-				PushCore(new TinyCore(GetAI()));
-				break;
-			case st_Blaster:
-				PushSection(new Blaster());
-				break;
-			case st_HeatBeam:
-				PushSection(new HeatBeamGun());
-				break;
-			case st_SpinningJoint:
-				{
-				lua_pushstring(luaVM, "RotationRate");
-				lua_gettable(luaVM, -2);
-				if(lua_isnumber(luaVM, -1))
-				{
-					float spin_rate_deg_per_sec = static_cast<float>(lua_tonumber(luaVM, -1));
-					PushSection(new SpinningJoint(spin_rate_deg_per_sec));
-				}
-				else
-				{
-					luaL_error(luaVM, "Error parsing %s\nSpinningJoints require a key:value pair RotationRate:number\n", _ship);
-				}
-				lua_pop(luaVM, 1);
-				}
-				break;
-			case st_JointAngles:
-				{
-				bool param_error = false;
-				lua_pushstring(luaVM, "FirstAngle");
-				lua_gettable(luaVM, -2);
-				float first_angle = static_cast<float>(lua_tonumber(luaVM, -1));
-				param_error |= !lua_isnumber(luaVM, -1);
-				lua_pop(luaVM, 1);
-
-				lua_pushstring(luaVM, "SecondAngle");
-				lua_gettable(luaVM, -2);
-				float second_angle = static_cast<float>(lua_tonumber(luaVM, -1));
-				param_error |= !lua_isnumber(luaVM, -1);
-				lua_pop(luaVM, 1);
-
-				lua_pushstring(luaVM, "TransitionTime");
-				lua_gettable(luaVM, -2);
-				float transition_time = static_cast<float>(lua_tonumber(luaVM, -1));
-				param_error |= !lua_isnumber(luaVM, -1);
-				lua_pop(luaVM, 1);
-
-				lua_pushstring(luaVM, "PauseTime");
-				lua_gettable(luaVM, -2);
-				float pause_time = static_cast<float>(lua_tonumber(luaVM, -1));
-				param_error |= !lua_isnumber(luaVM, -1);
-				lua_pop(luaVM, 1);
-				
-				if(param_error)
-					luaL_error(luaVM, "Error parsing %s\nJointAngles requires four key:value pairs:\nFirstAngle:number\nSecondAngle:number\nTransitionTime:number\nPauseTime:number", _ship);
-				else
-					PushSection(new JointAngles(first_angle, second_angle, transition_time, pause_time));
-				}
-				break;
-			case st_HomingMissileLauncher:
-				PushSection(new HomingMissileLauncher());
-				break;
-			case st_Swarmer:
-				PushSection(new Swarmer());
-				break;
-			case st_TrackerJoint:
-				{
-				bool param_error = false;
-				lua_pushstring(luaVM, "OnlyWhenFiring");
-				lua_gettable(luaVM, -2);
-				bool firing_only = static_cast<bool>(lua_toboolean(luaVM, -1));
-				
-				param_error |= !lua_isboolean(luaVM, -1);
-				lua_pop(luaVM, 1);
-				if(param_error)
-					luaL_error(luaVM, "Error parsing %s\nTrackerJoint requires key:value pair OnlyWhenFiring:boolean", _ship);
-				else
-				PushSection(new JointTracker(firing_only));
-				}
-				break;
-			default:
-				LuaSection* lua_section = LuaSection::CreateLuaSection(section_type, luaVM);
-				if(lua_section)
-				{
-					PushSection(lua_section);
-				} else
-				{
-					luaL_error(luaVM, "Error parsing '%s'", section_type.c_str()); //TODO find a better way of returning an error 
-				}
-				break;
-		}
-
-		lua_pushstring(luaVM, "Delay");
-		lua_gettable(luaVM, -2); //Puts any firing delay length on the top of the stack
-		if(lua_isnumber(luaVM, -1))
-			SetFiringDelay(static_cast<float>(lua_tonumber(luaVM, -1)));
-		else if(!lua_isnil(luaVM, -1))
-			Logger::Log(std::string("Nonfatal error in ")+std::string(_ship) + std::string(": Delay key must have a numeric value"));
-		lua_pop(luaVM, 1);
-
-		lua_pushstring(luaVM, "Health");
-		lua_gettable(luaVM, -2); //Puts any health value on the top of the stack
-		if(lua_isnumber(luaVM, -1))
-			SetHealth(static_cast<float>(lua_tonumber(luaVM, -1)));
-		else if(!lua_isnil(luaVM, -1))
-			Logger::Log(std::string("Nonfatal error in ")+std::string(_ship) + std::string(": Health key must have a numeric value"));
-		lua_pop(luaVM, 1);
-
-		lua_pushstring(luaVM, "Angle");
-		lua_gettable(luaVM, -2); //Puts any health value on the top of the stack
-		if(lua_isnumber(luaVM, -1))
-			SetAngle(static_cast<float>(lua_tonumber(luaVM, -1)));
-		else if(!lua_isnil(luaVM, -1))
-			Logger::Log(std::string("Nonfatal error in ")+std::string(_ship) + std::string(": Angle key must have a numeric value"));
-		lua_pop(luaVM, 1);
-
-		lua_pushstring(luaVM, "Position");
-		lua_gettable(luaVM, -2); //Puts any health value on the top of the stack
-		if(lua_istable(luaVM, -1))
-		{
-			float x = 0;
-			float y = 0;
-			lua_pushstring(luaVM, "x");
-			lua_gettable(luaVM, -2); //Puts any health value on the top of the stack
-			if(lua_isnumber(luaVM, -1))
-			{
-				x = static_cast<float>(lua_tonumber(luaVM, -1));
-			} else if(!lua_isnil(luaVM, -1))
-			{
-				Logger::Log(std::string("Nonfatal error in ")+std::string(_ship) + std::string(": Position.x key must have a numeric value"));		
-			}
-			lua_pop(luaVM, 1);
-			lua_pushstring(luaVM, "y");
-			lua_gettable(luaVM, -2); //Puts any health value on the top of the stack
-			if(lua_isnumber(luaVM, -1))
-			{
-				y = static_cast<float>(lua_tonumber(luaVM, -1));
-			} else if(!lua_isnil(luaVM, -1))
-			{
-				Logger::Log(std::string("Nonfatal error in ")+std::string(_ship) + std::string(": Position.y key must have a numeric value"));
-			}
-
-			SetPosition(x,y);
-			lua_pop(luaVM, 1);
-		}
-		else if(!lua_isnil(luaVM, -1))
-			Logger::Log(std::string("Nonfatal error in ")+std::string(_ship) + std::string(": Position key must have a table value"));
-		lua_pop(luaVM, 1);
-
-		//Now load all the subsections
-		lua_pushstring(luaVM, "SubSections");
-		lua_gettable(luaVM, -2);
-		if(lua_istable(luaVM, -1))
-		{
-			 int sub_section_count = luaL_getn(luaVM, -1);
-			 for(int i = 1; i <= sub_section_count; i++)
-			 {
-				lua_rawgeti(luaVM, -1, i);
-				ParseShip(_ship);
-				PopSection();
-				lua_pop(luaVM, 1);
-			 }
-		} else if(!lua_isnil(luaVM, -1))
-		{
-			Logger::Log(std::string("Nonfatal error in ")+std::string(_ship) + std::string(": SubSections key must have a table value"));
-		}
-		lua_pop(luaVM, 1);
-
-	}
-}
-
 
 void BaseLua::LoadChallenge(std::string _challenge)
 {
@@ -831,24 +531,16 @@ void BaseLua::Tick(float _timespan)
 	}
 }
 
-void BaseLua::StackToCore()
-{
-	while(section_stack_.size() > 1)
-	{
-		section_stack_.pop();
-	}
-}
 
 void BaseLua::OverrideAI(BaseAI* _AI)
 {
-	StackToCore();
-	if(section_stack_.size()==1)
+	if(core_)
 	{
-		((Core_ptr)section_stack_.top())->OverrideAI(_AI);
+		core_->OverrideAI(_AI);
 	}
 	else
 	{
-		luaL_error(luaVM, "GameLua::Unable to override AI, no ship on stack");
+		luaL_error(luaVM, "GameLua::Unable to override AI, no ship loaded");
 		//TODO report errors
 	}
 }
@@ -860,19 +552,18 @@ void BaseLua::SetForceColor(int force, GLColor _color)
 
 void BaseLua::SetFiringDelay(float _firing_delay)
 {
-	section_stack_.top()->SetFiringDelay(_firing_delay);
+	core_->SetFiringDelay(_firing_delay);
 }
 
 void BaseLua::ScaleHealth(float _scale)
 {
-	StackToCore();
-	if(section_stack_.size()==1)
+	if(core_)
 	{
-		section_stack_.top()->ScaleHealth(_scale);
+		core_->ScaleHealth(_scale);
 	}
 	else
 	{
-		luaL_error(luaVM, "GameLua::Unable to scale health, no ship on stack");
+		luaL_error(luaVM, "GameLua::Unable to scale health, no ship loaded");
 	}
 }
 
