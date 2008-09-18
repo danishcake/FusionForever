@@ -86,7 +86,7 @@ AIAction KeyboardAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::
 		float zoom_scale = powf(zoom_time_ / ZOOM_TIME, 1.7f);
 		Camera::Instance().SetCentre(_self->GetPosition().x + point_faced.x * Camera::Instance().GetWidth() * 0.4f * zoom_scale, _self->GetPosition().y + point_faced.y* Camera::Instance().GetHeight() * 0.4f * zoom_scale);
 		Camera::Instance().SetFocus(_self->GetPosition().x, _self->GetPosition().y);
-		Logger::Log(boost::lexical_cast<std::string, float>(_self->GetEnergy().GetValue()) + "/" + boost::lexical_cast<std::string, float>(_self->GetEnergy().GetMaxValue()));
+		//Logger::Log(boost::lexical_cast<std::string, float>(_self->GetEnergy().GetValue()) + "/" + boost::lexical_cast<std::string, float>(_self->GetEnergy().GetMaxValue()));
 	}
 	
 	return action;

@@ -72,7 +72,7 @@ void BaseGame::Tick(float _timespan)
 	lua_->Tick(_timespan);
 	Camera::Instance().TickCamera(_timespan);
 
-  //Calculate enemies and friends of each force
+	//Calculate enemies and friends of each force
 	for(int force = 0; force < MAX_FORCES; force++)
 	{
 		enemies[force].clear();

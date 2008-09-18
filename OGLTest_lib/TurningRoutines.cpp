@@ -16,13 +16,17 @@ TurnData GetTurnDirection(Vector3f _point_faced, Vector3f _point_to_face)
 TurnData GetTurnDirection(float _angle, Vector3f _point_to_face)
 {
 	TurnData d;
-	_point_to_face.normalize();
-	Vector3f right_vector = Vector3f(sinf((_angle+90) * M_PI / 180.0f),
-									  cosf((_angle+90) * M_PI / 180.0f), 0);
-	d.turn_factor = right_vector.dotProduct(_point_to_face);
+	d.turn_factor = 0;
+	if(_point_to_face.length() > 0)
+	{
+		_point_to_face.normalize();
+		Vector3f right_vector = Vector3f(sinf((_angle+90) * M_PI / 180.0f),
+										  cosf((_angle+90) * M_PI / 180.0f), 0);
+		d.turn_factor = right_vector.dotProduct(_point_to_face);
 
-	Vector3f point_faced = Vector3f(sinf((_angle) * M_PI / 180.0f),
-									  cosf((_angle) * M_PI / 180.0f), 0);
+		Vector3f point_faced = Vector3f(sinf((_angle) * M_PI / 180.0f),
+										  cosf((_angle) * M_PI / 180.0f), 0);
+	}
 	return d;
 }
 

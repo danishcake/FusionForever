@@ -194,7 +194,11 @@ void Core::OverrideAI(BaseAI* _new_AI)
 Core_ptr Core::CreateCore(std::string _name)
 {
 	if(!Core_types::initialised)
+	{
 		Core_types::InitialiseMap();
+		Section_types::InitialiseMap();
+	}
+
 	std::string file_name;
 	if(_name.find("Scripts/Ships") == std::string::npos)
 		file_name = "Scripts/Ships/" + _name + ".xmlShip";
@@ -360,7 +364,7 @@ Section_ptr Core::ParseSection(TiXmlElement* _section_element)
 			ParseCommon(_section_element, section);
 			//Now query any non core attributes
 			Vector3f position = section->GetPosition();
-			if(_section_element->QueryValueAttribute("x", &position.x) == TIXML_SUCCESS ||
+			if(_section_element->QueryValueAttribute("x", &position.x) == TIXML_SUCCESS |
 			   _section_element->QueryValueAttribute("y", &position.y) == TIXML_SUCCESS)
 			   section->SetPosition(position);
 		}
@@ -381,4 +385,9 @@ void Core::ParseCommon(TiXmlElement* _section_element, Section* _section)
 	float delay = 0;
 	if(_section_element->QueryValueAttribute("Delay", &delay) == TIXML_SUCCESS)
 		_section->SetFiringDelay(delay);
+}
+
+void Core::SaveCore(std::string _filename)
+{
+
 }

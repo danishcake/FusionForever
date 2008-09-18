@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Section SectionType ="SquareCore" Health ="1500">
+  <Section SectionType ="RigidArm" Angle ="90" Health ="1000" >
+
+  </Section>
+</Section>

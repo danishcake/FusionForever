@@ -49,10 +49,6 @@ Section::~Section(void)
 			rel_position_norm.normalize();
 		root_->ImpartMomentum(rel_position_norm * mass_ * 10, rel_position);
 	}
-	else
-	{
-		Logger::Log("Unable to unregister myself");
-	}
 }
 
 void Section::DrawSelf(void)

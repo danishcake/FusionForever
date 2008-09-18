@@ -61,14 +61,24 @@ public:
 	 * Creates a core from an XML file
 	 */
 	static Core* CreateCore(std::string _filename);
-
+	/*
+	 * Parses the ship from the root element
+	 */
 	static bool ParseShip(TiXmlElement* _section, Section** _parent);
-
+	/*
+	 * Parses the core element - gets core only attributes
+	 */
 	static Core* ParseCore(TiXmlElement* _core);
-
+	/*
+	 * Parses any non core elements, gets non-core attributes
+	 */
 	static Section* ParseSection(TiXmlElement* _section_element);
-
+	/*
+	 * Parses any attributes common to cores and sections
+	 */
 	static void ParseCommon(TiXmlElement* _section_element, Section* _section);
+
+	void SaveCore(std::string _filename);
 };
 
 

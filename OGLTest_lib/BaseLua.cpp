@@ -66,7 +66,7 @@ static int l_add_to_force(lua_State* luaVM)
 	{
 		int force = static_cast<int>(lua_tonumber(luaVM, -1));
 		if(force >= 0 && force < MAX_FORCES)
-			last_instantiation->AddToForce(static_cast<int>(lua_tonumber(luaVM, 1)));
+			last_instantiation->AddToForce(force);
 		else
 			luaL_error(luaVM, "AddToForce force parameter must be in range 0 to %d",  MAX_FORCES-1);
 	}

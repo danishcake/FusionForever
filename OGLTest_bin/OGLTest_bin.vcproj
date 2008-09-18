@@ -427,7 +427,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\XMLTester.luaChallenge"
+					RelativePath=".\Scripts\XMLTester.luaChallenge"
 					>
 				</File>
 			</Filter>
@@ -589,7 +589,7 @@
 				Name="XMLShips"
 				>
 				<File
-					RelativePath=".\Protoship.xmlShip"
+					RelativePath=".\Scripts\Protoship.xmlShip"
 					>
 				</File>
 			</Filter>

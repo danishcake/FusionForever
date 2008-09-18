@@ -107,7 +107,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Running tests..."
-				CommandLine="&quot;$(TargetPath)&quot;"
+				CommandLine="RunDebug.bat"
 			/>
 		</Configuration>
 		<Configuration
@@ -199,11 +199,13 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Running tests..."
-				CommandLine="&quot;$(TargetPath)&quot;"
+				CommandLine="RunRelease.bat"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Tests|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			>
 			<Tool
@@ -322,10 +324,36 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			Name="BatchHack"
 			>
+			<File
+				RelativePath=".\RunDebug.bat"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying batch file"
+						CommandLine="copy &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\RunRelease.bat"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Copying batch file"
+						CommandLine="copy &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+			</File>
 		</Filter>
 		<Filter
 			Name="TestScripts"
