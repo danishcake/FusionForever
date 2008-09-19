@@ -16,6 +16,8 @@ SwarmMissile::SwarmMissile(Vector3f _position, BaseEntity* _target)
 	}
 	fill_.GetFillVerts() = Datastore::Instance().GetVerts(fill_verts_index_);
 	fill_.SetDisplayList(fill_dl_);
+	fill_.SetFillColor(GLColor(255,255,0));
+	fill_.GetFillColor().a = 127;
 	lifetime_ = 5;
 	damage_ = 70;
 	turn_rate_ = 150;

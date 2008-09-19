@@ -25,6 +25,7 @@ HomingMissile::HomingMissile(Vector3f _position, BaseEntity* _target, GLColor _t
 	}
 	fill_.GetFillVerts() = Datastore::Instance().GetVerts(fill_verts_index_);
 	fill_.SetDisplayList(fill_dl_);
+	fill_.SetFillColor(_trail_color.GetFaded(0.75));
 
 	lifetime_ = TOTAL_LIFETIME;
 	damage_ = 380;
@@ -53,9 +54,9 @@ void HomingMissile::InitialiseGraphics()
 {
 	boost::shared_ptr<std::vector<Vector3f>> temp_fill = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 
-	temp_fill->push_back(Vector3f(2 ,-2,0));
-	temp_fill->push_back(Vector3f(-2,-2,0));
-	temp_fill->push_back(Vector3f(0 , 3,0));
+	temp_fill->push_back(Vector3f(3 ,-5,0));
+	temp_fill->push_back(Vector3f(-3,-5,0));
+	temp_fill->push_back(Vector3f(0 , 5,0));
 
 	fill_verts_index_ = Datastore::Instance().AddVerts(temp_fill);
 	fill_dl_ = Filled::CreateFillDisplayList(temp_fill);
