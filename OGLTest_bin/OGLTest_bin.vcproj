@@ -552,6 +552,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\Scripts\GeneratorSpike.XMLSection"
+						>
+					</File>
+					<File
 						RelativePath=".\Scripts\NarrowProngLH.XMLSection"
 						>
 					</File>
@@ -589,7 +593,15 @@
 				Name="XMLShips"
 				>
 				<File
+					RelativePath=".\Scripts\Lasership.xmlShip"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\Protoship.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Razorsaw.xmlShip"
 					>
 				</File>
 			</Filter>

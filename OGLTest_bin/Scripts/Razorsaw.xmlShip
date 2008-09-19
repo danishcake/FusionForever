@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Section SectionType ="SquareCore" Health ="1500">
+  <Section SectionType="GeneratorSpike" x="0" y="0" Angle="0"/>
+  <Section SectionType="GeneratorSpike" x="0" y="0" Angle="45"/>
+  <Section SectionType="GeneratorSpike" x="0" y="0" Angle="90"/>
+  <Section SectionType="GeneratorSpike" x="0" y="0" Angle="135"/>
+  <Section SectionType="GeneratorSpike" x="0" y="0" Angle="180"/>
+  <Section SectionType="GeneratorSpike" x="0" y="0" Angle="225"/>
+  <Section SectionType="GeneratorSpike" x="0" y="0" Angle="270"/>
+  <Section SectionType="GeneratorSpike" x="0" y="0" Angle="315"/>
+
+  <Section SectionType="SpinningJoint" RotationRate="90" x="0" y="0">
+    <Section SectionType="LongRigidArm" Angle="0" x="0" y="0">
+      <Section SectionType="LongRigidArm">
+        <Section SectionType="SpinningJoint" RotationRate="90">
+          <Section SectionType="SpunStar">
+            <Section SectionType="SpinningJoint" RotationRate="90" x="20" y="0">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+            <Section SectionType="SpinningJoint" RotationRate="100" x="6.18" y="19.02">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+            <Section SectionType="SpinningJoint" RotationRate="110" x="-16.18" y="11.76">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+            <Section SectionType="SpinningJoint" RotationRate="120" x="-16.18" y="-11.76">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+            <Section SectionType="SpinningJoint" RotationRate="130" x="6.18" y="-19.02">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+          </Section>
+        </Section>
+      </Section>
+
+    </Section>
+    <Section SectionType="LongRigidArm" Angle="90" x="0" y="0">
+      <Section SectionType="LongRigidArm">
+        <Section SectionType="SpinningJoint" RotationRate="90">
+          <Section SectionType="SpunStar">
+            <Section SectionType="SpinningJoint" RotationRate="90" x="20" y="0">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+            <Section SectionType="SpinningJoint" RotationRate="100" x="6.18" y="19.02">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+            <Section SectionType="SpinningJoint" RotationRate="110" x="-16.18" y="11.76">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+            <Section SectionType="SpinningJoint" RotationRate="120" x="-16.18" y="-11.76">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+            <Section SectionType="SpinningJoint" RotationRate="130" x="6.18" y="-19.02">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+          </Section>
+        </Section>
+      </Section>
+    </Section>
+    
+    <Section SectionType="LongRigidArm" Angle="180" x="0" y="0">
+      <Section SectionType="LongRigidArm">
+        <Section SectionType="SpinningJoint" RotationRate="90">
+          <Section SectionType="SpunStar">
+            <Section SectionType="SpinningJoint" RotationRate="90" x="20" y="0">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+            <Section SectionType="SpinningJoint" RotationRate="100" x="6.18" y="19.02">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+            <Section SectionType="SpinningJoint" RotationRate="110" x="-16.18" y="11.76">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+            <Section SectionType="SpinningJoint" RotationRate="120" x="-16.18" y="-11.76">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+            <Section SectionType="SpinningJoint" RotationRate="130" x="6.18" y="-19.02">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+          </Section>
+        </Section>
+      </Section>
+    </Section>
+    
+    <Section SectionType="LongRigidArm" Angle="270" x="0" y="0">
+      <Section SectionType="LongRigidArm">
+        <Section SectionType="SpinningJoint" RotationRate="90">
+          <Section SectionType="SpunStar">
+            <Section SectionType="SpinningJoint" RotationRate="90" x="20" y="0">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+            <Section SectionType="SpinningJoint" RotationRate="100" x="6.18" y="19.02">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+            <Section SectionType="SpinningJoint" RotationRate="110" x="-16.18" y="11.76">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+            <Section SectionType="SpinningJoint" RotationRate="120" x="-16.18" y="-11.76">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+            <Section SectionType="SpinningJoint" RotationRate="130" x="6.18" y="-19.02">
+              <Section SectionType="SpunStar">
+                <Section SectionType="Blaster" x="20" y="0" Angle="90"/>
+                <Section SectionType="Blaster" x="6.18" y="19.02" Angle="18"/>
+                <Section SectionType="Blaster" x="-16.18" y="11.76" Angle="-54"/>
+                <Section SectionType="Blaster" x="-16.17" y="-11.76" Angle="-126"/>
+                <Section SectionType="Blaster" x="6.17" y="-19.02" Angle="-198"/>
+              </Section>
+            </Section>
+          </Section>
+        </Section>
+      </Section>
+    </Section>
+  </Section>
+</Section>

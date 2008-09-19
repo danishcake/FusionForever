@@ -17,16 +17,18 @@ Script = coroutine.create(function()
 	LoadShip("Protoship")				--Loads a ship but doesn't add it to the world
 	SetAI("KeyboardAI")					--Sets the last loaded ships AI
 	ScaleHealth(1.35)
-	--SetPosition(10,10)
+	SetPosition(10,10)
 	AddToForce(0)						--Adds the ship to force 0
-	
 	Predicate.WaitFor(2)
 	
-	LoadShip("Protoship")				--Loads a ship but doesn't add it to the world
+	LoadShip("Lasership")				--Loads a ship but doesn't add it to the world
 	SetAI("SimpleAI")					--Sets the last loaded ships AI
 	AddToForce(1)						--Adds the ship to force 1
+	Predicate.WaitFor(2)
 	
-	
+	LoadShip("Razorsaw")				--Loads a ship but doesn't add it to the world
+	SetAI("SimpleAI")					--Sets the last loaded ships AI
+	AddToForce(2)						--Adds the ship to force 1
 	
 	Predicate.WaitFor(10)
 

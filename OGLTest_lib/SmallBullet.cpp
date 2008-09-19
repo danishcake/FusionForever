@@ -4,19 +4,20 @@
 #include "Ricochet.h"
 
 bool SmallBullet::initialised_ = false;
-int SmallBullet::outline_dl_ = 0;
-int SmallBullet::outline_verts_index_ = 0;
+int SmallBullet::fill_dl_ = 0;
+int SmallBullet::fill_verts_index_ = 0;
 
 SmallBullet::SmallBullet(Vector3f _position)
 :Projectile()
 {
 	if(!initialised_)
 	{
-		 InitialiseGraphics();
-		 initialised_ = true;
+		InitialiseGraphics();
+		initialised_ = true;
 	}
-	outline_.GetOutlineVerts() = Datastore::Instance().GetVerts(outline_verts_index_);
-	outline_.SetDisplayList(outline_dl_);
+	fill_.GetFillVerts() = Datastore::Instance().GetVerts(fill_verts_index_);
+	fill_.SetDisplayList(fill_dl_);
+	fill_.SetFillColor(GLColor(210,210,255));
 	damage_ = 25.0;
 	lifetime_ = 4.0;
 	velocity_.y = 320;
@@ -30,13 +31,19 @@ SmallBullet::~SmallBullet(void)
 
 void SmallBullet::InitialiseGraphics()
 {
-	boost::shared_ptr<std::vector<Vector3f>> temp_outline = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
+	boost::shared_ptr<std::vector<Vector3f>> temp_fill = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 
-	temp_outline->push_back(Vector3f(0,0,0));
-	temp_outline->push_back(Vector3f(0,2,0));
+	temp_fill->push_back(Vector3f( 1,-1,0));
+	temp_fill->push_back(Vector3f( 1, 3,0));
+	temp_fill->push_back(Vector3f(-1, 3,0));
 
-	outline_verts_index_ = Datastore::Instance().AddVerts(temp_outline);
-	outline_dl_ = Outlined::CreateOutlinedDisplayList(temp_outline);
+	temp_fill->push_back(Vector3f( 1, 3,0));
+	temp_fill->push_back(Vector3f(-1, 3,0));
+
+	temp_fill->push_back(Vector3f(-1,-1,0));
+
+	fill_verts_index_ = Datastore::Instance().AddVerts(temp_fill);
+	fill_dl_ = Filled::CreateFillDisplayList(temp_fill);
 }
 
 void SmallBullet::Hit(std::vector<Decoration_ptr>& _spawn)

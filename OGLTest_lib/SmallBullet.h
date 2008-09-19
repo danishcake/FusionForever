@@ -6,8 +6,8 @@ class SmallBullet :
 {
 protected:
 	static bool initialised_;
-	static int outline_dl_;
-	static int outline_verts_index_;
+	static int fill_dl_;
+	static int fill_verts_index_;
 	virtual void InitialiseGraphics();
 public:
 	SmallBullet(Vector3f _position);

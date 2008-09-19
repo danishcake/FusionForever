@@ -1,6 +1,6 @@
 #pragma once
 #include "BaseEntity.h"
-#include "Outlined.h"
+#include "Filled.h"
 #include "Decoration.h"
 #include "Datastore.h"
 
@@ -14,7 +14,7 @@ class Projectile :
 protected:
 	float damage_;
 	float lifetime_;
-	Outlined outline_;
+	Filled fill_;
 public:
 	Projectile(void);
 	virtual ~Projectile(void);	

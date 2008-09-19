@@ -3,8 +3,8 @@
 #include "Puff.h"
 
 bool HomingMissile::initialised_ = false;
-int HomingMissile::outline_dl_ = 0;
-int HomingMissile::outline_verts_index_ = 0;
+int HomingMissile::fill_dl_ = 0;
+int HomingMissile::fill_verts_index_ = 0;
 
 static const float TOTAL_LIFETIME = 5;
 static const float ACCELERATION_START = 0.5f;
@@ -23,8 +23,8 @@ HomingMissile::HomingMissile(Vector3f _position, BaseEntity* _target, GLColor _t
 		 InitialiseGraphics();
 		 initialised_ = true;
 	}
-	outline_.GetOutlineVerts() = Datastore::Instance().GetVerts(outline_verts_index_);
-	outline_.SetDisplayList(outline_dl_);
+	fill_.GetFillVerts() = Datastore::Instance().GetVerts(fill_verts_index_);
+	fill_.SetDisplayList(fill_dl_);
 
 	lifetime_ = TOTAL_LIFETIME;
 	damage_ = 380;
@@ -51,14 +51,14 @@ void HomingMissile::Hit(std::vector<Decoration_ptr>& _spawn)
 
 void HomingMissile::InitialiseGraphics()
 {
-	boost::shared_ptr<std::vector<Vector3f>> temp_outline = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
+	boost::shared_ptr<std::vector<Vector3f>> temp_fill = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 
-	temp_outline->push_back(Vector3f(0,0,0));
-	temp_outline->push_back(Vector3f(-2,-5,0));
-	temp_outline->push_back(Vector3f(2,-5,0));
+	temp_fill->push_back(Vector3f(2 ,-2,0));
+	temp_fill->push_back(Vector3f(-2,-2,0));
+	temp_fill->push_back(Vector3f(0 , 3,0));
 
-	outline_verts_index_ = Datastore::Instance().AddVerts(temp_outline);
-	outline_dl_ = Outlined::CreateOutlinedDisplayList(temp_outline);
+	fill_verts_index_ = Datastore::Instance().AddVerts(temp_fill);
+	fill_dl_ = Filled::CreateFillDisplayList(temp_fill);
 }
 
 void HomingMissile::Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform)

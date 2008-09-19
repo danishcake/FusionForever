@@ -24,6 +24,6 @@ void Projectile::DrawSelf()
 {
 	glPushMatrix();
 	glLoadMatrixf(ltv_transform_);
-	outline_.DrawOutlinedDisplayList();
+	fill_.DrawFillDisplayList();
 	glPopMatrix();
 }

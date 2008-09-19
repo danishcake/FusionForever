@@ -3,8 +3,8 @@
 #include "Puff.h"
 
 bool SwarmMissile::initialised_ = false;
-int SwarmMissile::outline_dl_ = 0;
-int SwarmMissile::outline_verts_index_ = 0;
+int SwarmMissile::fill_dl_ = 0;
+int SwarmMissile::fill_verts_index_ = 0;
 
 SwarmMissile::SwarmMissile(Vector3f _position, BaseEntity* _target)
 : HomingProjectile(_target)
@@ -14,8 +14,8 @@ SwarmMissile::SwarmMissile(Vector3f _position, BaseEntity* _target)
 		 InitialiseGraphics();
 		 initialised_ = true;
 	}
-	outline_.GetOutlineVerts() = Datastore::Instance().GetVerts(outline_verts_index_);
-	outline_.SetDisplayList(outline_dl_);
+	fill_.GetFillVerts() = Datastore::Instance().GetVerts(fill_verts_index_);
+	fill_.SetDisplayList(fill_dl_);
 	lifetime_ = 5;
 	damage_ = 70;
 	turn_rate_ = 150;
@@ -39,13 +39,18 @@ void SwarmMissile::Hit(std::vector<Decoration_ptr>& _spawn)
 
 void SwarmMissile::InitialiseGraphics()
 {
-	boost::shared_ptr<std::vector<Vector3f>> temp_outline = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
+	boost::shared_ptr<std::vector<Vector3f>> temp_fill = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 
-	temp_outline->push_back(Vector3f(0,0,0));
-	temp_outline->push_back(Vector3f(0,10,0));
+	temp_fill->push_back(Vector3f(-1,-2,0));
+	temp_fill->push_back(Vector3f(-1, 2,0));
+	temp_fill->push_back(Vector3f(0 , 2,0));
 
-	outline_verts_index_ = Datastore::Instance().AddVerts(temp_outline);
-	outline_dl_ = Outlined::CreateOutlinedDisplayList(temp_outline);
+	temp_fill->push_back(Vector3f(0 , 2,0));
+	temp_fill->push_back(Vector3f(1 ,-2,0));
+	temp_fill->push_back(Vector3f(-1,-2,0));
+
+	fill_verts_index_ = Datastore::Instance().AddVerts(temp_fill);
+	fill_dl_ = Filled::CreateFillDisplayList(temp_fill);
 }
 
 void SwarmMissile::Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform)
