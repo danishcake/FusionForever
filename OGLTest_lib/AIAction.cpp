@@ -7,9 +7,10 @@ AIAction::AIAction()
 	dy_ = 0;
 	dtheta_ = 0;
 	firing_ = false;
+	target_= NULL;
 }
 
-AIAction::AIAction(float _dx, float _dy, float _dtheta, bool _firing)
+AIAction::AIAction(float _dx, float _dy, float _dtheta, bool _firing, Core* _target)
 {
 	dx_ = _dx;
    //Clamp the x-axis acceleration
@@ -32,4 +33,5 @@ AIAction::AIAction(float _dx, float _dy, float _dtheta, bool _firing)
 	
 
 	firing_ = _firing;
+	target_= _target;
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+class Core;
+
 /**
   *The AIAction class represents an action to be performed by an AI.
   */
@@ -18,7 +20,7 @@ public:
 	 * @param _max_turn Maximum angle to turn in one tick. Typically the total angle turn required
      * @param _firing Firing state
      */
-	AIAction(float _dx, float _dy, float _dtheta, bool _firing);
+	AIAction(float _dx, float _dy, float _dtheta, bool _firing, Core* _target = NULL);
 
    /**
      * Clamped x-axis acceleration (-1 to 1)
@@ -32,11 +34,12 @@ public:
      * Clamped angular acceleration (-1 to 1)
      */
 	float dtheta_;
-   /**
-     * Firing state
-     */
+	/**
+	  * Firing state
+	  */
 	bool firing_;
 	/**
-	  * The maximum angle to turn in low frame rate situations
+	  * A target for sections to aim at, missiles to home on etc.
 	  */
+	Core* target_;
 };

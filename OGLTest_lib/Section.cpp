@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "Section.h"
 #include "Puff.h"
+#include "Core.h"
 #include "ICollisionManager.h"
 
 int Section::section_count_ = 0;
@@ -75,7 +76,7 @@ void Section::AddChild(Section *child)
 	}
 	this->sub_sections_.push_back(child);
 	child->SetColor(fill_.GetFillColor());
-	child->SetParentAndRoot(this, root_ == NULL ? this : root_);
+	child->SetParentAndRoot(this, root_ == NULL ? static_cast<Core_ptr>(this) : root_);
 }
 
 void Section::findRadius(void)
@@ -284,7 +285,7 @@ void Section::SetFiring(bool _firing)
 	}
 }
 
-void Section::SetParentAndRoot(Section* _parent, Section* _root)
+void Section::SetParentAndRoot(Section* _parent, Core_ptr _root)
 {
 	parent_ = _parent;
 	root_ = _root;
@@ -306,7 +307,7 @@ void Section::AttachChildren(std::vector<Section_ptr> _children)
 {
 	BOOST_FOREACH(Section_ptr child, _children)
 	{
-		child->SetParentAndRoot(this, root_ == NULL ? this : root_);
+		child->SetParentAndRoot(this, root_ == NULL ? static_cast<Core_ptr>(this) : root_);
 	}
 	sub_sections_.insert(sub_sections_.end(),_children.begin(), _children.end());
 }
@@ -329,6 +330,4 @@ void Section::PowerTick(float _power_delta)
 {
 	if(root_)
 		root_->PowerTick(_power_delta);
-	else
-		energy_ += _power_delta;
 }

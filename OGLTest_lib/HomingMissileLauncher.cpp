@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "HomingMissileLauncher.h"
 #include "HomingMissile.h"
+#include "Core.h"
 
 //Initialise all static class members
 bool HomingMissileLauncher::initialised_ = false;
@@ -74,10 +75,15 @@ void HomingMissileLauncher::Tick(float _timespan, std::vector<Projectile_ptr>& _
 		if(cooldown_ <= 0.0f && PowerRequirement(25))
 		{
 			BaseEntity* target = NULL;
-			if(_enemies.size() > 0)
+			Core* core_target = root_->GetTarget();
+			if(core_target)
+			{
+				target = core_target;
+			}
+			else if(_enemies.size() > 0)
 			{
 				int index = Random::RandomIndex(static_cast<int>(_enemies.size()));
-				target = (BaseEntity*)(_enemies[index]);
+				target = _enemies[index];
 			}
 			HomingMissile* hm = new HomingMissile(Vector3f(0, 5, 0), target, fill_.GetFillColor());
 

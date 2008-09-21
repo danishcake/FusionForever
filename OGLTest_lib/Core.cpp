@@ -123,11 +123,14 @@ Core::Core(BaseAI* _AI)
 	AI_ = _AI;
 	energy_ = FlexFloat(100, 100);
 	thrust_ = FlexFloat(100);
+	target_ = NULL;
 }
 
 Core::~Core(void)
 {
 	delete AI_;
+	if(target_ != NULL)
+		target_->RemoveSubscriber(this);
 }
 
 void Core::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec,
@@ -135,7 +138,7 @@ void Core::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::v
 {
 	//Do all the standard moving and rotating
 	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies, _collision_manager);
-	this->PowerTick(50 * _timespan);
+	energy_+= 50 * _timespan;
 	//Get the AI instructions (how to move, rotate and fire)
 	AIAction action;
 	float max_speed;
@@ -158,6 +161,14 @@ void Core::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::v
 	if(AI_ != NULL)
 	{
 		action = AI_->Tick(_timespan, _allies, _enemies, this);
+		
+		if(action.target_ != NULL && target_ != action.target_)
+		{
+			if(target_ != NULL)
+				target_->RemoveSubscriber(this);
+			target_ = action.target_;
+			target_->AddSubscriber(this);
+		}
 		Vector2f dv= Vector2f(action.dx_, action.dy_);
 		if(dv.lengthSq()!=0)
 			dv.normalize();
@@ -364,8 +375,8 @@ Section_ptr Core::ParseSection(TiXmlElement* _section_element)
 			ParseCommon(_section_element, section);
 			//Now query any non core attributes
 			Vector3f position = section->GetPosition();
-			if(_section_element->QueryValueAttribute("x", &position.x) == TIXML_SUCCESS |
-			   _section_element->QueryValueAttribute("y", &position.y) == TIXML_SUCCESS)
+			if((_section_element->QueryValueAttribute("x", &position.x) == TIXML_SUCCESS) |
+			   (_section_element->QueryValueAttribute("y", &position.y) == TIXML_SUCCESS))
 			   section->SetPosition(position);
 		}
 	}
@@ -390,4 +401,10 @@ void Core::ParseCommon(TiXmlElement* _section_element, Section* _section)
 void Core::SaveCore(std::string _filename)
 {
 
+}
+
+void Core::EndSubscription(Subscriber* _source)
+{
+	if(target_ == _source)
+		target_ = NULL;
 }

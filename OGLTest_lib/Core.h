@@ -23,6 +23,10 @@ protected:
      * The AI_ controls the behaviour of the Core - it is 'consulted' during the Tick method
      */
 	BaseAI* AI_;
+	/*
+	 * The target for subsections to aim at
+	 */
+	Core* target_;
 public:
    /**
      * Creates a Core.
@@ -46,17 +50,29 @@ public:
 	virtual void Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec,
 					  Matrix4f _transform, std::vector<Core_ptr>& _allies, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager);
 
-  /**
-  * Sets the AI to a new AI, clearing up the old one in the process.
-  * @param _new_AI The new AI
-  */
+	/**
+	  * Sets the AI to a new AI, clearing up the old one in the process.
+	  * @param _new_AI The new AI
+	  */
 	void OverrideAI(BaseAI* _new_AI);
+
+	/*
+	 * Gets the target for subsections to aim at
+	 */
+	Core* GetTarget(){return target_;}
 
 	/*
 	 * Gets the energy of the Core
 	 */
 	FlexFloat GetEnergy(){return energy_;}
-
+	/*
+	 * Adds an amount of thrust
+	 */
+	void AddThrust(FlexFloat _thrust_delta) {thrust_ += _thrust_delta;}
+	/*
+	 * Adds an amount of thrust
+	 */
+	void AddThrust(float _thrust_delta) {thrust_ += _thrust_delta;}
 	/*
 	 * Creates a core from an XML file
 	 */
@@ -78,7 +94,12 @@ public:
 	 */
 	static void ParseCommon(TiXmlElement* _section_element, Section* _section);
 
+	/*
+	 * Saves the core to an XML file
+	 */
 	void SaveCore(std::string _filename);
+
+	virtual void EndSubscription(Subscriber* _source);
 };
 
 

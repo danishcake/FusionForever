@@ -101,6 +101,7 @@ AIAction SimpleAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::ve
 		//td.turn_factor *= 0.2f;
 		a.dtheta_ = td.turn_factor;
 		a.firing_ = true;
+		a.target_ = target_;
 	}
 
 	return a;

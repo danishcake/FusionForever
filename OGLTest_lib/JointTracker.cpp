@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "JointTracker.h"
 #include "TurningRoutines.h"
+#include "Core.h"
 
 bool JointTracker::initialised_ = false;
 int JointTracker::outline_dl_ = 0;
@@ -66,13 +67,18 @@ void JointTracker::InitialiseGraphics(void)
 void JointTracker::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager)
 {
 	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies, _collision_manager);
-	if(!target_)
+	Core_ptr core_target = root_->GetTarget();
+	if(core_target && target_ != core_target)
 	{
-		if(_enemies.size() > 0)
-		{
-			target_ = reinterpret_cast<BaseEntity*>(_enemies[Random::RandomIndex(static_cast<int>(_enemies.size()))]);
-			target_->AddSubscriber(this);
-		}
+		if(target_)
+			target_->RemoveSubscriber(this);
+		target_ = core_target;
+		target_->AddSubscriber(this);
+	} 
+	if(!target_ && _enemies.size() > 0)
+	{
+		target_ = _enemies[Random::RandomIndex(static_cast<int>(_enemies.size()))];
+		target_->AddSubscriber(this);
 	}
 	if(target_ && (!only_when_firing_ || firing_))
 	{

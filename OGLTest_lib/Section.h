@@ -33,8 +33,8 @@ private:
 	bool first_tick_;
 protected:
 	int section_id_;
-	Section* parent_;
-	Section* root_;
+	Section_ptr parent_;
+	Core_ptr root_;
 	Filled fill_;
 	std::vector<Vector3f> transformed_fill_verts_;
 	bool transformed_fill_verts_valid_;
@@ -55,16 +55,15 @@ protected:
 	Vector3f default_sub_section_position_;
 	void findRadius();
 
-	void SetParentAndRoot(Section* _parent, Section* _root);
+	void SetParentAndRoot(Section_ptr _parent, Core_ptr _root);
 
 	FlexFloat thrust_;
-	FlexFloat GetThrust() {return thrust_;}
-	void SetThrust(FlexFloat _thrust) {thrust_ = _thrust;}
-	void AddThrust(FlexFloat _thrust_delta) {thrust_ += _thrust_delta;}
-	void AddThrust(float _thrust_delta) {thrust_ += _thrust_delta;}
-
 	FlexFloat energy_;
 	FlexFloat power_generation_;
+
+	/*
+	 * Drains power from core
+	 */
 	void PowerTick(float _power_delta);
 	bool PowerRequirement(float _minimum_power);
 	void AddEnergyCap(float _energy_cap) {energy_.AddMaxValue(_energy_cap);}

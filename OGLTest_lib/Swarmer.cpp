@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "Swarmer.h"
+#include "Core.h"
 #include "SwarmMissile.h"
 
 //Initialise all static class members
@@ -74,10 +75,15 @@ void Swarmer::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 		if(cooldown_ <= 0.0f && PowerRequirement(5))
 		{
 			BaseEntity* target = NULL;
-			if(_enemies.size() > 0)
+			Core* core_target = root_->GetTarget();
+			if(core_target)
+			{
+				target = core_target;
+			}
+			else if(_enemies.size() > 0)
 			{
 				int index = Random::RandomIndex(static_cast<int>(_enemies.size()));
-				target = (BaseEntity*)(_enemies[index]);
+				target = _enemies[index];
 			}
 			SwarmMissile* hm = new SwarmMissile(Vector3f(0, 5, 0), target);
 
