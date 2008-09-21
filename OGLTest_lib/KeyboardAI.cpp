@@ -2,6 +2,7 @@
 #include "KeyboardAI.h"
 #include "TurningRoutines.h"
 #include <sstream>
+#include "Core.h"
 
 #define ZOOM_TIME 0.3f
 
@@ -22,35 +23,34 @@ AIAction KeyboardAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::
 	int y = 0;
 	Uint8 mouse_state = SDL_GetMouseState(&x, &y);
 
-	if(SDL_BUTTON_MMASK & mouse_state)
+	if(keystates[SDLK_UP])
+		action.dy_++;
+	if(keystates[SDLK_DOWN])
+		action.dy_--;
+	if(keystates[SDLK_LEFT])
+		action.dx_--;
+	if(keystates[SDLK_RIGHT])
+		action.dx_++;
+
+	if(keystates[SDLK_SPACE] || (SDL_BUTTON_MMASK & mouse_state))
 	{
-		Vector3f dv = Vector3f(0,0,0);
-		if(keystates[SDLK_UP])
-			dv.y++;
-		if(keystates[SDLK_DOWN])
-			dv.y--;
-		if(keystates[SDLK_LEFT])
-			dv.x--;
-		if(keystates[SDLK_RIGHT])
-			dv.x++;
-		if(dv.lengthSq()!=0)
+		//Find target
+		Vector3f world_click = Camera::Instance().ScreenToWorld(Vector3f(x,y,0));
+		Logger::Instance() << world_click.x << "," << world_click.y << "\n";
+		Section_ptr clicked_section = NULL;
+		BOOST_FOREACH(Core_ptr core, _enemies)
 		{
-			dv.normalize();
-			dv.rotate(0, 0, _self->GetAngle());
-			action.dx_ = dv.x;
-			action.dy_ = dv.y;
+			if(core->CheckCollisions(world_click, clicked_section))
+			{
+				Logger::Log("Found a section");
+				break;
+			}
 		}
-	}
-	else
-	{
-		if(keystates[SDLK_UP])
-			action.dy_++;
-		if(keystates[SDLK_DOWN])
-			action.dy_--;
-		if(keystates[SDLK_LEFT])
-			action.dx_--;
-		if(keystates[SDLK_RIGHT])
-			action.dx_++;
+		if(clicked_section)
+		{
+			clicked_section = clicked_section->GetRoot();
+			action.target_ = static_cast<Core_ptr>(clicked_section);
+		}
 	}
 
 

@@ -94,6 +94,8 @@ public:
 	int GetSectionID(){return section_id_;}
 
 	bool IsCore(){return root_ == NULL;}
+	Core_ptr GetRoot();
+
 	//Predicates
 	static bool IsRemovable(Section_ptr section)
 	{

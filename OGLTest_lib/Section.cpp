@@ -331,3 +331,8 @@ void Section::PowerTick(float _power_delta)
 	if(root_)
 		root_->PowerTick(_power_delta);
 }
+
+Core_ptr Section::GetRoot()
+{
+	return root_ != NULL ? root_ : static_cast<Core_ptr>(this);
+}

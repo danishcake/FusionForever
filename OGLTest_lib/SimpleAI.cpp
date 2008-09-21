@@ -20,9 +20,7 @@ SimpleAI::SimpleAI()
 SimpleAI::~SimpleAI(void)
 {
 	if(target_ != NULL)
-	{
 		target_->RemoveSubscriber(this);
-	}
 }
 
 AIAction SimpleAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vector<Core_ptr>& _enemies, Core_ptr _self)
