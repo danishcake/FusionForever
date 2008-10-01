@@ -29,7 +29,7 @@ Starfield::~Starfield(void)
 
 void Starfield::DrawStarfield(Vector3f position_)
 {
-	int max_index = SF_MAX_POINTS / pow(Camera::Instance().GetWidth() / SF_GRIDSIZE,2.0f);
+	int max_index = static_cast<int>(SF_MAX_POINTS / pow(Camera::Instance().GetWidth() / SF_GRIDSIZE,2.0f));
 	if(max_index > SF_MAX_POINTS)
 		max_index = SF_MAX_POINTS;
 	if(max_index < 50)
@@ -47,8 +47,8 @@ void Starfield::DrawStarfield(Vector3f position_)
 					  0);
 	glTranslatef(offset.x, offset.y,0);
 
-	int x_minus_times = ((Camera::Instance().GetWidth() / 2.0f) / SF_GRIDSIZE) + 2;
-	int y_minus_times = ((Camera::Instance().GetHeight() / 2.0f) / SF_GRIDSIZE) + 2;
+	int x_minus_times = static_cast<int>(((Camera::Instance().GetWidth() / 2.0f) / SF_GRIDSIZE) + 2);
+	int y_minus_times = static_cast<int>(((Camera::Instance().GetHeight() / 2.0f) / SF_GRIDSIZE) + 2);
 	float left = -SF_GRIDSIZE * x_minus_times;
 	for(int x = 0; x < x_minus_times * 2; x++)
 	{

@@ -14,6 +14,7 @@
 #include "RotatingAI.h"
 #include "KeyboardAI.h"
 #include "SimpleAI.h"
+#include "LuaAI.h"
 
 #include <string>
 #include <algorithm>
@@ -220,7 +221,9 @@ static int l_override_ai(lua_State* luaVM)
 			}
 			break;
 		default:
-			luaL_error(luaVM, "SetAI must be called with one of the following AI types:\n(\"KeyboardAI\")\n(\"RotatingAI\",rot_rate)");
+			ai = LuaAI::FromScript(ai_string, luaVM);
+			if(!ai)
+				luaL_error(luaVM, (std::string("Unrecognised AI script:") + ai_string).c_str());
 			break;
 		}
 		if(ai != NULL)

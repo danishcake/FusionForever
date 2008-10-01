@@ -105,7 +105,7 @@ LuaSection* LuaSection::CreateLuaSection(std::string _name, lua_State* luaVM)
 				lua_gettable(luaVM, -2);
 				if(lua_isnumber(luaVM, -1))
 				{
-					indices.default_health = lua_tonumber(luaVM, -1);
+					indices.default_health = static_cast<float>(lua_tonumber(luaVM, -1));
 				}
 				lua_pop(luaVM, 1);
 
@@ -114,7 +114,7 @@ LuaSection* LuaSection::CreateLuaSection(std::string _name, lua_State* luaVM)
 				lua_gettable(luaVM, -2);
 				if(lua_isnumber(luaVM, -1))
 				{
-					indices.energy_storage = lua_tonumber(luaVM, -1);
+					indices.energy_storage = static_cast<float>(lua_tonumber(luaVM, -1));
 				}
 				lua_pop(luaVM, 1);
 
@@ -123,7 +123,7 @@ LuaSection* LuaSection::CreateLuaSection(std::string _name, lua_State* luaVM)
 				lua_gettable(luaVM, -2);
 				if(lua_isnumber(luaVM, -1))
 				{
-					indices.power_generation = lua_tonumber(luaVM, -1);
+					indices.power_generation = static_cast<float>(lua_tonumber(luaVM, -1));
 				}
 				lua_pop(luaVM, 1);
 
@@ -132,7 +132,7 @@ LuaSection* LuaSection::CreateLuaSection(std::string _name, lua_State* luaVM)
 				lua_gettable(luaVM, -2);
 				if(lua_isnumber(luaVM, -1))
 				{
-					indices.thrust = lua_tonumber(luaVM, -1);
+					indices.thrust = static_cast<float>(lua_tonumber(luaVM, -1));
 				}
 				lua_pop(luaVM, 1);
 
@@ -141,7 +141,7 @@ LuaSection* LuaSection::CreateLuaSection(std::string _name, lua_State* luaVM)
 				lua_gettable(luaVM, -2);
 				if(lua_isnumber(luaVM, -1))
 				{
-					indices.mass = lua_tonumber(luaVM, -1);
+					indices.mass = static_cast<float>(lua_tonumber(luaVM, -1));
 				}
 				lua_pop(luaVM, 1);
 				//Get the size
@@ -153,7 +153,7 @@ LuaSection* LuaSection::CreateLuaSection(std::string _name, lua_State* luaVM)
 					lua_gettable(luaVM, -2);
 					if(lua_isnumber(luaVM, -1))
 					{
-						indices.size.x = lua_tonumber(luaVM, -1);
+						indices.size.x = static_cast<float>(lua_tonumber(luaVM, -1));
 					}
 					lua_pop(luaVM, 1);
 
@@ -161,7 +161,7 @@ LuaSection* LuaSection::CreateLuaSection(std::string _name, lua_State* luaVM)
 					lua_gettable(luaVM, -2);
 					if(lua_isnumber(luaVM, -1))
 					{
-						indices.size.y = lua_tonumber(luaVM, -1);
+						indices.size.y = static_cast<float>(lua_tonumber(luaVM, -1));
 					}
 					lua_pop(luaVM, 1);
 				}
@@ -175,7 +175,7 @@ LuaSection* LuaSection::CreateLuaSection(std::string _name, lua_State* luaVM)
 					lua_gettable(luaVM, -2);
 					if(lua_isnumber(luaVM, -1))
 					{
-						indices.default_subsection_position.x = lua_tonumber(luaVM, -1);
+						indices.default_subsection_position.x = static_cast<float>(lua_tonumber(luaVM, -1));
 					}
 					lua_pop(luaVM, 1);
 
@@ -183,7 +183,7 @@ LuaSection* LuaSection::CreateLuaSection(std::string _name, lua_State* luaVM)
 					lua_gettable(luaVM, -2);
 					if(lua_isnumber(luaVM, -1))
 					{
-						indices.default_subsection_position.y = lua_tonumber(luaVM, -1);
+						indices.default_subsection_position.y = static_cast<float>(lua_tonumber(luaVM, -1));
 					}
 					lua_pop(luaVM, 1);
 				}
@@ -231,7 +231,7 @@ bool LuaSection::ParseSVGPath(std::string _path, FilledOutlinedData& _out)
 	bool ltv_is_absolute = false;
 	int prev_stored = 0;
 	int comma_pos = 0;
-	for(int i = 0; i < _path.length(); i++)
+	for(unsigned int i = 0; i < _path.length(); i++)
 	{
 		ltv_is_absolute = is_absolute;
 		bool found = false; //Found an M, L, m or l

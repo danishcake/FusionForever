@@ -35,7 +35,7 @@ AIAction KeyboardAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::
 	if(keystates[SDLK_SPACE] || (SDL_BUTTON_MMASK & mouse_state))
 	{
 		//Find target
-		Vector3f world_click = Camera::Instance().ScreenToWorld(Vector3f(x,y,0));
+		Vector3f world_click = Camera::Instance().ScreenToWorld(Vector3f(static_cast<int>(x), static_cast<int>(y), 0.0f));
 		Logger::Instance() << world_click.x << "," << world_click.y << "\n";
 		Section_ptr clicked_section = NULL;
 		BOOST_FOREACH(Core_ptr core, _enemies)

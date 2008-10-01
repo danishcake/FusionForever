@@ -14,7 +14,7 @@ FlexFloat::FlexFloat(float _base_value, float _max_base_value)
 }
 
 FlexFloat::FlexFloat()
-: base_value_(10), max_base_value_(10), use_max_base_value_(10)
+: base_value_(10), max_base_value_(10), use_max_base_value_(true)
 {
 
 }

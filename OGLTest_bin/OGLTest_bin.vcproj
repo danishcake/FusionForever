@@ -427,6 +427,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\XML-lua_ai_demo.luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\XMLTester.luaChallenge"
 					>
 				</File>
@@ -434,6 +438,14 @@
 			<Filter
 				Name="Common"
 				>
+				<File
+					RelativePath=".\Scripts\AI_sandbox.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\RotatingAI.lua"
+					>
+				</File>
 				<File
 					RelativePath=".\Scripts\Utility.lua"
 					>

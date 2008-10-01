@@ -146,6 +146,7 @@
 		</Configuration>
 		<Configuration
 			Name="Tests|Win32"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			>
 			<Tool
@@ -244,6 +245,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\LuaAI.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\RotatingAI.cpp"
 					>
 				</File>
@@ -251,6 +256,10 @@
 					RelativePath=".\SimpleAI.cpp"
 					>
 				</File>
+				<Filter
+					Name="AIScripts"
+					>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Decorations"
@@ -511,6 +520,10 @@
 				</File>
 				<File
 					RelativePath=".\KeyboardAI.h"
+					>
+				</File>
+				<File
+					RelativePath=".\LuaAI.h"
 					>
 				</File>
 				<File
