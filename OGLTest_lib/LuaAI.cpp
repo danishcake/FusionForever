@@ -8,7 +8,31 @@ extern "C"
 #include "lauxlib.h"
 }
 
-static bool initialised_lua = false;
+static int l_PickRandomTarget(lua_State* luaVM)
+{
+	LuaAI* instance = ((LuaAI*)(lua_touserdata(luaVM, -1)));
+	assert(instance);
+	instance->PickRandomTarget();
+	return 0;
+}
+
+void LuaAI::PickRandomTarget()
+{
+	pick_random_next = true;
+}
+
+static int l_PickClosestTarget(lua_State* luaVM)
+{
+	LuaAI* instance = ((LuaAI*)(lua_touserdata(luaVM, -1)));
+	assert(instance);
+	instance->PickClosestTarget();
+	return 0;
+}
+
+void LuaAI::PickClosestTarget()
+{
+	pick_closest_next = true;
+}
 
 static int l_SetMoveDirection(lua_State* luaVM)
 {
@@ -29,6 +53,56 @@ void LuaAI::SetMoveDirection(float _x, float _y)
 	next_move_.dy_ = v.y;
 }
 
+static int l_SetTurnDirection(lua_State* luaVM)
+{
+	LuaAI* instance = ((LuaAI*)(lua_touserdata(luaVM, -2)));
+	assert(instance);
+	float dtheta = static_cast<float>(lua_tonumber(luaVM, -1));
+	instance->SetTurnDirection(dtheta);
+	return 0;
+}
+
+void LuaAI::SetTurnDirection(float _dtheta)
+{
+	next_move_.dtheta_ = _dtheta;
+	if(next_move_.dtheta_ > 1)
+		next_move_.dtheta_ = 1;
+	if(next_move_.dtheta_ < -1)
+		next_move_.dtheta_ = -1;
+}
+
+static int l_SetAll(lua_State* luaVM)
+{
+	LuaAI* instance = ((LuaAI*)(lua_touserdata(luaVM, -5)));
+	assert(instance);
+
+	float dx = static_cast<float>(lua_tonumber(luaVM, -4));
+	float dy = static_cast<float>(lua_tonumber(luaVM, -3));
+	float dtheta = static_cast<float>(lua_tonumber(luaVM, -2));
+	bool firing = static_cast<bool>(lua_toboolean(luaVM, -1));
+	instance->SetAll(dx, dy, dtheta, firing);
+	return 0;
+}
+
+void LuaAI::SetAll(float _x, float _y, float _dtheta, bool _firing)
+{
+	next_move_.dx_ = _x;
+	next_move_.dy_ = _y;
+	next_move_.dtheta_ = _dtheta;
+	next_move_.firing_ = _firing;
+}
+
+
+static bool initialised_lua = false;
+void LuaAI::RegisterLuaFunctions(lua_State* _luaVM)
+{
+	lua_register(_luaVM, "SetMoveDirection", l_SetMoveDirection);
+	lua_register(_luaVM, "SetTurnDirection", l_SetTurnDirection);
+	lua_register(_luaVM, "SetAll", l_SetAll);
+	lua_register(_luaVM, "PickRandomTarget", l_PickRandomTarget);
+	lua_register(_luaVM, "PickClosestTarget", l_PickClosestTarget);
+}
+
 LuaAI::LuaAI(std::string _file_name, lua_State* _luaVM)
 {
 	if(!initialised_lua)
@@ -43,6 +117,9 @@ LuaAI::LuaAI(std::string _file_name, lua_State* _luaVM)
 	coroutine_reference_ = 0;
 	environment_reference_ = 0;
 	initialise_coroutine();
+	target_ = NULL;
+	pick_random_next = false;
+	pick_closest_next = false;
 }
 
 LuaAI::~LuaAI(void)
@@ -52,6 +129,9 @@ LuaAI::~LuaAI(void)
 		luaL_unref(lua_state_, LUA_REGISTRYINDEX, coroutine_reference_);
 	if(environment_reference_)
 		luaL_unref(lua_state_, LUA_REGISTRYINDEX, environment_reference_);
+
+	if(target_)
+		target_->RemoveSubscriber(this);
 }
 
 bool LuaAI::initialise_coroutine()
@@ -97,17 +177,40 @@ void LuaAI::resume_coroutine(Core_ptr _self)
 		//Obtain ship object and update position etc
 		lua_rawgeti(lua_state_, LUA_REGISTRYINDEX, environment_reference_);
 		//Environment on stack
-		lua_pushstring(lua_state_, "ship");
-		lua_gettable(lua_state_, -2);
-		lua_pushstring(lua_state_, "position");
-		lua_gettable(lua_state_, -2);
-		lua_pushstring(lua_state_,"x");
-		lua_pushnumber(lua_state_, _self->GetPosition().x);
-		lua_settable(lua_state_, -3);
-		lua_pushstring(lua_state_,"y");
-		lua_pushnumber(lua_state_, _self->GetPosition().y);
-		lua_settable(lua_state_, -3);
-		lua_pop(lua_state_, 3);
+			lua_pushstring(lua_state_, "ship");
+			lua_gettable(lua_state_, -2);
+				lua_pushstring(lua_state_, "angle");
+				lua_pushnumber(lua_state_, _self->GetAngle() * M_PI / 180 );
+			lua_settable(lua_state_, -3);
+				lua_pushstring(lua_state_, "position");
+				lua_gettable(lua_state_, -2);
+					lua_pushstring(lua_state_,"x");
+						lua_pushnumber(lua_state_, _self->GetPosition().x);
+				lua_settable(lua_state_, -3);
+					lua_pushstring(lua_state_,"y");
+						lua_pushnumber(lua_state_, _self->GetPosition().y);
+				lua_settable(lua_state_, -3);
+			lua_pop(lua_state_, 1); //Pops position from stack
+
+				lua_pushstring(lua_state_, "target");
+				lua_gettable(lua_state_, -2);
+					lua_pushstring(lua_state_, "valid");
+						lua_pushboolean(lua_state_, target_ != NULL);
+				lua_settable(lua_state_, -3);
+				
+			if(target_)
+			{
+					lua_pushstring(lua_state_, "position");
+					lua_gettable(lua_state_, -2);
+						lua_pushstring(lua_state_,"x");
+							lua_pushnumber(lua_state_, target_->GetPosition().x);
+					lua_settable(lua_state_, -3);
+						lua_pushstring(lua_state_,"y");
+							lua_pushnumber(lua_state_, target_->GetPosition().y);
+					lua_settable(lua_state_, -3);
+				lua_pop(lua_state_, 1); //Pops position from stack
+			}
+			lua_pop(lua_state_, 2); //Pops target and environment from stack
 
 		int resume_result = lua_resume(thread, 0);
 		if(resume_result == LUA_YIELD)
@@ -126,14 +229,41 @@ void LuaAI::resume_coroutine(Core_ptr _self)
 
 AIAction LuaAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vector<Core_ptr>& _enemies, Core_ptr _self)
 {
-	next_move_ = AIAction(); /* Clears the next move, the resumes the AI		*/
-	resume_coroutine(_self);		 /* which will call methods on the LuaAI, setting	*/
-	return next_move_;		 /* the next_move_									*/
-}
+	/* Clears the next move, the resumes the AI			*/
+	/* which will call methods on the LuaAI, setting	*/
+	/* the next_move_									*/
 
-void LuaAI::RegisterLuaFunctions(lua_State* _luaVM)
-{
-	lua_register(_luaVM, "SetMoveDirection", l_SetMoveDirection);
+	next_move_ = AIAction();
+	
+	if(pick_closest_next)
+	{
+		pick_closest_next = false;
+		if(target_ != NULL)
+			target_->RemoveSubscriber(this);
+		if(_enemies.size() > 0)
+		{
+			int index = Random::RandomIndex(static_cast<int>(_enemies.size()));
+			target_ = _enemies[index];
+			target_->AddSubscriber(this);
+		}
+	}
+	
+	if(pick_random_next)
+	{
+		pick_closest_next = false;
+		if(target_ != NULL)
+			target_->RemoveSubscriber(this);
+		if(_enemies.size() > 0)
+		{
+			int index = Random::RandomIndex(static_cast<int>(_enemies.size()));
+			target_ = _enemies[index];
+			target_->AddSubscriber(this);
+		}
+	}
+
+
+	resume_coroutine(_self);
+	return next_move_;
 }
 
 LuaAI* LuaAI::FromScript(std::string _file_name, lua_State *_luaVM)
@@ -150,5 +280,13 @@ LuaAI* LuaAI::FromScript(std::string _file_name, lua_State *_luaVM)
 		lua_pop(_luaVM, 1);
 		Logger::Instance() << "Load AI script error: " << error_string << "\n";
 		return NULL;
+	}
+}
+
+void LuaAI::EndSubscription(Subscriber* _source)
+{
+	if(target_ == _source)
+	{
+		target_ = NULL;
 	}
 }

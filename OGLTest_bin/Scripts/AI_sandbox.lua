@@ -6,10 +6,28 @@ local func_name, owner_pointer = ...;
 local ship_ = 
 {
 	position = {x=0, y=0},
+	angle = 0,
 	ship_pointer = owner_pointer,
+	target = {position = {x=0, y=0}, valid = false},
 	_SetMoveDirection = SetMoveDirection,
 	SetMoveDirection = function(x, y)
 		_SetMoveDirection(ship_pointer, x, y)
+	end,
+	_SetTurnDirection = SetTurnDirection,
+	SetTurnDirection = function(dtheta)
+		_SetTurnDirection(ship_pointer, dtheta)
+	end,
+	_SetAll = SetAll,
+	SetAll = function(dx, dy, dtheta, firing)
+		_SetAll(ship_pointer, dx, dy, dtheta, firing)
+	end,
+	_PickRandomTarget = PickRandomTarget,
+	PickRandomTarget = function()
+		_PickRandomTarget(ship_pointer)
+	end,
+	_PickClosestTarget = PickClosestTarget,
+	PickClosestTarget = function()
+		_PickClosestTarget(ship_pointer)
 	end,
 }
 
@@ -21,11 +39,12 @@ local ship_mt =
 	end
 }
 
-
 setmetatable(ship_, ship_mt)
 setfenv(ship_.SetMoveDirection, ship_)
-ship_.position.x = 0
-ship_.position.y = 0
+setfenv(ship_.SetTurnDirection, ship_)
+setfenv(ship_.SetAll, ship_)
+setfenv(ship_.PickRandomTarget, ship_)
+setfenv(ship_.PickClosestTarget, ship_)
 
 --Return a table to be the environment
 local env_cage = {

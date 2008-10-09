@@ -219,6 +219,8 @@
 		</Configuration>
 		<Configuration
 			Name="Tests|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			>
 			<Tool
@@ -444,6 +446,10 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\RotatingAI.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\SimpleAI.lua"
 					>
 				</File>
 				<File
