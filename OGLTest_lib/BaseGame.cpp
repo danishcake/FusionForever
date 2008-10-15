@@ -2,18 +2,6 @@
 #include "BaseGame.h"
 #include "BaseLua.h"
 
-class RangeSort: public std::binary_function<Section_ptr, Section_ptr, bool> 
-{
-	const Projectile_ptr projectile_;
-public:
-	RangeSort( const Projectile_ptr _projectile) : projectile_(_projectile) {}
-
-	bool operator()(Section_ptr a, Section_ptr b) const
-	{
-		return Collisions2f::DistanceSqr(a->GetGlobalPosition(),projectile_->GetPosition()) <
-			   Collisions2f::DistanceSqr(b->GetGlobalPosition(),projectile_->GetPosition());
-	}
-};
 
 BaseGame::BaseGame(void)
 {
@@ -122,7 +110,7 @@ void BaseGame::Tick(float _timespan)
 				if(other_force != force && hostility_[force][other_force] == Hostility::Hostile)
 				{
 					collision_managers_[other_force].GetAtPoint(filtered, projectile->GetPosition());
-					std::sort(filtered.begin(),filtered.end(),RangeSort(projectile));
+					std::sort(filtered.begin(),filtered.end(), RelativeRangeSort<Projectile_ptr, Section_ptr>(projectile));
 					BOOST_FOREACH(Section_ptr section, filtered)
 					{
 						section->CheckCollisions(projectile); //Checks the collisions and does damage

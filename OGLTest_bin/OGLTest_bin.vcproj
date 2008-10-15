@@ -445,14 +445,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\RotatingAI.lua"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\SimpleAI.lua"
-					>
-				</File>
-				<File
 					RelativePath=".\Scripts\Utility.lua"
 					>
 				</File>
@@ -620,6 +612,18 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\Razorsaw.xmlShip"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="AI"
+				>
+				<File
+					RelativePath=".\Scripts\RotatingAI.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\SimpleAI.lua"
 					>
 				</File>
 			</Filter>

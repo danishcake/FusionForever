@@ -22,6 +22,8 @@ protected:
 	bool pick_random_next;
 	bool pick_closest_next;
 
+	float sum_time_;
+
 public:
 	LuaAI(std::string _file_name, lua_State* _luaVM);
 	~LuaAI(void);

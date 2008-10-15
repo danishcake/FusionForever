@@ -293,6 +293,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CheckSortFunctors.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\CheckXML.cpp"
 				>
 			</File>
@@ -335,7 +339,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying batch file"
-						CommandLine="copy &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+						CommandLine="copy &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -349,7 +353,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Copying batch file"
-						CommandLine="copy &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+						CommandLine="copy &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>

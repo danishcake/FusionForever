@@ -24,10 +24,14 @@ TEST(CheckTurningRoutines)
   CHECK_CLOSE(GetTurnDirection(25,25).turn_factor, 0, 0.01f);
 }
 
+static const float DEGTORAD = 3.14159265f / 180.0f;
+
 TEST(CheckCoordinateSystem)
 {
-  //TODO implement some coordinate system tests!
-  CHECK(true);
+	Vector3f p1 = Vector3f(0,10,0);
+	Matrix4f rot_90 = Matrix4f::createRotationAroundAxis(0,0, 90 * DEGTORAD);
+	Vector3f p2 = rot_90 * p1;
+	CHECK_CLOSE(10, p2.x, 0.001f);
 }
 
 int main()

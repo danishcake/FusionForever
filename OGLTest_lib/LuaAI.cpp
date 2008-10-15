@@ -120,6 +120,7 @@ LuaAI::LuaAI(std::string _file_name, lua_State* _luaVM)
 	target_ = NULL;
 	pick_random_next = false;
 	pick_closest_next = false;
+	sum_time_ = 0;
 }
 
 LuaAI::~LuaAI(void)
@@ -179,35 +180,37 @@ void LuaAI::resume_coroutine(Core_ptr _self)
 		//Environment on stack
 			lua_pushstring(lua_state_, "ship");
 			lua_gettable(lua_state_, -2);
+				lua_pushstring(lua_state_, "time");
+					lua_pushnumber(lua_state_, sum_time_);
+			lua_settable(lua_state_,-3);										//Sets ship.time to sum_time_
 				lua_pushstring(lua_state_, "angle");
-				lua_pushnumber(lua_state_, _self->GetAngle() * M_PI / 180 );
-			lua_settable(lua_state_, -3);
+					lua_pushnumber(lua_state_, _self->GetAngle() * M_PI / 180 );
+			lua_settable(lua_state_, -3);										//Sets ship.angle to _self.GetAngle() (Rad)
 				lua_pushstring(lua_state_, "position");
 				lua_gettable(lua_state_, -2);
 					lua_pushstring(lua_state_,"x");
 						lua_pushnumber(lua_state_, _self->GetPosition().x);
-				lua_settable(lua_state_, -3);
+				lua_settable(lua_state_, -3);									//Sets ship.position.x to x
 					lua_pushstring(lua_state_,"y");
-						lua_pushnumber(lua_state_, _self->GetPosition().y);
-				lua_settable(lua_state_, -3);
+						lua_pushnumber(lua_state_, _self->GetPosition().y);	
+				lua_settable(lua_state_, -3);									//Sets ship.position.y to y
 			lua_pop(lua_state_, 1); //Pops position from stack
 
 				lua_pushstring(lua_state_, "target");
 				lua_gettable(lua_state_, -2);
 					lua_pushstring(lua_state_, "valid");
 						lua_pushboolean(lua_state_, target_ != NULL);
-				lua_settable(lua_state_, -3);
-				
+				lua_settable(lua_state_, -3);									//Sets ship.target.valid to valid/invalid
 			if(target_)
 			{
 					lua_pushstring(lua_state_, "position");
 					lua_gettable(lua_state_, -2);
 						lua_pushstring(lua_state_,"x");
 							lua_pushnumber(lua_state_, target_->GetPosition().x);
-					lua_settable(lua_state_, -3);
+					lua_settable(lua_state_, -3);								//Sets ship.target.position.x target.x
 						lua_pushstring(lua_state_,"y");
 							lua_pushnumber(lua_state_, target_->GetPosition().y);
-					lua_settable(lua_state_, -3);
+					lua_settable(lua_state_, -3);								//Sets ship.target.position.y target.y
 				lua_pop(lua_state_, 1); //Pops position from stack
 			}
 			lua_pop(lua_state_, 2); //Pops target and environment from stack
@@ -224,6 +227,7 @@ void LuaAI::resume_coroutine(Core_ptr _self)
 		{
 			Logger::Instance() << lua_tostring(thread, -1) << "\n";
 		}
+		lua_pop(lua_state_, 1); //Pops thread
 	}
 }
 
@@ -233,7 +237,9 @@ AIAction LuaAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vecto
 	/* which will call methods on the LuaAI, setting	*/
 	/* the next_move_									*/
 
+	//TODO add timer so script can keep track of time
 	next_move_ = AIAction();
+	sum_time_ += _timespan;
 	
 	if(pick_closest_next)
 	{
@@ -242,8 +248,9 @@ AIAction LuaAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vecto
 			target_->RemoveSubscriber(this);
 		if(_enemies.size() > 0)
 		{
-			int index = Random::RandomIndex(static_cast<int>(_enemies.size()));
-			target_ = _enemies[index];
+			std::vector<Core_ptr> enemies_sorted_by_range = _enemies;
+			std::sort(enemies_sorted_by_range.begin(), enemies_sorted_by_range.end(), RelativeRangeSort<Core_ptr, Core_ptr>(_self));
+			target_ = _enemies[0];
 			target_->AddSubscriber(this);
 		}
 	}
@@ -290,3 +297,5 @@ void LuaAI::EndSubscription(Subscriber* _source)
 		target_ = NULL;
 	}
 }
+
+

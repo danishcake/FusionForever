@@ -257,10 +257,6 @@
 					RelativePath=".\SimpleAI.cpp"
 					>
 				</File>
-				<Filter
-					Name="AIScripts"
-					>
-				</Filter>
 			</Filter>
 			<Filter
 				Name="Decorations"
@@ -729,6 +725,10 @@
 				</File>
 				<File
 					RelativePath=".\SimpleCollisionManager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\SortFunctors.h"
 					>
 				</File>
 				<File

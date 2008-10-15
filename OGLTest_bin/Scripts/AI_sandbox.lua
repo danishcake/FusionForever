@@ -5,9 +5,12 @@ local func_name, owner_pointer = ...;
 --This is set up in the global scope, so grab the necessary functions
 local ship_ = 
 {
+	_coroutine = coroutine,
+	_print = print,
 	position = {x=0, y=0},
 	angle = 0,
 	ship_pointer = owner_pointer,
+	time = 0,
 	target = {position = {x=0, y=0}, valid = false},
 	_SetMoveDirection = SetMoveDirection,
 	SetMoveDirection = function(x, y)
@@ -29,6 +32,13 @@ local ship_ =
 	PickClosestTarget = function()
 		_PickClosestTarget(ship_pointer)
 	end,
+	WaitFor = function(time_to_wait)
+		local end_time = time+time_to_wait
+		while time < end_time do
+			_coroutine.yield()
+			--_print(time)
+		end
+	end,
 }
 
 local ship_mt = 
@@ -45,6 +55,7 @@ setfenv(ship_.SetTurnDirection, ship_)
 setfenv(ship_.SetAll, ship_)
 setfenv(ship_.PickRandomTarget, ship_)
 setfenv(ship_.PickClosestTarget, ship_)
+setfenv(ship_.WaitFor, ship_)
 
 --Return a table to be the environment
 local env_cage = {
