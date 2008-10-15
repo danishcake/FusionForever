@@ -53,18 +53,23 @@
       <Section SectionType="SpunStar">
         <Section SectionType="JointTracker" x="20" y="0">
           <Section SectionType="HeatBeamGun" Delay="0.4"/>
+          <Section SectionType ="GeneratorSpike"/>
         </Section>
         <Section SectionType="JointTracker" x="6.18" y="19.02">
           <Section SectionType="HeatBeamGun" Delay="0.8"/>
+          <Section SectionType ="GeneratorSpike"/>
         </Section>
         <Section SectionType="JointTracker" x="-16.18" y="11.75">
           <Section SectionType="HeatBeamGun" Delay="1.2"/>
+          <Section SectionType ="GeneratorSpike"/>
         </Section>
         <Section SectionType="JointTracker" x="-16.18" y="-11.75">
           <Section SectionType="HeatBeamGun" Delay="1.6"/>
+          <Section SectionType ="GeneratorSpike"/>
         </Section>
         <Section SectionType="JointTracker" x="6.18" y="-19.02">
           <Section SectionType="HeatBeamGun" Delay="2.0"/>
+          <Section SectionType ="GeneratorSpike"/>
         </Section>
       </Section>
     </Section>
