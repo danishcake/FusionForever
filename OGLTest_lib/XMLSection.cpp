@@ -2,7 +2,6 @@
 #include "XMLSection.h"
 #include <sstream>
 #include "Triangulate.h"
-#include <TinyXML.h>
 
 std::map<std::string, XMLFilledOutlinedData> XMLSection::name_map_ = std::map<std::string, XMLFilledOutlinedData>();
 

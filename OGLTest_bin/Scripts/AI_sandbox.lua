@@ -7,6 +7,7 @@ local ship_ =
 {
 	_coroutine = coroutine,
 	_print = print,
+	_math = math,
 	position = {x=0, y=0},
 	angle = 0,
 	ship_pointer = owner_pointer,
@@ -39,6 +40,22 @@ local ship_ =
 			--_print(time)
 		end
 	end,
+	FleeFor = function(time_to_flee)
+		local end_time = time + time_to_flee
+		while time < end_time do
+			if target.valid then
+				local range = _math.sqrt ((target.position.x - position.x) * (target.position.x - position.x) + (target.position.y - position.y) * (target.position.y - position.y))
+				local dx = (target.position.x - position.x) / range
+				local dy = (target.position.y - position.y) / range
+				local right_vector_dx = _math.cos(angle)
+				local right_vector_dy = -_math.sin(angle)
+				local dotp = dx * right_vector_dx + dy * right_vector_dy
+				
+				SetAll(-dx, -dy, -dotp, false)
+			end
+			_coroutine.yield()
+		end
+	end,
 }
 
 local ship_mt = 
@@ -56,6 +73,7 @@ setfenv(ship_.SetAll, ship_)
 setfenv(ship_.PickRandomTarget, ship_)
 setfenv(ship_.PickClosestTarget, ship_)
 setfenv(ship_.WaitFor, ship_)
+setfenv(ship_.FleeFor, ship_)
 
 --Return a table to be the environment
 local env_cage = {

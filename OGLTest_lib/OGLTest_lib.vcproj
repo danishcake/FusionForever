@@ -302,6 +302,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PlasmaBolt.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Projectile.cpp"
 					>
 				</File>
@@ -361,6 +365,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\ChainGun.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\FiringSection.cpp"
 						>
 					</File>
@@ -370,6 +378,10 @@
 					</File>
 					<File
 						RelativePath=".\HomingMissileLauncher.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\PlasmaArtillery.cpp"
 						>
 					</File>
 					<File
@@ -516,6 +528,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\BaseAI.h"
+					>
+				</File>
+				<File
 					RelativePath=".\KeyboardAI.h"
 					>
 				</File>
@@ -576,6 +592,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PlasmaBolt.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Projectile.h"
 					>
 				</File>
@@ -603,10 +623,6 @@
 			<Filter
 				Name="Sections"
 				>
-				<File
-					RelativePath=".\Section.h"
-					>
-				</File>
 				<Filter
 					Name="Cores"
 					>
@@ -635,6 +651,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\ChainGun.h"
+						>
+					</File>
+					<File
 						RelativePath=".\FiringSection.h"
 						>
 					</File>
@@ -644,6 +664,14 @@
 					</File>
 					<File
 						RelativePath=".\HomingMissileLauncher.h"
+						>
+					</File>
+					<File
+						RelativePath=".\PlasmaArtillery.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Section.h"
 						>
 					</File>
 					<File

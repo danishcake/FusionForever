@@ -1,15 +1,15 @@
 #include "StdAfx.h"
-#include "Blaster.h"
-#include "SmallBullet.h"
+#include "PlasmaArtillery.h"
+#include "PlasmaBolt.h"
 
 //Initialise all static class members
-bool Blaster::initialised_ = false;
-int Blaster::outline_dl_ = 0;
-int Blaster::outline_verts_index_ = 0;
-int Blaster::fill_dl_ = 0;
-int Blaster::fill_verts_index_ = 0;
+bool PlasmaArtillery::initialised_ = false;
+int PlasmaArtillery::outline_dl_ = 0;
+int PlasmaArtillery::outline_verts_index_ = 0;
+int PlasmaArtillery::fill_dl_ = 0;
+int PlasmaArtillery::fill_verts_index_ = 0;
 
-Blaster::Blaster(void)
+PlasmaArtillery::PlasmaArtillery(void)
 : FiringSection()
 {
 	if(!initialised_)
@@ -24,26 +24,26 @@ Blaster::Blaster(void)
 	fill_.SetDisplayList(fill_dl_);
 	findRadius();
 
-	health_ = FlexFloat(500, 500);
-	cooldown_time_ = 0.1f;
+	health_ = FlexFloat(1500, 1500);
+	cooldown_time_ = 4.0f;
 	default_sub_section_position_ = Vector3f(0, 0, 0);
-	mass_ = 150;
+	mass_ = 450;
 }
 
-Blaster::~Blaster(void)
+PlasmaArtillery::~PlasmaArtillery(void)
 {
 }
 
-void Blaster::InitialiseGraphics()
+void PlasmaArtillery::InitialiseGraphics()
 {
 	//Initialise outline
 	boost::shared_ptr<std::vector<Vector3f>> temp_outline = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 
-	temp_outline->push_back(Vector3f(0, -2.5f, 0));	//0
-	temp_outline->push_back(Vector3f(2.5f, 0, 0));	//1
-	temp_outline->push_back(Vector3f(1, 5, 0));		//2
-	temp_outline->push_back(Vector3f(-1, 5, 0));    //3
-	temp_outline->push_back(Vector3f(-2.5f, 0, 0));	//4
+	temp_outline->push_back(Vector3f(0, -5, 0));	//0
+	temp_outline->push_back(Vector3f(5, 0, 0));	//1
+	temp_outline->push_back(Vector3f(2, 10, 0));		//2
+	temp_outline->push_back(Vector3f(-2, 10, 0));    //3
+	temp_outline->push_back(Vector3f(-5, 0, 0));	//4
 
 	outline_verts_index_ = Datastore::Instance().AddVerts(temp_outline);
 	outline_dl_ = Outlined::CreateOutlinedDisplayList(temp_outline);
@@ -66,17 +66,17 @@ void Blaster::InitialiseGraphics()
 	fill_dl_ = Filled::CreateFillDisplayList(temp_fill);
 }
 
-void Blaster::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager)
+void PlasmaArtillery::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager)
 {
 	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies, _collision_manager);
 	cooldown_ -= _timespan;
 	if(firing_)
 	{
-		if(cooldown_ <= 0.0f && PowerRequirement(5))
+		if(cooldown_ <= 0.0f && PowerRequirement(25))
 		{
-			fire_projectile(new SmallBullet(Vector3f(Random::RandomRange(-2, 2), Random::RandomRange(1, 7), 0)), _spawn_prj);
+			fire_projectile(new PlasmaBolt(Vector3f(Random::RandomRange(-2, 2), Random::RandomRange(1, 7), 0)), _spawn_prj);
 			cooldown_ = cooldown_time_;
-			PowerTick(-1);
+			PowerTick(-25);
 		}
 	}
 }

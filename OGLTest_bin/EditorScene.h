@@ -18,6 +18,7 @@ public:
 	virtual bool IsRoot();
 
 	bool cbReturnToMenu(const CEGUI::EventArgs& e);
+	bool cbSave(const CEGUI::EventArgs& e);
 	bool cbSetCoreToSquareCore(const CEGUI::EventArgs& e);
 	bool cbSetCoreToTinyCore(const CEGUI::EventArgs& e);
 	bool cbAddBlaster(const CEGUI::EventArgs& e);

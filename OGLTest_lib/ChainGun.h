@@ -1,11 +1,12 @@
 #pragma once
 #include "FiringSection.h"
+#include "SmallBullet.h"
 
 
 /**
-  * The Blaster class represents a section that fires smallbullets rapidly
+  * The ChainGun class represents a section that fires smallbullets slowly at first, accelerating to extremely fast
   */
-class Blaster :
+class ChainGun :
 	public FiringSection
 {
 protected:
@@ -36,16 +37,41 @@ protected:
     * Initialises the display list and collision geometry on first instantiation
     */
 	virtual void InitialiseGraphics();
+	/*
+	 * The spun_up state, between 0 and 1
+	 */
+	float spun_up_factor_;
+	/*
+	 * The highest rate of fire
+	 */
+	static float minimum_fire_time_;
+	/*
+	 * The lowest rate of fire
+	 */
+	static float start_fire_time_;
+	/*
+	 * The spin up time
+	 */
+	static float spin_up_time_;
+	/*
+	 * The time before the second phase is entered
+	 */
+	static float phase_two_time_;
+	/*
+	 * The time continuously fired for
+	 */
+	float firing_time_;
+	float ltv_firing_time_;
 
 public:
    /**
-     * Creates a blaster
+     * Creates a ChainGun
      */
-	Blaster(void);
-	virtual ~Blaster(void);
+	ChainGun(void);
+	virtual ~ChainGun(void);
 
    /**
-     * Ticks the blaster
+     * Ticks the ChainGun
      * @param _timespan The time in seconds since the last frame.
      * @param _spawn_prj Any projectiles fired.
      * @param _spawn_dec Any decorations created.

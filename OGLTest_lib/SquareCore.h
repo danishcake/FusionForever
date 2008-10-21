@@ -16,4 +16,5 @@ protected:
 public:
 	SquareCore(BaseAI*);
 	virtual ~SquareCore(void);
+	virtual void ToXML(TiXmlElement* _node);
 };

@@ -1,11 +1,5 @@
 #pragma once
 #include "Section.h"
-#include "AIAction.h"
-
-/*
-The BaseAI class and the Section class are fairly tightly coupled and are so declared in
-the same header to resolve circular dependancies
-*/
 
 //Forward declare the BaseAI class.
 class BaseAI;
@@ -103,21 +97,3 @@ public:
 };
 
 
-/**
-  * The BaseAI class represents a AI that makes decisions about what a core should do
-  */
-class BaseAI : public Subscriber
-{
-public:
-	BaseAI(void) {};
-	virtual ~BaseAI(void) {};
-
-   /**
-     * Ticks the AI
-     * @param _timespan The time in seconds since the last frame.
-     * @param _friends A list of friends.
-     * @param _enemies A list of enemies.
-     * @param _self The owning core.
-     */
-	virtual AIAction Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vector<Core_ptr>& _enemies, Core_ptr _self) = 0;
-};

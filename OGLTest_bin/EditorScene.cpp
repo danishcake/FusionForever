@@ -32,6 +32,15 @@ bool EditorScene::cbReturnToMenu(const CEGUI::EventArgs& e)
 	return true;
 }
 
+bool EditorScene::cbSave(const CEGUI::EventArgs& e)
+{
+	if(lock_gui_)
+		return true;
+
+	this->game_->GetCore()->SaveToXML("temp_ship.xmlShip");
+	return true;
+}
+
 bool EditorScene::cbSetCoreToSquareCore(const CEGUI::EventArgs& e)
 {
 	this->game_->SetCore(new SquareCore(new RotatingAI(0.05f)));
@@ -212,6 +221,13 @@ EditorScene::EditorScene(void)
 	pBtnStart->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 0.0f, 10 ) ) );
 	pBtnStart->setText( "Try it!" );
 	myRoot->addChildWindow(pBtnStart);
+
+	CEGUI::PushButton* pBtnSave = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/Save");
+	pBtnSave->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 55 ), CEGUI::UDim( 0, 30 ) ) );
+	pBtnSave->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 140), CEGUI::UDim( 0.0f, 10 ) ) );
+	pBtnSave->setText( "Save" );
+	pBtnSave->subscribeEvent(CEGUI::Window::EventMouseClick,CEGUI::Event::Subscriber(&EditorScene::cbSave, this));
+	myRoot->addChildWindow(pBtnSave);
 
 	CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/Add");
 	pBtnAdd->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 45 ), CEGUI::UDim( 0, 30 ) ) );

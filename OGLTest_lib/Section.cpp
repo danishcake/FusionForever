@@ -4,6 +4,7 @@
 #include "Core.h"
 #include "ICollisionManager.h"
 
+
 int Section::section_count_ = 0;
 
 bool zero_or_less(float _value)
@@ -335,4 +336,33 @@ void Section::PowerTick(float _power_delta)
 Core_ptr Section::GetRoot()
 {
 	return root_ != NULL ? root_ : static_cast<Core_ptr>(this);
+}
+
+void Section::ToXML(TiXmlElement* _node)
+{
+	BOOST_FOREACH(Section_ptr section, sub_sections_)
+	{
+		//Add new node
+		TiXmlElement* child = new TiXmlElement("Section");
+		section->ToXML(child);
+		_node->LinkEndChild(child);
+	}
+	//To be overriden in all subclasses
+	_node->SetAttribute("x", boost::lexical_cast<std::string, float>(position_.x));
+	_node->SetAttribute("y", boost::lexical_cast<std::string, float>(position_.y));
+	_node->SetAttribute("Angle", boost::lexical_cast<std::string, float>(angle_));
+	_node->SetAttribute("Health", boost::lexical_cast<std::string, float>(health_.GetMaxValue()));
+	_node->SetAttribute("Delay", boost::lexical_cast<std::string, float>(firing_delay_));
+}
+
+void Section::SaveToXML(std::string _filename)
+{
+	TiXmlDocument doc = TiXmlDocument();
+	TiXmlDeclaration* decl = new TiXmlDeclaration("1.0", "", "");
+	doc.LinkEndChild(decl);
+	TiXmlElement* root = new TiXmlElement("Section");
+	ToXML(root);
+	doc.LinkEndChild(root);
+
+	doc.SaveFile(_filename);
 }

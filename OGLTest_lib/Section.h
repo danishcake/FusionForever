@@ -23,6 +23,8 @@ typedef Core* Core_ptr;
 
 static const float SECTION_FLASH_TIME = 2.0f;
 
+//Forward declare TiXML element
+class TiXmlElement;
 
 
 class Section :
@@ -110,4 +112,11 @@ public:
 	//Editor support
 	std::vector<Section_ptr> DetachChildren();
 	void AttachChildren(std::vector<Section_ptr> _children);
+	
+	/*
+	 * To be overriden by call sub classes, then called to set the basics
+	 */
+	virtual void ToXML(TiXmlElement* _node);
+
+	void SaveToXML(std::string _filename);
 };

@@ -1,5 +1,4 @@
 #include "StdAfx.h"
-#include <TinyXML.h>
 #include "Core.h"
 
 #include "SquareCore.h"
@@ -13,6 +12,8 @@
 #include "HeatBeamGun.h"
 #include "HomingMissileLauncher.h"
 #include "Swarmer.h"
+#include "ChainGun.h"
+#include "PlasmaArtillery.h"
 
 #include "XMLSection.h"
 
@@ -78,7 +79,9 @@ namespace Section_types
 		Blaster,
 		HeatBeamGun,
 		HomingMissileLauncher,
-		Swarmer
+		Swarmer,
+		ChainGun,
+		PlasmaArtillery
 	};
 
 	static const std::string ToStr[] = {
@@ -90,6 +93,8 @@ namespace Section_types
 		STR_ME( HeatBeamGun ),
 		STR_ME( HomingMissileLauncher ),
 		STR_ME( Swarmer ),
+		STR_ME( ChainGun ),
+		STR_ME( PlasmaArtillery )
 		};
 
 	static std::map<std::string, Enum> section_type_map;
@@ -111,6 +116,8 @@ namespace Section_types
 		section_type_map[ToStr[HeatBeamGun]]			= HeatBeamGun;
 		section_type_map[ToStr[HomingMissileLauncher]]	= HomingMissileLauncher;
 		section_type_map[ToStr[Swarmer]]				= Swarmer;
+		section_type_map[ToStr[ChainGun]]				= ChainGun;
+		section_type_map[ToStr[PlasmaArtillery]]		= PlasmaArtillery;
 	}
 
 	static bool initialised = false;
@@ -358,6 +365,12 @@ Section_ptr Core::ParseSection(TiXmlElement* _section_element)
 				break;
 			case Section_types::Swarmer:
 				section = new Swarmer();
+				break;
+			case Section_types::ChainGun:
+				section = new ChainGun();
+				break;
+			case Section_types::PlasmaArtillery:
+				section = new PlasmaArtillery();
 				break;
 			default:
 				//Attempt to find XMLSection

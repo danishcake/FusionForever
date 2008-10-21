@@ -1,11 +1,10 @@
 #pragma once
 #include "FiringSection.h"
 
-
 /**
-  * The Blaster class represents a section that fires smallbullets rapidly
+  * The PlasmaArtillery class represents a section that fires large fast moving projectiles
   */
-class Blaster :
+class PlasmaArtillery :
 	public FiringSection
 {
 protected:
@@ -39,13 +38,13 @@ protected:
 
 public:
    /**
-     * Creates a blaster
+     * Creates a PlasmaArtillery
      */
-	Blaster(void);
-	virtual ~Blaster(void);
+	PlasmaArtillery(void);
+	virtual ~PlasmaArtillery(void);
 
    /**
-     * Ticks the blaster
+     * Ticks the PlasmaArtillery
      * @param _timespan The time in seconds since the last frame.
      * @param _spawn_prj Any projectiles fired.
      * @param _spawn_dec Any decorations created.

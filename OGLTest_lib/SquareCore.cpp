@@ -57,3 +57,9 @@ void SquareCore::InitialiseGraphics(void)
 	fill_verts_index_ = Datastore::Instance().AddVerts(temp_fill);
 	fill_dl_ = Filled::CreateFillDisplayList(temp_fill);
 }
+
+void SquareCore::ToXML(TiXmlElement* _node)
+{
+	Section::ToXML(_node);
+	_node->SetAttribute("SectionType", "SquareCore");
+}

@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "LuaAI.h"
+#include "Core.h"
 
 extern "C"
 {

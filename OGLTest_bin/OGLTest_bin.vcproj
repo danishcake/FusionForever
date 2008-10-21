@@ -417,6 +417,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\Gunnery.luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\JuggernautFight.luaChallenge"
 					>
 				</File>
@@ -602,6 +606,10 @@
 			<Filter
 				Name="XMLShips"
 				>
+				<File
+					RelativePath=".\Scripts\KineticA.xmlShip"
+					>
+				</File>
 				<File
 					RelativePath=".\Scripts\Lasership.xmlShip"
 					>

@@ -30,3 +30,5 @@
 #include <boost/lexical_cast.hpp>
 #include "SortFunctors.h"
 
+#include <TinyXML.h>
+

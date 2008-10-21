@@ -1,5 +1,5 @@
 #pragma once
-#include "Core.h"
+#include "BaseAI.h"
 #include "sdl.h"
 
 class KeyboardAI :
@@ -10,5 +10,5 @@ protected:
 public:
 	KeyboardAI(void);
 	virtual ~KeyboardAI(void);
-	virtual AIAction Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vector<Core_ptr>& _enemies, Core_ptr _self);
+	virtual AIAction Tick(float _timespan, std::vector<Core*>& _allies, std::vector<Core*>& _enemies, Core* _self);
 };

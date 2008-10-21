@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Section SectionType ="SquareCore" Health ="1500">
+	<Section SectionType="ForwardWingLH" x="-10"/>
+	<Section SectionType="ForwardWingRH" x="10"/>
+	<Section SectionType="ChainGun"/>
+  <Section SectionType="ChainGun" x="-5" y="5"/>
+  <Section SectionType="ChainGun" x="5" y="5"/>
+  <Section SectionType="ChainGun" x="-10" y="5"/>
+  <Section SectionType="ChainGun" x="10" y="5"/>
+  <Section SectionType="PlasmaArtillery" y="20"/>
+</Section>

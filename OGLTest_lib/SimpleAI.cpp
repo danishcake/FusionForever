@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "SimpleAI.h"
 #include "TurningRoutines.h"
+#include "Core.h"
 
 static const float SimpleAIFocusTime = 10;
 static const float SimpleAIStrafeTime = 3;
