@@ -16,4 +16,6 @@ protected:
 public:
 	TinyCore(BaseAI*);
 	virtual ~TinyCore(void);
+	virtual void ToXML(TiXmlElement* _node);
+
 };

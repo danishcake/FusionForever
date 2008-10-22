@@ -80,3 +80,9 @@ void Blaster::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 		}
 	}
 }
+
+void Blaster::ToXML(TiXmlElement* _node)
+{
+	Section::ToXML(_node);
+	_node->SetAttribute("SectionType", "Blaster");
+}

@@ -18,6 +18,7 @@ struct XMLFilledOutlinedData
 
 	Vector3f default_subsection_position;
 	Vector3f size;
+	std::string filename;
 };
 
 class XMLSection :
@@ -26,6 +27,7 @@ class XMLSection :
 private:
 	XMLSection(XMLFilledOutlinedData _fill_outline_data);
 	static std::map<std::string, XMLFilledOutlinedData> name_map_;
+	std::string filename_;
 protected:
 	virtual void InitialiseGraphics();
 public:	
@@ -33,5 +35,6 @@ public:
 	static bool ParseSVGPath(std::string _path, XMLFilledOutlinedData& _out);
 	static XMLSection* CreateXMLSection(std::string _name);
 	static void Triangulate(std::vector<Vector3f>& _temp_outline);
+	virtual void ToXML(TiXmlElement* _node);
 	
 };

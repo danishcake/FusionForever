@@ -1811,7 +1811,7 @@ namespace VMATH_NAMESPACE
 	 void identity()
 	 {
 	    for (int i = 0; i < 16; i++)
-	       data[i] = (i % 5) ? 0 : 1;
+	       data[i] = (i % 5) ? static_cast<T>(0) : static_cast<T>(1);
 	 }
 	
 	

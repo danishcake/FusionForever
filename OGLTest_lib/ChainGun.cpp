@@ -116,3 +116,9 @@ void ChainGun::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, st
 		_spawn_dec.push_back(new Sparks());
 	}
 }
+
+void ChainGun::ToXML(TiXmlElement* _node)
+{
+	Section::ToXML(_node);
+	_node->SetAttribute("SectionType", "ChainGun");
+}

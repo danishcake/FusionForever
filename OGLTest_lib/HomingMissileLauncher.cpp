@@ -93,3 +93,9 @@ void HomingMissileLauncher::Tick(float _timespan, std::vector<Projectile_ptr>& _
 		}
 	}
 }
+
+void HomingMissileLauncher::ToXML(TiXmlElement* _node)
+{
+	Section::ToXML(_node);
+	_node->SetAttribute("SectionType", "HomeingMissileLauncher");
+}

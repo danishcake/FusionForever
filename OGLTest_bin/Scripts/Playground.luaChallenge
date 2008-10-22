@@ -1,4 +1,4 @@
---Challenge1.lua
+--Playground.luaChallenge
 --This loads a challenge of three waves of 64 extremely weak enemies
 --followed by a single 'Space Station' enemy which is hard to kill
 --without using it's weakspot
@@ -14,21 +14,18 @@ require "Utility"
 
 Challenge = {
 Script = coroutine.create(function()
-	for i = 0, 20 do
-		LoadShip("Lasership")				--Loads a ship but doesn't add it to the world
-		SetAI("FleeingAI.lua")					--Sets the last loaded ships AI
-		SetPosition(200 * math.sin(i * 6.28/20), 200 * math.cos(i * 6.28/20))
-		ScaleHealth(0.5)
-		AddToForce(1)						--Adds the ship to force 1
-		Predicate.WaitFor(0.01)
-	end
+	LoadShip("KineticB")				--Loads a ship but doesn't add it to the world
+	SetAI("KeyboardAI")					--Sets the last loaded ships AI
+	SetPosition(500, 0)
+	ScaleHealth(3)
+	AddToForce(0)						--Adds the ship to force 1
 
 	Predicate.WaitFor(2)
-	LoadShip("KineticB")				--Loads a ship but doesn't add it to the world
+	LoadShip("RazorSaw")				--Loads a ship but doesn't add it to the world
 	SetAI("SimpleAI.lua")					--Sets the last loaded ships AI
-	ScaleHealth(10.35)
+	ScaleHealth(1.35)
 	SetPosition(10,10)
-	AddToForce(0)						--Adds the ship to force 0
+	AddToForce(1)						--Adds the ship to force 0
 end),							--End of resumable coroutine
 							--Now the coroutine status is "dead"
 

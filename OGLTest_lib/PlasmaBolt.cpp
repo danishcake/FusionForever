@@ -2,6 +2,7 @@
 #include "PlasmaBolt.h"
 #include "Puff.h"
 #include "Ricochet.h"
+#include "Explosion.h"
 
 bool PlasmaBolt::initialised_ = false;
 int PlasmaBolt::fill_dl_ = 0;
@@ -33,36 +34,6 @@ void PlasmaBolt::InitialiseGraphics()
 {
 	boost::shared_ptr<std::vector<Vector3f>> temp_fill = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 
-	/*
-	temp_fill->push_back(Vector3f( -2, 0, 0));
-	temp_fill->push_back(Vector3f( 2, 0, 0));
-	temp_fill->push_back(Vector3f( 4, 2, 0));
-
-	temp_fill->push_back(Vector3f( -2, 0, 0));
-	temp_fill->push_back(Vector3f( 4, 2, 0));
-	temp_fill->push_back(Vector3f( 2, 6, 0));
-	
-	temp_fill->push_back(Vector3f( -2, 0, 0));
-	temp_fill->push_back(Vector3f( 2, 6, 0));
-	temp_fill->push_back(Vector3f( -2, 6, 0));
-
-	temp_fill->push_back(Vector3f( -2, 0, 0));
-	temp_fill->push_back(Vector3f( -2, 6, 0));
-	temp_fill->push_back(Vector3f( -4, 2, 0));
-
-	temp_fill->push_back(Vector3f( -2, 6, 0));
-	temp_fill->push_back(Vector3f( -2, 14, 0));
-	temp_fill->push_back(Vector3f( 2, 6, 0));
-
-	temp_fill->push_back(Vector3f( 2, 6, 0));
-	temp_fill->push_back(Vector3f( 2, 14, 0));
-	temp_fill->push_back(Vector3f( -2, 6, 0));
-
-	temp_fill->push_back(Vector3f( -2, 14, 0));
-	temp_fill->push_back(Vector3f( 0, 16, 0));
-	temp_fill->push_back(Vector3f( 2, 14, 0));
-	*/
-
 	temp_fill->push_back(Vector3f(-2,-5,0));
 	temp_fill->push_back(Vector3f(-3,10,0));
 	temp_fill->push_back(Vector3f(3,10,0));
@@ -80,7 +51,7 @@ void PlasmaBolt::Hit(std::vector<Decoration_ptr>& _spawn)
 {
 	for(int i = 0; i < 25; i++)
 	{
-		Decoration_ptr ricochet = Decoration_ptr(new Ricochet(angle_ += Random::RandomRange(-15,15), false));
+		Decoration_ptr ricochet = Decoration_ptr(new Ricochet(angle_ + Random::RandomRange(-15,15), false));
 		ricochet->SetPosition(position_);
 		_spawn.push_back(ricochet);
 
@@ -90,5 +61,8 @@ void PlasmaBolt::Hit(std::vector<Decoration_ptr>& _spawn)
 		puff_pos.y += Random::RandomRange(-10, 10);
 		puff->SetPosition(puff_pos);
 	}
-
+	Decoration_ptr p_explosion = new Explosion();
+	p_explosion->SetPosition(position_);
+	p_explosion->SetAngle(angle_ + 180.0f);
+	_spawn.push_back(p_explosion);
 }

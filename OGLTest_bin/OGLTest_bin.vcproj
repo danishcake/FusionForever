@@ -425,6 +425,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\Playground.luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\ReverseJuggernaut.luaChallenge"
 					>
 				</File>
@@ -611,6 +615,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\KineticB.xmlShip"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\Lasership.xmlShip"
 					>
 				</File>
@@ -626,6 +634,10 @@
 			<Filter
 				Name="AI"
 				>
+				<File
+					RelativePath=".\Scripts\FleeingAI.lua"
+					>
+				</File>
 				<File
 					RelativePath=".\Scripts\RotatingAI.lua"
 					>

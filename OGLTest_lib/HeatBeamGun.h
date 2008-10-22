@@ -15,4 +15,5 @@ protected:
 public:
 	HeatBeamGun(void);
 	virtual ~HeatBeamGun(void);
+	virtual void ToXML(TiXmlElement* _node);
 };

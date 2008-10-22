@@ -32,6 +32,7 @@ PlasmaArtillery::PlasmaArtillery(void)
 
 PlasmaArtillery::~PlasmaArtillery(void)
 {
+	
 }
 
 void PlasmaArtillery::InitialiseGraphics()
@@ -74,9 +75,16 @@ void PlasmaArtillery::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_
 	{
 		if(cooldown_ <= 0.0f && PowerRequirement(25))
 		{
-			fire_projectile(new PlasmaBolt(Vector3f(Random::RandomRange(-2, 2), Random::RandomRange(1, 7), 0)), _spawn_prj);
+			Projectile_ptr plasmabolt = new PlasmaBolt(Vector3f(Random::RandomRange(-2, 2), Random::RandomRange(1, 7), 0));
+			fire_projectile(plasmabolt, _spawn_prj);
 			cooldown_ = cooldown_time_;
 			PowerTick(-25);
 		}
 	}
+}
+
+void PlasmaArtillery::ToXML(TiXmlElement* _node)
+{
+	Section::ToXML(_node);
+	_node->SetAttribute("SectionType", "PlasmaArtillery");
 }

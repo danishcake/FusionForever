@@ -56,6 +56,32 @@ local ship_ =
 			_coroutine.yield()
 		end
 	end,
+	AttackFor = function(time_to_attack, min_range, max_range)
+		local end_time = time + time_to_attack
+		while time < end_time do
+			if target.valid == true then
+				local range = _math.sqrt ((target.position.x - position.x) * (target.position.x - position.x) + (target.position.y - position.y) * (target.position.y - position.y))
+				local dx = (target.position.x - position.x) / range
+				local dy = (target.position.y - position.y) / range
+				local right_vector_dx = _math.cos(angle)
+				local right_vector_dy = -_math.sin(angle)
+				local dotp = dx * right_vector_dx + dy * right_vector_dy
+				local firing = _math.abs(dotp) < 0.4
+
+				if range < min_range then
+					--Back off
+					SetAll(-dx, -dy, dotp, firing)
+				elseif range > max_range then
+					--Advance
+					SetAll(dx, dy, dotp, firing)
+				else
+					--Strafe
+					SetAll(dy, -dx, dotp, firing)
+				end
+			end
+			_coroutine.yield()
+		end
+	end,
 }
 
 local ship_mt = 
@@ -74,6 +100,7 @@ setfenv(ship_.PickRandomTarget, ship_)
 setfenv(ship_.PickClosestTarget, ship_)
 setfenv(ship_.WaitFor, ship_)
 setfenv(ship_.FleeFor, ship_)
+setfenv(ship_.AttackFor, ship_)
 
 --Return a table to be the environment
 local env_cage = {

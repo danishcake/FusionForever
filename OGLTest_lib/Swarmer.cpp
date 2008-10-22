@@ -93,3 +93,9 @@ void Swarmer::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 		}
 	}
 }
+
+void Swarmer::ToXML(TiXmlElement* _node)
+{
+	Section::ToXML(_node);
+	_node->SetAttribute("SectionType", "Swarmer");
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Section SectionType ="SquareCore" Health ="5000">
+	<Section SectionType="SmallBulkhead" y="20" x="20" Health="3000" Angle="45">
+		<Section SectionType="PlasmaArtillery" x="0" y="0" Angle="-45" Delay="0.2"/>
+		<Section SectionType="PlasmaArtillery" x="10" y="0" Angle="-45"Delay="0.3"/>
+	</Section>
+	<Section SectionType="SmallBulkhead" y="20" x="-20" Health="3000" Angle="-45">
+		<Section SectionType="PlasmaArtillery" x="0" y="0" Angle="45" Delay="0.2"/>
+		<Section SectionType="PlasmaArtillery" x="-10" y="0" Angle="45"Delay="0.3"/>
+	</Section>
+	<Section SectionType="CenterFrontBody" y="20" x="0" Health="3000" Angle="0">
+		<Section SectionType="PlasmaArtillery"/>
+		<Section SectionType="PlasmaArtillery" x="-10"Delay="0.1"/>
+		<Section SectionType="PlasmaArtillery" x="10" Delay="0.1"/>
+	</Section>
+	<Section SectionType="FrontPlatingLH" y="-10" x="25" Angle="100">
+		<Section SectionType="HeatBeamGun"/>
+	</Section>
+	<Section SectionType="FrontPlatingRH" y="-10" x="-25" Angle="-100">
+		<Section SectionType="HeatBeamGun"/>
+	</Section>
+	<Section SectionType="OctoSection" y="10" x="10">
+		<Section SectionType="PlasmaArtillery" x="0" y="0" Delay="0.4"/>
+	</Section>
+	<Section SectionType="OctoSection" y="10" x="-10">
+		<Section SectionType="PlasmaArtillery" x="0" y="0" Delay="0.4"/>
+	</Section>
+	<Section SectionType="OctoSection" y="-10" x="10">
+		<Section SectionType="PlasmaArtillery" x="-5" y="0" Delay="0.45"/>
+	</Section>
+	<Section SectionType="OctoSection" y="-10" x="-10">
+		<Section SectionType="PlasmaArtillery" x="5" y="0" Delay="0.45"/>
+	</Section>
+	<Section SectionType="DriveUnit" y="-20" x="10"/>
+	<Section SectionType="DriveUnit" y="-20" x="-10"/>
+	
+</Section>

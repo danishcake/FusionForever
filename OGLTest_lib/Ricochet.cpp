@@ -40,7 +40,7 @@ void Ricochet::Tick(float _timespan, Matrix4f _transform)
 	_transform = ltv_transform_ * translationM;
 	_transform = _transform * scaleM;
 	ltv_transform_ = _transform;
-	fill_.GetFillColor().a = 255 * (1.0f - life_scale);
+	fill_.GetFillColor().a = static_cast<unsigned char>(255 * (1.0f - life_scale));
 }
 
 void Ricochet::InitialiseGraphics()

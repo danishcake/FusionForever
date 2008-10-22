@@ -21,6 +21,7 @@ XMLSection::XMLSection(XMLFilledOutlinedData _fill_outline_data)
 	energy_ = FlexFloat(_fill_outline_data.energy_storage, _fill_outline_data.energy_storage);
 	power_generation_ = FlexFloat(_fill_outline_data.power_generation);
 	thrust_ = FlexFloat(_fill_outline_data.thrust);
+	filename_ = _fill_outline_data.filename;
 }
 
 XMLSection::~XMLSection(void)
@@ -41,6 +42,7 @@ XMLSection* XMLSection::CreateXMLSection(std::string _name)
 	} else
 	{
 		XMLFilledOutlinedData indicies;
+		indicies.filename = _name;
 		TiXmlDocument section = TiXmlDocument(file_name.c_str());
 		if(section.LoadFile())
 		{
@@ -264,4 +266,10 @@ bool XMLSection::ParseSVGPath(std::string _path, XMLFilledOutlinedData& _out)
 
 void XMLSection::InitialiseGraphics()
 {
+}
+
+void XMLSection::ToXML(TiXmlElement* _node)
+{
+	Section::ToXML(_node);
+	_node->SetAttribute("SectionType", filename_);
 }
