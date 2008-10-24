@@ -15,6 +15,7 @@ protected:
 	float damage_;
 	float lifetime_;
 	Filled fill_;
+	int firer_id_;
 public:
 	Projectile(void);
 	virtual ~Projectile(void);	
@@ -26,6 +27,9 @@ public:
 	float GetDamage(){return damage_;}
 	float GetLifetime(){return lifetime_;}
 	void SetLifetime(float _lifetime){lifetime_ = _lifetime;}
+
+	int GetFirer_ID(){return firer_id_;}
+	void SetFirer_ID(int _firer_id){firer_id_ = _firer_id;}
 
 	static bool IsProjectileRemovable(Projectile_ptr prj)
 	{

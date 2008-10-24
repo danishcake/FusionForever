@@ -32,6 +32,12 @@ protected:
      * The time until the next decoration can spawn. Resets to 0.025f (40hz).
      */
 	float deco_cooldown_;
+
+   /**
+     * The ID of the firing section
+     */
+	int firer_id_;
+
 public:
    /**
      * Creates a BeamSection with a maximum distance of 100.
@@ -52,4 +58,12 @@ public:
      * @param _enemies A list of enemies.
      */
 	virtual void Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies);
+
+
+   /**
+     * Gets/sets the firing ID of the beam
+     */
+
+	int GetFirer_ID(){return firer_id_;}
+	void SetFirer_ID(int _firer_id){firer_id_ = _firer_id;}
 };

@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "FiringSection.h"
+#include "Core.h"
 
 FiringSection::FiringSection(void)
 : Section()
@@ -19,4 +20,5 @@ void FiringSection::fire_projectile(Projectile_ptr _projectile, std::vector<Proj
 	_projectile->SetAngle(atan2f(_projectile->GetVelocity().x, _projectile->GetVelocity().y) * 180 / M_PI);
 	
 	_spawn_prj.push_back(Projectile_ptr(_projectile));
+	_projectile->SetFirer_ID(root_->GetSectionID()); //This assumes that a Core will never be cajoled into firing
 }

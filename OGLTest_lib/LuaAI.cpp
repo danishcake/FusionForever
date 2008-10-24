@@ -122,6 +122,7 @@ LuaAI::LuaAI(std::string _file_name, lua_State* _luaVM)
 	pick_random_next = false;
 	pick_closest_next = false;
 	sum_time_ = 0;
+	ok_to_run_ = true;
 }
 
 LuaAI::~LuaAI(void)
@@ -169,7 +170,7 @@ bool LuaAI::initialise_coroutine()
 
 void LuaAI::resume_coroutine(Core_ptr _self)
 {
-	if(coroutine_reference_)
+	if(coroutine_reference_ && ok_to_run_)
 	{
 		lua_rawgeti(lua_state_, LUA_REGISTRYINDEX, coroutine_reference_);
 		lua_State* thread = lua_tothread(lua_state_, -1);
@@ -226,6 +227,7 @@ void LuaAI::resume_coroutine(Core_ptr _self)
 			initialise_coroutine(); //Restart coroutine
 		} else
 		{
+			ok_to_run_ = false;
 			Logger::Instance() << lua_tostring(thread, -1) << "\n";
 		}
 		lua_pop(lua_state_, 1); //Pops thread

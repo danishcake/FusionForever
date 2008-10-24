@@ -9,6 +9,7 @@ BeamSection::BeamSection(void)
 {
 	max_distance_ = 100.0f;
 	distance_ = 0.0f;
+	firer_id_ = -1;
 }
 
 BeamSection::~BeamSection(void)

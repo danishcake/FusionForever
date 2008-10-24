@@ -96,7 +96,7 @@ void ChainGun::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, st
 			{
 				fire_projectile(new SmallBullet(Vector3f(Random::RandomRange(-2, 0), Random::RandomRange(1, 7), 0)), _spawn_prj);
 				fire_projectile(new SmallBullet(Vector3f(Random::RandomRange(2, 0), Random::RandomRange(1, 7), 0)), _spawn_prj);
-				cooldown_ = (start_fire_time_ - (start_fire_time_ - minimum_fire_time_) * spun_up_factor_) * 1.2;
+				cooldown_ = (start_fire_time_ - (start_fire_time_ - minimum_fire_time_) * spun_up_factor_) * 1.2f;
 			}
 			
 			PowerTick(-1);

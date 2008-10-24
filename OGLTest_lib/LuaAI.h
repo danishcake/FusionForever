@@ -24,6 +24,11 @@ protected:
 
 	float sum_time_;
 
+	/*
+	 * While true no error has been encountered. Once an error is found it is set false and the AI grinds to a halt
+	 */
+	bool ok_to_run_;
+
 public:
 	LuaAI(std::string _file_name, lua_State* _luaVM);
 	~LuaAI(void);

@@ -22,6 +22,8 @@ BeamFiringSection::~BeamFiringSection(void)
 
 void BeamFiringSection::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager)
 {
+	beam_->SetFirer_ID(root_->GetSectionID());
+
 	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies, _collision_manager);
 	if(firing_&& PowerRequirement(10))
 	{		

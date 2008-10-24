@@ -25,7 +25,7 @@ Blaster::Blaster(void)
 	findRadius();
 
 	health_ = FlexFloat(500, 500);
-	cooldown_time_ = 0.1f;
+	cooldown_time_ = 0.133f;
 	default_sub_section_position_ = Vector3f(0, 0, 0);
 	mass_ = 150;
 }

@@ -8,6 +8,7 @@ Projectile::Projectile(void)
 	lifetime_ = 5;
 	mass_ = 100;
 	moment_ = 1;
+	firer_id_ = -1;
 
 }
 
