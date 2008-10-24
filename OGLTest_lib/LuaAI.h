@@ -18,6 +18,7 @@ protected:
 	void resume_coroutine(Core* _self);
 
 	Core* target_;
+	Core* self_;
 
 	bool pick_random_next;
 	bool pick_closest_next;
@@ -25,7 +26,7 @@ protected:
 	float sum_time_;
 
 	/*
-	 * While true no error has been encountered. Once an error is found it is set false and the AI grinds to a halt
+	 * True while no error has been encountered. Once an error is found it is set false and the AI grinds to a halt
 	 */
 	bool ok_to_run_;
 
@@ -41,6 +42,8 @@ public:
 
 	void PickRandomTarget();
 	void PickClosestTarget();
+
+	void SetCameraPosition(float _x, float _y);
 
 	static void RegisterLuaFunctions(lua_State* _luaVM);
 	static LuaAI* FromScript(std::string _file_name, lua_State* _luaVM);

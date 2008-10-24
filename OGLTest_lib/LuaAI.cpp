@@ -94,6 +94,24 @@ void LuaAI::SetAll(float _x, float _y, float _dtheta, bool _firing)
 }
 
 
+
+static int l_SetCameraPosition(lua_State* luaVM)
+{
+	LuaAI* instance = ((LuaAI*)(lua_touserdata(luaVM, -3)));
+	assert(instance);
+
+	float x = static_cast<float>(lua_tonumber(luaVM, -2));
+	float y = static_cast<float>(lua_tonumber(luaVM, -1));
+	instance->SetCameraPosition(x, y);
+	return 0;
+}
+
+void LuaAI::SetCameraPosition(float _x, float _y)
+{
+	Camera::Instance().SetCentre(_x, _y, CameraLevel::Intro);
+	Camera::Instance().SetFocus(self_->GetPosition().x, self_->GetPosition().y, CameraLevel::Intro);
+}
+
 static bool initialised_lua = false;
 void LuaAI::RegisterLuaFunctions(lua_State* _luaVM)
 {
@@ -102,6 +120,7 @@ void LuaAI::RegisterLuaFunctions(lua_State* _luaVM)
 	lua_register(_luaVM, "SetAll", l_SetAll);
 	lua_register(_luaVM, "PickRandomTarget", l_PickRandomTarget);
 	lua_register(_luaVM, "PickClosestTarget", l_PickClosestTarget);
+	lua_register(_luaVM, "SetCameraPosition", l_SetCameraPosition);
 }
 
 LuaAI::LuaAI(std::string _file_name, lua_State* _luaVM)
@@ -119,6 +138,7 @@ LuaAI::LuaAI(std::string _file_name, lua_State* _luaVM)
 	environment_reference_ = 0;
 	initialise_coroutine();
 	target_ = NULL;
+	self_ = NULL;
 	pick_random_next = false;
 	pick_closest_next = false;
 	sum_time_ = 0;
@@ -214,6 +234,10 @@ void LuaAI::resume_coroutine(Core_ptr _self)
 							lua_pushnumber(lua_state_, target_->GetPosition().y);
 					lua_settable(lua_state_, -3);								//Sets ship.target.position.y target.y
 				lua_pop(lua_state_, 1); //Pops position from stack
+					lua_pushstring(lua_state_, "angle");
+					lua_gettable(lua_state_, -2);
+						lua_pushnumber(lua_state_, target_->GetAngle());
+				lua_settable(lua_state_, -3);
 			}
 			lua_pop(lua_state_, 2); //Pops target and environment from stack
 
@@ -241,6 +265,7 @@ AIAction LuaAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vecto
 	/* the next_move_									*/
 
 	//TODO add timer so script can keep track of time
+	self_ = _self;
 	next_move_ = AIAction();
 	sum_time_ += _timespan;
 	
@@ -260,7 +285,7 @@ AIAction LuaAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vecto
 	
 	if(pick_random_next)
 	{
-		pick_closest_next = false;
+		pick_random_next = false;
 		if(target_ != NULL)
 			target_->RemoveSubscriber(this);
 		if(_enemies.size() > 0)
@@ -270,7 +295,6 @@ AIAction LuaAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vecto
 			target_->AddSubscriber(this);
 		}
 	}
-
 
 	resume_coroutine(_self);
 	return next_move_;

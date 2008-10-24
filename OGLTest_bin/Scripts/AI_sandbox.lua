@@ -12,7 +12,7 @@ local ship_ =
 	angle = 0,
 	ship_pointer = owner_pointer,
 	time = 0,
-	target = {position = {x=0, y=0}, valid = false},
+	target = {position = {x=0, y=0}, valid = false, angle=0},
 	_SetMoveDirection = SetMoveDirection,
 	SetMoveDirection = function(x, y)
 		_SetMoveDirection(ship_pointer, x, y)
@@ -33,11 +33,21 @@ local ship_ =
 	PickClosestTarget = function()
 		_PickClosestTarget(ship_pointer)
 	end,
+	_SetCameraPosition = SetCameraPosition,
+	SetCameraPosition = function(x, y)
+		_SetCameraPosition(ship_pointer, x, y)
+	end,
 	WaitFor = function(time_to_wait)
 		local end_time = time+time_to_wait
 		while time < end_time do
 			_coroutine.yield()
-			--_print(time)
+		end
+	end,
+	WaitForAnd = function(time_to_wait, dothis)
+		local end_time = time+time_to_wait
+		while time < end_time do
+			dothis()
+			_coroutine.yield()
 		end
 	end,
 	FleeFor = function(time_to_flee)
@@ -52,7 +62,28 @@ local ship_ =
 				local dotp = dx * right_vector_dx + dy * right_vector_dy
 				
 				SetAll(-dx, -dy, -dotp, false)
+			else
+				PickClosestTarget()
 			end
+			_coroutine.yield()
+		end
+	end,
+	FleeForAnd = function(time_to_flee, dothis)
+		local end_time = time + time_to_flee
+		while time < end_time do
+			if target.valid then
+				local range = _math.sqrt ((target.position.x - position.x) * (target.position.x - position.x) + (target.position.y - position.y) * (target.position.y - position.y))
+				local dx = (target.position.x - position.x) / range
+				local dy = (target.position.y - position.y) / range
+				local right_vector_dx = _math.cos(angle)
+				local right_vector_dy = -_math.sin(angle)
+				local dotp = dx * right_vector_dx + dy * right_vector_dy
+				
+				SetAll(-dx, -dy, -dotp, false)
+			else
+				PickClosestTarget()
+			end
+			dothis()
 			_coroutine.yield()
 		end
 	end,
@@ -78,10 +109,42 @@ local ship_ =
 					--Strafe
 					SetAll(dy, -dx, dotp, firing)
 				end
+			else
+				PickClosestTarget()
 			end
 			_coroutine.yield()
 		end
 	end,
+	AttackForAnd = function(time_to_attack, min_range, max_range, dothis)
+		local end_time = time + time_to_attack
+		while time < end_time do
+			if target.valid == true then
+				local range = _math.sqrt ((target.position.x - position.x) * (target.position.x - position.x) + (target.position.y - position.y) * (target.position.y - position.y))
+				local dx = (target.position.x - position.x) / range
+				local dy = (target.position.y - position.y) / range
+				local right_vector_dx = _math.cos(angle)
+				local right_vector_dy = -_math.sin(angle)
+				local dotp = dx * right_vector_dx + dy * right_vector_dy
+				local firing = _math.abs(dotp) < 0.4
+
+				if range < min_range then
+					--Back off
+					SetAll(-dx, -dy, dotp, firing)
+				elseif range > max_range then
+					--Advance
+					SetAll(dx, dy, dotp, firing)
+				else
+					--Strafe
+					SetAll(dy, -dx, dotp, firing)
+				end
+			else
+				PickClosestTarget()
+			end
+			dothis()
+			_coroutine.yield()
+		end
+	end,
+
 }
 
 local ship_mt = 
@@ -93,14 +156,13 @@ local ship_mt =
 }
 
 setmetatable(ship_, ship_mt)
-setfenv(ship_.SetMoveDirection, ship_)
-setfenv(ship_.SetTurnDirection, ship_)
-setfenv(ship_.SetAll, ship_)
-setfenv(ship_.PickRandomTarget, ship_)
-setfenv(ship_.PickClosestTarget, ship_)
-setfenv(ship_.WaitFor, ship_)
-setfenv(ship_.FleeFor, ship_)
-setfenv(ship_.AttackFor, ship_)
+
+for func in pairs(ship_) do 
+	if type(ship_[func]) == "function" and string.sub(func, 0, 1) ~= "_" then 
+		--print("Changing the function: ship_[" .. func .. "]")
+		setfenv(ship_[func], ship_)
+	end
+end
 
 --Return a table to be the environment
 local env_cage = {

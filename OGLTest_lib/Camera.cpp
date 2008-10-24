@@ -32,7 +32,7 @@ void Camera::SetupCamera()
 		glRotatef((4 * shake_time_) * Random::RandomFactor(), 0, 0, 1);
 	}
 	glOrtho(GetLeft(), GetRight(), GetTop(), GetBottom(), -100, 100);
-
+	camera_level_ = CameraLevel::None;
 }
 
 void Camera::Shake(float _amount)

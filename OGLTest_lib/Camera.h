@@ -3,6 +3,14 @@
 
 #define CAMERA_ZOOM_TIME 0.3f
 
+namespace CameraLevel
+{
+	static enum Enum
+	{
+		None, Intro, Human, Cutscene
+	};
+}
+
 /**
   * The Camera class represents the view on the world.
   * It contains a variety of member functions for getting world parameters
@@ -77,6 +85,11 @@ private:
 		width_= _width;
 		height_ = width_ / ratio_;
 	}
+
+	/*
+	 * The highest level of importance received this frame
+	 */
+	CameraLevel::Enum camera_level_;
 public:
 	virtual ~Camera(void);
    /**
@@ -166,20 +179,29 @@ public:
      * @param _x The x-axis centre of the scene
      * @param _y The y-axis centre of the scene
      */
-	void SetCentre(float _x, float _y)
+	void SetCentre(float _x, float _y, CameraLevel::Enum _level)
 	{
-		centre_x_ = _x;
-		centre_y_ = _y;
+		//Ignore updates with lower importance
+		if(camera_level_ <= _level)
+		{
+			camera_level_ = _level;
+			centre_x_ = _x;
+			centre_y_ = _y;
+		}
 	}
    /**
-     * Sets the focus of the camera. Generally the player position.
+     * Sets the focus of the camera. Generally the player position. Used for Starfield paralax
      * @param _x The x-axis focus.
      * @param _y The y-axis focus.
      */
-	void SetFocus(float _x, float _y)
+	void SetFocus(float _x, float _y, CameraLevel::Enum _level)
 	{
-		focus_x_ = _x;
-		focus_y_ = _y;
+		if(camera_level_ <= _level)
+		{
+			camera_level_ = _level;
+			focus_x_ = _x;
+			focus_y_ = _y;
+		}
 	}
    /**
      * Sets the width of the orthographic projection.
