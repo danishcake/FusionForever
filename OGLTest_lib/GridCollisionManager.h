@@ -3,7 +3,7 @@
 #include "GLColor.h"
 
 #define GRID_SECTIONS 20
-#define MINIMUM_GRID_SIZE 25.0f
+#define MINIMUM_GRID_SIZE 30.0f
 
 class GridCollisionManager :
 	public ICollisionManager

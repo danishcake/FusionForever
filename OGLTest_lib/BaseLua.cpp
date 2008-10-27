@@ -10,7 +10,6 @@
 #include "SpinningJoint.h"
 #include "JointAngles.h"
 #include "JointTracker.h"
-#include "LuaSection.h"
 #include "RotatingAI.h"
 #include "KeyboardAI.h"
 #include "SimpleAI.h"

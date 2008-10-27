@@ -13,7 +13,7 @@
 #include "HeatBeamGun.h"
 #include "HomingMissileLauncher.h"
 #include "Swarmer.h"
-#include "LuaSection.h"
+#include "XmlSection.h"
 
 #include "RotatingAI.h"
 
@@ -106,12 +106,12 @@ bool EditorScene::cbAddSwarmer(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool EditorScene::cbAddLuaSection(const CEGUI::EventArgs& e)
+bool EditorScene::cbAddXMLSection(const CEGUI::EventArgs& e)
 {
 	const CEGUI::WindowEventArgs& we = 	static_cast<const CEGUI::WindowEventArgs&>(e);
 	if(selection_ != NULL)
 	{
-		Section_ptr section = LuaSection::CreateLuaSection(we.window->getName().c_str(), game_->GetLua());
+		Section_ptr section = XMLSection::CreateXMLSection(we.window->getName().c_str());
 		if(section != NULL)
 		{
 			selection_->SetNotFlashing();
@@ -120,7 +120,7 @@ bool EditorScene::cbAddLuaSection(const CEGUI::EventArgs& e)
 			selection_->SetFlashing();
 		} else
 		{
-			Logger::LogError("Unable to load lua section in editor");
+			Logger::LogError("Unable to load XML section in editor");
 			Logger::LogError(we.window->getName().c_str());
 		}
 	}
@@ -187,6 +187,67 @@ bool EditorScene::cbBackgroundClick(const CEGUI::EventArgs& e)
 	return true;
 }
 
+bool EditorScene::cbBackgroundMove(const CEGUI::EventArgs& e)
+{
+	static CEGUI::Point old_position;
+	static bool first_tick = true;
+	
+	const CEGUI::MouseEventArgs we = static_cast<const CEGUI::MouseEventArgs&>(e);
+
+	if(first_tick)
+	{
+		old_position = we.position;
+		first_tick = false;
+	}
+
+	CEGUI::Point mouse_move = we.position - old_position;
+	Vector3f world_move = Camera::Instance().ScreenDeltaToWorldDelta(Vector3f(mouse_move.d_x, mouse_move.d_y, 0.0f));
+	old_position = we.position;
+
+	if(selection_ != NULL)
+	{
+		if(drag_mode_ == EditorDragMode::MoveDrag)
+		{
+			Logger::Instance() << "Move dragging:" << world_move.x <<","<<world_move.y << "\n";
+			selection_->SetPosition(selection_->GetPosition() + world_move);
+
+		} else if(drag_mode_ == EditorDragMode::RotateDrag)
+		{
+			Logger::Instance() << "Rotate dragging:" << world_move.x <<","<<world_move.y << "\n";
+		}
+	}
+	return true;
+}
+
+bool EditorScene::cbBackgroundMBD(const CEGUI::EventArgs& e)
+{
+	Logger::Instance() << "Mouse down\n";
+	
+	const CEGUI::MouseEventArgs we = static_cast<const CEGUI::MouseEventArgs&>(e);
+	Vector3f world_click = Camera::Instance().ScreenToWorld(Vector3f(we.position.d_x, we.position.d_y, 0));
+	Section* clicked_section = game_->GetAtMouseCoord(world_click);
+	if(clicked_section != NULL)
+	{
+		drag_mode_ = EditorDragMode::MoveDrag;
+		if(selection_ != NULL)
+			selection_->SetNotFlashing();
+		selection_ = clicked_section;
+			selection_->SetFlashing();
+	} else
+	{
+		drag_mode_ = EditorDragMode::RotateDrag;
+	}
+
+	return true;
+}
+
+bool EditorScene::cbBackgroundMBU(const CEGUI::EventArgs& e)
+{
+	Logger::Instance() << "Mouse up\n";
+	drag_mode_ = EditorDragMode::NotDragging;
+	return true;
+}
+
 
 EditorScene::EditorScene(void)
 {
@@ -194,6 +255,7 @@ EditorScene::EditorScene(void)
 	fade_out_time_ = 0;
 	lock_gui_ = false;
 	return_to_menu_ = false;
+	drag_mode_ = EditorDragMode::NotDragging;
 
 	sum_time_ = 0;
 
@@ -207,6 +269,10 @@ EditorScene::EditorScene(void)
 	pWndClickArea->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, 130 ), CEGUI::UDim( 0, 0 ) ) );
 	pWndClickArea->setSize(CEGUI::UVector2( CEGUI::UDim( 1, -130 ), CEGUI::UDim( 1, -120 ) ) );
 	pWndClickArea->subscribeEvent(CEGUI::Window::EventMouseClick,CEGUI::Event::Subscriber(&EditorScene::cbBackgroundClick, this));
+	pWndClickArea->subscribeEvent(CEGUI::Window::EventMouseMove,CEGUI::Event::Subscriber(&EditorScene::cbBackgroundMove, this));
+	pWndClickArea->subscribeEvent(CEGUI::Window::EventMouseButtonDown,CEGUI::Event::Subscriber(&EditorScene::cbBackgroundMBD, this));
+	pWndClickArea->subscribeEvent(CEGUI::Window::EventMouseButtonUp,CEGUI::Event::Subscriber(&EditorScene::cbBackgroundMBU, this));
+	
 	myRoot->addChildWindow(pWndClickArea);
 
 	CEGUI::PushButton* pBtnQuit = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/QuitToMenu");
@@ -358,9 +424,9 @@ EditorScene::EditorScene(void)
 			}
 		pPalette->addTab(pTabWeapons);
 
-		CEGUI::DefaultWindow* pTabLua = (CEGUI::DefaultWindow*)wmgr.createWindow("TaharezLook/TabContentPane");
-			pTabLua->setProperty("EnableBottom","1");
-			pTabLua->setText("Lua Sections");
+		CEGUI::DefaultWindow* pTabXML = (CEGUI::DefaultWindow*)wmgr.createWindow("TaharezLook/TabContentPane");
+			pTabXML->setProperty("EnableBottom","1");
+			pTabXML->setText("XML Sections");
 			{
 			int width = 2;
 			int height = 1;
@@ -372,21 +438,21 @@ EditorScene::EditorScene(void)
 				if(boost::filesystem::is_regular((itr->status())))
 				{
 					std::string ext = boost::filesystem::extension(*itr);
-					if(ext == ".luaSection")
+					if(ext == ".XMLSection")
 					{
 						std::string filename = boost::filesystem::basename(itr->path());
-						CEGUI::PushButton* pBtnLuaSection = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button", filename);
-						pBtnLuaSection->setText(filename);
-							pBtnLuaSection->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
-							pBtnLuaSection->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-							pBtnLuaSection->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddLuaSection, this));
+						CEGUI::PushButton* pBtnXMLSection = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button", filename);
+						pBtnXMLSection->setText(filename);
+							pBtnXMLSection->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
+							pBtnXMLSection->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
+							pBtnXMLSection->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddXMLSection, this));
 							width += 61;
-						pTabLua->addChildWindow(pBtnLuaSection);
+						pTabXML->addChildWindow(pBtnXMLSection);
 					}
 				}
 			}
 			}
-		pPalette->addTab(pTabLua);
+		pPalette->addTab(pTabXML);
 	myRoot->addChildWindow(pPalette);
 }
 

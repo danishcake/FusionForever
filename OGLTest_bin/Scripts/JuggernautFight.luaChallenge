@@ -7,7 +7,7 @@ Challenge = {
 	Script = coroutine.create(function()
 		Predicate.WaitFor(2)
 		
-		local juggernaut_id = LoadShip("JuggernautA.luaShip")
+		local juggernaut_id = LoadShip("JuggernautA")
 		SetPosition(0, 500)
 		ScaleHealth(2)
 		AddToForce(1)
@@ -17,7 +17,7 @@ Challenge = {
 	end),
 	LivesScript = coroutine.create(function()
 		LogError("Creating ownship as LuaShip")
-		local ownship_id = LoadShip("LuaShip2.luaShip")
+		local ownship_id = LoadShip("Lasership")
 		SetAI("KeyboardAI")
 		AddToForce(0)
 		
@@ -25,7 +25,7 @@ Challenge = {
 		Predicate.WaitFor(1)
 		
 		LogError("Respawning ownship as SpikeyShip")
-		ownship_id = LoadShip("SpikeyShip.luaShip")
+		ownship_id = LoadShip("KineticB")
 		SetAI("KeyboardAI")
 		AddToForce(0)
 		Predicate.WaitTillShipDead(ownship_id)		

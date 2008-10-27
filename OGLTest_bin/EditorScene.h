@@ -5,6 +5,14 @@
 class EditorGame;
 class Section;
 
+namespace EditorDragMode
+{
+	enum Enum
+	{
+		NotDragging, RotateDrag, MoveDrag
+	};
+}
+
 class EditorScene :
 	public BaseScene
 {
@@ -25,13 +33,22 @@ public:
 	bool cbAddHeatBeam(const CEGUI::EventArgs& e);
 	bool cbAddHomingMissileLauncher(const CEGUI::EventArgs& e);
 	bool cbAddSwarmer(const CEGUI::EventArgs& e);
-	bool cbAddLuaSection(const CEGUI::EventArgs& e);
+	bool cbAddXMLSection(const CEGUI::EventArgs& e);
 	
 	bool cbChangeOrientation(const CEGUI::EventArgs& e);
 	bool cbChangeAngle(const CEGUI::EventArgs& e);
 	bool cbChangeDistance(const CEGUI::EventArgs& e);
 	
 	bool cbBackgroundClick(const CEGUI::EventArgs& e);
+	bool cbBackgroundMove(const CEGUI::EventArgs& e);
+	bool cbBackgroundMBD(const CEGUI::EventArgs& e);
+	bool cbBackgroundMBU(const CEGUI::EventArgs& e);
+
+
+
+
+
+
 
 protected:
 	bool return_to_menu_;
@@ -42,4 +59,5 @@ protected:
 	EditorGame* game_;
 
 	Section* selection_;
+	EditorDragMode::Enum drag_mode_;
 };

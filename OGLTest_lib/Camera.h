@@ -232,6 +232,12 @@ public:
      * @return The world coordinates corresponding to _screen_position
      */
 	Vector3f ScreenToWorld(Vector3f _screen_position);
+	/**
+     * Projects screen movement to world movement
+     * @param _screen_delta The change in coordinates on the screen, eg mouse movement
+     * @return The world movement corresponding to _screen_delta
+     */
+	Vector3f ScreenDeltaToWorldDelta(Vector3f _screen_delta);
 
 	void TickCamera(float _timespan)
 	{

@@ -242,7 +242,9 @@ Core_ptr Core::CreateCore(std::string _name)
 		}
 	} else
 	{
-		Logger::LogError(std::string("Unable to open file '") + file_name + std::string("' :") + std::string(ship_document.ErrorDesc()));
+		Logger::LogError(std::string("Unable to open file '") + file_name + std::string("' :") + 
+			std::string(ship_document.ErrorDesc() + boost::lexical_cast<std::string, int>(ship_document.ErrorRow()) +
+			std::string(":") + boost::lexical_cast<std::string, int>(ship_document.ErrorCol())));
 	}
 
 	return NULL;
@@ -409,11 +411,6 @@ void Core::ParseCommon(TiXmlElement* _section_element, Section* _section)
 	float delay = 0;
 	if(_section_element->QueryValueAttribute("Delay", &delay) == TIXML_SUCCESS)
 		_section->SetFiringDelay(delay);
-}
-
-void Core::SaveCore(std::string _filename)
-{
-
 }
 
 void Core::EndSubscription(Subscriber* _source)

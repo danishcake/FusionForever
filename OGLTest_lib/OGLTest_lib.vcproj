@@ -352,10 +352,6 @@
 					Name="Inactive"
 					>
 					<File
-						RelativePath=".\LuaSection.cpp"
-						>
-					</File>
-					<File
 						RelativePath=".\XMLSection.cpp"
 						>
 					</File>
@@ -645,10 +641,6 @@
 				<Filter
 					Name="Inactive"
 					>
-					<File
-						RelativePath=".\LuaSection.h"
-						>
-					</File>
 					<File
 						RelativePath=".\XMLSection.h"
 						>

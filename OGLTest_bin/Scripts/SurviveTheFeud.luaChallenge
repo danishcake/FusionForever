@@ -5,8 +5,8 @@ require "Utility"
 
 Challenge = {
 	SpawnForceOneScript = coroutine.create(function()
-		for i = 0, 50 do
-			LoadShip("SpikeyShip.luaShip")
+		for i = 0, 25 do
+			LoadShip("GunshipA")
 			SetPosition(250 - 10 *i, 500)
 			ScaleHealth(0.5)
 			SetAI("SimpleAI")
@@ -17,8 +17,8 @@ Challenge = {
 	end),
 	
 	SpawnForceTwoScript = coroutine.create(function()
-		for i = 0, 50 do
-			LoadShip("SpikeyShip.luaShip")
+		for i = 0, 25 do
+			LoadShip("GunshipA")
 			SetPosition(-250 + 10 *i, -500)
 			ScaleHealth(0.5)
 			SetAI("SimpleAI")
@@ -29,9 +29,8 @@ Challenge = {
 	end),
 
 	LivesScript = coroutine.create(function()
-		LogError("Creating ownship as LuaShip")
 		Predicate.WaitFor(2)
-		local ownship_id = LoadShip("LuaShip2.luaShip")
+		local ownship_id = LoadShip("KineticC")
 		SetAI("KeyboardAI")
 		SetPosition(-500, 0)
 		AddToForce(0)
@@ -77,11 +76,10 @@ Challenge = {
 		end
 		
 		
-		if(team_one_dead == true) then
-			if(team_two_dead == true) then
-				return true
-			end
+		if(team_one_dead == true) and (team_two_dead == true) then
+			return true
 		end
+		
 		return false
 	end
 }

@@ -6,7 +6,7 @@
 
 EditorGame::EditorGame(void)
 {
-	AddShip(new SquareCore(new RotatingAI(0.05f)), 0);
+	AddShip(new SquareCore(new RotatingAI(0.00f)), 0);
 }
 
 EditorGame::~EditorGame(void)

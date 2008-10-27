@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Section SectionType="SquareCore" Health ="10000">
+
+  <Section SectionType="BearEars" x="0" y="30">
+    <Section SectionType="CenterFrontBody" x="0" y="20">
+      <Section SectionType="Blaster" x="0" y="35"/>
+      <Section SectionType="Blaster" x="-5" y="35"/>
+      <Section SectionType="Blaster" x="5" y="35"/>
+      <Section SectionType="Blaster" x="10" y="30"/>
+      <Section SectionType="Blaster" x="-10" y="30"/>
+      <Section SectionType="Blaster" x="13" y="22"/>
+      <Section SectionType="Blaster" x="-13" y="22"/>
+      <Section SectionType="HeatBeamGun" x="0" y="10"/>
+    </Section>
+    <Section SectionType="FrontPlatingLH" x="-20" y="0">
+      <Section SectionType="HeatBeamGun" x="0" y="20"/>
+      <Section SectionType="HeatBeamGun" x="-10" y="20" Delay="0.5"/>
+    </Section>
+    <Section SectionType="FrontPlatingRH" x="20" y="0">
+      <Section SectionType="HeatBeamGun" x="0" y="20"/>
+      <Section SectionType="HeatBeamGun" x="10" y="20" Delay="0.5"/>
+    </Section>
+  </Section>
+  
+  <Section SectionType="BearEars" x="0" y="-30" Angle="180">
+    <Section SectionType="Bulkhead" x="0" y="20" Angle="0">
+      <Section SectionType="Spike" x="0" y="20"/>
+      <Section SectionType="Spike" x="5" y="19"/>
+      <Section SectionType="Spike" x="-5" y="19"/>
+    </Section>
+    <Section SectionType="SmallBulkhead" x="20" y="0" Angle="90">
+      <Section SectionType="Blaster" Angle="5" x="-10" y="12"/>
+      <Section SectionType="Blaster" Angle="-45" x="-15" y="8"/>
+    </Section>
+    <Section SectionType="SmallBulkhead" x="-20" y="0" Angle="-90">
+      <Section SectionType="Blaster" Angle="5" x="10" y="12"/>
+      <Section SectionType="Blaster" Angle="45" x="15" y="8"/>
+    </Section>
+  </Section>
+  
+  <Section SectionType="BearEars" x="30" y="0" Angle="90">
+    <Section SectionType="Bulkhead" x="0" y="20" Angle="0">
+      <Section SectionType="ProngLH" Angle="-90" x="-20" y="5">
+        <Section SectionType="HeatBeamGun" Delay="1"/>
+      </Section>
+    </Section>
+    <Section SectionType="SmallBulkhead" x="20" y="0" Angle="90"/>
+  </Section>
+  
+  <Section SectionType="BearEars" x="-30" y="0" Angle="-90">
+    <Section SectionType="Bulkhead" x="0" y="20" Angle="0">
+      <Section SectionType="ProngLH" Angle="90" x="20" y="5">
+        <Section SectionType="HeatBeamGun" Delay="1"/>
+      </Section>
+    </Section>
+    <Section SectionType="SmallBulkhead" x="-20" y="0" Angle="-90"/>
+  </Section>
+</Section>

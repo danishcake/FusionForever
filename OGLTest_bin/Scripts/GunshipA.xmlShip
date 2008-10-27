@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Section SectionType ="SquareCore" Health ="1000">
+  <Section SectionType="ProngLH" x="-10" y="5"/>
+  <Section SectionType="ProngRH" x="10" y="5"/>
+  <Section SectionType="WingRH" x="7.5" y="0">
+    <Section SectionType="Blaster"/>
+  </Section>
+  <Section SectionType="WingLH" x="-7.5" y="0">
+    <Section SectionType="Blaster"/>
+  </Section>
+  <Section SectionType="SweptWingLH" x="-7.5" y="-5"/>
+  <Section SectionType="SweptWingRH" x="7.5" y="-5"/>
+</Section>

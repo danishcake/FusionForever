@@ -362,6 +362,9 @@ void Section::SaveToXML(std::string _filename)
 	doc.LinkEndChild(decl);
 	TiXmlElement* root = new TiXmlElement("Section");
 	ToXML(root);
+	root->SetAttribute("x", boost::lexical_cast<std::string, float>(0));
+	root->SetAttribute("y", boost::lexical_cast<std::string, float>(0));
+	root->SetAttribute("angle", boost::lexical_cast<std::string, float>(0));
 	doc.LinkEndChild(root);
 
 	doc.SaveFile(_filename);

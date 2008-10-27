@@ -8,13 +8,13 @@ Challenge = {
 		Predicate.WaitFor(2)
 		
 		for j = 0, 10 do
-			LoadShip("SpikeyShip.luaShip")
+			LoadShip("KineticC")
 			SetAI("SimpleAI")
 			SetPosition(500 * math.sin(math.rad(360* j / 20)), 500 * math.cos(math.rad(360* j / 20)))
 			ScaleHealth(0.5)
 			AddToForce(1)
 			
-			LoadShip("SpikeyShip.luaShip")
+			LoadShip("KineticC")
 			SetAI("SimpleAI")
 			SetPosition(-500 * math.sin(math.rad(360* j / 20)), -500 * math.cos(math.rad(360* j / 20)))
 			ScaleHealth(0.5)
@@ -27,19 +27,12 @@ Challenge = {
 	end),
 	LivesScript = coroutine.create(function()
 		LogError("Creating ownship as LuaShip")
-		local ownship_id = LoadShip("JuggernautA.luaShip")
+		local ownship_id = LoadShip("JuggernautA")
 		SetAI("KeyboardAI")
 		ScaleHealth(2)
 		AddToForce(0)
 		
 		Predicate.WaitTillShipDead(ownship_id)
-		Predicate.WaitFor(1)
-		
-		LogError("Respawning ownship as SpikeyShip")
-		ownship_id = LoadShip("SpikeyShip.luaShip")
-		SetAI("KeyboardAI")
-		AddToForce(0)
-		Predicate.WaitTillShipDead(ownship_id)		
 	end),
 
 	EntryPoint = function()

@@ -88,11 +88,6 @@ public:
 	 */
 	static void ParseCommon(TiXmlElement* _section_element, Section* _section);
 
-	/*
-	 * Saves the core to an XML file
-	 */
-	void SaveCore(std::string _filename);
-
 	virtual void EndSubscription(Subscriber* _source);
 };
 

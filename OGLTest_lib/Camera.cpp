@@ -49,3 +49,10 @@ Vector3f Camera::ScreenToWorld(Vector3f _screen_position)
 	world_position.y = GetTop()  + world_position.y * GetHeight();
 	return world_position;
 }
+
+Vector3f Camera::ScreenDeltaToWorldDelta(Vector3f _screen_delta)
+{
+	Vector3f world_move;
+	Vector3f result = Vector3f(width_ * _screen_delta.x / window_width_, -height_ * _screen_delta.y / window_height_, 0);
+	return result;
+}
