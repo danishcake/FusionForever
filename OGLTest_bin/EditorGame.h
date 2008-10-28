@@ -7,6 +7,9 @@ class Core;
 class EditorGame :
 	public BaseGame
 {
+private:
+	Section* selected_section_;
+
 public:
 	EditorGame(void);
 	virtual ~EditorGame(void);
@@ -14,4 +17,11 @@ public:
 	Section* GetAtMouseCoord(Vector3f _point);
 	void SetCore(Core* _core);
 	Core* GetCore();
+	
+	virtual void Draw();
+
+	void SetSelectedSection(Section* _selected_section)
+	{
+		selected_section_ = _selected_section;
+	}
 };

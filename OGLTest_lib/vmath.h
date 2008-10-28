@@ -870,7 +870,15 @@ namespace VMATH_NAMESPACE
 	    return (*this) + (r - (*this)) * fact;	
 	 }
 	
-    
+	/**
+	 * Snap the vector to the nearest point on a zero centred grid
+	 */
+    Vector3<T> snap(T snap_to) const
+	{
+		return Vector3<T>(floorf(this->x / snap_to + static_cast<T>(0.5)) * snap_to,
+						  floorf(this->y / snap_to + static_cast<T>(0.5)) * snap_to,
+						  floorf(this->z / snap_to + static_cast<T>(0.5)) * snap_to);
+	}
 
 
 

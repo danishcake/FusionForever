@@ -43,17 +43,15 @@ bool EditorScene::cbSave(const CEGUI::EventArgs& e)
 
 bool EditorScene::cbSetCoreToSquareCore(const CEGUI::EventArgs& e)
 {
-	this->game_->SetCore(new SquareCore(new RotatingAI(0.05f)));
-	selection_ = static_cast<Section_ptr>(this->game_->GetCore());
-	selection_->SetFlashing();
+	this->game_->SetCore(new SquareCore(new RotatingAI(0.00f)));
+	SetSelected(static_cast<Section_ptr>(this->game_->GetCore()));
 	return true;
 }
 
 bool EditorScene::cbSetCoreToTinyCore(const CEGUI::EventArgs& e)
 {
-	this->game_->SetCore(new TinyCore(new RotatingAI(0.05f)));
-	selection_ = static_cast<Section_ptr>(this->game_->GetCore());
-	selection_->SetFlashing();
+	this->game_->SetCore(new TinyCore(new RotatingAI(0.00f)));
+	SetSelected(static_cast<Section_ptr>(this->game_->GetCore()));
 	return true;
 }
 
@@ -63,9 +61,7 @@ bool EditorScene::cbAddBlaster(const CEGUI::EventArgs& e)
 	{
 		Section_ptr section = new Blaster();
 		selection_->AddChild(section);
-		selection_->SetNotFlashing();
-		selection_ = section;
-		selection_->SetFlashing();
+		SetSelected(section);
 	}
 	return true;
 }
@@ -75,9 +71,7 @@ bool EditorScene::cbAddHeatBeam(const CEGUI::EventArgs& e)
 	{
 		Section_ptr section = new HeatBeamGun();
 		selection_->AddChild(section);
-		selection_->SetNotFlashing();
-		selection_ = section;
-		selection_->SetFlashing();
+		SetSelected(section);
 	}
 	return true;
 }
@@ -87,9 +81,7 @@ bool EditorScene::cbAddHomingMissileLauncher(const CEGUI::EventArgs& e)
 	{
 		Section_ptr section = new HomingMissileLauncher();
 		selection_->AddChild(section);
-		selection_->SetNotFlashing();
-		selection_ = section;
-		selection_->SetFlashing();
+		SetSelected(section);
 	}
 	return true;
 }
@@ -99,9 +91,7 @@ bool EditorScene::cbAddSwarmer(const CEGUI::EventArgs& e)
 	{
 		Section_ptr section = new Swarmer();
 		selection_->AddChild(section);
-		selection_->SetNotFlashing();
-		selection_ = section;
-		selection_->SetFlashing();
+		SetSelected(section);
 	}
 	return true;
 }
@@ -114,10 +104,9 @@ bool EditorScene::cbAddXMLSection(const CEGUI::EventArgs& e)
 		Section_ptr section = XMLSection::CreateXMLSection(we.window->getName().c_str());
 		if(section != NULL)
 		{
-			selection_->SetNotFlashing();
 			selection_->AddChild(section);
-			selection_ = section;
-			selection_->SetFlashing();
+			SetSelected(section);
+			
 		} else
 		{
 			Logger::LogError("Unable to load XML section in editor");
@@ -168,10 +157,9 @@ bool EditorScene::cbBackgroundClick(const CEGUI::EventArgs& e)
 	Section* clicked_section = game_->GetAtMouseCoord(world_click);
 	if(clicked_section != NULL)
 	{
-		if(selection_ != NULL)
-			selection_->SetNotFlashing();
-		selection_ = clicked_section;
-			selection_->SetFlashing();
+		move_first_tick = true;
+		SetSelected(clicked_section);
+
 		CEGUI::Slider* slider_angle = static_cast<CEGUI::Slider*>(CEGUI::WindowManager::getSingleton().getWindow("Edit/Properties/Angle"));
 		CEGUI::Slider* slider_distance = static_cast<CEGUI::Slider*>(CEGUI::WindowManager::getSingleton().getWindow("Edit/Properties/Distance"));
 		CEGUI::Slider* slider_orientation = static_cast<CEGUI::Slider*>(CEGUI::WindowManager::getSingleton().getWindow("Edit/Properties/Orientation"));
@@ -189,31 +177,75 @@ bool EditorScene::cbBackgroundClick(const CEGUI::EventArgs& e)
 
 bool EditorScene::cbBackgroundMove(const CEGUI::EventArgs& e)
 {
-	static CEGUI::Point old_position;
-	static bool first_tick = true;
-	
 	const CEGUI::MouseEventArgs we = static_cast<const CEGUI::MouseEventArgs&>(e);
 
-	if(first_tick)
+	if(move_first_tick)
 	{
 		old_position = we.position;
-		first_tick = false;
+		move_first_tick = false;
 	}
 
 	CEGUI::Point mouse_move = we.position - old_position;
 	Vector3f world_move = Camera::Instance().ScreenDeltaToWorldDelta(Vector3f(mouse_move.d_x, mouse_move.d_y, 0.0f));
+	Vector3f world_position = Camera::Instance().ScreenDeltaToWorldDelta(Vector3f(we.position.d_x, we.position.d_y, 0.0f));
+
 	old_position = we.position;
 
-	if(selection_ != NULL)
+	if(selection_ != NULL && !selection_->IsCore()) //Something selected and is not root
 	{
-		if(drag_mode_ == EditorDragMode::MoveDrag)
+		if(we.sysKeys & CEGUI::Shift == CEGUI::Shift) //Shift = snap mode
 		{
-			Logger::Instance() << "Move dragging:" << world_move.x <<","<<world_move.y << "\n";
-			selection_->SetPosition(selection_->GetPosition() + world_move);
+			accumulated_snap += world_move;
 
-		} else if(drag_mode_ == EditorDragMode::RotateDrag)
+			if(drag_mode_ == EditorDragMode::MoveDrag)
+			{
+				if(fabsf(accumulated_snap.x) >= 2.5f)
+				{
+					//Rotate the move vector into the parents space
+					Vector3f delta = Vector3f(accumulated_snap.x, 0 , 0);
+					float angle = selection_->GetParent()->GetGlobalAngle();
+					delta.rotate(0,0, angle);
+					Vector3f snap_to = (selection_->GetPosition() + delta).snap(2.5f);
+					selection_->SetPosition(snap_to);
+					accumulated_snap.x = 0;
+				}
+				if(fabsf(accumulated_snap.y) >= 2.5f)
+				{
+					//Rotate the move vector into the parents space
+					Vector3f delta = Vector3f(0, accumulated_snap.y , 0);
+					delta.rotate(0,0, selection_->GetParent()->GetGlobalAngle());
+					Vector3f snap_to = (selection_->GetPosition() + delta).snap(2.5f);
+					selection_->SetPosition(snap_to);
+					accumulated_snap.y = 0;
+				}
+			} else if(drag_mode_ == EditorDragMode::RotateDrag)
+			{
+				//Rotate to face the mouse
+				if(fabs(accumulated_snap.x) >= 15)
+				{
+					float angle = floorf((selection_->GetGlobalAngle() + accumulated_snap.x) / 15 + 0.5f) * 15.0f;
+					selection_->SetAngle(angle);
+					accumulated_snap.x = 0;
+					Logger::Instance() << "Snapping to " << angle << "\n";
+				}
+			}
+
+		} else
 		{
-			Logger::Instance() << "Rotate dragging:" << world_move.x <<","<<world_move.y << "\n";
+			if(drag_mode_ == EditorDragMode::MoveDrag)
+			{
+				Vector3f delta = world_move;
+				float angle = selection_->GetParent()->GetGlobalAngle();
+				delta.rotate(0,0, angle);
+				selection_->SetPosition(selection_->GetPosition() + delta);
+
+			} else if(drag_mode_ == EditorDragMode::RotateDrag)
+			{
+				//Rotate to face the mouse
+				selection_->SetAngle(selection_->GetAngle() + mouse_move.d_x);
+				Logger::Instance() << "Rotating by " << mouse_move.d_x << "\n";
+			}
+			accumulated_snap = Vector3f();
 		}
 	}
 	return true;
@@ -226,13 +258,9 @@ bool EditorScene::cbBackgroundMBD(const CEGUI::EventArgs& e)
 	const CEGUI::MouseEventArgs we = static_cast<const CEGUI::MouseEventArgs&>(e);
 	Vector3f world_click = Camera::Instance().ScreenToWorld(Vector3f(we.position.d_x, we.position.d_y, 0));
 	Section* clicked_section = game_->GetAtMouseCoord(world_click);
-	if(clicked_section != NULL)
+	if(clicked_section != NULL && clicked_section == selection_)
 	{
 		drag_mode_ = EditorDragMode::MoveDrag;
-		if(selection_ != NULL)
-			selection_->SetNotFlashing();
-		selection_ = clicked_section;
-			selection_->SetFlashing();
 	} else
 	{
 		drag_mode_ = EditorDragMode::RotateDrag;
@@ -245,9 +273,19 @@ bool EditorScene::cbBackgroundMBU(const CEGUI::EventArgs& e)
 {
 	Logger::Instance() << "Mouse up\n";
 	drag_mode_ = EditorDragMode::NotDragging;
+	move_first_tick = true;
+	accumulated_snap = Vector3f();
 	return true;
 }
 
+bool EditorScene::cbBackgroundMouseLeave(const CEGUI::EventArgs& e)
+{
+	Logger::Instance() << "Mouse leaving\n";
+	drag_mode_ = EditorDragMode::NotDragging;
+	move_first_tick = true;
+	accumulated_snap = Vector3f();
+	return true;
+}
 
 EditorScene::EditorScene(void)
 {
@@ -256,6 +294,7 @@ EditorScene::EditorScene(void)
 	lock_gui_ = false;
 	return_to_menu_ = false;
 	drag_mode_ = EditorDragMode::NotDragging;
+	move_first_tick = true;
 
 	sum_time_ = 0;
 
@@ -272,6 +311,7 @@ EditorScene::EditorScene(void)
 	pWndClickArea->subscribeEvent(CEGUI::Window::EventMouseMove,CEGUI::Event::Subscriber(&EditorScene::cbBackgroundMove, this));
 	pWndClickArea->subscribeEvent(CEGUI::Window::EventMouseButtonDown,CEGUI::Event::Subscriber(&EditorScene::cbBackgroundMBD, this));
 	pWndClickArea->subscribeEvent(CEGUI::Window::EventMouseButtonUp,CEGUI::Event::Subscriber(&EditorScene::cbBackgroundMBU, this));
+	pWndClickArea->subscribeEvent(CEGUI::Window::EventMouseLeaves,CEGUI::Event::Subscriber(&EditorScene::cbBackgroundMouseLeave, this));
 	
 	myRoot->addChildWindow(pWndClickArea);
 
@@ -282,15 +322,9 @@ EditorScene::EditorScene(void)
 	pBtnQuit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbReturnToMenu, this));
 	myRoot->addChildWindow(pBtnQuit);
 
-	CEGUI::PushButton* pBtnStart = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/Try");
-	pBtnStart->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 55 ), CEGUI::UDim( 0, 30 ) ) );
-	pBtnStart->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 0.0f, 10 ) ) );
-	pBtnStart->setText( "Try it!" );
-	myRoot->addChildWindow(pBtnStart);
-
 	CEGUI::PushButton* pBtnSave = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/Save");
 	pBtnSave->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 55 ), CEGUI::UDim( 0, 30 ) ) );
-	pBtnSave->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 140), CEGUI::UDim( 0.0f, 10 ) ) );
+	pBtnSave->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 0.0f, 10 ) ) );
 	pBtnSave->setText( "Save" );
 	pBtnSave->subscribeEvent(CEGUI::Window::EventMouseClick,CEGUI::Event::Subscriber(&EditorScene::cbSave, this));
 	myRoot->addChildWindow(pBtnSave);
@@ -473,9 +507,6 @@ void EditorScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 
 	game_->Tick(_timespan);
 
-	if(selection_ != NULL)
-		selection_->SetFlashing();
-
 	if(return_to_menu_)
 	{
 		return_to_menu_ = false;
@@ -503,3 +534,8 @@ bool EditorScene::IsRoot()
 	return true;
 }
 
+void EditorScene::SetSelected(Section_ptr _selection)
+{
+	selection_ = _selection;
+	game_->SetSelectedSection(selection_);
+}

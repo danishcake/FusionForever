@@ -129,7 +129,7 @@ public:
    /**
      * Gets the angle transformed into world space.
      * Useful for orienting projectiles, lasers etc.
-     * @return The angle as it is drawn, in world space.
+     * @return The angle as it is drawn, in world space.in degrees
      */
 	float GetGlobalAngle()
 	{

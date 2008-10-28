@@ -21,7 +21,7 @@ Script = coroutine.create(function()
 	AddToForce(0)						--Adds the ship to force 1
 
 	Predicate.WaitFor(2)
-	LoadShip("RazorSaw")				--Loads a ship but doesn't add it to the world
+	LoadShip("TheBulk")				--Loads a ship but doesn't add it to the world
 	SetAI("SimpleAI.lua")					--Sets the last loaded ships AI
 	ScaleHealth(1.35)
 	SetPosition(10,10)

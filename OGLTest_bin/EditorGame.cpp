@@ -7,6 +7,7 @@
 EditorGame::EditorGame(void)
 {
 	AddShip(new SquareCore(new RotatingAI(0.00f)), 0);
+	selected_section_ = ships_[0].at(0);
 }
 
 EditorGame::~EditorGame(void)
@@ -33,4 +34,11 @@ Section_ptr EditorGame::GetAtMouseCoord(Vector3f _point)
 	Section_ptr clicked_section = NULL;
 	ships_[0].at(0)->CheckCollisions(_point, clicked_section);
 	return clicked_section;
+}
+
+void EditorGame::Draw()
+{
+	BaseGame::Draw();
+	Vector3f scaled_line = Camera::Instance().ScreenDeltaToWorldDelta(Vector3f(5,0,0));
+	ships_[0].at(0)->DrawEditorSupport(scaled_line.x, selected_section_);
 }

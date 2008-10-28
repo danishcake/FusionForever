@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<Section x="0" y="0" Angle="0" Health="5000" Delay="0" SectionType="SquareCore" angle="0">
+    <Section x="0" y="25" Angle="0" Health="9000" Delay="0" SectionType="BearEars">
+        <Section x="35" y="35" Angle="0" Health="9000" Delay="0" SectionType="BearEars">
+            <Section x="0" y="20" Angle="0" Health="10000" Delay="0" SectionType="Bulkhead" />
+            <Section x="20" y="0" Angle="90" Health="10000" Delay="0" SectionType="Bulkhead" />
+        </Section>
+        <Section x="-35" y="35" Angle="0" Health="9000" Delay="0" SectionType="BearEars">
+            <Section x="0" y="20" Angle="0" Health="10000" Delay="0" SectionType="Bulkhead"/>
+            <Section x="-20" y="0" Angle="-90" Health="10000" Delay="0" SectionType="Bulkhead" />
+        </Section>
+        <Section x="0" y="15" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
+    </Section>
+    <Section x="-3.77489505e-006" y="-25" Angle="0" Health="9000" Delay="0" SectionType="BearEars">
+        <Section x="35" y="-35" Angle="0" Health="9000" Delay="0" SectionType="BearEars">
+            <Section x="20" y="0" Angle="90" Health="10000" Delay="0" SectionType="Bulkhead" />
+            <Section x="0" y="-20" Angle="-180" Health="10000" Delay="0" SectionType="Bulkhead" />
+        </Section>
+        <Section x="-35" y="-35" Angle="0" Health="9000" Delay="0" SectionType="BearEars">
+            <Section x="0" y="-20" Angle="180" Health="10000" Delay="0" SectionType="Bulkhead" />
+            <Section x="-20" y="0" Angle="-90" Health="10000" Delay="0" SectionType="Bulkhead" />
+        </Section>
+        <Section x="0" y="-15" Angle="-180" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
+    </Section>
+    <Section x="25" y="-1.09278471e-006" Angle="0" Health="9000" Delay="0" SectionType="BearEars">
+        <Section x="20" y="0" Angle="90" Health="10000" Delay="0" SectionType="Bulkhead" />
+    </Section>
+    <Section x="-25" y="-1.09278471e-006" Angle="0" Health="9000" Delay="0" SectionType="BearEars">
+        <Section x="-20" y="0" Angle="-90" Health="10000" Delay="0" SectionType="Bulkhead" />
+    </Section>
+</Section>

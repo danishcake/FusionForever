@@ -75,6 +75,10 @@ public:
 	virtual ~Section(void);
 	void AddChild(Section * child);
 	virtual void DrawSelf();
+	/*
+	 * Draws any editor only stuff
+	 */
+	void DrawEditorSupport(float _grid_size, Section_ptr _selected);
 	bool CheckCollisions(Projectile_ptr _projectile);
 	bool CheckCollisions(Vector3f _location, Section_ptr& _section);
 	void RayCollisionFilter(Vector3f P1, Vector3f P2, std::vector<Section_ptr>& _valid_sections, float& _min_distance, float& _max_distance);
@@ -88,8 +92,8 @@ public:
 	void SetMaxHealth(float _max_health){health_.SetMaxValue(_max_health);}
 	void TakeDamage(float _damage);
 	
-	void SetFlashing(){flash_state_ = true;}
-	void SetNotFlashing(){flash_state_ = false;}
+	void SetFlashing(){flash_state_ = true; damage_flash_timer_ = 100000.0f;} //Two mechanisms for flashing, damage and this method. Settings flash timer prevent conflict
+	void SetNotFlashing(){flash_state_ = false; damage_flash_timer_ = 0.0f;}
 	void ScaleHealth(float _factor);
 	void SetFiring(bool _firing);
 	void SetFiringDelay(float _firing_delay) {firing_delay_ = _firing_delay;}
@@ -97,6 +101,7 @@ public:
 
 	bool IsCore(){return root_ == NULL;}
 	Core_ptr GetRoot();
+	Section_ptr GetParent(){return parent_;}
 
 	//Predicates
 	static bool IsRemovable(Section_ptr section)

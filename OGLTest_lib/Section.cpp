@@ -68,6 +68,47 @@ void Section::DrawSelf(void)
 
 	glPopMatrix();
 }
+void Section::DrawEditorSupport(float _grid_size, Section_ptr _selected)
+{
+	glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
+	glPushMatrix();
+	glLoadIdentity();
+	//Draw a line from current position to each child
+	glBegin(GL_LINES);
+	Vector3f start = GetGlobalPosition();
+	BOOST_FOREACH(Section_ptr child, sub_sections_)
+	{
+		Vector3f end = child->GetGlobalPosition();
+		glVertex3f(start.x, start.y, 0);
+		glVertex3f(end.x, end.y, 0);
+	}
+
+	if(_selected == this)
+	{
+		
+
+		glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+	}
+
+	glVertex3f(start.x -_grid_size, start.y -_grid_size, 0);
+	glVertex3f(start.x +_grid_size, start.y -_grid_size, 0);
+
+	glVertex3f(start.x -_grid_size, start.y +_grid_size, 0);
+	glVertex3f(start.x +_grid_size, start.y +_grid_size, 0);
+
+	glVertex3f(start.x -_grid_size, start.y -_grid_size, 0);
+	glVertex3f(start.x -_grid_size, start.y +_grid_size, 0);
+
+	glVertex3f(start.x +_grid_size, start.y -_grid_size, 0);
+	glVertex3f(start.x +_grid_size, start.y +_grid_size, 0);
+
+	glEnd();
+	BOOST_FOREACH(Section_ptr child, sub_sections_)
+	{
+		child->DrawEditorSupport(_grid_size, _selected);
+	}
+	glPopMatrix();
+}
 void Section::AddChild(Section *child)
 {
 	assert(child!=NULL);
