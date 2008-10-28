@@ -335,6 +335,10 @@
 					RelativePath=".\Scripts\SpikeyShip.luaShip"
 					>
 				</File>
+				<File
+					RelativePath=".\Scripts\TheBulk.xmlShip"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Challenges"

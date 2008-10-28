@@ -15,6 +15,7 @@ public:
 	virtual ~EditorGame(void);
 
 	Section* GetAtMouseCoord(Vector3f _point);
+	std::vector<Section*> EditorGame::GetAllAtMouseCoord(Vector3f _point);
 	void SetCore(Core* _core);
 	Core* GetCore();
 	

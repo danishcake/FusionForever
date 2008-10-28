@@ -155,6 +155,25 @@ bool EditorScene::cbBackgroundClick(const CEGUI::EventArgs& e)
 	Vector3f world_click = Camera::Instance().ScreenToWorld(Vector3f(we.position.d_x, we.position.d_y, 0));
 	Logger::Log(std::string("In world coords that is ") + boost::lexical_cast<std::string, float>(world_click.x) + std::string(",") + boost::lexical_cast<std::string, float>(world_click.y));
 	Section* clicked_section = game_->GetAtMouseCoord(world_click);
+
+	static std::list<Section_ptr> ltv_clicked_sections;
+	static int item_index = 0;
+	std::vector<Section_ptr> clicked_sections = game_->GetAllAtMouseCoord(world_click);
+	if(clicked_sections.size() > 0)
+	{
+		//If the list is the same as last time then chose the next item in it.
+		if(std::equal(ltv_clicked_sections.begin(), ltv_clicked_sections.end(), clicked_sections.begin()))
+		{
+			item_index = (item_index + 1)% clicked_sections.size(); //Move to the next item in the list
+		} else
+		{
+			item_index = 0; //Move to the first item in the list
+		}
+		SetSelected(clicked_sections[item_index]);
+		move_first_tick = true;
+	}
+
+/*
 	if(clicked_section != NULL)
 	{
 		move_first_tick = true;
@@ -172,6 +191,7 @@ bool EditorScene::cbBackgroundClick(const CEGUI::EventArgs& e)
 		slider_orientation->setCurrentValue(orientation+180);
 
 	}
+	*/
 	return true;
 }
 
@@ -226,7 +246,6 @@ bool EditorScene::cbBackgroundMove(const CEGUI::EventArgs& e)
 					float angle = floorf((selection_->GetGlobalAngle() + accumulated_snap.x) / 15 + 0.5f) * 15.0f;
 					selection_->SetAngle(angle);
 					accumulated_snap.x = 0;
-					Logger::Instance() << "Snapping to " << angle << "\n";
 				}
 			}
 
@@ -243,7 +262,6 @@ bool EditorScene::cbBackgroundMove(const CEGUI::EventArgs& e)
 			{
 				//Rotate to face the mouse
 				selection_->SetAngle(selection_->GetAngle() + mouse_move.d_x);
-				Logger::Instance() << "Rotating by " << mouse_move.d_x << "\n";
 			}
 			accumulated_snap = Vector3f();
 		}
@@ -257,7 +275,10 @@ bool EditorScene::cbBackgroundMBD(const CEGUI::EventArgs& e)
 	
 	const CEGUI::MouseEventArgs we = static_cast<const CEGUI::MouseEventArgs&>(e);
 	Vector3f world_click = Camera::Instance().ScreenToWorld(Vector3f(we.position.d_x, we.position.d_y, 0));
-	Section* clicked_section = game_->GetAtMouseCoord(world_click);
+	//Section* clicked_section = game_->GetAtMouseCoord(world_click);
+	
+	Section* clicked_section = NULL; 
+	selection_->CheckCollisions(world_click, clicked_section);
 	if(clicked_section != NULL && clicked_section == selection_)
 	{
 		drag_mode_ = EditorDragMode::MoveDrag;

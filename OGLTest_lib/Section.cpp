@@ -297,6 +297,32 @@ bool Section::CheckCollisions(Vector3f _location, Section_ptr& _section)
 	return hasCollided;
 }
 
+void Section::CheckCollisions(Vector3f _location, std::vector<Section*>& _sections)
+{
+	if(Collisions2f::PointInCircle(_location, ltv_position_, radius_))
+	{//Bounding circle test passed, do proper test
+		if(!transformed_fill_verts_valid_)
+		{
+			for(unsigned int vert = 0; vert < fill_.GetFillVerts()->size(); vert++)
+			{
+				transformed_fill_verts_.push_back(ltv_transform_ * (*fill_.GetFillVerts())[vert]);
+			}
+		}
+		for(unsigned int vert = 0; vert < transformed_fill_verts_.size(); vert+=3)
+		{
+			if(Collisions2f::PointInTriangle(transformed_fill_verts_[vert], transformed_fill_verts_[vert + 1], transformed_fill_verts_[vert+2], _location))
+			{
+				_sections.push_back(this);
+				break;
+			}
+		}
+	}
+	BOOST_FOREACH(Section_ptr section, sub_sections_)
+	{
+		section->CheckCollisions(_location, _sections);
+	}
+}
+
 void Section::SetColor(GLColor _color)
 {
 	fill_.SetFillColor(_color);

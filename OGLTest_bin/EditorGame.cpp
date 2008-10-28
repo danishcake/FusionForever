@@ -36,6 +36,13 @@ Section_ptr EditorGame::GetAtMouseCoord(Vector3f _point)
 	return clicked_section;
 }
 
+std::vector<Section_ptr> EditorGame::GetAllAtMouseCoord(Vector3f _point)
+{
+	std::vector<Section_ptr> clicked_sections;
+	ships_[0].at(0)->CheckCollisions(_point, clicked_sections);
+	return clicked_sections;
+}
+
 void EditorGame::Draw()
 {
 	BaseGame::Draw();
