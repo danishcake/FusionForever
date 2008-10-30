@@ -1,6 +1,9 @@
 #include "StdAfx.h"
 #include "Projectile.h"
 
+int Projectile::projectile_spawn_count_ = 0;
+int Projectile::projectile_free_count_ = 0;
+
 Projectile::Projectile(void)
 : BaseEntity()
 {
@@ -9,11 +12,12 @@ Projectile::Projectile(void)
 	mass_ = 100;
 	moment_ = 1;
 	firer_id_ = -1;
-
+	projectile_spawn_count_++;
 }
 
 Projectile::~Projectile(void)
 {
+	projectile_free_count_ ++;
 }
 
 void Projectile::Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec,  Matrix4f _transform)

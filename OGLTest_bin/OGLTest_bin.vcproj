@@ -320,6 +320,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\JuggernautB.xmlShip"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\LuaShip2.luaShip"
 					>
 				</File>

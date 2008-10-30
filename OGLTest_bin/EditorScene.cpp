@@ -13,11 +13,17 @@
 #include "HeatBeamGun.h"
 #include "HomingMissileLauncher.h"
 #include "Swarmer.h"
+#include "ChainGun.h"
+#include "PlasmaArtillery.h"
+#include "SpinningJoint.h"
+#include "JointAngles.h"
+#include "JointTracker.h"
 #include "XmlSection.h"
 
 #include "RotatingAI.h"
 
 #include <boost/filesystem.hpp>
+
 
 bool EditorScene::cbReturnToMenu(const CEGUI::EventArgs& e)
 {
@@ -36,21 +42,176 @@ bool EditorScene::cbSave(const CEGUI::EventArgs& e)
 {
 	if(lock_gui_)
 		return true;
+	CEGUI::Window* pWndSave = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/SaveDialogue");
+	CEGUI::Listbox* pLbShips = (CEGUI::Listbox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/SaveDialogue/Shiplist");
+	pWndSave->setVisible(true);
+	pWndSave->setModalState(true);
 
-	this->game_->GetCore()->SaveToXML("temp_ship.xmlShip");
+	pLbShips->resetList();
+	
+	const CEGUI::Image* sel_img = &CEGUI::ImagesetManager::getSingleton().getImageset("TaharezLook")->getImage("MultiListSelectionBrush");
+
+	boost::filesystem::directory_iterator end_itr;	
+	for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/Ships");
+		itr != end_itr;
+		++itr)
+	{
+		if(boost::filesystem::is_regular((itr->status())))
+		{
+			std::string ext = boost::filesystem::extension(*itr);
+			if(ext == ".xmlShip")
+			{
+				CEGUI::ListboxItem* lbi = new CEGUI::ListboxTextItem(boost::filesystem::basename(itr->path()));
+				lbi->setSelectionBrushImage(sel_img);
+				pLbShips->addItem(lbi);
+			}
+		}
+	}
+
+	
+	return true;
+}
+
+bool EditorScene::cbSaveDialogueListSelected(const CEGUI::EventArgs& e)
+{
+	CEGUI::Listbox* pLbShips = (CEGUI::Listbox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/SaveDialogue/Shiplist");
+	CEGUI::Editbox* pTbFilename = (CEGUI::Editbox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/SaveDialogue/Filename");
+	CEGUI::ListboxItem * selectedItem = pLbShips->getFirstSelectedItem();
+	pTbFilename->setText(selectedItem->getText());
+	
+	return true;
+}
+
+bool EditorScene::cbSaveDialogueSave(const CEGUI::EventArgs& e)
+{
+	CEGUI::Window* pWndSave = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/SaveDialogue");
+	pWndSave->setVisible(false);
+	pWndSave->setModalState(false);
+	CEGUI::Editbox* pTbFilename = (CEGUI::Editbox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/SaveDialogue/Filename");
+
+	game_->GetCore()->SaveToXML(std::string(pTbFilename->getText().c_str()) + std::string(".xmlShip"));
+	return true;
+}
+
+bool EditorScene::cbSaveDialogueCancel(const CEGUI::EventArgs& e)
+{
+	CEGUI::Window* pWndSave = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/SaveDialogue");
+	pWndSave->setVisible(false);
+	pWndSave->setModalState(false);
+	return true;
+}
+
+bool EditorScene::cbLoad(const CEGUI::EventArgs& e)
+{
+	if(lock_gui_)
+		return true;
+	CEGUI::Window* pWndLoad = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/LoadDialogue");
+	CEGUI::Listbox* pLbShips = (CEGUI::Listbox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/LoadDialogue/Shiplist");
+	pWndLoad->setVisible(true);
+	pWndLoad->setModalState(true);
+
+	pLbShips->resetList();
+	
+	const CEGUI::Image* sel_img = &CEGUI::ImagesetManager::getSingleton().getImageset("TaharezLook")->getImage("MultiListSelectionBrush");
+
+	boost::filesystem::directory_iterator end_itr;	
+	for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/Ships");
+		itr != end_itr;
+		++itr)
+	{
+		if(boost::filesystem::is_regular((itr->status())))
+		{
+			std::string ext = boost::filesystem::extension(*itr);
+			if(ext == ".xmlShip")
+			{
+				CEGUI::ListboxItem* lbi = new CEGUI::ListboxTextItem(boost::filesystem::basename(itr->path()));
+				lbi->setSelectionBrushImage(sel_img);
+				pLbShips->addItem(lbi);
+			}
+		}
+	}
+
+	return true;
+}
+
+bool EditorScene::cbLoadDialogueLoad(const CEGUI::EventArgs& e)
+{
+	CEGUI::Listbox* pLbShips = (CEGUI::Listbox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/LoadDialogue/Shiplist");
+	CEGUI::Window* pWndLoad = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/LoadDialogue");
+	if(pLbShips->getSelectedCount() == 1)
+	{
+		std::string filename = pLbShips->getFirstSelectedItem()->getText().c_str();
+		Core_ptr loaded_core = Core::CreateCore(filename);
+		if(loaded_core)
+		{
+			loaded_core->OverrideAI(new RotatingAI(0));
+			game_->LoadCore(loaded_core);
+			SetSelected(loaded_core);
+		} else
+		{
+			Logger::Instance() << "Unable to load core \"" << filename << "\n";
+		}
+		pWndLoad->setVisible(false);
+		pWndLoad->setModalState(false);
+	}
+	return true;
+}
+
+bool EditorScene::cbLoadDialogueCancel(const CEGUI::EventArgs& e)
+{
+	CEGUI::Window* pWndLoad = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/LoadDialogue");
+	pWndLoad->setVisible(false);
+	pWndLoad->setModalState(false);
+	return true;
+}
+
+bool EditorScene::cbDelete(const CEGUI::EventArgs& e)
+{
+	if(selection_ != NULL && !selection_->IsCore())
+	{
+		Section_ptr parent = selection_->GetParent();
+		std::vector<Section_ptr> detached = selection_->DetachChildren();
+		detached.erase(std::remove( detached.begin(), detached.end(), selection_), detached.end());
+
+		std::vector<Section_ptr> parent_detached = selection_->GetParent()->DetachChildren();
+		parent_detached.erase(std::remove( parent_detached.begin(), parent_detached.end(), selection_), parent_detached.end());
+		delete selection_;
+
+		parent->AttachChildren(parent_detached);
+		parent->AttachChildren(detached);
+
+
+		parent->AttachChildren(detached);
+		SetSelected(parent);
+	}
+	return true;
+}
+
+bool EditorScene::cbDeleteTree(const CEGUI::EventArgs& e)
+{
+	if(selection_ != NULL && !selection_->IsCore())
+	{
+		Section_ptr parent = selection_->GetParent();
+		std::vector<Section_ptr> detached = selection_->GetParent()->DetachChildren();
+		detached.erase(std::remove( detached.begin(), detached.end(), selection_), detached.end());
+		delete selection_;
+		parent->AttachChildren(detached);
+
+		SetSelected(parent);
+	}
 	return true;
 }
 
 bool EditorScene::cbSetCoreToSquareCore(const CEGUI::EventArgs& e)
 {
-	this->game_->SetCore(new SquareCore(new RotatingAI(0.00f)));
+	game_->SetCore(new SquareCore(new RotatingAI(0.00f)));
 	SetSelected(static_cast<Section_ptr>(this->game_->GetCore()));
 	return true;
 }
 
 bool EditorScene::cbSetCoreToTinyCore(const CEGUI::EventArgs& e)
 {
-	this->game_->SetCore(new TinyCore(new RotatingAI(0.00f)));
+	game_->SetCore(new TinyCore(new RotatingAI(0.00f)));
 	SetSelected(static_cast<Section_ptr>(this->game_->GetCore()));
 	return true;
 }
@@ -96,6 +257,61 @@ bool EditorScene::cbAddSwarmer(const CEGUI::EventArgs& e)
 	return true;
 }
 
+bool EditorScene::cbAddChainGun(const CEGUI::EventArgs& e)
+{
+	if(selection_ != NULL)
+	{
+		Section_ptr section = new ChainGun();
+		selection_->AddChild(section);
+		SetSelected(section);
+	}
+	return true;
+}
+
+bool EditorScene::cbAddPlasmaArtillery(const CEGUI::EventArgs& e)
+{
+	if(selection_ != NULL)
+	{
+		Section_ptr section = new PlasmaArtillery();
+		selection_->AddChild(section);
+		SetSelected(section);
+	}
+	return true;
+}
+
+bool EditorScene::cbAddJointAngles(const CEGUI::EventArgs& e)
+{
+	if(selection_ != NULL)
+	{
+		Section_ptr section = new JointAngles(-30,30,1,1);
+		selection_->AddChild(section);
+		SetSelected(section);
+	}
+	return true;
+}
+
+bool EditorScene::cbAddJointTracker(const CEGUI::EventArgs& e)
+{
+	if(selection_ != NULL)
+	{
+		Section_ptr section = new JointTracker(false);
+		selection_->AddChild(section);
+		SetSelected(section);
+	}
+	return true;
+}
+
+bool EditorScene::cbAddSpinningJoint(const CEGUI::EventArgs& e)
+{
+	if(selection_ != NULL)
+	{
+		Section_ptr section = new SpinningJoint(90);
+		selection_->AddChild(section);
+		SetSelected(section);
+	}
+	return true;
+}
+
 bool EditorScene::cbAddXMLSection(const CEGUI::EventArgs& e)
 {
 	const CEGUI::WindowEventArgs& we = 	static_cast<const CEGUI::WindowEventArgs&>(e);
@@ -116,37 +332,6 @@ bool EditorScene::cbAddXMLSection(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool EditorScene::cbChangeOrientation(const CEGUI::EventArgs& e)
-{
-	CEGUI::Slider* slider = static_cast<CEGUI::Slider*>(CEGUI::WindowManager::getSingleton().getWindow("Edit/Properties/Orientation"));
-	if(selection_ != NULL && selection_!= game_->GetCore())
-		selection_->SetAngle(slider->getCurrentValue()-180.0f);
-	return true;
-}
-
-bool EditorScene::cbChangeAngle(const CEGUI::EventArgs& e)
-{
-	CEGUI::Slider* slider = static_cast<CEGUI::Slider*>(CEGUI::WindowManager::getSingleton().getWindow("Edit/Properties/Angle"));
-	if(selection_ != NULL && selection_!= game_->GetCore())
-	{
-		float distance = selection_->GetPosition().length();
-		float angle = static_cast<float>(DEG2RAD((slider->getCurrentValue() - 180)));
-		selection_->SetPosition(Vector3f(sin(angle), cos(angle), 0) * distance);
-	}
-	return true;
-}
-
-bool EditorScene::cbChangeDistance(const CEGUI::EventArgs& e)
-{
-	CEGUI::Slider* slider = static_cast<CEGUI::Slider*>(CEGUI::WindowManager::getSingleton().getWindow("Edit/Properties/Distance"));
-	if(selection_ != NULL && selection_!= game_->GetCore())
-	{
-		float distance = slider->getCurrentValue();
-		float angle = atan2f(selection_->GetPosition().x, selection_->GetPosition().y);
-		selection_->SetPosition(Vector3f(sin(angle), cos(angle), 0) * distance);
-	}
-	return true;
-}
 
 bool EditorScene::cbBackgroundClick(const CEGUI::EventArgs& e)
 {
@@ -172,26 +357,6 @@ bool EditorScene::cbBackgroundClick(const CEGUI::EventArgs& e)
 		SetSelected(clicked_sections[item_index]);
 		move_first_tick = true;
 	}
-
-/*
-	if(clicked_section != NULL)
-	{
-		move_first_tick = true;
-		SetSelected(clicked_section);
-
-		CEGUI::Slider* slider_angle = static_cast<CEGUI::Slider*>(CEGUI::WindowManager::getSingleton().getWindow("Edit/Properties/Angle"));
-		CEGUI::Slider* slider_distance = static_cast<CEGUI::Slider*>(CEGUI::WindowManager::getSingleton().getWindow("Edit/Properties/Distance"));
-		CEGUI::Slider* slider_orientation = static_cast<CEGUI::Slider*>(CEGUI::WindowManager::getSingleton().getWindow("Edit/Properties/Orientation"));
-
-		float angle = RAD2DEG(atan2f(selection_->GetPosition().x, selection_->GetPosition().y));
-		float distance = selection_->GetPosition().length();
-		float orientation = selection_->GetAngle();
-		slider_angle->setCurrentValue(angle+180);
-		slider_distance->setCurrentValue(distance);
-		slider_orientation->setCurrentValue(orientation+180);
-
-	}
-	*/
 	return true;
 }
 
@@ -243,7 +408,7 @@ bool EditorScene::cbBackgroundMove(const CEGUI::EventArgs& e)
 				//Rotate to face the mouse
 				if(fabs(accumulated_snap.x) >= 15)
 				{
-					float angle = floorf((selection_->GetGlobalAngle() + accumulated_snap.x) / 15 + 0.5f) * 15.0f;
+					float angle = floorf((selection_->GetAngle() + accumulated_snap.x) / 15 + 0.5f) * 15.0f;
 					selection_->SetAngle(angle);
 					accumulated_snap.x = 0;
 				}
@@ -308,6 +473,9 @@ bool EditorScene::cbBackgroundMouseLeave(const CEGUI::EventArgs& e)
 	return true;
 }
 
+
+
+
 EditorScene::EditorScene(void)
 {
 	fading_out_ = false;
@@ -336,13 +504,6 @@ EditorScene::EditorScene(void)
 	
 	myRoot->addChildWindow(pWndClickArea);
 
-	CEGUI::PushButton* pBtnQuit = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/QuitToMenu");
-	pBtnQuit->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 55 ), CEGUI::UDim( 0, 30 ) ) );
-	pBtnQuit->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 75), CEGUI::UDim( 0, 10 ) ) );
-	pBtnQuit->setText( "Quit" );
-	pBtnQuit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbReturnToMenu, this));
-	myRoot->addChildWindow(pBtnQuit);
-
 	CEGUI::PushButton* pBtnSave = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/Save");
 	pBtnSave->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 55 ), CEGUI::UDim( 0, 30 ) ) );
 	pBtnSave->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 0.0f, 10 ) ) );
@@ -350,75 +511,38 @@ EditorScene::EditorScene(void)
 	pBtnSave->subscribeEvent(CEGUI::Window::EventMouseClick,CEGUI::Event::Subscriber(&EditorScene::cbSave, this));
 	myRoot->addChildWindow(pBtnSave);
 
-	CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/Add");
-	pBtnAdd->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 45 ), CEGUI::UDim( 0, 30 ) ) );
-	pBtnAdd->setPosition( CEGUI::UVector2( CEGUI::UDim( 1, -110), CEGUI::UDim( 1, -75 ) ) );
-	pBtnAdd->setText( "Add" );
-	myRoot->addChildWindow(pBtnAdd);
+	CEGUI::PushButton* pBtnLoad = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/Load");
+	pBtnLoad->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 55 ), CEGUI::UDim( 0, 30 ) ) );
+	pBtnLoad->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 0.0f, 50 ) ) );
+	pBtnLoad->setText( "Load" );
+	pBtnLoad->subscribeEvent(CEGUI::Window::EventMouseClick,CEGUI::Event::Subscriber(&EditorScene::cbLoad, this));
+	myRoot->addChildWindow(pBtnLoad);
 
 	CEGUI::PushButton* pBtnDelete = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/Delete");
-	pBtnDelete->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 45 ), CEGUI::UDim( 0, 30 ) ) );
-	pBtnDelete->setPosition( CEGUI::UVector2( CEGUI::UDim( 1, -60), CEGUI::UDim( 1, -75 ) ) );
+	pBtnDelete->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 55 ), CEGUI::UDim( 0, 30 ) ) );
+	pBtnDelete->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 0, 90 ) ) );
+	pBtnDelete->subscribeEvent(CEGUI::Window::EventMouseClick,CEGUI::Event::Subscriber(&EditorScene::cbDelete, this));
 	pBtnDelete->setText( "Del" );
 	myRoot->addChildWindow(pBtnDelete);
 	
 	CEGUI::PushButton* pBtnDeleteTree = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/DeleteTree");
-	pBtnDeleteTree->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 45 ), CEGUI::UDim( 0, 30 ) ) );
-	pBtnDeleteTree->setPosition( CEGUI::UVector2( CEGUI::UDim( 1, -60), CEGUI::UDim( 1, -110 ) ) );
+	pBtnDeleteTree->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 55 ), CEGUI::UDim( 0, 30 ) ) );
+	pBtnDeleteTree->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 0, 130 ) ) );
+	pBtnDeleteTree->subscribeEvent(CEGUI::Window::EventMouseClick,CEGUI::Event::Subscriber(&EditorScene::cbDeleteTree, this));
 	pBtnDeleteTree->setText( "Deltree" );
 	myRoot->addChildWindow(pBtnDeleteTree);
 
-	CEGUI::GroupBox* pTreeFrame = (CEGUI::GroupBox*)wmgr.createWindow("TaharezLook/GroupBox", "Edit/Frame");
-	pTreeFrame->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 120 ), CEGUI::UDim( 1, -190) ) );
-	pTreeFrame->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 0.0f, 50 ) ) );
-	pTreeFrame->setText("Ship");
-	myRoot->addChildWindow(pTreeFrame);
-
-	CEGUI::Tree* pShip = (CEGUI::Tree*)wmgr.createWindow("TaharezLook/Tree", "Edit/Ship");
-	pShip->setSize(     CEGUI::UVector2( CEGUI::UDim( 1, 0), CEGUI::UDim( 1   , 0)));
-	pShip->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 0), CEGUI::UDim( 0.0f, 0)));
-	CEGUI::TreeItem* pItem = new CEGUI::TreeItem("Item A");
-	pShip->addItem(pItem);
-	pTreeFrame->addChildWindow(pShip);
-
-	CEGUI::GroupBox* pProperties =(CEGUI::GroupBox*)wmgr.createWindow("TaharezLook/GroupBox", "Edit/Properties");
-	pProperties->setSize(CEGUI::UVector2( CEGUI::UDim( 0, 120 ), CEGUI::UDim( 0, 120 ) ) );
-	pProperties->setPosition(  CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 1.0f, -130)));
-	pProperties->setText("Properties");
-	myRoot->addChildWindow(pProperties);
-
-	CEGUI::Slider* pOrientation = (CEGUI::Slider*)wmgr.createWindow("TaharezLook/Slider", "Edit/Properties/Orientation");
-	pOrientation->setSize(CEGUI::UVector2( CEGUI::UDim( 0, 15 ), CEGUI::UDim( 0, 80 ) ) );
-	pOrientation->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, 10 ), CEGUI::UDim( 0, 10 ) ) );
-	pOrientation->setMaxValue(360);
-	pOrientation->setCurrentValue(180);
-	pOrientation->setClickStep(15);
-	pOrientation->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&EditorScene::cbChangeOrientation, this));
-	pProperties->addChildWindow(pOrientation);
-
-	CEGUI::Slider* pAngle = (CEGUI::Slider*)wmgr.createWindow("TaharezLook/Slider", "Edit/Properties/Angle");
-	pAngle->setSize(CEGUI::UVector2( CEGUI::UDim( 0, 15 ), CEGUI::UDim( 0, 80 ) ) );
-	pAngle->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, 35 ), CEGUI::UDim( 0, 10 ) ) );
-	pAngle->setMaxValue(360);
-	pAngle->setCurrentValue(180);
-	pAngle->setClickStep(15);
-	pAngle->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&EditorScene::cbChangeAngle, this));
-	pProperties->addChildWindow(pAngle);
-
-	CEGUI::Slider* pDistance = (CEGUI::Slider*)wmgr.createWindow("TaharezLook/Slider", "Edit/Properties/Distance");
-	pDistance->setSize(CEGUI::UVector2( CEGUI::UDim( 0, 15 ), CEGUI::UDim( 0, 80 ) ) );
-	pDistance->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, 60 ), CEGUI::UDim( 0, 10 ) ) );
-	pDistance->setMaxValue(20);
-	pDistance->setCurrentValue(5);
-	pDistance->setClickStep(1);
-	pDistance->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&EditorScene::cbChangeDistance, this));
-	pProperties->addChildWindow(pDistance);
-
+	CEGUI::PushButton* pBtnQuit = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/QuitToMenu");
+	pBtnQuit->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 55 ), CEGUI::UDim( 0, 30 ) ) );
+	pBtnQuit->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 0, 170 ) ) );
+	pBtnQuit->setText( "Quit" );
+	pBtnQuit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbReturnToMenu, this));
+	myRoot->addChildWindow(pBtnQuit);
 
 
 	CEGUI::TabControl* pPalette = (CEGUI::TabControl*)wmgr.createWindow("TaharezLook/TabControl", "Edit/Palette");
-		pPalette->setSize(CEGUI::UVector2( CEGUI::UDim( 1, -260 ), CEGUI::UDim( 0, 110 ) ) );
-		pPalette->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 140), CEGUI::UDim( 1.0f, -120 ) ) );
+		pPalette->setSize(CEGUI::UVector2( CEGUI::UDim( 1, -20 ), CEGUI::UDim( 0, 110 ) ) );
+		pPalette->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 1.0f, -120 ) ) );
 		
 		CEGUI::DefaultWindow* pTabCores = (CEGUI::DefaultWindow*)wmgr.createWindow("TaharezLook/TabContentPane");
 			pTabCores->setProperty("EnableBottom","1");
@@ -476,46 +600,170 @@ EditorScene::EditorScene(void)
 				pBtnAddSwarmer->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddSwarmer, this));
 				width += 61;
 			pTabWeapons->addChildWindow(pBtnAddSwarmer);
+			CEGUI::PushButton* pBtnAddChainGun = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
+				pBtnAddChainGun->setText("ChainGun");
+				pBtnAddChainGun->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
+				pBtnAddChainGun->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
+				pBtnAddChainGun->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddChainGun, this));
+				width += 61;
+			pTabWeapons->addChildWindow(pBtnAddChainGun);
+			CEGUI::PushButton* pBtnAddPlasmaArtillery = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
+				pBtnAddPlasmaArtillery->setText("PlasmaArtillery");
+				pBtnAddPlasmaArtillery->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
+				pBtnAddPlasmaArtillery->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
+				pBtnAddPlasmaArtillery->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddPlasmaArtillery, this));
+				width += 61;
+			pTabWeapons->addChildWindow(pBtnAddPlasmaArtillery);
+
+			CEGUI::PushButton* pBtnJointAngles = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
+				pBtnJointAngles->setText("JointAngles");
+				pBtnJointAngles->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
+				pBtnJointAngles->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
+				pBtnJointAngles->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddJointAngles, this));
+				width += 61;
+			pTabWeapons->addChildWindow(pBtnJointAngles);
+
+			CEGUI::PushButton* pBtnJointTracker = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
+				pBtnJointTracker->setText("JointTracker");
+				pBtnJointTracker->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
+				pBtnJointTracker->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
+				pBtnJointTracker->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddJointTracker, this));
+				width += 61;
+			pTabWeapons->addChildWindow(pBtnJointTracker);
+
+			CEGUI::PushButton* pBtnSpinningJoint = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
+				pBtnSpinningJoint->setText("SpinningJoint");
+				pBtnSpinningJoint->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
+				pBtnSpinningJoint->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
+				pBtnSpinningJoint->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddSpinningJoint, this));
+				width += 61;
+			pTabWeapons->addChildWindow(pBtnSpinningJoint);
+
 			}
 		pPalette->addTab(pTabWeapons);
 
 		CEGUI::DefaultWindow* pTabXML = (CEGUI::DefaultWindow*)wmgr.createWindow("TaharezLook/TabContentPane");
-			pTabXML->setProperty("EnableBottom","1");
-			pTabXML->setText("XML Sections");
+		pTabXML->setProperty("EnableBottom","1");
+		pTabXML->setText("XML Sections");
+		CEGUI::ScrollablePane* pTabXMLPane = (CEGUI::ScrollablePane*)wmgr.createWindow("TaharezLook/ScrollablePane");
+		pTabXMLPane->setSize(CEGUI::UVector2( CEGUI::UDim( 1, 0),    CEGUI::UDim( 1, 0 ) ) );
+		
+		pTabXML->addChildWindow(pTabXMLPane);
+
 			{
-			int width = 2;
-			int height = 1;
-			boost::filesystem::directory_iterator end_itr;	
-			for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/Sections");
-				itr != end_itr;
-				++itr)
-			{
-				if(boost::filesystem::is_regular((itr->status())))
+				int width = 2;
+				int height = 1;
+				boost::filesystem::directory_iterator end_itr;	
+				for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/Sections");
+					itr != end_itr;
+					++itr)
 				{
-					std::string ext = boost::filesystem::extension(*itr);
-					if(ext == ".XMLSection")
+					if(boost::filesystem::is_regular((itr->status())))
 					{
-						std::string filename = boost::filesystem::basename(itr->path());
-						CEGUI::PushButton* pBtnXMLSection = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button", filename);
-						pBtnXMLSection->setText(filename);
-							pBtnXMLSection->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
-							pBtnXMLSection->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-							pBtnXMLSection->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddXMLSection, this));
-							width += 61;
-						pTabXML->addChildWindow(pBtnXMLSection);
+						std::string ext = boost::filesystem::extension(*itr);
+						if(ext == ".XMLSection")
+						{
+							std::string filename = boost::filesystem::basename(itr->path());
+							CEGUI::PushButton* pBtnXMLSection = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button", filename);
+							pBtnXMLSection->setText(filename);
+								float section_width = pBtnXMLSection->getFont()->getFormattedTextExtent(filename, CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
+								pBtnXMLSection->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width+10),    CEGUI::UDim( 0, 20 ) ) );
+								pBtnXMLSection->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
+								pBtnXMLSection->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddXMLSection, this));
+								width += section_width + 15;
+							pTabXMLPane->addChildWindow(pBtnXMLSection);
+						}
+					}
+					if(width > pTabXMLPane->getUnclippedInnerRect().d_right - pTabXMLPane->getUnclippedInnerRect().d_left - 120)
+					{
+						width = 2;
+						height += 25;
 					}
 				}
 			}
-			}
 		pPalette->addTab(pTabXML);
 	myRoot->addChildWindow(pPalette);
+
+	CEGUI::Window* pWndLoad = wmgr.createWindow( "TaharezLook/FrameWindow", "Edit/LoadDialogue" );
+	pWndLoad->setVisible(false);
+	pWndLoad->setModalState(false);
+	pWndLoad->setProperty("SizingEnabled", "False");
+	pWndLoad->setProperty("CloseButtonEnabled", "False");
+	pWndLoad->setProperty("DragMovingEnabled", "False");
+	pWndLoad->setText("Load your ship");
+	pWndLoad->setSize( CEGUI::UVector2( CEGUI::UDim( 1, -60 ), CEGUI::UDim( 1, -60 ) ) );
+	pWndLoad->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 30 ), CEGUI::UDim( 0, 30 ) ) );
+	{
+		CEGUI::Window* pBtnLoadDialogueLoad = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/LoadDialogue/Load");
+		pBtnLoadDialogueLoad->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 60 ), CEGUI::UDim( 0, 30 ) ) );
+		pBtnLoadDialogueLoad->setPosition( CEGUI::UVector2( CEGUI::UDim( 1, -70 ), CEGUI::UDim( 1, -40 ) ) );
+		pBtnLoadDialogueLoad->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbLoadDialogueLoad, this));
+		pBtnLoadDialogueLoad->setText("Load");
+		pWndLoad->addChildWindow(pBtnLoadDialogueLoad);
+
+		CEGUI::Window* pBtnLoadDialogueCancel = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/LoadDialogue/Cancel");
+		pBtnLoadDialogueCancel->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 60 ), CEGUI::UDim( 0, 30 ) ) );
+		pBtnLoadDialogueCancel->setPosition( CEGUI::UVector2( CEGUI::UDim( 1, -140 ), CEGUI::UDim( 1, -40 ) ) );
+		pBtnLoadDialogueCancel->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbLoadDialogueCancel, this));
+		pBtnLoadDialogueCancel->setText("Cancel");
+		pWndLoad->addChildWindow(pBtnLoadDialogueCancel);
+
+		CEGUI::Listbox* pLbShips = (CEGUI::Listbox*)wmgr.createWindow( "TaharezLook/Listbox", "Edit/LoadDialogue/Shiplist" );
+		pLbShips->setPosition(CEGUI::UVector2(CEGUI::UDim(0,10),CEGUI::UDim(0,40)));
+		pLbShips->setSize(CEGUI::UVector2(CEGUI::UDim(1,-20), CEGUI::UDim(1,-90)));
+		pWndLoad->addChildWindow(pLbShips);
+	}
+	
+
+	myRoot->addChildWindow(pWndLoad);
+
+
+	CEGUI::Window* pWndSave = wmgr.createWindow( "TaharezLook/FrameWindow", "Edit/SaveDialogue" );
+	pWndSave->setVisible(false);
+	pWndSave->setModalState(false);
+	pWndSave->setProperty("SizingEnabled", "False");
+	pWndSave->setProperty("CloseButtonEnabled", "False");
+	pWndSave->setProperty("DragMovingEnabled", "False");
+	pWndSave->setText("Save your ship");
+	pWndSave->setSize( CEGUI::UVector2( CEGUI::UDim( 1, -60 ), CEGUI::UDim( 1, -60 ) ) );
+	pWndSave->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 30 ), CEGUI::UDim( 0, 30 ) ) );
+	{
+		CEGUI::Window* pBtnSaveDialogueSave = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/SaveDialogue/Save");
+		pBtnSaveDialogueSave->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 60 ), CEGUI::UDim( 0, 30 ) ) );
+		pBtnSaveDialogueSave->setPosition( CEGUI::UVector2( CEGUI::UDim( 1, -70 ), CEGUI::UDim( 1, -40 ) ) );
+		pBtnSaveDialogueSave->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbSaveDialogueSave, this));
+		pBtnSaveDialogueSave->setText("Save");
+		pWndSave->addChildWindow(pBtnSaveDialogueSave);
+
+		CEGUI::Window* pBtnSaveDialogueCancel = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/SaveDialogue/Cancel");
+		pBtnSaveDialogueCancel->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 60 ), CEGUI::UDim( 0, 30 ) ) );
+		pBtnSaveDialogueCancel->setPosition( CEGUI::UVector2( CEGUI::UDim( 1, -140 ), CEGUI::UDim( 1, -40 ) ) );
+		pBtnSaveDialogueCancel->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbSaveDialogueCancel, this));
+		pBtnSaveDialogueCancel->setText("Cancel");
+		pWndSave->addChildWindow(pBtnSaveDialogueCancel);
+
+		CEGUI::Window* pTbxFilename = (CEGUI::Editbox*)wmgr.createWindow("TaharezLook/Editbox","Edit/SaveDialogue/Filename");
+		pTbxFilename->setSize( CEGUI::UVector2( CEGUI::UDim( 1, -160 ), CEGUI::UDim( 0, 30 ) ) );
+		pTbxFilename->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10 ), CEGUI::UDim( 1, -40 ) ) );
+		pTbxFilename->setText("Filename");
+		pWndSave->addChildWindow(pTbxFilename);
+
+		CEGUI::Listbox* pLbShips = (CEGUI::Listbox*)wmgr.createWindow( "TaharezLook/Listbox", "Edit/SaveDialogue/Shiplist" );
+		pLbShips->setPosition(CEGUI::UVector2(CEGUI::UDim(0,10),CEGUI::UDim(0,40)));
+		pLbShips->setSize(CEGUI::UVector2(CEGUI::UDim(1,-20), CEGUI::UDim(1,-90)));
+			pLbShips->subscribeEvent(CEGUI::Listbox::EventSelectionChanged, CEGUI::Event::Subscriber(&EditorScene::cbSaveDialogueListSelected, this));
+		pWndSave->addChildWindow(pLbShips);
+	}
+	
+
+	myRoot->addChildWindow(pWndSave);
+
 }
 
 EditorScene::~EditorScene(void)
 {
 	CEGUI::WindowManager::getSingleton().destroyWindow("Edit/Root");
 	CEGUI::WindowManager::getSingleton().destroyWindow("Edit/QuitToMenu");
-	CEGUI::WindowManager::getSingleton().destroyWindow("Edit/Try");
 	delete game_;
 }
 

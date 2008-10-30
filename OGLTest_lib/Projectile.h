@@ -16,6 +16,9 @@ protected:
 	float lifetime_;
 	Filled fill_;
 	int firer_id_;
+
+	static int projectile_spawn_count_;
+	static int projectile_free_count_;
 public:
 	Projectile(void);
 	virtual ~Projectile(void);	

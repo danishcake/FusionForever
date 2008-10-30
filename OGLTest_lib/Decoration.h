@@ -23,6 +23,10 @@ protected:
      */
 	float lifetime_;
 	Filled fill_;
+
+	static int deco_spawn_count_;
+	static int deco_free_count_;
+
 public:
 	Decoration(void);
 	virtual ~Decoration(void);

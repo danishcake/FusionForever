@@ -24,6 +24,13 @@ void EditorGame::SetCore(Core* _core)
 	ships_[0].at(0)->AttachChildren(children);
 }
 
+void EditorGame::LoadCore(Core* _core)
+{
+	delete ships_[0].at(0);
+	ships_[0].clear();
+	ships_[0].push_back(_core);
+}
+
 Core* EditorGame::GetCore()
 {
 	return ships_[0].at(0);

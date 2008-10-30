@@ -14,18 +14,36 @@ require "Utility"
 
 Challenge = {
 Script = coroutine.create(function()
-	LoadShip("KineticB")				--Loads a ship but doesn't add it to the world
-	SetAI("KeyboardAI")					--Sets the last loaded ships AI
-	SetPosition(500, 0)
-	ScaleHealth(3)
-	AddToForce(0)						--Adds the ship to force 1
+	--LoadShip("KineticB")				--Loads a ship but doesn't add it to the world
+	--SetAI("SimpleAI.lua")					--Sets the last loaded ships AI
+	--SetPosition(500, 0)
+	--ScaleHealth(4)
+	--AddToForce(0)						--Adds the ship to force 1
 
+	--Predicate.WaitFor(2)
+	--LoadShip("JuggernautB")				--Loads a ship but doesn't add it to the world
+	--SetAI("SimpleAI.lua")					--Sets the last loaded ships AI
+	--ScaleHealth(4)
+	--SetPosition(10,10)
+	--AddToForce(1)						--Adds the ship to force 0
+	
 	Predicate.WaitFor(2)
 	LoadShip("TheBulk")				--Loads a ship but doesn't add it to the world
 	SetAI("SimpleAI.lua")					--Sets the last loaded ships AI
-	ScaleHealth(1.35)
+	ScaleHealth(400)
 	SetPosition(10,10)
-	AddToForce(1)						--Adds the ship to force 0
+	AddToForce(3)						--Adds the ship to force 0
+	
+		for i = 0, 30000 do
+			LoadShip("GunshipA")
+			SetPosition(-250 , -500)
+			ScaleHealth(0.15)
+			SetAI("SimpleAI")
+			AddToForce(2)
+			Predicate.WaitFor(0.01)
+			Predicate.WaitTillForceCountLessThan(2, 200)
+		end
+	
 end),							--End of resumable coroutine
 							--Now the coroutine status is "dead"
 

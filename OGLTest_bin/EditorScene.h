@@ -30,12 +30,29 @@ public:
 
 	bool cbReturnToMenu(const CEGUI::EventArgs& e);
 	bool cbSave(const CEGUI::EventArgs& e);
+	bool cbLoad(const CEGUI::EventArgs& e);
+	bool cbDelete(const CEGUI::EventArgs& e);
+	bool cbDeleteTree(const CEGUI::EventArgs& e);
+
+	bool cbSaveDialogueSave(const CEGUI::EventArgs& e);
+	bool cbSaveDialogueCancel(const CEGUI::EventArgs& e);
+	bool cbSaveDialogueListSelected(const CEGUI::EventArgs& e);
+
+	bool cbLoadDialogueLoad(const CEGUI::EventArgs& e);
+	bool cbLoadDialogueCancel(const CEGUI::EventArgs& e);
+
 	bool cbSetCoreToSquareCore(const CEGUI::EventArgs& e);
 	bool cbSetCoreToTinyCore(const CEGUI::EventArgs& e);
 	bool cbAddBlaster(const CEGUI::EventArgs& e);
 	bool cbAddHeatBeam(const CEGUI::EventArgs& e);
 	bool cbAddHomingMissileLauncher(const CEGUI::EventArgs& e);
 	bool cbAddSwarmer(const CEGUI::EventArgs& e);
+	bool cbAddChainGun(const CEGUI::EventArgs& e);
+	bool cbAddPlasmaArtillery(const CEGUI::EventArgs& e);
+	bool cbAddJointAngles(const CEGUI::EventArgs& e);
+	bool cbAddJointTracker(const CEGUI::EventArgs& e);
+	bool cbAddSpinningJoint(const CEGUI::EventArgs& e);
+
 	bool cbAddXMLSection(const CEGUI::EventArgs& e);
 	
 	bool cbChangeOrientation(const CEGUI::EventArgs& e);

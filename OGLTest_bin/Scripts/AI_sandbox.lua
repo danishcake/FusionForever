@@ -97,7 +97,7 @@ local ship_ =
 				local right_vector_dx = _math.cos(angle)
 				local right_vector_dy = -_math.sin(angle)
 				local dotp = dx * right_vector_dx + dy * right_vector_dy
-				local firing = _math.abs(dotp) < 0.4
+				local firing = _math.abs(dotp) < 0.4 and range < 1000
 
 				if range < min_range then
 					--Back off

@@ -6,6 +6,7 @@
 
 
 int Section::section_count_ = 0;
+int Section::section_freed_ = 0;
 
 bool zero_or_less(float _value)
 {
@@ -50,6 +51,10 @@ Section::~Section(void)
 		if(rel_position_norm.length() > 0)
 			rel_position_norm.normalize();
 		root_->ImpartMomentum(rel_position_norm * mass_ * 10, rel_position);
+	}
+	BOOST_FOREACH(Section_ptr sub_section, sub_sections_)
+	{
+		delete sub_section;
 	}
 }
 
@@ -434,5 +439,5 @@ void Section::SaveToXML(std::string _filename)
 	root->SetAttribute("angle", boost::lexical_cast<std::string, float>(0));
 	doc.LinkEndChild(root);
 
-	doc.SaveFile(_filename);
+	doc.SaveFile(std::string("Scripts/Ships/") + _filename);
 }

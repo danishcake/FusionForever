@@ -32,6 +32,7 @@ class Section :
 {
 private:
 	static int section_count_;
+	static int section_freed_;
 	bool first_tick_;
 protected:
 	int section_id_;

@@ -17,6 +17,7 @@ public:
 	Section* GetAtMouseCoord(Vector3f _point);
 	std::vector<Section*> EditorGame::GetAllAtMouseCoord(Vector3f _point);
 	void SetCore(Core* _core);
+	void LoadCore(Core* _core);
 	Core* GetCore();
 	
 	virtual void Draw();

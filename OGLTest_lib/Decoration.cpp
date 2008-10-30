@@ -1,13 +1,18 @@
 #include "StdAfx.h"
 #include "Decoration.h"
 
+int Decoration::deco_spawn_count_ = 0;
+int Decoration::deco_free_count_ = 0;
+
 Decoration::Decoration(void)
 {
 	lifetime_ = 1.0f;
+	deco_spawn_count_++;
 }
 
 Decoration::~Decoration(void)
 {
+	deco_free_count_++;
 }
 
 void Decoration::Tick(float _timespan, Matrix4f _transform)
@@ -15,8 +20,6 @@ void Decoration::Tick(float _timespan, Matrix4f _transform)
 	lifetime_-=_timespan;
 	BaseEntity::Tick(_timespan, _transform);
 }
-
-
 
 void Decoration::DrawSelf()
 {
