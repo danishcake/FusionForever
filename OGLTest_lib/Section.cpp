@@ -3,7 +3,7 @@
 #include "Puff.h"
 #include "Core.h"
 #include "ICollisionManager.h"
-
+#include "Property.h"
 
 int Section::section_count_ = 0;
 int Section::section_freed_ = 0;
@@ -440,4 +440,29 @@ void Section::SaveToXML(std::string _filename)
 	doc.LinkEndChild(root);
 
 	doc.SaveFile(std::string("Scripts/Ships/") + _filename);
+}
+
+/* Static functions to wrap member functions for callbacks */
+
+static float sGetHealth(Section* _section)
+{
+	return _section->GetHealth();
+}
+static void sSetHealth(Section* _section, float _value)
+{
+	_section->SetMaxHealth(_value);
+}
+static float sGetFiringDelay(Section* _section)
+{
+	return _section->GetFiringDelay();
+}
+static void sSetFiringDelay(Section* _section, float _value)
+{
+	_section->SetFiringDelay(_value);
+}
+
+void Section::GetProperties(std::vector<Property*>& _properties )
+{
+	_properties.push_back(new Property(this, sSetHealth, sGetHealth, "Health"));
+	_properties.push_back(new Property(this, sSetFiringDelay, sGetFiringDelay, "FiringDelay"));
 }

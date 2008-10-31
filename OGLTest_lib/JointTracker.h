@@ -20,7 +20,10 @@ public:
 	JointTracker(bool _only_when_firing);
 	virtual ~JointTracker(void);
 	virtual void Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager);
-
+	/**
+	  * Sets the SectionType
+	  */
+	virtual void ToXML(TiXmlElement* _node);
 protected:
 	virtual void EndSubscription(Subscriber* _source);
 };

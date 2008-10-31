@@ -381,6 +381,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Property.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Random.cpp"
 					>
 				</File>
@@ -676,6 +680,10 @@
 				</File>
 				<File
 					RelativePath=".\Logger.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Property.h"
 					>
 				</File>
 				<File

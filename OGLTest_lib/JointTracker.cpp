@@ -93,3 +93,9 @@ void JointTracker::EndSubscription(Subscriber* _source)
 	if(target_ == _source)
 		target_ = NULL;
 }
+
+void JointTracker::ToXML(TiXmlElement* _node)
+{
+	Section::ToXML(_node);
+	_node->SetAttribute("SectionType", "JointTracker");
+}

@@ -65,7 +65,7 @@ public:
 	bool cbBackgroundMBU(const CEGUI::EventArgs& e);
 	bool cbBackgroundMouseLeave(const CEGUI::EventArgs& e);
 
-
+	bool cbPropertyChanged(const CEGUI::EventArgs& e);
 
 
 

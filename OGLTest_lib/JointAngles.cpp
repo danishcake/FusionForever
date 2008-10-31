@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "JointAngles.h"
+#include "Property.h"
 
 bool JointAngles::initialised_ = false;
 int JointAngles::outline_dl_ = 0;
@@ -82,4 +83,29 @@ void JointAngles::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj,
 	{
 		angle_ = second_angle_ - (second_angle_ - first_angle_) * (total_time_ - 2 * pause_time_ - transition_time_)/transition_time_;
 	}
+}
+
+static float sGetFirstAngle(Section_ptr _section){return static_cast<JointAngles*>(_section)->GetFirstAngle();}
+static float sGetSecondAngle(Section_ptr _section){return static_cast<JointAngles*>(_section)->GetSecondAngle();}
+static float sGetTransitionTime(Section_ptr _section){return static_cast<JointAngles*>(_section)->GetTransitionTime();}
+static float sGetPauseTime(Section_ptr _section){return static_cast<JointAngles*>(_section)->GetPauseTime();}
+
+static void sSetFirstAngle(Section_ptr _section, float _value){static_cast<JointAngles*>(_section)->SetFirstAngle(_value);}
+static void sSetSecondAngle(Section_ptr _section, float _value){static_cast<JointAngles*>(_section)->SetSecondAngle(_value);}
+static void sSetTransitionTime(Section_ptr _section, float _value){static_cast<JointAngles*>(_section)->SetTransitionTime(_value);}
+static void sSetPauseTime(Section_ptr _section, float _value){static_cast<JointAngles*>(_section)->SetPauseTime(_value);}
+
+void JointAngles::GetProperties(std::vector<Property*>& _properties )
+{
+	Section::GetProperties(_properties);
+	_properties.push_back(new Property(this, sSetFirstAngle, sGetFirstAngle, "Angle 1"));
+	_properties.push_back(new Property(this, sSetSecondAngle, sGetSecondAngle, "Angle 2"));
+	_properties.push_back(new Property(this, sSetTransitionTime, sGetTransitionTime, "Transition(s)"));
+	_properties.push_back(new Property(this, sSetPauseTime, sGetPauseTime, "Pause(s)"));
+}
+
+void JointAngles::ToXML(TiXmlElement* _node)
+{
+	Section::ToXML(_node);
+	_node->SetAttribute("SectionType", "JointAngles");
 }

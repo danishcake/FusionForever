@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "SpinningJoint.h"
+#include "Property.h"
 
 bool SpinningJoint::initialised_ = false;
 int SpinningJoint::outline_dl_ = 0;
@@ -62,4 +63,19 @@ void SpinningJoint::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_pr
 {
 	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies, _collision_manager);
 	angle_ += _timespan * degrees_per_second_;
+}
+
+static float sGetSpinRate(Section_ptr _section){return static_cast<SpinningJoint*>(_section)->GetSpinRate();}
+static void sSetSpinRate(Section_ptr _section, float _value){static_cast<SpinningJoint*>(_section)->SetSpinRate(_value);}
+
+void SpinningJoint::GetProperties(std::vector<Property*>& _properties )
+{
+	Section::GetProperties(_properties);
+	_properties.push_back(new Property(this, sSetSpinRate, sGetSpinRate, "Spin rate"));
+}
+
+void SpinningJoint::ToXML(TiXmlElement* _node)
+{
+	Section::ToXML(_node);
+	_node->SetAttribute("SectionType", "SpinningJoint");
 }

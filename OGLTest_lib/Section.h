@@ -21,6 +21,8 @@ class ICollisionManager;
 //typedef boost::shared_ptr<Core> Core_ptr;
 typedef Core* Core_ptr;
 
+class Property;
+
 static const float SECTION_FLASH_TIME = 2.0f;
 
 //Forward declare TiXML element
@@ -76,10 +78,7 @@ public:
 	virtual ~Section(void);
 	void AddChild(Section * child);
 	virtual void DrawSelf();
-	/*
-	 * Draws any editor only stuff
-	 */
-	void DrawEditorSupport(float _grid_size, Section_ptr _selected);
+
 	bool CheckCollisions(Projectile_ptr _projectile);
 	bool CheckCollisions(Vector3f _location, Section_ptr& _section);
 	void CheckCollisions(Vector3f _location, std::vector<Section*>& _sections);
@@ -99,6 +98,7 @@ public:
 	void ScaleHealth(float _factor);
 	void SetFiring(bool _firing);
 	void SetFiringDelay(float _firing_delay) {firing_delay_ = _firing_delay;}
+	float GetFiringDelay(){return firing_delay_;}
 	int GetSectionID(){return section_id_;}
 
 	bool IsCore(){return root_ == NULL;}
@@ -119,7 +119,16 @@ public:
 	//Editor support
 	std::vector<Section_ptr> DetachChildren();
 	void AttachChildren(std::vector<Section_ptr> _children);
-	
+	/*
+	 * Draws any editor only stuff
+	 */
+	void DrawEditorSupport(float _grid_size, Section_ptr _selected);
+	/*
+	 * Gets a list of gettable/settable properties for the editor. 
+	 * Override and then call to get the basics
+	 */
+	virtual void GetProperties(std::vector<Property*>& _properties );
+
 	/*
 	 * To be overriden by call sub classes, then called to set the basics
 	 */

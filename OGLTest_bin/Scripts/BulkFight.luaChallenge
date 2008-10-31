@@ -1,0 +1,47 @@
+--Playground.luaChallenge
+--This loads a challenge of three waves of 64 extremely weak enemies
+--followed by a single 'Space Station' enemy which is hard to kill
+--without using it's weakspot
+
+--This ensures the Predicate table is loaded, providing 
+--Predicate.WaitFor(x)          Waits for x seconds
+--Predicate.WaitTillDead()      Waits for all enemies to die
+require "Utility"
+
+--This is the Challenge table. It must contain the function EntryPoint to be valid.
+--EntryPoint is called by the simulation every frame until it returns true.
+--The intention is for it to resume coroutine(s).
+
+Challenge = {
+Script = coroutine.create(function()
+	LoadShip("KineticB")				--Loads a ship but doesn't add it to the world
+	SetAI("KeyboardAI")					--Sets the last loaded ships AI
+	SetPosition(500, 0)
+	ScaleHealth(4)
+	AddToForce(0)						--Adds the ship to force 1
+
+	
+	Predicate.WaitFor(2)
+	LoadShip("TheBulk")				--Loads a ship but doesn't add it to the world
+	SetAI("SimpleAI.lua")					--Sets the last loaded ships AI
+	ScaleHealth(1)
+	SetPosition(10,10)
+	AddToForce(3)						--Adds the ship to force 0
+		
+end),							--End of resumable coroutine
+							--Now the coroutine status is "dead"
+
+EntryPoint = function()
+	if coroutine.status(Challenge.Script) ~= "dead" then
+		local run_ok, error_message = coroutine.resume(Challenge.Script)
+		if run_ok then
+			return false	--Script still executing
+		else
+			return error_message
+		end
+	else
+		LogError("Lua: Script over")
+		return true	--Script finished
+	end
+end
+}

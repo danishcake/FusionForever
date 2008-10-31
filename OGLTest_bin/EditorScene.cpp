@@ -19,7 +19,7 @@
 #include "JointAngles.h"
 #include "JointTracker.h"
 #include "XmlSection.h"
-
+#include "Property.h"
 #include "RotatingAI.h"
 
 #include <boost/filesystem.hpp>
@@ -68,7 +68,6 @@ bool EditorScene::cbSave(const CEGUI::EventArgs& e)
 		}
 	}
 
-	
 	return true;
 }
 
@@ -540,6 +539,20 @@ EditorScene::EditorScene(void)
 	myRoot->addChildWindow(pBtnQuit);
 
 
+	CEGUI::Window* pWndProperties = (CEGUI::Window*)wmgr.createWindow("TaharezLook/FrameWindow","Edit/Properties");
+	pWndProperties->setSize(CEGUI::UVector2(CEGUI::UDim(0, 130), CEGUI::UDim(1, -180 - 110 -50)));
+	pWndProperties->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 0), CEGUI::UDim(0, 210)));
+	pWndProperties->setText("Properties");
+	pWndProperties->setProperty("SizingEnabled", "False");
+	pWndProperties->setProperty("CloseButtonEnabled", "False");
+	pWndProperties->setProperty("DragMovingEnabled", "False");
+	CEGUI::ScrollablePane* pPropertiesPane = (CEGUI::ScrollablePane*)wmgr.createWindow("TaharezLook/ScrollablePane", "Edit/Properties/Pane");
+	pPropertiesPane->setSize(CEGUI::UVector2( CEGUI::UDim( 1, -10),    CEGUI::UDim( 1, -40 ) ) );
+	pPropertiesPane->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, 10),    CEGUI::UDim( 0, 40 ) ) );
+	pWndProperties->addChildWindow(pPropertiesPane);
+	myRoot->addChildWindow(pWndProperties);
+
+
 	CEGUI::TabControl* pPalette = (CEGUI::TabControl*)wmgr.createWindow("TaharezLook/TabControl", "Edit/Palette");
 		pPalette->setSize(CEGUI::UVector2( CEGUI::UDim( 1, -20 ), CEGUI::UDim( 0, 110 ) ) );
 		pPalette->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 1.0f, -120 ) ) );
@@ -684,6 +697,8 @@ EditorScene::EditorScene(void)
 		pPalette->addTab(pTabXML);
 	myRoot->addChildWindow(pPalette);
 
+
+
 	CEGUI::Window* pWndLoad = wmgr.createWindow( "TaharezLook/FrameWindow", "Edit/LoadDialogue" );
 	pWndLoad->setVisible(false);
 	pWndLoad->setModalState(false);
@@ -807,4 +822,59 @@ void EditorScene::SetSelected(Section_ptr _selection)
 {
 	selection_ = _selection;
 	game_->SetSelectedSection(selection_);
+	
+	CEGUI::Window* pWndPropertiesPane = (CEGUI::ScrollablePane*)CEGUI::WindowManager::getSingleton().getWindow("Edit/Properties/Pane");
+	CEGUI::ScrollablePane* pWndPropertiesInnerPane = (CEGUI::ScrollablePane*)CEGUI::WindowManager::getSingleton().getWindow(pWndPropertiesPane->getChildAtIdx(0)->getName());
+	std::vector<Property*> properties;
+	selection_->GetProperties(properties);
+	//Clear properties window 
+	
+	int child_count = pWndPropertiesInnerPane->getChildCount();
+	for(int child_id = 0; child_id < (child_count)/2; child_id++)
+	{
+		CEGUI::Window* pWndChildName = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow(std::string("Edit/Properties/Pane/Name") + boost::lexical_cast<std::string, int>(child_id));
+		CEGUI::Window* pWndChildValue = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow(std::string("Edit/Properties/Pane/Value") + boost::lexical_cast<std::string, int>(child_id));
+		pWndPropertiesInnerPane->removeChildWindow(pWndChildName);
+		delete (Property*)(pWndChildValue->getUserData());
+		pWndPropertiesInnerPane->removeChildWindow(pWndChildValue);
+		CEGUI::WindowManager::getSingleton().destroyWindow(pWndChildName);
+		CEGUI::WindowManager::getSingleton().destroyWindow(pWndChildValue);
+	}
+
+
+	int height = 40;
+	for(int i = 0; i < properties.size(); i++)
+	{
+		CEGUI::Window* pLabel = (CEGUI::Listbox*)CEGUI::WindowManager::getSingleton().createWindow( "TaharezLook/StaticText", "Edit/Properties/Pane/Name" + boost::lexical_cast<std::string, int>(i) );
+		pLabel->setText(properties[i]->GetDescription());
+		pLabel->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 10), CEGUI::UDim(0, height)));
+		pLabel->setSize(CEGUI::UVector2(CEGUI::UDim(1, -20), CEGUI::UDim(0, 30)));
+		pWndPropertiesInnerPane->addChildWindow(pLabel);
+
+		height+=35;
+
+		CEGUI::Editbox* pEdit = (CEGUI::Editbox*)CEGUI::WindowManager::getSingleton().createWindow( "TaharezLook/Editbox", "Edit/Properties/Pane/Value" + boost::lexical_cast<std::string, int>(i) );
+		pEdit->setText(boost::lexical_cast<std::string, float>(properties[i]->Get()));
+		pEdit->setUserData(properties[i]);
+		pEdit->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 10), CEGUI::UDim(0, height)));
+		pEdit->setSize(CEGUI::UVector2(CEGUI::UDim(1, -20), CEGUI::UDim(0, 30)));
+		pEdit->subscribeEvent(CEGUI::Editbox::EventTextAccepted, CEGUI::Event::Subscriber(&EditorScene::cbPropertyChanged, this));
+		pWndPropertiesInnerPane->addChildWindow(pEdit);
+
+		height+=35;
+	}
+}
+
+bool EditorScene::cbPropertyChanged(const CEGUI::EventArgs& e)
+{
+	const CEGUI::WindowEventArgs& we = 	static_cast<const CEGUI::WindowEventArgs&>(e);
+	Property* prop = (Property*)we.window->getUserData();
+	try
+	{
+		prop->Set(boost::lexical_cast<float, std::string>(we.window->getText().c_str()));
+	} catch(boost::bad_lexical_cast e)
+	{
+		Logger::Instance() << "Unable to parse " << we.window->getText().c_str() << " to a float\n";
+	}
+	return true;
 }

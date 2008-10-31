@@ -23,4 +23,24 @@ public:
 	JointAngles(float _first_angle, float _second_angle, float _transition_time, float _pause_time);
 	virtual ~JointAngles(void);
 	virtual void Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager);
+
+	float GetFirstAngle(){return first_angle_;}
+	float GetSecondAngle(){return second_angle_;}
+	float GetTransitionTime(){return transition_time_;}
+	float GetPauseTime(){return pause_time_;}
+	void SetFirstAngle(float _value){first_angle_ = _value;}
+	void SetSecondAngle(float _value){second_angle_ = _value;}
+	void SetTransitionTime(float _value){transition_time_ = _value;}
+	void SetPauseTime(float _value){pause_time_ = _value;}
+
+	/*
+	 * Gets a list of gettable/settable properties for the editor. 
+	 * Override and then call to get the basics
+	 */
+	virtual void GetProperties(std::vector<Property*>& _properties );
+
+	/**
+	  * Sets the SectionType
+	  */
+	virtual void ToXML(TiXmlElement* _node);
 };

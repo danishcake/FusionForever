@@ -19,4 +19,18 @@ public:
 	SpinningJoint(float _degrees_per_second);
 	virtual ~SpinningJoint(void);
 	virtual void Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager);
+
+	float GetSpinRate(){return degrees_per_second_;}
+	void SetSpinRate(float _value){degrees_per_second_ = _value;}
+
+	/*
+	 * Gets a list of gettable/settable properties for the editor. 
+	 * Override and then call to get the basics
+	 */
+	virtual void GetProperties(std::vector<Property*>& _properties );
+
+	/**
+	  * Sets the SectionType
+	  */
+	virtual void ToXML(TiXmlElement* _node);
 };
