@@ -348,6 +348,10 @@
 				Name="Challenges"
 				>
 				<File
+					RelativePath=".\Scripts\BulkFight.luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\Challenge1.luaChallenge"
 					>
 				</File>
