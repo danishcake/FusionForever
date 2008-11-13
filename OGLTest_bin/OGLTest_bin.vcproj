@@ -348,6 +348,10 @@
 				Name="Challenges"
 				>
 				<File
+					RelativePath=".\Scripts\Backstabber.luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\BulkFight.luaChallenge"
 					>
 				</File>
@@ -393,6 +397,10 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\Utility.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Vector.lua"
 					>
 				</File>
 			</Filter>
@@ -585,6 +593,10 @@
 			<Filter
 				Name="AI"
 				>
+				<File
+					RelativePath=".\Scripts\AI_BackStabber.lua"
+					>
+				</File>
 				<File
 					RelativePath=".\Scripts\FleeingAI.lua"
 					>

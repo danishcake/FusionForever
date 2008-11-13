@@ -1,13 +1,13 @@
 if ship.target.valid == false then
-	ship.PickRandomTarget()
+	ship:PickRandomTarget()
 end
 
 --Flee!
 
-ship.FleeFor(10)
+ship:FleeFor(10)
 
 --Attack
-ship.AttackFor(13, 100, 500)
+ship:AttackFor(13, 100, 500)
 
 
 

@@ -1,0 +1,14 @@
+if ship.target.valid == false then
+	ship:PickRandomTarget()
+end
+
+local end_time = ship.time + 20
+
+while end_time > ship.time and ship.target.valid do
+	local dp = Vector:new(ship.target.position.x - ship.position.x, ship.target.position.y - ship.position.y)
+	local right_vector = Vector:new(math.cos(ship.angle), -math.sin(ship.angle))
+	local dotp = dp:dot(right_vector)
+	local desired_position = Vector:new(600 * math.sin(math.rad(ship.target.angle + 180)), 600 * math.cos(math.rad(ship.target.angle + 180))) + ship.target.position
+	ship:SetAll((desired_position.x - ship.position.x) , (desired_position.y - ship.position.y), -dotp, math.abs(dotp) < 0.2)
+	coroutine.yield()
+end

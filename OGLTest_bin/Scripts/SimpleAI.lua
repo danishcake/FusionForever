@@ -1,11 +1,13 @@
 if ship.target.valid == false then
-	ship.PickRandomTarget()
+	ship:PickRandomTarget()
 end
 
-camera_x = ship.position.x
-camera_y = ship.position.y
+if(camera_position == nil) then
+	camera_position = Vector:new(ship.position.x, ship.position.y);
+	print("Resetting camera")
+end
 
---Flee!
+
 local update_camera = function()
 	local x
 	local y
@@ -16,23 +18,23 @@ local update_camera = function()
 		x = ship.position.x
 		y = ship.position.y
 	end
-	camera_x = camera_x + (x - camera_x) * 0.1
-	camera_y = camera_y + (y - camera_y) * 0.1
-	if camera_x - ship.position.x > 500 then 
-		camera_x = ship.position.x + 500 end
-	if camera_x - ship.position.x < -500 then 
-		camera_x = ship.position.x - 500 end
-	if camera_y - ship.position.y > 500 then 
-		camera_y = ship.position.y + 500 end
-	if camera_y - ship.position.y < -500 then 
-		camera_y = ship.position.y - 500 end
-	ship.SetCameraPosition(camera_x, camera_y)
+	camera_position.x = camera_position.x + (x - camera_position.x) * 0.1
+	camera_position.y = camera_position.y + (y - camera_position.y) * 0.1
+	if camera_position.x - ship.position.x > 500 then 
+		camera_position.x = ship.position.x + 500 end
+	if camera_position.x - ship.position.x < -500 then 
+		camera_position.x = ship.position.x - 500 end
+	if camera_position.y - ship.position.y > 500 then 
+		camera_position.y = ship.position.y + 500 end
+	if camera_position.y - ship.position.y < -500 then 
+		camera_position.y = ship.position.y - 500 end
+	ship:SetCameraPosition(camera_position.x, camera_position.y)
 end
 
 --Attack
-ship.AttackForAnd(10, 100, 500, update_camera)
-ship.AttackForAnd(10, 200, 300, update_camera)
-ship.AttackForAnd(10, 1000, 1200, update_camera)
+ship:AttackForAnd(1, 100, 500, update_camera)
+ship:AttackForAnd(1, 200, 300, update_camera)
+ship:AttackForAnd(1, 1000, 1200, update_camera)
 
 
 

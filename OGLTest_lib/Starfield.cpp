@@ -36,8 +36,8 @@ void Starfield::DrawStarfield(Vector3f position_)
 		max_index = 50;
 
 	glPushMatrix();
-	glColor3f(1,1,1);
-	glPointSize(2);
+	glColor3f(0.5f,0.5f,0.5f);
+	glPointSize(1);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, stars_);
 

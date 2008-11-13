@@ -1,168 +1,151 @@
 local func_name, owner_pointer = ...;
+require "Vector"
 
 --This sets up a sandbox for a LuaAI to run in.
-
---This is set up in the global scope, so grab the necessary functions
 local ship_ = 
 {
-	_coroutine = coroutine,
-	_print = print,
-	_math = math,
-	position = {x=0, y=0},
-	angle = 0,
+	position = Vector:new(0, 0),
+	angle = 10,
 	ship_pointer = owner_pointer,
 	time = 0,
-	target = {position = {x=0, y=0}, valid = false, angle=0},
-	_SetMoveDirection = SetMoveDirection,
-	SetMoveDirection = function(x, y)
-		_SetMoveDirection(ship_pointer, x, y)
-	end,
-	_SetTurnDirection = SetTurnDirection,
-	SetTurnDirection = function(dtheta)
-		_SetTurnDirection(ship_pointer, dtheta)
-	end,
-	_SetAll = SetAll,
-	SetAll = function(dx, dy, dtheta, firing)
-		_SetAll(ship_pointer, dx, dy, dtheta, firing)
-	end,
-	_PickRandomTarget = PickRandomTarget,
-	PickRandomTarget = function()
-		_PickRandomTarget(ship_pointer)
-	end,
-	_PickClosestTarget = PickClosestTarget,
-	PickClosestTarget = function()
-		_PickClosestTarget(ship_pointer)
-	end,
-	_SetCameraPosition = SetCameraPosition,
-	SetCameraPosition = function(x, y)
-		_SetCameraPosition(ship_pointer, x, y)
-	end,
-	WaitFor = function(time_to_wait)
-		local end_time = time+time_to_wait
-		while time < end_time do
-			_coroutine.yield()
-		end
-	end,
-	WaitForAnd = function(time_to_wait, dothis)
-		local end_time = time+time_to_wait
-		while time < end_time do
-			dothis()
-			_coroutine.yield()
-		end
-	end,
-	FleeFor = function(time_to_flee)
-		local end_time = time + time_to_flee
-		while time < end_time do
-			if target.valid then
-				local range = _math.sqrt ((target.position.x - position.x) * (target.position.x - position.x) + (target.position.y - position.y) * (target.position.y - position.y))
-				local dx = (target.position.x - position.x) / range
-				local dy = (target.position.y - position.y) / range
-				local right_vector_dx = _math.cos(angle)
-				local right_vector_dy = -_math.sin(angle)
-				local dotp = dx * right_vector_dx + dy * right_vector_dy
-				
-				SetAll(-dx, -dy, -dotp, false)
-			else
-				PickClosestTarget()
-			end
-			_coroutine.yield()
-		end
-	end,
-	FleeForAnd = function(time_to_flee, dothis)
-		local end_time = time + time_to_flee
-		while time < end_time do
-			if target.valid then
-				local range = _math.sqrt ((target.position.x - position.x) * (target.position.x - position.x) + (target.position.y - position.y) * (target.position.y - position.y))
-				local dx = (target.position.x - position.x) / range
-				local dy = (target.position.y - position.y) / range
-				local right_vector_dx = _math.cos(angle)
-				local right_vector_dy = -_math.sin(angle)
-				local dotp = dx * right_vector_dx + dy * right_vector_dy
-				
-				SetAll(-dx, -dy, -dotp, false)
-			else
-				PickClosestTarget()
-			end
-			dothis()
-			_coroutine.yield()
-		end
-	end,
-	AttackFor = function(time_to_attack, min_range, max_range)
-		local end_time = time + time_to_attack
-		while time < end_time do
-			if target.valid == true then
-				local range = _math.sqrt ((target.position.x - position.x) * (target.position.x - position.x) + (target.position.y - position.y) * (target.position.y - position.y))
-				local dx = (target.position.x - position.x) / range
-				local dy = (target.position.y - position.y) / range
-				local right_vector_dx = _math.cos(angle)
-				local right_vector_dy = -_math.sin(angle)
-				local dotp = dx * right_vector_dx + dy * right_vector_dy
-				local firing = _math.abs(dotp) < 0.4 and range < 1000
-
-				if range < min_range then
-					--Back off
-					SetAll(-dx, -dy, dotp, firing)
-				elseif range > max_range then
-					--Advance
-					SetAll(dx, dy, dotp, firing)
-				else
-					--Strafe
-					SetAll(dy, -dx, dotp, firing)
-				end
-			else
-				PickClosestTarget()
-			end
-			_coroutine.yield()
-		end
-	end,
-	AttackForAnd = function(time_to_attack, min_range, max_range, dothis)
-		local end_time = time + time_to_attack
-		while time < end_time do
-			if target.valid == true then
-				local range = _math.sqrt ((target.position.x - position.x) * (target.position.x - position.x) + (target.position.y - position.y) * (target.position.y - position.y))
-				local dx = (target.position.x - position.x) / range
-				local dy = (target.position.y - position.y) / range
-				local right_vector_dx = _math.cos(angle)
-				local right_vector_dy = -_math.sin(angle)
-				local dotp = dx * right_vector_dx + dy * right_vector_dy
-				local firing = _math.abs(dotp) < 0.4
-
-				if range < min_range then
-					--Back off
-					SetAll(-dx, -dy, dotp, firing)
-				elseif range > max_range then
-					--Advance
-					SetAll(dx, dy, dotp, firing)
-				else
-					--Strafe
-					SetAll(dy, -dx, dotp, firing)
-				end
-			else
-				PickClosestTarget()
-			end
-			dothis()
-			_coroutine.yield()
-		end
-	end,
-
+	target = {position = Vector:new(0, 0), valid = false, angle=0},
 }
+
+function ship_:SetMoveDirection(x, y)
+	SetMoveDirection(self.ship_pointer, x, y)
+end
+
+function ship_:SetTurnDirection(dtheta)
+    SetTurnDirection(self.ship_pointer, dtheta)
+end
+
+function ship_:SetAll(dx, dy, dtheta, firing)
+    SetAll(self.ship_pointer, dx, dy, dtheta, firing)
+end
+
+function ship_:PickRandomTarget()
+    PickRandomTarget(self.ship_pointer)
+end
+
+function ship_:PickClosestTarget()
+    PickClosestTarget(self.ship_pointer)
+end
+
+function ship_:SetCameraPosition(x, y)
+    SetCameraPosition(self.ship_pointer, x, y)
+end
+
+function ship_:WaitFor(time_to_wait)
+    local end_time = self.time + time_to_wait
+    while self.time < end_time do
+        coroutine.yield()
+    end
+end
+
+function ship_:WaitForAnd(time_to_wait, dothis)
+    local end_time = self.time + time_to_wait
+    while self.time < end_time do
+        dothis()
+        coroutine.yield()
+    end
+end
+
+function ship_:FleeFor(time_to_flee)
+    local end_time = self.time + time_to_flee
+    while self.time < end_time do
+        if self.target.valid then
+            local dp = (self.target.position - self.position):normalise()
+            local right_vector = Vector:new(math.cos(self.angle), -math.sin(self.angle))
+            local dotp = dp:dot(right_vector)
+            
+            self:SetAll(-dp.x, -dp.y, -dotp, false)
+        else
+            self:PickClosestTarget()
+        end
+        coroutine.yield()
+    end
+end
+
+function ship_:FleeForAnd(time_to_flee, dothis)
+    local end_time = self.time + time_to_flee
+    while self.time < end_time do
+        if self.target.valid then
+            local dp = (self.target.position - self.position):normalise()
+            local right_vector = Vector:new(math.cos(self.angle), -math.sin(self.angle))
+            local dotp = dp:dot(right_vector)
+            
+            self:SetAll(-dp.x, -dp.y, -dotp, false)
+        else
+            self:PickClosestTarget()
+        end
+        dothis()
+        coroutine.yield()
+    end
+end
+
+function ship_:AttackFor(time_to_attack, min_range, max_range)
+    local end_time = self.time + time_to_attack
+    while self.time < end_time do
+        if self.target.valid == true then
+            local range = (self.target.position - self.position):length()
+            local dp = (self.target.position - self.position):normalise()
+            local right_vector = Vector:new(math.cos(self.angle), -math.sin(self.angle))
+            local dotp = dp:dot(right_vector)
+            local firing = math.abs(dotp) < 0.4 and range < 1000
+
+            if range < min_range then
+                --Back off
+                self:SetAll(-dp.x, -dp.y, dotp, firing)
+            elseif range > max_range then
+                --Advance
+                self:SetAll(dp.x, dp.y, dotp, firing)
+            else
+                --Strafe
+                self:SetAll(dp.y, -dp.x, dotp, firing)
+            end
+        else
+            self:PickClosestTarget()
+        end
+        coroutine.yield()
+    end
+end
+
+function ship_:AttackForAnd(time_to_attack, min_range, max_range, dothis)
+    local end_time = self.time + time_to_attack
+    while self.time < end_time do
+        if self.target.valid == true then
+            local range = (self.target.position - self.position):length()
+            local dp = (self.target.position - self.position):normalise()
+            local right_vector = Vector:new(math.cos(self.angle), -math.sin(self.angle))
+            local dotp = dp:dot(right_vector)
+            local firing = math.abs(dotp) < 0.4 and range < 1000
+
+            if range < min_range then
+                --Back off
+                self:SetAll(-dp.x, -dp.y, dotp, firing)
+            elseif range > max_range then
+                --Advance
+                self:SetAll(dp.x, dp.y, dotp, firing)
+            else
+                --Strafe
+                self:SetAll(dp.y, -dp.x, dotp, firing)
+            end
+        else
+            self:PickClosestTarget()
+        end
+        dothis()
+        coroutine.yield()
+    end
+end
 
 local ship_mt = 
 {
-	print = print,
 	__newindex = function (t, n, v)
 		print ("Unable to change contents of ship")
 	end
 }
 
 setmetatable(ship_, ship_mt)
-
-for func in pairs(ship_) do 
-	if type(ship_[func]) == "function" and string.sub(func, 0, 1) ~= "_" then 
-		--print("Changing the function: ship_[" .. func .. "]")
-		setfenv(ship_[func], ship_)
-	end
-end
 
 --Return a table to be the environment
 local env_cage = {
@@ -180,6 +163,7 @@ local env_cage = {
 
 	--These are safe, but should be prevented from being modified...
 	coroutine = coroutine,
+	Vector = Vector,
 	table = table,
 	math = math,
 	string = string,

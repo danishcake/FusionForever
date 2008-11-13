@@ -206,8 +206,8 @@ void LuaAI::resume_coroutine(Core_ptr _self)
 					lua_pushnumber(lua_state_, sum_time_);
 			lua_settable(lua_state_,-3);										//Sets ship.time to sum_time_
 				lua_pushstring(lua_state_, "angle");
-					lua_pushnumber(lua_state_, _self->GetAngle() * M_PI / 180 );
-			lua_settable(lua_state_, -3);										//Sets ship.angle to _self.GetAngle() (Rad)
+					lua_pushnumber(lua_state_, _self->GetAngle() );
+			lua_settable(lua_state_, -3);										//Sets ship.angle to _self.GetAngle() (Deg)
 				lua_pushstring(lua_state_, "position");
 				lua_gettable(lua_state_, -2);
 					lua_pushstring(lua_state_,"x");
@@ -235,7 +235,6 @@ void LuaAI::resume_coroutine(Core_ptr _self)
 					lua_settable(lua_state_, -3);								//Sets ship.target.position.y target.y
 				lua_pop(lua_state_, 1); //Pops position from stack
 					lua_pushstring(lua_state_, "angle");
-					lua_gettable(lua_state_, -2);
 						lua_pushnumber(lua_state_, target_->GetAngle());
 				lua_settable(lua_state_, -3);
 			}
@@ -248,7 +247,7 @@ void LuaAI::resume_coroutine(Core_ptr _self)
 		} else if(resume_result == 0)
 		{
 			//Logger::Instance() << "Coroutine finished without errors\n";
-			initialise_coroutine(); //Restart coroutine
+			initialise_coroutine(); //Restart coroutine //TODO work out a way to keep the ship, rather than initialising a new one.
 		} else
 		{
 			ok_to_run_ = false;
