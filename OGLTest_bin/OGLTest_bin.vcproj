@@ -594,19 +594,19 @@
 				Name="AI"
 				>
 				<File
-					RelativePath=".\Scripts\AI_BackStabber.lua"
+					RelativePath=".\Scripts\AI_BackStabber.luaAI"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\FleeingAI.lua"
+					RelativePath=".\Scripts\FleeingAI.luaAI"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\RotatingAI.lua"
+					RelativePath=".\Scripts\RotatingAI.luaAI"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\SimpleAI.lua"
+					RelativePath=".\Scripts\SimpleAI.luaAI"
 					>
 				</File>
 			</Filter>
