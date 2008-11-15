@@ -16,7 +16,7 @@ Challenge = {
 Script = coroutine.create(function()
 	for i = 0, 20 do
 		LoadShip("Lasership")				--Loads a ship but doesn't add it to the world
-		SetAI("FleeingAI.lua")					--Sets the last loaded ships AI
+		SetAI("FleeingAI.luaAI")					--Sets the last loaded ships AI
 		SetPosition(200 * math.sin(i * 6.28/20), 200 * math.cos(i * 6.28/20))
 		ScaleHealth(0.5)
 		AddToForce(1)						--Adds the ship to force 1
@@ -25,7 +25,7 @@ Script = coroutine.create(function()
 
 	Predicate.WaitFor(2)
 	LoadShip("KineticB")				--Loads a ship but doesn't add it to the world
-	SetAI("SimpleAI.lua")					--Sets the last loaded ships AI
+	SetAI("SimpleAI.luaAI")					--Sets the last loaded ships AI
 	ScaleHealth(10.35)
 	SetPosition(10,10)
 	AddToForce(0)						--Adds the ship to force 0

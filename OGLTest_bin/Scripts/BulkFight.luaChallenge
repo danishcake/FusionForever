@@ -23,7 +23,7 @@ Script = coroutine.create(function()
 	
 	Predicate.WaitFor(2)
 	LoadShip("TheBulk")				--Loads a ship but doesn't add it to the world
-	SetAI("SimpleAI.lua")					--Sets the last loaded ships AI
+	SetAI("SimpleAI.luaAI")					--Sets the last loaded ships AI
 	ScaleHealth(1)
 	SetPosition(10,10)
 	AddToForce(3)						--Adds the ship to force 0

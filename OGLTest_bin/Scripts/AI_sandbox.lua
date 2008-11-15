@@ -55,7 +55,7 @@ function ship_:FleeFor(time_to_flee)
     while self.time < end_time do
         if self.target.valid then
             local dp = (self.target.position - self.position):normalise()
-            local right_vector = Vector:new(math.cos(self.angle), -math.sin(self.angle))
+            local right_vector = Vector:new(math.cos(math.rad(self.angle)), -math.sin(math.rad(self.angle)))
             local dotp = dp:dot(right_vector)
             
             self:SetAll(-dp.x, -dp.y, -dotp, false)
@@ -71,7 +71,7 @@ function ship_:FleeForAnd(time_to_flee, dothis)
     while self.time < end_time do
         if self.target.valid then
             local dp = (self.target.position - self.position):normalise()
-            local right_vector = Vector:new(math.cos(self.angle), -math.sin(self.angle))
+            local right_vector = Vector:new(math.cos(math.rad(self.angle)), -math.sin(math.rad(self.angle)))
             local dotp = dp:dot(right_vector)
             
             self:SetAll(-dp.x, -dp.y, -dotp, false)
@@ -89,7 +89,7 @@ function ship_:AttackFor(time_to_attack, min_range, max_range)
         if self.target.valid == true then
             local range = (self.target.position - self.position):length()
             local dp = (self.target.position - self.position):normalise()
-            local right_vector = Vector:new(math.cos(self.angle), -math.sin(self.angle))
+            local right_vector = Vector:new(math.cos(math.rad(self.angle)), -math.sin(math.rad(self.angle)))
             local dotp = dp:dot(right_vector)
             local firing = math.abs(dotp) < 0.4 and range < 1000
 
@@ -116,7 +116,7 @@ function ship_:AttackForAnd(time_to_attack, min_range, max_range, dothis)
         if self.target.valid == true then
             local range = (self.target.position - self.position):length()
             local dp = (self.target.position - self.position):normalise()
-            local right_vector = Vector:new(math.cos(self.angle), -math.sin(self.angle))
+            local right_vector = Vector:new(math.cos(math.rad(self.angle)), -math.sin(math.rad(self.angle)))
             local dotp = dp:dot(right_vector)
             local firing = math.abs(dotp) < 0.4 and range < 1000
 
@@ -176,7 +176,7 @@ local env = {}
 setmetatable(env, env_mt)
 
 --env is now a sandbox. 
-func = loadfile(func_name)
+func = loadfile("scripts/ai/" .. func_name)
 setfenv(func, env)
 cr = coroutine.create(func)
 return cr, env

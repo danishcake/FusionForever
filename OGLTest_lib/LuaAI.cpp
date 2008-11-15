@@ -159,6 +159,17 @@ LuaAI::~LuaAI(void)
 
 bool LuaAI::initialise_coroutine()
 {
+	/* A better logic flow would be:
+
+		1: If there is no environment, create it. Store it.
+		2: If there is no AI chunk, create it and set the environment. Store it.
+		3: If there is a coroutine reference, remove it.
+		5: Create a coroutine and store it.
+	*/
+
+
+
+
 	/* If already registered then remove it */
 	if(coroutine_reference_)
 		luaL_unref(lua_state_, LUA_REGISTRYINDEX, coroutine_reference_);
@@ -301,7 +312,8 @@ AIAction LuaAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vecto
 
 LuaAI* LuaAI::FromScript(std::string _file_name, lua_State *_luaVM)
 {
-	int load_result = luaL_loadfile(_luaVM, _file_name.c_str());
+	//This just checks the file can be loaded before instanciating a LuaAI
+	int load_result = luaL_loadfile(_luaVM, (std::string("scripts/ai/") + _file_name).c_str());
 	if(load_result==0)
 	{
 		lua_pop(_luaVM, 1); //Pop the chunk

@@ -22,12 +22,8 @@ Script = coroutine.create(function()
 	Predicate.WaitFor(2)
 	
 	LoadShip("Lasership")				--Loads a ship but doesn't add it to the world
-	SetAI("AI_Backstabber.lua")					--Sets the last loaded ships AI
+	SetAI("AI_Backstabber.luaAI")		--Sets the last loaded ships AI
 	AddToForce(1)						--Adds the ship to force 1
-	Predicate.WaitFor(2)
-	
-	Predicate.WaitFor(10)
-
 end),							--End of resumable coroutine
 							--Now the coroutine status is "dead"
 
