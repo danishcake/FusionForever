@@ -115,23 +115,23 @@ void LuaAI::SetCameraPosition(float _x, float _y)
 static bool initialised_lua = false;
 void LuaAI::RegisterLuaFunctions(lua_State* _luaVM)
 {
-	lua_register(_luaVM, "SetMoveDirection", l_SetMoveDirection);
-	lua_register(_luaVM, "SetTurnDirection", l_SetTurnDirection);
-	lua_register(_luaVM, "SetAll", l_SetAll);
-	lua_register(_luaVM, "PickRandomTarget", l_PickRandomTarget);
-	lua_register(_luaVM, "PickClosestTarget", l_PickClosestTarget);
-	lua_register(_luaVM, "SetCameraPosition", l_SetCameraPosition);
-}
-
-LuaAI::LuaAI(std::string _file_name, lua_State* _luaVM)
-{
 	if(!initialised_lua)
 	{
-		RegisterLuaFunctions(_luaVM);
-		initialised_lua = true;
+		lua_register(_luaVM, "SetMoveDirection", l_SetMoveDirection);
+		lua_register(_luaVM, "SetTurnDirection", l_SetTurnDirection);
+		lua_register(_luaVM, "SetAll", l_SetAll);
+		lua_register(_luaVM, "PickRandomTarget", l_PickRandomTarget);
+		lua_register(_luaVM, "PickClosestTarget", l_PickClosestTarget);
+		lua_register(_luaVM, "SetCameraPosition", l_SetCameraPosition);
 	}
+	initialised_lua = true;
+}
 
+LuaAI::LuaAI(std::string _file_name, int _chunk_reference, lua_State* _luaVM)
+{
+	RegisterLuaFunctions(_luaVM);
 	script_name_= _file_name;
+	chunk_reference_ = _chunk_reference;
 	lua_state_ = _luaVM;
 	next_move_ = AIAction();
 	coroutine_reference_ = 0;
@@ -152,6 +152,8 @@ LuaAI::~LuaAI(void)
 		luaL_unref(lua_state_, LUA_REGISTRYINDEX, coroutine_reference_);
 	if(environment_reference_)
 		luaL_unref(lua_state_, LUA_REGISTRYINDEX, environment_reference_);
+	if(chunk_reference_)
+		luaL_unref(lua_state_, LUA_REGISTRYINDEX, chunk_reference_);
 
 	if(target_)
 		target_->RemoveSubscriber(this);
@@ -161,42 +163,51 @@ bool LuaAI::initialise_coroutine()
 {
 	/* A better logic flow would be:
 
-		1: If there is no environment, create it. Store it.
-		2: If there is no AI chunk, create it and set the environment. Store it.
-		3: If there is a coroutine reference, remove it.
-		5: Create a coroutine and store it.
+		1: If there is no environment, create it. Store it. Set as environment for chunk
+		2: If there is a coroutine reference, remove it.
+		3: Create a coroutine and store it.
 	*/
 
+	if(environment_reference_ == 0)
+	{
+		lua_rawgeti(lua_state_, LUA_REGISTRYINDEX, chunk_reference_); //Gets the function ready for setfenv
 
+		/* Sandbox a file*/
+		int env_load_error = luaL_loadfile(lua_state_, "AI_sandbox.lua");
+		//Either have error message or chunk on stack
+		if(env_load_error != 0 )
+		{
+			Logger::Instance() << lua_tostring(lua_state_, -1);
+			return false;
+		}
 
+		//The environment has a reference to this class in it...
+		lua_pushlightuserdata(lua_state_, this);
+		
+		int env_run_error = lua_pcall(lua_state_, 1, 1, NULL);
+		if(env_run_error != 0 )
+		{
+			Logger::Instance() << lua_tostring(lua_state_, -1);
+			return false;
+		}
+		//Should now have a reference to the environment on stack
+		environment_reference_ = luaL_ref(lua_state_, LUA_REGISTRYINDEX);
+		lua_rawgeti(lua_state_, LUA_REGISTRYINDEX, environment_reference_); //Gets the environment back
 
-	/* If already registered then remove it */
+		lua_setfenv(lua_state_, -2);
+		lua_pop(lua_state_, 1); //Pops chunk from stack
+	}
+
 	if(coroutine_reference_)
 		luaL_unref(lua_state_, LUA_REGISTRYINDEX, coroutine_reference_);
-	if(environment_reference_)
-		luaL_unref(lua_state_, LUA_REGISTRYINDEX, environment_reference_);
 
-	/* Sandbox a file*/
-	int load_error = luaL_loadfile(lua_state_, "AI_sandbox.lua");
-	//Either have error message or chunk on stack
-	if(load_error != 0 )
-	{
-		Logger::Instance() << lua_tostring(lua_state_, -1);
-		return false;
-	}
-	lua_pushstring(lua_state_, script_name_.c_str());
-	lua_pushlightuserdata(lua_state_, this);
-	int run_error = lua_pcall(lua_state_,2, 2, NULL);
-	if(run_error != 0 )
-	{
-		Logger::Instance() << lua_tostring(lua_state_, -1);
-		return false;
-	}
-	//Should now have a reference to a coroutine and environment on stack
-	environment_reference_ = luaL_ref(lua_state_, LUA_REGISTRYINDEX);
-	coroutine_reference_ = luaL_ref(lua_state_, LUA_REGISTRYINDEX);
+	lua_State* coroutine = lua_newthread(lua_state_);
+	coroutine_reference_= luaL_ref(lua_state_, LUA_REGISTRYINDEX); //Stores the coroutine reference. (also pops it :( )
 
-	return true;
+//	lua_rawgeti(coroutine, LUA_REGISTRYINDEX, coroutine_reference_); //Gets the coroutine back
+	lua_rawgeti(coroutine, LUA_REGISTRYINDEX, chunk_reference_); //Gets the function for coroutine.
+
+	return true; //Stack coroutine now contains the chunk to be executed, and is stored at coroutine_reference_
 }
 
 void LuaAI::resume_coroutine(Core_ptr _self)
@@ -316,9 +327,9 @@ LuaAI* LuaAI::FromScript(std::string _file_name, lua_State *_luaVM)
 	int load_result = luaL_loadfile(_luaVM, (std::string("scripts/ai/") + _file_name).c_str());
 	if(load_result==0)
 	{
-		lua_pop(_luaVM, 1); //Pop the chunk
+		int chunk_ref = luaL_ref(_luaVM, LUA_REGISTRYINDEX);
 		Logger::Instance() << "AI loaded OK\n";
-		return new LuaAI(_file_name, _luaVM);
+		return new LuaAI(_file_name, chunk_ref, _luaVM);
 	} else
 	{
 		std::string error_string = lua_tostring(_luaVM, -1);

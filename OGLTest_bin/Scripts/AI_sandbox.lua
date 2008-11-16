@@ -1,7 +1,7 @@
-local func_name, owner_pointer = ...;
+local owner_pointer = ...;
 require "Vector"
 
---This sets up a sandbox for a LuaAI to run in.
+--This sets up a the environment for a LuaAI to run in.
 local ship_ = 
 {
 	position = Vector:new(0, 0),
@@ -175,8 +175,6 @@ local env_mt = {__index = env_cage}
 local env = {}
 setmetatable(env, env_mt)
 
---env is now a sandbox. 
-func = loadfile("scripts/ai/" .. func_name)
-setfenv(func, env)
-cr = coroutine.create(func)
-return cr, env
+--env is now ready, needs to be set as environment for the AI to be run in.
+--Then a coroutine must be created.
+return env

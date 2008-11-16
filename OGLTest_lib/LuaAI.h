@@ -12,6 +12,7 @@ protected:
 	lua_State* lua_state_;
 	int coroutine_reference_;
 	int environment_reference_;
+	int chunk_reference_;
 	AIAction next_move_;
 
 	bool initialise_coroutine();
@@ -31,7 +32,7 @@ protected:
 	bool ok_to_run_;
 
 public:
-	LuaAI(std::string _file_name, lua_State* _luaVM);
+	LuaAI(std::string _file_name, int _chunk_reference, lua_State* _luaVM);
 	~LuaAI(void);
 
 	virtual AIAction Tick(float _timespan, std::vector<Core*>& _allies, std::vector<Core*>& _enemies, Core* _self);
