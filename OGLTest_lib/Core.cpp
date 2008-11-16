@@ -8,12 +8,14 @@
 #include "JointAngles.h"
 #include "JointTracker.h"
 #include "SpinningJoint.h"
+#include "TrackerArm.h"
 #include "Blaster.h"
 #include "HeatBeamGun.h"
 #include "HomingMissileLauncher.h"
 #include "Swarmer.h"
 #include "ChainGun.h"
 #include "PlasmaArtillery.h"
+
 
 #include "XMLSection.h"
 
@@ -76,6 +78,7 @@ namespace Section_types
 		JointAngles,
 		JointTracker,
 		SpinningJoint,
+		TrackerArm,
 		Blaster,
 		HeatBeamGun,
 		HomingMissileLauncher,
@@ -89,6 +92,7 @@ namespace Section_types
 		STR_ME( JointAngles ),
 		STR_ME( JointTracker ),
 		STR_ME( SpinningJoint ),
+		STR_ME ( TrackerArm ),
 		STR_ME( Blaster ),
 		STR_ME( HeatBeamGun ),
 		STR_ME( HomingMissileLauncher ),
@@ -112,6 +116,7 @@ namespace Section_types
 		section_type_map[ToStr[JointAngles]]			= JointAngles;
 		section_type_map[ToStr[JointTracker]]			= JointTracker;
 		section_type_map[ToStr[SpinningJoint]]			= SpinningJoint;
+		section_type_map[ToStr[TrackerArm]]				= TrackerArm;
 		section_type_map[ToStr[Blaster]]				= Blaster;
 		section_type_map[ToStr[HeatBeamGun]]			= HeatBeamGun;
 		section_type_map[ToStr[HomingMissileLauncher]]	= HomingMissileLauncher;
@@ -374,6 +379,9 @@ Section_ptr Core::ParseSection(TiXmlElement* _section_element)
 			case Section_types::PlasmaArtillery:
 				section = new PlasmaArtillery();
 				break;
+			case Section_types::TrackerArm:
+				section = new TrackerArm(false);
+				break;
 			default:
 				//Attempt to find XMLSection
 				section = XMLSection::CreateXMLSection(section_string);
@@ -394,8 +402,10 @@ Section_ptr Core::ParseSection(TiXmlElement* _section_element)
 			   (_section_element->QueryValueAttribute("y", &position.y) == TIXML_SUCCESS))
 			   section->SetPosition(position);
 		}
+	} else
+	{
+		Logger::LogError("Unable to create section, SectionType attribute is blank");
 	}
-
 	return section;
 }
 

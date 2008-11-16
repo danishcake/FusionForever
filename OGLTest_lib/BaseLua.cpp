@@ -10,6 +10,7 @@
 #include "SpinningJoint.h"
 #include "JointAngles.h"
 #include "JointTracker.h"
+#include "TrackerArm.h"
 #include "RotatingAI.h"
 #include "KeyboardAI.h"
 #include "SimpleAI.h"
@@ -35,6 +36,7 @@ static enum SectionType
 	st_SpinningJoint,
 	st_JointAngles,
 	st_TrackerJoint,
+	st_TrackerArm,
 	ai_RotatingAI,
 	ai_KeyboardAI,
 	ai_SimpleAI
@@ -56,6 +58,7 @@ static void InitialiseMap()
 	SectionMap["HOMINGMISSILELAUNCHER"] = st_HomingMissileLauncher;
 	SectionMap["TINYCORE"] = st_TinyCore;
 	SectionMap["TRACKERJOINT"] = st_TrackerJoint;
+	SectionMap["TRACKERARM"] = st_TrackerArm;
 	SectionMap["SWARMER"] = st_Swarmer;
 }
 

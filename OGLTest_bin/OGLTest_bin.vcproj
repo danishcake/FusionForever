@@ -34,23 +34,26 @@
 				ExecutionBucket="2"
 			/>
 			<Tool
-				Name="Lua utilities copier"
-			/>
-			<Tool
-				Name="XMLShip copier"
-			/>
-			<Tool
 				Name="ChallengeScript copier"
 			/>
 			<Tool
 				Name="XMLSection copier"
 			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-				ExecutionBucket="4"
+				Name="XMLShip copier"
+			/>
+			<Tool
+				Name="Lua utilities copier"
+			/>
+			<Tool
+				Name="LuaAI copier"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+				ExecutionBucket="4"
 			/>
 			<Tool
 				Name="VCMIDLTool"
@@ -139,19 +142,22 @@
 				CommandLine=""
 			/>
 			<Tool
+				Name="ChallengeScript copier"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="XMLSection copier"
+			/>
+			<Tool
 				Name="XMLShip copier"
 			/>
 			<Tool
 				Name="Lua utilities copier"
 			/>
 			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="ChallengeScript copier"
-			/>
-			<Tool
-				Name="XMLSection copier"
+				Name="LuaAI copier"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -320,10 +326,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\JuggernautB.xmlShip"
-					>
-				</File>
-				<File
 					RelativePath=".\Scripts\LuaShip2.luaShip"
 					>
 				</File>
@@ -337,10 +339,6 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\SpikeyShip.luaShip"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\TheBulk.xmlShip"
 					>
 				</File>
 			</Filter>
@@ -558,11 +556,19 @@
 				Name="XMLShips"
 				>
 				<File
+					RelativePath=".\Scripts\Grawp.xmlShip"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\GunshipA.xmlShip"
 					>
 				</File>
 				<File
 					RelativePath=".\Scripts\JuggernautA.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\JuggernautB.xmlShip"
 					>
 				</File>
 				<File
@@ -587,6 +593,10 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\Razorsaw.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\TheBulk.xmlShip"
 					>
 				</File>
 			</Filter>

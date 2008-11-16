@@ -119,7 +119,7 @@ public:
      * Sets the angle.
      * @param _angle The new angle.
      */
-	void SetAngle(float _angle) {angle_ = _angle;}
+	virtual void SetAngle(float _angle) {angle_ = _angle;}
    /**
      * Gets the angle.
      * @return The angle.

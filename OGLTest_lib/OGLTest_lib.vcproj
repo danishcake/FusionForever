@@ -347,6 +347,10 @@
 						RelativePath=".\SpinningJoint.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\TrackerArm.cpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Inactive"
@@ -639,6 +643,10 @@
 					</File>
 					<File
 						RelativePath=".\SpinningJoint.h"
+						>
+					</File>
+					<File
+						RelativePath=".\TrackerArm.h"
 						>
 					</File>
 				</Filter>
