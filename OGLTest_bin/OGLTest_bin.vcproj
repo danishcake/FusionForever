@@ -321,26 +321,6 @@
 			<Filter
 				Name="Ships"
 				>
-				<File
-					RelativePath=".\Scripts\JuggernautA.luaShip"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\LuaShip2.luaShip"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\MissilePlatform.luaShip"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\SpaceStation.luaShip"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\SpikeyShip.luaShip"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="Challenges"
@@ -351,10 +331,6 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\BulkFight.luaChallenge"
-					>
-				</File>
-				<File
-					RelativePath=".\Scripts\Challenge1.luaChallenge"
 					>
 				</File>
 				<File
@@ -381,16 +357,16 @@
 					RelativePath=".\Scripts\SurviveTheFeud.luaChallenge"
 					>
 				</File>
-				<File
-					RelativePath=".\Scripts\XMLTester.luaChallenge"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="Common"
 				>
 				<File
 					RelativePath=".\Scripts\AI_sandbox.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Challenge_sandbox.lua"
 					>
 				</File>
 				<File

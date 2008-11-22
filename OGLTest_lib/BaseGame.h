@@ -16,24 +16,23 @@ namespace Hostility
 	};
 }
 
-class BaseLua;
 struct lua_State;
+class LuaChallenge;
 
 class BaseGame
 {
 public:
-	BaseGame(void);
+	BaseGame(std::string _challenge_filename);
 	virtual ~BaseGame(void);
 
-	virtual void Tick(float _timespan);
+	virtual bool Tick(float _timespan);
 	virtual void Draw();
 	void LoadChallenge(std::string _challenge);
 	void AddShip(Core* _core, int _force);
 	int GetForceCount(int _force);
 	int GetEnemyCount(int _force);
 	int GetFriendCount(int _force);
-	bool IsSectionAlive(int _section_id);
-	lua_State* GetLua();
+	Section* GetSectionData(int _section_id);
 
 protected:
 	std::vector<Projectile_ptr> projectiles_[MAX_FORCES];
@@ -45,5 +44,6 @@ protected:
 	std::vector<Core_ptr> friends[MAX_FORCES];
 
 	Starfield starfield_;
-	BaseLua* lua_;
+	LuaChallenge* challenge_;
+	lua_State* luaVM_;
 };

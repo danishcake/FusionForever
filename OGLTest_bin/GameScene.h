@@ -18,4 +18,8 @@ public:
 	bool IsSectionAlive(int _section_id);
 protected:
 	BaseGame* game_;
+
+	bool returning_to_menu_;
+	bool spawn_fadeout_;
+	float timer_;
 };

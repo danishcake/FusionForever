@@ -50,4 +50,6 @@ public:
 	static LuaAI* FromScript(std::string _file_name, lua_State* _luaVM);
 
 	virtual void EndSubscription(Subscriber* _source);
+
+	static bool initialised_lua;
 };

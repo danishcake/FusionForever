@@ -1,9 +1,18 @@
 #include "StdAfx.h"
 #include "BaseGame.h"
-#include "BaseLua.h"
+#include "LuaChallenge.h"
+#include "LuaAI.h"
+#include "Decoration.h"
+
+extern "C"
+{
+#include "lua.h"
+#include "lualib.h"
+#include "lauxlib.h"
+}
 
 
-BaseGame::BaseGame(void)
+BaseGame::BaseGame(std::string _challenge_filename)
 {
   for(int x = 0; x < MAX_FORCES; x++)
   {
@@ -12,12 +21,33 @@ BaseGame::BaseGame(void)
       hostility_[x][y] = (x != y) ? Hostility::Hostile : Hostility::Friendly;
     }
   }
-  lua_ = new BaseLua(this);
+  luaVM_ = lua_open();
+  LuaAI::initialised_lua = false;
+  luaL_openlibs(luaVM_);
+  challenge_ = new LuaChallenge(luaVM_, _challenge_filename, this);
 }
 
 BaseGame::~BaseGame(void)
 {
-  //Todo - fix leak if we quit back to menu
+	delete challenge_;
+
+	for(int force = 0; force < MAX_FORCES; force++)
+	{
+		BOOST_FOREACH(Projectile_ptr ptr, projectiles_[force])
+		{
+			delete ptr;
+		}
+		BOOST_FOREACH(Core_ptr ptr, ships_[force])
+		{
+			delete ptr;
+		}
+	}
+	BOOST_FOREACH(Decoration_ptr ptr, decorations_)
+	{
+		delete ptr;
+	}
+
+	lua_close(luaVM_);
 }
 
 void BaseGame::Draw()
@@ -50,14 +80,16 @@ void BaseGame::Draw()
 	}
 }
 
-void BaseGame::Tick(float _timespan)
+bool BaseGame::Tick(float _timespan)
 {
 	std::vector<Decoration_ptr> decoration_spawn;
 	std::vector<Section_ptr> filtered;
 	filtered.reserve(50);
-	
+
 	//Tick scripts
-	lua_->Tick(_timespan);
+	ChallengeState::Enum state = challenge_->Tick(_timespan);
+
+
 	Camera::Instance().TickCamera(_timespan);
 
 	//Calculate enemies and friends of each force
@@ -148,12 +180,10 @@ void BaseGame::Tick(float _timespan)
 		projectiles_[force].erase(std::remove_if(projectiles_[force].begin(), projectiles_[force].end(), Projectile::IsProjectileRemovable), projectiles_[force].end());
 		ships_[force].erase(std::remove_if(ships_[force].begin(), ships_[force].end(), Section::IsRemovable), ships_[force].end());
 	}
+
+	return state != ChallengeState::Running;
 }
 
-void BaseGame::LoadChallenge(std::string _challenge)
-{
-	lua_->LoadChallenge("Scripts/Challenges/" + _challenge);
-}
 void BaseGame::AddShip(Core* _core, int _force)
 {
 	ships_[_force].push_back(_core);
@@ -174,20 +204,16 @@ int BaseGame::GetFriendCount(int _force)
 	return static_cast<int>(friends[_force].size());
 }
 
-bool BaseGame::IsSectionAlive(int _section_id)
+Section_ptr BaseGame::GetSectionData(int _section_id)
 {
 	for(int force = 0; force < MAX_FORCES; force++)
 	{
 		BOOST_FOREACH(Core_ptr core, ships_[force])
 		{
 			if(core->GetSectionID() == _section_id)
-				return true;
+				return core;
 		}
 	}
-	return false;
+	return NULL;
 }
 
-lua_State* BaseGame::GetLua()
-{
-	return this->lua_->GetLua();
-}

@@ -11,14 +11,10 @@ bool Starfield::initialised_ = false;
 
 Starfield::Starfield()
 {
-	if(!initialised_)
+	for(int i = 0; i < SF_MAX_POINTS; i++) 
 	{
-		initialised_ = true;
-		for(int i = 0; i < SF_MAX_POINTS; i++) 
-		{
-			stars_[i] = Vector3f(Random::RandomRange(0, SF_GRIDSIZE),
-								 Random::RandomRange(0, SF_GRIDSIZE), 0);
-		}
+		stars_[i] = Vector3f(Random::RandomRange(0, SF_GRIDSIZE),
+							 Random::RandomRange(0, SF_GRIDSIZE), 0);
 	}
 }
 

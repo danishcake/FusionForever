@@ -445,11 +445,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\BaseLua.cpp"
+					RelativePath=".\Filled.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\Filled.cpp"
+					RelativePath=".\LuaChallenge.cpp"
 					>
 				</File>
 				<File
@@ -747,11 +747,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\BaseLua.h"
+					RelativePath=".\Filled.h"
 					>
 				</File>
 				<File
-					RelativePath=".\Filled.h"
+					RelativePath=".\LuaChallenge.h"
 					>
 				</File>
 				<File

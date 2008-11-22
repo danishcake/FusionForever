@@ -4,7 +4,6 @@ end
 
 if(camera_position == nil) then
 	camera_position = Vector:new(ship.position.x, ship.position.y);
-	print("Resetting camera")
 end
 
 

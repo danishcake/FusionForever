@@ -1,64 +1,30 @@
---ReverseJuggernaut.luaChallenge
---This loads a lots of minor enemies for the player to swat.
+playerLives = coroutine.wrap(function()
+	player_id = challenge:SpawnShip("JuggernautA", 0, Vector:new(0, 0), 0, "KeyboardAI", 1)
+	challenge:WaitForDeath(player_id)
+	challenge:WaitFor(1)
+	
+	challenge:Defeat()
+end)
 
-require "Utility"
-
-Challenge = {
-	Script = coroutine.create(function()
-		Predicate.WaitFor(2)
+enemySpawn = coroutine.wrap(function()
+	
+	challenge:WaitFor(2)
+	for i = 0, 20 do
+		challenge:SpawnShip("KineticC", 1, Vector:new(500 * math.sin(math.rad(360* i / 20)), 500 * math.cos(math.rad(360 * i / 20))), 0, "SimpleAI.luaAI", 0.5)
 		
-		for j = 0, 10 do
-			LoadShip("KineticC")
-			SetAI("SimpleAI")
-			SetPosition(500 * math.sin(math.rad(360* j / 20)), 500 * math.cos(math.rad(360* j / 20)))
-			ScaleHealth(0.5)
-			AddToForce(1)
-			
-			LoadShip("KineticC")
-			SetAI("SimpleAI")
-			SetPosition(-500 * math.sin(math.rad(360* j / 20)), -500 * math.cos(math.rad(360* j / 20)))
-			ScaleHealth(0.5)
-			AddToForce(1)
-			
-			Predicate.WaitFor(0.1)
-			Predicate.WaitTillEnemyCountLessThan(0, 6)
-		end
-		Predicate.WaitTillEnemiesDead(0)
-	end),
-	LivesScript = coroutine.create(function()
-		LogError("Creating ownship as LuaShip")
-		local ownship_id = LoadShip("JuggernautA")
-		SetAI("KeyboardAI")
-		ScaleHealth(2)
-		AddToForce(0)
-		
-		Predicate.WaitTillShipDead(ownship_id)
-	end),
-
-	EntryPoint = function()
-		local player_dead = false
-		if coroutine.status(Challenge.LivesScript) ~= "dead" then
-			local run_ok, error_message = coroutine.resume(Challenge.LivesScript)
-			if run_ok ~= true then
-				return error_message
-			end
-		else
-			player_dead = true
-		end
-		
-		if player_dead == true then
-			return true
-		end
-		
-		if coroutine.status(Challenge.Script) ~= "dead" then
-			local run_ok, error_message = coroutine.resume(Challenge.Script)
-			if run_ok then
-				return false	--Script still executing
-			else
-				return error_message
-			end
-		else
-			return true	--Script finished
-		end
+		challenge:WaitFor(0.5)
+		challenge:WaitForForceCountLessThan(1, 6)
 	end
-}
+	challenge:WaitForAllEnemiesDead(0)
+	challenge:WaitFor(1)
+
+
+	
+	challenge:Victory()
+end)
+
+while true do
+	playerLives()
+	enemySpawn()
+	coroutine.yield()
+end

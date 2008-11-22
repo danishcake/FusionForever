@@ -29,7 +29,9 @@ static const float CORE_EXP_BRAKING =   3000.0f;
 static const float CORE_BASIC_MASS = 1000.0f;
 static const float CORE_TOP_MASS = 20000.0;
 
+#ifndef STR_ME
 #define STR_ME( X ) ( # X )
+#endif
 /*
  * Maps the Core type strings used in XML files onto enums
  */

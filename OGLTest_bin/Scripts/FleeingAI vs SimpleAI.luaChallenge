@@ -1,48 +1,30 @@
---Challenge1.lua
---This loads a challenge of three waves of 64 extremely weak enemies
---followed by a single 'Space Station' enemy which is hard to kill
---without using it's weakspot
+playerLives = coroutine.wrap(function()
+	challenge:WaitFor(2)
+	player_id = challenge:SpawnShip("KineticB", 0, Vector:new(0, 0), 0, "SimpleAI.luaAI", 10)
+	challenge:WaitForDeath(player_id)
+	challenge:WaitFor(1)
 
---This ensures the Predicate table is loaded, providing 
---Predicate.WaitFor(x)          Waits for x seconds
---Predicate.WaitTillDead()      Waits for all enemies to die
-require "Utility"
+	challenge:Defeat()
+end)
 
---This is the Challenge table. It must contain the function EntryPoint to be valid.
---EntryPoint is called by the simulation every frame until it returns true.
---The intention is for it to resume coroutine(s).
-
-Challenge = {
-Script = coroutine.create(function()
-	for i = 0, 20 do
-		LoadShip("Lasership")				--Loads a ship but doesn't add it to the world
-		SetAI("FleeingAI.luaAI")					--Sets the last loaded ships AI
-		SetPosition(200 * math.sin(i * 6.28/20), 200 * math.cos(i * 6.28/20))
-		ScaleHealth(0.5)
-		AddToForce(1)						--Adds the ship to force 1
-		Predicate.WaitFor(0.01)
+enemySpawn = coroutine.wrap(function()
+	challenge:SpawnShip("Lasership", 2, Vector:new(0, 200) , 0, "FleeingAI.luaAI", 1)
+	for i = 1, 9 do
+		challenge:WaitFor(0.1)
+		challenge:SpawnShip("Lasership", 2, Vector:new(200 * math.sin(i * 6.28/20), 200 * math.cos(i * 6.28/20)), 0, "FleeingAI.luaAI", 1)
+		challenge:SpawnShip("Lasership", 2, Vector:new(-200 * math.sin(i * 6.28/20), 200 * math.cos(i * 6.28/20)), 0, "FleeingAI.luaAI", 1)
 	end
+	challenge:WaitFor(0.1)
+	challenge:SpawnShip("Lasership", 2, Vector:new(0, -200), 0, "FleeingAI.luaAI", 1)
+	
+	challenge:WaitForAllEnemiesDead(0)
+	challenge:WaitFor(1)
+	
+	challenge:Victory()
+end)
 
-	Predicate.WaitFor(2)
-	LoadShip("KineticB")				--Loads a ship but doesn't add it to the world
-	SetAI("SimpleAI.luaAI")					--Sets the last loaded ships AI
-	ScaleHealth(10.35)
-	SetPosition(10,10)
-	AddToForce(0)						--Adds the ship to force 0
-end),							--End of resumable coroutine
-							--Now the coroutine status is "dead"
-
-EntryPoint = function()
-	if coroutine.status(Challenge.Script) ~= "dead" then
-		local run_ok, error_message = coroutine.resume(Challenge.Script)
-		if run_ok then
-			return false	--Script still executing
-		else
-			return error_message
-		end
-	else
-		LogError("Lua: Script over")
-		return true	--Script finished
-	end
+while true do
+	playerLives()
+	enemySpawn()
+	coroutine.yield()
 end
-}

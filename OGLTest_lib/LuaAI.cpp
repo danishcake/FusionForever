@@ -112,7 +112,7 @@ void LuaAI::SetCameraPosition(float _x, float _y)
 	Camera::Instance().SetFocus(self_->GetPosition().x, self_->GetPosition().y, CameraLevel::Intro);
 }
 
-static bool initialised_lua = false;
+bool LuaAI::initialised_lua = false;
 void LuaAI::RegisterLuaFunctions(lua_State* _luaVM)
 {
 	if(!initialised_lua)
@@ -161,13 +161,6 @@ LuaAI::~LuaAI(void)
 
 bool LuaAI::initialise_coroutine()
 {
-	/* A better logic flow would be:
-
-		1: If there is no environment, create it. Store it. Set as environment for chunk
-		2: If there is a coroutine reference, remove it.
-		3: Create a coroutine and store it.
-	*/
-
 	if(environment_reference_ == 0)
 	{
 		lua_rawgeti(lua_state_, LUA_REGISTRYINDEX, chunk_reference_); //Gets the function ready for setfenv
@@ -204,7 +197,6 @@ bool LuaAI::initialise_coroutine()
 	lua_State* coroutine = lua_newthread(lua_state_);
 	coroutine_reference_= luaL_ref(lua_state_, LUA_REGISTRYINDEX); //Stores the coroutine reference. (also pops it :( )
 
-//	lua_rawgeti(coroutine, LUA_REGISTRYINDEX, coroutine_reference_); //Gets the coroutine back
 	lua_rawgeti(coroutine, LUA_REGISTRYINDEX, chunk_reference_); //Gets the function for coroutine.
 
 	return true; //Stack coroutine now contains the chunk to be executed, and is stored at coroutine_reference_
@@ -212,12 +204,13 @@ bool LuaAI::initialise_coroutine()
 
 void LuaAI::resume_coroutine(Core_ptr _self)
 {
+	assert(lua_gettop(lua_state_) == 0);
 	if(coroutine_reference_ && ok_to_run_)
 	{
 		lua_rawgeti(lua_state_, LUA_REGISTRYINDEX, coroutine_reference_);
 		lua_State* thread = lua_tothread(lua_state_, -1);
 		lua_pop(lua_state_, 1);
-
+		assert(lua_gettop(lua_state_) == 0);
 		
 		//Obtain ship object and update position etc
 		lua_rawgeti(lua_state_, LUA_REGISTRYINDEX, environment_reference_);
@@ -260,8 +253,8 @@ void LuaAI::resume_coroutine(Core_ptr _self)
 						lua_pushnumber(lua_state_, target_->GetAngle());
 				lua_settable(lua_state_, -3);
 			}
-			lua_pop(lua_state_, 2); //Pops target and environment from stack
-
+		lua_pop(lua_state_, 3); //Pops ship, target and environment from stack
+		assert(lua_gettop(lua_state_) == 0);
 		int resume_result = lua_resume(thread, 0);
 		if(resume_result == LUA_YIELD)
 		{
@@ -275,8 +268,10 @@ void LuaAI::resume_coroutine(Core_ptr _self)
 			ok_to_run_ = false;
 			Logger::Instance() << lua_tostring(thread, -1) << "\n";
 		}
-		lua_pop(lua_state_, 1); //Pops thread
+		assert(lua_gettop(thread) == 0);
+		//lua_pop(lua_state_, 1); //Pops thread //Shouldn't be needed
 	}
+	assert(lua_gettop(lua_state_) == 0);
 }
 
 AIAction LuaAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vector<Core_ptr>& _enemies, Core_ptr _self)
@@ -301,6 +296,9 @@ AIAction LuaAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vecto
 			std::sort(enemies_sorted_by_range.begin(), enemies_sorted_by_range.end(), RelativeRangeSort<Core_ptr, Core_ptr>(_self));
 			target_ = _enemies[0];
 			target_->AddSubscriber(this);
+		} else
+		{
+			target_ = NULL;
 		}
 	}
 	
@@ -314,10 +312,14 @@ AIAction LuaAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vecto
 			int index = Random::RandomIndex(static_cast<int>(_enemies.size()));
 			target_ = _enemies[index];
 			target_->AddSubscriber(this);
+		} else
+		{
+			target_ = NULL;
 		}
 	}
 
 	resume_coroutine(_self);
+	next_move_.target_ = target_;
 	return next_move_;
 }
 

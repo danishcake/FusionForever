@@ -4,7 +4,7 @@
 #include "SquareCore.h" //Pulls in Core.h
 #include "RotatingAI.h"
 
-EditorGame::EditorGame(void)
+EditorGame::EditorGame(void) : BaseGame("")
 {
 	AddShip(new SquareCore(new RotatingAI(0.00f)), 0);
 	selected_section_ = ships_[0].at(0);
