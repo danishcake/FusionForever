@@ -25,6 +25,8 @@ BaseGame::BaseGame(std::string _challenge_filename)
   LuaAI::initialised_lua = false;
   luaL_openlibs(luaVM_);
   challenge_ = new LuaChallenge(luaVM_, _challenge_filename, this);
+
+  
 }
 
 BaseGame::~BaseGame(void)
@@ -80,11 +82,12 @@ void BaseGame::Draw()
 	}
 }
 
-bool BaseGame::Tick(float _timespan)
+int BaseGame::Tick(float _timespan)
 {
 	std::vector<Decoration_ptr> decoration_spawn;
 	std::vector<Section_ptr> filtered;
 	filtered.reserve(50);
+	decoration_spawn.reserve(20);
 
 	//Tick scripts
 	ChallengeState::Enum state = challenge_->Tick(_timespan);
@@ -145,14 +148,14 @@ bool BaseGame::Tick(float _timespan)
 					std::sort(filtered.begin(),filtered.end(), RelativeRangeSort<Projectile_ptr, Section_ptr>(projectile));
 					BOOST_FOREACH(Section_ptr section, filtered)
 					{
-						section->CheckCollisions(projectile); //Checks the collisions and does damage
-						if(projectile->GetLifetime()<=0)
-						{
-							projectile->Hit(decoration_spawn);
-							break;
-						}
+						if(section->CheckCollisions(projectile)) 
+							break; //Checks the collisions and does damage
 					}
 				}
+			}
+			if(projectile->GetLifetime()<=0)
+			{
+				projectile->Hit(decoration_spawn);
 			}
 		}
 	}
@@ -181,7 +184,7 @@ bool BaseGame::Tick(float _timespan)
 		ships_[force].erase(std::remove_if(ships_[force].begin(), ships_[force].end(), Section::IsRemovable), ships_[force].end());
 	}
 
-	return state != ChallengeState::Running;
+	return state;
 }
 
 void BaseGame::AddShip(Core* _core, int _force)

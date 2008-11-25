@@ -35,18 +35,23 @@ void BeamSection::Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec,
 		core->RayCollisionFilter(ltv_position_, ltv_transform_ * Vector3f(0, max_distance_, 0), filtered_sections, low_dist, max_dist);
 	}
 
+	Vector3f low_dist_v = ltv_transform_ * Vector3f(0,low_dist,0);
+	Vector3f delta_dist_v = ltv_transform_ * Vector3f(0, beam_accuracy,0) - ltv_transform_ * Vector3f();
+	Vector3f test_dist_v = low_dist_v;
 	BOOST_FOREACH(Section_ptr section, filtered_sections)
 	{
 		Section_ptr hit_section;
+		test_dist_v = low_dist_v;
 		for(float dist = low_dist; dist <= max_dist; dist += beam_accuracy)
 		{
-			if(section->CheckCollisions(ltv_transform_ * Vector3f(0,dist,0), hit_section))
+			if(section->CheckCollisions(test_dist_v, hit_section))
 			{
 				closest_hit_section = hit_section;
 				max_dist = dist;
 				has_hit = true;
 				break;
 			}
+			test_dist_v += delta_dist_v;
 		}
 	}
 

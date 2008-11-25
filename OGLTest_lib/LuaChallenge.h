@@ -17,6 +17,7 @@ namespace ChallengeState
 		Running,
 		Victory,
 		Defeat,
+		Draw,
 		LoadError,
 		RunError
 	};
@@ -26,6 +27,7 @@ namespace ChallengeState
 		STR_ME( Running ),
 		STR_ME( Victory ),
 		STR_ME( Defeat ),
+		STR_ME( Draw ),
 		STR_ME( LoadError ),
 		STR_ME( RunError ),
 		};
@@ -41,6 +43,7 @@ private:
 	static int l_luaError(lua_State* _luaVM);
 	static int l_Victory(lua_State* _luaVM);
 	static int l_Defeat(lua_State* _luaVM);
+	static int l_Draw(lua_State* _luaVM);
 	static int l_GetShipData(lua_State* _luaVM);
 	
 	GLColor force_colors_[8];
@@ -62,6 +65,7 @@ private:
 	int SpawnShip(std::string _ship_name, int _force, Vector2f _position, float angle, std::string _ai_script, float _health_scale, lua_State* _luaVM);
 	void DeclareVictory() {state_ = ChallengeState::Victory;}
 	void DeclareDefeat() {state_ = ChallengeState::Defeat;}
+	void DeclareDraw() {state_ = ChallengeState::Draw;}
 	Section* GetShipData(int _ship_id);
 
 public:

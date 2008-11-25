@@ -117,6 +117,19 @@ int LuaChallenge::l_Defeat(lua_State* _luaVM)
 	return 0;
 }
 
+int LuaChallenge::l_Draw(lua_State* _luaVM)
+{
+	if(!(lua_gettop(_luaVM) == 1))
+	{
+		luaL_error(_luaVM, "Draw must be called with just the ChallengePointer");
+	}
+	
+	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -1)));
+	assert(challenge);
+	challenge->DeclareDraw();
+	return 0;
+}
+
 int LuaChallenge::l_GetShipData(lua_State* _luaVM)
 {
 	if(!(lua_gettop(_luaVM) == 2))
@@ -160,8 +173,10 @@ LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* 
 	lua_register(_luaVM, "SpawnShip", l_SpawnShip);
 	lua_register(_luaVM, "Victory", l_Victory);
 	lua_register(_luaVM, "Defeat", l_Defeat);
+	lua_register(_luaVM, "Draw", l_Draw);
 	lua_register(_luaVM, "GetShipData", l_GetShipData);
 	lua_register(_luaVM, "_ALERT", l_luaError);
+	
 
 	state_ = ChallengeState::NotStarted;
 
@@ -330,7 +345,7 @@ ChallengeState::Enum LuaChallenge::Tick(float _timespan)
 		} else if(resume_result == 0)
 		{
 			//Logger::Instance() << "Coroutine finished without errors\n";
-			state_= ChallengeState::Victory;
+			state_= ChallengeState::Draw;
 		} else
 		{
 			state_ = ChallengeState::RunError;

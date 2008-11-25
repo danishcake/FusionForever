@@ -34,19 +34,22 @@
 				ExecutionBucket="2"
 			/>
 			<Tool
+				Name="XMLShip copier"
+			/>
+			<Tool
+				Name="LuaAI copier"
+			/>
+			<Tool
 				Name="ChallengeScript copier"
 			/>
 			<Tool
 				Name="XMLSection copier"
 			/>
 			<Tool
-				Name="XMLShip copier"
-			/>
-			<Tool
 				Name="Lua utilities copier"
 			/>
 			<Tool
-				Name="LuaAI copier"
+				Name="Texture copier"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -64,7 +67,7 @@
 				ExecutionBucket="6"
 				Optimization="0"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\Lua_5.1.3\include&quot;;..\OGLTest_lib;&quot;C:\Program Files\CEGUI-SDK-0.6.0-vc8\include&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;E:\Program Files\boost\boost_1_35_0&quot;"
+				AdditionalIncludeDirectories="&quot;E:\Program Files\tinyxml&quot;;&quot;C:\Program Files\Lua_5.1.3\include&quot;;..\OGLTest_lib;&quot;C:\Program Files\CEGUI-SDK-0.6.0-vc8\include&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;E:\Program Files\boost\boost_1_35_0&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
@@ -142,22 +145,25 @@
 				CommandLine=""
 			/>
 			<Tool
-				Name="ChallengeScript copier"
+				Name="XMLShip copier"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
-				Name="XMLSection copier"
+				Name="LuaAI copier"
 			/>
 			<Tool
-				Name="XMLShip copier"
+				Name="ChallengeScript copier"
+			/>
+			<Tool
+				Name="XMLSection copier"
 			/>
 			<Tool
 				Name="Lua utilities copier"
 			/>
 			<Tool
-				Name="LuaAI copier"
+				Name="Texture copier"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -170,7 +176,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\Lua_5.1.3\include&quot;;..\OGLTest_lib;&quot;C:\Program Files\CEGUI-SDK-0.6.0-vc8\include&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;E:\Program Files\boost\boost_1_35_0&quot;"
+				AdditionalIncludeDirectories="&quot;E:\Program Files\tinyxml&quot;;&quot;C:\Program Files\Lua_5.1.3\include&quot;;..\OGLTest_lib;&quot;C:\Program Files\CEGUI-SDK-0.6.0-vc8\include&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;E:\Program Files\boost\boost_1_35_0&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -241,6 +247,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Scorekeeper.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -291,6 +301,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Scorekeeper.h"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.h"
 				>
 			</File>
@@ -319,10 +333,6 @@
 			Name="Scripts"
 			>
 			<Filter
-				Name="Ships"
-				>
-			</Filter>
-			<Filter
 				Name="Challenges"
 				>
 				<File
@@ -335,6 +345,10 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\FleeingAI vs SimpleAI.luaChallenge"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\GrawpDemo.luaChallenge"
 					>
 				</File>
 				<File
@@ -588,6 +602,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\GrawpAI.luaAI"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\RotatingAI.luaAI"
 					>
 				</File>
@@ -596,6 +614,19 @@
 					>
 				</File>
 			</Filter>
+		</Filter>
+		<Filter
+			Name="Textures"
+			>
+			<File
+				RelativePath=".\Textures\Defeat.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\Victory.texture"
+				DeploymentContent="true"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

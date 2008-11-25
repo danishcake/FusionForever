@@ -5,7 +5,7 @@ require "Vector"
 local ship_ = 
 {
 	position = Vector:new(0, 0),
-	angle = 10,
+	angle = 0,
 	ship_pointer = owner_pointer,
 	time = 0,
 	target = {position = Vector:new(0, 0), valid = false, angle=0},

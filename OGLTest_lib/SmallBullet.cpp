@@ -51,7 +51,7 @@ void SmallBullet::Hit(std::vector<Decoration_ptr>& _spawn)
 	Decoration_ptr spark = Decoration_ptr(new Ricochet(angle_, false));
 	spark->SetPosition(position_);
 	Decoration_ptr puff = Decoration_ptr(new Puff());
-	puff->SetPosition(this->position_);
+	puff->SetPosition(position_);
 
 	_spawn.push_back(puff);
 	_spawn.push_back(spark);

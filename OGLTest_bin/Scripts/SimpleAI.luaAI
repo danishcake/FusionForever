@@ -1,4 +1,6 @@
-if ship.target.valid == false then
+
+
+if ship.target.valid == false or math.random() < 0.2 then
 	ship:PickRandomTarget()
 end
 

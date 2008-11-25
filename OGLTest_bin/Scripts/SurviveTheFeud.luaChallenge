@@ -9,7 +9,8 @@ end)
 force1Spawn = coroutine.wrap(function()
 	challenge:WaitFor(2)
 	for i = 0, 25 do
-		challenge:SpawnShip("GunshipA", 1, Vector:new(10 * i, 500), 0, "SimpleAI.luaAI", 0.5)
+		local ship_data =  challenge:GetShipData(player_id)
+		challenge:SpawnShip("GunshipA", 1, ship_data.position + Vector:new(10 * i, 500), 0, "SimpleAI.luaAI", 0.5)
 		challenge:WaitFor(0.5)
 		challenge:WaitForForceCountLessThan(1, 6)
 	end
@@ -21,7 +22,8 @@ end)
 force2Spawn = coroutine.wrap(function()
 	challenge:WaitFor(2)
 	for i = 0, 25 do
-		challenge:SpawnShip("GunshipA", 2, Vector:new(- 10 * i, 500), 0, "SimpleAI.luaAI", 0.5)
+		local ship_data =  challenge:GetShipData(player_id)
+		challenge:SpawnShip("GunshipA", 2, ship_data.position + Vector:new(- 10 * i, -500), 0, "SimpleAI.luaAI", 0.5)
 		challenge:WaitFor(0.5)
 		challenge:WaitForForceCountLessThan(2, 6)
 	end

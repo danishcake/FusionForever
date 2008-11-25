@@ -30,7 +30,6 @@ void FadeInScene::Draw()
 
 	glVertex3f(Camera::Instance().GetRight(), Camera::Instance().GetTop(), 0);
 	glVertex3f(Camera::Instance().GetLeft(), Camera::Instance().GetTop(), 0);
-	
 	glVertex3f(Camera::Instance().GetLeft(), Camera::Instance().GetBottom(), 0);
 
 	glVertex3f(Camera::Instance().GetRight(), Camera::Instance().GetTop(), 0);

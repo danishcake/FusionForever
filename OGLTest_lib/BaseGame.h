@@ -25,7 +25,7 @@ public:
 	BaseGame(std::string _challenge_filename);
 	virtual ~BaseGame(void);
 
-	virtual bool Tick(float _timespan);
+	virtual int Tick(float _timespan);
 	virtual void Draw();
 	void LoadChallenge(std::string _challenge);
 	void AddShip(Core* _core, int _force);
@@ -46,4 +46,7 @@ protected:
 	Starfield starfield_;
 	LuaChallenge* challenge_;
 	lua_State* luaVM_;
+
+	GLuint victory_texture_;
+	GLuint defeat_texture_;
 };

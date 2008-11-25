@@ -84,6 +84,10 @@ function challenge_:Defeat()
 	Defeat(self.challenge_pointer)
 end
 
+function challenge_:Draw()
+	Draw(self.challenge_pointer)
+end
+
 local challenge_mt_ = 
 {
 	__newindex = function (t, n, v)
@@ -114,6 +118,7 @@ local env_cage = {
 	math = math,
 	string = string,
 	print = print,
+	error = error,
 	challenge = challenge_,
 }
 
