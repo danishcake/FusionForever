@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;E:\Program Files\tinyxml&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;e:\Program Files\boost\boost_1_35_0&quot;;&quot;C:\Program Files\Lua_5.1.3\include&quot;"
+				AdditionalIncludeDirectories="&quot;c:\Program Files\tinyxml&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost\boost_1_36_0&quot;;&quot;C:\Program Files\lua\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
@@ -108,7 +108,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;E:\Program Files\tinyxml&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;e:\Program Files\boost\boost_1_35_0&quot;;&quot;C:\Program Files\Lua_5.1.3\include&quot;"
+				AdditionalIncludeDirectories="&quot;c:\Program Files\tinyxml&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost\boost_1_36_0&quot;;&quot;C:\Program Files\lua\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -153,10 +153,6 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File
-				RelativePath=".\Billboard.cpp"
-				>
-			</File>
 			<Filter
 				Name="Scenes"
 				>
@@ -369,6 +365,10 @@
 				Name="Utility"
 				>
 				<File
+					RelativePath=".\Billboard.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Camera.cpp"
 					>
 				</File>
@@ -475,10 +475,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\TextureLoader.h"
-				>
-			</File>
 			<Filter
 				Name="AI"
 				>
@@ -732,6 +728,10 @@
 				</File>
 				<File
 					RelativePath=".\stdafx.h"
+					>
+				</File>
+				<File
+					RelativePath=".\TextureLoader.h"
 					>
 				</File>
 				<File

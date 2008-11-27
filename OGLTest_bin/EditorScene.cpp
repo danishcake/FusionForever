@@ -585,72 +585,96 @@ EditorScene::EditorScene(void)
 			{
 			int width = 2;
 			int height = 1;
-			CEGUI::PushButton* pBtnAddBlaster = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnAddBlaster->setText("Blaster");
-				pBtnAddBlaster->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnAddBlaster->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnAddBlaster->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddBlaster, this));
-				width += 61;
-			pTabWeapons->addChildWindow(pBtnAddBlaster);
-			CEGUI::PushButton* pBtnAddHeatBeam = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnAddHeatBeam->setText("HeatBeam");
-				pBtnAddHeatBeam->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnAddHeatBeam->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnAddHeatBeam->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddHeatBeam, this));
-				width += 61;
-			pTabWeapons->addChildWindow(pBtnAddHeatBeam);
-			CEGUI::PushButton* pBtnAddHomingMissileLauncher = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnAddHomingMissileLauncher->setText("HomingMissile");
-				pBtnAddHomingMissileLauncher->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnAddHomingMissileLauncher->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnAddHomingMissileLauncher->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddHomingMissileLauncher, this));
-				width += 61;
-			pTabWeapons->addChildWindow(pBtnAddHomingMissileLauncher);
-			CEGUI::PushButton* pBtnAddSwarmer = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnAddSwarmer->setText("Swarmer");
-				pBtnAddSwarmer->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnAddSwarmer->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnAddSwarmer->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddSwarmer, this));
-				width += 61;
-			pTabWeapons->addChildWindow(pBtnAddSwarmer);
-			CEGUI::PushButton* pBtnAddChainGun = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnAddChainGun->setText("ChainGun");
-				pBtnAddChainGun->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnAddChainGun->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnAddChainGun->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddChainGun, this));
-				width += 61;
-			pTabWeapons->addChildWindow(pBtnAddChainGun);
-			CEGUI::PushButton* pBtnAddPlasmaArtillery = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnAddPlasmaArtillery->setText("PlasmaArtillery");
-				pBtnAddPlasmaArtillery->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnAddPlasmaArtillery->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnAddPlasmaArtillery->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddPlasmaArtillery, this));
-				width += 61;
-			pTabWeapons->addChildWindow(pBtnAddPlasmaArtillery);
-
-			CEGUI::PushButton* pBtnJointAngles = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnJointAngles->setText("JointAngles");
-				pBtnJointAngles->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnJointAngles->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnJointAngles->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddJointAngles, this));
-				width += 61;
-			pTabWeapons->addChildWindow(pBtnJointAngles);
-
-			CEGUI::PushButton* pBtnJointTracker = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnJointTracker->setText("JointTracker");
-				pBtnJointTracker->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnJointTracker->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnJointTracker->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddJointTracker, this));
-				width += 61;
-			pTabWeapons->addChildWindow(pBtnJointTracker);
-
-			CEGUI::PushButton* pBtnSpinningJoint = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnSpinningJoint->setText("SpinningJoint");
-				pBtnSpinningJoint->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnSpinningJoint->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnSpinningJoint->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddSpinningJoint, this));
-				width += 61;
-			pTabWeapons->addChildWindow(pBtnSpinningJoint);
+			{//Blaster
+				CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
+				pBtnAdd->setText("Blaster");
+				float section_width = pBtnAdd->getFont()->getFormattedTextExtent(pBtnAdd->getText(), CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
+				pBtnAdd->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width ),    CEGUI::UDim( 0, 20 ) ) );
+				pBtnAdd->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
+				pBtnAdd->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddBlaster, this));
+				width += section_width + 2;
+				pTabWeapons->addChildWindow(pBtnAdd);
+			}
+			{//HeatBeam
+				CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
+				pBtnAdd->setText("HeatBeam");
+				float section_width = pBtnAdd->getFont()->getFormattedTextExtent(pBtnAdd->getText(), CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
+				pBtnAdd->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width ),    CEGUI::UDim( 0, 20 ) ) );
+				pBtnAdd->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
+				pBtnAdd->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddHeatBeam, this));
+				width += section_width + 2;
+				pTabWeapons->addChildWindow(pBtnAdd);
+			}
+			{//HomingMissile
+				CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
+				pBtnAdd->setText("HomingMissile");
+				float section_width = pBtnAdd->getFont()->getFormattedTextExtent(pBtnAdd->getText(), CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
+				pBtnAdd->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width ),    CEGUI::UDim( 0, 20 ) ) );
+				pBtnAdd->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
+				pBtnAdd->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddHomingMissileLauncher, this));
+				width += section_width + 2;
+				pTabWeapons->addChildWindow(pBtnAdd);
+			}
+			{//Swarmer
+				CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
+				pBtnAdd->setText("Swarmer");
+				float section_width = pBtnAdd->getFont()->getFormattedTextExtent(pBtnAdd->getText(), CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
+				pBtnAdd->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width ),    CEGUI::UDim( 0, 20 ) ) );
+				pBtnAdd->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
+				pBtnAdd->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddSwarmer, this));
+				width += section_width + 2;
+				pTabWeapons->addChildWindow(pBtnAdd);
+			}
+			{//ChainGun
+				CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
+				pBtnAdd->setText("ChainGun");
+				float section_width = pBtnAdd->getFont()->getFormattedTextExtent(pBtnAdd->getText(), CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
+				pBtnAdd->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width ),    CEGUI::UDim( 0, 20 ) ) );
+				pBtnAdd->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
+				pBtnAdd->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddChainGun, this));
+				width += section_width + 2;
+				pTabWeapons->addChildWindow(pBtnAdd);
+			}
+			{//PlasmaArtillery
+				CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
+				pBtnAdd->setText("PlasmaArtillery");
+				float section_width = pBtnAdd->getFont()->getFormattedTextExtent(pBtnAdd->getText(), CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
+				pBtnAdd->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width ),    CEGUI::UDim( 0, 20 ) ) );
+				pBtnAdd->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
+				pBtnAdd->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddPlasmaArtillery, this));
+				width += section_width + 2;
+				pTabWeapons->addChildWindow(pBtnAdd);
+			}
+			{//JointAngles
+				CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
+				pBtnAdd->setText("JointAngles");
+				float section_width = pBtnAdd->getFont()->getFormattedTextExtent(pBtnAdd->getText(), CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
+				pBtnAdd->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width ),    CEGUI::UDim( 0, 20 ) ) );
+				pBtnAdd->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
+				pBtnAdd->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddJointAngles, this));
+				width += section_width + 2;
+				pTabWeapons->addChildWindow(pBtnAdd);
+			}
+			{//JointTracker
+				CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
+				pBtnAdd->setText("JointTracker");
+				float section_width = pBtnAdd->getFont()->getFormattedTextExtent(pBtnAdd->getText(), CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
+				pBtnAdd->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width ),    CEGUI::UDim( 0, 20 ) ) );
+				pBtnAdd->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
+				pBtnAdd->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddJointTracker, this));
+				width += section_width + 2;
+				pTabWeapons->addChildWindow(pBtnAdd);
+			}
+			{//JointSpinner
+				CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
+				pBtnAdd->setText("JointSpinner");
+				float section_width = pBtnAdd->getFont()->getFormattedTextExtent(pBtnAdd->getText(), CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
+				pBtnAdd->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width ),    CEGUI::UDim( 0, 20 ) ) );
+				pBtnAdd->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
+				pBtnAdd->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddSpinningJoint, this));
+				width += section_width + 2;
+				pTabWeapons->addChildWindow(pBtnAdd);
+			}
 
 			}
 		pPalette->addTab(pTabWeapons);

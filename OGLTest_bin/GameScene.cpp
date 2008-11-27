@@ -74,11 +74,17 @@ void GameScene::Draw()
 	if(timer_ > 1.0f)
 	{
 		//Cause the billboard to fade in
-		if(timer_ < 1.3)
-			glColor4f(1.0f, 1.0f, 1.0f, (timer_ - 1.0f) / 0.3f);
-		else
-			glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
+		if(timer_ < 1.3f)
+			end_billboard_->SetColor(GLColor(255,255,255, (timer_ - 1.0f) / 0.3f)); 
+		else
+			end_billboard_->SetColor(GLColor(255,255,255, 1.0f));
+		if(timer_ < 2.0f)
+			end_billboard_->SetSize(Vector2f(512,256) * (timer_-1.0f) / 1.0f);
+		else
+			end_billboard_->SetSize(Vector2f(512,256));
+
+		
 		end_billboard_->Draw();
 	}
 

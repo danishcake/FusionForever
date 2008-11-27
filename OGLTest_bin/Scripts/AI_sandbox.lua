@@ -8,6 +8,7 @@ local ship_ =
 	angle = 0,
 	ship_pointer = owner_pointer,
 	time = 0,
+	dtime = 0,
 	target = {position = Vector:new(0, 0), valid = false, angle=0},
 }
 
@@ -85,7 +86,15 @@ end
 
 function ship_:AttackFor(time_to_attack, min_range, max_range)
     local end_time = self.time + time_to_attack
+    local strafe_direction = 1
+    if math.random() < 0.5 then
+        strafe_direction = -1
+    end
     while self.time < end_time do
+        --10% chance to change direction per second
+        if math.random() < (self.dtime * 0.1) then
+            strafe_direction = strafe_direction * -1
+        end
         if self.target.valid == true then
             local range = (self.target.position - self.position):length()
             local dp = (self.target.position - self.position):normalise()
@@ -101,7 +110,7 @@ function ship_:AttackFor(time_to_attack, min_range, max_range)
                 self:SetAll(dp.x, dp.y, dotp, firing)
             else
                 --Strafe
-                self:SetAll(dp.y, -dp.x, dotp, firing)
+                self:SetAll(dp.y * strafe_direction, -dp.x * strafe_direction, dotp, firing)
             end
         else
             self:PickClosestTarget()
@@ -112,7 +121,16 @@ end
 
 function ship_:AttackForAnd(time_to_attack, min_range, max_range, dothis)
     local end_time = self.time + time_to_attack
+    local strafe_direction = 1
+    if math.random() < 0.5 then
+        strafe_direction = -1
+    end
     while self.time < end_time do
+        --10% chance to change direction per second
+        
+        if math.random() < (self.dtime * 0.1) then
+            strafe_direction = strafe_direction * -1
+        end
         if self.target.valid == true then
             local range = (self.target.position - self.position):length()
             local dp = (self.target.position - self.position):normalise()
@@ -128,7 +146,7 @@ function ship_:AttackForAnd(time_to_attack, min_range, max_range, dothis)
                 self:SetAll(dp.x, dp.y, dotp, firing)
             else
                 --Strafe
-                self:SetAll(dp.y, -dp.x, dotp, firing)
+                self:SetAll(dp.y * strafe_direction, -dp.x * strafe_direction, dotp, firing)
             end
         else
             self:PickClosestTarget()

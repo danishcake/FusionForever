@@ -42,7 +42,9 @@ protected:
 	Core_ptr root_;
 	Filled fill_;
 	std::vector<Vector3f> transformed_fill_verts_;
+	std::vector<Vector3f> transformed_outline_verts_;
 	bool transformed_fill_verts_valid_;
+	bool transformed_outline_verts_valid_;
 	Outlined outline_;
 
 	std::vector<Section_ptr> sub_sections_;
@@ -82,6 +84,7 @@ public:
 	bool CheckCollisions(Projectile_ptr _projectile);
 	bool CheckCollisions(Vector3f _location, Section_ptr& _section);
 	void CheckCollisions(Vector3f _location, std::vector<Section*>& _sections);
+	bool CheckCollisions(const Vector3f _lineP1, const Vector3f _lineP2, Vector3f& _collision_point);
 	void RayCollisionFilter(Vector3f P1, Vector3f P2, std::vector<Section_ptr>& _valid_sections, float& _min_distance, float& _max_distance);
 	void SetColor(GLColor _color);
 	virtual void Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager);

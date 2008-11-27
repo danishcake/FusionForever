@@ -3,8 +3,6 @@
 #include "Puff.h"
 #include "Sparks.h"
 
-static const float beam_accuracy = 1.0f;
-
 BeamSection::BeamSection(void)
 {
 	max_distance_ = 100.0f;
@@ -22,10 +20,9 @@ void BeamSection::Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec,
 
 	deco_cooldown_ -= _timespan;
 	Section_ptr closest_hit_section;
-	bool quick_hit_check = false;
 
 	bool has_hit = false;
-	float max_dist = 0;	//The maximum distance including the collision
+	float max_dist = 0;						//The maximum distance including the collision
 	float low_dist = max_distance_;			//The minimum distance excluding any collisions
 
 	std::vector<Section_ptr> filtered_sections; 
@@ -36,22 +33,24 @@ void BeamSection::Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec,
 	}
 
 	Vector3f low_dist_v = ltv_transform_ * Vector3f(0,low_dist,0);
-	Vector3f delta_dist_v = ltv_transform_ * Vector3f(0, beam_accuracy,0) - ltv_transform_ * Vector3f();
-	Vector3f test_dist_v = low_dist_v;
+	Vector3f high_dist_v = ltv_transform_ * Vector3f(0,max_dist,0);
+
+	float lengthSq;
+	Vector3f best_collision_point;
+	// filtered_sections contains all the sections that are near the beam
 	BOOST_FOREACH(Section_ptr section, filtered_sections)
 	{
-		Section_ptr hit_section;
-		test_dist_v = low_dist_v;
-		for(float dist = low_dist; dist <= max_dist; dist += beam_accuracy)
+		Vector3f collision_point;
+		if(section->CheckCollisions(low_dist_v, high_dist_v, collision_point))
 		{
-			if(section->CheckCollisions(test_dist_v, hit_section))
+			float found_lengthSq = (collision_point - ltv_transform_ * Vector3f() ).lengthSq();
+			if(!has_hit || found_lengthSq < lengthSq)
 			{
-				closest_hit_section = hit_section;
-				max_dist = dist;
+				lengthSq = found_lengthSq;
+				best_collision_point = collision_point;
+				closest_hit_section = section;
 				has_hit = true;
-				break;
 			}
-			test_dist_v += delta_dist_v;
 		}
 	}
 
@@ -63,12 +62,13 @@ void BeamSection::Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec,
 			deco_cooldown_ = 0.025f;
 
 			Decoration_ptr spark = Decoration_ptr(new Sparks());
-			spark->SetPosition(ltv_transform_ * Vector3f(0,max_dist+beam_accuracy,0));
+			spark->SetPosition(best_collision_point);
+			spark->SetVelocity(closest_hit_section->GetRoot()->GetVelocity());
 			spark->SetAngle(GetGlobalAngle());
 			_spawn_dec.push_back(spark);
 		}
 			
-		distance_ = max_dist+5.0f;
+		distance_ = (best_collision_point -ltv_transform_ * Vector3f()).length();
 	}
 	else
 	{

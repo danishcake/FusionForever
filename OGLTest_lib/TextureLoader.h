@@ -33,6 +33,7 @@ public:
 	void UnloadTexture(std::string _filename);
 	void LoadTexture(unsigned int _texture_id);
 	void UnloadTexture(unsigned int _texture_id);
+	void PreloadTexture(std::string _filename);
 	Vector2<int> GetTextureSize(unsigned int _texture_id);
 
 private:

@@ -16,6 +16,12 @@ TextureLoader::~TextureLoader(void)
 	}
 }
 
+void TextureLoader::PreloadTexture(std::string _filename)
+{
+	LoadTexture(_filename);
+	textures_by_name_[_filename]->usages--;
+}
+
 GLuint TextureLoader::LoadTexture(std::string _filename)
 {
 	if(textures_by_name_.find(_filename) != textures_by_name_.end())

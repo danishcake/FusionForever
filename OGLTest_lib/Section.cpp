@@ -32,6 +32,7 @@ Section::Section(void)
 	root_ = NULL;
 	outline_color_base_ = GLColor(255, 255, 255);
 	transformed_fill_verts_valid_ = false;
+	transformed_outline_verts_valid_ = false;
 	first_tick_ = true;
 	mass_ = 100;
 	moment_ = 1;
@@ -152,7 +153,9 @@ void Section::GetDeathSpawn(std::vector<Decoration_ptr>& _spawn_dec)
 void Section::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager)
 {
 	transformed_fill_verts_valid_ = false;
+	transformed_outline_verts_valid_ = false;
 	transformed_fill_verts_.clear();
+	transformed_outline_verts_.clear();
 	BaseEntity::Tick(_timespan, _transform); // Use ltv_transform after this as _transform is passed by value
 	if(root_)
 	{
@@ -312,6 +315,7 @@ void Section::CheckCollisions(Vector3f _location, std::vector<Section*>& _sectio
 			{
 				transformed_fill_verts_.push_back(ltv_transform_ * (*fill_.GetFillVerts())[vert]);
 			}
+			transformed_fill_verts_valid_ = true;
 		}
 		for(unsigned int vert = 0; vert < transformed_fill_verts_.size(); vert+=3)
 		{
@@ -326,6 +330,29 @@ void Section::CheckCollisions(Vector3f _location, std::vector<Section*>& _sectio
 	{
 		section->CheckCollisions(_location, _sections);
 	}
+}
+
+bool Section::CheckCollisions(const Vector3f _lineP1, const Vector3f _lineP2, Vector3f& _collision_point)
+{
+	if(!transformed_outline_verts_valid_)
+	{
+		for(unsigned int vert = 0; vert < outline_.GetOutlineVerts()->size(); vert++)
+		{
+			transformed_outline_verts_.push_back(ltv_transform_ * (*outline_.GetOutlineVerts())[vert]);
+		}
+		transformed_outline_verts_valid_ = true;
+	}
+
+	Vector3f collision_point;
+	Vector3f* first_point = &transformed_outline_verts_[0];
+	int num_points = outline_.GetOutlineVerts()->size();
+
+	if(Collisions2f::LineInPolygon(_lineP1, _lineP2, first_point, num_points, collision_point))
+	{
+		_collision_point = collision_point;
+		return true;
+	}
+	return false;
 }
 
 void Section::SetColor(GLColor _color)

@@ -842,12 +842,12 @@ namespace VMATH_NAMESPACE
 	  */
 	 void rotate(T ax, T ay, T az) 
 	 {
-	    T a = cos(DEG2RAD(ax));
-	    T b = sin(DEG2RAD(ax));
-	    T c = cos(DEG2RAD(ay));
-	    T d = sin(DEG2RAD(ay));
-	    T e = cos(DEG2RAD(az));
-	    T f = sin(DEG2RAD(az));
+	    T a = static_cast<T>(cos(DEG2RAD(ax)));
+	    T b = static_cast<T>(sin(DEG2RAD(ax)));
+	    T c = static_cast<T>(cos(DEG2RAD(ay)));
+	    T d = static_cast<T>(sin(DEG2RAD(ay)));
+	    T e = static_cast<T>(cos(DEG2RAD(az)));
+	    T f = static_cast<T>(sin(DEG2RAD(az)));
 	    T nx = c * e * x - c * f * y + d * z;
 	    T ny = (a * f + b * d * e) * x + (a * e - b * d * f) * y - b * c * z;
 	    T nz = (b * f - a * d * e) * x + (a * d * f + b * e) * y + a * c * z;

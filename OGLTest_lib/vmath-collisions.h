@@ -16,7 +16,7 @@ public:
 	* @param a Position of first point
 	* @param b Position of second point
 	*/
-	static T DistanceSqr(Vector2<T> a, Vector2<T> b)
+	static T DistanceSqr(const Vector2<T> a, const Vector2<T> b)
 	{
 		T x = a.x - b.x;
 		T y = a.y - b.y;
@@ -30,7 +30,7 @@ public:
 	* @param a Position of first point
 	* @param b Position of second point
 	*/
-	static T DistanceSqr(Vector3<T> a, Vector3<T> b)
+	static T DistanceSqr(const Vector3<T> a, const Vector3<T> b)
 	{
 		T x = a.x - b.x;
 		T y = a.y - b.y;
@@ -43,7 +43,7 @@ public:
 	* @param a Position of first point
 	* @param b Position of second point
 	*/
-	static T Distance(Vector2<T> a, Vector2<T> b)
+	static T Distance(const Vector2<T> a, const Vector2<T> b)
 	{
 		T x = a.x - b.x;
 		T y = a.y - b.y;
@@ -56,7 +56,7 @@ public:
 	* @param a Position of first point
 	* @param b Position of second point
 	*/
-	static T Distance(Vector3<T> a, Vector3<T> b)
+	static T Distance(const Vector3<T> a, const Vector3<T> b)
 	{
 		T x = a.x - b.x;
 		T y = a.y - b.y;
@@ -70,7 +70,7 @@ public:
 	* @param b Centre of circle
 	* @param radius Radius of circle
 	*/
-	static bool PointInCircle(Vector2<T> a, Vector2<T> b, T radius)
+	static bool PointInCircle(const Vector2<T> a, const Vector2<T> b, const T radius)
 	{
 		T x = a.x - b.x;
 		T y = a.y - b.y;
@@ -83,7 +83,7 @@ public:
 	* @param b Centre of circle
 	* @param radius Radius of circle
 	*/
-	static bool PointInCircle(Vector3<T> a, Vector3<T> b, T radius)
+	static bool PointInCircle(const Vector3<T> a, const Vector3<T> b, const T radius)
 	{
 		T x = a.x - b.x;
 		T y = a.y - b.y;
@@ -97,7 +97,7 @@ public:
 	* @param b Centre of circle B
 	* @param radius_b Radius of circle B
 	*/
-	static bool CirclesIntersect(Vector2<T> a, T radius_a, Vector2<T> b, T radius_b)
+	static bool CirclesIntersect(const Vector2<T> a, const T radius_a, const Vector2<T> b, const T radius_b)
 	{
 		T x = a.x - b.x;
 		T y = a.y - b.y;
@@ -113,7 +113,7 @@ public:
 	* @param b Centre of circle B
 	* @param radius_b Radius of circle B
 	*/
-	static bool CirclesIntersect(Vector3<T> a, T radius_a, Vector3<T> b, T radius_b)
+	static bool CirclesIntersect(const Vector3<T> a, const T radius_a, const Vector3<T> b, const T radius_b)
 	{
 		T x = a.x - b.x;
 		T y = a.y - b.y;
@@ -130,7 +130,7 @@ public:
 	* @param b_1 Start of line B
 	* @param b_2 End of line B
 	*/
-	static bool LineTriangleIntersect(Vector2<T> a_1, Vector2<T> a_2, Vector2<T> a_3, Vector2<T> b_1, Vector2<T> b_2)
+	static bool LineTriangleIntersect(const Vector2<T> a_1, const Vector2<T> a_2, const Vector2<T> a_3, const Vector2<T> b_1, const Vector2<T> b_2)
 	{
 		Vector2<T> out; //Ignored
 		if(Collisions2<T>::LineSegmentsIntersect(a_1, a_2, b_1, b_2, &out) ||
@@ -151,7 +151,7 @@ public:
 	* @param out Intersection point.
 	*/
 	
-	static bool LineTriangleIntersect(Vector3<T> a_1, Vector3<T> a_2, Vector3<T> a_3, Vector3<T> b_1, Vector3<T> b_2)
+	static bool LineTriangleIntersect(const Vector3<T> a_1, const Vector3<T> a_2, const Vector3<T> a_3, const Vector3<T> b_1, const Vector3<T> b_2)
 	{
 		Vector3<T> out; //Ignored
 		if(Collisions2<T>::LineSegmentsIntersect(a_1, a_2, b_1, b_2, out) ||
@@ -170,7 +170,7 @@ public:
 	* @param b_2 End of line B
 	* @param out Intersection point.
 	*/
-	static bool LineSegmentsIntersect(Vector2<T> a_1, Vector2<T> a_2, Vector2<T> b_1, Vector2<T> b_2, Vector2<T>& out)
+	static bool LineSegmentsIntersect(const Vector2<T> a_1, const Vector2<T> a_2, const Vector2<T> b_1, const Vector2<T> b_2, Vector2<T>& out)
 	{
 		Vector2<T> da = a_2 - a_1;
 		Vector2<T> db = b_2 - b_1;
@@ -206,7 +206,7 @@ public:
 	* @param b_2 End of line B
 	* @param out Intersection point.
 	*/
-	static bool LineSegmentsIntersect(Vector3<T> a_1, Vector3<T> a_2, Vector3<T> b_1, Vector3<T> b_2, Vector3<T>& out)
+	static bool LineSegmentsIntersect(const Vector3<T> a_1, const Vector3<T> a_2, const Vector3<T> b_1, const Vector3<T> b_2, Vector3<T>& out)
 	{
 		Vector3<T> da = a_2 - a_1;
 		Vector3<T> db = b_2 - b_1;
@@ -243,7 +243,7 @@ public:
 	* @param p The point to test
 	* @note Using algorithm described at http://www.mathforum.org/library/drmath/view/54386.html
 	*/
-	static bool PointInTriangle(Vector2<T> a, Vector2<T> b, Vector2<T> c, Vector2<T> p)
+	static bool PointInTriangle(const Vector2<T> a, const Vector2<T> b, const Vector2<T> c, const Vector2<T> p)
 	{
 		T abp = TriangleAreaDouble(a,b,p);
 		T bcp = TriangleAreaDouble(b,c,p);
@@ -258,7 +258,7 @@ public:
 	* @param p The point to test
 	* @note Using algorithm described at http://www.mathforum.org/library/drmath/view/54386.html
 	*/
-	static bool PointInTriangle(Vector3<T> a, Vector3<T> b, Vector3<T> c, Vector3<T> p)
+	static bool PointInTriangle(const Vector3<T> a, const Vector3<T> b, const Vector3<T> c, const Vector3<T> p)
 	{
 		T abp = TriangleAreaDouble(a,b,p);
 		T bcp = TriangleAreaDouble(b,c,p);
@@ -271,7 +271,7 @@ public:
 	* @param num_points The number of Vector2 in a
 	* @param p The point to be tested
 	*/
-	static bool PointInConvex(Vector2<T>* a, int num_points, Vector2<T> p)
+	static bool PointInConvex(const Vector2<T>* a, const int num_points, const Vector2<T> p)
 	{
 		bool allPositive = true;
 		bool allNegative = true;
@@ -298,7 +298,7 @@ public:
    * @param radius The radius of the circle
    * @param out The point of closest approach
    */
-   static bool LineInCircle(Vector2<T> P1, Vector2<T> P2, Vector2<T> c, T radius)
+   static bool LineInCircle(const Vector2<T> P1, const Vector2<T> P2, const Vector2<T> c, const T radius)
    {
       Vector2<T> L = P2 - P1;
 	  Vector2<T> out;
@@ -324,7 +324,7 @@ public:
    * @param radius The radius of the circle
    * @param out The point of closest approach
    */
-   static bool LineInCircle(Vector3<T> P1, Vector3<T> P2, Vector3<T> c, T radius)
+   static bool LineInCircle(const Vector3<T> P1, const Vector3<T> P2, const Vector3<T> c, const T radius)
    {
       Vector3<T> L = P2 - P1;
 	  Vector3<T> out;
@@ -351,7 +351,7 @@ public:
    * @param radius The radius of the circle
    * @param out The point of closest approach
    */
-   static bool LineInCircle(Vector2<T> P1, Vector2<T> P2, Vector2<T> c, T radius, Vector2<T>& out)
+   static bool LineInCircle(const Vector2<T> P1, const Vector2<T> P2, const Vector2<T> c, const T radius, Vector2<T>& out)
    {
       Vector2<T> L = P2 - P1;
       T beta = ((c.x - P1.x) * L.x - (P1.y - c.y) * L.y) / L.lengthSq();
@@ -376,7 +376,7 @@ public:
    * @param radius The radius of the circle
    * @param out The point of closest approach
    */
-   static bool LineInCircle(Vector3<T> P1, Vector3<T> P2, Vector3<T> c, T radius, Vector3<T>& out)
+   static bool LineInCircle(const Vector3<T> P1, const Vector3<T> P2, const Vector3<T> c, const T radius, Vector3<T>& out)
    {
       Vector3<T> L = P2 - P1;
       T beta = ((c.x - P1.x) * L.x - (P1.y - c.y) * L.y) / L.lengthSq();
@@ -393,6 +393,53 @@ public:
          return false;
    }
 
+   /**
+     * Determines if a line segment intersects with a polygon. Returns on first encountered point
+     * @param P1 The first point in the line segment
+     * @param P2 The second point in the line segment
+     * @param hull A pointer to an array of points forming the hull
+     * @param num_points The number of poits in the hull
+	 */
+   static bool LineInPolygon(const Vector3<T> P1, const Vector3<T> P2, const Vector3<T>* hull, const int num_points)
+   {
+      Vector3f intersectionPoint;
+      for(int i = 0; i < num_points-1; i++)
+      {
+         if(LineSegmentsIntersect(P1, P2, hull[i], hull[i+1], intersectionPoint))
+            return true;
+      }
+      return false;
+   }
+
+   /**
+     * Determines if a line segment intersects with a polygon. Returns on after testing all points
+     * @param P1 The first point in the line segment
+     * @param P2 The second point in the line segment
+     * @param hull A pointer to an array of points forming the hull
+     * @param num_points The number of poits in the hull
+     * @param out The first point along P1-P2
+     */
+   static bool LineInPolygon(const Vector3<T> P1, const Vector3<T> P2, const Vector3<T>* hull, const int num_points, Vector3<T>& out)
+   {
+      Vector3f intersectionPoint;
+      float lengthSqOfIntersection;
+      bool has_intersected = false;
+      for(int i = 0; i < num_points; i++)
+      {
+         if(LineSegmentsIntersect(P1, P2, hull[i], hull[i==num_points-1? 0:i+1], intersectionPoint))
+         {
+            float lengthSq = (intersectionPoint - P1).lengthSq();
+            if(!has_intersected || lengthSq < lengthSqOfIntersection)
+            {
+               lengthSqOfIntersection = lengthSq;
+               has_intersected = true;
+               out = intersectionPoint;
+            }
+         }
+      }
+      return has_intersected;
+   }
+
 private:
 	/**
 	* Gets twice the area of a triangle using the determinant method.
@@ -401,7 +448,7 @@ private:
 	* @param c Triangle point c
 	* @note If described CW then the result is positive, if CCW then negative
 	*/
-	static T TriangleAreaDouble(Vector2<T> a, Vector2<T> b, Vector2<T> c)
+	static T TriangleAreaDouble(const Vector2<T> a, const Vector2<T> b, const Vector2<T> c)
 	{
 		return b.x * c.y - b.y * c.x -
 			   a.x * c.y + a.y * c.x +
@@ -415,7 +462,7 @@ private:
 	* @param c Triangle point c
 	* @note If described CW then the result is positive, if CCW then negative
 	*/
-	static T TriangleAreaDouble(Vector3<T> a, Vector3<T> b, Vector3<T> c)
+	static T TriangleAreaDouble(const Vector3<T> a, const Vector3<T> b, const Vector3<T> c)
 	{
 		return b.x * c.y - b.y * c.x -
 			   a.x * c.y + a.y * c.x +

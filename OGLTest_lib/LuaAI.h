@@ -16,7 +16,7 @@ protected:
 	AIAction next_move_;
 
 	bool initialise_coroutine();
-	void resume_coroutine(Core* _self);
+	void resume_coroutine(Core* _self, float _timespan);
 
 	Core* target_;
 	Core* self_;

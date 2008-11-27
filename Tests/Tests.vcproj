@@ -55,7 +55,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\boost_1_34_1&quot;;&quot;$(SolutionDir)OGLTest_lib&quot;;&quot;$(SolutionDir)UnitTest++Redist\Include&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\boost\boost_1_36_0&quot;;&quot;$(SolutionDir)OGLTest_lib&quot;;&quot;$(SolutionDir)UnitTest++Redist\Include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -78,7 +78,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="UnitTest++.vsnet2005.lib opengl32.lib glu32.lib tinyxmld_STL.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)UnitTest++Redist\Debug&quot;;&quot;E:\Program Files\tinyxml\Debug_STL&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)UnitTest++Redist\Debug&quot;;&quot;c:\Program Files\tinyxml\Debug_STL&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -147,7 +147,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\boost_1_34_1&quot;;&quot;$(SolutionDir)OGLTest_lib&quot;;&quot;$(SolutionDir)UnitTest++Redist\Include&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\boost\boost_1_36_0&quot;;&quot;$(SolutionDir)OGLTest_lib&quot;;&quot;$(SolutionDir)UnitTest++Redist\Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -168,7 +168,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="UnitTest++.vsnet2005.lib opengl32.lib glu32.lib tinyxml_STL.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)UnitTest++Redist\Release&quot;;&quot;E:\Program Files\tinyxml\Release_STL&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)UnitTest++Redist\Release&quot;;&quot;c:\Program Files\tinyxml\Release_STL&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -211,6 +211,10 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath=".\CheckCollisionDetection.cpp"
+				>
+			</File>
 			<File
 				RelativePath=".\CheckFlexFloat.cpp"
 				>

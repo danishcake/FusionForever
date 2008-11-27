@@ -202,7 +202,7 @@ bool LuaAI::initialise_coroutine()
 	return true; //Stack coroutine now contains the chunk to be executed, and is stored at coroutine_reference_
 }
 
-void LuaAI::resume_coroutine(Core_ptr _self)
+void LuaAI::resume_coroutine(Core_ptr _self, float _timespan)
 {
 	assert(lua_gettop(lua_state_) == 0);
 	if(coroutine_reference_ && ok_to_run_)
@@ -220,6 +220,9 @@ void LuaAI::resume_coroutine(Core_ptr _self)
 				lua_pushstring(lua_state_, "time");
 					lua_pushnumber(lua_state_, sum_time_);
 			lua_settable(lua_state_,-3);										//Sets ship.time to sum_time_
+                lua_pushstring(lua_state_, "dtime");
+					lua_pushnumber(lua_state_, _timespan);
+			lua_settable(lua_state_,-3);										//Sets ship.dtime to _timespan
 				lua_pushstring(lua_state_, "angle");
 					lua_pushnumber(lua_state_, _self->GetAngle() );
 			lua_settable(lua_state_, -3);										//Sets ship.angle to _self.GetAngle() (Deg)
@@ -318,7 +321,7 @@ AIAction LuaAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vecto
 		}
 	}
 
-	resume_coroutine(_self);
+	resume_coroutine(_self, _timespan);
 	next_move_.target_ = target_;
 	return next_move_;
 }

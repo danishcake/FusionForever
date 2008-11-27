@@ -28,6 +28,13 @@ struct GLColor
 		b = _b;
 		a = _a;
 	}
+	GLColor(unsigned char _r, unsigned char _g, unsigned char _b, float _a)
+	{
+		r = _r;
+		g = _g;
+		b = _b;
+		a = (unsigned char)(255.0f * _a);
+	}
 
 	GLColor GetFaded(float _fade_amount)
 	{

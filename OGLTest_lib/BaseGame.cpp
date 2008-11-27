@@ -25,7 +25,7 @@ BaseGame::BaseGame(std::string _challenge_filename)
   LuaAI::initialised_lua = false;
   luaL_openlibs(luaVM_);
   challenge_ = new LuaChallenge(luaVM_, _challenge_filename, this);
-
+  Camera::Instance().SetCentre(0, 0, CameraLevel::None);
   
 }
 
