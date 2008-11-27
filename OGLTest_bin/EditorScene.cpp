@@ -377,7 +377,7 @@ bool EditorScene::cbBackgroundMove(const CEGUI::EventArgs& e)
 
 	if(selection_ != NULL && !selection_->IsCore()) //Something selected and is not root
 	{
-		if(we.sysKeys & CEGUI::Shift == CEGUI::Shift) //Shift = snap mode
+		if((we.sysKeys & CEGUI::Shift) == CEGUI::Shift) //Shift = snap mode
 		{
 			accumulated_snap += world_move;
 

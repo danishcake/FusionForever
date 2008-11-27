@@ -26,15 +26,16 @@ int LuaChallenge::l_SpawnShip(lua_State* _luaVM)
 	const char* ship_name = lua_tostring(_luaVM, -7);
 	assert(ship_name);
 
-	int force = lua_tonumber(_luaVM, -6);
+	
+	int force = static_cast<int>(lua_tointeger(_luaVM, -6));
 	assert(force >= 0 && force < 8);
-	Vector2f position = Vector2f(lua_tonumber(_luaVM, -5), lua_tonumber(_luaVM, -4));
-	float angle = lua_tonumber(_luaVM, -3);
+	Vector2f position = Vector2f(static_cast<float>(lua_tonumber(_luaVM, -5)), static_cast<float>(lua_tonumber(_luaVM, -4)));
+	float angle = static_cast<float>(lua_tonumber(_luaVM, -3));
 
 	const char* ai_script = lua_tostring(_luaVM, -2);
 	assert(ai_script);
 	
-	float health_scale = lua_tonumber(_luaVM, -1);
+	float health_scale = static_cast<float>(lua_tonumber(_luaVM, -1));
 
 	int ship_id = challenge->SpawnShip(std::string(ship_name), force, position, angle, std::string(ai_script), health_scale, _luaVM);
 
@@ -140,7 +141,7 @@ int LuaChallenge::l_GetShipData(lua_State* _luaVM)
 	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -2)));
 	assert(challenge);
 
-	int ship_id = lua_tointeger(_luaVM, -1);
+	int ship_id = static_cast<int>(lua_tointeger(_luaVM, -1));
 
 	Section_ptr core = challenge->GetShipData(ship_id);
 	if(core != NULL)

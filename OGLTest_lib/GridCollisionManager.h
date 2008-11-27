@@ -26,10 +26,10 @@ private:
 	float grid_width_;
 	float grid_height_;
 
-	int left_edge_count_;
-	int right_edge_count_;
-	int top_edge_count_;
-	int bottom_edge_count_;
+	unsigned int left_edge_count_;
+	unsigned int right_edge_count_;
+	unsigned int top_edge_count_;
+	unsigned int bottom_edge_count_;
 
 	std::vector<Section_ptr>* adjacency_lookup_[GRID_SECTIONS][GRID_SECTIONS][9];
 	int adjacency_lookup_count_[GRID_SECTIONS][GRID_SECTIONS];

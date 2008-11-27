@@ -38,13 +38,13 @@ void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 		{
 			returning_to_menu_ = true;
 			end_billboard_ = boost::shared_ptr<Billboard>(new Billboard("Victory.texture", BillboardType::ScreenSpace));
-			end_billboard_->SetPosition(Vector3f(Camera::Instance().GetWindowWidth()/2, Camera::Instance().GetWindowHeight()/2, 0));
+			end_billboard_->SetPosition(Vector3f(static_cast<float>(Camera::Instance().GetWindowWidth()) / 2.0f, static_cast<float>(Camera::Instance().GetWindowHeight()) / 2.0f, 0));
 			Scorekeeper::Instance().ReportVictory(challenge_);
 		} else if(state == ChallengeState::Defeat)
 		{
 			returning_to_menu_ = true;
 			end_billboard_ = boost::shared_ptr<Billboard>(new Billboard("Defeat.texture", BillboardType::ScreenSpace));
-			end_billboard_->SetPosition(Vector3f(Camera::Instance().GetWindowWidth()/2, Camera::Instance().GetWindowHeight()/2, 0));
+			end_billboard_->SetPosition(Vector3f(static_cast<float>(Camera::Instance().GetWindowWidth()) / 2.0f, static_cast<float>(Camera::Instance().GetWindowHeight()) / 2, 0));
 			Scorekeeper::Instance().ReportDefeat(challenge_);
 		} else if(state ==ChallengeState::Draw)
 		{

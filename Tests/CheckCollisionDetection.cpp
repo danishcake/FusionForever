@@ -21,8 +21,8 @@ TEST(CheckBeamCollisions)
 	Vector3f collision_point_A;
 	Vector3f collision_point_B;
 
-	bool should_collide_A = Collisions2f::LineInPolygon(lineAP1, lineAP2, &hull[0], hull.size(), collision_point_A);
-	bool should_collide_B = Collisions2f::LineInPolygon(lineBP1, lineBP2, &hull[0], hull.size(), collision_point_B);
+	bool should_collide_A = Collisions2f::LineInPolygon(lineAP1, lineAP2, &hull[0], static_cast<int>(hull.size()), collision_point_A);
+	bool should_collide_B = Collisions2f::LineInPolygon(lineBP1, lineBP2, &hull[0], static_cast<int>(hull.size()), collision_point_B);
 
 	CHECK(should_collide_A);
 	CHECK_CLOSE(10, collision_point_A.x, 0.001f);

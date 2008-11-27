@@ -13,7 +13,7 @@ public:
 	virtual void Render() = 0;
 
 protected: 
-	int total_returned_;
-	int largest_returned_;
-	int total_tracked_;
+	unsigned total_returned_;
+	unsigned int largest_returned_;
+	unsigned total_tracked_;
 };

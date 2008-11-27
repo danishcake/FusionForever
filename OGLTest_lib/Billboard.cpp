@@ -8,8 +8,8 @@ Billboard::Billboard(std::string _texture, BillboardType::Enum _billboard_space)
 	billboard_space_ = _billboard_space;
 	texture_id_ = TextureLoader::Instance().LoadTexture(_texture);
 	Vector2<int> size_i = TextureLoader::Instance().GetTextureSize(texture_id_);
-	size_.x = size_i.x;
-	size_.y = size_i.y;
+	size_.x = static_cast<float>(size_i.x);
+	size_.y = static_cast<float>(size_i.y);
 	centre_ = Vector2f(0.5f, 0.5f);
 	color_ = GLColor(255,255,255);
 }
@@ -20,8 +20,8 @@ Billboard::Billboard(unsigned int _texture_id, BillboardType::Enum _billboard_sp
 	TextureLoader::Instance().LoadTexture(_texture_id);
 	texture_id_ = _texture_id;
 	Vector2<int> size_i = TextureLoader::Instance().GetTextureSize(texture_id_);
-	size_.x = size_i.x;
-	size_.y = size_i.y;
+	size_.x = static_cast<float>(size_i.x);
+	size_.y = static_cast<float>(size_i.y);
 	centre_ = Vector2f(0.5f, 0.5f);
 	color_ = GLColor(255,255,255);
 }
