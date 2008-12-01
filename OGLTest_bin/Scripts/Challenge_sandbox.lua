@@ -19,7 +19,7 @@ function challenge_:SpawnShip(ship_name, force, position, angle, ai_script, heal
 	assert(type(position.y) == "number", "3 position must be a Vector")
 	assert(type(angle) == "number", "angle must be a number")
 	assert(type(ai_script) == "string", "ai_script must be a string")
-	
+
 	if health_scale ~= nil then 
 		assert(type(health_scale) == "number", "If specified, health_scale must be a number")
 		return SpawnShip(self.challenge_pointer, ship_name, force, position.x, position.y, angle, ai_script, health_scale)
@@ -31,7 +31,7 @@ end
 function challenge_:WaitForAllEnemiesDead(force)
 	assert(type(force) == "number", "force must be a number")
 	assert(force >= 0 and force < 8, "force must be in range 0-7")
-	
+
 	coroutine.yield()
 	while(self.enemy_count[force] > 0) do
 		coroutine.yield()
@@ -43,7 +43,7 @@ function challenge_:WaitForForceCountLessThan(force, less_than)
 	assert(force >= 0 and force < 8, "force must be in range 0-7")
 	assert(type(less_than) == "number", "less_than must be a number")
 	assert(less_than > 0, "less_than must be > 0")
-	
+
 	coroutine.yield()
 	while(self.force_count[force] >= less_than) do
 		coroutine.yield()
@@ -53,7 +53,7 @@ end
 function challenge_:WaitForDeath(ship_id)
 	coroutine.yield()
 	local ship_data = self:GetShipData(ship_id)
-	
+
 	while ship_data.alive == true do
 		coroutine.yield()
 		ship_data = self:GetShipData(ship_id)
@@ -86,6 +86,10 @@ end
 
 function challenge_:Draw()
 	Draw(self.challenge_pointer)
+end
+
+function challenge_:SetDeathFunction(ship_id, death_function)
+	SetDeathFunction(self.challenge_pointer, ship_id, death_function);
 end
 
 local challenge_mt_ = 

@@ -18,6 +18,10 @@ public:
 	bool StartChallenge(const CEGUI::EventArgs& e);
 	bool StartEditor(const CEGUI::EventArgs& e);
 	bool ExitGame(const CEGUI::EventArgs& e);
+	bool cbSettingsOK(const CEGUI::EventArgs& e);
+	bool cbSettingsCancel(const CEGUI::EventArgs& e);
+	bool cbSettings(const CEGUI::EventArgs& e);
+	
 protected:
 	bool start_challenge_;
 	std::string challenge_name_;

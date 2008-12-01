@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoreDefinition> 
+	<Outline> M -20,-10 L -15,-15 L -10,-10 L -5,-20 L 5,-20 L 10,-10 L 15,-15 L 20,-10 L 15,0 L 20,10 L 15,15 L 10,10 L 5,20 L -5,20 L -10,10 L -15,15 L -20,10 L -15,0 L -20,-10 z </Outline>
+	<Health> 9000 </Health>
+	<SubSectionPosition x = "0" y = "15"/>
+	<Mass> 900 </Mass>
+</CoreDefinition>

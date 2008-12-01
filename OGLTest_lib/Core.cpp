@@ -3,6 +3,8 @@
 
 #include "SquareCore.h"
 #include "TinyCore.h"
+#include "XMLCore.h"
+
 #include "RotatingAI.h"
 
 #include "JointAngles.h"
@@ -138,6 +140,7 @@ Core::Core(BaseAI* _AI)
 	energy_ = FlexFloat(100, 100);
 	thrust_ = FlexFloat(100);
 	target_ = NULL;
+    death_function_reference_ = 0;
 }
 
 Core::~Core(void)
@@ -309,7 +312,10 @@ Core_ptr Core::ParseCore(TiXmlElement* _core_element)
 				core = new TinyCore(new RotatingAI(0.5f));
 				break;
 			default:
-				Logger::LogError("Unable to find core type" + core_string);
+				//Attempt to load XMLCore
+				core = XMLCore::CreateXMLCore(core_string);
+				if(!core)
+					Logger::LogError(std::string("Unable to open core:")+ core_string);
 				break;
 		}
 		if(core)

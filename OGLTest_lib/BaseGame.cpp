@@ -165,7 +165,10 @@ int BaseGame::Tick(float _timespan)
 		BOOST_FOREACH(Core_ptr core, ships_[force])
 		{
 			if(core->GetHealth() <= 0)
+			{
 				core->GetDeathSpawn(decoration_spawn);
+				challenge_->CallDeathFunction(core->GetDeathFunctionReference());
+			}
 		}
 	}
 	//Add spawned decorations 

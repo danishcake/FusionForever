@@ -34,6 +34,9 @@
 				ExecutionBucket="2"
 			/>
 			<Tool
+				Name="Lua utilities copier"
+			/>
+			<Tool
 				Name="XMLShip copier"
 			/>
 			<Tool
@@ -43,13 +46,13 @@
 				Name="ChallengeScript copier"
 			/>
 			<Tool
-				Name="XMLSection copier"
-			/>
-			<Tool
-				Name="Lua utilities copier"
-			/>
-			<Tool
 				Name="Texture copier"
+			/>
+			<Tool
+				Name="XMLCore copier"
+			/>
+			<Tool
+				Name="XMLSection copier"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -145,10 +148,13 @@
 				CommandLine=""
 			/>
 			<Tool
-				Name="XMLShip copier"
+				Name="Lua utilities copier"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="XMLShip copier"
 			/>
 			<Tool
 				Name="LuaAI copier"
@@ -157,13 +163,13 @@
 				Name="ChallengeScript copier"
 			/>
 			<Tool
-				Name="XMLSection copier"
-			/>
-			<Tool
-				Name="Lua utilities copier"
-			/>
-			<Tool
 				Name="Texture copier"
+			/>
+			<Tool
+				Name="XMLCore copier"
+			/>
+			<Tool
+				Name="XMLSection copier"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -251,6 +257,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Settings.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -305,6 +315,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Settings.h"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.h"
 				>
 			</File>
@@ -345,6 +359,10 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\FleeingAI vs SimpleAI.luaChallenge"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\GeometryWars.luaChallenge"
 					>
 				</File>
 				<File
@@ -554,6 +572,22 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\GW_A.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\GW_B.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\GW_C.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\GW_Player.xmlShip"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\JuggernautA.xmlShip"
 					>
 				</File>
@@ -606,11 +640,39 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\GW_A.luaAI"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\RotatingAI.luaAI"
 					>
 				</File>
 				<File
 					RelativePath=".\Scripts\SimpleAI.luaAI"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="XMLCores"
+				>
+				<File
+					RelativePath=".\Scripts\GiantCore.XMLCore"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\GW_A.XMLCore"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\GW_B.XMLCore"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\GW_C.XMLCore"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\GW_Player.XMLCore"
 					>
 				</File>
 			</Filter>

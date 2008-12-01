@@ -1,6 +1,4 @@
 playerLives = coroutine.wrap(function()
-
-	challenge:SpawnShip("a", 0, Vector:new(0, 0), 0, "SimpleAI.luaAI", 1)
 	player_id = challenge:SpawnShip("Protoship", 0, Vector:new(0, 0), 0, "KeyboardAI", 1)
 	challenge:WaitForDeath(player_id)
 	challenge:WaitFor(1)
@@ -11,8 +9,18 @@ playerLives = coroutine.wrap(function()
 	challenge:Defeat()
 end)
 
+SpawnMinions = function()
+	for i = 1, 10 do
+		local angle = math.random(0, 360)
+		local radius = 200 + 500 * math.random()
+		local ship_data = challenge:GetShipData(player_id)
+		challenge:SpawnShip("KineticA", 2, ship_data.position + Vector:new(math.cos(math.rad(angle)), math.sin(math.rad(angle))) * radius, 0, "SimpleAI.luaAI", 0.1)
+	end
+end
+
 enemySpawn = coroutine.wrap(function()
-	challenge:SpawnShip("Lasership", 1, Vector:new(0, 500), 0, "AI_Backstabber.luaAI", 1)
+	local ship_id = challenge:SpawnShip("Lasership", 1, Vector:new(0, 500), 0, "AI_Backstabber.luaAI", 1)
+	challenge:SetDeathFunction(ship_id, SpawnMinions)
 	challenge:WaitFor(2)
 	challenge:SpawnShip("Grawp", 2, Vector:new(0, -500), 0, "GrawpAI.luaAI", 1)
 	challenge:WaitForAllEnemiesDead(0)

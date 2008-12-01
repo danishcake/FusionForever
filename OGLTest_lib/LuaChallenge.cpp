@@ -91,6 +91,23 @@ int LuaChallenge::l_luaError(lua_State* _luaVM)
 	return 0;
 }
 
+int LuaChallenge::l_SetDeathFunction(lua_State* _luaVM)
+{
+	if(!(lua_gettop(_luaVM) == 3))
+	{
+		luaL_error(_luaVM, "SetDeathFunction must be called with 3 parameters");
+	}
+	
+	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -3)));
+	assert(challenge);
+
+	int ship_id = static_cast<int>(lua_tointeger(_luaVM, -2));
+	int death_function_reference = luaL_ref(_luaVM, LUA_REGISTRYINDEX);
+	Core_ptr core = static_cast<Core_ptr>(challenge->GetShipData(ship_id));
+	core->SetDeathFunctionReference(death_function_reference);
+
+	return 0;
+}
 
 int LuaChallenge::l_Victory(lua_State* _luaVM)
 {
@@ -177,7 +194,7 @@ LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* 
 	lua_register(_luaVM, "Draw", l_Draw);
 	lua_register(_luaVM, "GetShipData", l_GetShipData);
 	lua_register(_luaVM, "_ALERT", l_luaError);
-	
+	lua_register(_luaVM, "SetDeathFunction", l_SetDeathFunction);
 
 	state_ = ChallengeState::NotStarted;
 
@@ -295,7 +312,6 @@ ChallengeState::Enum LuaChallenge::Tick(float _timespan)
 		lua_rawgeti(luaVM_, LUA_REGISTRYINDEX, coroutine_reference_);
 		lua_State* thread = lua_tothread(luaVM_, -1);
 		lua_pop(luaVM_, 1); //Stack = empty (Checked)
-		
 
 		// Obtain Environment, then update info
 		lua_rawgeti(luaVM_, LUA_REGISTRYINDEX, environment_reference_);		//Stack = env
@@ -333,8 +349,6 @@ ChallengeState::Enum LuaChallenge::Tick(float _timespan)
 			lua_settable(luaVM_, -3);										//Stack = env-challenge-friend_count
 		}
 
-
-
 		lua_pop(luaVM_, 3);													//Stack = empty
 
 		assert(lua_gettop(luaVM_) == 0);
@@ -356,4 +370,21 @@ ChallengeState::Enum LuaChallenge::Tick(float _timespan)
 	
 	assert(lua_gettop(luaVM_) == 0);
 	return state_;
+}
+
+void LuaChallenge::CallDeathFunction(int _death_function_refence)
+{
+	if(_death_function_refence != 0)
+	{
+		// obtain death function
+		lua_rawgeti(luaVM_, LUA_REGISTRYINDEX, _death_function_refence);
+		//This function should have been created in the correct environment, and thus inheritted it.
+		int run_result = lua_pcall(luaVM_, 0, 0, 0);
+		if(run_result != 0)
+		{
+			Logger::LogError(std::string("Error running death function") + boost::lexical_cast<std::string, int>(_death_function_refence));
+		}
+		//Dispose of the function reference
+		luaL_unref(luaVM_, LUA_REGISTRYINDEX, _death_function_refence);
+	}
 }

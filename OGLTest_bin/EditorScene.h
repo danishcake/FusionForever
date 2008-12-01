@@ -10,7 +10,7 @@ namespace EditorDragMode
 {
 	enum Enum
 	{
-		NotDragging, RotateDrag, MoveDrag
+		NotDragging, RotateDrag, MoveDrag, ScrollDrag
 	};
 }
 

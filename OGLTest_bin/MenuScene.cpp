@@ -41,6 +41,34 @@ bool MenuScene::StartEditor(const CEGUI::EventArgs& e)
 	return true;
 }
 
+bool MenuScene::cbSettingsOK(const CEGUI::EventArgs& e)
+{
+	CEGUI::Window* pWndSettings = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings");
+	pWndSettings->setVisible(false);
+	pWndSettings->setModalState(false);
+	return true;
+}
+
+bool MenuScene::cbSettingsCancel(const CEGUI::EventArgs& e)
+{
+	CEGUI::Window* pWndSettings = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings");
+	pWndSettings->setVisible(false);
+	pWndSettings->setModalState(false);
+	return true;
+}
+
+bool MenuScene::cbSettings(const CEGUI::EventArgs& e)
+{
+	if(lock_gui_)
+		return true;
+
+	CEGUI::Window* pWndSettings = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings");
+	pWndSettings->setVisible(true);
+	pWndSettings->setModalState(true);
+
+	return true;
+}
+
 bool MenuScene::ExitGame(const CEGUI::EventArgs& e)
 {
 	if(lock_gui_)
@@ -88,6 +116,13 @@ MenuScene::MenuScene(void)
 	pBtnEditor->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::StartEditor, this));
 	myRoot->addChildWindow(pBtnEditor);
 
+	CEGUI::PushButton* pBtnSettings = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/SettingsBtn");
+	pBtnSettings->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 100 ), CEGUI::UDim( 0, 30 ) ) );
+	pBtnSettings->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 20), CEGUI::UDim( 0.0f, 120 ) ) );
+	pBtnSettings->setText( "Settings" );
+	pBtnSettings->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::cbSettings, this));
+	myRoot->addChildWindow(pBtnSettings);
+
 	CEGUI::Window* pWndChallenges = wmgr.createWindow( "TaharezLook/FrameWindow", "Menu/Levels" );
 	pWndChallenges->setPosition(CEGUI::UVector2(CEGUI::UDim(0,130),CEGUI::UDim(0,10)));
 	pWndChallenges->setSize(CEGUI::UVector2(CEGUI::UDim(1,-140), CEGUI::UDim(1,-20)));
@@ -121,6 +156,33 @@ MenuScene::MenuScene(void)
 			}
 		}
 	}
+
+	CEGUI::Window* pWndSettings = wmgr.createWindow( "TaharezLook/FrameWindow", "Menu/Settings" );
+	pWndSettings->setVisible(false);
+	pWndSettings->setModalState(false);
+	pWndSettings->setProperty("SizingEnabled", "False");
+	pWndSettings->setProperty("CloseButtonEnabled", "False");
+	pWndSettings->setProperty("DragMovingEnabled", "False");
+	pWndSettings->setText("Settings");
+	pWndSettings->setSize( CEGUI::UVector2( CEGUI::UDim( 1, -60 ), CEGUI::UDim( 1, -60 ) ) );
+	pWndSettings->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 30 ), CEGUI::UDim( 0, 30 ) ) );
+	{
+		CEGUI::Window* pBtnOK = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/Settings/OK");
+		pBtnOK->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 60 ), CEGUI::UDim( 0, 30 ) ) );
+		pBtnOK->setPosition( CEGUI::UVector2( CEGUI::UDim( 1, -70 ), CEGUI::UDim( 1, -40 ) ) );
+		pBtnOK->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::cbSettingsOK, this));
+		pBtnOK->setText("Save");
+		pWndSettings->addChildWindow(pBtnOK);
+
+		CEGUI::Window* pBtnCancel = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/Settings/Cancel");
+		pBtnCancel->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 60 ), CEGUI::UDim( 0, 30 ) ) );
+		pBtnCancel->setPosition( CEGUI::UVector2( CEGUI::UDim( 1, -140 ), CEGUI::UDim( 1, -40 ) ) );
+		pBtnCancel->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::cbSettingsCancel, this));
+		pBtnCancel->setText("Cancel");
+		pWndSettings->addChildWindow(pBtnCancel);
+	}
+
+	myRoot->addChildWindow(pWndSettings);
 }
 
 void MenuScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)

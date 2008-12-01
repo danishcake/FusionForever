@@ -80,7 +80,7 @@ static int l_SetAll(lua_State* luaVM)
 	float dx = static_cast<float>(lua_tonumber(luaVM, -4));
 	float dy = static_cast<float>(lua_tonumber(luaVM, -3));
 	float dtheta = static_cast<float>(lua_tonumber(luaVM, -2));
-	bool firing = static_cast<bool>(lua_toboolean(luaVM, -1));
+	bool firing = lua_toboolean(luaVM, -1) != 0;
 	instance->SetAll(dx, dy, dtheta, firing);
 	return 0;
 }

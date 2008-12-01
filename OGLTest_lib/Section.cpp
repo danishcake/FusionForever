@@ -345,7 +345,7 @@ bool Section::CheckCollisions(const Vector3f _lineP1, const Vector3f _lineP2, Ve
 
 	Vector3f collision_point;
 	Vector3f* first_point = &transformed_outline_verts_[0];
-	int num_points = outline_.GetOutlineVerts()->size();
+	int num_points = static_cast<int>(outline_.GetOutlineVerts()->size());
 
 	if(Collisions2f::LineInPolygon(_lineP1, _lineP2, first_point, num_points, collision_point))
 	{

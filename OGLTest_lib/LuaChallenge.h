@@ -40,6 +40,7 @@ class LuaChallenge
 {
 private:
 	static int l_SpawnShip(lua_State* _luaVM);
+	static int l_SetDeathFunction(lua_State* _luaVM);
 	static int l_luaError(lua_State* _luaVM);
 	static int l_Victory(lua_State* _luaVM);
 	static int l_Defeat(lua_State* _luaVM);
@@ -73,4 +74,5 @@ public:
 	~LuaChallenge(void);
 
 	ChallengeState::Enum Tick(float _timespan);
+	void CallDeathFunction(int _death_function_refence);
 };

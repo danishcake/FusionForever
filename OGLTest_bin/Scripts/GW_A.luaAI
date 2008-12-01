@@ -1,0 +1,39 @@
+if ship.target.valid == false then
+	ship:PickClosestTarget()
+end
+
+local end_time = ship.time + 10
+local swerve_time = 0
+local swerve_type = 0
+local swerve_time_max = 0.3
+while ship.time < end_time do
+	swerve_time = swerve_time - ship.dtime
+	
+    if ship.target.valid == true then
+        local range = (ship.target.position - ship.position):length()
+        local dp = (ship.target.position - ship.position):normalise()
+		
+		if math.random() < ship.dtime / 2 then
+			swerve_time = swerve_time_max
+			swerve_type = math.random(0,2)
+		end
+		if swerve_time < 0 then
+			--Advance
+			ship:SetAll(dp.x, dp.y, 1, false)
+		else
+			local swerve_factor = math.abs((swerve_time - swerve_time_max / 2) / (swerve_time_max/2))
+			if swerve_type == 0 then
+				ship:SetAll(dp.x * swerve_factor + dp.y * (1 - swerve_factor), dp.y * swerve_factor - dp.x * (1 - swerve_factor), 1, false)
+			elseif swerve_type == 1 then
+				ship:SetAll(dp.x * swerve_factor - dp.y * (1 - swerve_factor), dp.y * swerve_factor + dp.x * (1 - swerve_factor), 1, false)
+			elseif swerve_type == 2 then
+				ship:SetAll(dp.x * swerve_factor - dp.x * (1 - swerve_factor), dp.y * swerve_factor - dp.y * (1 - swerve_factor), 1, false)
+			end
+		end
+    else
+        ship:PickClosestTarget()
+    end
+    coroutine.yield()
+end
+
+

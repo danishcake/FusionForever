@@ -4,6 +4,7 @@
 #include "FadeOutScene.h"
 #include "FadeInScene.h"
 #include "EditorGame.h"
+#include "Camera.h"
 #include <sdl.h>
 
 #include "SquareCore.h"
@@ -21,6 +22,7 @@
 #include "XmlSection.h"
 #include "Property.h"
 #include "RotatingAI.h"
+
 
 #include <boost/filesystem.hpp>
 
@@ -335,26 +337,31 @@ bool EditorScene::cbAddXMLSection(const CEGUI::EventArgs& e)
 bool EditorScene::cbBackgroundClick(const CEGUI::EventArgs& e)
 {
 	const CEGUI::MouseEventArgs we = static_cast<const CEGUI::MouseEventArgs&>(e);
-	Logger::Log(std::string("Clicked at ") + boost::lexical_cast<std::string, float>(we.position.d_x) + std::string(",") + boost::lexical_cast<std::string, float>(we.position.d_y));
-	Vector3f world_click = Camera::Instance().ScreenToWorld(Vector3f(we.position.d_x, we.position.d_y, 0));
-	Logger::Log(std::string("In world coords that is ") + boost::lexical_cast<std::string, float>(world_click.x) + std::string(",") + boost::lexical_cast<std::string, float>(world_click.y));
-	Section* clicked_section = game_->GetAtMouseCoord(world_click);
 
-	static std::list<Section_ptr> ltv_clicked_sections;
-	static int item_index = 0;
-	std::vector<Section_ptr> clicked_sections = game_->GetAllAtMouseCoord(world_click);
-	if(clicked_sections.size() > 0)
+	if(we.button == CEGUI::LeftButton)
 	{
-		//If the list is the same as last time then chose the next item in it.
-		if(std::equal(ltv_clicked_sections.begin(), ltv_clicked_sections.end(), clicked_sections.begin()))
+		Vector3f world_click = Camera::Instance().ScreenToWorld(Vector3f(we.position.d_x, we.position.d_y, 0));
+		Section* clicked_section = game_->GetAtMouseCoord(world_click);
+
+		static std::list<Section_ptr> ltv_clicked_sections;
+		static int item_index = 0;
+		std::vector<Section_ptr> clicked_sections = game_->GetAllAtMouseCoord(world_click);
+		if(clicked_sections.size() > 0)
 		{
-			item_index = (item_index + 1)% clicked_sections.size(); //Move to the next item in the list
-		} else
-		{
-			item_index = 0; //Move to the first item in the list
+			//If the list is the same as last time then chose the next item in it.
+			if(std::equal(ltv_clicked_sections.begin(), ltv_clicked_sections.end(), clicked_sections.begin()))
+			{
+				item_index = (item_index + 1)% static_cast<int>(clicked_sections.size()); //Move to the next item in the list
+			} else
+			{
+				item_index = 0; //Move to the first item in the list
+			}
+			SetSelected(clicked_sections[item_index]);
+			move_first_tick = true;
 		}
-		SetSelected(clicked_sections[item_index]);
-		move_first_tick = true;
+	} else if(we.button == CEGUI::MiddleButton)
+	{
+		Camera::Instance().SetCentre(0,0,CameraLevel::Human);
 	}
 	return true;
 }
@@ -368,8 +375,12 @@ bool EditorScene::cbBackgroundMove(const CEGUI::EventArgs& e)
 		old_position = we.position;
 		move_first_tick = false;
 	}
-
-	CEGUI::Point mouse_move = we.position - old_position;
+	CEGUI::Point mouse_move;
+	if(drag_mode_ != EditorDragMode::NotDragging)
+		mouse_move = we.position - old_position;
+	else
+		mouse_move = CEGUI::Point(0,0);
+	
 	Vector3f world_move = Camera::Instance().ScreenDeltaToWorldDelta(Vector3f(mouse_move.d_x, mouse_move.d_y, 0.0f));
 	Vector3f world_position = Camera::Instance().ScreenDeltaToWorldDelta(Vector3f(we.position.d_x, we.position.d_y, 0.0f));
 
@@ -377,7 +388,7 @@ bool EditorScene::cbBackgroundMove(const CEGUI::EventArgs& e)
 
 	if(selection_ != NULL && !selection_->IsCore()) //Something selected and is not root
 	{
-		if((we.sysKeys & CEGUI::Shift) == CEGUI::Shift) //Shift = snap mode
+		if((we.sysKeys & CEGUI::Shift) != CEGUI::Shift) //Shift = free mode
 		{
 			accumulated_snap += world_move;
 
@@ -412,7 +423,6 @@ bool EditorScene::cbBackgroundMove(const CEGUI::EventArgs& e)
 					accumulated_snap.x = 0;
 				}
 			}
-
 		} else
 		{
 			if(drag_mode_ == EditorDragMode::MoveDrag)
@@ -430,6 +440,10 @@ bool EditorScene::cbBackgroundMove(const CEGUI::EventArgs& e)
 			accumulated_snap = Vector3f();
 		}
 	}
+	if(drag_mode_ ==EditorDragMode::ScrollDrag)
+	{
+		Camera::Instance().SetCentre(Camera::Instance().GetCentreX() - world_move.x, Camera::Instance().GetCentreY() - world_move.y, CameraLevel::Human);
+	}
 	return true;
 }
 
@@ -438,18 +452,22 @@ bool EditorScene::cbBackgroundMBD(const CEGUI::EventArgs& e)
 	Logger::Instance() << "Mouse down\n";
 	
 	const CEGUI::MouseEventArgs we = static_cast<const CEGUI::MouseEventArgs&>(e);
-	Vector3f world_click = Camera::Instance().ScreenToWorld(Vector3f(we.position.d_x, we.position.d_y, 0));
-	//Section* clicked_section = game_->GetAtMouseCoord(world_click);
-	
-	Section* clicked_section = NULL; 
-	selection_->CheckCollisions(world_click, clicked_section);
-	if(clicked_section != NULL && clicked_section == selection_)
+	if(we.button == CEGUI::LeftButton)
 	{
-		drag_mode_ = EditorDragMode::MoveDrag;
-	} else
-	{
-		drag_mode_ = EditorDragMode::RotateDrag;
-	}
+		Vector3f world_click = Camera::Instance().ScreenToWorld(Vector3f(we.position.d_x, we.position.d_y, 0));
+		//Section* clicked_section = game_->GetAtMouseCoord(world_click);
+		
+		Section* clicked_section = NULL; 
+		selection_->CheckCollisions(world_click, clicked_section);
+		if(clicked_section != NULL && clicked_section == selection_)
+		{
+			drag_mode_ = EditorDragMode::MoveDrag;
+		} else
+		{
+			drag_mode_ = EditorDragMode::RotateDrag;
+		}
+	} else if(we.button == CEGUI::MiddleButton)
+		drag_mode_ = EditorDragMode::ScrollDrag;
 
 	return true;
 }
@@ -561,8 +579,8 @@ EditorScene::EditorScene(void)
 			pTabCores->setProperty("EnableBottom","1");
 			pTabCores->setText("Cores");
 			{
-			int width = 2;
-			int height = 1;
+			float width = 2;
+			float height = 1;
 			CEGUI::PushButton* pBtnSetCoreToSquareCore = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
 				pBtnSetCoreToSquareCore->setText("Square");
 				pBtnSetCoreToSquareCore->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
@@ -583,8 +601,8 @@ EditorScene::EditorScene(void)
 			pTabWeapons->setProperty("EnableBottom","1");
 			pTabWeapons->setText("Weapons");
 			{
-			int width = 2;
-			int height = 1;
+			float width = 2;
+			float height = 1;
 			{//Blaster
 				CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
 				pBtnAdd->setText("Blaster");
@@ -688,8 +706,8 @@ EditorScene::EditorScene(void)
 		pTabXML->addChildWindow(pTabXMLPane);
 
 			{
-				int width = 2;
-				int height = 1;
+				float width = 2;
+				float height = 1;
 				boost::filesystem::directory_iterator end_itr;	
 				for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/Sections");
 					itr != end_itr;
@@ -853,7 +871,7 @@ void EditorScene::SetSelected(Section_ptr _selection)
 	selection_->GetProperties(properties);
 	//Clear properties window 
 	
-	int child_count = pWndPropertiesInnerPane->getChildCount();
+	int child_count = static_cast<int>(pWndPropertiesInnerPane->getChildCount());
 	for(int child_id = 0; child_id < (child_count)/2; child_id++)
 	{
 		CEGUI::Window* pWndChildName = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow(std::string("Edit/Properties/Pane/Name") + boost::lexical_cast<std::string, int>(child_id));
@@ -866,8 +884,8 @@ void EditorScene::SetSelected(Section_ptr _selection)
 	}
 
 
-	int height = 40;
-	for(int i = 0; i < properties.size(); i++)
+	float height = 40;
+	for(int i = 0; i < static_cast<int>(properties.size()); i++)
 	{
 		CEGUI::Window* pLabel = (CEGUI::Listbox*)CEGUI::WindowManager::getSingleton().createWindow( "TaharezLook/StaticText", "Edit/Properties/Pane/Name" + boost::lexical_cast<std::string, int>(i) );
 		pLabel->setText(properties[i]->GetDescription());

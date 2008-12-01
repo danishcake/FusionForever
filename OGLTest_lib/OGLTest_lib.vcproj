@@ -295,6 +295,10 @@
 						RelativePath=".\TinyCore.cpp"
 						>
 					</File>
+					<File
+						RelativePath=".\XMLCore.cpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Guns"
@@ -595,6 +599,10 @@
 					</File>
 					<File
 						RelativePath=".\TinyCore.h"
+						>
+					</File>
+					<File
+						RelativePath=".\XMLCore.h"
 						>
 					</File>
 				</Filter>

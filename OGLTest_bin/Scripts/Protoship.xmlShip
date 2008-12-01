@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Section SectionType ="SquareCore" Health ="1500">
+<Section SectionType ="GiantCore" Health ="1500">
   <Section SectionType ="RigidArm" Angle ="0" Health ="1000" y="10">
     <Section SectionType ="Blaster" x="2" y="5"/>
     <Section SectionType ="Blaster" x="-2" y="5"/>
