@@ -9,6 +9,7 @@
 
 #include "SquareCore.h"
 #include "TinyCore.h"
+#include "XMLCore.h"
 
 #include "Blaster.h"
 #include "HeatBeamGun.h"
@@ -318,7 +319,7 @@ bool EditorScene::cbAddXMLSection(const CEGUI::EventArgs& e)
 	const CEGUI::WindowEventArgs& we = 	static_cast<const CEGUI::WindowEventArgs&>(e);
 	if(selection_ != NULL)
 	{
-		Section_ptr section = XMLSection::CreateXMLSection(we.window->getName().c_str());
+		Section_ptr section = XMLSection::CreateXMLSection(we.window->getText().c_str());
 		if(section != NULL)
 		{
 			selection_->AddChild(section);
@@ -327,7 +328,27 @@ bool EditorScene::cbAddXMLSection(const CEGUI::EventArgs& e)
 		} else
 		{
 			Logger::LogError("Unable to load XML section in editor");
-			Logger::LogError(we.window->getName().c_str());
+			Logger::LogError(we.window->getText().c_str());
+		}
+	}
+	return true;
+}
+
+bool EditorScene::cbSetCoreToXMLCore(const CEGUI::EventArgs& e)
+{
+	const CEGUI::WindowEventArgs& we = 	static_cast<const CEGUI::WindowEventArgs&>(e);
+	if(selection_ != NULL)
+	{
+		Core_ptr core = XMLCore::CreateXMLCore(we.window->getText().c_str());
+		if(core != NULL)
+		{
+			core->OverrideAI(new RotatingAI(0));
+			game_->SetCore(core);
+			SetSelected(static_cast<Section_ptr>(this->game_->GetCore()));
+		} else
+		{
+			Logger::LogError("Unable to load XML section in editor");
+			Logger::LogError(we.window->getText().c_str());
 		}
 	}
 	return true;
@@ -491,7 +512,24 @@ bool EditorScene::cbBackgroundMouseLeave(const CEGUI::EventArgs& e)
 }
 
 
-
+void AddItemToTab(CEGUI::Event::Subscriber _subscriber, CEGUI::String _text, CEGUI::Window* _tab, float& _width, float& _height)
+{
+	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+	CEGUI::PushButton* pBtn = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
+	pBtn->setText(_text);
+	float section_width = pBtn->getFont()->getFormattedTextExtent(pBtn->getText(), CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
+	pBtn->setSize(CEGUI::UVector2(CEGUI::UDim( 0, section_width ), 
+								  CEGUI::UDim( 0, 20 )));
+	if(_width + section_width > (_tab->getUnclippedInnerRect().d_right - _tab->getUnclippedInnerRect().d_left - 10))
+	{
+		_width = 2;
+		_height += 25;
+	}
+	pBtn->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, _width ), CEGUI::UDim( 0, _height ) ) );
+	pBtn->subscribeEvent(CEGUI::PushButton::EventClicked, _subscriber);
+	_width += section_width + 5;
+	_tab->addChildWindow(pBtn);
+}
 
 EditorScene::EditorScene(void)
 {
@@ -572,171 +610,81 @@ EditorScene::EditorScene(void)
 
 
 	CEGUI::TabControl* pPalette = (CEGUI::TabControl*)wmgr.createWindow("TaharezLook/TabControl", "Edit/Palette");
-		pPalette->setSize(CEGUI::UVector2( CEGUI::UDim( 1, -20 ), CEGUI::UDim( 0, 110 ) ) );
-		pPalette->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 1.0f, -120 ) ) );
-		
-		CEGUI::DefaultWindow* pTabCores = (CEGUI::DefaultWindow*)wmgr.createWindow("TaharezLook/TabContentPane");
-			pTabCores->setProperty("EnableBottom","1");
-			pTabCores->setText("Cores");
-			{
+	pPalette->setSize(CEGUI::UVector2( CEGUI::UDim( 1, -20 ), CEGUI::UDim( 0, 110 ) ) );
+	pPalette->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 1.0f, -120 ) ) );
+	
+	CEGUI::DefaultWindow* pTabCores = (CEGUI::DefaultWindow*)wmgr.createWindow("TaharezLook/TabContentPane");
+		pTabCores->setProperty("EnableBottom","1");
+		pTabCores->setText("Cores");
+		{
 			float width = 2;
 			float height = 1;
-			CEGUI::PushButton* pBtnSetCoreToSquareCore = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnSetCoreToSquareCore->setText("Square");
-				pBtnSetCoreToSquareCore->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnSetCoreToSquareCore->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnSetCoreToSquareCore->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbSetCoreToSquareCore, this));
-				width += 61;
-			pTabCores->addChildWindow(pBtnSetCoreToSquareCore);
-			CEGUI::PushButton* pBtnSetCoreToTinyCore = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnSetCoreToTinyCore->setText("Tiny");
-				pBtnSetCoreToTinyCore->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, 60 ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnSetCoreToTinyCore->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnSetCoreToTinyCore->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbSetCoreToTinyCore, this));
-				width += 61;
-			pTabCores->addChildWindow(pBtnSetCoreToTinyCore);
-			}
-		pPalette->addTab(pTabCores);
-		CEGUI::DefaultWindow* pTabWeapons = (CEGUI::DefaultWindow*)wmgr.createWindow("TaharezLook/TabContentPane");
-			pTabWeapons->setProperty("EnableBottom","1");
-			pTabWeapons->setText("Weapons");
+			AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbSetCoreToSquareCore, this), "Square", pTabCores, width, height);
+			AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbSetCoreToTinyCore, this), "Tiny", pTabCores, width, height);
+
+			boost::filesystem::directory_iterator end_itr;	
+			for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/Sections");
+				itr != end_itr;
+				++itr)
 			{
-			float width = 2;
-			float height = 1;
-			{//Blaster
-				CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnAdd->setText("Blaster");
-				float section_width = pBtnAdd->getFont()->getFormattedTextExtent(pBtnAdd->getText(), CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
-				pBtnAdd->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnAdd->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnAdd->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddBlaster, this));
-				width += section_width + 2;
-				pTabWeapons->addChildWindow(pBtnAdd);
-			}
-			{//HeatBeam
-				CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnAdd->setText("HeatBeam");
-				float section_width = pBtnAdd->getFont()->getFormattedTextExtent(pBtnAdd->getText(), CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
-				pBtnAdd->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnAdd->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnAdd->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddHeatBeam, this));
-				width += section_width + 2;
-				pTabWeapons->addChildWindow(pBtnAdd);
-			}
-			{//HomingMissile
-				CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnAdd->setText("HomingMissile");
-				float section_width = pBtnAdd->getFont()->getFormattedTextExtent(pBtnAdd->getText(), CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
-				pBtnAdd->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnAdd->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnAdd->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddHomingMissileLauncher, this));
-				width += section_width + 2;
-				pTabWeapons->addChildWindow(pBtnAdd);
-			}
-			{//Swarmer
-				CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnAdd->setText("Swarmer");
-				float section_width = pBtnAdd->getFont()->getFormattedTextExtent(pBtnAdd->getText(), CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
-				pBtnAdd->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnAdd->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnAdd->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddSwarmer, this));
-				width += section_width + 2;
-				pTabWeapons->addChildWindow(pBtnAdd);
-			}
-			{//ChainGun
-				CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnAdd->setText("ChainGun");
-				float section_width = pBtnAdd->getFont()->getFormattedTextExtent(pBtnAdd->getText(), CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
-				pBtnAdd->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnAdd->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnAdd->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddChainGun, this));
-				width += section_width + 2;
-				pTabWeapons->addChildWindow(pBtnAdd);
-			}
-			{//PlasmaArtillery
-				CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnAdd->setText("PlasmaArtillery");
-				float section_width = pBtnAdd->getFont()->getFormattedTextExtent(pBtnAdd->getText(), CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
-				pBtnAdd->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnAdd->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnAdd->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddPlasmaArtillery, this));
-				width += section_width + 2;
-				pTabWeapons->addChildWindow(pBtnAdd);
-			}
-			{//JointAngles
-				CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnAdd->setText("JointAngles");
-				float section_width = pBtnAdd->getFont()->getFormattedTextExtent(pBtnAdd->getText(), CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
-				pBtnAdd->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnAdd->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnAdd->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddJointAngles, this));
-				width += section_width + 2;
-				pTabWeapons->addChildWindow(pBtnAdd);
-			}
-			{//JointTracker
-				CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnAdd->setText("JointTracker");
-				float section_width = pBtnAdd->getFont()->getFormattedTextExtent(pBtnAdd->getText(), CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
-				pBtnAdd->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnAdd->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnAdd->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddJointTracker, this));
-				width += section_width + 2;
-				pTabWeapons->addChildWindow(pBtnAdd);
-			}
-			{//JointSpinner
-				CEGUI::PushButton* pBtnAdd = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button");
-				pBtnAdd->setText("JointSpinner");
-				float section_width = pBtnAdd->getFont()->getFormattedTextExtent(pBtnAdd->getText(), CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
-				pBtnAdd->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width ),    CEGUI::UDim( 0, 20 ) ) );
-				pBtnAdd->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-				pBtnAdd->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddSpinningJoint, this));
-				width += section_width + 2;
-				pTabWeapons->addChildWindow(pBtnAdd);
-			}
-
-			}
-		pPalette->addTab(pTabWeapons);
-
-		CEGUI::DefaultWindow* pTabXML = (CEGUI::DefaultWindow*)wmgr.createWindow("TaharezLook/TabContentPane");
-		pTabXML->setProperty("EnableBottom","1");
-		pTabXML->setText("XML Sections");
-		CEGUI::ScrollablePane* pTabXMLPane = (CEGUI::ScrollablePane*)wmgr.createWindow("TaharezLook/ScrollablePane");
-		pTabXMLPane->setSize(CEGUI::UVector2( CEGUI::UDim( 1, 0),    CEGUI::UDim( 1, 0 ) ) );
-		
-		pTabXML->addChildWindow(pTabXMLPane);
-
-			{
-				float width = 2;
-				float height = 1;
-				boost::filesystem::directory_iterator end_itr;	
-				for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/Sections");
-					itr != end_itr;
-					++itr)
+				if(boost::filesystem::is_regular((itr->status())))
 				{
-					if(boost::filesystem::is_regular((itr->status())))
+					std::string ext = boost::filesystem::extension(*itr);
+					if(ext == ".XMLCore")
 					{
-						std::string ext = boost::filesystem::extension(*itr);
-						if(ext == ".XMLSection")
-						{
-							std::string filename = boost::filesystem::basename(itr->path());
-							CEGUI::PushButton* pBtnXMLSection = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button", filename);
-							pBtnXMLSection->setText(filename);
-								float section_width = pBtnXMLSection->getFont()->getFormattedTextExtent(filename, CEGUI::Rect(CEGUI::System::getSingleton().getRenderer()->getRect()), CEGUI::LeftAligned);
-								pBtnXMLSection->setSize(    CEGUI::UVector2( CEGUI::UDim( 0, section_width+10),    CEGUI::UDim( 0, 20 ) ) );
-								pBtnXMLSection->setPosition(CEGUI::UVector2( CEGUI::UDim( 0, width ), CEGUI::UDim( 0, height ) ) );
-								pBtnXMLSection->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&EditorScene::cbAddXMLSection, this));
-								width += section_width + 15;
-							pTabXMLPane->addChildWindow(pBtnXMLSection);
-						}
-					}
-					if(width > pTabXMLPane->getUnclippedInnerRect().d_right - pTabXMLPane->getUnclippedInnerRect().d_left - 120)
-					{
-						width = 2;
-						height += 25;
+						std::string filename = boost::filesystem::basename(itr->path());
+						AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbSetCoreToXMLCore, this), filename.c_str(), pTabCores, width, height);
 					}
 				}
 			}
-		pPalette->addTab(pTabXML);
+		}
+	pPalette->addTab(pTabCores);
+
+	CEGUI::DefaultWindow* pTabWeapons = (CEGUI::DefaultWindow*)wmgr.createWindow("TaharezLook/TabContentPane");
+	pTabWeapons->setProperty("EnableBottom","1");
+	pTabWeapons->setText("Weapons");
+	{
+	float width = 2;
+	float height = 1;
+		
+		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddBlaster, this), "Blaster", pTabWeapons, width, height);
+		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddHeatBeam, this), "HeatBeam", pTabWeapons, width, height);
+		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddHomingMissileLauncher, this), "HomingMissile", pTabWeapons, width, height);
+		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSwarmer, this), "Swarmer", pTabWeapons, width, height);
+		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddChainGun, this), "ChainGun", pTabWeapons, width, height);
+		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddPlasmaArtillery, this), "PlasmaArtillery", pTabWeapons, width, height);
+		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddJointAngles, this), "JointAngles", pTabWeapons, width, height);
+		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddJointTracker, this), "JointTracker", pTabWeapons, width, height);
+		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSpinningJoint, this), "JointSpinner", pTabWeapons, width, height);
+	}
+	pPalette->addTab(pTabWeapons);
+
+	CEGUI::DefaultWindow* pTabXML = (CEGUI::DefaultWindow*)wmgr.createWindow("TaharezLook/TabContentPane");
+	pTabXML->setProperty("EnableBottom","1");
+	pTabXML->setText("XML Sections");
+	CEGUI::ScrollablePane* pTabXMLPane = (CEGUI::ScrollablePane*)wmgr.createWindow("TaharezLook/ScrollablePane");
+	pTabXMLPane->setSize(CEGUI::UVector2( CEGUI::UDim( 1, 0),    CEGUI::UDim( 1, 0 ) ) );
+	pTabXML->addChildWindow(pTabXMLPane);
+	{
+		float width = 2;
+		float height = 1;
+		boost::filesystem::directory_iterator end_itr;	
+		for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/Sections");
+			itr != end_itr;
+			++itr)
+		{
+			if(boost::filesystem::is_regular((itr->status())))
+			{
+				std::string ext = boost::filesystem::extension(*itr);
+				if(ext == ".XMLSection")
+				{
+					std::string filename = boost::filesystem::basename(itr->path());
+					AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSpinningJoint, this), filename.c_str(), static_cast<CEGUI::Window*>(pTabXMLPane), width, height);
+				}
+			}
+		}
+	}
+	pPalette->addTab(pTabXML);
 	myRoot->addChildWindow(pPalette);
 
 
@@ -895,13 +843,35 @@ void EditorScene::SetSelected(Section_ptr _selection)
 
 		height+=35;
 
-		CEGUI::Editbox* pEdit = (CEGUI::Editbox*)CEGUI::WindowManager::getSingleton().createWindow( "TaharezLook/Editbox", "Edit/Properties/Pane/Value" + boost::lexical_cast<std::string, int>(i) );
-		pEdit->setText(boost::lexical_cast<std::string, float>(properties[i]->Get()));
-		pEdit->setUserData(properties[i]);
-		pEdit->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 10), CEGUI::UDim(0, height)));
-		pEdit->setSize(CEGUI::UVector2(CEGUI::UDim(1, -20), CEGUI::UDim(0, 30)));
-		pEdit->subscribeEvent(CEGUI::Editbox::EventTextAccepted, CEGUI::Event::Subscriber(&EditorScene::cbPropertyChanged, this));
-		pWndPropertiesInnerPane->addChildWindow(pEdit);
+		if(properties[i]->Type() == PropertyType::Float)
+		{
+			CEGUI::Editbox* pEdit = (CEGUI::Editbox*)CEGUI::WindowManager::getSingleton().createWindow( "TaharezLook/Editbox", "Edit/Properties/Pane/Value" + boost::lexical_cast<std::string, int>(i) );
+			pEdit->setText(boost::lexical_cast<std::string, float>(properties[i]->GetFloat()));
+			pEdit->setUserData(properties[i]);
+			pEdit->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 10), CEGUI::UDim(0, height)));
+			pEdit->setSize(CEGUI::UVector2(CEGUI::UDim(1, -20), CEGUI::UDim(0, 30)));
+			pEdit->subscribeEvent(CEGUI::Editbox::EventTextAccepted, CEGUI::Event::Subscriber(&EditorScene::cbPropertyChanged, this));
+			pWndPropertiesInnerPane->addChildWindow(pEdit);
+		} else
+		{
+			CEGUI::Combobox* pEdit = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().createWindow("TaharezLook/Combobox", "Edit/Properties/Pane/Value" + boost::lexical_cast<std::string, int>(i));
+			pEdit->setText(properties[i]->GetEnumerationItem());
+			pEdit->setUserData(properties[i]);
+			pEdit->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 10), CEGUI::UDim(0, height)));
+			pEdit->setSize(CEGUI::UVector2(CEGUI::UDim(1, -20), CEGUI::UDim(0.5, 30)));
+			std::pair<int, std::string> item;
+			BOOST_FOREACH(item, properties[i]->GetEnumeration())
+			{
+				pEdit->addItem(new CEGUI::ListboxTextItem(item.second, 0, (void*)item.first));
+			}
+			
+
+			pEdit->subscribeEvent(CEGUI::Editbox::EventTextAccepted, CEGUI::Event::Subscriber(&EditorScene::cbEnumeratedPropertyChanged, this));
+			pEdit->setReadOnly(true);
+			pWndPropertiesInnerPane->addChildWindow(pEdit);
+		}
+
+
 
 		height+=35;
 	}
@@ -913,10 +883,19 @@ bool EditorScene::cbPropertyChanged(const CEGUI::EventArgs& e)
 	Property* prop = (Property*)we.window->getUserData();
 	try
 	{
-		prop->Set(boost::lexical_cast<float, std::string>(we.window->getText().c_str()));
+		prop->SetFloat(boost::lexical_cast<float, std::string>(we.window->getText().c_str()));
 	} catch(boost::bad_lexical_cast e)
 	{
 		Logger::Instance() << "Unable to parse " << we.window->getText().c_str() << " to a float\n";
 	}
+	return true;
+}
+
+bool EditorScene::cbEnumeratedPropertyChanged(const CEGUI::EventArgs& e)
+{
+	const CEGUI::WindowEventArgs& we = 	static_cast<const CEGUI::WindowEventArgs&>(e);
+	Property* prop = (Property*)we.window->getUserData();
+	const CEGUI::Combobox* cb = static_cast<const CEGUI::Combobox*>(we.window);
+	prop->SetEnumerationValue((int)cb->getSelectedItem()->getUserData());	
 	return true;
 }

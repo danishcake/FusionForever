@@ -33,10 +33,57 @@ spawnRandom = function(ship_type, quantity, min_radius, max_radius)
 	end
 end
 
+spawnBunch = function(ship_type, quantity, delay, position, max_radius)
+	local v3 = Vector:new(0,0)
+	local random_pos = Vector:new(0, 0);
+	
+	for i = 1, quantity do
+		local angle = math.random(0, 360)
+		local radius = max_radius * math.random()
+		local ship_data = challenge:GetShipData(player_id)
+		random_pos.x = math.cos(math.rad(angle)) * radius
+		random_pos.y = math.sin(math.rad(angle)) * radius
+
+		Vector:add(ship_data.position, position, v3)
+		Vector:add(v3, random_pos, v3)
+		
+		challenge:SpawnShip(ship_type, 1, v3, 0, "GW_A.luaAI", 2)
+		challenge:WaitFor(delay)
+	end
+end
+
+allAround = function()
+	local spawnA = coroutine.create(spawnBunch)
+	coroutine.resume(spawnA, "GW_A", 10, 0.04, Vector:new(500, 0), 400)
+	local spawnB = coroutine.create(spawnBunch)
+	coroutine.resume(spawnB, "GW_B", 10, 0.04, Vector:new(-500, 0), 400)
+	while true do
+		if coroutine.status(spawnA) ~= "dead" then
+			coroutine.resume(spawnA)
+		end
+		if coroutine.status(spawnB) ~= "dead" then
+			coroutine.resume(spawnB)
+		end
+		if coroutine.status(spawnA) == "dead" and coroutine.status(spawnB) == "dead" then 
+			return
+		else
+			coroutine.yield()
+		end
+	end
+	
+end
+
 enemySpawn = coroutine.wrap(function()
 	challenge:WaitFor(1)
 
-	spawnRandom("GW_A", 10, 500, 1000)
+	circleOf("GW_A", 10, 1, 0.05, 400)
+	challenge:WaitForAllEnemiesDead(0)
+
+	--spawnBunch("GW_A", 1000, 0.04, Vector:new(500, 0), 500)
+	allAround()
+	challenge:WaitFor(3)
+
+	spawnRandom("GW_A", 100, 500, 1000)
 	challenge:WaitFor(3)
 	print(score)
 	spawnRandom("GW_B", 20, 500, 1000)

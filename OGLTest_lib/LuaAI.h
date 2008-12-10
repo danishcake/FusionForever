@@ -1,12 +1,17 @@
 #pragma once
 #include <string>
 #include "BaseAI.h"
+#include <map>
 
 struct lua_State;
 
 class LuaAI :
 	public BaseAI
 {
+private:
+	static std::map<std::string, int> ai_chunk_reference_;
+	static int ai_sandbox_reference_;
+
 protected:
 	std::string script_name_;
 	lua_State* lua_state_;

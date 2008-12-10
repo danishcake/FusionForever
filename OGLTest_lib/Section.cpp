@@ -237,7 +237,7 @@ bool Section::CheckCollisions(Projectile_ptr _projectile)
 												   _projectile->GetPreviousPosition()))
 			{
 				hasCollided = true; //This is where we decided that the collision has taken place
-				TakeDamage(_projectile->GetDamage());
+				TakeDamage(_projectile->GetDamage(), GetRoot()->GetSectionID());
 				_projectile->SetLifetime(0);
 				if(root_)
 					root_->ImpartMomentum(_projectile->GetVelocity() * _projectile->GetMass(), _projectile->GetGlobalPosition());
@@ -412,10 +412,11 @@ void Section::AttachChildren(std::vector<Section_ptr> _children)
 	sub_sections_.insert(sub_sections_.end(),_children.begin(), _children.end());
 }
 
-void Section::TakeDamage(float _damage)
+void Section::TakeDamage(float _damage, int _section_id)
 {
 	health_-=_damage; 
 	damage_flash_timer_ = SECTION_FLASH_TIME;
+	//TODO report damage here
 }
 
 bool Section::PowerRequirement(float _minimum_power)

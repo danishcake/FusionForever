@@ -4,6 +4,7 @@
 #include "EditorScene.h"
 #include "FadeOutScene.h"
 #include "FadeInScene.h"
+#include "Settings.h"
 #include <sdl.h>
 
 #include <boost/filesystem.hpp>
@@ -46,6 +47,12 @@ bool MenuScene::cbSettingsOK(const CEGUI::EventArgs& e)
 	CEGUI::Window* pWndSettings = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings");
 	pWndSettings->setVisible(false);
 	pWndSettings->setModalState(false);
+
+	CEGUI::Checkbox* pCmbFullscreen = (CEGUI::Checkbox*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings/Fullscreen");
+	Settings::Instance().SetFullscreen(pCmbFullscreen->isSelected());
+
+	
+
 	return true;
 }
 
@@ -180,6 +187,30 @@ MenuScene::MenuScene(void)
 		pBtnCancel->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::cbSettingsCancel, this));
 		pBtnCancel->setText("Cancel");
 		pWndSettings->addChildWindow(pBtnCancel);
+	
+		CEGUI::Combobox* pCmbResolution = (CEGUI::Combobox*)wmgr.createWindow("TaharezLook/Combobox", "Menu/Settings/Resolutions");
+		pCmbResolution->setSize(CEGUI::UVector2(CEGUI::UDim(1, -20), CEGUI::UDim(0.5, 30)));
+		pCmbResolution->setReadOnly(true);
+		pCmbResolution->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 10), CEGUI::UDim(0, 30)));
+		
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("320x240"));
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("640x480"));
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("800x600"));
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("1024x768"));
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("1280x1024"));
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("1600x1200"));
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("800x480"));
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("1024x600"));
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("1280x768"));
+		
+		pWndSettings->addChildWindow(pCmbResolution);
+
+		CEGUI::Checkbox* pCmbCheckbox = (CEGUI::Checkbox*)wmgr.createWindow("TaharezLook/Checkbox", "Menu/Settings/Fullscreen");
+
+		pCmbCheckbox->setSize(CEGUI::UVector2(CEGUI::UDim(1, -20), CEGUI::UDim(0, 30)));
+		pCmbCheckbox->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 10), CEGUI::UDim(0, 70)));
+		pCmbCheckbox->setText("Fullscreen");
+		pWndSettings->addChildWindow(pCmbCheckbox);
 	}
 
 	myRoot->addChildWindow(pWndSettings);

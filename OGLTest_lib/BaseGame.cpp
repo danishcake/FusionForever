@@ -26,7 +26,6 @@ BaseGame::BaseGame(std::string _challenge_filename)
   luaL_openlibs(luaVM_);
   challenge_ = new LuaChallenge(luaVM_, _challenge_filename, this);
   Camera::Instance().SetCentre(0, 0, CameraLevel::None);
-  
 }
 
 BaseGame::~BaseGame(void)
@@ -159,6 +158,41 @@ int BaseGame::Tick(float _timespan)
 			}
 		}
 	}
+
+	//Ship-ship collisions
+	for(int force_a = 0; force_a < MAX_FORCES; force_a++)
+	{
+		for(int force_b = force_a+1; force_b < MAX_FORCES; force_b++)
+		{
+
+			for(int x = 0; x < GRID_SECTIONS; x++)
+			{
+				for(int y = 0; y < GRID_SECTIONS; y++)
+				{
+					std::vector<Section_ptr>& sections_a = collision_managers_[force_a].GetAtCoordinate(x, y);
+					BOOST_FOREACH(Section_ptr a, sections_a)
+					{
+						std::vector<Section_ptr> sections_b;
+						collision_managers_[force_b].GetAtPoint(sections_b, a->GetGlobalPosition());
+						//Logger::Instance() << "Colliding " << ((int)sections_a.size()) << " with " << ((int)sections_b.size()) << "\n";
+						BOOST_FOREACH(Section_ptr b, sections_b)
+						{
+							if(Collisions2f::CirclesIntersect(a->GetGlobalPosition(), a->GetRadius(), b->GetGlobalPosition(), b->GetRadius()))
+							{
+								//If a and b overlap then reduce both healths by minimum of the two healths
+								float lowest_health = a->GetHealth() < b->GetHealth() ? a->GetHealth() : b->GetHealth();
+								a->TakeDamage(lowest_health, b->GetRoot()->GetSectionID());
+								b->TakeDamage(lowest_health, a->GetRoot()->GetSectionID());
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	
+
 	//Get dead sections deathspawn
 	for(int force = 0; force < MAX_FORCES; force++)
 	{

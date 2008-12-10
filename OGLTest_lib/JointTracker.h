@@ -24,6 +24,9 @@ public:
 	  * Sets the SectionType
 	  */
 	virtual void ToXML(TiXmlElement* _node);
+	virtual void GetProperties(std::vector<Property*>& _properties);
+	void SetOnlyWhenFiring(int _value){only_when_firing_ = _value != 0;}
+	int GetOnlyWhenFiring(){return only_when_firing_ ? 1 : 0;}
 protected:
 	virtual void EndSubscription(Subscriber* _source);
 };

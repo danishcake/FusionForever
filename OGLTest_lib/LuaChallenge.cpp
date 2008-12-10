@@ -59,8 +59,6 @@ int LuaChallenge::SpawnShip(std::string _ship_name, int _force, Vector2f _positi
 		std::transform(_ai_script.begin(), _ai_script.end(), _ai_script.begin(), toupper);
 		BaseAI* ai = NULL;
 		if(boost::iequals(_ai_script, std::string("KEYBOARDAI")))
-		//if(std::equal(_ai_script.begin(), _ai_script.begin(), std::string("KEYBOARDAI").begin()))
-		//if(std::equal(_ai_script.begin(), _ai_script.end(), "KEYBOARDAI"))
 		{
 			ai = new KeyboardAI();
 		} else

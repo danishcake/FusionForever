@@ -21,8 +21,10 @@ end
 
 function Vector:normalise()
 	local length = self:length()
-	self.x = self.x / length
-	self.y = self.y / length
+	if length > 0 then
+		self.x = self.x / length
+		self.y = self.y / length
+	end
 	return self
 end
 
@@ -34,6 +36,30 @@ function Vector:cross(vec)
 	return self.x * vec.y - self.y * vec.x
 end
 
+
+--Table reuse functions - use these where possible with a long lived v3
+--This prevents the GC from kicking in too much
+function Vector:subtract(v1, v2, v3)
+	v3.x = v2.x - v1.x
+	v3.y = v2.y - v1.y
+end
+
+function Vector:add(v1, v2, v3)
+	v3.x = v2.x + v1.x
+	v3.y = v2.y + v1.y
+end
+
+function Vector:multiply(v1, s1, v3)
+	v3.x = v1.x * s1
+	v3.y = v1.y * s1
+end
+
+function Vector:divide(v1, s1, v3)
+	v3.x = v1.x / s1
+	v3.y = v1.y / s1
+end
+
+--Table operators - they look good but cause allocation of a new table
 vec_mt.__add = function(vec1, vec2)
 	return Vector:new(vec1.x + vec2.x, vec1.y + vec2.y)
 end

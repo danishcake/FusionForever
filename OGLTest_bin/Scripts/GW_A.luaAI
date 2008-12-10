@@ -6,12 +6,18 @@ local end_time = ship.time + 10
 local swerve_time = 0
 local swerve_type = 0
 local swerve_time_max = 0.3
+
+local dpos = Vector:new(0, 0)
+
 while ship.time < end_time do
 	swerve_time = swerve_time - ship.dtime
 	
     if ship.target.valid == true then
-        local range = (ship.target.position - ship.position):length()
-        local dp = (ship.target.position - ship.position):normalise()
+		Vector:subtract(ship.position, ship.target.position, dpos)
+		local range = dpos:length()
+		local dp = dpos:normalise()
+        --local range = (ship.target.position - ship.position):length()
+        --local dp = (ship.target.position - ship.position):normalise()
 		
 		if math.random() < ship.dtime / 2 then
 			swerve_time = swerve_time_max

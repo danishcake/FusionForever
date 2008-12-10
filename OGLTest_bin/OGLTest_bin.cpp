@@ -149,7 +149,17 @@ int _tmain(int argc, _TCHAR* argv[])
 	bool isFinished = false;
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_WM_SetCaption("SDL Test", "SDL Test");
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
+
 	SDL_Surface* screen = SDL_SetVideoMode(Camera::Instance().GetWindowWidth(), Camera::Instance().GetWindowHeight(), 32, SDL_HWSURFACE | SDL_OPENGL | SDL_DOUBLEBUF | (Settings::Instance().GetFullscreen() ? SDL_FULLSCREEN : 0));
 	if(!screen)
 	{
@@ -159,8 +169,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	glClearColor(0.0f,0.0f,0.0f,0.0f);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_LINE_SMOOTH);
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+	//glEnable(GL_LINE_SMOOTH);
+	//glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 	ltv_time = clock();
 
 	CEGUI::OpenGLRenderer* renderer = new CEGUI::OpenGLRenderer(0, Camera::Instance().GetWindowWidth(), Camera::Instance().GetWindowHeight());

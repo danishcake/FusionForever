@@ -2,6 +2,7 @@
 #include "TrackerArm.h"
 #include "TurningRoutines.h"
 #include "Core.h"
+#include "Property.h"
 
 bool TrackerArm::initialised_ = false;
 int TrackerArm::outline_dl_ = 0;
@@ -105,4 +106,16 @@ void TrackerArm::ToXML(TiXmlElement* _node)
 {
 	Section::ToXML(_node);
 	_node->SetAttribute("SectionType", "TrackerArm");
+}
+
+static void sSetOnlyWhenFiring(Section_ptr _section, int _value){static_cast<TrackerArm*>(_section)->SetOnlyWhenFiring(_value);}
+static int sGetOnlyWhenFiring(Section_ptr _section){return static_cast<TrackerArm*>(_section)->GetOnlyWhenFiring();}
+
+void TrackerArm::GetProperties(std::vector<Property*>& _properties)
+{
+	Section::GetProperties(_properties);
+	Enumeration e;
+	e[0] = "False";
+	e[1] = "True";
+	_properties.push_back(new Property(this, sSetOnlyWhenFiring, sGetOnlyWhenFiring, e, "Only while firing"));
 }

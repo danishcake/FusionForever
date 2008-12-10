@@ -72,8 +72,17 @@ function challenge_:GetShipData(ship_id)
 	local ship = {}
 	ship.position = Vector:new(x, y)
 	ship.angle = angle
-	ship.alive = alive;
+	ship.alive = alive
+	ship.ship_id = ship_id
 	return ship
+end
+
+function challenge_:UpdateShipData(ship_table)
+	local x, y, angle, alive = GetShipData(self.challenge_pointer, ship_table.ship_id)
+	ship_table.position.x = x
+	ship_table.position.y = y
+	ship_table.angle = angle
+	ship_table.alive = alive
 end
 
 function challenge_:Victory()

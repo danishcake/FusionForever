@@ -140,7 +140,7 @@ Core::Core(BaseAI* _AI)
 	energy_ = FlexFloat(100, 100);
 	thrust_ = FlexFloat(100);
 	target_ = NULL;
-    death_function_reference_ = 0;
+	death_function_reference_ = 0;
 }
 
 Core::~Core(void)

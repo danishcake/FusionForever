@@ -2,6 +2,7 @@
 #include "JointTracker.h"
 #include "TurningRoutines.h"
 #include "Core.h"
+#include "Property.h"
 
 bool JointTracker::initialised_ = false;
 int JointTracker::outline_dl_ = 0;
@@ -98,4 +99,16 @@ void JointTracker::ToXML(TiXmlElement* _node)
 {
 	Section::ToXML(_node);
 	_node->SetAttribute("SectionType", "JointTracker");
+}
+
+static void sSetOnlyWhenFiring(Section_ptr _section, int _value){static_cast<JointTracker*>(_section)->SetOnlyWhenFiring(_value);}
+static int sGetOnlyWhenFiring(Section_ptr _section){return static_cast<JointTracker*>(_section)->GetOnlyWhenFiring();}
+
+void JointTracker::GetProperties(std::vector<Property*>& _properties)
+{
+	Section::GetProperties(_properties);
+	Enumeration e;
+	e[0] = "False";
+	e[1] = "True";
+	_properties.push_back(new Property(this, sSetOnlyWhenFiring, sGetOnlyWhenFiring, e, "Only while firing"));
 }

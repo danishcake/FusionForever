@@ -15,6 +15,7 @@ public:
 	virtual void Clear();
 	virtual void Register(Section_ptr _section);
 	virtual void GetAtPoint(std::vector<Section_ptr>& _result, Vector3f _point);
+	std::vector<Section_ptr>& GetAtCoordinate(int _x, int _y){return sections_[_x][_y];}
 	virtual void Render();
 
 private:

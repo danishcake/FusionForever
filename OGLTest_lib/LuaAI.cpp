@@ -9,6 +9,9 @@ extern "C"
 #include "lauxlib.h"
 }
 
+std::map<std::string, int> LuaAI::ai_chunk_reference_ = std::map<std::string, int>();
+int LuaAI::ai_sandbox_reference_ = 0;
+
 static int l_PickRandomTarget(lua_State* luaVM)
 {
 	LuaAI* instance = ((LuaAI*)(lua_touserdata(luaVM, -1)));
@@ -123,6 +126,17 @@ void LuaAI::RegisterLuaFunctions(lua_State* _luaVM)
 		lua_register(_luaVM, "PickRandomTarget", l_PickRandomTarget);
 		lua_register(_luaVM, "PickClosestTarget", l_PickClosestTarget);
 		lua_register(_luaVM, "SetCameraPosition", l_SetCameraPosition);
+
+		int env_load_error = luaL_loadfile(_luaVM, "AI_sandbox.lua");
+		//Either have error message or chunk on stack
+		if(env_load_error != 0 )
+		{
+			Logger::Instance() << lua_tostring(_luaVM, -1);
+			ai_sandbox_reference_ = 0;
+		} else
+		{
+			ai_sandbox_reference_ = luaL_ref(_luaVM, LUA_REGISTRYINDEX);
+		}
 	}
 	initialised_lua = true;
 }
@@ -152,8 +166,8 @@ LuaAI::~LuaAI(void)
 		luaL_unref(lua_state_, LUA_REGISTRYINDEX, coroutine_reference_);
 	if(environment_reference_)
 		luaL_unref(lua_state_, LUA_REGISTRYINDEX, environment_reference_);
-	if(chunk_reference_)
-		luaL_unref(lua_state_, LUA_REGISTRYINDEX, chunk_reference_);
+
+	//Don't remove chunk cooroutine
 
 	if(target_)
 		target_->RemoveSubscriber(this);
@@ -166,13 +180,14 @@ bool LuaAI::initialise_coroutine()
 		lua_rawgeti(lua_state_, LUA_REGISTRYINDEX, chunk_reference_); //Gets the function ready for setfenv
 
 		/* Sandbox a file*/
-		int env_load_error = luaL_loadfile(lua_state_, "AI_sandbox.lua");
-		//Either have error message or chunk on stack
-		if(env_load_error != 0 )
+		//If the reference is zero then there was some problem loading it earlier (in initialiseLua)
+		if(ai_sandbox_reference_ == 0)
 		{
 			Logger::Instance() << lua_tostring(lua_state_, -1);
 			return false;
 		}
+		lua_rawgeti(lua_state_, LUA_REGISTRYINDEX, ai_sandbox_reference_);
+
 
 		//The environment has a reference to this class in it...
 		lua_pushlightuserdata(lua_state_, this);
@@ -207,10 +222,11 @@ void LuaAI::resume_coroutine(Core_ptr _self, float _timespan)
 	assert(lua_gettop(lua_state_) == 0);
 	if(coroutine_reference_ && ok_to_run_)
 	{
+		lua_rawgeti(lua_state_, LUA_REGISTRYINDEX, chunk_reference_);
 		lua_rawgeti(lua_state_, LUA_REGISTRYINDEX, coroutine_reference_);
 		lua_State* thread = lua_tothread(lua_state_, -1);
 		lua_pop(lua_state_, 1);
-		assert(lua_gettop(lua_state_) == 0);
+		assert(lua_gettop(lua_state_) == 1);
 		
 		//Obtain ship object and update position etc
 		lua_rawgeti(lua_state_, LUA_REGISTRYINDEX, environment_reference_);
@@ -220,7 +236,7 @@ void LuaAI::resume_coroutine(Core_ptr _self, float _timespan)
 				lua_pushstring(lua_state_, "time");
 					lua_pushnumber(lua_state_, sum_time_);
 			lua_settable(lua_state_,-3);										//Sets ship.time to sum_time_
-                lua_pushstring(lua_state_, "dtime");
+				lua_pushstring(lua_state_, "dtime");
 					lua_pushnumber(lua_state_, _timespan);
 			lua_settable(lua_state_,-3);										//Sets ship.dtime to _timespan
 				lua_pushstring(lua_state_, "angle");
@@ -256,7 +272,10 @@ void LuaAI::resume_coroutine(Core_ptr _self, float _timespan)
 						lua_pushnumber(lua_state_, target_->GetAngle());
 				lua_settable(lua_state_, -3);
 			}
-		lua_pop(lua_state_, 3); //Pops ship, target and environment from stack
+		lua_pop(lua_state_, 2); //Pops ship, target from stack
+		lua_setfenv(lua_state_, -2);
+		lua_pop(lua_state_, 1);
+
 		assert(lua_gettop(lua_state_) == 0);
 		int resume_result = lua_resume(thread, 0);
 		if(resume_result == LUA_YIELD)
@@ -283,7 +302,7 @@ AIAction LuaAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vecto
 	/* which will call methods on the LuaAI, setting	*/
 	/* the next_move_									*/
 
-	//TODO add timer so script can keep track of time
+
 	self_ = _self;
 	next_move_ = AIAction();
 	sum_time_ += _timespan;
@@ -328,20 +347,29 @@ AIAction LuaAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vecto
 
 LuaAI* LuaAI::FromScript(std::string _file_name, lua_State *_luaVM)
 {
-	//This just checks the file can be loaded before instanciating a LuaAI
-	int load_result = luaL_loadfile(_luaVM, (std::string("scripts/ai/") + _file_name).c_str());
-	if(load_result==0)
+	if(ai_chunk_reference_.find(_file_name) != ai_chunk_reference_.end())
 	{
-		int chunk_ref = luaL_ref(_luaVM, LUA_REGISTRYINDEX);
-		Logger::Instance() << "AI loaded OK\n";
-		return new LuaAI(_file_name, chunk_ref, _luaVM);
+		//Logger::Instance() << "Loading chached ai\n";
+		return new LuaAI(_file_name, ai_chunk_reference_[_file_name], _luaVM);
 	} else
 	{
-		std::string error_string = lua_tostring(_luaVM, -1);
-		lua_pop(_luaVM, 1);
-		Logger::Instance() << "Load AI script error: " << error_string << "\n";
-		return NULL;
+		//This just checks the file can be loaded before instanciating a LuaAI
+		int load_result = luaL_loadfile(_luaVM, (std::string("scripts/ai/") + _file_name).c_str());
+		if(load_result==0)
+		{
+			int chunk_ref = luaL_ref(_luaVM, LUA_REGISTRYINDEX);
+			ai_chunk_reference_[_file_name] = chunk_ref;
+			//Logger::Instance() << "Loading uncached ai\n";
+			return new LuaAI(_file_name, chunk_ref, _luaVM);
+		} else
+		{
+			std::string error_string = lua_tostring(_luaVM, -1);
+			lua_pop(_luaVM, 1);
+			Logger::Instance() << "Load AI script error: " << error_string << "\n";
+			return NULL;
+		}
 	}
+	
 }
 
 void LuaAI::EndSubscription(Subscriber* _source)

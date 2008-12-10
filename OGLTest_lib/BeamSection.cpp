@@ -56,7 +56,7 @@ void BeamSection::Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec,
 
 	if(has_hit)
 	{
-		closest_hit_section->TakeDamage(_timespan * damage_per_second_);
+		closest_hit_section->TakeDamage(_timespan * damage_per_second_, firer_id_);
 		if(deco_cooldown_<=0)
 		{
 			deco_cooldown_ = 0.025f;

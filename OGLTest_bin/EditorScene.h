@@ -43,6 +43,7 @@ public:
 
 	bool cbSetCoreToSquareCore(const CEGUI::EventArgs& e);
 	bool cbSetCoreToTinyCore(const CEGUI::EventArgs& e);
+	bool cbSetCoreToXMLCore(const CEGUI::EventArgs& e);
 	bool cbAddBlaster(const CEGUI::EventArgs& e);
 	bool cbAddHeatBeam(const CEGUI::EventArgs& e);
 	bool cbAddHomingMissileLauncher(const CEGUI::EventArgs& e);
@@ -66,6 +67,7 @@ public:
 	bool cbBackgroundMouseLeave(const CEGUI::EventArgs& e);
 
 	bool cbPropertyChanged(const CEGUI::EventArgs& e);
+	bool cbEnumeratedPropertyChanged(const CEGUI::EventArgs& e);
 
 
 
