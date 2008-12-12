@@ -8,7 +8,7 @@ int JointAngles::outline_verts_index_ = 0;
 int JointAngles::fill_dl_ = 0;
 int JointAngles::fill_verts_index_ = 0;
 
-JointAngles::JointAngles(float _first_angle, float _second_angle, float _transition_time, float _pause_time)
+JointAngles::JointAngles()
 : Section()
 {
 	if(!initialised_)
@@ -23,10 +23,10 @@ JointAngles::JointAngles(float _first_angle, float _second_angle, float _transit
 	findRadius();
 
 	health_ = FlexFloat(800, 800);
-	first_angle_ = _first_angle;
-	second_angle_ = _second_angle;
-	transition_time_ = _transition_time;
-	pause_time_ = _pause_time;
+	first_angle_ = 30.0f;
+	second_angle_ = -30.0f;
+	transition_time_ = 1;
+	pause_time_ = 1;
 	default_sub_section_position_ = Vector3f(0, 0, 0);
 	mass_ = 200;
 }
@@ -109,3 +109,30 @@ void JointAngles::ToXML(TiXmlElement* _node)
 	Section::ToXML(_node);
 	_node->SetAttribute("SectionType", "JointAngles");
 }
+
+bool JointAngles::ParseSpecific(TiXmlElement* _node)
+{
+	float first_angle = 30;
+	float second_angle = -30;
+	float transition_time = 1;
+	float pause_time = 1;
+	//Query parameters specific to JointAngles
+	_node->QueryFloatAttribute("FirstAngle", &first_angle);
+	_node->QueryFloatAttribute("SecondAngle", &second_angle);
+	_node->QueryFloatAttribute("TransitionTime", &transition_time);
+	_node->QueryFloatAttribute("PauseTime", &pause_time);
+
+	first_angle_ = first_angle;
+	second_angle = second_angle_;
+	transition_time = transition_time_;
+	pause_time = pause_time_;
+	return true;
+}
+
+/* Factory method - creates and instance of the section. Automatically registered with
+   a global map via the static variable below */
+static Section_ptr CreateInstance()
+{
+	return new JointAngles();
+}
+static ListAdder l = ListAdder(CreateInstance, "JointAngles");

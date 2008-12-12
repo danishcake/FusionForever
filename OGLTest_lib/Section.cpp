@@ -494,3 +494,8 @@ void Section::GetProperties(std::vector<Property*>& _properties )
 	_properties.push_back(new Property(this, sSetHealth, sGetHealth, "Health"));
 	_properties.push_back(new Property(this, sSetFiringDelay, sGetFiringDelay, "FiringDelay"));
 }
+
+bool Section::ParseSpecific(TiXmlElement* _node)
+{
+	return true;
+}

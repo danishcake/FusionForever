@@ -338,36 +338,29 @@ Section_ptr Core::ParseSection(TiXmlElement* _section_element)
 	{
 		//Lookup section in map of hardcoded Cores
 		Section_types::Enum section_type = Section_types::FromStr(section_string);
+		section = ListAdder::GetSection(section_string);
+		if(!section)
+		{
+			//Attempt to find XMLSection
+			section = XMLSection::CreateXMLSection(section_string);
+			if(!section)
+			{
+				//Can't find, log error
+				Logger::LogError("Unable to find section type" + section_string);
+			}
+		}
+
+		/*
 		switch(section_type)
 		{
 			case Section_types::JointAngles:
-				{
-					float first_angle = 30;
-					float second_angle = -30;
-					float transition_time = 1;
-					float pause_time = 1;
-					//Query parameters specific to JointAngles
-					_section_element->QueryFloatAttribute("FirstAngle", &first_angle);
-					_section_element->QueryFloatAttribute("SecondAngle", &second_angle);
-					_section_element->QueryFloatAttribute("TransitionTime", &transition_time);
-					_section_element->QueryFloatAttribute("PauseTime", &pause_time);
-					section = new JointAngles(first_angle, second_angle, transition_time, pause_time);
-				}
+				section = new JointAngles();
 				break;
 			case Section_types::JointTracker:
-				{
-					bool only_when_firing = false;
-					//Query parameters specific to JointTrackers
-					_section_element->QueryValueAttribute("OnlyWhenFiring", &only_when_firing);
-					section = new JointTracker(only_when_firing);
-				}
+				section = new JointTracker();
 				break;
 			case Section_types::SpinningJoint:
-				{
-					float degrees_per_second = 45;
-					_section_element->QueryFloatAttribute("RotationRate", &degrees_per_second);
-					section = new SpinningJoint(degrees_per_second);
-				}
+				section = new SpinningJoint();
 				break;
 			case Section_types::Blaster:
 				section = new Blaster();
@@ -388,7 +381,7 @@ Section_ptr Core::ParseSection(TiXmlElement* _section_element)
 				section = new PlasmaArtillery();
 				break;
 			case Section_types::TrackerArm:
-				section = new TrackerArm(false);
+				section = new TrackerArm();
 				break;
 			default:
 				//Attempt to find XMLSection
@@ -399,11 +392,12 @@ Section_ptr Core::ParseSection(TiXmlElement* _section_element)
 					Logger::LogError("Unable to find section type" + section_string);
 				}
 				break;
-		}
+		}*/
 		if(section)
 		{
 			//Now query any standard section atttributes
 			ParseCommon(_section_element, section);
+			section->ParseSpecific(_section_element);
 			//Now query any non core attributes
 			Vector3f position = section->GetPosition();
 			if((_section_element->QueryValueAttribute("x", &position.x) == TIXML_SUCCESS) |

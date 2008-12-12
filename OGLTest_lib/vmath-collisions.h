@@ -402,7 +402,7 @@ public:
 	 */
    static bool LineInPolygon(const Vector3<T> P1, const Vector3<T> P2, const Vector3<T>* hull, const int num_points)
    {
-      Vector3f intersectionPoint;
+      Vector3<T> intersectionPoint;
       for(int i = 0; i < num_points-1; i++)
       {
          if(LineSegmentsIntersect(P1, P2, hull[i], hull[i+1], intersectionPoint))
@@ -410,7 +410,25 @@ public:
       }
       return false;
    }
-
+   
+      /**
+     * Determines if a line segment intersects with a polygon. Returns on first encountered point
+     * @param P1 The first point in the line segment
+     * @param P2 The second point in the line segment
+     * @param hull A pointer to an array of points forming the hull
+     * @param num_points The number of poits in the hull
+     */
+   static bool LineInPolygon(const Vector2<T> P1, const Vector2<T> P2, const Vector2<T>* hull, const int num_points)
+   {
+      Vector2<T> intersectionPoint;
+      for(int i = 0; i < num_points-1; i++)
+      {
+         if(LineSegmentsIntersect(P1, P2, hull[i], hull[i+1], intersectionPoint))
+            return true;
+      }
+      return false;
+   }
+   
    /**
      * Determines if a line segment intersects with a polygon. Returns on after testing all points
      * @param P1 The first point in the line segment
@@ -421,7 +439,7 @@ public:
      */
    static bool LineInPolygon(const Vector3<T> P1, const Vector3<T> P2, const Vector3<T>* hull, const int num_points, Vector3<T>& out)
    {
-      Vector3f intersectionPoint;
+      Vector3<T> intersectionPoint;
       float lengthSqOfIntersection;
       bool has_intersected = false;
       for(int i = 0; i < num_points; i++)
@@ -440,6 +458,66 @@ public:
       return has_intersected;
    }
 
+         /**
+     * Determines if two polygon meshes specified as a list of triangles overlap. Returns on first encountered point
+     * @param mesh_a The fist triangle list
+     * @param mesh_b The second triangle list
+     * @param num_triangles_a The number of triangles in the mesh
+     * @param num_triangles_b The number of triangles in the mesh
+     */
+   static bool PolygonIntersectsPolygon(const Vector2<T>* mesh_a, const int num_triangles_a, const Vector2<T>* mesh_b, const int num_triangles_b)
+   {
+      Vector2<T> intersectionPoint;
+      for(int i = 0; i < num_triangles_a; i++)
+      {
+         for(int j = 0; j < num_triangles_b; j++)
+         {
+             if(LineSegmentsIntersect(mesh_a[i * 3 + 0],   mesh_a[i * 3 + 1], mesh_b[j * 3 + 0],  mesh_b[j * 3 + 1], intersectionPoint) ||
+                LineSegmentsIntersect(mesh_a[i * 3 + 1],   mesh_a[i * 3 + 2], mesh_b[j * 3 + 0],  mesh_b[j * 3 + 1], intersectionPoint) ||
+                LineSegmentsIntersect(mesh_a[i * 3 + 0],   mesh_a[i * 3 + 2], mesh_b[j * 3 + 0],  mesh_b[j * 3 + 1], intersectionPoint) ||
+                LineSegmentsIntersect(mesh_a[i * 3 + 0],   mesh_a[i * 3 + 1], mesh_b[j * 3 + 1],  mesh_b[j * 3 + 2], intersectionPoint) ||
+                LineSegmentsIntersect(mesh_a[i * 3 + 1],   mesh_a[i * 3 + 2], mesh_b[j * 3 + 1],  mesh_b[j * 3 + 2], intersectionPoint) ||
+                LineSegmentsIntersect(mesh_a[i * 3 + 0],   mesh_a[i * 3 + 2], mesh_b[j * 3 + 1],  mesh_b[j * 3 + 2], intersectionPoint) ||
+                LineSegmentsIntersect(mesh_a[i * 3 + 0],   mesh_a[i * 3 + 1], mesh_b[j * 3 + 0],  mesh_b[j * 3 + 2], intersectionPoint) ||
+                LineSegmentsIntersect(mesh_a[i * 3 + 1],   mesh_a[i * 3 + 2], mesh_b[j * 3 + 0],  mesh_b[j * 3 + 2], intersectionPoint) ||
+                LineSegmentsIntersect(mesh_a[i * 3 + 0],   mesh_a[i * 3 + 2], mesh_b[j * 3 + 0],  mesh_b[j * 3 + 2], intersectionPoint))
+                return true;
+         }
+      }
+
+      return false;
+   }
+   
+         /**
+     * Determines if two polygon meshes specified as a list of triangles overlap. Returns on first encountered point
+     * @param mesh_a The fist triangle list
+     * @param mesh_b The second triangle list
+     * @param num_triangles_a The number of triangles in the mesh
+     * @param num_triangles_b The number of triangles in the mesh
+     */
+   static bool PolygonIntersectsPolygon(const Vector3<T>* mesh_a, const int num_triangles_a, const Vector3<T>* mesh_b, const int num_triangles_b)
+   {
+      Vector3<T> intersectionPoint;
+      for(int i = 0; i < num_triangles_a; i++)
+      {
+         for(int j = 0; j < num_triangles_b; j++)
+         {
+             if(LineSegmentsIntersect(mesh_a[i * 3 + 0],   mesh_a[i * 3 + 1], mesh_b[j * 3 + 0],  mesh_b[j * 3 + 1], intersectionPoint) ||
+                LineSegmentsIntersect(mesh_a[i * 3 + 1],   mesh_a[i * 3 + 2], mesh_b[j * 3 + 0],  mesh_b[j * 3 + 1], intersectionPoint) ||
+                LineSegmentsIntersect(mesh_a[i * 3 + 0],   mesh_a[i * 3 + 2], mesh_b[j * 3 + 0],  mesh_b[j * 3 + 1], intersectionPoint) ||
+                LineSegmentsIntersect(mesh_a[i * 3 + 0],   mesh_a[i * 3 + 1], mesh_b[j * 3 + 1],  mesh_b[j * 3 + 2], intersectionPoint) ||
+                LineSegmentsIntersect(mesh_a[i * 3 + 1],   mesh_a[i * 3 + 2], mesh_b[j * 3 + 1],  mesh_b[j * 3 + 2], intersectionPoint) ||
+                LineSegmentsIntersect(mesh_a[i * 3 + 0],   mesh_a[i * 3 + 2], mesh_b[j * 3 + 1],  mesh_b[j * 3 + 2], intersectionPoint) ||
+                LineSegmentsIntersect(mesh_a[i * 3 + 0],   mesh_a[i * 3 + 1], mesh_b[j * 3 + 0],  mesh_b[j * 3 + 2], intersectionPoint) ||
+                LineSegmentsIntersect(mesh_a[i * 3 + 1],   mesh_a[i * 3 + 2], mesh_b[j * 3 + 0],  mesh_b[j * 3 + 2], intersectionPoint) ||
+                LineSegmentsIntersect(mesh_a[i * 3 + 0],   mesh_a[i * 3 + 2], mesh_b[j * 3 + 0],  mesh_b[j * 3 + 2], intersectionPoint))
+                return true;
+         }
+      }
+
+      return false;
+   }
+   
 private:
 	/**
 	* Gets twice the area of a triangle using the determinant method.
@@ -472,17 +550,6 @@ private:
 
 typedef Collisions2<float> Collisions2f;
 typedef Collisions2<double> Collisions2d;
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -18,8 +18,9 @@ protected:
 	float angle_range_;
 	float angle_centre_;
 
+	virtual void EndSubscription(Subscriber* _source);
 public:
-	TrackerArm(bool _only_when_firing);
+	TrackerArm();
 	virtual ~TrackerArm(void);
 	virtual void Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager);
 	virtual void SetAngle(float _angle){angle_ = _angle; angle_centre_ = _angle;}
@@ -31,6 +32,10 @@ public:
 
 	void SetOnlyWhenFiring(int _value){only_when_firing_ = _value != 0;}
 	int GetOnlyWhenFiring(){return only_when_firing_ ? 1 : 0;}
-protected:
-	virtual void EndSubscription(Subscriber* _source);
+
+	/*
+	 * To be overriden by call sub classes that require special parameters.
+	 * @return False on missing required elements.
+	 */
+	virtual bool ParseSpecific(TiXmlElement* _node);
 };

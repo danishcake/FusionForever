@@ -389,6 +389,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ListAdder.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Logger.cpp"
 					>
 				</File>
@@ -704,6 +708,10 @@
 				</File>
 				<File
 					RelativePath=".\ICollisionManager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ListAdder.h"
 					>
 				</File>
 				<File

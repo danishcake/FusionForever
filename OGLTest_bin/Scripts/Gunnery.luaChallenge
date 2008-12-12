@@ -1,6 +1,6 @@
 playerLives = coroutine.wrap(function()
 	challenge:WaitFor(2)
-	player_id = challenge:SpawnShip("KineticA", 0, Vector:new(200, 0), 0, "KeyboardAI", 3)
+	player_id = challenge:SpawnShip("KineticA", 0, Vector:new(200, 0), 0, "KeyboardAI", 1)
 	challenge:WaitForDeath(player_id)
 	challenge:WaitFor(1)
 

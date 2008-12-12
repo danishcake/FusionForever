@@ -11,6 +11,7 @@ class LuaAI :
 private:
 	static std::map<std::string, int> ai_chunk_reference_;
 	static int ai_sandbox_reference_;
+	static bool initialised_lua_;
 
 protected:
 	std::string script_name_;
@@ -56,5 +57,5 @@ public:
 
 	virtual void EndSubscription(Subscriber* _source);
 
-	static bool initialised_lua;
+	static void SetUninitialised(){initialised_lua_ = false; ai_sandbox_reference_ = 0; ai_chunk_reference_.clear();}
 };

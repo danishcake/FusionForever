@@ -99,3 +99,11 @@ void HomingMissileLauncher::ToXML(TiXmlElement* _node)
 	Section::ToXML(_node);
 	_node->SetAttribute("SectionType", "HomingMissileLauncher");
 }
+
+/* Factory method - creates and instance of the section. Automatically registered with
+   a global map via the static variable below */
+static Section_ptr CreateInstance()
+{
+	return new HomingMissileLauncher();
+}
+static ListAdder l = ListAdder(CreateInstance, "HomingMissileLauncher");

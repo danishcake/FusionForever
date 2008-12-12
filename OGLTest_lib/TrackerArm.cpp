@@ -12,7 +12,7 @@ int TrackerArm::fill_verts_index_ = 0;
 
 static const float TURN_RATE = 90.0f;
 
-TrackerArm::TrackerArm(bool _only_when_firing)
+TrackerArm::TrackerArm()
 : Section()
 {
 	if(!initialised_)
@@ -30,7 +30,7 @@ TrackerArm::TrackerArm(bool _only_when_firing)
 	health_ = FlexFloat(800, 800);
 	default_sub_section_position_ = Vector3f(0, 0, 0);
 	mass_ = 200;
-	only_when_firing_ = _only_when_firing;
+	only_when_firing_ = false;
 	angle_range_ = 30.0f;
 	angle_centre_ = angle_;
 }
@@ -119,3 +119,20 @@ void TrackerArm::GetProperties(std::vector<Property*>& _properties)
 	e[1] = "True";
 	_properties.push_back(new Property(this, sSetOnlyWhenFiring, sGetOnlyWhenFiring, e, "Only while firing"));
 }
+
+bool TrackerArm::ParseSpecific(TiXmlElement* _node)
+{
+	bool only_when_firing = false;
+	//Query parameters specific to JointTrackers
+	_node->QueryValueAttribute("OnlyWhenFiring", &only_when_firing);
+	only_when_firing_ = only_when_firing;
+	return true;
+}
+
+/* Factory method - creates and instance of the section. Automatically registered with
+   a global map via the static variable below */
+static Section_ptr CreateInstance()
+{
+	return new TrackerArm();
+}
+static ListAdder l = ListAdder(CreateInstance, "TrackerArm");

@@ -11,6 +11,7 @@
 #include "Datastore.h"
 #include "Camera.h"
 #include "FlexFloat.h"
+#include "ListAdder.h"
 
 
 class Section;
@@ -90,7 +91,6 @@ public:
 	virtual void Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager);
 	virtual void GetDeathSpawn(std::vector<Decoration_ptr>& _spawn_dec);
 
-
 	//Getters/Setters
 	const float GetHealth(){return health_.GetValue();}
 	void SetMaxHealth(float _max_health){health_.SetMaxValue(_max_health);}
@@ -136,6 +136,12 @@ public:
 	 * To be overriden by call sub classes, then called to set the basics
 	 */
 	virtual void ToXML(TiXmlElement* _node);
+
+	/*
+	 * To be overriden by call sub classes that require special parameters.
+	 * @return False on missing required elements.
+	 */
+	virtual bool ParseSpecific(TiXmlElement* _node);
 
 	void SaveToXML(std::string _filename);
 };

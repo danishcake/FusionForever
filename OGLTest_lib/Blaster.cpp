@@ -86,3 +86,10 @@ void Blaster::ToXML(TiXmlElement* _node)
 	Section::ToXML(_node);
 	_node->SetAttribute("SectionType", "Blaster");
 }
+
+static Section_ptr CreateInstance()
+{
+	return new Blaster();
+}
+
+static ListAdder l = ListAdder(CreateInstance, "Blaster");

@@ -47,11 +47,12 @@ bool EditorScene::cbSave(const CEGUI::EventArgs& e)
 		return true;
 	CEGUI::Window* pWndSave = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/SaveDialogue");
 	CEGUI::Listbox* pLbShips = (CEGUI::Listbox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/SaveDialogue/Shiplist");
+	CEGUI::Editbox* pTbFilename = (CEGUI::Editbox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/SaveDialogue/Filename");
 	pWndSave->setVisible(true);
 	pWndSave->setModalState(true);
 
 	pLbShips->resetList();
-	
+
 	const CEGUI::Image* sel_img = &CEGUI::ImagesetManager::getSingleton().getImageset("TaharezLook")->getImage("MultiListSelectionBrush");
 
 	boost::filesystem::directory_iterator end_itr;	
@@ -70,6 +71,8 @@ bool EditorScene::cbSave(const CEGUI::EventArgs& e)
 			}
 		}
 	}
+
+	pTbFilename->setText(filename_);
 
 	return true;
 }
@@ -92,6 +95,7 @@ bool EditorScene::cbSaveDialogueSave(const CEGUI::EventArgs& e)
 	CEGUI::Editbox* pTbFilename = (CEGUI::Editbox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/SaveDialogue/Filename");
 
 	game_->GetCore()->SaveToXML(std::string(pTbFilename->getText().c_str()) + std::string(".xmlShip"));
+	filename_ = pTbFilename->getText().c_str();
 	return true;
 }
 
@@ -149,6 +153,7 @@ bool EditorScene::cbLoadDialogueLoad(const CEGUI::EventArgs& e)
 			loaded_core->OverrideAI(new RotatingAI(0));
 			game_->LoadCore(loaded_core);
 			SetSelected(loaded_core);
+			filename_ = filename;
 		} else
 		{
 			Logger::Instance() << "Unable to load core \"" << filename << "\n";
@@ -285,7 +290,7 @@ bool EditorScene::cbAddJointAngles(const CEGUI::EventArgs& e)
 {
 	if(selection_ != NULL)
 	{
-		Section_ptr section = new JointAngles(-30,30,1,1);
+		Section_ptr section = new JointAngles();
 		selection_->AddChild(section);
 		SetSelected(section);
 	}
@@ -296,7 +301,7 @@ bool EditorScene::cbAddJointTracker(const CEGUI::EventArgs& e)
 {
 	if(selection_ != NULL)
 	{
-		Section_ptr section = new JointTracker(false);
+		Section_ptr section = new JointTracker();
 		selection_->AddChild(section);
 		SetSelected(section);
 	}
@@ -307,7 +312,7 @@ bool EditorScene::cbAddSpinningJoint(const CEGUI::EventArgs& e)
 {
 	if(selection_ != NULL)
 	{
-		Section_ptr section = new SpinningJoint(90);
+		Section_ptr section = new SpinningJoint();
 		selection_->AddChild(section);
 		SetSelected(section);
 	}

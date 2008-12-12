@@ -115,10 +115,10 @@ void LuaAI::SetCameraPosition(float _x, float _y)
 	Camera::Instance().SetFocus(self_->GetPosition().x, self_->GetPosition().y, CameraLevel::Intro);
 }
 
-bool LuaAI::initialised_lua = false;
+bool LuaAI::initialised_lua_ = false;
 void LuaAI::RegisterLuaFunctions(lua_State* _luaVM)
 {
-	if(!initialised_lua)
+	if(!initialised_lua_)
 	{
 		lua_register(_luaVM, "SetMoveDirection", l_SetMoveDirection);
 		lua_register(_luaVM, "SetTurnDirection", l_SetTurnDirection);
@@ -138,7 +138,7 @@ void LuaAI::RegisterLuaFunctions(lua_State* _luaVM)
 			ai_sandbox_reference_ = luaL_ref(_luaVM, LUA_REGISTRYINDEX);
 		}
 	}
-	initialised_lua = true;
+	initialised_lua_ = true;
 }
 
 LuaAI::LuaAI(std::string _file_name, int _chunk_reference, lua_State* _luaVM)

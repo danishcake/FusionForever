@@ -20,7 +20,7 @@ protected:
 	float total_time_;
 
 public:
-	JointAngles(float _first_angle, float _second_angle, float _transition_time, float _pause_time);
+	JointAngles();
 	virtual ~JointAngles(void);
 	virtual void Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager);
 
@@ -43,4 +43,10 @@ public:
 	  * Sets the SectionType
 	  */
 	virtual void ToXML(TiXmlElement* _node);
+
+	/*
+	 * To be overriden by call sub classes that require special parameters.
+	 * @return False on missing required elements.
+	 */
+	virtual bool ParseSpecific(TiXmlElement* _node);
 };

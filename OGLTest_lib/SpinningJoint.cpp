@@ -8,7 +8,7 @@ int SpinningJoint::outline_verts_index_ = 0;
 int SpinningJoint::fill_dl_ = 0;
 int SpinningJoint::fill_verts_index_ = 0;
 
-SpinningJoint::SpinningJoint(float _degrees_per_second)
+SpinningJoint::SpinningJoint()
 : Section()
 {
 	if(!initialised_)
@@ -23,7 +23,7 @@ SpinningJoint::SpinningJoint(float _degrees_per_second)
 	findRadius();
 
 	health_ = FlexFloat(800, 800);
-	degrees_per_second_ = _degrees_per_second;
+	degrees_per_second_ = 90;
 	default_sub_section_position_ = Vector3f(0, 0, 0);
 	mass_ = 200;
 }
@@ -79,3 +79,19 @@ void SpinningJoint::ToXML(TiXmlElement* _node)
 	Section::ToXML(_node);
 	_node->SetAttribute("SectionType", "SpinningJoint");
 }
+
+bool SpinningJoint::ParseSpecific(TiXmlElement* _node)
+{
+	float degrees_per_second = 45;
+	_node->QueryFloatAttribute("RotationRate", &degrees_per_second);
+	degrees_per_second_ = degrees_per_second;
+	return true;
+}
+
+/* Factory method - creates and instance of the section. Automatically registered with
+   a global map via the static variable below */
+static Section_ptr CreateInstance()
+{
+	return new SpinningJoint();
+}
+static ListAdder l = ListAdder(CreateInstance, "SpinningJoint");

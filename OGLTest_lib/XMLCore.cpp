@@ -48,6 +48,14 @@ XMLCore* XMLCore::CreateXMLCore(std::string _name)
 		if(section.LoadFile())
 		{
 			TiXmlHandle section_handle = TiXmlHandle(&section);
+
+			TiXmlElement* core_def = section_handle.FirstChild("CoreDefinition").Element();
+			if(!core_def)
+			{
+				Logger::LogError(std::string("Error parsing XMLCore") + file_name + std::string(" - no CoreDefinition element defined at root"));
+				return NULL;
+			}
+
 			TiXmlElement* health_element =					section_handle.FirstChild("CoreDefinition").FirstChild("Health").Element();
 			TiXmlElement* mass_element =					section_handle.FirstChild("CoreDefinition").FirstChild("Mass").Element();
 			TiXmlElement* outline_element =					section_handle.FirstChild("CoreDefinition").FirstChild("Outline").Element();

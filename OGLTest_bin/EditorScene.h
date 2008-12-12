@@ -87,4 +87,6 @@ protected:
 
 	Section* selection_;
 	EditorDragMode::Enum drag_mode_;
+
+	std::string filename_;
 };
