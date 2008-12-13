@@ -7,8 +7,6 @@
 #include "Camera.h"
 #include <sdl.h>
 
-#include "SquareCore.h"
-#include "TinyCore.h"
 #include "XMLCore.h"
 
 #include "Blaster.h"
@@ -27,6 +25,28 @@
 
 #include <boost/filesystem.hpp>
 
+bool EditorScene::cbAddSection(const CEGUI::EventArgs& e)
+{
+	const CEGUI::WindowEventArgs& we = 	static_cast<const CEGUI::WindowEventArgs&>(e);
+	if(selection_ != NULL)
+	{
+		Section_ptr section = NULL;
+		section = ListAdder::GetSection(we.window->getText().c_str());
+		if(!section)
+			XMLSection::CreateXMLSection(we.window->getText().c_str());
+		if(section != NULL)
+		{
+			selection_->AddChild(section);
+			SetSelected(section);
+			
+		} else
+		{
+			Logger::LogError("Unable to load section in editor from either XML or hardcoded list");
+			Logger::LogError(we.window->getText().c_str());
+		}
+	}
+	return true;
+}
 
 bool EditorScene::cbReturnToMenu(const CEGUI::EventArgs& e)
 {
@@ -205,136 +225,6 @@ bool EditorScene::cbDeleteTree(const CEGUI::EventArgs& e)
 		parent->AttachChildren(detached);
 
 		SetSelected(parent);
-	}
-	return true;
-}
-
-bool EditorScene::cbSetCoreToSquareCore(const CEGUI::EventArgs& e)
-{
-	game_->SetCore(new SquareCore(new RotatingAI(0.00f)));
-	SetSelected(static_cast<Section_ptr>(this->game_->GetCore()));
-	return true;
-}
-
-bool EditorScene::cbSetCoreToTinyCore(const CEGUI::EventArgs& e)
-{
-	game_->SetCore(new TinyCore(new RotatingAI(0.00f)));
-	SetSelected(static_cast<Section_ptr>(this->game_->GetCore()));
-	return true;
-}
-
-bool EditorScene::cbAddBlaster(const CEGUI::EventArgs& e)
-{
-	if(selection_ != NULL)
-	{
-		Section_ptr section = new Blaster();
-		selection_->AddChild(section);
-		SetSelected(section);
-	}
-	return true;
-}
-bool EditorScene::cbAddHeatBeam(const CEGUI::EventArgs& e)
-{
-	if(selection_ != NULL)
-	{
-		Section_ptr section = new HeatBeamGun();
-		selection_->AddChild(section);
-		SetSelected(section);
-	}
-	return true;
-}
-bool EditorScene::cbAddHomingMissileLauncher(const CEGUI::EventArgs& e)
-{
-	if(selection_ != NULL)
-	{
-		Section_ptr section = new HomingMissileLauncher();
-		selection_->AddChild(section);
-		SetSelected(section);
-	}
-	return true;
-}
-bool EditorScene::cbAddSwarmer(const CEGUI::EventArgs& e)
-{
-	if(selection_ != NULL)
-	{
-		Section_ptr section = new Swarmer();
-		selection_->AddChild(section);
-		SetSelected(section);
-	}
-	return true;
-}
-
-bool EditorScene::cbAddChainGun(const CEGUI::EventArgs& e)
-{
-	if(selection_ != NULL)
-	{
-		Section_ptr section = new ChainGun();
-		selection_->AddChild(section);
-		SetSelected(section);
-	}
-	return true;
-}
-
-bool EditorScene::cbAddPlasmaArtillery(const CEGUI::EventArgs& e)
-{
-	if(selection_ != NULL)
-	{
-		Section_ptr section = new PlasmaArtillery();
-		selection_->AddChild(section);
-		SetSelected(section);
-	}
-	return true;
-}
-
-bool EditorScene::cbAddJointAngles(const CEGUI::EventArgs& e)
-{
-	if(selection_ != NULL)
-	{
-		Section_ptr section = new JointAngles();
-		selection_->AddChild(section);
-		SetSelected(section);
-	}
-	return true;
-}
-
-bool EditorScene::cbAddJointTracker(const CEGUI::EventArgs& e)
-{
-	if(selection_ != NULL)
-	{
-		Section_ptr section = new JointTracker();
-		selection_->AddChild(section);
-		SetSelected(section);
-	}
-	return true;
-}
-
-bool EditorScene::cbAddSpinningJoint(const CEGUI::EventArgs& e)
-{
-	if(selection_ != NULL)
-	{
-		Section_ptr section = new SpinningJoint();
-		selection_->AddChild(section);
-		SetSelected(section);
-	}
-	return true;
-}
-
-bool EditorScene::cbAddXMLSection(const CEGUI::EventArgs& e)
-{
-	const CEGUI::WindowEventArgs& we = 	static_cast<const CEGUI::WindowEventArgs&>(e);
-	if(selection_ != NULL)
-	{
-		Section_ptr section = XMLSection::CreateXMLSection(we.window->getText().c_str());
-		if(section != NULL)
-		{
-			selection_->AddChild(section);
-			SetSelected(section);
-			
-		} else
-		{
-			Logger::LogError("Unable to load XML section in editor");
-			Logger::LogError(we.window->getText().c_str());
-		}
 	}
 	return true;
 }
@@ -624,9 +514,6 @@ EditorScene::EditorScene(void)
 		{
 			float width = 2;
 			float height = 1;
-			AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbSetCoreToSquareCore, this), "Square", pTabCores, width, height);
-			AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbSetCoreToTinyCore, this), "Tiny", pTabCores, width, height);
-
 			boost::filesystem::directory_iterator end_itr;	
 			for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/Sections");
 				itr != end_itr;
@@ -649,18 +536,18 @@ EditorScene::EditorScene(void)
 	pTabWeapons->setProperty("EnableBottom","1");
 	pTabWeapons->setText("Weapons");
 	{
-	float width = 2;
-	float height = 1;
-		
-		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddBlaster, this), "Blaster", pTabWeapons, width, height);
-		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddHeatBeam, this), "HeatBeam", pTabWeapons, width, height);
-		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddHomingMissileLauncher, this), "HomingMissile", pTabWeapons, width, height);
-		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSwarmer, this), "Swarmer", pTabWeapons, width, height);
-		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddChainGun, this), "ChainGun", pTabWeapons, width, height);
-		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddPlasmaArtillery, this), "PlasmaArtillery", pTabWeapons, width, height);
-		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddJointAngles, this), "JointAngles", pTabWeapons, width, height);
-		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddJointTracker, this), "JointTracker", pTabWeapons, width, height);
-		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSpinningJoint, this), "JointSpinner", pTabWeapons, width, height);
+		float width = 2;
+		float height = 1;
+		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "Blaster", pTabWeapons, width, height);
+		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "HeatBeamGun", pTabWeapons, width, height);
+		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "HomingMissile", pTabWeapons, width, height);
+		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "Swarmer", pTabWeapons, width, height);
+		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "ChainGun", pTabWeapons, width, height);
+		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "PlasmaArtillery", pTabWeapons, width, height);
+		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "JointAngles", pTabWeapons, width, height);
+		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "JointTracker", pTabWeapons, width, height);
+		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "JointSpinner", pTabWeapons, width, height);
+		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "TrackerArm", pTabWeapons, width, height);
 	}
 	pPalette->addTab(pTabWeapons);
 
@@ -684,7 +571,7 @@ EditorScene::EditorScene(void)
 				if(ext == ".XMLSection")
 				{
 					std::string filename = boost::filesystem::basename(itr->path());
-					AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSpinningJoint, this), filename.c_str(), static_cast<CEGUI::Window*>(pTabXMLPane), width, height);
+					AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), filename.c_str(), static_cast<CEGUI::Window*>(pTabXMLPane), width, height);
 				}
 			}
 		}

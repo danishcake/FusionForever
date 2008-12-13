@@ -41,25 +41,9 @@ public:
 	bool cbLoadDialogueLoad(const CEGUI::EventArgs& e);
 	bool cbLoadDialogueCancel(const CEGUI::EventArgs& e);
 
-	bool cbSetCoreToSquareCore(const CEGUI::EventArgs& e);
-	bool cbSetCoreToTinyCore(const CEGUI::EventArgs& e);
 	bool cbSetCoreToXMLCore(const CEGUI::EventArgs& e);
-	bool cbAddBlaster(const CEGUI::EventArgs& e);
-	bool cbAddHeatBeam(const CEGUI::EventArgs& e);
-	bool cbAddHomingMissileLauncher(const CEGUI::EventArgs& e);
-	bool cbAddSwarmer(const CEGUI::EventArgs& e);
-	bool cbAddChainGun(const CEGUI::EventArgs& e);
-	bool cbAddPlasmaArtillery(const CEGUI::EventArgs& e);
-	bool cbAddJointAngles(const CEGUI::EventArgs& e);
-	bool cbAddJointTracker(const CEGUI::EventArgs& e);
-	bool cbAddSpinningJoint(const CEGUI::EventArgs& e);
+	bool cbAddSection(const CEGUI::EventArgs& e);
 
-	bool cbAddXMLSection(const CEGUI::EventArgs& e);
-	
-	bool cbChangeOrientation(const CEGUI::EventArgs& e);
-	bool cbChangeAngle(const CEGUI::EventArgs& e);
-	bool cbChangeDistance(const CEGUI::EventArgs& e);
-	
 	bool cbBackgroundClick(const CEGUI::EventArgs& e);
 	bool cbBackgroundMove(const CEGUI::EventArgs& e);
 	bool cbBackgroundMBD(const CEGUI::EventArgs& e);
@@ -68,10 +52,6 @@ public:
 
 	bool cbPropertyChanged(const CEGUI::EventArgs& e);
 	bool cbEnumeratedPropertyChanged(const CEGUI::EventArgs& e);
-
-
-
-
 
 protected:
 	bool return_to_menu_;

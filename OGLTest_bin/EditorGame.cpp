@@ -1,12 +1,12 @@
 #include "StdAfx.h"
 #include "EditorGame.h"
 
-#include "SquareCore.h" //Pulls in Core.h
+#include "XMLCore.h"
 #include "RotatingAI.h"
 
 EditorGame::EditorGame(void) : BaseGame("")
 {
-	AddShip(new SquareCore(new RotatingAI(0.00f)), 0);
+	AddShip(XMLCore::CreateXMLCore("SquareCore"), 1);
 	selected_section_ = ships_[0].at(0);
 }
 

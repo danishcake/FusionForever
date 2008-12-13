@@ -1,8 +1,6 @@
 #include "StdAfx.h"
 #include "Core.h"
 
-#include "SquareCore.h"
-#include "TinyCore.h"
 #include "XMLCore.h"
 
 #include "RotatingAI.h"
@@ -30,107 +28,6 @@ static const float CORE_EXP_BRAKING =   3000.0f;
 
 static const float CORE_BASIC_MASS = 1000.0f;
 static const float CORE_TOP_MASS = 20000.0;
-
-#ifndef STR_ME
-#define STR_ME( X ) ( # X )
-#endif
-/*
- * Maps the Core type strings used in XML files onto enums
- */
-namespace Core_types
-{
-	static enum Enum
-	{
-		UnknownCore,
-		SquareCore,
-		TinyCore
-	};
-
-	static const std::string ToStr[] = {
-		STR_ME( UnknownCore ),
-		STR_ME( SquareCore ),
-		STR_ME( TinyCore ),
-		};
-
-	static std::map<std::string, Enum> core_type_map;
-
-	static Enum FromStr(std::string _type)
-	{
-		if(core_type_map.find(_type) != core_type_map.end())
-			return core_type_map[_type];
-		else
-			return UnknownCore;
-	}
-
-	static void InitialiseMap()
-	{
-		core_type_map[ToStr[SquareCore]] = SquareCore;
-		core_type_map[ToStr[TinyCore]] = TinyCore;
-	}
-
-	static bool initialised = false;
-}
-
-/*
- * Maps the section types strings used in XML files onto enums
- */
-namespace Section_types
-{
-	static enum Enum
-	{
-		UnknownSection,
-		JointAngles,
-		JointTracker,
-		SpinningJoint,
-		TrackerArm,
-		Blaster,
-		HeatBeamGun,
-		HomingMissileLauncher,
-		Swarmer,
-		ChainGun,
-		PlasmaArtillery
-	};
-
-	static const std::string ToStr[] = {
-		STR_ME( UnknownSection ),
-		STR_ME( JointAngles ),
-		STR_ME( JointTracker ),
-		STR_ME( SpinningJoint ),
-		STR_ME ( TrackerArm ),
-		STR_ME( Blaster ),
-		STR_ME( HeatBeamGun ),
-		STR_ME( HomingMissileLauncher ),
-		STR_ME( Swarmer ),
-		STR_ME( ChainGun ),
-		STR_ME( PlasmaArtillery )
-		};
-
-	static std::map<std::string, Enum> section_type_map;
-
-	static Enum FromStr(std::string _type)
-	{
-		if(section_type_map.find(_type) != section_type_map.end())
-			return section_type_map[_type];
-		else
-			return UnknownSection;
-	}
-
-	static void InitialiseMap()
-	{
-		section_type_map[ToStr[JointAngles]]			= JointAngles;
-		section_type_map[ToStr[JointTracker]]			= JointTracker;
-		section_type_map[ToStr[SpinningJoint]]			= SpinningJoint;
-		section_type_map[ToStr[TrackerArm]]				= TrackerArm;
-		section_type_map[ToStr[Blaster]]				= Blaster;
-		section_type_map[ToStr[HeatBeamGun]]			= HeatBeamGun;
-		section_type_map[ToStr[HomingMissileLauncher]]	= HomingMissileLauncher;
-		section_type_map[ToStr[Swarmer]]				= Swarmer;
-		section_type_map[ToStr[ChainGun]]				= ChainGun;
-		section_type_map[ToStr[PlasmaArtillery]]		= PlasmaArtillery;
-	}
-
-	static bool initialised = false;
-}
 
 
 Core::Core(BaseAI* _AI)
@@ -221,12 +118,6 @@ void Core::OverrideAI(BaseAI* _new_AI)
 
 Core_ptr Core::CreateCore(std::string _name)
 {
-	if(!Core_types::initialised)
-	{
-		Core_types::InitialiseMap();
-		Section_types::InitialiseMap();
-	}
-
 	std::string file_name;
 	if(_name.find("Scripts/Ships") == std::string::npos)
 		file_name = "Scripts/Ships/" + _name + ".xmlShip";
@@ -302,28 +193,14 @@ Core_ptr Core::ParseCore(TiXmlElement* _core_element)
 	if(_core_element->QueryValueAttribute("SectionType", &core_string) == TIXML_SUCCESS)
 	{
 		//Lookup Core in map of hardcoded Cores
-		Core_types::Enum core_type = Core_types::FromStr(core_string);
-		switch(core_type)
-		{
-			case Core_types::SquareCore:
-				core = new SquareCore(new RotatingAI(0.5f));
-				break;
-			case Core_types::TinyCore:
-				core = new TinyCore(new RotatingAI(0.5f));
-				break;
-			default:
-				//Attempt to load XMLCore
-				core = XMLCore::CreateXMLCore(core_string);
-				if(!core)
-					Logger::LogError(std::string("Unable to open core:")+ core_string);
-				break;
-		}
+		core = XMLCore::CreateXMLCore(core_string);
+		if(!core)
+			Logger::LogError(std::string("Unable to open core:")+ core_string);
 		if(core)
 		{
 			//Now query any standard section atttributes
 			ParseCommon(_core_element, core);
 			//Now query any core only section atttributes
-			
 		}
 	}
 
@@ -337,7 +214,6 @@ Section_ptr Core::ParseSection(TiXmlElement* _section_element)
 	if(_section_element->QueryValueAttribute("SectionType", &section_string) == TIXML_SUCCESS)
 	{
 		//Lookup section in map of hardcoded Cores
-		Section_types::Enum section_type = Section_types::FromStr(section_string);
 		section = ListAdder::GetSection(section_string);
 		if(!section)
 		{
@@ -350,49 +226,6 @@ Section_ptr Core::ParseSection(TiXmlElement* _section_element)
 			}
 		}
 
-		/*
-		switch(section_type)
-		{
-			case Section_types::JointAngles:
-				section = new JointAngles();
-				break;
-			case Section_types::JointTracker:
-				section = new JointTracker();
-				break;
-			case Section_types::SpinningJoint:
-				section = new SpinningJoint();
-				break;
-			case Section_types::Blaster:
-				section = new Blaster();
-				break;
-			case Section_types::HeatBeamGun:
-				section = new HeatBeamGun();
-				break;
-			case Section_types::HomingMissileLauncher:
-				section = new HomingMissileLauncher();
-				break;
-			case Section_types::Swarmer:
-				section = new Swarmer();
-				break;
-			case Section_types::ChainGun:
-				section = new ChainGun();
-				break;
-			case Section_types::PlasmaArtillery:
-				section = new PlasmaArtillery();
-				break;
-			case Section_types::TrackerArm:
-				section = new TrackerArm();
-				break;
-			default:
-				//Attempt to find XMLSection
-				section = XMLSection::CreateXMLSection(section_string);
-				if(!section)
-				{
-					//Can't find, log error
-					Logger::LogError("Unable to find section type" + section_string);
-				}
-				break;
-		}*/
 		if(section)
 		{
 			//Now query any standard section atttributes

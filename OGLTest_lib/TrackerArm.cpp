@@ -129,10 +129,3 @@ bool TrackerArm::ParseSpecific(TiXmlElement* _node)
 	return true;
 }
 
-/* Factory method - creates and instance of the section. Automatically registered with
-   a global map via the static variable below */
-static Section_ptr CreateInstance()
-{
-	return new TrackerArm();
-}
-static ListAdder l = ListAdder(CreateInstance, "TrackerArm");

@@ -14,6 +14,9 @@
 #include "FadeInScene.h"
 #include "Camera.h"
 #include "Settings.h"
+#include "SectionAdders.h"
+
+#include "PlasmaArtillery.h"
 
 clock_t ltv_time;
 std::vector<BaseScene_ptr> scene_stack;
@@ -142,6 +145,7 @@ switch ( button )
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	RegisterSections();
 	Vector2<int> resolution = Settings::Instance().GetResolution();
 	srand((unsigned int)time(NULL));
 	Camera::Instance().SetAspectRatio(resolution.x, resolution.y);

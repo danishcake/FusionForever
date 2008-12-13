@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoreDefinition> 
+	<Outline>M -10,-10 L 10,-10 L 10,10 L -10,10 L -10,-10 z</Outline>
+	<Health> 1800 </Health>
+	<Mass> 400 </Mass>
+	<Thrust> 100 </Thrust>
+</CoreDefinition>

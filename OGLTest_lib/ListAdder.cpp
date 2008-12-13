@@ -29,5 +29,7 @@ Section* ListAdder::GetSection(std::string _name)
 	{
 		return (*p_map)[_name]();
 	} else
+	{
 		return NULL;
+	}
 }

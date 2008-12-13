@@ -99,11 +99,3 @@ void Swarmer::ToXML(TiXmlElement* _node)
 	Section::ToXML(_node);
 	_node->SetAttribute("SectionType", "Swarmer");
 }
-
-/* Factory method - creates and instance of the section. Automatically registered with
-   a global map via the static variable below */
-static Section_ptr CreateInstance()
-{
-	return new Swarmer();
-}
-static ListAdder l = ListAdder(CreateInstance, "Swarmer");

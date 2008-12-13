@@ -280,19 +280,15 @@
 					RelativePath=".\Section.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\SectionAdders.h"
+					>
+				</File>
 				<Filter
 					Name="Cores"
 					>
 					<File
 						RelativePath=".\Core.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\SquareCore.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\TinyCore.cpp"
 						>
 					</File>
 					<File
@@ -590,19 +586,15 @@
 			<Filter
 				Name="Sections"
 				>
+				<File
+					RelativePath=".\SectionAdders.cpp"
+					>
+				</File>
 				<Filter
 					Name="Cores"
 					>
 					<File
 						RelativePath=".\Core.h"
-						>
-					</File>
-					<File
-						RelativePath=".\SquareCore.h"
-						>
-					</File>
-					<File
-						RelativePath=".\TinyCore.h"
 						>
 					</File>
 					<File

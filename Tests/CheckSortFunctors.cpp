@@ -1,4 +1,4 @@
-#include "SquareCore.h"
+#include "XMLCore.h"
 #include <UnitTest++.h>
 #include <vector>
 #include "SortFunctors.h"
@@ -10,12 +10,12 @@ TEST(CheckSortFunctors)
 	vector<Core_ptr> cores;
 	for(int i = 0; i < 20; i ++)
 	{
-		Core_ptr n_core = new SquareCore(NULL);
+		Core_ptr n_core = XMLCore::CreateXMLCore("SquareCore");
 		n_core->SetPosition(Vector3f(static_cast<float>(i), static_cast<float>(2 * i), 0));
 		cores.push_back(n_core);
 	}
 
-	Core_ptr reference_core = new SquareCore(NULL);
+	Core_ptr reference_core = XMLCore::CreateXMLCore("SquareCore");
 	reference_core->SetPosition(Vector3f(10,0,0));
 	sort(cores.begin(), cores.end(), RelativeRangeSort<Core_ptr, Core_ptr>(reference_core));
 	//Should be sorted short to long

@@ -10,6 +10,6 @@ private:
 public:
 	ListAdder(Section* (*factory_method_)(), std::string _name);
 	~ListAdder(void);
-
+	int GetCount();
 	static Section* GetSection(std::string _name);
 };

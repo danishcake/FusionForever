@@ -294,6 +294,10 @@
 			Name="TestScripts"
 			>
 			<File
+				RelativePath=".\Scripts\SquareCore.XMLCore"
+				>
+			</File>
+			<File
 				RelativePath=".\Scripts\TestSection.XMLSection"
 				>
 			</File>

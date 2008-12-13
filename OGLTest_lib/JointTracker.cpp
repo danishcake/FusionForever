@@ -121,11 +121,3 @@ bool JointTracker::ParseSpecific(TiXmlElement* _node)
 	only_when_firing_ = only_when_firing;
 	return true;
 }
-
-/* Factory method - creates and instance of the section. Automatically registered with
-   a global map via the static variable below */
-static Section_ptr CreateInstance()
-{
-	return new JointTracker();
-}
-static ListAdder l = ListAdder(CreateInstance, "JointTracker");

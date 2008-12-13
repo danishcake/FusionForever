@@ -95,6 +95,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				ExecutionBucket="10"
+				AdditionalOptions=" /OPT:NOREF"
 				AdditionalDependencies="lua51.lib OGLTest_lib.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib CEGUIBase_d.lib OpenGLGUIRenderer_d.lib tinyxmld_STL.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;c:\Program Files\tinyxml\Debug_STL&quot;;&quot;c:\Program Files\boost\boost_1_36_0\lib&quot;;&quot;C:\Program Files\SDL-1.2.12\lib&quot;;../OGLTest_lib/Debug;&quot;C:\Program Files\lua\lib&quot;;&quot;C:\Program Files\CEGUI-SDK-0.6.0\lib&quot;"
@@ -673,6 +674,14 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\GW_Player.XMLCore"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\SquareCore.XMLCore"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\TinyCore.XMLCore"
 					>
 				</File>
 			</Filter>
