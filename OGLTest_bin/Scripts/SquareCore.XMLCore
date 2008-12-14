@@ -4,4 +4,6 @@
 	<Health> 1800 </Health>
 	<Mass> 400 </Mass>
 	<Thrust> 100 </Thrust>
+  <PowerGeneration>100</PowerGeneration>
+  <EnergyStorage>100</EnergyStorage>
 </CoreDefinition>

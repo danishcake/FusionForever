@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<Section x="0" y="0" Angle="4.12412548" Health="1" Delay="0" SectionType="GW_Player" angle="0">
+    <Section x="-5" y="-10" Angle="0" Health="700" Delay="0" SectionType="SweptWingLH">
+        <Section x="-10" y="-20" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
+    </Section>
+    <Section x="-5" y="-10" Angle="0" Health="700" Delay="0" SectionType="SweptWingLH">
+        <Section x="-10" y="-20" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
+    </Section>
+    <Section x="5" y="-10" Angle="0" Health="700" Delay="0" SectionType="SweptWingRH">
+        <Section x="10" y="-20" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
+    </Section>
+    <Section x="0" y="10" Angle="0" Health="300" Delay="0" SectionType="GeneratorSpike" />
+    <Section x="0" y="10" Angle="0" Health="700" Delay="0" SectionType="SweptWingRH">
+        <Section x="10" y="-20" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
+    </Section>
+    <Section x="0" y="10" Angle="0" Health="700" Delay="0" SectionType="SweptWingLH">
+        <Section x="-10" y="-20" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
+    </Section>
+    <Section x="0" y="-10" Angle="0" Health="500" Delay="0" SectionType="SmallRocket" />
+</Section>

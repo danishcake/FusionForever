@@ -33,7 +33,7 @@ bool EditorScene::cbAddSection(const CEGUI::EventArgs& e)
 		Section_ptr section = NULL;
 		section = ListAdder::GetSection(we.window->getText().c_str());
 		if(!section)
-			XMLSection::CreateXMLSection(we.window->getText().c_str());
+			section = XMLSection::CreateXMLSection(we.window->getText().c_str());
 		if(section != NULL)
 		{
 			selection_->AddChild(section);

@@ -19,6 +19,12 @@ SpawnMinions = function()
 end
 
 enemySpawn = coroutine.wrap(function()
+	for i = 1, 15 do
+		challenge:SpawnShip("Ramrod", 5, Vector:new(0, 700), 0, "SimpleAI.luaAI", 1)
+		challenge:WaitFor(0.2)
+	end
+	challenge:WaitFor(5)
+
 	local ship_id = challenge:SpawnShip("Lasership", 1, Vector:new(0, 500), 0, "AI_Backstabber.luaAI", 1)
 	challenge:SetDeathFunction(ship_id, SpawnMinions)
 	challenge:WaitFor(2)

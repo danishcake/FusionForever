@@ -16,7 +16,6 @@
 #include "Settings.h"
 #include "SectionAdders.h"
 
-#include "PlasmaArtillery.h"
 
 clock_t ltv_time;
 std::vector<BaseScene_ptr> scene_stack;

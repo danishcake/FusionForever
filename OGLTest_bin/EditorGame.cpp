@@ -6,7 +6,9 @@
 
 EditorGame::EditorGame(void) : BaseGame("")
 {
-	AddShip(XMLCore::CreateXMLCore("SquareCore"), 1);
+	Core_ptr core = XMLCore::CreateXMLCore("SquareCore");
+	core->OverrideAI(new RotatingAI(0));
+	AddShip(core, 0);
 	selected_section_ = ships_[0].at(0);
 }
 
