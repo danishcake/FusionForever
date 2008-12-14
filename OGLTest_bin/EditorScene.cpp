@@ -8,20 +8,11 @@
 #include <sdl.h>
 
 #include "XMLCore.h"
-
-#include "Blaster.h"
-#include "HeatBeamGun.h"
-#include "HomingMissileLauncher.h"
-#include "Swarmer.h"
-#include "ChainGun.h"
-#include "PlasmaArtillery.h"
-#include "SpinningJoint.h"
-#include "JointAngles.h"
-#include "JointTracker.h"
-#include "XmlSection.h"
+#include "XMLSection.h"
 #include "Property.h"
 #include "RotatingAI.h"
 
+#include "ListAdder.h"
 
 #include <boost/filesystem.hpp>
 
@@ -538,16 +529,11 @@ EditorScene::EditorScene(void)
 	{
 		float width = 2;
 		float height = 1;
-		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "Blaster", pTabWeapons, width, height);
-		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "HeatBeamGun", pTabWeapons, width, height);
-		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "HomingMissile", pTabWeapons, width, height);
-		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "Swarmer", pTabWeapons, width, height);
-		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "ChainGun", pTabWeapons, width, height);
-		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "PlasmaArtillery", pTabWeapons, width, height);
-		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "JointAngles", pTabWeapons, width, height);
-		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "JointTracker", pTabWeapons, width, height);
-		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "JointSpinner", pTabWeapons, width, height);
-		AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), "TrackerArm", pTabWeapons, width, height);
+		std::vector<std::string> names = ListAdder::GetNames();
+		BOOST_FOREACH(std::string name, names)
+		{
+			AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), name, pTabWeapons, width, height);
+		}
 	}
 	pPalette->addTab(pTabWeapons);
 

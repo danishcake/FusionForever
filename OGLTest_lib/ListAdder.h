@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <map>
+#include <vector>
 class Section;
 
 class ListAdder
@@ -10,6 +11,6 @@ private:
 public:
 	ListAdder(Section* (*factory_method_)(), std::string _name);
 	~ListAdder(void);
-	int GetCount();
+	static std::vector<std::string> GetNames();
 	static Section* GetSection(std::string _name);
 };

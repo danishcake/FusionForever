@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<Section x="0" y="0" Angle="0" Health="4000" Delay="0" SectionType="GiantCore" angle="0">
+    <Section x="0" y="20" Angle="0" Health="800" Delay="0" SectionType="Spike" />
+    <Section x="-17.5" y="12.5" Angle="-45" Health="800" Delay="0" SectionType="Spike" />
+    <Section x="17.5" y="12.5" Angle="45" Health="800" Delay="0" SectionType="Spike" />
+    <Section x="0" y="-20" Angle="-180" Health="800" Delay="0" SectionType="Spike" />
+    <Section x="-17.5" y="-12.5" Angle="-135" Health="800" Delay="0" SectionType="Spike" />
+    <Section x="17.5" y="-12.5" Angle="135" Health="800" Delay="0" SectionType="Spike" />
+    <Section x="-15" y="0" Angle="-90" Health="800" Delay="0" SectionType="Spike" />
+    <Section x="15" y="0" Angle="90" Health="800" Delay="0" SectionType="Spike" />
+    <Section x="0" y="0" Angle="0" Health="1500" Delay="0" SectionType="DriveUnit" />
+</Section>

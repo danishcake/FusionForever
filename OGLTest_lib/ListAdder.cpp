@@ -33,3 +33,15 @@ Section* ListAdder::GetSection(std::string _name)
 		return NULL;
 	}
 }
+
+std::vector<std::string> ListAdder::GetNames()
+{
+	std::vector<std::string> names;
+	std::map<std::string, Section*(*)()>* p_map = GetMap();
+	std::pair<std::string, Section*(*)()> entry;
+	BOOST_FOREACH(entry, *p_map)
+	{
+		names.push_back(entry.first);
+	}
+	return names;
+}

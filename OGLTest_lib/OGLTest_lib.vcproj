@@ -268,7 +268,15 @@
 						>
 					</File>
 					<File
+						RelativePath=".\BurnerBeam.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\HeatBeam.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\LancerBeam.cpp"
 						>
 					</File>
 				</Filter>
@@ -308,6 +316,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\Burner.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\ChainGun.cpp"
 						>
 					</File>
@@ -321,6 +333,10 @@
 					</File>
 					<File
 						RelativePath=".\HomingMissileLauncher.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Lancer.cpp"
 						>
 					</File>
 					<File
@@ -578,7 +594,15 @@
 						>
 					</File>
 					<File
+						RelativePath=".\BurnerBeam.h"
+						>
+					</File>
+					<File
 						RelativePath=".\HeatBeam.h"
+						>
+					</File>
+					<File
+						RelativePath=".\LancerBeam.h"
 						>
 					</File>
 				</Filter>
@@ -614,6 +638,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\Burner.h"
+						>
+					</File>
+					<File
 						RelativePath=".\ChainGun.h"
 						>
 					</File>
@@ -627,6 +655,10 @@
 					</File>
 					<File
 						RelativePath=".\HomingMissileLauncher.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Lancer.h"
 						>
 					</File>
 					<File

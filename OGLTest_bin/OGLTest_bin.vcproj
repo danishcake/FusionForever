@@ -627,6 +627,10 @@
 					RelativePath=".\Scripts\TheBulk.xmlShip"
 					>
 				</File>
+				<File
+					RelativePath=".\Scripts\TheMine.xmlShip"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="AI"
@@ -645,6 +649,10 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\GW_A.luaAI"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Ram.luaAI"
 					>
 				</File>
 				<File
