@@ -4,8 +4,8 @@
 LancerBeam::LancerBeam(void)
 : BeamSection()
 {
-	this->max_distance_ = 1500.0f;
-	this->damage_per_second_ = 300.0f;
+	this->max_distance_ = 1200;
+	this->damage_per_second_ = 400.0f;
 }
 
 LancerBeam::~LancerBeam(void)

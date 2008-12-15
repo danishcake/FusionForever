@@ -42,6 +42,10 @@ protected:
 	 * Beam decoration spawn counter
 	 */
 	float beam_deco_spawn_;
+	/*
+	 * Beam energy usage/s
+	 */
+	float beam_energy_use_;
 public:
    /**
      * Creates a BeamFiringSection.

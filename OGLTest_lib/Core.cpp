@@ -52,20 +52,21 @@ void Core::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::v
 {
 	//Do all the standard moving and rotating
 	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies, _collision_manager);
-	energy_+= 50 * _timespan;
+	//energy_+= 50 * _timespan;
 	//Get the AI instructions (how to move, rotate and fire)
 	AIAction action;
 	float max_speed;
 	float max_spin;
+
 	if(mass_ <= CORE_BASIC_MASS)
 	{
-		max_speed = CORE_MOVE_RATE_MAX * thrust_.GetValue() / 100.0f ;
-		max_spin = CORE_ROT_RATE_MAX * thrust_.GetValue() / 100.0f;
+		max_speed = CORE_MOVE_RATE_MAX * (thrust_.GetValue() / 100.0f);
+		max_spin = CORE_ROT_RATE_MAX * (thrust_.GetValue() / 100.0f);
 	}
 	else if(mass_ <= CORE_TOP_MASS)
 	{
-		max_speed = CORE_MOVE_RATE_MAX * (1.0f - (((mass_ - CORE_BASIC_MASS )/ (CORE_TOP_MASS-CORE_BASIC_MASS)) * 0.95f))* thrust_.GetValue() / 100.0f;
-		max_spin = CORE_ROT_RATE_MAX   * (1.0f - (((mass_ - CORE_BASIC_MASS )/ (CORE_TOP_MASS-CORE_BASIC_MASS)) * 0.95f))* thrust_.GetValue() / 100.0f;
+		max_speed = CORE_MOVE_RATE_MAX * (1.0f - (((mass_ - CORE_BASIC_MASS )/ (CORE_TOP_MASS-CORE_BASIC_MASS)) * 0.95f))* (thrust_.GetValue() / 100.0f);
+		max_spin = CORE_ROT_RATE_MAX   * (1.0f - (((mass_ - CORE_BASIC_MASS )/ (CORE_TOP_MASS-CORE_BASIC_MASS)) * 0.95f))* (thrust_.GetValue() / 100.0f);
 	}
 	else
 	{
@@ -76,6 +77,15 @@ void Core::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::v
 	{
 		action = AI_->Tick(_timespan, _allies, _enemies, this);
 		
+		float effective_thrust = thrust_.GetValue() / 100.0f;
+		if(action.thrust_ && PowerRequirement(25))
+		{
+			effective_thrust *= 3.0f;
+			energy_ -= 10.0f * effective_thrust * _timespan;
+			max_speed *= 1.5f;
+			max_spin *= 1.5f;
+		}
+
 		if(action.target_ != NULL && target_ != action.target_)
 		{
 			if(target_ != NULL)
@@ -86,11 +96,11 @@ void Core::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::v
 		Vector2f dv= Vector2f(action.dx_, action.dy_);
 		if(dv.lengthSq()!=0)
 			dv.normalize();
-		velocity_.x += dv.x * _timespan * CORE_ACCL_RATE * (thrust_.GetValue() / 100.0f) / mass_;
-		velocity_.y += dv.y * _timespan * CORE_ACCL_RATE * (thrust_.GetValue() / 100.0f) / mass_;
+		velocity_.x += dv.x * _timespan * CORE_ACCL_RATE * effective_thrust / mass_;
+		velocity_.y += dv.y * _timespan * CORE_ACCL_RATE * effective_thrust / mass_;
 		if(dv.lengthSq() <= 0.01f)
 		{
-			velocity_ *= expf(-_timespan * CORE_EXP_BRAKING * (thrust_.GetValue() / 100.0f) / mass_);
+			velocity_ *= expf(-_timespan * CORE_EXP_BRAKING * effective_thrust / mass_);
 		}
 		if(velocity_.length() > max_speed)
 		{

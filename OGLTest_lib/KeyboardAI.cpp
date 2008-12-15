@@ -23,16 +23,16 @@ AIAction KeyboardAI::Tick(float _timespan, std::vector<Core*>& _allies, std::vec
 	int y = 0;
 	Uint8 mouse_state = SDL_GetMouseState(&x, &y);
 
-	if(keystates[SDLK_UP])
+	if(keystates[SDLK_w])
 		action.dy_++;
-	if(keystates[SDLK_DOWN])
+	if(keystates[SDLK_s])
 		action.dy_--;
-	if(keystates[SDLK_LEFT])
+	if(keystates[SDLK_a])
 		action.dx_--;
-	if(keystates[SDLK_RIGHT])
+	if(keystates[SDLK_d])
 		action.dx_++;
 
-	if(keystates[SDLK_SPACE] || (SDL_BUTTON_MMASK & mouse_state))
+	if(keystates[SDLK_SPACE])
 	{
 		//Map mouse coordinates onto world coordinates and then find if there is anything at that spot
 		Vector3f world_click = Camera::Instance().ScreenToWorld(Vector3f(static_cast<float>(x), static_cast<float>(y), 0.0f));
@@ -60,6 +60,9 @@ AIAction KeyboardAI::Tick(float _timespan, std::vector<Core*>& _allies, std::vec
 		Camera::Instance().ZoomIn();
 	if(keystates[SDLK_MINUS] || keystates[SDLK_UNDERSCORE])
 		Camera::Instance().ZoomOut();
+
+	if(SDL_BUTTON_MMASK & mouse_state)
+		action.thrust_ = true;
 
 	Vector3f point_to_face = Vector3f((x - Camera::Instance().GetWindowWidth() / 2.0f),
 		                              (Camera::Instance().GetWindowHeight() / 2.0f) - y, 0); // Mouse y coordinates are screen coordinates and so upside down

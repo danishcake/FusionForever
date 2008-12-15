@@ -157,10 +157,9 @@ void Section::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 	transformed_fill_verts_.clear();
 	transformed_outline_verts_.clear();
 	BaseEntity::Tick(_timespan, _transform); // Use ltv_transform after this as _transform is passed by value
-	if(root_)
-	{
-		root_->energy_ += (power_generation_ * _timespan);
-	}
+
+	GetRoot()->energy_ += (power_generation_ * _timespan);
+
 	if(first_tick_ && root_)
 	{
 		root_->AddMass(mass_);

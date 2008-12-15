@@ -1,0 +1,32 @@
+force0Spawn = coroutine.wrap(function()
+	challenge:WaitFor(2)
+	while true do
+		challenge:SpawnShip("TheMine", 0, Vector:new(50, 0), 0, "Ram.luaAI", 1)
+		challenge:SpawnShip("TheMine", 0, Vector:new(0, 50), 0, "Ram.luaAI", 1)
+		challenge:SpawnShip("TheMine", 0, Vector:new(-50, 0), 0, "Ram.luaAI", 1)
+		challenge:SpawnShip("TheMine", 0, Vector:new(0, -50), 0, "Ram.luaAI", 1)
+		challenge:WaitForForceCountLessThan(0, 1)
+	end
+end)
+
+force1Spawn = coroutine.wrap(function()
+	challenge:SpawnShip("Lasership", 2, Vector:new(0, 200) , 0, "FleeingAI.luaAI", 0.1)
+	for i = 1, 9 do
+		challenge:WaitFor(0.1)
+		challenge:SpawnShip("Lasership", 2, Vector:new(200 * math.sin(i * 6.28/20), 200 * math.cos(i * 6.28/20)), 0, "FleeingAI.luaAI", 0.1)
+		challenge:SpawnShip("Lasership", 2, Vector:new(-200 * math.sin(i * 6.28/20), 200 * math.cos(i * 6.28/20)), 0, "FleeingAI.luaAI", 0.1)
+	end
+	challenge:WaitFor(0.1)
+	challenge:SpawnShip("Lasership", 2, Vector:new(0, -200), 0, "FleeingAI.luaAI", 0.1)
+	
+	challenge:WaitForAllEnemiesDead(0)
+	challenge:WaitFor(1)
+	
+	challenge:Victory()
+end)
+
+while true do
+	force0Spawn()
+	force1Spawn()
+	coroutine.yield()
+end

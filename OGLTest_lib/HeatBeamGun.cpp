@@ -25,6 +25,11 @@ HeatBeamGun::HeatBeamGun(void)
 	health_ = FlexFloat(800, 800);
 	beam_ = BeamSection_ptr(new HeatBeam());
 	mass_ = 300;
+
+	beam_charge_time_ = 0.5f;
+	beam_cooldown_time_ = 0.5f;
+	beam_fire_time_ = 2.0f;
+	beam_energy_use_ = 5;
 }
 
 HeatBeamGun::~HeatBeamGun(void)

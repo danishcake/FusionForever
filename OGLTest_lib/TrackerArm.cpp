@@ -33,6 +33,7 @@ TrackerArm::TrackerArm()
 	only_when_firing_ = false;
 	angle_range_ = 30.0f;
 	angle_centre_ = angle_;
+	turn_rate_ = TURN_RATE;
 }
 
 TrackerArm::~TrackerArm()
@@ -87,7 +88,7 @@ void TrackerArm::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, 
 	{
 		TurnData turn_data = GetTurnDirection(GetGlobalAngle(), target_->GetGlobalPosition() - GetGlobalPosition());
 		
-		angle_ += ClampTurnDirection(turn_data.turn_factor, 0.01f) * TURN_RATE * _timespan;
+		angle_ += ClampTurnDirection(turn_data.turn_factor, 0.1f) * turn_rate_ * _timespan;
 		if(angle_ < angle_centre_ - angle_range_)
 			angle_ = angle_centre_ - angle_range_;
 		if(angle_ > angle_centre_ + angle_range_)
@@ -106,10 +107,20 @@ void TrackerArm::ToXML(TiXmlElement* _node)
 {
 	Section::ToXML(_node);
 	_node->SetAttribute("SectionType", "TrackerArm");
+	_node->SetAttribute("TurnRate", boost::lexical_cast<std::string, float>(turn_rate_));
+	_node->SetAttribute("AngleRange", boost::lexical_cast<std::string, float>(angle_range_));
+	_node->SetAttribute("OnlyWhenFiring", boost::lexical_cast<std::string, bool>(only_when_firing_));
+	
 }
 
 static void sSetOnlyWhenFiring(Section_ptr _section, int _value){static_cast<TrackerArm*>(_section)->SetOnlyWhenFiring(_value);}
 static int sGetOnlyWhenFiring(Section_ptr _section){return static_cast<TrackerArm*>(_section)->GetOnlyWhenFiring();}
+
+static void sSetAngleRange(Section_ptr _section, float _value){static_cast<TrackerArm*>(_section)->SetAngleRange(_value);}
+static float sGetAngleRange(Section_ptr _section){return static_cast<TrackerArm*>(_section)->GetAngleRange();}
+
+static void sSetTurnRate(Section_ptr _section, float _value){static_cast<TrackerArm*>(_section)->SetTurnRate(_value);}
+static float sGetTurnRate(Section_ptr _section){return static_cast<TrackerArm*>(_section)->GetTurnRate();}
 
 void TrackerArm::GetProperties(std::vector<Property*>& _properties)
 {
@@ -118,14 +129,23 @@ void TrackerArm::GetProperties(std::vector<Property*>& _properties)
 	e[0] = "False";
 	e[1] = "True";
 	_properties.push_back(new Property(this, sSetOnlyWhenFiring, sGetOnlyWhenFiring, e, "Only while firing"));
+
+	_properties.push_back(new Property(this, sSetAngleRange, sGetAngleRange, "Angle range"));
+	_properties.push_back(new Property(this, sSetTurnRate, sGetTurnRate, "Turn rate"));
 }
 
 bool TrackerArm::ParseSpecific(TiXmlElement* _node)
 {
 	bool only_when_firing = false;
+	float angle_range;
+	float turn_rate;
 	//Query parameters specific to JointTrackers
-	_node->QueryValueAttribute("OnlyWhenFiring", &only_when_firing);
-	only_when_firing_ = only_when_firing;
+	if(_node->QueryValueAttribute("OnlyWhenFiring", &only_when_firing) == TIXML_SUCCESS)
+		only_when_firing_ = only_when_firing;
+	if(_node->QueryValueAttribute("AngleRange", &angle_range) == TIXML_SUCCESS)
+		angle_range_ = angle_range;
+	if(_node->QueryValueAttribute("TurnRate", &turn_rate) == TIXML_SUCCESS)
+		turn_rate_ = turn_rate;
 	return true;
 }
 

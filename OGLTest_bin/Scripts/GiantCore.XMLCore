@@ -5,6 +5,6 @@
 	<SubSectionPosition x = "0" y = "15"/>
 	<Mass> 900 </Mass>
 	<Thrust>100</Thrust>
-  <PowerGeneration>100</PowerGeneration>
+  <PowerGeneration>50</PowerGeneration>
   <EnergyStorage>100</EnergyStorage>
 </CoreDefinition>

@@ -4,7 +4,7 @@
 BurnerBeam::BurnerBeam(void)
 : BeamSection()
 {
-	this->max_distance_ = 150.0f;
+	this->max_distance_ = 80.0f;
 	this->damage_per_second_ = 3000.0f;
 }
 

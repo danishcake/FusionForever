@@ -26,7 +26,7 @@ SimpleAI::~SimpleAI(void)
 
 AIAction SimpleAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vector<Core_ptr>& _enemies, Core_ptr _self)
 {
-	AIAction a = AIAction(0, 0, 0, false); 
+	AIAction a = AIAction(0, 0, 0, false, false); 
 
 	sum_time_ += _timespan;
 	focus_time_ += _timespan;

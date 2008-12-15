@@ -25,6 +25,11 @@ Burner::Burner(void)
 	health_ = FlexFloat(800, 800);
 	beam_ = BeamSection_ptr(new BurnerBeam());
 	mass_ = 300;
+
+	beam_charge_time_ = 0.7f;
+	beam_cooldown_time_ = 0.2f;
+	beam_fire_time_ = 5.0f;
+	beam_energy_use_ = 4;
 }
 
 Burner::~Burner(void)

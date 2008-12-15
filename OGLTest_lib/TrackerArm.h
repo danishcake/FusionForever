@@ -17,6 +17,7 @@ protected:
 	bool only_when_firing_;
 	float angle_range_;
 	float angle_centre_;
+	float turn_rate_;
 
 	virtual void EndSubscription(Subscriber* _source);
 public:
@@ -32,6 +33,12 @@ public:
 
 	void SetOnlyWhenFiring(int _value){only_when_firing_ = _value != 0;}
 	int GetOnlyWhenFiring(){return only_when_firing_ ? 1 : 0;}
+
+	void SetAngleRange(float _value){angle_range_ = _value;}
+	float GetAngleRange(){return angle_range_;}
+
+	void SetTurnRate(float _value){turn_rate_ = _value;}
+	float GetTurnRate(){return turn_rate_;}
 
 	/*
 	 * To be overriden by call sub classes that require special parameters.

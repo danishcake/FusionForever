@@ -23,5 +23,5 @@ AIAction RotatingAI::Tick(float _timespan, std::vector<Core*>& _allies, std::vec
 	fire_for_next_ -= _timespan;
 	if(Random::RandomChance(0.2f * _timespan))
 		fire_for_next_ = 3.0f;
-	return AIAction(0, 0, rotation_rate_, fire_for_next_ > 0);
+	return AIAction(0, 0, rotation_rate_, fire_for_next_ > 0, false);
 }

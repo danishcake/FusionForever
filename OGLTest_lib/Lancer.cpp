@@ -25,6 +25,11 @@ Lancer::Lancer(void)
 	health_ = FlexFloat(800, 800);
 	beam_ = BeamSection_ptr(new LancerBeam());
 	mass_ = 300;
+
+	beam_charge_time_ = 0.05f;
+	beam_cooldown_time_ = 0.05f;
+	beam_fire_time_ = 0.1f;
+	beam_energy_use_ = 8;
 }
 
 Lancer::~Lancer(void)

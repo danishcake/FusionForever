@@ -13,6 +13,7 @@ BeamFiringSection::BeamFiringSection(void)
 	beam_fire_time_ = 2.0f;
 	beam_deco_spawn_ = 0;
 	beam_charge_.SetPosition(Vector3f(0, 4.0f, 0));
+	beam_energy_use_ = 5;
 }
 
 BeamFiringSection::~BeamFiringSection(void)
@@ -29,21 +30,21 @@ void BeamFiringSection::Tick(float _timespan, std::vector<Projectile_ptr>& _spaw
 	{		
 		beam_sum_time_ += _timespan;
 		if(beam_sum_time_ < beam_charge_time_)
-		{  
+		{
 			beam_charge_.SetScale(beam_sum_time_ / beam_charge_time_);
-			PowerTick(-5 * _timespan);
+			PowerTick(-beam_energy_use_ * _timespan);
 		}
 		if(beam_sum_time_ >= beam_charge_time_ && beam_sum_time_ < beam_charge_time_ + beam_fire_time_)
 		{
 			beam_->Tick(_timespan, _spawn_dec, ltv_transform_, _enemies);
 			beam_charge_.SetScale(Random::RandomRange(0.9f, 1.1f));
-			PowerTick(-5 * _timespan);
-		} 
+			PowerTick(-beam_energy_use_ * _timespan);
+		}
 		if(beam_sum_time_ > beam_charge_time_ + beam_fire_time_ &&
 		   beam_sum_time_ < beam_charge_time_ + beam_fire_time_ + beam_cooldown_time_)
 		{
 			beam_charge_.SetScale( 1.0f  - ((beam_sum_time_ - beam_charge_time_ - beam_fire_time_) / beam_charge_time_));
-			PowerTick(-5 * _timespan);
+			PowerTick(-beam_energy_use_ * _timespan);
 		}
 		if(beam_sum_time_ >= beam_charge_time_ + beam_fire_time_ + beam_cooldown_time_)
 		{

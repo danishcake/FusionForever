@@ -358,6 +358,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\Demo1.luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\FleeingAI vs SimpleAI.luaChallenge"
 					>
 				</File>
@@ -371,6 +375,10 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\Gunnery.luaChallenge"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Incoming!.luaChallenge"
 					>
 				</File>
 				<File
@@ -563,6 +571,10 @@
 			<Filter
 				Name="XMLShips"
 				>
+				<File
+					RelativePath=".\Scripts\Cilia.xmlShip"
+					>
+				</File>
 				<File
 					RelativePath=".\Scripts\Grawp.xmlShip"
 					>
