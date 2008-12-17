@@ -747,7 +747,7 @@ void EditorScene::SetSelected(Section_ptr _selection)
 			pEdit->setUserData(properties[i]);
 			pEdit->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 10), CEGUI::UDim(0, height)));
 			pEdit->setSize(CEGUI::UVector2(CEGUI::UDim(1, -20), CEGUI::UDim(0, 30)));
-			pEdit->subscribeEvent(CEGUI::Editbox::EventTextAccepted, CEGUI::Event::Subscriber(&EditorScene::cbPropertyChanged, this));
+			pEdit->subscribeEvent(CEGUI::Window::EventTextChanged, CEGUI::Event::Subscriber(&EditorScene::cbPropertyChanged, this));
 			pWndPropertiesInnerPane->addChildWindow(pEdit);
 		} else
 		{

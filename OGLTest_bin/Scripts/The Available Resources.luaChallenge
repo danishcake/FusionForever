@@ -1,0 +1,33 @@
+playerLives = coroutine.wrap(function()
+	player_id = challenge:SpawnShip("KineticC", 0, Vector:new(0, 0), 0, "KeyboardAI", 1)
+	challenge:WaitForDeath(player_id)
+	challenge:WaitFor(1)
+
+	challenge:Defeat()
+end)
+
+minesSpawn = coroutine.wrap(function()
+	while true do
+		ship_data = challenge:GetShipData(player_id)
+		challenge:SpawnShip("TheMine", 1, ship_data.position + Vector:random_ring(500, 900), 0, "Ram.luaAI", 100)
+		challenge:WaitForForceCountLessThan(1, 1)
+	end
+end)
+
+EnemySpawn = coroutine.wrap(function()
+	ship_data = challenge:GetShipData(player_id)
+	challenge:SpawnShip("JuggernautA", 2, ship_data.position + Vector:random_ring(500, 1200), 0, "SimpleAI.luaAI", 1)
+	challenge:WaitForForceCountLessThan(2, 1)
+	challenge:SpawnShip("JuggernautB", 2, ship_data.position + Vector:random_ring(500, 1200), 0, "SimpleAI.luaAI", 1)
+	challenge:WaitForForceCountLessThan(2, 1)
+	challenge:Victory()
+end)
+
+while true do
+	playerLives()
+	minesSpawn()
+	EnemySpawn()
+	coroutine.yield()
+end
+
+

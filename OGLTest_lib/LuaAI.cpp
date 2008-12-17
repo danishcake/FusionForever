@@ -251,6 +251,18 @@ void LuaAI::resume_coroutine(Core_ptr _self, float _timespan)
 						lua_pushnumber(lua_state_, _self->GetPosition().y);	
 				lua_settable(lua_state_, -3);									//Sets ship.position.y to y
 			lua_pop(lua_state_, 1); //Pops position from stack
+				lua_pushstring(lua_state_, "ship_health_max");
+					lua_pushnumber(lua_state_, _self->GetTotalHealth());
+			lua_settable(lua_state_, -3);
+				lua_pushstring(lua_state_, "ship_damage");
+					lua_pushnumber(lua_state_, _self->GetTotalDamage());
+			lua_settable(lua_state_, -3);
+				lua_pushstring(lua_state_, "core_health_max");
+					lua_pushnumber(lua_state_, _self->GetMaxHealth());
+			lua_settable(lua_state_, -3);
+				lua_pushstring(lua_state_, "core_damage");
+					lua_pushnumber(lua_state_, _self->GetMaxHealth()- _self->GetHealth());
+			lua_settable(lua_state_, -3);
 
 				lua_pushstring(lua_state_, "target");
 				lua_gettable(lua_state_, -2);

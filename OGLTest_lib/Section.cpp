@@ -167,6 +167,7 @@ void Section::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 		root_->AddMoment(moment_);
 		root_->AddEnergyCap(energy_.GetMaxValue());
 		root_->AddThrust(thrust_);
+		root_->AddTotalHealth(health_.GetMaxValue());
 		first_tick_ = false;
 	}
 	_collision_manager->Register(this);
@@ -411,11 +412,23 @@ void Section::AttachChildren(std::vector<Section_ptr> _children)
 	sub_sections_.insert(sub_sections_.end(),_children.begin(), _children.end());
 }
 
+/* Decrements health, starts section flashing and reports the damage to the core */
 void Section::TakeDamage(float _damage, int _section_id)
 {
 	health_-=_damage; 
 	damage_flash_timer_ = SECTION_FLASH_TIME;
-	//TODO report damage here
+	GetRoot()->ReportDamage(_damage);
+}
+
+/* Adjusts the Cores maximum health, changed max health of section */
+void Section::SetMaxHealth(float _max_health)
+{
+	if(!first_tick_)
+	{
+		GetRoot()->AddTotalHealth(-health_.GetMaxValue());
+		GetRoot()->AddTotalHealth(_max_health);
+	}
+	health_.SetMaxValue(_max_health);
 }
 
 bool Section::PowerRequirement(float _minimum_power)

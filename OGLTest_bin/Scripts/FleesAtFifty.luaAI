@@ -1,0 +1,15 @@
+if ship.target.valid == false then
+	ship:PickRandomTarget()
+end
+
+--If less than 50% health then flee
+if ship.ship_damage / ship.ship_health_max > 0.5 then
+	ship:FleeFor(10)
+else
+	ship:AttackFor(3, 100, 500)
+end
+
+
+
+
+

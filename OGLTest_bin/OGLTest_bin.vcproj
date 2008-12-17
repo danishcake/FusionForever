@@ -350,6 +350,10 @@
 				Name="Challenges"
 				>
 				<File
+					RelativePath=".\Scripts\The Available Resources.luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\Backstabber.luaChallenge"
 					>
 				</File>
@@ -653,6 +657,10 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\FleeingAI.luaAI"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\FleesAtFifty.luaAI"
 					>
 				</File>
 				<File

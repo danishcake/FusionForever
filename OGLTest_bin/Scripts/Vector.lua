@@ -7,6 +7,12 @@ function Vector:new(_x, _y)
 	return setmetatable({x=_x or 0, y=_y or 0}, vec_mt)
 end
 
+function Vector:random_ring(inner, outer)
+	local angle = math.random(0, 360)
+	local radius = math.random(inner, outer)
+	return setmetatable({x = math.sin(math.rad(angle)) * radius, y = math.sin(math.rad(angle)) * radius}, vec_mt)
+end
+
 function Vector:copy()
 	return Vector:new(self.x, self.y)
 end
