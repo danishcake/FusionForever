@@ -18,6 +18,7 @@ namespace ChallengeState
 		Victory,
 		Defeat,
 		Draw,
+		ReturnToEditor,
 		LoadError,
 		RunError
 	};
@@ -28,6 +29,7 @@ namespace ChallengeState
 		STR_ME( Victory ),
 		STR_ME( Defeat ),
 		STR_ME( Draw ),
+		STR_ME( ReturnToEditor ),
 		STR_ME( LoadError ),
 		STR_ME( RunError ),
 		};
@@ -45,6 +47,7 @@ private:
 	static int l_Victory(lua_State* _luaVM);
 	static int l_Defeat(lua_State* _luaVM);
 	static int l_Draw(lua_State* _luaVM);
+	static int l_ReturnToEditor(lua_State* _luaVM);
 	static int l_GetShipData(lua_State* _luaVM);
 	
 	GLColor force_colors_[8];
@@ -67,6 +70,7 @@ private:
 	void DeclareVictory() {state_ = ChallengeState::Victory;}
 	void DeclareDefeat() {state_ = ChallengeState::Defeat;}
 	void DeclareDraw() {state_ = ChallengeState::Draw;}
+	void ReturnToEditor(){state_ = ChallengeState::ReturnToEditor;}
 	Section* GetShipData(int _ship_id);
 
 public:

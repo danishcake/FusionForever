@@ -33,6 +33,7 @@ public:
 	bool cbLoad(const CEGUI::EventArgs& e);
 	bool cbDelete(const CEGUI::EventArgs& e);
 	bool cbDeleteTree(const CEGUI::EventArgs& e);
+	bool cbTry(const CEGUI::EventArgs& e);
 
 	bool cbSaveDialogueSave(const CEGUI::EventArgs& e);
 	bool cbSaveDialogueCancel(const CEGUI::EventArgs& e);
@@ -55,6 +56,7 @@ public:
 
 protected:
 	bool return_to_menu_;
+	bool try_challenge_;
 	bool fading_out_;
 	bool lock_gui_;
 	float sum_time_;

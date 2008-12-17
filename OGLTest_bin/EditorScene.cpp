@@ -4,6 +4,7 @@
 #include "FadeOutScene.h"
 #include "FadeInScene.h"
 #include "EditorGame.h"
+#include "GameScene.h"
 #include "Camera.h"
 #include <sdl.h>
 
@@ -15,6 +16,7 @@
 #include "ListAdder.h"
 
 #include <boost/filesystem.hpp>
+#include <fstream>
 
 bool EditorScene::cbAddSection(const CEGUI::EventArgs& e)
 {
@@ -423,6 +425,7 @@ EditorScene::EditorScene(void)
 	fade_out_time_ = 0;
 	lock_gui_ = false;
 	return_to_menu_ = false;
+	try_challenge_ = false;
 	drag_mode_ = EditorDragMode::NotDragging;
 	move_first_tick = true;
 
@@ -454,24 +457,31 @@ EditorScene::EditorScene(void)
 
 	CEGUI::PushButton* pBtnLoad = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/Load");
 	pBtnLoad->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 55 ), CEGUI::UDim( 0, 30 ) ) );
-	pBtnLoad->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 0.0f, 50 ) ) );
+	pBtnLoad->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 70), CEGUI::UDim( 0.0f, 10 ) ) );
 	pBtnLoad->setText( "Load" );
 	pBtnLoad->subscribeEvent(CEGUI::Window::EventMouseClick,CEGUI::Event::Subscriber(&EditorScene::cbLoad, this));
 	myRoot->addChildWindow(pBtnLoad);
 
 	CEGUI::PushButton* pBtnDelete = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/Delete");
 	pBtnDelete->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 55 ), CEGUI::UDim( 0, 30 ) ) );
-	pBtnDelete->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 0, 90 ) ) );
+	pBtnDelete->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 0, 50 ) ) );
 	pBtnDelete->subscribeEvent(CEGUI::Window::EventMouseClick,CEGUI::Event::Subscriber(&EditorScene::cbDelete, this));
 	pBtnDelete->setText( "Del" );
 	myRoot->addChildWindow(pBtnDelete);
-	
+
 	CEGUI::PushButton* pBtnDeleteTree = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/DeleteTree");
 	pBtnDeleteTree->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 55 ), CEGUI::UDim( 0, 30 ) ) );
-	pBtnDeleteTree->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 0, 130 ) ) );
+	pBtnDeleteTree->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 70), CEGUI::UDim( 0, 50 ) ) );
 	pBtnDeleteTree->subscribeEvent(CEGUI::Window::EventMouseClick,CEGUI::Event::Subscriber(&EditorScene::cbDeleteTree, this));
 	pBtnDeleteTree->setText( "Deltree" );
 	myRoot->addChildWindow(pBtnDeleteTree);
+
+	CEGUI::PushButton* pBtnTry = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/Try");
+	pBtnTry->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 55 ), CEGUI::UDim( 0, 30 ) ) );
+	pBtnTry->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 0, 90 ) ) );
+	pBtnTry->subscribeEvent(CEGUI::Window::EventMouseClick,CEGUI::Event::Subscriber(&EditorScene::cbTry, this));
+	pBtnTry->setText( "Try" );
+	myRoot->addChildWindow(pBtnTry);
 
 	CEGUI::PushButton* pBtnQuit = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/QuitToMenu");
 	pBtnQuit->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 55 ), CEGUI::UDim( 0, 30 ) ) );
@@ -668,6 +678,15 @@ void EditorScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 		BaseScene_ptr fo = BaseScene_ptr(new FadeOutScene(fo_done_scenes));
 		_new_scenes.push_back(fo);
 	}
+	if(try_challenge_)
+	{
+		try_challenge_ = false;
+		std::vector<BaseScene_ptr> fo_done_scenes;
+		fo_done_scenes.push_back(BaseScene_ptr(new GameScene("EditorTemp")));
+		fo_done_scenes.push_back(BaseScene_ptr(new FadeInScene()));
+		BaseScene_ptr fo = BaseScene_ptr(new FadeOutScene(fo_done_scenes));
+		_new_scenes.push_back(fo);
+	}
 }
 
 
@@ -753,6 +772,26 @@ void EditorScene::SetSelected(Section_ptr _selection)
 
 		height+=35;
 	}
+}
+
+bool EditorScene::cbTry(const CEGUI::EventArgs& e)
+{
+	//Create a challenge 'editortemp.luaChallenge and save a tempory copy of the ship 
+	game_->GetCore()->SaveToXML("EditorTemp.xmlShip");
+	std::ofstream challenge = std::ofstream("Scripts/Challenges/EditorTemp.luaChallenge");
+	
+	challenge << "challenge:SpawnShip(\"LaserShip\", 0, Vector:new(0, 500), 180, \"SimpleAI.luaAI\", 1)\n";
+	challenge << "challenge:SpawnShip(\"EditorTemp\", 1, Vector:new(0, -500), 0, \"KeyboardAI\", 1)\n";
+	challenge << "challenge:WaitFor(0.1)\n";
+	challenge << "while challenge.force_count[0] > 0 and challenge.force_count[1] > 0 do\n";
+	challenge << "\tcoroutine.yield()\n";
+	challenge << "end\n";
+	challenge << "challenge:ReturnToEditor()\n";
+	challenge.close();
+
+	try_challenge_ = true;
+	
+	return true;
 }
 
 bool EditorScene::cbPropertyChanged(const CEGUI::EventArgs& e)

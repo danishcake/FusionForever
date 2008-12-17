@@ -97,6 +97,10 @@ function challenge_:Draw()
 	Draw(self.challenge_pointer)
 end
 
+function challenge_:ReturnToEditor()
+	ReturnToEditor(self.challenge_pointer)
+end
+
 function challenge_:SetDeathFunction(ship_id, death_function)
 	SetDeathFunction(self.challenge_pointer, ship_id, death_function);
 end

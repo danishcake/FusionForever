@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VisualStudioToolFile
+	Name="OGLTest resource copier"
+	Version="8.00"
+	>
+	<Rules>
+		<CustomBuildRule
+			Name="XMLSection copier"
+			DisplayName="XMLSection Deployer"
+			CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\Scripts\Sections\$(InputFileName)&quot;"
+			Outputs="$(OutDir)\Scripts\Sections\$(InputFileName)"
+			FileExtensions="*.XMLSection"
+			ExecutionDescription="Copying script $(InputFileName)"
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="ChallengeScript copier"
+			DisplayName="ChallengeScript deployer"
+			CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\Scripts\Challenges\$(InputFileName)&quot;"
+			Outputs="$(OutDir)\Scripts\Challenges\$(InputFileName)"
+			FileExtensions="*.luaChallenge"
+			ExecutionDescription="Copying script $(InputFileName)"
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="LuaAI copier"
+			DisplayName="LuaAI deployer"
+			CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\Scripts\AI\$(InputFileName)&quot;"
+			Outputs="$(OutDir)\Scripts\AI\$(InputFileName)"
+			FileExtensions="*.luaAI"
+			ExecutionDescription="Copying script $(InputFileName)"
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="XMLShip copier"
+			DisplayName="XMLShip deployer"
+			CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\Scripts\Ships\$(InputFileName)&quot;"
+			Outputs="$(OutDir)\Scripts\Ships\$(InputFileName)"
+			FileExtensions="*.XMLShip"
+			ExecutionDescription="Copying script $(InputFileName)"
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="Lua utilities copier"
+			DisplayName="Lua utilities deployer"
+			CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\$(InputFileName)&quot;"
+			Outputs="$(OutDir)\$(InputFileName)"
+			FileExtensions="*.lua"
+			ExecutionDescription="Copying script $(InputFileName)"
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="Texture copier"
+			DisplayName="Texture copier"
+			CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\Textures\$(InputFileName)&quot;"
+			Outputs="$(OutDir)\Textures\$(InputFileName)"
+			FileExtensions="*.texture"
+			ExecutionDescription="Copying texture $(InputFileName)"
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="XMLCore copier"
+			DisplayName="XMLCore Deployer"
+			CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\Scripts\Sections\$(InputFileName)&quot;"
+			Outputs="$(OutDir)\Scripts\Sections\$(InputFileName)"
+			FileExtensions="*.XMLCore"
+			ExecutionDescription="Copying script $(InputFileName)"
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
+	</Rules>
+</VisualStudioToolFile>

@@ -146,6 +146,18 @@ int LuaChallenge::l_Draw(lua_State* _luaVM)
 	return 0;
 }
 
+int LuaChallenge::l_ReturnToEditor(lua_State* _luaVM)
+{
+	if(!(lua_gettop(_luaVM) == 1))
+	{
+		luaL_error(_luaVM, "ReturnToEditor must be called with just the ChallengePointer");
+	}
+	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -1)));
+	assert(challenge);
+	challenge->ReturnToEditor();
+	return 0;
+}
+
 int LuaChallenge::l_GetShipData(lua_State* _luaVM)
 {
 	if(!(lua_gettop(_luaVM) == 2))
@@ -190,6 +202,7 @@ LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* 
 	lua_register(_luaVM, "Victory", l_Victory);
 	lua_register(_luaVM, "Defeat", l_Defeat);
 	lua_register(_luaVM, "Draw", l_Draw);
+	lua_register(_luaVM, "ReturnToEditor", l_ReturnToEditor);
 	lua_register(_luaVM, "GetShipData", l_GetShipData);
 	lua_register(_luaVM, "_ALERT", l_luaError);
 	lua_register(_luaVM, "SetDeathFunction", l_SetDeathFunction);
@@ -354,13 +367,15 @@ ChallengeState::Enum LuaChallenge::Tick(float _timespan)
 		int resume_result = lua_resume(thread, 0);
 		if(resume_result == LUA_YIELD)
 		{
-			//Logger::Instance() << "Coroutine yielded OK\n";
+			//A normal yield
 		} else if(resume_result == 0)
 		{
-			//Logger::Instance() << "Coroutine finished without errors\n";
-			state_= ChallengeState::Draw;
+			//The script is over - if no final state is reported then call it a draw
+			if(state_ == ChallengeState::Running)
+				state_= ChallengeState::Draw;
 		} else
 		{
+			//The script encountered a runtime error, log it
 			state_ = ChallengeState::RunError;
 			Logger::Instance() << lua_tostring(thread, -1) << "\n";
 		}

@@ -14,18 +14,18 @@ extern "C"
 
 BaseGame::BaseGame(std::string _challenge_filename)
 {
-  for(int x = 0; x < MAX_FORCES; x++)
-  {
-    for(int y = 0; y < MAX_FORCES; y++)
-    {
-      hostility_[x][y] = (x != y) ? Hostility::Hostile : Hostility::Friendly;
-    }
-  }
-  luaVM_ = lua_open();
-  LuaAI::SetUninitialised();
-  luaL_openlibs(luaVM_);
-  challenge_ = new LuaChallenge(luaVM_, _challenge_filename, this);
-  Camera::Instance().SetCentre(0, 0, CameraLevel::None);
+	for(int x = 0; x < MAX_FORCES; x++)
+	{
+		for(int y = 0; y < MAX_FORCES; y++)
+		{
+			hostility_[x][y] = (x != y) ? Hostility::Hostile : Hostility::Friendly;
+		}
+	}
+	luaVM_ = lua_open();
+	LuaAI::SetUninitialised();
+	luaL_openlibs(luaVM_);
+	challenge_ = new LuaChallenge(luaVM_, _challenge_filename, this);
+	Camera::Instance().SetCentre(0, 0, CameraLevel::None);
 }
 
 BaseGame::~BaseGame(void)
@@ -48,6 +48,7 @@ BaseGame::~BaseGame(void)
 		delete ptr;
 	}
 
+	Camera::Instance().SetCentre(0, 0, CameraLevel::None);
 	lua_close(luaVM_);
 }
 

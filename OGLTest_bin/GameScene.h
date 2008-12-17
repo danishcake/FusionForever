@@ -21,6 +21,7 @@ protected:
 	BaseGame* game_;
 	boost::shared_ptr<Billboard> end_billboard_;
 	bool returning_to_menu_;
+	bool returning_to_editor_;
 	bool spawn_fadeout_;
 	float timer_;
 
