@@ -357,6 +357,14 @@ AIAction LuaAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vecto
 	return next_move_;
 }
 
+void LuaAI::SpecifyTarget(Core* _target)
+{
+	if(target_ != NULL)
+		target_->RemoveSubscriber(this);
+	target_ = _target;
+	target_->AddSubscriber(this);
+}
+
 LuaAI* LuaAI::FromScript(std::string _file_name, lua_State *_luaVM)
 {
 	if(ai_chunk_reference_.find(_file_name) != ai_chunk_reference_.end())

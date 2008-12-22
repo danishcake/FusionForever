@@ -11,4 +11,5 @@ public:
 	KeyboardAI(void);
 	virtual ~KeyboardAI(void);
 	virtual AIAction Tick(float _timespan, std::vector<Core*>& _allies, std::vector<Core*>& _enemies, Core* _self);
+	virtual void SpecifyTarget(Core* _target){}
 };

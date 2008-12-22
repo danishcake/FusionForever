@@ -66,6 +66,7 @@ AIAction KeyboardAI::Tick(float _timespan, std::vector<Core*>& _allies, std::vec
 
 	Vector3f point_to_face = Vector3f((x - Camera::Instance().GetWindowWidth() / 2.0f),
 		                              (Camera::Instance().GetWindowHeight() / 2.0f) - y, 0); // Mouse y coordinates are screen coordinates and so upside down
+	Vector3f point_to_face_world = Camera::Instance().ScreenToWorld(point_to_face); //TODO should changes this method to map screen to world, without inverted y
 	if(point_to_face.lengthSq()!=0)
 	{
 		TurnData turn_data = GetTurnDirection(_self->GetAngle(), point_to_face);
@@ -74,19 +75,15 @@ AIAction KeyboardAI::Tick(float _timespan, std::vector<Core*>& _allies, std::vec
 
 		Vector3f point_faced = Vector3f(sinf(_self->GetAngle() * M_PI / 180.0f), cosf(_self->GetAngle() * M_PI / 180.0f), 0);
 
-		//Position camera
-		if(SDL_BUTTON_RMASK & mouse_state)
-		{
-			zoom_time_ += _timespan;
-			zoom_time_ = zoom_time_ > ZOOM_TIME ? ZOOM_TIME : zoom_time_;
-		}
-		else
-		{
-			zoom_time_ -= _timespan;
-			zoom_time_ = zoom_time_ < 0.0f ? 0.0f : zoom_time_;
-		}
-		float zoom_scale = powf(zoom_time_ / ZOOM_TIME, 1.7f);
-		Camera::Instance().SetCentre(_self->GetPosition().x + point_faced.x * Camera::Instance().GetWidth() * 0.4f * zoom_scale, _self->GetPosition().y + point_faced.y* Camera::Instance().GetHeight() * 0.4f * zoom_scale, CameraLevel::Human);
+
+		//float zoom_scale = powf(zoom_time_ / ZOOM_TIME, 1.7f);
+		//Vector3f camera_centre = (1.0f - zoom_scale) * _self->GetPosition() + zoom_scale * point_to_face_world;
+		float peer_factor = 2 * point_to_face.length() / Camera::Instance().GetSmallestDimension();
+		Vector3f peer_point = Camera::Instance().ScreenDeltaToWorldDelta(point_to_face);
+		peer_point.y *= -1;
+		Vector3f camera_centre = _self->GetGlobalPosition() + peer_point * peer_factor;
+		Camera::Instance().SetCentre(camera_centre.x, camera_centre.y, CameraLevel::Human);
+		//Camera::Instance().SetCentre(_self->GetPosition().x + point_to_face_world.x * Camera::Instance().GetWidth() * 0.4f * zoom_scale, _self->GetPosition().y + point_to_face_world.y* Camera::Instance().GetHeight() * 0.4f * zoom_scale, CameraLevel::Human);
 		Camera::Instance().SetFocus(_self->GetPosition().x, _self->GetPosition().y, CameraLevel::Human);
 		//Logger::Log(boost::lexical_cast<std::string, float>(_self->GetEnergy().GetValue()) + "/" + boost::lexical_cast<std::string, float>(_self->GetEnergy().GetMaxValue()));
 	}

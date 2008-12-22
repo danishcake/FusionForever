@@ -158,6 +158,35 @@ int LuaChallenge::l_ReturnToEditor(lua_State* _luaVM)
 	return 0;
 }
 
+int LuaChallenge::l_SetShipTarget(lua_State* _luaVM)
+{
+	if(!(lua_gettop(_luaVM) == 3))
+	{
+		luaL_error(_luaVM, "GetShipData must be called with 3 parameters");
+	}
+	
+	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -3)));
+	assert(challenge);
+	
+	int ship_id_target = static_cast<int>(lua_tointeger(_luaVM, -1));
+	Core_ptr target = challenge->GetShipData(ship_id_target);
+	
+	int ship_id_core = static_cast<int>(lua_tointeger(_luaVM, -2));
+	Core_ptr core = challenge->GetShipData(ship_id_core);
+
+	if(core && target)
+	{
+		core->GetAI()->SpecifyTarget(target);
+		Logger::Instance() << "Making " << ship_id_core << " target " << ship_id_target;
+	}
+	if(!core)
+		Logger::Instance() << "Unable to find target with ID" << ship_id_target;
+	if(!target)
+		Logger::Instance() << "Unable to find target with ID" << ship_id_core;
+
+	return 0;
+}
+
 int LuaChallenge::l_GetShipData(lua_State* _luaVM)
 {
 	if(!(lua_gettop(_luaVM) == 2))
@@ -170,7 +199,7 @@ int LuaChallenge::l_GetShipData(lua_State* _luaVM)
 
 	int ship_id = static_cast<int>(lua_tointeger(_luaVM, -1));
 
-	Section_ptr core = challenge->GetShipData(ship_id);
+	Core_ptr core = challenge->GetShipData(ship_id);
 	if(core != NULL)
 	{
 		lua_pushnumber(_luaVM, core->GetPosition().x);
@@ -185,14 +214,12 @@ int LuaChallenge::l_GetShipData(lua_State* _luaVM)
 		lua_pushboolean(_luaVM, false);
 	}
 
-
-
 	return 4;
 }
 
-Section* LuaChallenge::GetShipData(int _ship_id)
+Core* LuaChallenge::GetShipData(int _ship_id)
 {
-	return game_->GetSectionData(_ship_id);
+	return static_cast<Core_ptr>(game_->GetSectionData(_ship_id));
 }
 
 LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* _game) : 
@@ -206,6 +233,7 @@ LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* 
 	lua_register(_luaVM, "GetShipData", l_GetShipData);
 	lua_register(_luaVM, "_ALERT", l_luaError);
 	lua_register(_luaVM, "SetDeathFunction", l_SetDeathFunction);
+	lua_register(_luaVM, "SetShipTarget", l_SetShipTarget);
 
 	state_ = ChallengeState::NotStarted;
 

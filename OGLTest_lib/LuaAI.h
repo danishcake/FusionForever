@@ -42,6 +42,7 @@ public:
 	~LuaAI(void);
 
 	virtual AIAction Tick(float _timespan, std::vector<Core*>& _allies, std::vector<Core*>& _enemies, Core* _self);
+	virtual void SpecifyTarget(Core* _target);
 	
 	void SetMoveDirection(float _x, float _y);
 	void SetTurnDirection(float _dtheta);

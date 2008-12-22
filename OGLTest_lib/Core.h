@@ -62,6 +62,11 @@ public:
 	  */
 	void OverrideAI(BaseAI* _new_AI);
 
+	/**
+	  * Gets the AI, introduced to allow challenges to specify targets
+	  */
+	BaseAI* GetAI(){return AI_;}
+
 	/*
 	 * Gets the target for subsections to aim at
 	 */

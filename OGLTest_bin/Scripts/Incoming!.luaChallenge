@@ -9,13 +9,8 @@ spawnMines = function(count)
 	local ship_data = challenge:GetShipData(player_id)
 	
 	for i = 1, count do
-		local angle = math.random(0, 360)
-		local radius = 1000 + math.random() * 500
-		local position = ship_data.position
-		position.x = position.x + math.cos(math.rad(angle)) * radius 
-		position.y = position.y + math.sin(math.rad(angle)) * radius
 
-		challenge:SpawnShip("TheMine", 1, position, 0, "Ram.luaAI", 1)
+		challenge:SpawnShip("TheMine", 1, ship_data.position + Vector:random_ring(500, 1000), 0, "Ram.luaAI", 1)
 	end
 end
 

@@ -10,7 +10,7 @@ end
 function Vector:random_ring(inner, outer)
 	local angle = math.random(0, 360)
 	local radius = math.random(inner, outer)
-	return setmetatable({x = math.sin(math.rad(angle)) * radius, y = math.sin(math.rad(angle)) * radius}, vec_mt)
+	return setmetatable({x = math.sin(math.rad(angle)) * radius, y = math.cos(math.rad(angle)) * radius}, vec_mt)
 end
 
 function Vector:copy()

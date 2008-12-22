@@ -85,6 +85,10 @@ function challenge_:UpdateShipData(ship_table)
 	ship_table.alive = alive
 end
 
+function challenge_:SetShipTarget(ship_id, target_id)
+	SetShipTarget(self.challenge_pointer, ship_id, target_id)
+end
+
 function challenge_:Victory()
 	Victory(self.challenge_pointer)
 end

@@ -20,9 +20,12 @@ end
 
 enemySpawn = coroutine.wrap(function()
 	challenge:WaitFor(1)
-	challenge:SpawnShip("TheMine", 4, Vector:new(0, -700), 0, "Ram.luaAI", 3)
-	challenge:SpawnShip("TheMine", 4, Vector:new(700, 0), 0, "Ram.luaAI", 3)
-	challenge:SpawnShip("TheMine", 4, Vector:new(-700, 0), 0, "Ram.luaAI", 3)
+	mine_id = challenge:SpawnShip("TheMine", 4, Vector:new(0, -700), 0, "Ram.luaAI", 3)
+	challenge:SetShipTarget(mine_id, player_id)
+	mine_id = challenge:SpawnShip("TheMine", 4, Vector:new(700, 0), 0, "Ram.luaAI", 3)
+	challenge:SetShipTarget(mine_id, player_id)
+	mine_id = challenge:SpawnShip("TheMine", 4, Vector:new(-700, 0), 0, "Ram.luaAI", 3)
+	challenge:SetShipTarget(mine_id, player_id)
 	for i = 1, 15 do
 		challenge:SpawnShip("Ramrod", 5, Vector:new(0, 700), 0, "FleesAtFifty.luaAI", 1)
 		challenge:WaitFor(0.2)

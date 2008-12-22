@@ -153,6 +153,18 @@ public:
 	float GetFocusY() {return focus_y_;}
 
    /**
+     * Gets the largest of width / height 
+     * @return The largest dimension
+     */
+	float GetLargestDimension(){return width_ > height_ ? width_:height_;}
+
+   /**
+     * Gets the smallest of width / height 
+     * @return The smallest dimension
+     */
+	float GetSmallestDimension(){return width_ < height_ ? width_:height_;}
+
+   /**
      * Gets width of the game window.
      * @return The width of the game window
      */

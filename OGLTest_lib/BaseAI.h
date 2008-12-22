@@ -22,4 +22,6 @@ public:
      * @param _self The owning core.
      */
 	virtual AIAction Tick(float _timespan, std::vector<Core*>& _allies, std::vector<Core*>& _enemies, Core* _self) = 0;
+
+	virtual void SpecifyTarget(Core* _target) = 0;
 };
