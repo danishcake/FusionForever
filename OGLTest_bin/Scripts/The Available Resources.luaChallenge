@@ -7,19 +7,48 @@ playerLives = coroutine.wrap(function()
 end)
 
 minesSpawn = coroutine.wrap(function()
+	ship_data = challenge:GetShipData(player_id)
+	mine_id = challenge:SpawnShip("TheMine", 1, ship_data.position + Vector:random_ring(500, 900), 0, "Ram.luaAI", 100)
+	challenge:WaitFor(0.1)
+	challenge:SetShipTarget(mine_id, enemy_id)
+	challenge:WaitForForceCountLessThan(1, 1)
 	while true do
 		ship_data = challenge:GetShipData(player_id)
-		challenge:SpawnShip("TheMine", 1, ship_data.position + Vector:random_ring(500, 900), 0, "Ram.luaAI", 100)
+		mine_id = challenge:SpawnShip("TheMine", 1, ship_data.position + Vector:random_ring(500, 900), 0, "Ram.luaAI", 100)
+		challenge:WaitFor(0.1)
+		challenge:SetShipTarget(mine_id, player_id)
 		challenge:WaitForForceCountLessThan(1, 1)
 	end
 end)
 
 EnemySpawn = coroutine.wrap(function()
 	ship_data = challenge:GetShipData(player_id)
-	challenge:SpawnShip("JuggernautA", 2, ship_data.position + Vector:random_ring(500, 1200), 0, "SimpleAI.luaAI", 1)
+	enemy_id = challenge:SpawnShip("JuggernautA", 2, ship_data.position + Vector:random_ring(500, 1200), 0, "SimpleAI.luaAI", 1)
+	challenge:SetShipTarget(enemy_id, player_id)
 	challenge:WaitForForceCountLessThan(2, 1)
-	challenge:SpawnShip("JuggernautB", 2, ship_data.position + Vector:random_ring(500, 1200), 0, "SimpleAI.luaAI", 1)
+	
+	
+	enemy_id = challenge:SpawnShip("JuggernautB", 2, ship_data.position + Vector:random_ring(500, 1200), 0, "SimpleAI.luaAI", 1)
+	challenge:SetShipTarget(enemy_id, player_id)
 	challenge:WaitForForceCountLessThan(2, 1)
+	
+	enemy_id = challenge:SpawnShip("JuggernautA", 2, ship_data.position + Vector:random_ring(500, 1200), 0, "SimpleAI.luaAI", 1)
+	challenge:SetShipTarget(enemy_id, player_id)
+	enemy_id = challenge:SpawnShip("JuggernautA", 2, ship_data.position + Vector:random_ring(500, 1200), 0, "SimpleAI.luaAI", 1)
+	challenge:SetShipTarget(enemy_id, player_id)
+	challenge:WaitForForceCountLessThan(2, 1)
+	
+	enemy_id = challenge:SpawnShip("JuggernautA", 2, ship_data.position + Vector:random_ring(500, 1200), 0, "SimpleAI.luaAI", 1)
+	challenge:SetShipTarget(enemy_id, player_id)
+	enemy_id = challenge:SpawnShip("JuggernautA", 2, ship_data.position + Vector:random_ring(500, 1200), 0, "SimpleAI.luaAI", 1)
+	challenge:SetShipTarget(enemy_id, player_id)
+	enemy_id = challenge:SpawnShip("JuggernautB", 2, ship_data.position + Vector:random_ring(500, 1200), 0, "SimpleAI.luaAI", 1)
+	challenge:SetShipTarget(enemy_id, player_id)
+	enemy_id = challenge:SpawnShip("JuggernautB", 2, ship_data.position + Vector:random_ring(500, 1200), 0, "SimpleAI.luaAI", 1)
+	challenge:SetShipTarget(enemy_id, player_id)
+	challenge:WaitForForceCountLessThan(2, 1)
+	
+	
 	challenge:Victory()
 end)
 

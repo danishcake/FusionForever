@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "SwarmMissile.h"
+#include "BillboardDeco.h"
 #include "Puff.h"
 
 bool SwarmMissile::initialised_ = false;
@@ -37,6 +38,10 @@ void SwarmMissile::Hit(std::vector<Decoration_ptr>& _spawn)
 	Puff* p = new Puff();
 	p->SetPosition(ltv_position_);
 	_spawn.push_back(Decoration_ptr(p));
+
+	BillboardDeco* d = BillboardDeco::RandomExplosion();
+	d->SetPosition(ltv_position_);
+	_spawn.push_back(Decoration_ptr(d));
 }
 
 void SwarmMissile::InitialiseGraphics()

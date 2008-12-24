@@ -33,6 +33,7 @@ public:
 	int GetEnemyCount(int _force);
 	int GetFriendCount(int _force);
 	Section* GetSectionData(int _section_id);
+	int GetPlayerSectionID(){return player_id_;}
 
 protected:
 	std::vector<Projectile_ptr> projectiles_[MAX_FORCES];
@@ -49,4 +50,6 @@ protected:
 
 	GLuint victory_texture_;
 	GLuint defeat_texture_;
+
+	int player_id_; //The id of the first player controlled by a keyboard
 };

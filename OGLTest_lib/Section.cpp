@@ -122,7 +122,7 @@ void Section::AddChild(Section *child)
 	{
 		child->SetPosition(default_sub_section_position_);
 	}
-	this->sub_sections_.push_back(child);
+	sub_sections_.push_back(child);
 	child->SetColor(fill_.GetFillColor());
 	child->SetParentAndRoot(this, root_ == NULL ? static_cast<Core_ptr>(this) : root_);
 }
@@ -443,6 +443,8 @@ void Section::PowerTick(float _power_delta)
 {
 	if(root_)
 		root_->PowerTick(_power_delta);
+	else
+		energy_ += _power_delta;
 }
 
 Core_ptr Section::GetRoot()

@@ -70,7 +70,7 @@ protected:
 	FlexFloat power_generation_;
 
 	/*
-	 * Drains power from core
+	 * Drains power from core - expects a negative number
 	 */
 	void PowerTick(float _power_delta);
 	bool PowerRequirement(float _minimum_power);
@@ -145,4 +145,7 @@ public:
 	virtual bool ParseSpecific(TiXmlElement* _node);
 
 	void SaveToXML(std::string _filename);
+
+	/* Private and protected methods exposed for unit testing purposes */
+	void UnitTestPowerTick(float _power_delta){PowerTick(_power_delta);}
 };

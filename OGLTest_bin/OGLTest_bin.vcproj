@@ -95,9 +95,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				ExecutionBucket="10"
-				AdditionalDependencies="lua51.lib OGLTest_lib.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib CEGUIBase_d.lib OpenGLGUIRenderer_d.lib tinyxmld_STL.lib"
+				AdditionalDependencies="lua51.lib OGLTest_lib.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib CEGUIBase_d.lib OpenGLGUIRenderer_d.lib tinyxmld_STL.lib SDL_mixer.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;c:\Program Files\tinyxml\Debug_STL&quot;;&quot;c:\Program Files\boost\boost_1_36_0\lib&quot;;&quot;C:\Program Files\SDL-1.2.12\lib&quot;;../OGLTest_lib/Debug;&quot;C:\Program Files\lua\lib&quot;;&quot;C:\Program Files\CEGUI-SDK-0.6.0\lib&quot;"
+				AdditionalLibraryDirectories="&quot;C:\Program Files\SDL_mixer-1.2.8\lib&quot;;&quot;c:\Program Files\tinyxml\Debug_STL&quot;;&quot;c:\Program Files\boost\boost_1_36_0\lib&quot;;&quot;C:\Program Files\SDL-1.2.12\lib&quot;;../OGLTest_lib/Debug;&quot;C:\Program Files\lua\lib&quot;;&quot;C:\Program Files\CEGUI-SDK-0.6.0\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				LinkTimeCodeGeneration="0"
@@ -201,9 +201,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="lua51.lib OGLTest_lib.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib CEGUIBase.lib OpenGLGUIRenderer.lib tinyxml_STL.lib"
+				AdditionalDependencies="lua51.lib OGLTest_lib.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib CEGUIBase.lib OpenGLGUIRenderer.lib tinyxml_STL.lib SDL_mixer.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;c:\Program Files\tinyxml\Release_STL&quot;;&quot;c:\Program Files\boost\boost_1_36_0\lib&quot;;&quot;C:\Program Files\SDL-1.2.12\lib&quot;;../OGLTest_lib/Release;&quot;C:\Program Files\lua\lib&quot;;&quot;C:\Program Files\CEGUI-SDK-0.6.0\lib&quot;"
+				AdditionalLibraryDirectories="&quot;C:\Program Files\SDL_mixer-1.2.8\lib&quot;;&quot;c:\Program Files\tinyxml\Release_STL&quot;;&quot;c:\Program Files\boost\boost_1_36_0\lib&quot;;&quot;C:\Program Files\SDL-1.2.12\lib&quot;;../OGLTest_lib/Release;&quot;C:\Program Files\lua\lib&quot;;&quot;C:\Program Files\CEGUI-SDK-0.6.0\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -350,10 +350,6 @@
 				Name="Challenges"
 				>
 				<File
-					RelativePath=".\Scripts\The Available Resources.luaChallenge"
-					>
-				</File>
-				<File
 					RelativePath=".\Scripts\Backstabber.luaChallenge"
 					>
 				</File>
@@ -382,6 +378,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\Incoming!(Vicious).luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\Incoming!.luaChallenge"
 					>
 				</File>
@@ -399,6 +399,10 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\SurviveTheFeud.luaChallenge"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\The Available Resources.luaChallenge"
 					>
 				</File>
 			</Filter>
@@ -725,8 +729,40 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Textures\puff128x128.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\puff128x128blue.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\puff128x128green.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\puff64x64.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\puff64x64blue.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\puff64x64green.texture"
+				>
+			</File>
+			<File
 				RelativePath=".\Textures\Victory.texture"
 				DeploymentContent="true"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Sounds"
+			>
+			<File
+				RelativePath=".\Sounds\ding.wav"
 				>
 			</File>
 		</Filter>

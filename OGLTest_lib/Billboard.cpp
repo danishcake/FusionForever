@@ -6,7 +6,7 @@
 Billboard::Billboard(std::string _texture, BillboardType::Enum _billboard_space)
 {
 	billboard_space_ = _billboard_space;
-	texture_id_ = TextureLoader::Instance().LoadTexture(_texture);
+	texture_id_ = TextureLoader::Instance().LoadTexture(_texture + ".texture");
 	Vector2<int> size_i = TextureLoader::Instance().GetTextureSize(texture_id_);
 	size_.x = static_cast<float>(size_i.x);
 	size_.y = static_cast<float>(size_i.y);

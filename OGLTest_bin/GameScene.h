@@ -16,7 +16,6 @@ public:
 	virtual void Draw();
 	virtual bool IsRoot();
 	virtual bool IsRemovable();
-	bool IsSectionAlive(int _section_id);
 protected:
 	BaseGame* game_;
 	boost::shared_ptr<Billboard> end_billboard_;
@@ -24,6 +23,8 @@ protected:
 	bool returning_to_editor_;
 	bool spawn_fadeout_;
 	float timer_;
+	float sum_time_;
+	int player_id_;
 
 	std::string challenge_;
 };

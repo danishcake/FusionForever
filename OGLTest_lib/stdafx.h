@@ -32,3 +32,5 @@
 
 #include <TinyXML.h>
 
+#include "SoundManager.h"
+

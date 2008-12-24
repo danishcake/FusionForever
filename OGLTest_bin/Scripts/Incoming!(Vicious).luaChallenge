@@ -1,0 +1,145 @@
+playerSpawn = coroutine.wrap(function()
+	player_id = challenge:SpawnShip("Protoship", 0, Vector:new(0,0), 0, "KeyboardAI", 1)
+	challenge:WaitForForceCountLessThan(0, 1)
+	challenge:WaitFor(1)
+	challenge:Defeat()
+end)
+
+spawnMinesBehind = function(count, death_fn)
+	local ship_data = challenge:GetShipData(player_id)
+	
+	for i = 1, count do
+		local direction_of_travel = Vector:from_angle(ship_data.angle + 180) * 1000 + Vector:random_ring(100,200)
+		local mine_id = challenge:SpawnShip("TheMine", 1, ship_data.position + direction_of_travel, 0, "Ram.luaAI", 1)
+		if death_fn ~= nil then
+			challenge:SetDeathFunction(mine_id, death_fn)
+		end
+	end
+end
+
+spawnMines = function(count, death_fn)
+	local ship_data = challenge:GetShipData(player_id)
+	
+	for i = 1, count do
+		local mine_id = challenge:SpawnShip("TheMine", 1, ship_data.position + Vector:random_ring(500, 1000), 0, "Ram.luaAI", 1)
+		if death_fn ~= nil then
+			challenge:SetDeathFunction(mine_id, death_fn)
+		end
+	end
+end
+
+spawnTimedMines = function(count, gap, death_fn)
+	local ship_data = challenge:GetShipData(player_id)
+	
+	for i = 1, count do
+		local mine_id = challenge:SpawnShip("TheMine", 1, ship_data.position + Vector:random_ring(500, 1000), 0, "Ram.luaAI", 1)
+		if death_fn ~= nil then
+			challenge:SetDeathFunction(mine_id, death_fn)
+		end
+		challenge:WaitFor(gap)
+	end
+end
+
+continuousSpawnEnabled = false
+continuousSpawnTime = 1.5
+continuousSpawnBehind = false
+
+continuousSpawn = coroutine.wrap(function()
+	while true do
+		if continuousSpawnEnabled then
+			if continuousSpawnBehind then
+				spawnMinesBehind(1)
+			else
+				spawnMines(1)
+			end
+		end
+		challenge:WaitFor(continuousSpawnTime)
+	end
+end)
+
+mineSpawnCount = 0
+
+mineSpawnDie = function()
+	mineSpawnCount = mineSpawnCount - 1
+end
+
+WaitForMinesDead = function()
+	while mineSpawnCount > 0 do
+		coroutine.yield()
+	end
+end
+
+mineSpawn = coroutine.wrap(function()
+	challenge:WaitFor(3)
+	
+	spawnMines(4, mineSpawnDie)
+	challenge:WaitFor(3)
+	mineSpawnCount = 6
+	spawnMinesBehind(2, mineSpawnDie)
+	WaitForMinesDead()
+	
+	continuousSpawnEnabled = true
+	
+	mineSpawnCount = 4
+	spawnMines(mineSpawnCount, mineSpawnDie)
+	WaitForMinesDead()
+	
+	mineSpawnCount = 8
+	spawnMines(mineSpawnCount, mineSpawnDie)
+	WaitForMinesDead()
+	
+	continuousSpawnBehind = true
+	
+	mineSpawnCount = 12
+	spawnMines(mineSpawnCount, mineSpawnDie)
+	WaitForMinesDead()
+	
+	continuousSpawnTime = continuousSpawnTime - 0.1
+	
+	mineSpawnCount = 16
+	spawnMines(mineSpawnCount, mineSpawnDie)
+	WaitForMinesDead()
+	
+	continuousSpawnTime = continuousSpawnTime - 0.1
+	
+	--Phase 2
+	mineSpawnCount = 8
+	spawnTimedMines(mineSpawnCount, 0.25)
+	WaitForMinesDead()
+	
+	continuousSpawnTime = continuousSpawnTime - 0.1
+	
+	mineSpawnCount = 12
+	spawnTimedMines(mineSpawnCount, 0.25)
+	WaitForMinesDead()
+
+	continuousSpawnTime = continuousSpawnTime - 0.1
+
+	mineSpawnCount = 16
+	spawnTimedMines(mineSpawnCount, 0.25)
+	WaitForMinesDead()
+	
+	continuousSpawnTime = continuousSpawnTime - 0.1
+	
+	mineSpawnCount = 20
+	spawnTimedMines(mineSpawnCount, 0.25)
+	WaitForMinesDead()
+	
+	continuousSpawnTime = continuousSpawnTime - 0.1
+	
+	mineSpawnCount = 32
+	spawnTimedMines(mineSpawnCount, 0.25)
+	WaitForMinesDead()
+	
+
+	challenge:WaitFor(1)
+	
+	challenge:Victory()
+end)
+
+while true do
+	playerSpawn()
+	mineSpawn()
+	continuousSpawn()
+	coroutine.yield()
+end

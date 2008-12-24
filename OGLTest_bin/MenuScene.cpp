@@ -8,6 +8,7 @@
 #include <sdl.h>
 
 #include <boost/filesystem.hpp>
+#include "SoundManager.h"
 
 
 bool MenuScene::StartChallenge(const CEGUI::EventArgs& e)
@@ -26,6 +27,8 @@ bool MenuScene::StartChallenge(const CEGUI::EventArgs& e)
 	fade_out_time_ = 1.0f;
 	fading_out_ = true;
 
+	SoundManager::Instance().PlaySample("ding.wav");
+	 
 	return true;
 }
 
@@ -50,8 +53,6 @@ bool MenuScene::cbSettingsOK(const CEGUI::EventArgs& e)
 
 	CEGUI::Checkbox* pCmbFullscreen = (CEGUI::Checkbox*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings/Fullscreen");
 	Settings::Instance().SetFullscreen(pCmbFullscreen->isSelected());
-
-	
 
 	return true;
 }
@@ -210,6 +211,7 @@ MenuScene::MenuScene(void)
 		pCmbCheckbox->setSize(CEGUI::UVector2(CEGUI::UDim(1, -20), CEGUI::UDim(0, 30)));
 		pCmbCheckbox->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 10), CEGUI::UDim(0, 70)));
 		pCmbCheckbox->setText("Fullscreen");
+		pCmbCheckbox->setSelected(Settings::Instance().GetFullscreen());
 		pWndSettings->addChildWindow(pCmbCheckbox);
 	}
 

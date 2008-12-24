@@ -26,6 +26,7 @@ BaseGame::BaseGame(std::string _challenge_filename)
 	luaL_openlibs(luaVM_);
 	challenge_ = new LuaChallenge(luaVM_, _challenge_filename, this);
 	Camera::Instance().SetCentre(0, 0, CameraLevel::None);
+	player_id_ = -1; 
 }
 
 BaseGame::~BaseGame(void)
@@ -118,6 +119,7 @@ int BaseGame::Tick(float _timespan)
 	}
 
 	//Tick ships
+	player_id_ = -1;
 	const Matrix4f identity = Matrix4f();
 	std::vector<Projectile_ptr> projectile_spawn;
 	projectile_spawn.reserve(50);
@@ -127,6 +129,10 @@ int BaseGame::Tick(float _timespan)
 		BOOST_FOREACH(Core_ptr core, ships_[force])
 		{
 			core->Tick(_timespan, projectile_spawn, decoration_spawn, identity, friends[force], enemies[force], &collision_managers_[force]);
+			if(core->GetAI()->IsHuman() && player_id_ == -1)
+			{
+				player_id_ = core->GetSectionID();
+			}
 		}
 		//Add spawned projectiles
 		projectiles_[force].insert(projectiles_[force].end(), projectile_spawn.begin(), projectile_spawn.end());

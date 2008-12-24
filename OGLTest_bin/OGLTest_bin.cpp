@@ -150,7 +150,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	Camera::Instance().SetAspectRatio(resolution.x, resolution.y);
 
 	bool isFinished = false;
-	SDL_Init(SDL_INIT_VIDEO);
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 	SDL_WM_SetCaption("SDL Test", "SDL Test");
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 

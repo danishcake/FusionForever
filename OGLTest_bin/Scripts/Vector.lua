@@ -13,6 +13,11 @@ function Vector:random_ring(inner, outer)
 	return setmetatable({x = math.sin(math.rad(angle)) * radius, y = math.cos(math.rad(angle)) * radius}, vec_mt)
 end
 
+function Vector:from_angle(angle)
+	print(angle)
+	return setmetatable({x=math.sin(math.rad(angle)), y = math.cos(math.rad(angle))}, vec_mt)
+end
+
 function Vector:copy()
 	return Vector:new(self.x, self.y)
 end

@@ -4,5 +4,5 @@
 	<Health> 1500 </Health>
 	<Mass> 400 </Mass>
 	<Thrust> 85 </Thrust>
-	<PowerGeneration> -5 </PowerGeneration>
+	<PowerGeneration> 5 </PowerGeneration>
 </SectionDefinition>

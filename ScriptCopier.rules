@@ -81,5 +81,16 @@
 			<Properties>
 			</Properties>
 		</CustomBuildRule>
+		<CustomBuildRule
+			Name="Sounds copier"
+			DisplayName="Sounds Deployer"
+			CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)\Sounds\$(InputFileName)&quot;"
+			Outputs="$(OutDir)\Sounds\$(InputFileName)"
+			FileExtensions="*.wav"
+			ExecutionDescription="Copying sound file $(InputFileName)"
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
 	</Rules>
 </VisualStudioToolFile>

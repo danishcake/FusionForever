@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;c:\Program Files\tinyxml&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost\boost_1_36_0&quot;;&quot;C:\Program Files\lua\include&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\SDL_mixer-1.2.8\include&quot;;&quot;c:\Program Files\tinyxml&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost\boost_1_36_0&quot;;&quot;C:\Program Files\lua\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
@@ -108,7 +108,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;c:\Program Files\tinyxml&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost\boost_1_36_0&quot;;&quot;C:\Program Files\lua\include&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\SDL_mixer-1.2.8\include&quot;;&quot;c:\Program Files\tinyxml&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost\boost_1_36_0&quot;;&quot;C:\Program Files\lua\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -202,6 +202,10 @@
 				>
 				<File
 					RelativePath=".\BeamCharge.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\BillboardDeco.cpp"
 					>
 				</File>
 				<File
@@ -421,6 +425,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\SoundManager.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\stdafx.cpp"
 					>
 					<FileConfiguration
@@ -528,6 +536,10 @@
 				>
 				<File
 					RelativePath=".\BeamCharge.h"
+					>
+				</File>
+				<File
+					RelativePath=".\BillboardDeco.h"
 					>
 				</File>
 				<File
@@ -764,6 +776,10 @@
 				</File>
 				<File
 					RelativePath=".\SortFunctors.h"
+					>
+				</File>
+				<File
+					RelativePath=".\SoundManager.h"
 					>
 				</File>
 				<File
