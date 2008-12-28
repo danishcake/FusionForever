@@ -30,10 +30,10 @@ void BillboardDeco::Tick(float _timespan, Matrix4f _transform)
 			if(life_fraction < 0.5f)
 			{
 				scale_ = powf(life_fraction * 2.0f, 1.7f);
-				transparancy_ = 1.0f - life_fraction;
+				transparancy_ = 1.0f;
 			} else
 			{
-				scale_ = (1.0f - life_fraction) * 2.0f;
+				scale_ = 1 - (life_fraction * 2.0f - 1.0f) * 0.2f ;
 				transparancy_ = (1.0f - life_fraction);
 			}
 			break;
@@ -54,6 +54,7 @@ void BillboardDeco::DrawSelf()
 	//Do custom drawing
 	billboard_->SetPosition(position_);
 	billboard_->SetSize(initial_size_ * scale_ * 0.4f);
+	billboard_->SetColor(GLColor(255,255,255, transparancy_));
 	billboard_->Draw();
 }
 
