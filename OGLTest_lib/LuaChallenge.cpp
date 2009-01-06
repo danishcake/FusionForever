@@ -89,6 +89,34 @@ int LuaChallenge::l_luaError(lua_State* _luaVM)
 	return 0;
 }
 
+int LuaChallenge::l_SetHostility(lua_State* _luaVM)
+{
+	if(lua_gettop(_luaVM) != 4)
+	{
+		luaL_error(_luaVM, "SetHostility must be called with 4 parameters");
+	}
+	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -4)));
+	assert(challenge);
+
+	int forceA = static_cast<int>(lua_tonumber(_luaVM, -3));
+	int forceB = static_cast<int>(lua_tonumber(_luaVM, -2));
+
+	if(forceA < 0 || forceA > MAX_FORCES)
+		luaL_error(_luaVM, "ForceA should be between 0 and %d", MAX_FORCES);
+	if(forceB < 0 || forceB > MAX_FORCES)
+		luaL_error(_luaVM, "ForceB should be between 0 and %d", MAX_FORCES);
+
+	bool hostile = static_cast<bool>(lua_toboolean(_luaVM, -1));
+
+	challenge->SetHostility(forceA, forceB, hostile);
+	return 0;
+}
+
+void LuaChallenge::SetHostility(int _force_a, int _force_b, bool _hostility)
+{
+	game_->SetHostility(_force_a, _force_b, _hostility);
+}
+
 int LuaChallenge::l_SetDeathFunction(lua_State* _luaVM)
 {
 	if(!(lua_gettop(_luaVM) == 3))
@@ -234,6 +262,7 @@ LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* 
 	lua_register(_luaVM, "_ALERT", l_luaError);
 	lua_register(_luaVM, "SetDeathFunction", l_SetDeathFunction);
 	lua_register(_luaVM, "SetShipTarget", l_SetShipTarget);
+	lua_register(_luaVM, "SetHostility", l_SetHostility);
 
 	state_ = ChallengeState::NotStarted;
 

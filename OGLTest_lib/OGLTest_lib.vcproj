@@ -835,6 +835,26 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="Scenes"
+				>
+				<File
+					RelativePath=".\BaseScene.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FadeInScene.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FadeOutInScene.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FadeOutScene.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"

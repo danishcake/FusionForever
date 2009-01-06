@@ -29,6 +29,8 @@ public:
 	virtual void Draw();
 	void LoadChallenge(std::string _challenge);
 	void AddShip(Core* _core, int _force);
+	void SetHostility(int _force_a, int _force_b, bool _hostile);
+
 	int GetForceCount(int _force);
 	int GetEnemyCount(int _force);
 	int GetFriendCount(int _force);

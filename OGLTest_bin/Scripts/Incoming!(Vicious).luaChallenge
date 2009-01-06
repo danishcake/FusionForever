@@ -5,23 +5,31 @@ playerSpawn = coroutine.wrap(function()
 	challenge:Defeat()
 end)
 
-spawnMinesBehind = function(count, death_fn)
+spawnMinesBehind = function(count, death_fn, force)
 	local ship_data = challenge:GetShipData(player_id)
+	local force_ = 1
+	if force ~= nil then
+		force_ = force
+	end
 	
 	for i = 1, count do
 		local direction_of_travel = Vector:from_angle(ship_data.angle + 180) * 1000 + Vector:random_ring(100,200)
-		local mine_id = challenge:SpawnShip("TheMine", 1, ship_data.position + direction_of_travel, 0, "Ram.luaAI", 1)
+		local mine_id = challenge:SpawnShip("TheMine", force_, ship_data.position + direction_of_travel, 0, "Ram.luaAI", 1)
 		if death_fn ~= nil then
 			challenge:SetDeathFunction(mine_id, death_fn)
 		end
 	end
 end
 
-spawnMines = function(count, death_fn)
+spawnMines = function(count, death_fn, force)
 	local ship_data = challenge:GetShipData(player_id)
+	local force_ = 1
+	if force ~= nil then
+		force_ = force
+	end
 	
 	for i = 1, count do
-		local mine_id = challenge:SpawnShip("TheMine", 1, ship_data.position + Vector:random_ring(500, 1000), 0, "Ram.luaAI", 1)
+		local mine_id = challenge:SpawnShip("TheMine", force_, ship_data.position + Vector:random_ring(500, 1000), 0, "Ram.luaAI", 1)
 		if death_fn ~= nil then
 			challenge:SetDeathFunction(mine_id, death_fn)
 		end
@@ -48,9 +56,9 @@ continuousSpawn = coroutine.wrap(function()
 	while true do
 		if continuousSpawnEnabled then
 			if continuousSpawnBehind then
-				spawnMinesBehind(1)
+				spawnMinesBehind(1, nil, 2)
 			else
-				spawnMines(1)
+				spawnMines(1, nil, 2)
 			end
 		end
 		challenge:WaitFor(continuousSpawnTime)
@@ -136,6 +144,8 @@ mineSpawn = coroutine.wrap(function()
 	
 	challenge:Victory()
 end)
+
+challenge:SetFriendly(1,2)
 
 while true do
 	playerSpawn()

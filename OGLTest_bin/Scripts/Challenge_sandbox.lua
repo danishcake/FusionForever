@@ -28,6 +28,41 @@ function challenge_:SpawnShip(ship_name, force, position, angle, ai_script, heal
 	end
 end
 
+function challenge_:SetHostility(forceA, forceB, hostile, mirrored)
+	local mirror_hostility = true
+	if mirrored ~= nil then
+		assert(type(mirrored) == "boolean")
+		mirror_hostility = mirrored
+	end
+	assert(type(forceA) == "number")
+	assert(type(forceB) == "number")
+	assert(type(hostile) == "boolean")
+	assert(forceA > 0 and forceA < 8)
+	assert(forceB > 0 and forceB < 8)
+	assert(forceA ~= forceB)
+	
+	SetHostility(self.challenge_pointer, forceA, forceB, hostile)
+	if mirrored_hostility then
+		SetHostility(self.challenge_pointer, forceB, forceA, hostile)
+	end
+end
+
+function challenge_:SetHostile(forceA, forceB)
+	assert(type(forceA) == "number")
+	assert(type(forceB) == "number")
+	assert(forceA ~= forceB)
+	SetHostility(self.challenge_pointer, forceA, forceB, true)
+	SetHostility(self.challenge_pointer, forceB, forceA, true)
+end
+
+function challenge_:SetFriendly(forceA, forceB)
+	assert(type(forceA) == "number")
+	assert(type(forceB) == "number")
+	assert(forceA ~= forceB)
+	SetHostility(self.challenge_pointer, forceA, forceB, false)
+	SetHostility(self.challenge_pointer, forceB, forceA, false)
+end
+
 function challenge_:WaitForAllEnemiesDead(force)
 	assert(type(force) == "number", "force must be a number")
 	assert(force >= 0 and force < 8, "force must be in range 0-7")

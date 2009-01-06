@@ -14,7 +14,6 @@ public:
 	virtual bool IsRemovable();
 	
 	static const float FOTime;
-	static const float FITime;
 protected:
 	float timeleft_;
 	std::vector<BaseScene_ptr> fadeout_done_scenes_;

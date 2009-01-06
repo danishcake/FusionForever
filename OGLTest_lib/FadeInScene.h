@@ -19,4 +19,6 @@ public:
 
 protected:
 	float timeleft_;
+	static const float FITime;
+
 };

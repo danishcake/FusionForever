@@ -48,10 +48,18 @@ Settings::Settings(void)
 		fs->SetAttribute("Value", "0");
 		settings_doc_.LinkEndChild(fs);
 	}
-
 }
 
 Settings::~Settings(void)
 {
+	TiXmlHandle settings_handle =  TiXmlHandle(&settings_doc_);
+
+	TiXmlElement* resolution = settings_handle.FirstChild("Resolution").Element();
+	resolution->SetAttribute("Width", boost::lexical_cast<std::string, int>(static_cast<int>(resolution_.x)));
+	resolution->SetAttribute("Height", boost::lexical_cast<std::string, int>(static_cast<int>(resolution_.y)));
+
+	TiXmlElement* fullscreen = settings_handle.FirstChild("Fullscreen").Element();
+	fullscreen->SetAttribute("Value", fullscreen_ ? "1" : "0");
+
 	settings_doc_.SaveFile("Settings.xml");
 }

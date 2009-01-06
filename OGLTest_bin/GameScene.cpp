@@ -143,7 +143,7 @@ void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 
 	sum_time_+=_timespan;
 	ChallengeState::Enum state = (ChallengeState::Enum)game_->Tick(_timespan);
-	if(!returning_to_menu_)
+	if(!returning_to_menu_ && !returning_to_editor_)
 	{
 		if(state == ChallengeState::Victory)
 		{
@@ -200,7 +200,7 @@ void GameScene::Draw()
 	if(timer_ > 1.0f)
 	{
 		//Cause the billboard to fade in
-		if(end_billboard_.px != NULL)
+		if(end_billboard_.get() != NULL)
 		{
 			if(timer_ < 1.3f)
 				end_billboard_->SetColor(GLColor(255,255,255, (timer_ - 1.0f) / 0.3f)); 
@@ -222,5 +222,5 @@ bool GameScene::IsRoot()
 
 bool GameScene::IsRemovable()
 {
-	return timer_ >= 4.0f;
+	return timer_ >= 3.0f + FadeOutScene::FOTime * 0.9f;
 }

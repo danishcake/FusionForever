@@ -51,6 +51,7 @@ private:
 	static int l_ReturnToEditor(lua_State* _luaVM);
 	static int l_GetShipData(lua_State* _luaVM);
 	static int l_SetShipTarget(lua_State* _luaVM);
+	static int l_SetHostility(lua_State* _luaVM);
 	
 	GLColor force_colors_[8];
 	
@@ -73,6 +74,7 @@ private:
 	void DeclareDefeat() {state_ = ChallengeState::Defeat;}
 	void DeclareDraw() {state_ = ChallengeState::Draw;}
 	void ReturnToEditor(){state_ = ChallengeState::ReturnToEditor;}
+	void SetHostility(int _force_b, int force_b, bool _hostility);
 	Core* GetShipData(int _ship_id);
 
 public:

@@ -10,6 +10,17 @@
 #include <boost/filesystem.hpp>
 #include "SoundManager.h"
 
+bool MenuScene::cbChallengeSelectionChanged(const CEGUI::EventArgs& e)
+{
+	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+	CEGUI::Listbox* pWndChallengeList = (CEGUI::Listbox*)wmgr.getWindow("Menu/LevelsList");
+	CEGUI::PushButton* pBtnStart = (CEGUI::PushButton*)wmgr.getWindow("Menu/Start");
+	if(pWndChallengeList->getSelectedCount() == 1)
+		pBtnStart->setEnabled(true);
+	else
+		pBtnStart->setEnabled(false);
+	return true;
+}
 
 bool MenuScene::StartChallenge(const CEGUI::EventArgs& e)
 {
@@ -24,7 +35,7 @@ bool MenuScene::StartChallenge(const CEGUI::EventArgs& e)
 
 	start_challenge_ = true;
 	lock_gui_ = true;
-	fade_out_time_ = 1.0f;
+	fade_out_time_ = FadeOutScene::FOTime * 0.9f;
 	fading_out_ = true;
 
 	SoundManager::Instance().PlaySample("ding.wav");
@@ -39,7 +50,7 @@ bool MenuScene::StartEditor(const CEGUI::EventArgs& e)
 	
 	start_editor_ = true;
 	lock_gui_ = true;
-	fade_out_time_ = 1.0f;
+	fade_out_time_ = FadeOutScene::FOTime * 0.9f;
 	fading_out_ = true;
 
 	return true;
@@ -84,7 +95,7 @@ bool MenuScene::ExitGame(const CEGUI::EventArgs& e)
 	
 	exit_game_ = true;
 	lock_gui_ = true;
-	fade_out_time_ = 1.0f;
+	fade_out_time_ = FadeOutScene::FOTime * 0.9f;
 	fading_out_ = true;
 
 	return true;
@@ -115,6 +126,7 @@ MenuScene::MenuScene(void)
 	pBtnStart->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 20), CEGUI::UDim( 0.0f, 20 ) ) );
 	pBtnStart->setText( "Start Game" );
 	pBtnStart->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::StartChallenge, this));
+	pBtnStart->setEnabled(false);
 	myRoot->addChildWindow(pBtnStart);
 
 	CEGUI::PushButton* pBtnEditor = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/Editor");
@@ -143,6 +155,7 @@ MenuScene::MenuScene(void)
 	CEGUI::Listbox* pWndChallengeList = (CEGUI::Listbox*)wmgr.createWindow( "TaharezLook/Listbox", "Menu/LevelsList" );
 	pWndChallengeList->setPosition(CEGUI::UVector2(CEGUI::UDim(0,10),CEGUI::UDim(0,40)));
 	pWndChallengeList->setSize(CEGUI::UVector2(CEGUI::UDim(1,-20), CEGUI::UDim(1,-50)));
+	pWndChallengeList->subscribeEvent(CEGUI::Listbox::EventSelectionChanged, CEGUI::Event::Subscriber(&MenuScene::cbChallengeSelectionChanged, this));
 	pWndChallenges->addChildWindow(pWndChallengeList);
 
 	
@@ -253,11 +266,12 @@ void MenuScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 
 MenuScene::~MenuScene(void)
 {
+	//CEGUI::WindowManager::getSingleton().destroyAllWindows();
 	CEGUI::WindowManager::getSingleton().destroyWindow("Menu/Root");
-	CEGUI::WindowManager::getSingleton().destroyWindow("Menu/Start");
+	/*CEGUI::WindowManager::getSingleton().destroyWindow("Menu/Start");
 	CEGUI::WindowManager::getSingleton().destroyWindow("Menu/Quit");
 	CEGUI::WindowManager::getSingleton().destroyWindow("Menu/Editor");
-	CEGUI::WindowManager::getSingleton().destroyWindow("Menu/Levels");
+	CEGUI::WindowManager::getSingleton().destroyWindow("Menu/Levels");*/
 }
 
 void MenuScene::Draw()

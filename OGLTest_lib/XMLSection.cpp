@@ -48,7 +48,7 @@ XMLSection* XMLSection::CreateXMLSection(std::string _name)
 		{
 			TiXmlHandle section_handle = TiXmlHandle(&section);
 
-						TiXmlElement* core_def = section_handle.FirstChild("SectionDefinition").Element();
+			TiXmlElement* core_def = section_handle.FirstChild("SectionDefinition").Element();
 			if(!core_def)
 			{
 				Logger::LogError(std::string("Error parsing XMLCore") + file_name + std::string(" - no SectionDefinition element defined at root"));

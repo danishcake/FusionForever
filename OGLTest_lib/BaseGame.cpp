@@ -171,7 +171,8 @@ int BaseGame::Tick(float _timespan)
 	{
 		for(int force_b = force_a+1; force_b < MAX_FORCES; force_b++)
 		{
-
+			if(hostility_[force_a][force_b] == Hostility::Friendly)
+				continue;
 			for(int x = 0; x < GRID_SECTIONS; x++)
 			{
 				for(int y = 0; y < GRID_SECTIONS; y++)
@@ -181,11 +182,11 @@ int BaseGame::Tick(float _timespan)
 					{
 						std::vector<Section_ptr> sections_b;
 						collision_managers_[force_b].GetAtPoint(sections_b, a->GetGlobalPosition());
-						//Logger::Instance() << "Colliding " << ((int)sections_a.size()) << " with " << ((int)sections_b.size()) << "\n";
 						BOOST_FOREACH(Section_ptr b, sections_b)
 						{
 							if(Collisions2f::CirclesIntersect(a->GetGlobalPosition(), a->GetRadius(), b->GetGlobalPosition(), b->GetRadius()))
 							{
+								//Circle-circle collisions seem to be close enough. 
 								//If a and b overlap then reduce both healths by minimum of the two healths
 								float lowest_health = a->GetHealth() < b->GetHealth() ? a->GetHealth() : b->GetHealth();
 								a->TakeDamage(lowest_health, b->GetRoot()->GetSectionID());
@@ -264,3 +265,7 @@ Section_ptr BaseGame::GetSectionData(int _section_id)
 	return NULL;
 }
 
+void BaseGame::SetHostility(int _force_a, int _force_b, bool _hostile)
+{
+	hostility_[_force_a][_force_b] = _hostile ? Hostility::Hostile : Hostility::Friendly;
+}

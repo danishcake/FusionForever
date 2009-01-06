@@ -2,7 +2,11 @@
 #include "FadeOutScene.h"
 #include "Camera.h"
 
+#ifdef NOALPHA
+const float FadeOutScene::FOTime = 0.2f;
+#else
 const float FadeOutScene::FOTime = 1.0f;
+#endif
 
 FadeOutScene::FadeOutScene(std::vector<BaseScene_ptr> _fadeout_done_scenes)
 {
@@ -38,6 +42,24 @@ void FadeOutScene::Draw()
 	if(alpha < 0)
 		alpha = 0;
 
+#ifdef NOALPHA
+	float left = Camera::Instance().GetRight() - alpha * Camera::Instance().GetWidth();
+	alpha = 1.0f;
+
+	glColor4f(0, 0, 0, alpha);
+
+	glBegin(GL_TRIANGLES);
+
+	glVertex3f(left, Camera::Instance().GetTop(), 0);
+	glVertex3f(Camera::Instance().GetRight(), Camera::Instance().GetTop(), 0);
+	glVertex3f(left, Camera::Instance().GetBottom(), 0);
+
+	glVertex3f(Camera::Instance().GetRight(), Camera::Instance().GetTop(), 0);
+	glVertex3f(Camera::Instance().GetRight(), Camera::Instance().GetBottom(), 0);
+	glVertex3f(left, Camera::Instance().GetBottom(), 0);
+
+	glEnd();
+#else
 	glColor4f(0, 0, 0, alpha);
 
 	glBegin(GL_TRIANGLES);
@@ -52,6 +74,7 @@ void FadeOutScene::Draw()
 
 	glEnd();
 
+#endif
 }
 
 bool FadeOutScene::IsRoot()

@@ -3,13 +3,22 @@
 
 #include "XMLCore.h"
 #include "RotatingAI.h"
+#include <sdl.h>
 
 EditorGame::EditorGame(void) : BaseGame("")
 {
 	Core_ptr core = XMLCore::CreateXMLCore("SquareCore");
-	core->OverrideAI(new RotatingAI(0));
-	AddShip(core, 0);
-	selected_section_ = ships_[0].at(0);
+	if(core)
+	{
+		core->OverrideAI(new RotatingAI(0));
+		AddShip(core, 0);
+		selected_section_ = ships_[0].at(0);
+	} else
+	{
+		Logger::LogError("Unable to create a SquareCore for the editor, so exiting to avoid a crash. Ensure SquareCore.xmlCore is present in Scripts/Sections");
+		SDL_Quit();
+		exit(-1);
+	}
 }
 
 EditorGame::~EditorGame(void)
