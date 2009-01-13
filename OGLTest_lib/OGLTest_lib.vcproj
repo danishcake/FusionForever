@@ -64,6 +64,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="SDL.lib SDLmain.lib"
+				AdditionalLibraryDirectories="C:\Program Files\SDL-1.2.12\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -114,7 +116,7 @@
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="0"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -127,6 +129,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="SDL.lib SDLmain.lib"
+				AdditionalLibraryDirectories="C:\Program Files\SDL-1.2.12\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -292,10 +296,6 @@
 					RelativePath=".\Section.cpp"
 					>
 				</File>
-				<File
-					RelativePath=".\SectionAdders.h"
-					>
-				</File>
 				<Filter
 					Name="Cores"
 					>
@@ -405,10 +405,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\ListAdder.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\Logger.cpp"
 					>
 				</File>
@@ -417,7 +413,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Radar.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Random.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\SectionTypes.cpp"
 					>
 				</File>
 				<File
@@ -623,7 +627,7 @@
 				Name="Sections"
 				>
 				<File
-					RelativePath=".\SectionAdders.cpp"
+					RelativePath=".\Section.h"
 					>
 				</File>
 				<Filter
@@ -675,10 +679,6 @@
 					</File>
 					<File
 						RelativePath=".\PlasmaArtillery.h"
-						>
-					</File>
-					<File
-						RelativePath=".\Section.h"
 						>
 					</File>
 					<File
@@ -747,10 +747,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\ListAdder.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Logger.h"
 					>
 				</File>
@@ -759,15 +755,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Radar.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Random.h"
 					>
 				</File>
 				<File
-					RelativePath="D:\Boost\boost_1_34_1\boost\shared_ptr.hpp"
-					>
-				</File>
-				<File
-					RelativePath="D:\Boost\boost_1_34_1\boost\detail\shared_ptr_nmt.hpp"
+					RelativePath=".\SectionTypes.h"
 					>
 				</File>
 				<File

@@ -34,6 +34,7 @@ public:
 	bool cbDelete(const CEGUI::EventArgs& e);
 	bool cbDeleteTree(const CEGUI::EventArgs& e);
 	bool cbTry(const CEGUI::EventArgs& e);
+	bool cbToggleTime(const CEGUI::EventArgs& e);
 
 	bool cbSaveDialogueSave(const CEGUI::EventArgs& e);
 	bool cbSaveDialogueCancel(const CEGUI::EventArgs& e);
@@ -59,6 +60,10 @@ protected:
 	bool try_challenge_;
 	bool fading_out_;
 	bool lock_gui_;
+
+	bool time_frozen_;
+	bool waiting_for_return_;
+	float return_time_;
 	float sum_time_;
 	float fade_out_time_;
 	EditorGame* game_;

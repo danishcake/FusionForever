@@ -5,6 +5,7 @@
 #include "FadeOutScene.h"
 #include "FadeInScene.h"
 #include "Settings.h"
+#include "ScoreKeeper.h"
 #include <sdl.h>
 
 #include <boost/filesystem.hpp>
@@ -64,6 +65,24 @@ bool MenuScene::cbSettingsOK(const CEGUI::EventArgs& e)
 
 	CEGUI::Checkbox* pCmbFullscreen = (CEGUI::Checkbox*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings/Fullscreen");
 	Settings::Instance().SetFullscreen(pCmbFullscreen->isSelected());
+	//TODO parse 640x480
+	
+	CEGUI::Combobox* pCmboResolution = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings/Resolutions");
+	if(pCmboResolution->getSelectedItem() != NULL)
+	{
+		int x;
+		int y;
+		std::string resolution_string = pCmboResolution->getSelectedItem()->getText().c_str();
+		size_t x_it = resolution_string.find_first_of("x");
+		assert(x_it != resolution_string.npos); // Should never fire as strings hard coded
+
+		std::string xs = resolution_string.substr(0, x_it);
+		std::string ys = resolution_string.substr(x_it+1);
+		x = boost::lexical_cast<int, std::string>(xs);
+		y = boost::lexical_cast<int, std::string>(ys);
+		Settings::Instance().SetResolution(Vector2<int>(x, y));
+	}
+
 
 	return true;
 }
@@ -171,9 +190,16 @@ MenuScene::MenuScene(void)
 			std::string ext = boost::filesystem::extension(*itr);
 			if(ext == ".luaChallenge")
 			{
-				CEGUI::ListboxItem* lbi = new CEGUI::ListboxTextItem(boost::filesystem::basename(itr->path()));
-				lbi->setSelectionBrushImage(sel_img);
-				pWndChallengeList->addItem(lbi);
+				std::string challenge_name = boost::filesystem::basename(itr->path());
+				if(challenge_name != "EditorTemp")
+				{
+					CEGUI::ListboxTextItem* lbi = new CEGUI::ListboxTextItem(challenge_name);
+					lbi->setSelectionBrushImage(sel_img);
+					ChallengeVariantRecord record = Scorekeeper::Instance().QueryProgress(challenge_name);
+					if(record.victories == 0)
+						lbi->setTextColours(CEGUI::colour(255,255,127));
+					pWndChallengeList->addItem(lbi);
+				}
 			}
 		}
 	}

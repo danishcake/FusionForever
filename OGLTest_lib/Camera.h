@@ -186,6 +186,11 @@ public:
 		window_height_ = _window_height;
 		window_width_ = _window_width;
 	}
+	/**
+	  * Gets the aspect ratio
+	  * @return The aspect ratio
+	  */
+	float GetAspectRatio(){return ratio_;}
    /**
      * Sets the point at the centre of the scene.
      * @param _x The x-axis centre of the scene

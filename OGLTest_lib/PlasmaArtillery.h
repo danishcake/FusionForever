@@ -1,6 +1,5 @@
 #pragma once
 #include "FiringSection.h"
-#include "ListAdder.h"
 
 /**
   * The PlasmaArtillery class represents a section that fires large fast moving projectiles

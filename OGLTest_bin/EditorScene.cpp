@@ -13,10 +13,19 @@
 #include "Property.h"
 #include "RotatingAI.h"
 
-#include "ListAdder.h"
+#include "SectionTypes.h"
 
 #include <boost/filesystem.hpp>
 #include <fstream>
+
+bool EditorScene::cbToggleTime(const CEGUI::EventArgs& e)
+{
+	CEGUI::Window* pBtnToggleTime = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/ToggleTime");
+	pBtnToggleTime->setText(time_frozen_ ? "Time on" : "Time off");
+	time_frozen_ = !time_frozen_;
+
+	return true;
+}
 
 bool EditorScene::cbAddSection(const CEGUI::EventArgs& e)
 {
@@ -24,7 +33,7 @@ bool EditorScene::cbAddSection(const CEGUI::EventArgs& e)
 	if(selection_ != NULL)
 	{
 		Section_ptr section = NULL;
-		section = ListAdder::GetSection(we.window->getText().c_str());
+		section = SectionTypes::GetSection(we.window->getText().c_str());
 		if(!section)
 			section = XMLSection::CreateXMLSection(we.window->getText().c_str());
 		if(section != NULL)
@@ -426,8 +435,10 @@ EditorScene::EditorScene(void)
 	lock_gui_ = false;
 	return_to_menu_ = false;
 	try_challenge_ = false;
+	time_frozen_ = false;
 	drag_mode_ = EditorDragMode::NotDragging;
 	move_first_tick = true;
+	waiting_for_return_ = false;
 
 	sum_time_ = 0;
 
@@ -482,6 +493,14 @@ EditorScene::EditorScene(void)
 	pBtnTry->subscribeEvent(CEGUI::Window::EventMouseClick,CEGUI::Event::Subscriber(&EditorScene::cbTry, this));
 	pBtnTry->setText( "Try" );
 	myRoot->addChildWindow(pBtnTry);
+
+	CEGUI::PushButton* pBtnToggleTime = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/ToggleTime");
+	pBtnToggleTime->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 55 ), CEGUI::UDim( 0, 30 ) ) );
+	pBtnToggleTime->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 70), CEGUI::UDim( 0, 90 ) ) );
+	pBtnToggleTime->subscribeEvent(CEGUI::Window::EventMouseClick, CEGUI::Event::Subscriber(&EditorScene::cbToggleTime, this));
+	pBtnToggleTime->setText( "Time on" );
+	myRoot->addChildWindow(pBtnToggleTime);
+
 
 	CEGUI::PushButton* pBtnQuit = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/QuitToMenu");
 	pBtnQuit->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 55 ), CEGUI::UDim( 0, 30 ) ) );
@@ -539,7 +558,7 @@ EditorScene::EditorScene(void)
 	{
 		float width = 2;
 		float height = 1;
-		std::vector<std::string> names = ListAdder::GetNames();
+		std::vector<std::string> names = SectionTypes::GetNames();
 		BOOST_FOREACH(std::string name, names)
 		{
 			AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), name, pTabWeapons, width, height);
@@ -556,7 +575,7 @@ EditorScene::EditorScene(void)
 	{
 		float width = 2;
 		float height = 1;
-		boost::filesystem::directory_iterator end_itr;	
+		boost::filesystem::directory_iterator end_itr;
 		for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/Sections");
 			itr != end_itr;
 			++itr)
@@ -662,12 +681,18 @@ EditorScene::~EditorScene(void)
 
 void EditorScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 {
-	if(sum_time_ == 0)
+	if(sum_time_ == 0 || (waiting_for_return_ && sum_time_ > return_time_))
+	{
 		CEGUI::System::getSingleton().setGUISheet( CEGUI::WindowManager::getSingleton().getWindow("Edit/Root"));
+		waiting_for_return_ = false;
+	}
 	sum_time_ += _timespan;
 	fade_out_time_ -= _timespan;
 
-	game_->Tick(_timespan);
+	if(time_frozen_)
+		game_->Tick(0);
+	else
+		game_->Tick(_timespan);
 
 	if(return_to_menu_)
 	{
@@ -686,7 +711,10 @@ void EditorScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 		fo_done_scenes.push_back(BaseScene_ptr(new FadeInScene()));
 		BaseScene_ptr fo = BaseScene_ptr(new FadeOutScene(fo_done_scenes));
 		_new_scenes.push_back(fo);
+		return_time_ = sum_time_ + (FadeOutScene::FOTime + FadeInScene::FITime ) + 0.05f;
+		waiting_for_return_ = true;
 	}
+
 }
 
 
@@ -780,8 +808,9 @@ bool EditorScene::cbTry(const CEGUI::EventArgs& e)
 	game_->GetCore()->SaveToXML("EditorTemp.xmlShip");
 	std::ofstream challenge = std::ofstream("Scripts/Challenges/EditorTemp.luaChallenge");
 	
-	challenge << "challenge:SpawnShip(\"LaserShip\", 0, Vector:new(0, 500), 180, \"SimpleAI.luaAI\", 1)\n";
-	challenge << "challenge:SpawnShip(\"EditorTemp\", 1, Vector:new(0, -500), 0, \"KeyboardAI\", 1)\n";
+	challenge << "challenge:WaitFor(1)\n";
+	challenge << "challenge:SpawnShip(\"LaserShip\", 1, Vector:new(0, 500), 180, \"SimpleAI.luaAI\", 1)\n";
+	challenge << "challenge:SpawnShip(\"EditorTemp\", 0, Vector:new(0, -500), 0, \"KeyboardAI\", 1)\n";
 	challenge << "challenge:WaitFor(0.1)\n";
 	challenge << "while challenge.force_count[0] > 0 and challenge.force_count[1] > 0 do\n";
 	challenge << "\tcoroutine.yield()\n";

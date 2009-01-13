@@ -56,6 +56,7 @@ BaseGame::~BaseGame(void)
 void BaseGame::Draw()
 {
 	starfield_.DrawStarfield(Vector3f(Camera::Instance().GetFocusX(), Camera::Instance().GetFocusY(), 0));
+	radar_.Draw();
 	for(int force = 0; force < MAX_FORCES; force++)
 	{
 		//collision_managers_[force].Render();
@@ -103,7 +104,7 @@ int BaseGame::Tick(float _timespan)
 		friends[force].clear();
 		for(int other_force = 0; other_force < MAX_FORCES; other_force++)
 		{
-			if(other_force != force)
+			//if(other_force != force)
 			{
 				if(hostility_[force][other_force] == Hostility::Hostile)
 					enemies[force].insert(enemies[force].end(),ships_[other_force].begin(), ships_[other_force].end());
@@ -112,6 +113,8 @@ int BaseGame::Tick(float _timespan)
 			}
 		}
 	}
+	/* Update the radar */
+	radar_.Update(enemies[0], friends[0],_timespan);
 
 	for(int force = 0; force < MAX_FORCES; force++)
 	{

@@ -17,8 +17,7 @@ public:
 	virtual bool IsRoot();
 	virtual bool IsRemovable();
 
+	static const float FITime;
 protected:
 	float timeleft_;
-	static const float FITime;
-
 };

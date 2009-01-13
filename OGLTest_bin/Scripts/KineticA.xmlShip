@@ -8,4 +8,6 @@
   <Section SectionType="ChainGun" x="-10" y="5"/>
   <Section SectionType="ChainGun" x="10" y="5"/>
   <Section SectionType="PlasmaArtillery" y="20"/>
+  <Section SectionType="GeneratorCube" x="-5" y="-5"/>
+  <Section SectionType="GeneratorCube" x="5" y="-5"/>
 </Section>

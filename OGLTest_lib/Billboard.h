@@ -19,6 +19,7 @@ private:
 	Vector3f position_;
 	Vector2f size_;
 	Vector2f centre_;
+	float angle_;
 	BillboardType::Enum billboard_space_;
 	GLColor color_;
 
@@ -34,6 +35,9 @@ public:
 
 	Vector2f GetOffset() {return centre_;}
 	void SetOffset(const Vector2f _centre){centre_ = _centre;}
+
+	float GetRotation(){return  angle_;}
+	void SetRotation(float _angle){angle_ = _angle;}
 
 	void SetColor(GLColor _color){color_ = _color;}
 

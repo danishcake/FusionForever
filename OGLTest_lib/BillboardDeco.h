@@ -8,7 +8,8 @@ namespace BillboardDecoType
 	enum Enum
 	{
 		FadesOut,
-		Explodes
+		Explodes,
+		Warp
 	};
 }
 

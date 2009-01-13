@@ -3,6 +3,7 @@
 #include "TurningRoutines.h"
 #include <sstream>
 #include "Core.h"
+#include "Radar.h"
 
 #define ZOOM_TIME 0.3f
 
@@ -88,5 +89,6 @@ AIAction KeyboardAI::Tick(float _timespan, std::vector<Core*>& _allies, std::vec
 		//Logger::Log(boost::lexical_cast<std::string, float>(_self->GetEnergy().GetValue()) + "/" + boost::lexical_cast<std::string, float>(_self->GetEnergy().GetMaxValue()));
 	}
 	
+	Radar::SetPlayerPosition(_self->GetGlobalPosition());
 	return action;
 }

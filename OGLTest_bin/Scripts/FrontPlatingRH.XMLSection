@@ -4,5 +4,5 @@
 	<Health> 8000 </Health>
 	<SubSectionPosition x = "5" y = "15"/>
 	<Mass> 1700 </Mass>
-  <EnergyStorage>10</EnergyStorage>
+  <EnergyStorage>20</EnergyStorage>
 </SectionDefinition>

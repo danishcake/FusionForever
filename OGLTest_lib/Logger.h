@@ -54,10 +54,6 @@ public:
 		Logger::Instance().Log_internal(_message);
 	}
 
-	static void LogGameMessage(std::string _message)
-	{//To screen only
-		Logger::Instance().Log_internal(_message);
-	}
 	static void Log(std::string _message)
 	{//To log file only
 		Logger::Instance().Log_internal(_message);

@@ -96,8 +96,6 @@ void LuaAI::SetAll(float _x, float _y, float _dtheta, bool _firing)
 	next_move_.firing_ = _firing;
 }
 
-
-
 static int l_SetCameraPosition(lua_State* luaVM)
 {
 	LuaAI* instance = ((LuaAI*)(lua_touserdata(luaVM, -3)));
@@ -115,6 +113,63 @@ void LuaAI::SetCameraPosition(float _x, float _y)
 	Camera::Instance().SetFocus(self_->GetPosition().x, self_->GetPosition().y, CameraLevel::Intro);
 }
 
+static int l_ChangeAI(lua_State* luaVM)
+{
+	LuaAI* instance = ((LuaAI*)(lua_touserdata(luaVM, -2)));
+	assert(instance);
+	std::string filename = lua_tostring(luaVM, -1);
+	instance->ChangeAI(filename);
+	return 0;
+}
+
+void LuaAI::ChangeAI(std::string _file_name)
+{
+	//Should remove reference so GC can remove coroutine
+	if(coroutine_reference_)
+		luaL_unref(lua_state_, LUA_REGISTRYINDEX, coroutine_reference_);
+	if(environment_reference_)
+		luaL_unref(lua_state_, LUA_REGISTRYINDEX, environment_reference_);
+	if(target_)
+		target_->RemoveSubscriber(this);
+
+	int chunk_reference = -1;
+	if(ai_chunk_reference_.find(_file_name) != ai_chunk_reference_.end())
+	{
+		chunk_reference  = ai_chunk_reference_[_file_name];
+	} else
+	{
+		//This just checks the file can be loaded before instanciating a LuaAI
+		int load_result = luaL_loadfile(lua_state_, (std::string("scripts/ai/") + _file_name).c_str());
+		if(load_result==0)
+		{
+			int chunk_ref = luaL_ref(lua_state_, LUA_REGISTRYINDEX);
+			ai_chunk_reference_[_file_name] = chunk_ref;
+			chunk_reference  = ai_chunk_reference_[_file_name];
+		} else
+		{
+			std::string error_string = lua_tostring(lua_state_, -1);
+			lua_pop(lua_state_, 1);
+			Logger::Instance() << "Change AI script error: " << error_string << "\n";
+			ok_to_run_ = false;
+		}
+	}
+	if(ok_to_run_)
+	{
+		script_name_= _file_name;
+		chunk_reference_ = chunk_reference;
+		next_move_ = AIAction();
+		coroutine_reference_ = 0;
+		environment_reference_ = 0;
+		initialise_coroutine();
+		target_ = NULL;
+		self_ = NULL;
+		pick_random_next = false;
+		pick_closest_next = false;
+		sum_time_ = 0;
+	}
+}
+
+
 bool LuaAI::initialised_lua_ = false;
 void LuaAI::RegisterLuaFunctions(lua_State* _luaVM)
 {
@@ -126,6 +181,7 @@ void LuaAI::RegisterLuaFunctions(lua_State* _luaVM)
 		lua_register(_luaVM, "PickRandomTarget", l_PickRandomTarget);
 		lua_register(_luaVM, "PickClosestTarget", l_PickClosestTarget);
 		lua_register(_luaVM, "SetCameraPosition", l_SetCameraPosition);
+		lua_register(_luaVM, "ChangeAI", l_ChangeAI);
 
 		int env_load_error = luaL_loadfile(_luaVM, "AI_sandbox.lua");
 		//Either have error message or chunk on stack

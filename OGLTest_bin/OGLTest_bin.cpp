@@ -14,7 +14,7 @@
 #include "FadeInScene.h"
 #include "Camera.h"
 #include "Settings.h"
-#include "SectionAdders.h"
+#include "SectionTypes.h"
 
 
 clock_t ltv_time;
@@ -144,7 +144,7 @@ switch ( button )
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	RegisterSections();
+	SectionTypes::RegisterSections();
 	Vector2<int> resolution = Settings::Instance().GetResolution();
 	srand((unsigned int)time(NULL));
 	Camera::Instance().SetAspectRatio(resolution.x, resolution.y);

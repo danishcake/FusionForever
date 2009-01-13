@@ -1,0 +1,81 @@
+#include "StdAfx.h"
+#include "SectionTypes.h"
+#include "Section.h"
+
+#include "PlasmaArtillery.h"
+#include "Swarmer.h"
+#include "SpinningJoint.h"
+#include "JointAngles.h"
+#include "HomingMissileLauncher.h"
+#include "HeatBeamGun.h"
+#include "ChainGun.h"
+#include "Blaster.h"
+#include "TrackerArm.h"
+#include "JointTracker.h"
+#include "Lancer.h"
+#include "Burner.h"
+
+
+namespace SectionTypes
+{
+	std::map<std::string, Section*(*)()> p_map;
+
+	Section* GetSection(std::string _name)
+	{
+		if(p_map.find(_name) != p_map.end())
+		{
+			return p_map[_name]();
+		} else
+		{
+			return NULL;
+		}
+	}
+
+	std::vector<std::string> GetNames()
+	{
+		std::vector<std::string> names;
+		std::pair<std::string, Section*(*)()> entry;
+		BOOST_FOREACH(entry, p_map)
+		{
+			names.push_back(entry.first);
+		}
+		return names;
+	}
+
+	void RegisterSectionType(Section* (*factory_method_)(), std::string _name)
+	{
+		p_map.insert(std::pair<std::string, Section*(*)()>(_name, factory_method_));
+	}
+
+/* Factory methods - creates and instance of the section. Registered with
+   a global map via the static variable below */
+
+	Section_ptr CreatePlasmaArtillery(){return new PlasmaArtillery();}
+	Section_ptr CreateSwarmerInstance(){return new Swarmer();}
+	Section_ptr CreateSpinningJointInstance(){return new SpinningJoint();}
+	Section_ptr CreateJointTrackerInstance(){return new JointTracker();}
+	Section_ptr CreateJointAnglesInstance(){return new JointAngles();}
+	Section_ptr CreateHomingMissileLauncherInstance(){return new HomingMissileLauncher();}
+	Section_ptr CreateHeatBeamGunInstance(){return new HeatBeamGun();}
+	Section_ptr CreateChainGunInstance(){return new ChainGun();}
+	Section_ptr CreateBlasterInstance(){return new Blaster();}
+	Section_ptr CreateTrackerArmInstance(){return new TrackerArm();}
+	Section_ptr CreateLancerInstance(){return new Lancer();}
+	Section_ptr CreateBurnerInstance(){return new Burner();}
+
+	void RegisterSections()
+	{
+		SectionTypes::RegisterSectionType(CreatePlasmaArtillery, "PlasmaArtillery");
+		SectionTypes::RegisterSectionType(CreateSwarmerInstance, "Swarmer");
+		SectionTypes::RegisterSectionType(CreateSpinningJointInstance, "SpinningJoint");
+		SectionTypes::RegisterSectionType(CreateJointTrackerInstance, "JointTracker");
+		SectionTypes::RegisterSectionType(CreateJointAnglesInstance, "JointAngles");
+		SectionTypes::RegisterSectionType(CreateHomingMissileLauncherInstance, "HomingMissileLauncher");
+		SectionTypes::RegisterSectionType(CreateHeatBeamGunInstance, "HeatBeamGun");
+		SectionTypes::RegisterSectionType(CreateChainGunInstance, "ChainGun");
+		SectionTypes::RegisterSectionType(CreateBlasterInstance, "Blaster");
+		SectionTypes::RegisterSectionType(CreateTrackerArmInstance, "TrackerArm");
+		SectionTypes::RegisterSectionType(CreateLancerInstance, "Lancer");
+		SectionTypes::RegisterSectionType(CreateBurnerInstance, "Burner");
+	}
+}

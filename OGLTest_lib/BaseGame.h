@@ -4,6 +4,7 @@
 #include "Starfield.h"
 #include "GridCollisionManager.h"
 #include <string>
+#include "Radar.h"
 
 static const int MAX_FORCES = 8;
 
@@ -47,6 +48,7 @@ protected:
 	std::vector<Core_ptr> friends[MAX_FORCES];
 
 	Starfield starfield_;
+	Radar radar_;
 	LuaChallenge* challenge_;
 	lua_State* luaVM_;
 

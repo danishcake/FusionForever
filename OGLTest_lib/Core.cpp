@@ -16,7 +16,7 @@
 #include "ChainGun.h"
 #include "PlasmaArtillery.h"
 
-
+#include "SectionTypes.h"
 #include "XMLSection.h"
 
 static const float CORE_ROT_RATE_MAX = 400.0f;
@@ -226,7 +226,7 @@ Section_ptr Core::ParseSection(TiXmlElement* _section_element)
 	if(_section_element->QueryValueAttribute("SectionType", &section_string) == TIXML_SUCCESS)
 	{
 		//Lookup section in map of hardcoded Cores
-		section = ListAdder::GetSection(section_string);
+		section = SectionTypes::GetSection(section_string);
 		if(!section)
 		{
 			//Attempt to find XMLSection

@@ -11,8 +11,6 @@
 #include "Datastore.h"
 #include "Camera.h"
 #include "FlexFloat.h"
-#include "ListAdder.h"
-
 
 class Section;
 //typedef boost::shared_ptr<Section> Section_ptr;

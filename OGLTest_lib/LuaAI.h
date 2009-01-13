@@ -53,6 +53,8 @@ public:
 
 	void SetCameraPosition(float _x, float _y);
 
+	void ChangeAI(std::string _filename);
+
 	static void RegisterLuaFunctions(lua_State* _luaVM);
 	static LuaAI* FromScript(std::string _file_name, lua_State* _luaVM);
 

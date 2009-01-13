@@ -34,6 +34,9 @@
 				ExecutionBucket="2"
 			/>
 			<Tool
+				Name="Texture copier"
+			/>
+			<Tool
 				Name="Lua utilities copier"
 			/>
 			<Tool
@@ -43,13 +46,13 @@
 				Name="LuaAI copier"
 			/>
 			<Tool
-				Name="ChallengeScript copier"
-			/>
-			<Tool
-				Name="Texture copier"
-			/>
-			<Tool
 				Name="XMLCore copier"
+			/>
+			<Tool
+				Name="Sounds copier"
+			/>
+			<Tool
+				Name="ChallengeScript copier"
 			/>
 			<Tool
 				Name="XMLSection copier"
@@ -148,10 +151,13 @@
 				CommandLine=""
 			/>
 			<Tool
-				Name="Lua utilities copier"
+				Name="Texture copier"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="Lua utilities copier"
 			/>
 			<Tool
 				Name="XMLShip copier"
@@ -160,13 +166,13 @@
 				Name="LuaAI copier"
 			/>
 			<Tool
-				Name="ChallengeScript copier"
-			/>
-			<Tool
-				Name="Texture copier"
-			/>
-			<Tool
 				Name="XMLCore copier"
+			/>
+			<Tool
+				Name="Sounds copier"
+			/>
+			<Tool
+				Name="ChallengeScript copier"
 			/>
 			<Tool
 				Name="XMLSection copier"
@@ -188,7 +194,7 @@
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="0"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -539,6 +545,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\Scripts\GeneratorCube.XMLSection"
+						>
+					</File>
+					<File
 						RelativePath=".\Scripts\GeneratorSpike.XMLSection"
 						>
 					</File>
@@ -755,6 +765,10 @@
 			<File
 				RelativePath=".\Textures\Victory.texture"
 				DeploymentContent="true"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\Warp.texture"
 				>
 			</File>
 		</Filter>

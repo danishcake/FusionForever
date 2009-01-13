@@ -24,24 +24,24 @@ ChallengeVariantRecord Scorekeeper::QueryProgress(std::string _challenge)
 	if(challenge_handle)
 	{
 		TiXmlElement* wins = progress_handle.FirstChild(_challenge).FirstChild("Victory").Element();
-		TiXmlElement* defeats = progress_handle.FirstChild(_challenge).FirstChild("Defeats").Element();
+		TiXmlElement* defeats = progress_handle.FirstChild(_challenge).FirstChild("Defeat").Element();
 		if(wins && defeats)
 		{
 			int win_count = 0;
 			int lose_count = 0;
 			try
 			{
-				win_count = boost::lexical_cast<int, std::string>(wins->ValueStr());
+				win_count = boost::lexical_cast<int, std::string>(wins->GetText());
 			} catch(boost::bad_lexical_cast ex)
 			{
-				Logger::LogError(std::string("Unable to cast wins: ") + wins->ValueStr() + std::string(" to an int"));
+				Logger::LogError(std::string("Unable to cast wins: ") + wins->GetText() + std::string(" to an int"));
 			}
 			try
 			{
-				lose_count = boost::lexical_cast<int, std::string>(defeats->ValueStr());
+				lose_count = boost::lexical_cast<int, std::string>(defeats->GetText());
 			} catch(boost::bad_lexical_cast ex)
 			{
-				Logger::LogError(std::string("Unable to cast defeats") + defeats->ValueStr() + std::string(" to an int"));
+				Logger::LogError(std::string("Unable to cast defeats: ") + defeats->GetText() + std::string(" to an int"));
 			}
 			return ChallengeVariantRecord(lose_count, win_count);
 		} else

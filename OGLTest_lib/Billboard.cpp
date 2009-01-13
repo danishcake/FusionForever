@@ -12,6 +12,7 @@ Billboard::Billboard(std::string _texture, BillboardType::Enum _billboard_space)
 	size_.y = static_cast<float>(size_i.y);
 	centre_ = Vector2f(0.5f, 0.5f);
 	color_ = GLColor(255,255,255);
+	angle_ = 0;
 }
 
 Billboard::Billboard(unsigned int _texture_id, BillboardType::Enum _billboard_space)
@@ -24,6 +25,7 @@ Billboard::Billboard(unsigned int _texture_id, BillboardType::Enum _billboard_sp
 	size_.y = static_cast<float>(size_i.y);
 	centre_ = Vector2f(0.5f, 0.5f);
 	color_ = GLColor(255,255,255);
+	angle_ = 0;
 }
 
 Billboard::~Billboard()
@@ -43,7 +45,10 @@ void Billboard::Draw()
 	
 	if(billboard_space_ == BillboardType::WorldSpace)
 	{
-		glTranslatef(position_.x - size_.x * centre_.x, position_.y - size_.y * centre_.y, 0);
+		glTranslatef(position_.x, position_.y, 0);
+		glRotatef(angle_,0,0,1);
+		glTranslatef(-size_.x * centre_.x, - size_.y * centre_.y, 0);
+
 		glBegin(GL_TRIANGLES);
 		
 		glTexCoord2i( 0, 1);

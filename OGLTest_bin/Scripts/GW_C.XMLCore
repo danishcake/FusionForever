@@ -2,8 +2,8 @@
 <CoreDefinition> 
 	<Outline> M 15,0 L 0,-15 L -15,0 L 0,15 L 15,0 z </Outline>
 	<Health> 1 </Health>
-	<Mass> 100 </Mass>
-	<Thrust> 12 </Thrust>
+	<Mass> 120 </Mass>
+	<Thrust> 13 </Thrust>
   <PowerGeneration>100</PowerGeneration>
   <EnergyStorage>100</EnergyStorage>
 </CoreDefinition>

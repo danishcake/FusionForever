@@ -4,6 +4,7 @@
 #include "Core.h"
 #include "ICollisionManager.h"
 #include "Property.h"
+#include "BillboardDeco.h"
 
 int Section::section_count_ = 0;
 int Section::section_freed_ = 0;
@@ -160,14 +161,20 @@ void Section::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 
 	GetRoot()->energy_ += (power_generation_ * _timespan);
 
-	if(first_tick_ && root_)
+	if(first_tick_)
 	{
-		root_->AddMass(mass_);
-		moment_ = mass_ * (GetGlobalPosition() - root_->GetGlobalPosition()).length();
-		root_->AddMoment(moment_);
-		root_->AddEnergyCap(energy_.GetMaxValue());
-		root_->AddThrust(thrust_);
-		root_->AddTotalHealth(health_.GetMaxValue());
+		if(root_)
+		{
+			root_->AddMass(mass_);
+			moment_ = mass_ * (GetGlobalPosition() - root_->GetGlobalPosition()).length();
+			root_->AddMoment(moment_);
+			root_->AddEnergyCap(energy_.GetMaxValue());
+			root_->AddThrust(thrust_);
+			root_->AddTotalHealth(health_.GetMaxValue());
+		}
+		BillboardDeco* warp = new BillboardDeco("Warp", 0.5, BillboardDecoType::Warp);
+		warp->SetPosition(this->GetGlobalPosition());
+		_spawn_dec.push_back(warp);
 		first_tick_ = false;
 	}
 	_collision_manager->Register(this);

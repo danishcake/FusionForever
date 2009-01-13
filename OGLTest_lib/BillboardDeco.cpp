@@ -29,17 +29,22 @@ void BillboardDeco::Tick(float _timespan, Matrix4f _transform)
 		case BillboardDecoType::Explodes:
 			if(life_fraction < 0.5f)
 			{
-				scale_ = powf(life_fraction * 2.0f, 1.7f);
+				scale_ = powf(life_fraction * 2.0f, 1.7f) * 0.4f;
 				transparancy_ = 1.0f;
 			} else
 			{
-				scale_ = 1 - (life_fraction * 2.0f - 1.0f) * 0.2f ;
+				scale_ = (1 - (life_fraction * 2.0f - 1.0f) * 0.2f) * 0.4f ;
 				transparancy_ = (1.0f - life_fraction);
 			}
 			break;
 		case BillboardDecoType::FadesOut:
 			scale_ = 1.0f;
 			transparancy_ = 1 - life_fraction;
+			break;
+		case BillboardDecoType::Warp:
+			scale_ = (1.0f - life_fraction * 0.5f) * 0.7f;
+			transparancy_ = 0.8f - 0.2f * life_fraction;
+			angle_ = life_fraction * 720.0f;
 			break;
 	}
 }
@@ -53,8 +58,10 @@ void BillboardDeco::DrawSelf()
 {
 	//Do custom drawing
 	billboard_->SetPosition(position_);
-	billboard_->SetSize(initial_size_ * scale_ * 0.4f);
+	billboard_->SetSize(initial_size_ * scale_);
 	billboard_->SetColor(GLColor(255,255,255, transparancy_));
+	billboard_->SetRotation(angle_);
+
 	billboard_->Draw();
 }
 
