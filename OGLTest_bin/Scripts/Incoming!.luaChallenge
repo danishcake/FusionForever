@@ -5,61 +5,72 @@ playerSpawn = coroutine.wrap(function()
 	challenge:Defeat()
 end)
 
-spawnMines = function(count)
-	local ship_data = challenge:GetShipData(player_id)
+spawnMines = function(count, death_fn, force)
+	local force_ = 1
+	if force ~= nil then
+		force_ = force
+	end
 	
 	for i = 1, count do
-
-		challenge:SpawnShip("TheMine", 1, ship_data.position + Vector:random_ring(500, 1000), 0, "Ram.luaAI", 1)
+		local ship_data = challenge:GetShipData(player_id)
+		local mine_id = challenge:SpawnShip("TheMine", force_, ship_data.position + Vector:random_ring(700, 1200), 0, "Ram.luaAI", 1)
+		if death_fn ~= nil then
+			challenge:SetDeathFunction(mine_id, death_fn)
+		end
 	end
 end
 
-force1Spawn = coroutine.wrap(function()
-	challenge:WaitFor(1)
+spawnTimedMines = function(count, gap, death_fn)
+	for i = 1, count do
+		local ship_data = challenge:GetShipData(player_id)
+		local mine_id = challenge:SpawnShip("TheMine", 1, ship_data.position + Vector:random_ring(700, 1200), 0, "Ram.luaAI", 1)
+		if death_fn ~= nil then
+			challenge:SetDeathFunction(mine_id, death_fn)
+		end
+		challenge:WaitFor(gap)
+	end
+end
+
+mineSpawnCount = 0
+
+mineSpawnDie = function()
+	mineSpawnCount = mineSpawnCount - 1
+end
+
+WaitForMinesDead = function()
+	while mineSpawnCount > 0 do
+		coroutine.yield()
+		print("Mines left: " .. mineSpawnCount)
+	end
+end
+
+mineSpawn = coroutine.wrap(function()
+	challenge:WaitFor(3)
 	
-	spawnMines(1)
-	challenge:WaitForAllEnemiesDead(0)
-	spawnMines(2)
-	challenge:WaitForAllEnemiesDead(0)
-	spawnMines(3)
-	challenge:WaitForAllEnemiesDead(0)
-	spawnMines(4)
-	challenge:WaitForAllEnemiesDead(0)
-	
+	--Phase 1
+	for i = 1, 4 do
+		mineSpawnCount = i
+		spawnMines(mineSpawnCount, mineSpawnDie)
+		WaitForMinesDead()
+		challenge:WaitFor(2)
+	end
+
 	--Phase 2
-	spawnMines(4)
-	challenge:WaitFor(3)
-	spawnMines(2)
-	challenge:WaitForAllEnemiesDead(0)
-	
-	spawnMines(5)
-	challenge:WaitFor(3)
-	spawnMines(3)
-	challenge:WaitForAllEnemiesDead(0)
-	
-	spawnMines(5)
-	challenge:WaitFor(2)
-	spawnMines(3)
-	challenge:WaitForAllEnemiesDead(0)
-	
-	spawnMines(10)
-	challenge:WaitFor(5)
-	spawnMines(3)
-	challenge:WaitForAllEnemiesDead(0)
-	
-	spawnMines(20)
-	challenge:WaitFor(10)
-	spawnMines(10)
-	challenge:WaitForAllEnemiesDead(0)
-	
-	
+	for i = 1, 4 do
+		mineSpawnCount = i * 4
+		spawnTimedMines(mineSpawnCount, 1 - 0.1 * i, mineSpawnDie)
+		WaitForMinesDead()
+		challenge:WaitFor(2)
+	end
+
 	challenge:WaitFor(1)
-	
 	challenge:Victory()
 end)
 
+challenge:SetFriendly(1,2)
+
 while true do
 	playerSpawn()
-	force1Spawn()
+	mineSpawn()
 	coroutine.yield()
 end

@@ -73,6 +73,7 @@ end
 
 WaitForMinesDead = function()
 	while mineSpawnCount > 0 do
+		print("Mines left: " .. mineSpawnCount)
 		coroutine.yield()
 	end
 end
@@ -112,31 +113,31 @@ mineSpawn = coroutine.wrap(function()
 	
 	--Phase 2
 	mineSpawnCount = 8
-	spawnTimedMines(mineSpawnCount, 0.25)
+	spawnTimedMines(mineSpawnCount, 0.25, mineSpawnDie)
 	WaitForMinesDead()
 	
 	continuousSpawnTime = continuousSpawnTime - 0.1
 	
 	mineSpawnCount = 12
-	spawnTimedMines(mineSpawnCount, 0.25)
+	spawnTimedMines(mineSpawnCount, 0.25, mineSpawnDie)
 	WaitForMinesDead()
 
 	continuousSpawnTime = continuousSpawnTime - 0.1
 
 	mineSpawnCount = 16
-	spawnTimedMines(mineSpawnCount, 0.25)
+	spawnTimedMines(mineSpawnCount, 0.25, mineSpawnDie)
 	WaitForMinesDead()
 	
 	continuousSpawnTime = continuousSpawnTime - 0.1
 	
 	mineSpawnCount = 20
-	spawnTimedMines(mineSpawnCount, 0.25)
+	spawnTimedMines(mineSpawnCount, 0.25, mineSpawnDie)
 	WaitForMinesDead()
 	
 	continuousSpawnTime = continuousSpawnTime - 0.1
 	
 	mineSpawnCount = 32
-	spawnTimedMines(mineSpawnCount, 0.25)
+	spawnTimedMines(mineSpawnCount, 0.25, mineSpawnDie)
 	WaitForMinesDead()
 	
 
