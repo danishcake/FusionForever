@@ -1,0 +1,65 @@
+playerSpawn = coroutine.wrap(function()
+	player_id = challenge:SpawnShip("Protoship", 0, Vector:new(0,0), 0, "KeyboardAI", 1)
+	challenge:WaitForForceCountLessThan(0, 1)
+	challenge:WaitFor(1)
+	challenge:Defeat()
+end)
+
+spawnMines = function(count)
+	local ship_data = challenge:GetShipData(player_id)
+	
+	for i = 1, count do
+
+		challenge:SpawnShip("TheMine", 1, ship_data.position + Vector:random_ring(500, 1000), 0, "Ram.luaAI", 1)
+	end
+end
+
+force1Spawn = coroutine.wrap(function()
+	challenge:WaitFor(1)
+	
+	spawnMines(1)
+	challenge:WaitForAllEnemiesDead(0)
+	spawnMines(2)
+	challenge:WaitForAllEnemiesDead(0)
+	spawnMines(3)
+	challenge:WaitForAllEnemiesDead(0)
+	spawnMines(4)
+	challenge:WaitForAllEnemiesDead(0)
+	
+	--Phase 2
+	spawnMines(4)
+	challenge:WaitFor(3)
+	spawnMines(2)
+	challenge:WaitForAllEnemiesDead(0)
+	
+	spawnMines(5)
+	challenge:WaitFor(3)
+	spawnMines(3)
+	challenge:WaitForAllEnemiesDead(0)
+	
+	spawnMines(5)
+	challenge:WaitFor(2)
+	spawnMines(3)
+	challenge:WaitForAllEnemiesDead(0)
+	
+	spawnMines(10)
+	challenge:WaitFor(5)
+	spawnMines(3)
+	challenge:WaitForAllEnemiesDead(0)
+	
+	spawnMines(20)
+	challenge:WaitFor(10)
+	spawnMines(10)
+	challenge:WaitForAllEnemiesDead(0)
+	
+	
+	challenge:WaitFor(1)
+	
+	challenge:Victory()
+end)
+
+while true do
+	playerSpawn()
+	force1Spawn()
+	coroutine.yield()
+end
