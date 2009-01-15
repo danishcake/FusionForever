@@ -39,11 +39,11 @@ void Starfield::DrawStarfield(Vector3f position_)
 
 	glTranslatef(position_.x, position_.y, 0);
 	Vector3f offset = Vector3f(-fmodf(SF_PARALAX1 * position_.x, SF_GRIDSIZE),
-				      -fmodf(SF_PARALAX1 * position_.y, SF_GRIDSIZE),
+					  -fmodf(SF_PARALAX1 * position_.y, SF_GRIDSIZE),
 					  0);
 	glTranslatef(offset.x, offset.y,0);
 
-	int x_minus_times = static_cast<int>(((Camera::Instance().GetWidth() / 2.0f) / SF_GRIDSIZE) + 2);
+	int x_minus_times = static_cast<int>(((Camera::Instance().GetWidth() / 2.0f) / SF_GRIDSIZE) + 2) + 1;
 	int y_minus_times = static_cast<int>(((Camera::Instance().GetHeight() / 2.0f) / SF_GRIDSIZE) + 2);
 	float left = -SF_GRIDSIZE * x_minus_times;
 	for(int x = 0; x < x_minus_times * 2; x++)

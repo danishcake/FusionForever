@@ -14,7 +14,6 @@ function Vector:random_ring(inner, outer)
 end
 
 function Vector:from_angle(angle)
-	print(angle)
 	return setmetatable({x=math.sin(math.rad(angle)), y = math.cos(math.rad(angle))}, vec_mt)
 end
 

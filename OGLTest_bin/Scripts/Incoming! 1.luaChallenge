@@ -40,7 +40,6 @@ end
 WaitForMinesDead = function()
 	while mineSpawnCount > 0 do
 		coroutine.yield()
-		print("Mines left: " .. mineSpawnCount)
 	end
 end
 
