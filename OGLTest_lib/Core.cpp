@@ -54,7 +54,7 @@ void Core::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::v
 {
 	//Do all the standard moving and rotating
 	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies, _collision_manager);
-	//energy_+= 50 * _timespan;
+
 	//Get the AI instructions (how to move, rotate and fire)
 	AIAction action;
 	float max_speed;

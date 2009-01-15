@@ -1,10 +1,17 @@
 #pragma once
 #include <TinyXML.h>
+#include <map>
 
 struct ChallengeVariantRecord
 {
 	int defeats;
 	int victories;
+	
+	ChallengeVariantRecord()
+	{
+		defeats = 0;
+		victories = 0;
+	}
 
 	ChallengeVariantRecord(int _defeats, int _victories)
 	{
@@ -16,8 +23,8 @@ struct ChallengeVariantRecord
 class Scorekeeper
 {
 private:
-	TiXmlDocument scores_doc_;
 	Scorekeeper(void);
+	std::map<std::string, ChallengeVariantRecord> scores_;
 public:
 	~Scorekeeper(void);
 

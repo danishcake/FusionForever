@@ -384,6 +384,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\Incoming!(Hard).luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\Incoming!(Vicious).luaChallenge"
 					>
 				</File>

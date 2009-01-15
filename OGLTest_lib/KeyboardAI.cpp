@@ -74,19 +74,11 @@ AIAction KeyboardAI::Tick(float _timespan, std::vector<Core*>& _allies, std::vec
 		float dotprod = turn_data.turn_factor;
 		action.dtheta_ = ClampTurnDirection(dotprod, 0.4f);
 
-		Vector3f point_faced = Vector3f(sinf(_self->GetAngle() * M_PI / 180.0f), cosf(_self->GetAngle() * M_PI / 180.0f), 0);
-
-
-		//float zoom_scale = powf(zoom_time_ / ZOOM_TIME, 1.7f);
-		//Vector3f camera_centre = (1.0f - zoom_scale) * _self->GetPosition() + zoom_scale * point_to_face_world;
-		float peer_factor = 2 * point_to_face.length() / Camera::Instance().GetSmallestDimension();
-		Vector3f peer_point = Camera::Instance().ScreenDeltaToWorldDelta(point_to_face);
-		peer_point.y *= -1;
-		Vector3f camera_centre = _self->GetGlobalPosition() + peer_point * peer_factor;
+		Vector3f peer_factors = (point_to_face * 2) / Vector3f(Camera::Instance().GetWindowWidth(), Camera::Instance().GetWindowHeight(), 0);
+		peer_factors *= 0.8f;
+		Vector3f camera_centre = _self->GetGlobalPosition() + peer_factors * Vector3f(Camera::Instance().GetWidth() / 2.0f, Camera::Instance().GetHeight() / 2.0f, 0);
 		Camera::Instance().SetCentre(camera_centre.x, camera_centre.y, CameraLevel::Human);
-		//Camera::Instance().SetCentre(_self->GetPosition().x + point_to_face_world.x * Camera::Instance().GetWidth() * 0.4f * zoom_scale, _self->GetPosition().y + point_to_face_world.y* Camera::Instance().GetHeight() * 0.4f * zoom_scale, CameraLevel::Human);
 		Camera::Instance().SetFocus(_self->GetPosition().x, _self->GetPosition().y, CameraLevel::Human);
-		//Logger::Log(boost::lexical_cast<std::string, float>(_self->GetEnergy().GetValue()) + "/" + boost::lexical_cast<std::string, float>(_self->GetEnergy().GetMaxValue()));
 	}
 	
 	Radar::SetPlayerPosition(_self->GetGlobalPosition());

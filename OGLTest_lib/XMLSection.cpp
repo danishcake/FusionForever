@@ -14,6 +14,10 @@ XMLSection::XMLSection(XMLFilledOutlinedData _fill_outline_data)
 	fill_.GetFillVerts() = Datastore::Instance().GetVerts(_fill_outline_data.fill_verts_index);
 	fill_.SetDisplayList(_fill_outline_data.fill_dl);
 	findRadius();
+	if(radius_ > 30)
+	{
+		Logger::Instance() << "Warning: Section\"" << _fill_outline_data.filename << "\" exceeds maximum radius of 30. Radius = " << radius_ << "\n";
+	}
 
 	health_ = FlexFloat(_fill_outline_data.default_health, _fill_outline_data.default_health);
 	default_sub_section_position_ = _fill_outline_data.default_subsection_position;

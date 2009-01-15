@@ -2,23 +2,23 @@
 <Section SectionType="SquareCore" Health ="10000">
 
   <Section SectionType="BearEars" x="0" y="30">
-    <Section SectionType="CenterFrontBody" x="0" y="20">
-      <Section SectionType="Blaster" x="0" y="35"/>
-      <Section SectionType="Blaster" x="-5" y="35"/>
-      <Section SectionType="Blaster" x="5" y="35"/>
-      <Section SectionType="Blaster" x="10" y="30"/>
-      <Section SectionType="Blaster" x="-10" y="30"/>
-      <Section SectionType="Blaster" x="13" y="22"/>
-      <Section SectionType="Blaster" x="-13" y="22"/>
-      <Section SectionType="HeatBeamGun" x="0" y="10"/>
+    <Section SectionType="CenterFrontBody" x="0" y="30">
+      <Section SectionType="Blaster" x="0" y="25"/>
+      <Section SectionType="Blaster" x="-5" y="25"/>
+      <Section SectionType="Blaster" x="5" y="25"/>
+      <Section SectionType="Blaster" x="10" y="20"/>
+      <Section SectionType="Blaster" x="-10" y="20"/>
+      <Section SectionType="Blaster" x="13" y="12"/>
+      <Section SectionType="Blaster" x="-13" y="12"/>
+      <Section SectionType="HeatBeamGun" x="0" y="0"/>
     </Section>
-    <Section SectionType="FrontPlatingLH" x="-20" y="0">
-      <Section SectionType="HeatBeamGun" x="0" y="20"/>
-      <Section SectionType="HeatBeamGun" x="-10" y="20" Delay="0.5"/>
+    <Section SectionType="FrontPlatingLH" x="-25" y="0">
+      <Section SectionType="HeatBeamGun" x="5" y="20"/>
+      <Section SectionType="HeatBeamGun" x="-5" y="20" Delay="0.5"/>
     </Section>
-    <Section SectionType="FrontPlatingRH" x="20" y="0">
-      <Section SectionType="HeatBeamGun" x="0" y="20"/>
-      <Section SectionType="HeatBeamGun" x="10" y="20" Delay="0.5"/>
+    <Section SectionType="FrontPlatingRH" x="25" y="0">
+      <Section SectionType="HeatBeamGun" x="5" y="20"/>
+      <Section SectionType="HeatBeamGun" x="-5" y="20" Delay="0.5"/>
     </Section>
   </Section>
   
@@ -40,7 +40,7 @@
   
   <Section SectionType="BearEars" x="30" y="0" Angle="90">
     <Section SectionType="Bulkhead" x="0" y="20" Angle="0">
-      <Section SectionType="ProngLH" Angle="-90" x="-20" y="5">
+      <Section SectionType="ProngRH" Angle="-90" x="-20" y="5">
         <Section SectionType="HeatBeamGun" Delay="1"/>
       </Section>
     </Section>

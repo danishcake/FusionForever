@@ -3,129 +3,119 @@
 
 Scorekeeper::Scorekeeper(void)
 { 
-	scores_doc_.LoadFile("ProgressRecord.xml");
-	if(scores_doc_.FirstChild() == NULL)
+	TiXmlDocument scores_doc_;
+	if(!scores_doc_.LoadFile("ProgressRecord.xml"))
 	{
+		scores_doc_.ClearError();
 		TiXmlDeclaration* declaration = new TiXmlDeclaration("1.0", "", "");
+		TiXmlNode* root = new TiXmlElement("Scores");
+		scores_doc_.LinkEndChild(root);
 		scores_doc_.LinkEndChild(declaration);
+		scores_doc_.SaveFile();
 	}
-	
+
+	TiXmlHandle progress_handle = TiXmlHandle(&scores_doc_);
+	TiXmlElement* challenge = progress_handle.FirstChild("Scores").FirstChild("Level").Element();
+	while(challenge)
+	{
+		std::string filename;
+		if(challenge->QueryValueAttribute("Filename", &filename) == TIXML_SUCCESS)
+		{
+			TiXmlHandle challenge_handle = TiXmlHandle(challenge);
+			TiXmlElement* wins = challenge_handle.FirstChild("Victory").Element();
+			TiXmlElement* defeats = challenge_handle.FirstChild("Defeat").Element();
+			if(wins && defeats)
+			{
+				int win_count = 0;
+				int lose_count = 0;
+				try
+				{
+					win_count = boost::lexical_cast<int, std::string>(wins->GetText());
+				} catch(boost::bad_lexical_cast ex)
+				{
+					Logger::LogError(std::string("Unable to cast wins: ") + wins->GetText() + std::string(" to an int"));
+				}
+				try
+				{
+					lose_count = boost::lexical_cast<int, std::string>(defeats->GetText());
+				} catch(boost::bad_lexical_cast ex)
+				{
+					Logger::LogError(std::string("Unable to cast defeats: ") + defeats->GetText() + std::string(" to an int"));
+				}
+				scores_[filename] = ChallengeVariantRecord(lose_count, win_count);
+			} else
+				Logger::LogError("Either the win or defeat is missing from " + filename);
+		} else
+			Logger::LogError("Querying the Level attribute of " + filename + " failed");
+
+		challenge = static_cast<TiXmlElement*>(challenge->NextSibling("Level"));
+	}
 }
 
 Scorekeeper::~Scorekeeper(void)
 {
+	TiXmlDocument scores_doc_;
+
+	TiXmlDeclaration* declaration = new TiXmlDeclaration("1.0", "", "");
+	TiXmlNode* root = new TiXmlElement("Scores");
+	scores_doc_.LinkEndChild(declaration);
+	scores_doc_.LinkEndChild(root);
+	
+
+	std::pair<std::string, ChallengeVariantRecord> score;
+	BOOST_FOREACH(score, scores_)
+	{
+		TiXmlElement* level = new TiXmlElement("Level");
+		
+		TiXmlElement* wins = new TiXmlElement("Victory");
+		TiXmlNode* wins_text = new TiXmlText(boost::lexical_cast<std::string, int>(score.second.victories));
+		wins->LinkEndChild(wins_text);
+
+		TiXmlElement* defeats = new TiXmlElement("Defeat");
+		TiXmlNode* defeats_text = new TiXmlText(boost::lexical_cast<std::string, int>(score.second.defeats));
+		defeats->LinkEndChild(defeats_text);
+
+		level->SetAttribute("Filename", score.first);
+		level->LinkEndChild(wins);
+		level->LinkEndChild(defeats);
+		
+		root->LinkEndChild(level);
+	}
+
 	scores_doc_.SaveFile("ProgressRecord.xml");
 }
 
 ChallengeVariantRecord Scorekeeper::QueryProgress(std::string _challenge)
 {
-	TiXmlHandle progress_handle = TiXmlHandle(&scores_doc_);
-	TiXmlElement* challenge_handle = progress_handle.FirstChild(_challenge).Element();
-	if(challenge_handle)
+	if(scores_.find(_challenge) != scores_.end())
 	{
-		TiXmlElement* wins = progress_handle.FirstChild(_challenge).FirstChild("Victory").Element();
-		TiXmlElement* defeats = progress_handle.FirstChild(_challenge).FirstChild("Defeat").Element();
-		if(wins && defeats)
-		{
-			int win_count = 0;
-			int lose_count = 0;
-			try
-			{
-				win_count = boost::lexical_cast<int, std::string>(wins->GetText());
-			} catch(boost::bad_lexical_cast ex)
-			{
-				Logger::LogError(std::string("Unable to cast wins: ") + wins->GetText() + std::string(" to an int"));
-			}
-			try
-			{
-				lose_count = boost::lexical_cast<int, std::string>(defeats->GetText());
-			} catch(boost::bad_lexical_cast ex)
-			{
-				Logger::LogError(std::string("Unable to cast defeats: ") + defeats->GetText() + std::string(" to an int"));
-			}
-			return ChallengeVariantRecord(lose_count, win_count);
-		} else
-			return ChallengeVariantRecord(0,0);
+		return scores_[_challenge];
 	} else
-	{
-		return ChallengeVariantRecord(0,0);
-	}
+		return ChallengeVariantRecord(0, 0);
 }
 
 void Scorekeeper::ReportVictory(std::string _challenge)
 {
-	TiXmlHandle progress_handle = TiXmlHandle(&scores_doc_);
-	TiXmlElement* challenge_handle = progress_handle.FirstChild(_challenge).Element();
-	if(challenge_handle)
+	if(scores_.find(_challenge) != scores_.end())
 	{
-		TiXmlElement* wins = progress_handle.FirstChild(_challenge).FirstChild("Victory").Element();
-		if(wins)
-		{
-			int win_count = 0;
-			try
-			{
-				win_count = boost::lexical_cast<int, std::string>(wins->GetText());
-			} catch(boost::bad_lexical_cast ex)
-			{
-				Logger::LogError(std::string("Unable to cast ") + wins->GetText() + std::string(" to an int"));
-			}
-			wins->Clear();
-			TiXmlText* nText = new TiXmlText(boost::lexical_cast<std::string, int>(++win_count));
-			wins->LinkEndChild(nText);
-		} else
-			Logger::LogError(std::string("Unable to record victory for challenge ") +_challenge + std::string(" as the Victory tag is malformed"));
+		ChallengeVariantRecord cvr = scores_[_challenge];
+		cvr.victories++;
+		scores_[_challenge] = cvr;
 	} else
 	{
-		TiXmlElement* challenge = new TiXmlElement(_challenge);
-		TiXmlElement* wins = new TiXmlElement("Victory");
-		TiXmlElement* defeats = new TiXmlElement("Defeat");
-		TiXmlText* winText = new TiXmlText(boost::lexical_cast<std::string, int>(1));
-		TiXmlText* defeatText = new TiXmlText(boost::lexical_cast<std::string, int>(0));
-
-		scores_doc_.LinkEndChild(challenge);
-		challenge->LinkEndChild(wins);
-		challenge->LinkEndChild(defeats);
-
-		wins->LinkEndChild(winText);
-		defeats->LinkEndChild(defeatText);
+		scores_[_challenge] = ChallengeVariantRecord(0, 1);
 	}
 }
 
 void Scorekeeper::ReportDefeat(std::string _challenge)
 {
-	TiXmlHandle progress_handle = TiXmlHandle(&scores_doc_);
-	TiXmlElement* challenge_handle = progress_handle.FirstChild(_challenge).Element();
-	if(challenge_handle)
+	if(scores_.find(_challenge) != scores_.end())
 	{
-		TiXmlElement* defeats = progress_handle.FirstChild(_challenge).FirstChild("Defeat").Element();
-		if(defeats)
-		{
-			int defeat_count = 0;
-			try
-			{
-				defeat_count = boost::lexical_cast<int, std::string>(defeats->GetText());
-			} catch(boost::bad_lexical_cast ex)
-			{
-				Logger::LogError(std::string("Unable to cast ") + defeats->GetText() + std::string(" to an int"));
-			}
-			defeats->Clear();
-			TiXmlText* nText = new TiXmlText(boost::lexical_cast<std::string, int>(++defeat_count));
-			defeats->LinkEndChild(nText);
-		} else
-			Logger::LogError(std::string("Unable to record defeat for challenge ") +_challenge + std::string(" as the Defeat tag is malformed"));
+		ChallengeVariantRecord cvr = scores_[_challenge];
+		cvr.defeats++;
+		scores_[_challenge] = cvr;
 	} else
 	{
-		TiXmlElement* challenge = new TiXmlElement(_challenge);
-		TiXmlElement* wins = new TiXmlElement("Victory");
-		TiXmlElement* defeats = new TiXmlElement("Defeat");
-		TiXmlText* winText = new TiXmlText(boost::lexical_cast<std::string, int>(0));
-		TiXmlText* defeatText = new TiXmlText(boost::lexical_cast<std::string, int>(1));
-
-		scores_doc_.LinkEndChild(challenge);
-		challenge->LinkEndChild(wins);
-		challenge->LinkEndChild(defeats);
-
-		wins->LinkEndChild(winText);
-		defeats->LinkEndChild(defeatText);
+		scores_[_challenge] = ChallengeVariantRecord(1, 0);
 	}
 }

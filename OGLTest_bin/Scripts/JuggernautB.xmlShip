@@ -13,8 +13,8 @@
             <Section x="0" y="20" Angle="0" Health="600" Delay="0" SectionType="Swarmer" />
             <Section x="17.5" y="10" Angle="45" Health="600" Delay="0" SectionType="Swarmer" />
         </Section>
-        <Section x="0" y="20" Angle="0" Health="12000" Delay="0" SectionType="CenterFrontBody">
-            <Section x="0" y="15" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
+        <Section x="0" y="30" Angle="0" Health="12000" Delay="0" SectionType="CenterFrontBody">
+            <Section x="0" y="5" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
         </Section>
         <Section x="0" y="-15" Angle="0" Health="1500" Delay="0" SectionType="DriveUnit" />
     </Section>
@@ -24,20 +24,20 @@
             <Section x="17.5" y="10" Angle="30" Health="600" Delay="0" SectionType="Swarmer" />
             <Section x="-17.5" y="10" Angle="-30" Health="600" Delay="0" SectionType="Swarmer" />
         </Section>
-        <Section x="0" y="20" Angle="0" Health="12000" Delay="0" SectionType="CenterFrontBody">
-            <Section x="0" y="15" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
+        <Section x="0" y="30" Angle="0" Health="12000" Delay="0" SectionType="CenterFrontBody">
+            <Section x="0" y="5" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
         </Section>
         <Section x="0" y="-15" Angle="0" Health="1500" Delay="0" SectionType="DriveUnit" />
     </Section>
     <Section x="0" y="-35" Angle="0" Health="9000" Delay="0" SectionType="BearEars">
         <Section x="0" y="-20" Angle="180" Health="10000" Delay="0" SectionType="Bulkhead" />
-        <Section x="-20" y="0" Angle="-90" Health="12000" Delay="0" SectionType="CenterFrontBody">
-            <Section x="-10" y="15" Angle="0" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
-            <Section x="10" y="15" Angle="0" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
+        <Section x="-20" y="10" Angle="-90" Health="12000" Delay="0" SectionType="CenterFrontBody">
+            <Section x="-10" y="5" Angle="0" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
+            <Section x="10" y="5" Angle="0" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
         </Section>
-        <Section x="20" y="0" Angle="90" Health="12000" Delay="0" SectionType="CenterFrontBody">
-            <Section x="10" y="15" Angle="0" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
-            <Section x="-10" y="15" Angle="0" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
+        <Section x="20" y="10" Angle="90" Health="12000" Delay="0" SectionType="CenterFrontBody">
+            <Section x="10" y="5" Angle="0" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
+            <Section x="-10" y="5" Angle="0" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
         </Section>
     </Section>
 </Section>
