@@ -152,7 +152,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	bool isFinished = false;
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 	SDL_WM_SetCaption("SDL Test", "SDL Test");
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
@@ -166,14 +166,13 @@ int _tmain(int argc, _TCHAR* argv[])
 	SDL_Surface* screen = SDL_SetVideoMode(Camera::Instance().GetWindowWidth(), Camera::Instance().GetWindowHeight(), 32, SDL_HWSURFACE | SDL_OPENGL | SDL_DOUBLEBUF | (Settings::Instance().GetFullscreen() ? SDL_FULLSCREEN : 0));
 	if(!screen)
 	{
-		Logger::LogError("SDL_SetVideoMode failed, unable to open screen device. Exitting");
+		Logger::ErrorOut() << "SDL_SetVideoMode failed, unable to open screen device. Exitting\n";
 		return -1;
 	}
 	glClearColor(0.0f,0.0f,0.0f,0.0f);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glEnable(GL_LINE_SMOOTH);
-	//glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+
 	ltv_time = clock();
 
 	CEGUI::OpenGLRenderer* renderer = new CEGUI::OpenGLRenderer(0, Camera::Instance().GetWindowWidth(), Camera::Instance().GetWindowHeight());
@@ -184,16 +183,35 @@ int _tmain(int argc, _TCHAR* argv[])
 	SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
 	// load in the scheme file, which auto-loads the TaharezLook imageset
-	CEGUI::SchemeManager::getSingleton().loadScheme( "TaharezLook.scheme" );
+	try
+	{
+		CEGUI::SchemeManager::getSingleton().loadScheme( "TaharezLook.scheme" );
+		CEGUI::System::getSingleton().setDefaultMouseCursor( "TaharezLook", "MouseArrow" );
+	} catch(CEGUI::Exception e)
+	{
+		Logger::ErrorOut() << e.getMessage().c_str() << "\n";
+		Logger::ErrorOut() << "Unable to open TaharezLook.scheme, is it missing, or is the working directory wrong?\n";
+		isFinished = true;
+	}
 
 	// load in a font.  The first font loaded automatically becomes the default font.
-	if(! CEGUI::FontManager::getSingleton().isFontPresent( "Commonwealth-10" ) )
-		CEGUI::FontManager::getSingleton().createFont( "Commonwealth-10.font" );
-	CEGUI::System::getSingleton().setDefaultFont( "Commonwealth-10" );
-	CEGUI::System::getSingleton().setDefaultMouseCursor( "TaharezLook", "MouseArrow" );
-
-	scene_stack.push_back(BaseScene_ptr(new MenuScene()));
-	scene_stack.push_back(BaseScene_ptr(new FadeInScene()));
+	try
+	{
+		if(!CEGUI::FontManager::getSingleton().isFontPresent( "Commonwealth-10" ) )
+			CEGUI::FontManager::getSingleton().createFont( "Commonwealth-10.font" );
+		CEGUI::System::getSingleton().setDefaultFont( "Commonwealth-10" );
+		CEGUI::FontManager::getSingleton().notifyScreenResolution(CEGUI::Size(Camera::Instance().GetWindowWidth(), Camera::Instance().GetWindowHeight()));
+	} catch(CEGUI::Exception e)
+	{
+		Logger::ErrorOut() << e.getMessage().c_str() << "\n";
+		Logger::ErrorOut() << "Unable to open Commonwealth-10.font, is it missing, or is the working directory wrong?\n";
+		isFinished = true;
+	}
+	if(!isFinished)
+	{
+		scene_stack.push_back(BaseScene_ptr(new MenuScene()));
+		scene_stack.push_back(BaseScene_ptr(new FadeInScene()));
+	}
 
 	SDL_Event sdl_event;
 	while(!isFinished)
@@ -254,11 +272,8 @@ int _tmain(int argc, _TCHAR* argv[])
 			
 			}
 		}
-		Sleep(5);
-
 		Tick();
 		Redraw();
-		SDL_Flip(screen);
 		Cull();
 	}
 	SDL_Quit();

@@ -84,7 +84,7 @@ int LuaChallenge::SpawnShip(std::string _ship_name, int _force, Vector2f _positi
 
 int LuaChallenge::l_luaError(lua_State* _luaVM)
 {
-	Logger::LogError(lua_tostring(_luaVM, -1));
+	Logger::ErrorOut() << lua_tostring(_luaVM, -1) << "\n";
 	
 	return 0;
 }
@@ -205,12 +205,12 @@ int LuaChallenge::l_SetShipTarget(lua_State* _luaVM)
 	if(core && target)
 	{
 		core->GetAI()->SpecifyTarget(target);
-		Logger::Instance() << "Making " << ship_id_core << " target " << ship_id_target;
+		Logger::DiagnosticOut() << "Making " << ship_id_core << " target " << ship_id_target << "\n";
 	}
 	if(!core)
-		Logger::Instance() << "Unable to find target with ID" << ship_id_target;
+		Logger::ErrorOut() << "Unable to find target with ID" << ship_id_target << "\n";
 	if(!target)
-		Logger::Instance() << "Unable to find target with ID" << ship_id_core;
+		Logger::ErrorOut() << "Unable to find target with ID" << ship_id_core << "\n";
 
 	return 0;
 }
@@ -250,6 +250,50 @@ Core* LuaChallenge::GetShipData(int _ship_id)
 	return static_cast<Core_ptr>(game_->GetSectionData(_ship_id));
 }
 
+int LuaChallenge::l_DisplayMessage(lua_State* _luaVM)
+{
+	if(!(lua_gettop(_luaVM) == 3))
+	{
+		luaL_error(_luaVM, "DisplayMessage must be called with 3 parameters");
+	}
+	float time = lua_tonumber(_luaVM, -1);
+	std::string text = lua_tostring(_luaVM, -2);
+	
+	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -3)));
+	assert(challenge);
+
+	challenge->DisplayMessage(text, time);
+
+	return 0;
+}
+
+void LuaChallenge::DisplayMessage(std::string _message, float _time)
+{
+	game_->DisplayMessage(_message, _time + 0.5f);
+}
+
+int LuaChallenge::l_SetCounter(lua_State* _luaVM)
+{
+	if(!(lua_gettop(_luaVM) == 5))
+	{
+		luaL_error(_luaVM, "SetCounter must be called with 5 parameters");
+	}
+	int max = lua_tointeger(_luaVM, -1);
+	int value = lua_tointeger(_luaVM, -2);
+	bool visible = lua_toboolean(_luaVM, -3);
+	int counter_id = lua_tointeger(_luaVM, -4);
+	
+	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -5)));
+	assert(challenge);
+
+	challenge->SetCounter(counter_id, value, max, visible);
+	return 0;
+}
+
+void LuaChallenge::SetCounter(int _counter, int _value, int _max, bool _visible)
+{
+}
+
 LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* _game) : 
 	luaVM_(_luaVM), challenge_(_challenge), game_(_game)
 {
@@ -263,6 +307,8 @@ LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* 
 	lua_register(_luaVM, "SetDeathFunction", l_SetDeathFunction);
 	lua_register(_luaVM, "SetShipTarget", l_SetShipTarget);
 	lua_register(_luaVM, "SetHostility", l_SetHostility);
+	lua_register(_luaVM, "DisplayMessage", l_DisplayMessage);
+	lua_register(_luaVM, "SetCounter", l_SetCounter);
 
 	state_ = ChallengeState::NotStarted;
 
@@ -287,14 +333,14 @@ LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* 
 	{
 		assert(lua_gettop(_luaVM) == 0); 
 		state_ = ChallengeState::LoadError;
-		Logger::LogError(std::string("Unable to load challenge script: ") + challenge_);
+		Logger::ErrorOut() << "Unable to load challenge script: " << challenge_ << "\n";
 	} else
 	{
 		assert(lua_gettop(_luaVM) == 0);
 		if(createEnvironmentAndCoroutine() == false)
 		{
 			state_ = ChallengeState::LoadError;
-			Logger::LogError(std::string("Unable to create environment. Is Challenge_sandbox broken?"));
+			Logger::ErrorOut() << "Unable to create environment. Is Challenge_sandbox broken?\n";
 		} else
 		{
 			state_ = ChallengeState::Running;
@@ -318,13 +364,13 @@ bool LuaChallenge::loadChallenge()
 	if(load_result==0)
 	{
 		chunk_reference_ = luaL_ref(luaVM_, LUA_REGISTRYINDEX);
-		Logger::Instance() << "Challenge loaded OK\n";
+		Logger::ErrorOut() << "Challenge loaded OK\n";
 		return true;
 	} else
 	{
 		std::string error_string = lua_tostring(luaVM_, -1);
 		lua_pop(luaVM_, 1);
-		Logger::Instance() << "Load Challenge script error: " << error_string << "\n";
+		Logger::ErrorOut() << "Load Challenge script error: " << error_string << "\n";
 		return false;
 	}
 }
@@ -338,7 +384,7 @@ bool LuaChallenge::createEnvironmentAndCoroutine()
 	//Either have error message or chunk on stack
 	if(env_load_error != 0 )
 	{
-		Logger::Instance() << lua_tostring(luaVM_, -1);
+		Logger::ErrorOut() << lua_tostring(luaVM_, -1) << "\n";
 		lua_pop(luaVM_, 2);
 		return false;
 	}
@@ -349,7 +395,7 @@ bool LuaChallenge::createEnvironmentAndCoroutine()
 	int env_run_error = lua_pcall(luaVM_, 1, 1, NULL);
 	if(env_run_error != 0 )
 	{
-		Logger::Instance() << lua_tostring(luaVM_, -1);
+		Logger::ErrorOut() << lua_tostring(luaVM_, -1) << "\n";
 		lua_pop(luaVM_, 2);
 		return false;
 	}
@@ -434,7 +480,7 @@ ChallengeState::Enum LuaChallenge::Tick(float _timespan)
 		{
 			//The script encountered a runtime error, log it
 			state_ = ChallengeState::RunError;
-			Logger::Instance() << lua_tostring(thread, -1) << "\n";
+			Logger::ErrorOut() << lua_tostring(thread, -1) << "\n";
 		}
 	}
 	
@@ -452,7 +498,7 @@ void LuaChallenge::CallDeathFunction(int _death_function_refence)
 		int run_result = lua_pcall(luaVM_, 0, 0, 0);
 		if(run_result != 0)
 		{
-			Logger::LogError(std::string("Error running death function") + boost::lexical_cast<std::string, int>(_death_function_refence));
+			Logger::ErrorOut() << "Error running death function" << boost::lexical_cast<std::string, int>(_death_function_refence) << "\n";
 		}
 		//Dispose of the function reference
 		luaL_unref(luaVM_, LUA_REGISTRYINDEX, _death_function_refence);

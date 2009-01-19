@@ -14,10 +14,10 @@
         <Section x="10" y="0" Angle="0" Health="1500" Delay="0.100000001" SectionType="PlasmaArtillery" />
     </Section>
     <Section x="25" y="-10" Angle="100" Health="8000" Delay="0" SectionType="FrontPlatingLH">
-        <Section x="0" y="15" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
+        <Section x="0" y="15" Angle="0" Health="800" Delay="0" SectionType="GeneratorCube" />
     </Section>
     <Section x="-25" y="-10" Angle="-100" Health="8000" Delay="0" SectionType="FrontPlatingRH">
-        <Section x="0" y="15" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
+        <Section x="0" y="15" Angle="0" Health="800" Delay="0" SectionType="GeneratorCube" />
     </Section>
     <Section x="10" y="10" Angle="0" Health="1400" Delay="0" SectionType="OctoSection">
         <Section x="0" y="0" Angle="0" Health="1500" Delay="0.400000006" SectionType="PlasmaArtillery" />

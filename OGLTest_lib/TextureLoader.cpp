@@ -54,7 +54,7 @@ GLuint TextureLoader::LoadTexture(std::string _filename)
 						texture_format = GL_BGR;
 		} else
 		{
-			Logger::LogError("Not a truecolor image");
+			Logger::ErrorOut() << "Not a truecolor image\n";
 			return 0;
 		}
 			
@@ -83,7 +83,7 @@ GLuint TextureLoader::LoadTexture(std::string _filename)
 		return texture;
 	} else
 	{
-		Logger::LogError(std::string("Unable to open texture ") + _filename);
+		Logger::ErrorOut() << "Unable to open texture " << _filename << "\n";
 	}
 	return 0;
 }
@@ -99,7 +99,7 @@ void TextureLoader::UnloadTexture(std::string _filename)
 		}*/
 	} else
 	{
-		Logger::LogError(std::string("Texture not loaded - why are you trying to unload it? :") + _filename);
+		Logger::ErrorOut() << "Texture not loaded - why are you trying to unload it? :" << _filename << "\n";
 	}
 	//textures_by_name_.erase(textures_by_name_.;
 }
@@ -111,7 +111,7 @@ void TextureLoader::LoadTexture(unsigned int _texture_id)
 		textures_by_id_[_texture_id]->usages++;
 	} else
 	{
-		Logger::LogError(std::string("Texture not loaded :") + boost::lexical_cast<std::string, unsigned int>(_texture_id));
+		Logger::ErrorOut() << "Texture not loaded :" << boost::lexical_cast<std::string, unsigned int>(_texture_id) << "\n";
 	}
 }
 
@@ -122,7 +122,7 @@ void TextureLoader::UnloadTexture(unsigned int _texture_id)
 		textures_by_id_[_texture_id]->usages--;
 	} else
 	{
-		Logger::LogError(std::string("Texture not loaded :") + boost::lexical_cast<std::string, unsigned int>(_texture_id));
+		Logger::ErrorOut() << "Texture not loaded :" << boost::lexical_cast<std::string, unsigned int>(_texture_id) << "\n";
 	}
 }
 
@@ -133,7 +133,7 @@ Vector2<int> TextureLoader::GetTextureSize(unsigned int _texture_id)
 		return Vector2<int>(textures_by_id_[_texture_id]->texture_size.x, textures_by_id_[_texture_id]->texture_size.y);
 	} else
 	{
-		Logger::LogError(std::string("Texture not loaded :") + boost::lexical_cast<std::string, unsigned int>(_texture_id));
+		Logger::ErrorOut() << "Texture not loaded :" << boost::lexical_cast<std::string, unsigned int>(_texture_id) << "\n";
 		return Vector2<int>();
 	}
 }

@@ -32,6 +32,16 @@ force2Spawn = coroutine.wrap(function()
 	challenge:Victory()
 end)
 
+challenge:DisplayMessage("Survive The Feud", 2);
+challenge:DisplayMessage("by Edward Woolhouse", 2);
+challenge:WaitFor(1.5)
+challenge:DisplayMessage("Caught between two warring factions you must stay alive", 2);
+challenge:WaitFor(0.5)
+challenge:DisplayMessage("Each team has 25 ships", 2);
+challenge:WaitFor(0.5)
+challenge:DisplayMessage("Get ready...", 2);
+challenge:WaitFor(1.0)
+
 while true do
 	playerLives()
 	force1Spawn()

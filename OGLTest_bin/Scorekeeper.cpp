@@ -33,20 +33,20 @@ Scorekeeper::Scorekeeper(void)
 					win_count = boost::lexical_cast<int, std::string>(wins->GetText());
 				} catch(boost::bad_lexical_cast ex)
 				{
-					Logger::LogError(std::string("Unable to cast wins: ") + wins->GetText() + std::string(" to an int"));
+					Logger::ErrorOut() << "Unable to cast wins: " << wins->GetText() << " to an int\n";
 				}
 				try
 				{
 					lose_count = boost::lexical_cast<int, std::string>(defeats->GetText());
 				} catch(boost::bad_lexical_cast ex)
 				{
-					Logger::LogError(std::string("Unable to cast defeats: ") + defeats->GetText() + std::string(" to an int"));
+					Logger::ErrorOut() << "Unable to cast defeats: " << defeats->GetText() <<" to an int\n";
 				}
 				scores_[filename] = ChallengeVariantRecord(lose_count, win_count);
 			} else
-				Logger::LogError("Either the win or defeat is missing from " + filename);
+				Logger::ErrorOut() << "Either the win or defeat is missing from " << filename << "\n";
 		} else
-			Logger::LogError("Querying the Level attribute of " + filename + " failed");
+			Logger::ErrorOut() << "Querying the Level attribute of " << filename << " failed\n";
 
 		challenge = static_cast<TiXmlElement*>(challenge->NextSibling("Level"));
 	}

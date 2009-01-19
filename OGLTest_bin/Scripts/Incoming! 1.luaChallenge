@@ -54,6 +54,7 @@ mineSpawn = coroutine.wrap(function()
 		challenge:WaitFor(2)
 	end
 
+	challenge:DisplayMessage("Phase 2", 2);
 	--Phase 2
 	for i = 1, 4 do
 		mineSpawnCount = i * 4
@@ -67,6 +68,16 @@ mineSpawn = coroutine.wrap(function()
 end)
 
 challenge:SetFriendly(1,2)
+
+challenge:DisplayMessage("Incoming! 1", 2);
+challenge:DisplayMessage("by Edward Woolhouse", 2);
+challenge:WaitFor(1.5)
+challenge:DisplayMessage("The enemy is spawning mines!", 2);
+challenge:WaitFor(0.5)
+challenge:DisplayMessage("Shoot them before they hit you!", 2);
+challenge:WaitFor(0.5)
+challenge:DisplayMessage("Get ready...", 2);
+challenge:WaitFor(1.0)
 
 while true do
 	playerSpawn()

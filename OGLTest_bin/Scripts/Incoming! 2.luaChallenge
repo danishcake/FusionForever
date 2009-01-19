@@ -27,6 +27,8 @@ force1Spawn = coroutine.wrap(function()
 	challenge:WaitForAllEnemiesDead(0)
 	
 	--Phase 2
+	challenge:DisplayMessage("Phase 2", 2);
+	
 	spawnMines(4)
 	challenge:WaitFor(3)
 	spawnMines(2)
@@ -57,6 +59,16 @@ force1Spawn = coroutine.wrap(function()
 	
 	challenge:Victory()
 end)
+
+challenge:DisplayMessage("Incoming! 2", 2);
+challenge:DisplayMessage("by Edward Woolhouse", 2);
+challenge:WaitFor(1.5)
+challenge:DisplayMessage("The enemy is spawning mines!", 2);
+challenge:WaitFor(0.5)
+challenge:DisplayMessage("Shoot them before they hit you!", 2);
+challenge:WaitFor(0.5)
+challenge:DisplayMessage("Get ready...", 2);
+challenge:WaitFor(1.0)
 
 while true do
 	playerSpawn()

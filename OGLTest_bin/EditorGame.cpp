@@ -15,7 +15,7 @@ EditorGame::EditorGame(void) : BaseGame("")
 		selected_section_ = ships_[0].at(0);
 	} else
 	{
-		Logger::LogError("Unable to create a SquareCore for the editor, so exiting to avoid a crash. Ensure SquareCore.xmlCore is present in Scripts/Sections");
+		Logger::ErrorOut() << "Unable to create a SquareCore for the editor, so exiting to avoid a crash. Ensure SquareCore.xmlCore is present in Scripts/Sections\n";
 		SDL_Quit();
 		exit(-1);
 	}

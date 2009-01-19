@@ -12,12 +12,12 @@ SoundManager::SoundManager(void)
 
 	if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers))
 	{
-		Logger::LogError("Unable to open audio!\n");
+		Logger::ErrorOut() << "Unable to open audio!\n";
 		status_ = SoundStatus::ErrorInitialising;
 	} else
 	{
 		Mix_AllocateChannels(32);
-		Logger::Log("Sound initialised");
+		Logger::ErrorOut() << "Sound initialised\n";
 		status_ = SoundStatus::OK;
 	}
 
@@ -52,7 +52,7 @@ void SoundManager::PlaySample(std::string _filename)
 		if(sample != NULL)
 			samples_[_filename] = sample;
 		else
-			Logger::LogError("Unable to load sound:" + _filename);
+			Logger::ErrorOut() << "Unable to load sound:" << _filename << "\n";
 	}
 
 	if(sample)
@@ -60,9 +60,9 @@ void SoundManager::PlaySample(std::string _filename)
 		//Play the sound
 		int channel = Mix_PlayChannel(-1, sample, 0);
 		if(channel < 0)
-			Logger::Instance() << Mix_GetError() << "\n";
+			Logger::ErrorOut() << Mix_GetError() << "\n";
 		else
-			Logger::Instance() << "Playing on" << channel << "\n";
+			Logger::DiagnosticOut() << "Playing on" << channel << "\n";
 	}
 	
 }

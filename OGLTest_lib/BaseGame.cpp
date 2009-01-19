@@ -3,6 +3,7 @@
 #include "LuaChallenge.h"
 #include "LuaAI.h"
 #include "Decoration.h"
+#include "KeyboardAI.h"
 
 extern "C"
 {
@@ -26,7 +27,6 @@ BaseGame::BaseGame(std::string _challenge_filename)
 	luaL_openlibs(luaVM_);
 	challenge_ = new LuaChallenge(luaVM_, _challenge_filename, this);
 	Camera::Instance().SetCentre(0, 0, CameraLevel::None);
-	player_id_ = -1; 
 }
 
 BaseGame::~BaseGame(void)
@@ -84,7 +84,7 @@ void BaseGame::Draw()
 	}
 }
 
-int BaseGame::Tick(float _timespan)
+int BaseGame::Tick(float _timespan, GameGUI& _gui)
 {
 	std::vector<Decoration_ptr> decoration_spawn;
 	std::vector<Section_ptr> filtered;
@@ -122,7 +122,6 @@ int BaseGame::Tick(float _timespan)
 	}
 
 	//Tick ships
-	player_id_ = -1;
 	const Matrix4f identity = Matrix4f();
 	std::vector<Projectile_ptr> projectile_spawn;
 	projectile_spawn.reserve(50);
@@ -132,10 +131,6 @@ int BaseGame::Tick(float _timespan)
 		BOOST_FOREACH(Core_ptr core, ships_[force])
 		{
 			core->Tick(_timespan, projectile_spawn, decoration_spawn, identity, friends[force], enemies[force], &collision_managers_[force]);
-			if(core->GetAI()->IsHuman() && player_id_ == -1)
-			{
-				player_id_ = core->GetSectionID();
-			}
 		}
 		//Add spawned projectiles
 		projectiles_[force].insert(projectiles_[force].end(), projectile_spawn.begin(), projectile_spawn.end());
@@ -232,6 +227,21 @@ int BaseGame::Tick(float _timespan)
 		ships_[force].erase(std::remove_if(ships_[force].begin(), ships_[force].end(), Section::IsRemovable), ships_[force].end());
 	}
 
+	//Update the GUI displayed
+	if(KeyboardAI::GetPlayerIDs().size() > 0)
+	{
+		int player_id = KeyboardAI::GetPlayerIDs()[0];
+		Core_ptr core = static_cast<Core_ptr>(GetSectionData(player_id));
+		_gui.ship_health_fraction = 1.0f - (core->GetTotalDamage() / core->GetTotalHealth());
+		_gui.core_health_fraction = (core->GetHealth() / core->GetMaxHealth());
+		_gui.energy_fraction = core->GetEnergy().GetValue() / core->GetEnergy().GetMaxValue();
+		_gui.render_bars = true;
+	} else
+		_gui.render_bars = false;
+	
+	_gui.new_messages_.insert(_gui.new_messages_.end(), messages_.begin(), messages_.end());
+	messages_.clear();
+
 	return state;
 }
 
@@ -271,4 +281,12 @@ Section_ptr BaseGame::GetSectionData(int _section_id)
 void BaseGame::SetHostility(int _force_a, int _force_b, bool _hostile)
 {
 	hostility_[_force_a][_force_b] = _hostile ? Hostility::Hostile : Hostility::Friendly;
+}
+
+void BaseGame::DisplayMessage(std::string _message, float _time)
+{
+	ScreenText st;
+	st.text = _message;
+	st.time = _time;
+	messages_.push_back(st);
 }

@@ -149,7 +149,7 @@ void LuaAI::ChangeAI(std::string _file_name)
 		{
 			std::string error_string = lua_tostring(lua_state_, -1);
 			lua_pop(lua_state_, 1);
-			Logger::Instance() << "Change AI script error: " << error_string << "\n";
+			Logger::ErrorOut() << "Change AI script error: " << error_string << "\n";
 			ok_to_run_ = false;
 		}
 	}
@@ -187,7 +187,7 @@ void LuaAI::RegisterLuaFunctions(lua_State* _luaVM)
 		//Either have error message or chunk on stack
 		if(env_load_error != 0 )
 		{
-			Logger::Instance() << lua_tostring(_luaVM, -1);
+			Logger::ErrorOut() << lua_tostring(_luaVM, -1) << "\n";
 			ai_sandbox_reference_ = 0;
 		} else
 		{
@@ -239,7 +239,7 @@ bool LuaAI::initialise_coroutine()
 		//If the reference is zero then there was some problem loading it earlier (in initialiseLua)
 		if(ai_sandbox_reference_ == 0)
 		{
-			Logger::Instance() << lua_tostring(lua_state_, -1);
+			Logger::ErrorOut() << lua_tostring(lua_state_, -1) << "\n";
 			return false;
 		}
 		lua_rawgeti(lua_state_, LUA_REGISTRYINDEX, ai_sandbox_reference_);
@@ -251,7 +251,7 @@ bool LuaAI::initialise_coroutine()
 		int env_run_error = lua_pcall(lua_state_, 1, 1, NULL);
 		if(env_run_error != 0 )
 		{
-			Logger::Instance() << lua_tostring(lua_state_, -1);
+			Logger::ErrorOut() << lua_tostring(lua_state_, -1) << "\n";
 			return false;
 		}
 		//Should now have a reference to the environment on stack
@@ -348,15 +348,15 @@ void LuaAI::resume_coroutine(Core_ptr _self, float _timespan)
 		int resume_result = lua_resume(thread, 0);
 		if(resume_result == LUA_YIELD)
 		{
-			//Logger::Instance() << "Coroutine yielded OK\n";
+			//Logger::ErrorOut() << "Coroutine yielded OK\n";
 		} else if(resume_result == 0)
 		{
-			//Logger::Instance() << "Coroutine finished without errors\n";
-			initialise_coroutine(); //Restart coroutine //TODO work out a way to keep the ship, rather than initialising a new one.
+			//Logger::ErrorOut() << "Coroutine finished without errors\n";
+			initialise_coroutine(); //Restart coroutine
 		} else
 		{
 			ok_to_run_ = false;
-			Logger::Instance() << lua_tostring(thread, -1) << "\n";
+			Logger::ErrorOut() << lua_tostring(thread, -1) << "\n";
 		}
 		assert(lua_gettop(thread) == 0);
 		//lua_pop(lua_state_, 1); //Pops thread //Shouldn't be needed
@@ -425,7 +425,7 @@ LuaAI* LuaAI::FromScript(std::string _file_name, lua_State *_luaVM)
 {
 	if(ai_chunk_reference_.find(_file_name) != ai_chunk_reference_.end())
 	{
-		//Logger::Instance() << "Loading chached ai\n";
+		//Logger::ErrorOut() << "Loading chached ai\n";
 		return new LuaAI(_file_name, ai_chunk_reference_[_file_name], _luaVM);
 	} else
 	{
@@ -435,13 +435,13 @@ LuaAI* LuaAI::FromScript(std::string _file_name, lua_State *_luaVM)
 		{
 			int chunk_ref = luaL_ref(_luaVM, LUA_REGISTRYINDEX);
 			ai_chunk_reference_[_file_name] = chunk_ref;
-			//Logger::Instance() << "Loading uncached ai\n";
+			//Logger::ErrorOut() << "Loading uncached ai\n";
 			return new LuaAI(_file_name, chunk_ref, _luaVM);
 		} else
 		{
 			std::string error_string = lua_tostring(_luaVM, -1);
 			lua_pop(_luaVM, 1);
-			Logger::Instance() << "Load AI script error: " << error_string << "\n";
+			Logger::ErrorOut() << "Load AI script error: " << error_string << "\n";
 			return NULL;
 		}
 	}

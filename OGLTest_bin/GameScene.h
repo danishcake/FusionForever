@@ -4,6 +4,7 @@
 #include "Starfield.h"
 #include "BaseGame.h"
 #include "Billboard.h"
+#include "CEGUIMessageLog.h"
 
 class GameScene :
 	public BaseScene
@@ -24,7 +25,8 @@ protected:
 	bool spawn_fadeout_;
 	float timer_;
 	float sum_time_;
-	int player_id_;
+	CEGUIMessageLog message_log_;
+	GameGUI ltv_gui_;
 
 	std::string challenge_;
 };

@@ -65,8 +65,7 @@ bool MenuScene::cbSettingsOK(const CEGUI::EventArgs& e)
 
 	CEGUI::Checkbox* pCmbFullscreen = (CEGUI::Checkbox*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings/Fullscreen");
 	Settings::Instance().SetFullscreen(pCmbFullscreen->isSelected());
-	//TODO parse 640x480
-	
+
 	CEGUI::Combobox* pCmboResolution = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings/Resolutions");
 	if(pCmboResolution->getSelectedItem() != NULL)
 	{
@@ -134,37 +133,37 @@ MenuScene::MenuScene(void)
 	CEGUI::Window* myRoot = wmgr.createWindow( "DefaultWindow", "Menu/Root" );
 
 	CEGUI::PushButton* pBtnQuit = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/Quit");
-	pBtnQuit->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 100 ), CEGUI::UDim( 0, 30 ) ) );
-	pBtnQuit->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 20), CEGUI::UDim( 1, -50 ) ) );
+	pBtnQuit->setSize( CEGUI::UVector2( CEGUI::UDim( 0.15f , 0 ), CEGUI::UDim( 0.05f, 0 ) ) );
+	pBtnQuit->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.02f, 0), CEGUI::UDim( 0.9f, 0 ) ) );
 	pBtnQuit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::ExitGame, this));
 	pBtnQuit->setText( "Quit" );
 	myRoot->addChildWindow(pBtnQuit);
 
 	CEGUI::PushButton* pBtnStart = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/Start");
-	pBtnStart->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 100 ), CEGUI::UDim( 0, 30 ) ) );
-	pBtnStart->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 20), CEGUI::UDim( 0.0f, 20 ) ) );
+	pBtnStart->setSize( CEGUI::UVector2( CEGUI::UDim( 0.15f, 0 ), CEGUI::UDim( 0.05f, 0 ) ) );
+	pBtnStart->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.02, 0), CEGUI::UDim( 0.05f, 00 ) ) );
 	pBtnStart->setText( "Start Game" );
 	pBtnStart->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::StartChallenge, this));
 	pBtnStart->setEnabled(false);
 	myRoot->addChildWindow(pBtnStart);
 
 	CEGUI::PushButton* pBtnEditor = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/Editor");
-	pBtnEditor->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 100 ), CEGUI::UDim( 0, 30 ) ) );
-	pBtnEditor->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 20), CEGUI::UDim( 0.0f, 70 ) ) );
+	pBtnEditor->setSize( CEGUI::UVector2( CEGUI::UDim( 0.15f, 0 ), CEGUI::UDim( 0.05f, 0 ) ) );
+	pBtnEditor->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.02f, 0), CEGUI::UDim( 0.15f, 0 ) ) );
 	pBtnEditor->setText( "Ship Editor" );
 	pBtnEditor->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::StartEditor, this));
 	myRoot->addChildWindow(pBtnEditor);
 
 	CEGUI::PushButton* pBtnSettings = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/SettingsBtn");
-	pBtnSettings->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 100 ), CEGUI::UDim( 0, 30 ) ) );
-	pBtnSettings->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 20), CEGUI::UDim( 0.0f, 120 ) ) );
+	pBtnSettings->setSize( CEGUI::UVector2( CEGUI::UDim( 0.15f, 0 ), CEGUI::UDim( 0.05f, 0 ) ) );
+	pBtnSettings->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.02f, 0), CEGUI::UDim( 0.25f, 0 ) ) );
 	pBtnSettings->setText( "Settings" );
 	pBtnSettings->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::cbSettings, this));
 	myRoot->addChildWindow(pBtnSettings);
 
 	CEGUI::Window* pWndChallenges = wmgr.createWindow( "TaharezLook/FrameWindow", "Menu/Levels" );
-	pWndChallenges->setPosition(CEGUI::UVector2(CEGUI::UDim(0,130),CEGUI::UDim(0,10)));
-	pWndChallenges->setSize(CEGUI::UVector2(CEGUI::UDim(1,-140), CEGUI::UDim(1,-20)));
+	pWndChallenges->setPosition(CEGUI::UVector2(CEGUI::UDim(0.2f, 0),CEGUI::UDim(0.02f,0)));
+	pWndChallenges->setSize(CEGUI::UVector2(CEGUI::UDim(0.75f,0), CEGUI::UDim(0.96f,0)));
 	pWndChallenges->setProperty("SizingEnabled", "False");
 	pWndChallenges->setProperty("CloseButtonEnabled", "False");
 	pWndChallenges->setProperty("DragMovingEnabled", "False");
@@ -172,8 +171,8 @@ MenuScene::MenuScene(void)
 	myRoot->addChildWindow(pWndChallenges);
 
 	CEGUI::Listbox* pWndChallengeList = (CEGUI::Listbox*)wmgr.createWindow( "TaharezLook/Listbox", "Menu/LevelsList" );
-	pWndChallengeList->setPosition(CEGUI::UVector2(CEGUI::UDim(0,10),CEGUI::UDim(0,40)));
-	pWndChallengeList->setSize(CEGUI::UVector2(CEGUI::UDim(1,-20), CEGUI::UDim(1,-50)));
+	pWndChallengeList->setPosition(CEGUI::UVector2(CEGUI::UDim(0.02f,0),CEGUI::UDim(0.00f, 40)));
+	pWndChallengeList->setSize(CEGUI::UVector2(CEGUI::UDim(0.95f,0), CEGUI::UDim(0.975f, -40)));
 	pWndChallengeList->subscribeEvent(CEGUI::Listbox::EventSelectionChanged, CEGUI::Event::Subscriber(&MenuScene::cbChallengeSelectionChanged, this));
 	pWndChallenges->addChildWindow(pWndChallengeList);
 

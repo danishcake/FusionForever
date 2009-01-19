@@ -43,8 +43,7 @@ bool EditorScene::cbAddSection(const CEGUI::EventArgs& e)
 			
 		} else
 		{
-			Logger::LogError("Unable to load section in editor from either XML or hardcoded list");
-			Logger::LogError(we.window->getText().c_str());
+			Logger::ErrorOut() << "Unable to load section in editor from either XML or hardcoded list: " << we.window->getText().c_str() << "\n";
 		}
 	}
 	return true;
@@ -178,7 +177,7 @@ bool EditorScene::cbLoadDialogueLoad(const CEGUI::EventArgs& e)
 			filename_ = filename;
 		} else
 		{
-			Logger::Instance() << "Unable to load core \"" << filename << "\n";
+			Logger::ErrorOut() << "Unable to load core \"" << filename << "\n";
 		}
 		pWndLoad->setVisible(false);
 		pWndLoad->setModalState(false);
@@ -244,8 +243,7 @@ bool EditorScene::cbSetCoreToXMLCore(const CEGUI::EventArgs& e)
 			SetSelected(static_cast<Section_ptr>(this->game_->GetCore()));
 		} else
 		{
-			Logger::LogError("Unable to load XML section in editor");
-			Logger::LogError(we.window->getText().c_str());
+			Logger::ErrorOut() << "Unable to load XML section in editor :" <<  we.window->getText().c_str() << "\n";
 		}
 	}
 	return true;
@@ -367,8 +365,6 @@ bool EditorScene::cbBackgroundMove(const CEGUI::EventArgs& e)
 
 bool EditorScene::cbBackgroundMBD(const CEGUI::EventArgs& e)
 {
-	Logger::Instance() << "Mouse down\n";
-	
 	const CEGUI::MouseEventArgs we = static_cast<const CEGUI::MouseEventArgs&>(e);
 	if(we.button == CEGUI::LeftButton)
 	{
@@ -392,7 +388,6 @@ bool EditorScene::cbBackgroundMBD(const CEGUI::EventArgs& e)
 
 bool EditorScene::cbBackgroundMBU(const CEGUI::EventArgs& e)
 {
-	Logger::Instance() << "Mouse up\n";
 	drag_mode_ = EditorDragMode::NotDragging;
 	move_first_tick = true;
 	accumulated_snap = Vector3f();
@@ -401,7 +396,6 @@ bool EditorScene::cbBackgroundMBU(const CEGUI::EventArgs& e)
 
 bool EditorScene::cbBackgroundMouseLeave(const CEGUI::EventArgs& e)
 {
-	Logger::Instance() << "Mouse leaving\n";
 	drag_mode_ = EditorDragMode::NotDragging;
 	move_first_tick = true;
 	accumulated_snap = Vector3f();
@@ -681,6 +675,7 @@ EditorScene::~EditorScene(void)
 
 void EditorScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 {
+	GameGUI gui;
 	if(sum_time_ == 0 || (waiting_for_return_ && sum_time_ > return_time_))
 	{
 		CEGUI::System::getSingleton().setGUISheet( CEGUI::WindowManager::getSingleton().getWindow("Edit/Root"));
@@ -690,9 +685,9 @@ void EditorScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 	fade_out_time_ -= _timespan;
 
 	if(time_frozen_)
-		game_->Tick(0);
+		game_->Tick(0, gui);
 	else
-		game_->Tick(_timespan);
+		game_->Tick(_timespan, gui);
 
 	if(return_to_menu_)
 	{
@@ -825,14 +820,14 @@ bool EditorScene::cbTry(const CEGUI::EventArgs& e)
 
 bool EditorScene::cbPropertyChanged(const CEGUI::EventArgs& e)
 {
-	const CEGUI::WindowEventArgs& we = 	static_cast<const CEGUI::WindowEventArgs&>(e);
+	const CEGUI::WindowEventArgs& we = static_cast<const CEGUI::WindowEventArgs&>(e);
 	Property* prop = (Property*)we.window->getUserData();
 	try
 	{
 		prop->SetFloat(boost::lexical_cast<float, std::string>(we.window->getText().c_str()));
 	} catch(boost::bad_lexical_cast e)
 	{
-		Logger::Instance() << "Unable to parse " << we.window->getText().c_str() << " to a float\n";
+		Logger::ErrorOut() << "Unable to parse " << we.window->getText().c_str() << " to a float\n";
 	}
 	return true;
 }

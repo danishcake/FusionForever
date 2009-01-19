@@ -2,60 +2,70 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include "vmath.h"
 
 class Logger
 {
 private:
-	Logger(void);
-
-	void Log_internal(std::string _message);
-	std::ofstream& Log_internal_stream();
+	Logger(std::string _filename);
 	std::ofstream output_;
 
 public:
-	static Logger& Instance()
+	static Logger& ErrorOut()
 	{
-		static Logger logger;
+		static Logger logger("ErrorLog.txt");
 		return logger;
 	}
+
+	static Logger& DiagnosticOut()
+	{
+		static Logger logger("Diagnostic.txt");
+		return logger;
+	}
+
 	~Logger(void);
 
 	Logger& Logger::operator <<( int i )
 	{
-		Logger::Instance().Log_internal_stream() << i;
+		output_ << i;
 		printf("%d", i);
-		return Logger::Instance();
+		return *this;
 	}
 
 	Logger& Logger::operator <<( float i )
 	{
-		Logger::Instance().Log_internal_stream() << i;
+		output_ << i;
 		printf("%f", i);
-		return Logger::Instance();
+		return *this;
 	}
 
 	Logger& Logger::operator <<( double i )
 	{
-		Logger::Instance().Log_internal_stream() << i;
+		output_ << i;
 		printf("%e", i);
-		return Logger::Instance();
+		return *this;
 	}
 
 	Logger& Logger::operator <<( std::string i )
 	{
-		Logger::Instance().Log_internal_stream() << i;
+		output_ << i;
 		printf("%s", i.c_str());
-		return Logger::Instance();
+		return *this;
 	}
 
-
-	static void LogError(std::string _message)
-	{//To screen and log file
-		Logger::Instance().Log_internal(_message);
+	template <class T>
+	Logger& Logger::operator <<( Vector3<T> _vector)
+	{
+		output_ << "(" << _vector.x << "," << _vector.y << "," << _vector.z << ")";
+		printf("%s", i.c_str());
+		return *this;
 	}
 
-	static void Log(std::string _message)
-	{//To log file only
-		Logger::Instance().Log_internal(_message);
+	template <class T>
+	Logger& Logger::operator <<( Vector2<T> _vector)
+	{
+		output_ << "(" << _vector.x << "," << _vector.y << ")";
+		printf("%s", i.c_str());
+		return *this;
 	}
 };

@@ -120,6 +120,17 @@ enemySpawn = coroutine.wrap(function()
 	challenge:Victory()
 end)
 
+challenge:DisplayMessage("Geometry Wars knockoff", 2);
+challenge:DisplayMessage("by Edward Woolhouse", 2);
+challenge:WaitFor(1.5)
+challenge:DisplayMessage("What a tiny but well armed ship.", 2);
+challenge:WaitFor(0.5)
+challenge:DisplayMessage("Incoming! Fend off the attackers!", 2);
+challenge:WaitFor(1.0)
+challenge:DisplayMessage("Get ready...", 2);
+challenge:WaitFor(1.0)
+
+
 while true do
 	playerLives()
 	enemySpawn()

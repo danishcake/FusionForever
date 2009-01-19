@@ -52,6 +52,8 @@ private:
 	static int l_GetShipData(lua_State* _luaVM);
 	static int l_SetShipTarget(lua_State* _luaVM);
 	static int l_SetHostility(lua_State* _luaVM);
+	static int l_DisplayMessage(lua_State* _luaVM);
+	static int l_SetCounter(lua_State* _luaVM);
 	
 	GLColor force_colors_[8];
 	
@@ -76,6 +78,8 @@ private:
 	void ReturnToEditor(){state_ = ChallengeState::ReturnToEditor;}
 	void SetHostility(int _force_b, int force_b, bool _hostility);
 	Core* GetShipData(int _ship_id);
+	void DisplayMessage(std::string _message, float _time);
+	void SetCounter(int _counter, int _value, int _max, bool _visible);
 
 public:
 	LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* _game);

@@ -57,7 +57,7 @@ GridCollisionManager::~GridCollisionManager(void)
 
 void GridCollisionManager::Clear()
 {
-	//Logger::Instance() << "Minimum efficiency" << ((float)largest_returned_ / (float)total_tracked_) << "\n";
+	//Logger::ErrorOut() << "Minimum efficiency" << ((float)largest_returned_ / (float)total_tracked_) << "\n";
 
 	/*
 	Resize rules: 

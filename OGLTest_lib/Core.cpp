@@ -150,14 +150,14 @@ Core_ptr Core::CreateCore(std::string _name)
 		}
 		else
 		{
-			Logger::LogError(std::string("Ship :") + file_name + std::string(" has no root section"));
+			Logger::ErrorOut() << "Ship :" << file_name << " has no root section\n";
 			return NULL;
 		}
 	} else
 	{
-		Logger::LogError(std::string("Unable to open file '") + file_name + std::string("' :") + 
-			std::string(ship_document.ErrorDesc() + boost::lexical_cast<std::string, int>(ship_document.ErrorRow()) +
-			std::string(":") + boost::lexical_cast<std::string, int>(ship_document.ErrorCol())));
+		Logger::ErrorOut() << "Unable to open file '" << file_name << "' :" <<
+			ship_document.ErrorDesc() << boost::lexical_cast<std::string, int>(ship_document.ErrorRow()) <<
+			":" << boost::lexical_cast<std::string, int>(ship_document.ErrorCol()) << "\n";
 	}
 
 	return NULL;
@@ -207,7 +207,7 @@ Core_ptr Core::ParseCore(TiXmlElement* _core_element)
 		//Lookup Core in map of hardcoded Cores
 		core = XMLCore::CreateXMLCore(core_string);
 		if(!core)
-			Logger::LogError(std::string("Unable to open core:")+ core_string);
+			Logger::ErrorOut() << "Unable to open core:" << core_string << "\n";
 		if(core)
 		{
 			//Now query any standard section atttributes
@@ -234,7 +234,7 @@ Section_ptr Core::ParseSection(TiXmlElement* _section_element)
 			if(!section)
 			{
 				//Can't find, log error
-				Logger::LogError("Unable to find section type" + section_string);
+				Logger::ErrorOut() << "Unable to find section type" << section_string << "\n";
 			}
 		}
 
@@ -251,7 +251,7 @@ Section_ptr Core::ParseSection(TiXmlElement* _section_element)
 		}
 	} else
 	{
-		Logger::LogError("Unable to create section, SectionType attribute is blank");
+		Logger::ErrorOut() << "Unable to create section, SectionType attribute is blank\n";
 	}
 	return section;
 }

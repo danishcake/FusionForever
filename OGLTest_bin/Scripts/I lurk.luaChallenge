@@ -1,0 +1,41 @@
+playerLives = coroutine.wrap(function()
+	player_id = challenge:SpawnShip("TheMine", 0, Vector:new(0, 0), 0, "KeyboardAI", 100)
+	challenge:WaitForDeath(player_id)
+	challenge:WaitFor(1)
+
+	challenge:Defeat()
+end)
+
+score = 0
+function kill_one
+	score = score + 1
+	challenge:DisplayMessage("Score: " .. score, 0.1)
+end
+
+enemySpawn = coroutine.wrap(function()
+	for i = 0, 50 do
+		local ship_id = challenge:SpawnShip("Lasership", 1, Vector:random_ring(1000, 3000), 0, "FleeingAI.luaAI", 1)
+		challenge:SetDeathFunction(ship_id, kill_one)
+		challenge:WaitFor(0.25)
+	end
+end)
+
+
+
+challenge:DisplayMessage("I Lurk", 2);
+challenge:DisplayMessage("by Edward Woolhouse", 2);
+challenge:WaitFor(1.5)
+challenge:DisplayMessage("You are a mine", 2);
+challenge:WaitFor(0.5)
+challenge:DisplayMessage("Try to kill 20 enemies in under 1 minute", 2);
+challenge:WaitFor(0.5)
+challenge:DisplayMessage("Get ready...", 2);
+challenge:WaitFor(1.0)
+
+while true do
+	playerLives()
+	enemySpawn()
+	coroutine.yield()
+end
+
+

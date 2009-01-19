@@ -52,6 +52,16 @@ EnemySpawn = coroutine.wrap(function()
 	challenge:Victory()
 end)
 
+challenge:DisplayMessage("The Available Resources", 2);
+challenge:DisplayMessage("by Edward Woolhouse", 2);
+challenge:WaitFor(1.5)
+challenge:DisplayMessage("Juggernauts! You'll never kill them with this ship!", 3);
+challenge:WaitFor(0.5)
+challenge:DisplayMessage("There must be something you can do to stop them...", 3);
+challenge:WaitFor(1.5)
+challenge:DisplayMessage("Get ready...", 2);
+challenge:WaitFor(1.0)
+
 while true do
 	playerLives()
 	minesSpawn()

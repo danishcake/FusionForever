@@ -5,19 +5,34 @@
 #include "Core.h"
 #include "Radar.h"
 
-#define ZOOM_TIME 0.3f
+int KeyboardAI::instance_count_ = 0;
+std::vector<int> KeyboardAI::player_ids_;
 
 KeyboardAI::KeyboardAI(void)
 {
-	zoom_time_= 0;
+	player_id_ = -1;
 }
 
 KeyboardAI::~KeyboardAI(void)
 {
+	if(player_id_ != -1)
+	{
+		player_ids_.erase(std::remove(player_ids_.begin(), player_ids_.end(), player_id_), player_ids_.end());
+	}
 }
 
 AIAction KeyboardAI::Tick(float _timespan, std::vector<Core*>& _allies, std::vector<Core*>& _enemies, Core* _self)
 {
+	if(player_id_ == -1)
+	{
+		player_id_ = _self->GetSectionID();
+		if(player_id_ != -1)
+		{
+			player_ids_.push_back(player_id_);
+		}
+		else
+			Logger::ErrorOut() << "Player ID of -1 encountered\n";
+	}
 	AIAction action;
 	Uint8* keystates = SDL_GetKeyState(0);
 	int x = 0;
@@ -37,7 +52,6 @@ AIAction KeyboardAI::Tick(float _timespan, std::vector<Core*>& _allies, std::vec
 	{
 		//Map mouse coordinates onto world coordinates and then find if there is anything at that spot
 		Vector3f world_click = Camera::Instance().ScreenToWorld(Vector3f(static_cast<float>(x), static_cast<float>(y), 0.0f));
-		Logger::Instance() << world_click.x << "," << world_click.y << "\n";
 		Section_ptr clicked_section = NULL;
 		BOOST_FOREACH(Core_ptr core, _enemies)
 		{

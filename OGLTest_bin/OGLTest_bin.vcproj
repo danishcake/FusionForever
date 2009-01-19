@@ -73,7 +73,7 @@
 				ExecutionBucket="6"
 				Optimization="0"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;c:\Program Files\tinyxml&quot;;&quot;C:\Program Files\lua\include&quot;;..\OGLTest_lib;&quot;C:\Program Files\CEGUI-SDK-0.6.0\include&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;c:\Program Files\boost\boost_1_36_0&quot;"
+				AdditionalIncludeDirectories="&quot;$(PROGRAMFILES)\tinyxml&quot;;&quot;$(PROGRAMFILES)\lua\include&quot;;..\OGLTest_lib;&quot;$(PROGRAMFILES)\CEGUI-SDK-0.6.0\include&quot;;&quot;$(PROGRAMFILES)\SDL-1.2.12\include&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
@@ -100,7 +100,7 @@
 				ExecutionBucket="10"
 				AdditionalDependencies="lua51.lib OGLTest_lib.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib CEGUIBase_d.lib OpenGLGUIRenderer_d.lib tinyxmld_STL.lib SDL_mixer.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\SDL_mixer-1.2.8\lib&quot;;&quot;c:\Program Files\tinyxml\Debug_STL&quot;;&quot;c:\Program Files\boost\boost_1_36_0\lib&quot;;&quot;C:\Program Files\SDL-1.2.12\lib&quot;;../OGLTest_lib/Debug;&quot;C:\Program Files\lua\lib&quot;;&quot;C:\Program Files\CEGUI-SDK-0.6.0\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(PROGRAMFILES)\SDL_mixer-1.2.8\lib&quot;;&quot;$(PROGRAMFILES)\tinyxml\Debug_STL&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0\lib&quot;;&quot;$(PROGRAMFILES)\SDL-1.2.12\lib&quot;;../OGLTest_lib/Debug;&quot;$(PROGRAMFILES)\lua\lib&quot;;&quot;$(PROGRAMFILES)\CEGUI-SDK-0.6.0\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				LinkTimeCodeGeneration="0"
@@ -188,7 +188,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;c:\Program Files\tinyxml&quot;;&quot;C:\Program Files\lua\include&quot;;..\OGLTest_lib;&quot;C:\Program Files\CEGUI-SDK-0.6.0\include&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;c:\Program Files\boost\boost_1_36_0&quot;"
+				FavorSizeOrSpeed="1"
+				AdditionalIncludeDirectories="&quot;$(PROGRAMFILES)\tinyxml&quot;;&quot;$(PROGRAMFILES)\lua\include&quot;;..\OGLTest_lib;&quot;$(PROGRAMFILES)\CEGUI-SDK-0.6.0\include&quot;;&quot;$(PROGRAMFILES)\SDL-1.2.12\include&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -209,7 +210,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="lua51.lib OGLTest_lib.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib CEGUIBase.lib OpenGLGUIRenderer.lib tinyxml_STL.lib SDL_mixer.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\SDL_mixer-1.2.8\lib&quot;;&quot;c:\Program Files\tinyxml\Release_STL&quot;;&quot;c:\Program Files\boost\boost_1_36_0\lib&quot;;&quot;C:\Program Files\SDL-1.2.12\lib&quot;;../OGLTest_lib/Release;&quot;C:\Program Files\lua\lib&quot;;&quot;C:\Program Files\CEGUI-SDK-0.6.0\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(PROGRAMFILES)\SDL_mixer-1.2.8\lib&quot;;&quot;$(PROGRAMFILES)\tinyxml\Release_STL&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0\lib&quot;;&quot;$(PROGRAMFILES)\SDL-1.2.12\lib&quot;;../OGLTest_lib/Release;&quot;$(PROGRAMFILES)\lua\lib&quot;;&quot;$(PROGRAMFILES)\CEGUI-SDK-0.6.0\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -250,6 +251,10 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath=".\CEGUIMessageLog.cpp"
+				>
+			</File>
 			<File
 				RelativePath=".\EditorGame.cpp"
 				>
@@ -312,6 +317,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\CEGUIMessageLog.h"
+				>
+			</File>
 			<File
 				RelativePath=".\EditorGame.h"
 				>
@@ -381,6 +390,10 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\Gunnery.luaChallenge"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\I lurk.luaChallenge"
 					>
 				</File>
 				<File

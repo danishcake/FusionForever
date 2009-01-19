@@ -16,7 +16,7 @@ XMLSection::XMLSection(XMLFilledOutlinedData _fill_outline_data)
 	findRadius();
 	if(radius_ > 30)
 	{
-		Logger::Instance() << "Warning: Section\"" << _fill_outline_data.filename << "\" exceeds maximum radius of 30. Radius = " << radius_ << "\n";
+		Logger::ErrorOut() << "Warning: Section\"" << _fill_outline_data.filename << "\" exceeds maximum radius of 30. Radius = " << radius_ << "\n";
 	}
 
 	health_ = FlexFloat(_fill_outline_data.default_health, _fill_outline_data.default_health);
@@ -55,7 +55,7 @@ XMLSection* XMLSection::CreateXMLSection(std::string _name)
 			TiXmlElement* core_def = section_handle.FirstChild("SectionDefinition").Element();
 			if(!core_def)
 			{
-				Logger::LogError(std::string("Error parsing XMLCore") + file_name + std::string(" - no SectionDefinition element defined at root"));
+				Logger::ErrorOut() << "Error parsing XMLCore" << file_name << " - no SectionDefinition element defined at root\n";
 				return NULL;
 			}
 
@@ -91,7 +91,7 @@ XMLSection* XMLSection::CreateXMLSection(std::string _name)
 				}
 				catch(boost::bad_lexical_cast &)
 				{
-					Logger::LogError("Health in " + file_name + " not numeric:" + health_element->GetText());
+					Logger::ErrorOut() << "Health in " << file_name << " not numeric:" << health_element->GetText() << "\n";
 				}
 			}
 
@@ -104,7 +104,7 @@ XMLSection* XMLSection::CreateXMLSection(std::string _name)
 				}
 				catch(boost::bad_lexical_cast &)
 				{
-					Logger::LogError("Mass in " + file_name + " not numeric:" + mass_element->GetText());
+					Logger::ErrorOut() << "Mass in " << file_name << " not numeric:" << mass_element->GetText() << "\n";
 				}
 			}
 
@@ -117,7 +117,7 @@ XMLSection* XMLSection::CreateXMLSection(std::string _name)
 				}
 				catch(boost::bad_lexical_cast &)
 				{
-					Logger::LogError("Thrust in " + file_name + " not numeric:" + thrust_element->GetText());
+					Logger::ErrorOut() << "Thrust in " << file_name << " not numeric:" << thrust_element->GetText() << "\n";
 				}
 			}
 
@@ -130,7 +130,7 @@ XMLSection* XMLSection::CreateXMLSection(std::string _name)
 				}
 				catch(boost::bad_lexical_cast &)
 				{
-					Logger::LogError("Energy storage in " + file_name + " not numeric:" + energy_storage_element->GetText());
+					Logger::ErrorOut() << "Energy storage in " << file_name << " not numeric:" << energy_storage_element->GetText() << "\n";
 				}
 			}
 
@@ -143,7 +143,7 @@ XMLSection* XMLSection::CreateXMLSection(std::string _name)
 				}
 				catch(boost::bad_lexical_cast &)
 				{
-					Logger::LogError("Power generation in " + file_name + " not numeric:" + power_generation_element->GetText());
+					Logger::ErrorOut() << "Power generation in " << file_name << " not numeric:" << power_generation_element->GetText() << "\n";
 				}
 			}
 
@@ -155,15 +155,15 @@ XMLSection* XMLSection::CreateXMLSection(std::string _name)
 					return new XMLSection(indicies);
 				} else
 				{
-					Logger::LogError("Error parsing outline in " + file_name);
+					Logger::ErrorOut() << "Error parsing outline in " << file_name << "\n";
 				}
 			} else
 			{
-				Logger::LogError("Required field Outline missing in " + file_name);
+				Logger::ErrorOut() << "Required field Outline missing in " << file_name << "\n";
 			}
 		} else
 		{
-			Logger::LogError(std::string("Unable to open file '") + file_name + std::string("' :") + std::string(section.ErrorDesc()));
+			Logger::ErrorOut() << "Unable to open file '" << file_name << "' :" <<section.ErrorDesc() << "\n";
 		}
 	}
 	return NULL;	
@@ -216,7 +216,7 @@ bool XMLSection::ParseSVGPath(std::string _path, XMLFilledOutlinedData& _out)
 					comma_pos = 0;
 				} else
 				{
-					Logger::LogError("XMLSection: No comma found in coordinate");
+					Logger::ErrorOut() << "XMLSection: No comma found in coordinate\n";
 					error_found = true;
 				}
 				
@@ -227,7 +227,7 @@ bool XMLSection::ParseSVGPath(std::string _path, XMLFilledOutlinedData& _out)
 	
 	if(temp_outline->size() <= 2)
 	{
-		Logger::LogError("LuaSection: Must define more than 2 points");
+		Logger::ErrorOut() << "LuaSection: Must define more than 2 points\n";
 		error_found = true;
 	}
 

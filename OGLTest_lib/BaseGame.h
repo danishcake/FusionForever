@@ -5,6 +5,7 @@
 #include "GridCollisionManager.h"
 #include <string>
 #include "Radar.h"
+#include "GameGui.h"
 
 static const int MAX_FORCES = 8;
 
@@ -26,7 +27,7 @@ public:
 	BaseGame(std::string _challenge_filename);
 	virtual ~BaseGame(void);
 
-	virtual int Tick(float _timespan);
+	virtual int Tick(float _timespan, GameGUI& _gui);
 	virtual void Draw();
 	void LoadChallenge(std::string _challenge);
 	void AddShip(Core* _core, int _force);
@@ -36,7 +37,8 @@ public:
 	int GetEnemyCount(int _force);
 	int GetFriendCount(int _force);
 	Section* GetSectionData(int _section_id);
-	int GetPlayerSectionID(){return player_id_;}
+
+	void DisplayMessage(std::string _message, float _time);
 
 protected:
 	std::vector<Projectile_ptr> projectiles_[MAX_FORCES];
@@ -56,4 +58,5 @@ protected:
 	GLuint defeat_texture_;
 
 	int player_id_; //The id of the first player controlled by a keyboard
+	std::vector<ScreenText> messages_;
 };

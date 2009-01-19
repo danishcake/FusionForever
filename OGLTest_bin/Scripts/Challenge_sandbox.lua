@@ -144,6 +144,33 @@ function challenge_:SetDeathFunction(ship_id, death_function)
 	SetDeathFunction(self.challenge_pointer, ship_id, death_function);
 end
 
+function challenge_:DisplayMessage(text, time_to_display)
+	assert(type(text) == "string", "text must be a string")
+	assert(type(time_to_display) == "number", "time_to_display must be a number")
+	DisplayMessage(self.challenge_pointer, text, time_to_display)
+end
+
+function challenge_:SetCounterA(visible, value, max)
+	assert(type(visible) == "boolean", "visible must be a boolean")
+	assert(type(value) == "number", "time_to_display must be a number")
+	assert(type(value) == "max", "max must be a number")
+	SetScreenCounter(self.challenge_pointer, 0, visible, value, max)
+end
+
+function challenge_:SetCounterB(visible, value, max)
+	assert(type(visible) == "boolean", "visible must be a boolean")
+	assert(type(value) == "number", "time_to_display must be a number")
+	assert(type(value) == "max", "max must be a number")
+	SetScreenCounter(self.challenge_pointer, 1, visible, value, max)
+end
+
+function challenge_:SetCounterC(visible, value, max)
+	assert(type(visible) == "boolean", "visible must be a boolean")
+	assert(type(value) == "number", "time_to_display must be a number")
+	assert(type(value) == "max", "max must be a number")
+	SetScreenCounter(self.challenge_pointer, 2, visible, value, max)
+end
+
 local challenge_mt_ = 
 {
 	__newindex = function (t, n, v)

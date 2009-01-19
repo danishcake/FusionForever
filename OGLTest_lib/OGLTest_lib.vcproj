@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\SDL_mixer-1.2.8\include&quot;;&quot;c:\Program Files\tinyxml&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost\boost_1_36_0&quot;;&quot;C:\Program Files\lua\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(PROGRAMFILES)\SDL_mixer-1.2.8\include&quot;;&quot;$(PROGRAMFILES)\tinyxml&quot;;&quot;$(PROGRAMFILES)\SDL-1.2.12\include&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0&quot;;&quot;$(PROGRAMFILES)\lua\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
@@ -65,7 +65,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="SDL.lib SDLmain.lib"
-				AdditionalLibraryDirectories="C:\Program Files\SDL-1.2.12\lib"
+				AdditionalLibraryDirectories="$(PROGRAMFILES)\SDL-1.2.12\lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -110,7 +110,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\SDL_mixer-1.2.8\include&quot;;&quot;c:\Program Files\tinyxml&quot;;&quot;C:\Program Files\SDL-1.2.12\include&quot;;&quot;C:\Program Files\boost\boost_1_36_0&quot;;&quot;C:\Program Files\lua\include&quot;"
+				FavorSizeOrSpeed="1"
+				AdditionalIncludeDirectories="&quot;$(PROGRAMFILES)\SDL_mixer-1.2.8\include&quot;;&quot;$(PROGRAMFILES)\tinyxml&quot;;&quot;$(PROGRAMFILES)\SDL-1.2.12\include&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0&quot;;&quot;$(PROGRAMFILES)\lua\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -130,7 +131,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalDependencies="SDL.lib SDLmain.lib"
-				AdditionalLibraryDirectories="C:\Program Files\SDL-1.2.12\lib"
+				AdditionalLibraryDirectories="&quot;$(PROGRAMFILES)\SDL-1.2.12\lib&quot;"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -732,6 +733,10 @@
 				</File>
 				<File
 					RelativePath=".\FlexFloat.h"
+					>
+				</File>
+				<File
+					RelativePath=".\GameGui.h"
 					>
 				</File>
 				<File
