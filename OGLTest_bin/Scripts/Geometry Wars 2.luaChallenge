@@ -1,5 +1,13 @@
 score = 0
 
+enemy_types = {"GW_A", "GW_B", "GW_C"}
+
+random_type = function()
+	local i = math.random(1, #enemy_types)
+	print("Picking " .. i .. " which is " .. enemy_types[i])
+	return enemy_types[i]
+end
+
 playerLives = coroutine.wrap(function()
 	player_id = challenge:SpawnShip("GW_Player", 0, Vector:new(200, 0), 0, "KeyboardAI", 1)
 	challenge:WaitForDeath(player_id)
@@ -52,11 +60,11 @@ spawnBunch = function(ship_type, quantity, delay, position, max_radius)
 	end
 end
 
-allAround = function()
+allAround = function(position_a, position_b)
 	local spawnA = coroutine.create(spawnBunch)
-	coroutine.resume(spawnA, "GW_A", 10, 0.04, Vector:new(500, 0), 400)
+	coroutine.resume(spawnA, random_type(), 10, 0.04, position_a, 400)
 	local spawnB = coroutine.create(spawnBunch)
-	coroutine.resume(spawnB, "GW_B", 10, 0.04, Vector:new(-500, 0), 400)
+	coroutine.resume(spawnB, random_type(), 10, 0.04, position_b, 400)
 	while true do
 		if coroutine.status(spawnA) ~= "dead" then
 			coroutine.resume(spawnA)
@@ -73,54 +81,46 @@ allAround = function()
 	
 end
 
+spawn_continuous = true
+
+continuous_rings = coroutine.wrap(function()
+	while true do
+		challenge:WaitFor(5)
+		if spawn_continuous == true then
+			circleOf(random_type(), 10, 1, 0, 1000)
+		end
+	end
+end)
+
 enemySpawn = coroutine.wrap(function()
 	challenge:WaitFor(1)
 
-	circleOf("GW_A", 10, 1, 0.05, 400)
-	challenge:WaitForAllEnemiesDead(0)
-
-	allAround()
+	circleOf("GW_A", 10, 1, 0, 700)
 	challenge:WaitFor(3)
-
-	spawnRandom("GW_A", 100, 500, 1000)
+	allAround(Vector:new(500, 0), Vector:new(-500, 0));
 	challenge:WaitFor(3)
-	spawnRandom("GW_B", 20, 500, 1000)
+	allAround(Vector:new(0, 500), Vector:new(0, -500))
+	challenge:WaitFor(3)
+	allAround(Vector:new(0, 500), Vector:new(0, -500))
+	allAround(Vector:new(500, 0), Vector:new(-500, 0));
 	challenge:WaitFor(6)
-	spawnRandom("GW_C", 40, 500, 1000)
-	challenge:WaitFor(6)
-	spawnRandom("GW_A", 20, 500, 1000)
-	challenge:WaitFor(0.5)
-	spawnRandom("GW_B", 20, 500, 1000)
-	challenge:WaitFor(0.5)
-	spawnRandom("GW_C", 20, 500, 1000)
-	challenge:WaitFor(9)
-	spawnRandom("GW_A", 40, 500, 1000)
-	challenge:WaitFor(0.5)
-	spawnRandom("GW_B", 40, 500, 1000)
-	challenge:WaitFor(0.5)
-	spawnRandom("GW_C", 40, 500, 1000)
-	challenge:WaitFor(9)
+	allAround(Vector:new(0, 500), Vector:new(0, -500))
+	allAround(Vector:new(500, 0), Vector:new(-500, 0));
+	allAround(Vector:new(500, 500), Vector:new(-500, -500))
+	allAround(Vector:new(500, -500), Vector:new(-500, 500));
 	
-	circleOf("GW_B", 50, 1, 0, 500)
-	challenge:WaitForAllEnemiesDead(0)
-	challenge:WaitFor(1)
-
-	circleOf("GW_A", 10, 1, 0.01, 400)
-	challenge:WaitForAllEnemiesDead(0)
-	challenge:WaitFor(1)
-
-	circleOf("GW_C", 100, 4, 0.05, 500)
-	challenge:WaitForAllEnemiesDead(0)
-	challenge:WaitFor(1)	
-
-	circleOf("GW_B", 50, 1, 0, 500)
-	circleOf("GW_A", 50, 1, 0, 800)
+	circleOf("GW_A", 100, 2, 0.1, 1000)
+	circleOf("GW_A", 100, 2, 0.1, 800)
+	circleOf("GW_A", 100, 2, 0.1, 600)
+	circleOf("GW_A", 100, 2, 0.1, 400)
+	
+	
 	challenge:WaitForAllEnemiesDead(0)
 	challenge:WaitFor(1)
 	challenge:Victory()
 end)
 
-challenge:DisplayMessage("Geometry Wars knockoff", 2);
+challenge:DisplayMessage("Geometry Wars knockoff 2", 2);
 challenge:DisplayMessage("by Edward Woolhouse", 2);
 challenge:WaitFor(1.5)
 challenge:DisplayMessage("What a tiny but well armed ship.", 2);
@@ -131,8 +131,10 @@ challenge:DisplayMessage("Get ready...", 2);
 challenge:WaitFor(1.0)
 
 challenge:SetCounterA(true, score, -1)
+
 while true do
 	playerLives()
 	enemySpawn()
+	continuous_rings()
 	coroutine.yield()
 end

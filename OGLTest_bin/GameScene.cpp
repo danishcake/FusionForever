@@ -75,13 +75,36 @@ GameScene::GameScene(std::string _challenge)
 	ship_bar->setProgress(0.5f);
 	ship_text->addChildWindow(ship_bar);
 
+	CEGUI::DefaultWindow* counter_A = (CEGUI::DefaultWindow*)wmgr.createWindow( "TaharezLook/StaticText", "Game/Root/CounterA" );
+	counter_A->setPosition(CEGUI::UVector2(CEGUI::UDim(0.9f, 0), CEGUI::UDim(0.05f, 0)));
+	counter_A->setSize(CEGUI::UVector2(CEGUI::UDim(0.09f, 0), CEGUI::UDim(0.05f, 0)));
+	counter_A->setProperty("BackgroundEnabled", "False");
+	counter_A->setProperty("HorzFormatting", "RightAligned");
+	counter_A->setProperty("FrameEnabled", "False");
+	counter_A->setVisible(false);
+	myRoot->addChildWindow(counter_A);
+
+	CEGUI::DefaultWindow* counter_B = (CEGUI::DefaultWindow*)wmgr.createWindow( "TaharezLook/StaticText", "Game/Root/CounterB" );
+	counter_B->setPosition(CEGUI::UVector2(CEGUI::UDim(0.9f, 0), CEGUI::UDim(0.1f, 0)));
+	counter_B->setSize(CEGUI::UVector2(CEGUI::UDim(0.09f, 0), CEGUI::UDim(0.05f, 0)));
+	counter_B->setProperty("BackgroundEnabled", "False");
+	counter_B->setProperty("HorzFormatting", "RightAligned");
+	counter_B->setProperty("FrameEnabled", "False");
+	counter_B->setVisible(false);
+	myRoot->addChildWindow(counter_B);
+
+	CEGUI::DefaultWindow* counter_C = (CEGUI::DefaultWindow*)wmgr.createWindow( "TaharezLook/StaticText", "Game/Root/CounterC" );
+	counter_C->setPosition(CEGUI::UVector2(CEGUI::UDim(0.9f, 0), CEGUI::UDim(0.15f, 0)));
+	counter_C->setSize(CEGUI::UVector2(CEGUI::UDim(0.09f, 0), CEGUI::UDim(0.05f, 0)));
+	counter_C->setProperty("BackgroundEnabled", "False");
+	counter_C->setProperty("HorzFormatting", "RightAligned");
+	counter_C->setProperty("FrameEnabled", "False");
+	counter_C->setVisible(false);
+	myRoot->addChildWindow(counter_C);
+
 	energy_bar->setVisible(false);
 	ship_bar->setVisible(false);
 	core_bar->setVisible(false);
-	ltv_gui_.ship_health_fraction = 0;
-	ltv_gui_.render_bars = false;
-	ltv_gui_.core_health_fraction = 0;
-	ltv_gui_.energy_fraction = 0;	
 }
 
 GameScene::~GameScene(void)
@@ -94,9 +117,10 @@ void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 {
 	if(sum_time_ == 0)
 		CEGUI::System::getSingleton().setGUISheet( CEGUI::WindowManager::getSingleton().getWindow("Game/Root"));
-
+	
 	sum_time_+=_timespan;
 	GameGUI gui;
+
 	ChallengeState::Enum state = (ChallengeState::Enum)game_->Tick(_timespan, gui);
 	//Add gui messages
 	BOOST_FOREACH(ScreenText st, gui.new_messages_)
@@ -113,6 +137,9 @@ void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 	CEGUI::DefaultWindow* p_ct = (CEGUI::DefaultWindow*)wmgr.getWindow("Game/Root/CoreText" );
 	CEGUI::DefaultWindow* p_st = (CEGUI::DefaultWindow*)wmgr.getWindow("Game/Root/ShipText" );
 	CEGUI::DefaultWindow* p_et = (CEGUI::DefaultWindow*)wmgr.getWindow("Game/Root/EnergyText" );
+	CEGUI::DefaultWindow* p_cA = (CEGUI::DefaultWindow*)wmgr.getWindow("Game/Root/CounterA" );
+	CEGUI::DefaultWindow* p_cB = (CEGUI::DefaultWindow*)wmgr.getWindow("Game/Root/CounterB" );
+	CEGUI::DefaultWindow* p_cC = (CEGUI::DefaultWindow*)wmgr.getWindow("Game/Root/CounterC" );
 
 	if(gui.render_bars && !ltv_gui_.render_bars)
 	{
@@ -139,7 +166,45 @@ void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 		p_st->setVisible(false);
 		p_et->setVisible(false);
 	}
+	//Update counters
+	if(gui.counter_A_visible && !ltv_gui_.counter_A_visible)
+		p_cA->setVisible(true);
+	if(!gui.counter_A_visible && ltv_gui_.counter_A_visible)
+		p_cA->setVisible(false);
+	if(ltv_gui_.counter_A_value != gui.counter_A_value || ltv_gui_.counter_A_max != gui.counter_A_max)
+	{
+		if(gui.counter_A_max != -1)
+			p_cA->setText((boost::lexical_cast<std::string, int>(gui.counter_A_value) + std::string("/") + boost::lexical_cast<std::string, int>(gui.counter_A_max)).c_str());
+		else
+			p_cA->setText((boost::lexical_cast<std::string, int>(gui.counter_A_value)).c_str());
+	}
+	if(gui.counter_B_visible && !ltv_gui_.counter_B_visible)
+		p_cB->setVisible(true);
+	if(!gui.counter_B_visible && ltv_gui_.counter_B_visible)
+		p_cB->setVisible(false);
+	if(ltv_gui_.counter_B_value != gui.counter_B_value || ltv_gui_.counter_B_max != gui.counter_B_max)
+	{
+		if(gui.counter_B_max != -1)
+			p_cB->setText((boost::lexical_cast<std::string, int>(gui.counter_B_value) + std::string("/") + boost::lexical_cast<std::string, int>(gui.counter_B_max)).c_str());
+		else
+			p_cB->setText((boost::lexical_cast<std::string, int>(gui.counter_B_value)).c_str());
+	}
+
+	if(gui.counter_C_visible && !ltv_gui_.counter_C_visible)
+		p_cC->setVisible(true);
+	if(!gui.counter_C_visible && ltv_gui_.counter_C_visible)
+		p_cC->setVisible(false);
+	if(ltv_gui_.counter_C_value != gui.counter_C_value || ltv_gui_.counter_C_max != gui.counter_C_max)
+	{
+		if(gui.counter_C_max != -1)
+			p_cC->setText((boost::lexical_cast<std::string, int>(gui.counter_C_value) + std::string("/") + boost::lexical_cast<std::string, int>(gui.counter_C_max)).c_str());
+		else
+			p_cC->setText((boost::lexical_cast<std::string, int>(gui.counter_C_value)).c_str());
+	}
+
+
 	ltv_gui_ = gui;
+
 	if(!returning_to_menu_ && !returning_to_editor_)
 	{
 		if(state == ChallengeState::Victory)

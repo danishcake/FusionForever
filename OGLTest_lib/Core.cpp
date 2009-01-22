@@ -40,6 +40,8 @@ Core::Core(BaseAI* _AI)
 	death_function_reference_ = 0;
 	total_damage_ = 0;
 	total_health_ = health_.GetMaxValue();
+	loss_of_thrust_factor_ = 0;
+	last_damage_time_;
 }
 
 Core::~Core(void)
@@ -114,10 +116,14 @@ void Core::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::v
 
 		spin_ += action.dtheta_ * _timespan * CORE_ROT_RATE_DELTA / moment_;
 
+		if(spin_ > 2 * max_spin)
+			spin_ = 2 * max_spin;
+		if(spin_ < -2 * max_spin)
+			spin_ = -2 * max_spin;
 		if(spin_ > max_spin)
-			spin_ = max_spin;
-		if(spin_ < - max_spin)
-			spin_ = -max_spin;
+			spin_ = max_spin + (spin_ - max_spin) * expf(-_timespan * CORE_MOVE_EXP_BRAKING);
+		if(spin_ < -max_spin)
+			spin_ = -max_spin + (spin_ + max_spin) * expf(-_timespan * CORE_MOVE_EXP_BRAKING);
 		firing_ = action.firing_;
 	}
 }
@@ -156,8 +162,8 @@ Core_ptr Core::CreateCore(std::string _name)
 	} else
 	{
 		Logger::ErrorOut() << "Unable to open file '" << file_name << "' :" <<
-			ship_document.ErrorDesc() << boost::lexical_cast<std::string, int>(ship_document.ErrorRow()) <<
-			":" << boost::lexical_cast<std::string, int>(ship_document.ErrorCol()) << "\n";
+			ship_document.ErrorDesc() << "(" << boost::lexical_cast<std::string, int>(ship_document.ErrorRow()) <<
+			":" << boost::lexical_cast<std::string, int>(ship_document.ErrorCol()) << ")\n";
 	}
 
 	return NULL;
@@ -274,4 +280,10 @@ void Core::EndSubscription(Subscriber* _source)
 {
 	if(target_ == _source)
 		target_ = NULL;
+}
+
+void Core::ReportDamage(float _damage)
+{
+	total_damage_ += _damage;
+	last_damage_time_ = 0;
 }

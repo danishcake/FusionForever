@@ -1,8 +1,27 @@
 #include "StdAfx.h"
 #include "Scorekeeper.h"
 
+/* Tricksy bug - Getting truncated filenames is ProgressRecord.xml? It's a 
+   TinyXML bug. The fix is known but not portable to all compilers. See 
+   TinyXML bug 1695429 for a full explanation. To fix uncomment the 
+   std::string QueryValueAttribute specialisation in TinyXML.h                */
+
 Scorekeeper::Scorekeeper(void)
 { 
+	//TinyXML bug check
+	{
+		TiXmlDocument test_doc;
+		TiXmlElement* root = new TiXmlElement("root");
+		std::string test_string;
+		root->SetAttribute("Key", "Space in value");
+		root->QueryValueAttribute("Key", &test_string);
+		if(test_string != "Space in value")
+			Logger::ErrorOut() << "TinyXML built without bug 1695429 fix - names in ProgressRecord.xml will be truncated. To fix see ScoreKeeper.cpp\n";
+
+
+		test_doc.LinkEndChild(root);
+	}
+
 	TiXmlDocument scores_doc_;
 	if(!scores_doc_.LoadFile("ProgressRecord.xml"))
 	{

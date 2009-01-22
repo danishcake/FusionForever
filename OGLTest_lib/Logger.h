@@ -53,19 +53,17 @@ public:
 		return *this;
 	}
 
-	template <class T>
-	Logger& Logger::operator <<( Vector3<T> _vector)
+	Logger& Logger::operator <<(Vector3f v)
 	{
-		output_ << "(" << _vector.x << "," << _vector.y << "," << _vector.z << ")";
-		printf("%s", i.c_str());
+		output_ << "(" << v.x << "," << v.y << "," << v.z << ")";
+		printf("(%f,%f,%f)", v.x, v.y, v.z);
 		return *this;
 	}
 
-	template <class T>
-	Logger& Logger::operator <<( Vector2<T> _vector)
+	Logger& Logger::operator <<(Vector2f v)
 	{
-		output_ << "(" << _vector.x << "," << _vector.y << ")";
-		printf("%s", i.c_str());
+		output_ << "(" << v.x << "," << v.y << ")";
+		printf("(%f,%f)", v.x, v.y);
 		return *this;
 	}
 };

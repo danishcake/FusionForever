@@ -16,6 +16,6 @@ public:
 	virtual void SpecifyTarget(Core* _target){}
 	virtual bool IsHuman(){return true;}
 
-	static int GetInstanceCount(){return player_ids_.size();}
+	static int GetInstanceCount(){return static_cast<int>(player_ids_.size());}
 	static std::vector<int> GetPlayerIDs(){return player_ids_;}
 };

@@ -33,6 +33,15 @@ protected:
 	 * The total damage taken by the core and all its subsections
 	 */
 	float total_damage_;
+	/*
+	 * The loss of thrust factor - increases with damage but decays to zero over 1 second
+	 */
+	float loss_of_thrust_factor_;
+	/*
+	 * The time since_last_damage
+	 */
+	float last_damage_time_;
+
 public:
 	/**
 	 * Creates a Core.
@@ -92,7 +101,7 @@ public:
 	/*
 	 * Reports damage taken by a subsection
 	 */
-	void ReportDamage(float _damage){total_damage_ += _damage;}
+	void ReportDamage(float _damage);
 	/*
 	 * Gets the total health of the ship
 	 */

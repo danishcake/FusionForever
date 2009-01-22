@@ -381,6 +381,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\Geometry Wars 2.luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\GeometryWars.luaChallenge"
 					>
 				</File>

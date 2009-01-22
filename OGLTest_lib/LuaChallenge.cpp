@@ -4,6 +4,7 @@
 #include "LuaAI.h"
 #include "BaseGame.h"
 #include <boost/algorithm/string.hpp>
+#include "LuaTimeout.h"
 
 extern "C"
 {
@@ -256,7 +257,7 @@ int LuaChallenge::l_DisplayMessage(lua_State* _luaVM)
 	{
 		luaL_error(_luaVM, "DisplayMessage must be called with 3 parameters");
 	}
-	float time = lua_tonumber(_luaVM, -1);
+	float time = static_cast<float>(lua_tonumber(_luaVM, -1));
 	std::string text = lua_tostring(_luaVM, -2);
 	
 	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -3)));
@@ -278,10 +279,15 @@ int LuaChallenge::l_SetCounter(lua_State* _luaVM)
 	{
 		luaL_error(_luaVM, "SetCounter must be called with 5 parameters");
 	}
-	int max = lua_tointeger(_luaVM, -1);
-	int value = lua_tointeger(_luaVM, -2);
-	bool visible = lua_toboolean(_luaVM, -3);
-	int counter_id = lua_tointeger(_luaVM, -4);
+	int max = static_cast<int>(lua_tointeger(_luaVM, -1));
+	int value = static_cast<int>(lua_tointeger(_luaVM, -2));
+	bool visible = static_cast<bool>(lua_toboolean(_luaVM, -3));
+	int counter_id = static_cast<int>(lua_tointeger(_luaVM, -4));
+	if(counter_id < 1 || counter_id > 3)
+	{
+		luaL_error(_luaVM, "Counter must be between 1 and 3");
+		return 0;
+	}
 	
 	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -5)));
 	assert(challenge);
@@ -292,6 +298,7 @@ int LuaChallenge::l_SetCounter(lua_State* _luaVM)
 
 void LuaChallenge::SetCounter(int _counter, int _value, int _max, bool _visible)
 {
+	game_->SetCounter(_counter, _value, _max, _visible);
 }
 
 LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* _game) : 
@@ -327,6 +334,9 @@ LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* 
 	environment_reference_ = 0;
 	coroutine_reference_ = 0;
 
+	monitor_thread_ = new LuaTimeout("Challenge script has hung after 5 seconds without yield\n", 5.0f);
+
+
 	assert(lua_gettop(_luaVM) == 0);
 	//Now load the challenge chunk
 	if(loadChallenge() == false)
@@ -356,6 +366,7 @@ LuaChallenge::~LuaChallenge(void)
 		luaL_unref(luaVM_, LUA_REGISTRYINDEX, environment_reference_);
 	if(chunk_reference_)
 		luaL_unref(luaVM_, LUA_REGISTRYINDEX, chunk_reference_);
+	delete monitor_thread_;
 }
 
 bool LuaChallenge::loadChallenge()
@@ -467,7 +478,7 @@ ChallengeState::Enum LuaChallenge::Tick(float _timespan)
 
 		assert(lua_gettop(luaVM_) == 0);
 
-		int resume_result = lua_resume(thread, 0);
+		int resume_result = monitor_thread_->SafeResume(thread);;
 		if(resume_result == LUA_YIELD)
 		{
 			//A normal yield
@@ -481,6 +492,10 @@ ChallengeState::Enum LuaChallenge::Tick(float _timespan)
 			//The script encountered a runtime error, log it
 			state_ = ChallengeState::RunError;
 			Logger::ErrorOut() << lua_tostring(thread, -1) << "\n";
+			game_->DisplayMessage(lua_tostring(thread, -1), 10);
+			lua_pop(thread, 1); //Pops the error message
+			DeclareDraw();
+			assert(lua_gettop(thread) == 0);
 		}
 	}
 	
@@ -499,6 +514,8 @@ void LuaChallenge::CallDeathFunction(int _death_function_refence)
 		if(run_result != 0)
 		{
 			Logger::ErrorOut() << "Error running death function" << boost::lexical_cast<std::string, int>(_death_function_refence) << "\n";
+			Logger::ErrorOut() << "Error:" << lua_tostring(luaVM_, -1) << "\n";
+			lua_pop(luaVM_, 1);
 		}
 		//Dispose of the function reference
 		luaL_unref(luaVM_, LUA_REGISTRYINDEX, _death_function_refence);

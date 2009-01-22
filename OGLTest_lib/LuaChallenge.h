@@ -4,6 +4,7 @@
 #include "GLColor.h"
 
 struct lua_State;
+class LuaTimeout;
 
 #ifndef STR_ME
 #define STR_ME( X ) ( # X )
@@ -62,6 +63,8 @@ private:
 	std::string challenge_;
 	ChallengeState::Enum state_;
 	float sum_time_;
+	
+	LuaTimeout* monitor_thread_;
 
 	int chunk_reference_;
 	int environment_reference_;

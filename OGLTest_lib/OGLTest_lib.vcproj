@@ -410,6 +410,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\LuaTimeout.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Property.cpp"
 					>
 				</File>
@@ -753,6 +757,10 @@
 				</File>
 				<File
 					RelativePath=".\Logger.h"
+					>
+				</File>
+				<File
+					RelativePath=".\LuaTimeout.h"
 					>
 				</File>
 				<File

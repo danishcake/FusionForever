@@ -36,7 +36,7 @@ Section::Section(void)
 	transformed_outline_verts_valid_ = false;
 	first_tick_ = true;
 	mass_ = 100;
-	moment_ = 1;
+	moment_ = 100;
 }
 
 Section::~Section(void)

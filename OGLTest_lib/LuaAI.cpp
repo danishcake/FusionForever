@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "LuaAI.h"
 #include "Core.h"
+#include "LuaTimeout.h"
 
 extern "C"
 {
@@ -11,6 +12,7 @@ extern "C"
 
 std::map<std::string, int> LuaAI::ai_chunk_reference_ = std::map<std::string, int>();
 int LuaAI::ai_sandbox_reference_ = 0;
+LuaTimeout* LuaAI::monitor_thread_ = NULL;
 
 static int l_PickRandomTarget(lua_State* luaVM)
 {
@@ -193,6 +195,8 @@ void LuaAI::RegisterLuaFunctions(lua_State* _luaVM)
 		{
 			ai_sandbox_reference_ = luaL_ref(_luaVM, LUA_REGISTRYINDEX);
 		}
+		assert(monitor_thread_ == NULL);
+		monitor_thread_ = new LuaTimeout("AI timed out after 5 seconds without yield", 5);
 	}
 	initialised_lua_ = true;
 }
@@ -345,21 +349,20 @@ void LuaAI::resume_coroutine(Core_ptr _self, float _timespan)
 		lua_pop(lua_state_, 1);
 
 		assert(lua_gettop(lua_state_) == 0);
-		int resume_result = lua_resume(thread, 0);
+		int resume_result = monitor_thread_->SafeResume(thread);
 		if(resume_result == LUA_YIELD)
 		{
-			//Logger::ErrorOut() << "Coroutine yielded OK\n";
 		} else if(resume_result == 0)
 		{
-			//Logger::ErrorOut() << "Coroutine finished without errors\n";
 			initialise_coroutine(); //Restart coroutine
 		} else
 		{
 			ok_to_run_ = false;
-			Logger::ErrorOut() << lua_tostring(thread, -1) << "\n";
+			Logger::ErrorOut() << script_name_ << " encountered an error: "<< lua_tostring(thread, -1) << "\n";
+			lua_pop(thread, 1); //Pops the error message
+			
 		}
 		assert(lua_gettop(thread) == 0);
-		//lua_pop(lua_state_, 1); //Pops thread //Shouldn't be needed
 	}
 	assert(lua_gettop(lua_state_) == 0);
 }
@@ -456,4 +459,11 @@ void LuaAI::EndSubscription(Subscriber* _source)
 	}
 }
 
-
+void LuaAI::SetUninitialised()
+{
+	initialised_lua_ = false;
+	ai_sandbox_reference_ = 0;
+	ai_chunk_reference_.clear();
+	delete monitor_thread_;
+	monitor_thread_ = NULL;
+}

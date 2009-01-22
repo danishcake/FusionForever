@@ -5,10 +5,10 @@
 
 SoundManager::SoundManager(void)
 {
-	int audio_rate = 22050;
+	int audio_rate = 44100;
 	Uint16 audio_format = AUDIO_S16; 
 	int audio_channels = 2;
-	int audio_buffers = 4096;
+	int audio_buffers = 1024;
 
 	if(Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers))
 	{

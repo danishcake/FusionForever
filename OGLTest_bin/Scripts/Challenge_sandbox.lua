@@ -153,22 +153,22 @@ end
 function challenge_:SetCounterA(visible, value, max)
 	assert(type(visible) == "boolean", "visible must be a boolean")
 	assert(type(value) == "number", "time_to_display must be a number")
-	assert(type(value) == "max", "max must be a number")
-	SetScreenCounter(self.challenge_pointer, 0, visible, value, max)
+	assert(type(max) == "number", "max must be a number")
+	SetCounter(self.challenge_pointer, 1, visible, value, max)
 end
 
 function challenge_:SetCounterB(visible, value, max)
 	assert(type(visible) == "boolean", "visible must be a boolean")
 	assert(type(value) == "number", "time_to_display must be a number")
-	assert(type(value) == "max", "max must be a number")
-	SetScreenCounter(self.challenge_pointer, 1, visible, value, max)
+	assert(type(max) == "number", "max must be a number")
+	SetCounter(self.challenge_pointer, 2, visible, value, max)
 end
 
 function challenge_:SetCounterC(visible, value, max)
 	assert(type(visible) == "boolean", "visible must be a boolean")
 	assert(type(value) == "number", "time_to_display must be a number")
-	assert(type(value) == "max", "max must be a number")
-	SetScreenCounter(self.challenge_pointer, 2, visible, value, max)
+	assert(type(max) == "number", "max must be a number")
+	SetCounter(self.challenge_pointer, 3, visible, value, max)
 end
 
 local challenge_mt_ = 

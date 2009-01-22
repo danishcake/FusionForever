@@ -7,19 +7,37 @@ playerLives = coroutine.wrap(function()
 end)
 
 score = 0
-function kill_one
+function kill_one()
 	score = score + 1
-	challenge:DisplayMessage("Score: " .. score, 0.1)
+	challenge:SetCounterA(true, score, 20)
 end
 
 enemySpawn = coroutine.wrap(function()
 	for i = 0, 50 do
 		local ship_id = challenge:SpawnShip("Lasership", 1, Vector:random_ring(1000, 3000), 0, "FleeingAI.luaAI", 1)
 		challenge:SetDeathFunction(ship_id, kill_one)
-		challenge:WaitFor(0.25)
+		challenge:WaitFor(0.3)
+	end
+	while true do --Prevent coroutine from dying
+		coroutine.yield()
 	end
 end)
 
+waitForScore = coroutine.wrap(function()
+	while score < 20 do
+		coroutine.yield()
+	end
+	challenge:Victory()
+end)
+
+waitForTimeout = coroutine.wrap(function()
+	while challenge.time - start_time < 60 do
+		challenge:SetCounterB(true, math.floor(challenge.time - start_time), 60)
+		challenge:WaitFor(0.5)
+	end
+	challenge:SetCounterB(true, 60, 60)
+	challenge:Defeat()
+end)
 
 
 challenge:DisplayMessage("I Lurk", 2);
@@ -32,9 +50,14 @@ challenge:WaitFor(0.5)
 challenge:DisplayMessage("Get ready...", 2);
 challenge:WaitFor(1.0)
 
+challenge:SetCounterA(true, score, 20)
+
+start_time = challenge.time
 while true do
 	playerLives()
 	enemySpawn()
+	waitForScore()
+	waitForTimeout()
 	coroutine.yield()
 end
 

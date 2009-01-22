@@ -39,6 +39,7 @@ public:
 	Section* GetSectionData(int _section_id);
 
 	void DisplayMessage(std::string _message, float _time);
+	void SetCounter(int _counter_id, int _value, int _max, bool _visible);
 
 protected:
 	std::vector<Projectile_ptr> projectiles_[MAX_FORCES];
@@ -58,5 +59,5 @@ protected:
 	GLuint defeat_texture_;
 
 	int player_id_; //The id of the first player controlled by a keyboard
-	std::vector<ScreenText> messages_;
+	GameGUI gui_; //Contains counter data
 };

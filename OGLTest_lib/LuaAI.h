@@ -4,6 +4,7 @@
 #include <map>
 
 struct lua_State;
+class LuaTimeout;
 
 class LuaAI :
 	public BaseAI
@@ -12,6 +13,7 @@ private:
 	static std::map<std::string, int> ai_chunk_reference_;
 	static int ai_sandbox_reference_;
 	static bool initialised_lua_;
+	static LuaTimeout* monitor_thread_;
 
 protected:
 	std::string script_name_;
@@ -60,5 +62,5 @@ public:
 
 	virtual void EndSubscription(Subscriber* _source);
 
-	static void SetUninitialised(){initialised_lua_ = false; ai_sandbox_reference_ = 0; ai_chunk_reference_.clear();}
+	static void SetUninitialised();
 };

@@ -26,7 +26,8 @@ BaseGame::BaseGame(std::string _challenge_filename)
 	LuaAI::SetUninitialised();
 	luaL_openlibs(luaVM_);
 	challenge_ = new LuaChallenge(luaVM_, _challenge_filename, this);
-	Camera::Instance().SetCentre(0, 0, CameraLevel::None);
+	Camera::Instance().SetWidth(Camera::Instance().GetWindowWidth()); //Zoom 1:1
+	Camera::Instance().SetCentre(0, 0, CameraLevel::Human);
 }
 
 BaseGame::~BaseGame(void)
@@ -94,7 +95,7 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 	//Tick scripts
 	ChallengeState::Enum state = challenge_->Tick(_timespan);
 
-
+	
 	Camera::Instance().TickCamera(_timespan);
 
 	//Calculate enemies and friends of each force
@@ -227,7 +228,8 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 		ships_[force].erase(std::remove_if(ships_[force].begin(), ships_[force].end(), Section::IsRemovable), ships_[force].end());
 	}
 
-	//Update the GUI displayed
+	_gui = gui_; //Copy in messages and counter data
+	//Update the health/energy bars displayed
 	if(KeyboardAI::GetPlayerIDs().size() > 0)
 	{
 		int player_id = KeyboardAI::GetPlayerIDs()[0];
@@ -239,8 +241,8 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 	} else
 		_gui.render_bars = false;
 	
-	_gui.new_messages_.insert(_gui.new_messages_.end(), messages_.begin(), messages_.end());
-	messages_.clear();
+	//_gui.new_messages_.insert(_gui.new_messages_.end(), gui_.new_messages_.begin(), gui_.new_messages_.end());
+	gui_.new_messages_.clear();
 
 	return state;
 }
@@ -288,5 +290,27 @@ void BaseGame::DisplayMessage(std::string _message, float _time)
 	ScreenText st;
 	st.text = _message;
 	st.time = _time;
-	messages_.push_back(st);
+	gui_.new_messages_.push_back(st);
+}
+
+void BaseGame::SetCounter(int _counter_id, int _value, int _max, bool _visible)
+{
+	switch(_counter_id)
+	{
+	case 1:
+		gui_.counter_A_visible = _visible;
+		gui_.counter_A_value= _value;
+		gui_.counter_A_max = _max;
+		break;
+	case 2:
+		gui_.counter_B_visible = _visible;
+		gui_.counter_B_value= _value;
+		gui_.counter_B_max = _max;
+		break;
+	case 3:
+		gui_.counter_C_visible = _visible;
+		gui_.counter_C_value= _value;
+		gui_.counter_C_max = _max;
+		break;
+	}
 }
