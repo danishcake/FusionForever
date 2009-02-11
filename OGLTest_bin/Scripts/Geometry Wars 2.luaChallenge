@@ -4,7 +4,6 @@ enemy_types = {"GW_A", "GW_B", "GW_C"}
 
 random_type = function()
 	local i = math.random(1, #enemy_types)
-	print("Picking " .. i .. " which is " .. enemy_types[i])
 	return enemy_types[i]
 end
 
@@ -16,7 +15,11 @@ playerLives = coroutine.wrap(function()
 	challenge:Defeat()
 end)
 
-circleOf = function(ship_type, quantity, rings, delay, radius)
+circleOf = function(ship_type, quantity, rings, delay, radius, force)
+	local force_value = force
+	if force_value == nil then
+		force_value = 1
+	end
 	for i = 1, quantity do
 		local angle = i * 360 * rings / quantity
 		local ship_data = challenge:GetShipData(player_id)
@@ -87,7 +90,7 @@ continuous_rings = coroutine.wrap(function()
 	while true do
 		challenge:WaitFor(5)
 		if spawn_continuous == true then
-			circleOf(random_type(), 10, 1, 0, 1000)
+			circleOf(random_type(), 10, 1, 0, 800, 2)
 		end
 	end
 end)
@@ -115,7 +118,7 @@ enemySpawn = coroutine.wrap(function()
 	circleOf("GW_A", 100, 2, 0.1, 400)
 	
 	
-	challenge:WaitForAllEnemiesDead(0)
+	challenge:WaitForForceCountLessThan(1, 1)
 	challenge:WaitFor(1)
 	challenge:Victory()
 end)
@@ -129,7 +132,7 @@ challenge:DisplayMessage("Incoming! Fend off the attackers!", 2);
 challenge:WaitFor(1.0)
 challenge:DisplayMessage("Get ready...", 2);
 challenge:WaitFor(1.0)
-
+challenge:SetFriendly(1, 2)
 challenge:SetCounterA(true, score, -1)
 
 while true do

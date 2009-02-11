@@ -39,7 +39,7 @@ bool MenuScene::StartChallenge(const CEGUI::EventArgs& e)
 	fade_out_time_ = FadeOutScene::FOTime * 0.9f;
 	fading_out_ = true;
 
-	SoundManager::Instance().PlaySample("ding.wav");
+	SoundManager::Instance().PlaySample("load_challenge.wav");
 	 
 	return true;
 }
@@ -119,6 +119,33 @@ bool MenuScene::ExitGame(const CEGUI::EventArgs& e)
 	return true;
 }
 
+bool MenuScene::cbMouseMoveOverChallenges(const CEGUI::EventArgs& e)
+{
+	if(lock_gui_)
+		return true;
+	CEGUI::MouseEventArgs me = static_cast<const CEGUI::MouseEventArgs&>(e);
+	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+	CEGUI::Listbox* lb = (CEGUI::Listbox*)wmgr.getWindow("Menu/LevelsList");
+	//relativeToAbsolute(screenToWindow(me.position)); 
+	CEGUI::Vector2 v =  CEGUI::Vector2(me.position.d_x - lb->getPixelRect().d_left, me.position.d_y - lb->getPixelRect().d_top);
+
+	float y = lb->getListRenderArea().getPosition().d_y;
+	for(size_t i = 0; i < lb->getItemCount(); i++)
+	{
+		CEGUI::ListboxItem* lbi = lb->getListboxItemFromIndex(i);
+		y += lbi->getPixelSize().d_height;
+		if(v.d_y < y)
+		{
+			lb->setTooltipText(lbi->getTooltipText());
+			CEGUI::System::getSingleton().getDefaultTooltip()->positionSelf();
+			return true;
+		}
+	}
+	lb->setTooltipText("Hover over a level to see your record!");
+	return true;
+}
+
+
 MenuScene::MenuScene(void)
 {
 	start_challenge_ = false;
@@ -137,14 +164,16 @@ MenuScene::MenuScene(void)
 	pBtnQuit->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.02f, 0), CEGUI::UDim( 0.9f, 0 ) ) );
 	pBtnQuit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::ExitGame, this));
 	pBtnQuit->setText( "Quit" );
+	pBtnQuit->setTooltipText("Are you leaving so soon?");
 	myRoot->addChildWindow(pBtnQuit);
 
 	CEGUI::PushButton* pBtnStart = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/Start");
 	pBtnStart->setSize( CEGUI::UVector2( CEGUI::UDim( 0.15f, 0 ), CEGUI::UDim( 0.05f, 0 ) ) );
-	pBtnStart->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.02, 0), CEGUI::UDim( 0.05f, 00 ) ) );
+	pBtnStart->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.02f, 0), CEGUI::UDim( 0.05f, 0 ) ) );
 	pBtnStart->setText( "Start Game" );
 	pBtnStart->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::StartChallenge, this));
 	pBtnStart->setEnabled(false);
+	pBtnStart->setTooltipText("Start the selected challenge");
 	myRoot->addChildWindow(pBtnStart);
 
 	CEGUI::PushButton* pBtnEditor = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/Editor");
@@ -152,6 +181,7 @@ MenuScene::MenuScene(void)
 	pBtnEditor->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.02f, 0), CEGUI::UDim( 0.15f, 0 ) ) );
 	pBtnEditor->setText( "Ship Editor" );
 	pBtnEditor->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::StartEditor, this));
+	pBtnEditor->setTooltipText("Create your own ships!");
 	myRoot->addChildWindow(pBtnEditor);
 
 	CEGUI::PushButton* pBtnSettings = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/SettingsBtn");
@@ -159,6 +189,7 @@ MenuScene::MenuScene(void)
 	pBtnSettings->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.02f, 0), CEGUI::UDim( 0.25f, 0 ) ) );
 	pBtnSettings->setText( "Settings" );
 	pBtnSettings->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::cbSettings, this));
+	pBtnSettings->setTooltipText("Change resolution and other settings");
 	myRoot->addChildWindow(pBtnSettings);
 
 	CEGUI::Window* pWndChallenges = wmgr.createWindow( "TaharezLook/FrameWindow", "Menu/Levels" );
@@ -176,7 +207,9 @@ MenuScene::MenuScene(void)
 	pWndChallengeList->subscribeEvent(CEGUI::Listbox::EventSelectionChanged, CEGUI::Event::Subscriber(&MenuScene::cbChallengeSelectionChanged, this));
 	pWndChallenges->addChildWindow(pWndChallengeList);
 
-	
+	pWndChallengeList->setTooltipText("Select a challenge");
+	pWndChallengeList->setInheritsTooltipText(true);
+	pWndChallengeList->subscribeEvent(CEGUI::Listbox::EventMouseMove, CEGUI::Event::Subscriber(&MenuScene::cbMouseMoveOverChallenges, this));
 	const CEGUI::Image* sel_img = &CEGUI::ImagesetManager::getSingleton().getImageset("TaharezLook")->getImage("MultiListSelectionBrush");
 
 	boost::filesystem::directory_iterator end_itr;	
@@ -195,9 +228,13 @@ MenuScene::MenuScene(void)
 					CEGUI::ListboxTextItem* lbi = new CEGUI::ListboxTextItem(challenge_name);
 					lbi->setSelectionBrushImage(sel_img);
 					ChallengeVariantRecord record = Scorekeeper::Instance().QueryProgress(challenge_name);
+					lbi->setTooltipText(challenge_name + "\n" +
+										"Victories: " + boost::lexical_cast<std::string, int>(record.victories) +
+										"\nDefeats: " + boost::lexical_cast<std::string, int>(record.defeats));
 					if(record.victories == 0)
 						lbi->setTextColours(CEGUI::colour(255,255,127));
 					pWndChallengeList->addItem(lbi);
+					
 				}
 			}
 		}

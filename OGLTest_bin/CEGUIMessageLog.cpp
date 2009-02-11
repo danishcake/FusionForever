@@ -75,7 +75,7 @@ void CEGUIMessageLog::AddMessage(ScreenText _message)
 void CEGUIMessageLog::Tick(float _timespan)
 {
 	//Tick gui messages
-	int window_position = log_items_.size();
+	int window_position = static_cast<int>(log_items_.size());
 	BOOST_FOREACH(LogItem& li, log_items_)
 	{
 		li.time -= _timespan;

@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<Section x="0" y="0" Angle="0" Health="10" Delay="0" SectionType="GW_Player" angle="0">
+	<Section SectionType="Lancer" x="2" y="5"/>
+  <Section SectionType="Lancer" x="-2" y="5" Delay="0.3"/>
+</Section>

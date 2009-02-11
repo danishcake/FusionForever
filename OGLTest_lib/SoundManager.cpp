@@ -60,9 +60,13 @@ void SoundManager::PlaySample(std::string _filename)
 		//Play the sound
 		int channel = Mix_PlayChannel(-1, sample, 0);
 		if(channel < 0)
-			Logger::ErrorOut() << Mix_GetError() << "\n";
+		{
+		//	Logger::ErrorOut() << Mix_GetError() << "\n";
+		}
 		else
-			Logger::DiagnosticOut() << "Playing on" << channel << "\n";
+		{
+		//	Logger::DiagnosticOut() << "Playing on" << channel << "\n";
+		}
 	}
 	
 }

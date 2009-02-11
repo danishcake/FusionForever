@@ -14,112 +14,103 @@ std::map<std::string, int> LuaAI::ai_chunk_reference_ = std::map<std::string, in
 int LuaAI::ai_sandbox_reference_ = 0;
 LuaTimeout* LuaAI::monitor_thread_ = NULL;
 
-static int l_PickRandomTarget(lua_State* luaVM)
+int LuaAI::l_PickRandomTarget(lua_State* _luaVM)
 {
-	LuaAI* instance = ((LuaAI*)(lua_touserdata(luaVM, -1)));
+	if(lua_gettop(_luaVM) != 1)
+	{
+		luaL_error(_luaVM, "PickRandomTarget must be called with 1 parameter");
+	}
+	LuaAI* instance = ((LuaAI*)(lua_touserdata(_luaVM, -1)));
 	assert(instance);
-	instance->PickRandomTarget();
+	instance->pick_random_next_ = true;
 	return 0;
 }
 
-void LuaAI::PickRandomTarget()
+int LuaAI::l_PickClosestTarget(lua_State* _luaVM)
 {
-	pick_random_next = true;
-}
-
-static int l_PickClosestTarget(lua_State* luaVM)
-{
-	LuaAI* instance = ((LuaAI*)(lua_touserdata(luaVM, -1)));
+	if(lua_gettop(_luaVM) != 1)
+	{
+		luaL_error(_luaVM, "PickClosestTarget must be called with 1 parameter");
+	}
+	LuaAI* instance = ((LuaAI*)(lua_touserdata(_luaVM, -1)));
 	assert(instance);
-	instance->PickClosestTarget();
+	instance->pick_closest_next_ = true;
 	return 0;
 }
 
-void LuaAI::PickClosestTarget()
+int LuaAI::l_SetMoveDirection(lua_State* _luaVM)
 {
-	pick_closest_next = true;
-}
-
-static int l_SetMoveDirection(lua_State* luaVM)
-{
-	LuaAI* instance = ((LuaAI*)(lua_touserdata(luaVM, -3)));
+	LuaAI* instance = ((LuaAI*)(lua_touserdata(_luaVM, -3)));
 	assert(instance);
-	float x = static_cast<float>(lua_tonumber(luaVM, -2));
-	float y = static_cast<float>(lua_tonumber(luaVM, -1));
-	instance->SetMoveDirection(x, y);
-	return 0;
-}
-
-void LuaAI::SetMoveDirection(float _x, float _y)
-{
-	Vector3f v = Vector3f(_x, _y, 0);
+	float x = static_cast<float>(lua_tonumber(_luaVM, -2));
+	float y = static_cast<float>(lua_tonumber(_luaVM, -1));
+	Vector3f v = Vector3f(x, y, 0);
 	if(v.lengthSq() > 1)
 		v.normalize();
-	next_move_.dx_ = v.x;
-	next_move_.dy_ = v.y;
-}
-
-static int l_SetTurnDirection(lua_State* luaVM)
-{
-	LuaAI* instance = ((LuaAI*)(lua_touserdata(luaVM, -2)));
-	assert(instance);
-	float dtheta = static_cast<float>(lua_tonumber(luaVM, -1));
-	instance->SetTurnDirection(dtheta);
+	instance->next_move_.dx_ = v.x;
+	instance->next_move_.dy_ = v.y;
 	return 0;
 }
 
-void LuaAI::SetTurnDirection(float _dtheta)
+int LuaAI::l_SetTurnDirection(lua_State* _luaVM)
 {
-	next_move_.dtheta_ = _dtheta;
-	if(next_move_.dtheta_ > 1)
-		next_move_.dtheta_ = 1;
-	if(next_move_.dtheta_ < -1)
-		next_move_.dtheta_ = -1;
-}
-
-static int l_SetAll(lua_State* luaVM)
-{
-	LuaAI* instance = ((LuaAI*)(lua_touserdata(luaVM, -5)));
+	LuaAI* instance = ((LuaAI*)(lua_touserdata(_luaVM, -2)));
 	assert(instance);
+	float dtheta = static_cast<float>(lua_tonumber(_luaVM, -1));
 
-	float dx = static_cast<float>(lua_tonumber(luaVM, -4));
-	float dy = static_cast<float>(lua_tonumber(luaVM, -3));
-	float dtheta = static_cast<float>(lua_tonumber(luaVM, -2));
-	bool firing = lua_toboolean(luaVM, -1) != 0;
-	instance->SetAll(dx, dy, dtheta, firing);
+	instance->next_move_.dtheta_ = dtheta;
+	if(instance->next_move_.dtheta_ > 1)
+		instance->next_move_.dtheta_ = 1;
+	if(instance->next_move_.dtheta_ < -1)
+		instance->next_move_.dtheta_ = -1;
+
 	return 0;
 }
 
-void LuaAI::SetAll(float _x, float _y, float _dtheta, bool _firing)
+int LuaAI::l_SetAll(lua_State* _luaVM)
 {
-	next_move_.dx_ = _x;
-	next_move_.dy_ = _y;
-	next_move_.dtheta_ = _dtheta;
-	next_move_.firing_ = _firing;
-}
-
-static int l_SetCameraPosition(lua_State* luaVM)
-{
-	LuaAI* instance = ((LuaAI*)(lua_touserdata(luaVM, -3)));
+	LuaAI* instance = ((LuaAI*)(lua_touserdata(_luaVM, -5)));
 	assert(instance);
 
-	float x = static_cast<float>(lua_tonumber(luaVM, -2));
-	float y = static_cast<float>(lua_tonumber(luaVM, -1));
-	instance->SetCameraPosition(x, y);
+	float x = static_cast<float>(lua_tonumber(_luaVM, -4));
+	float y = static_cast<float>(lua_tonumber(_luaVM, -3));
+	float dtheta = static_cast<float>(lua_tonumber(_luaVM, -2));
+	bool firing = lua_toboolean(_luaVM, -1) != 0;
+
+	Vector3f v = Vector3f(x, y, 0);
+	if(v.lengthSq() > 1)
+		v.normalize();
+	instance->next_move_.dx_ = v.x;
+	instance->next_move_.dy_ = v.y;
+
+	instance->next_move_.dtheta_ = dtheta;
+	if(instance->next_move_.dtheta_ > 1)
+		instance->next_move_.dtheta_ = 1;
+	if(instance->next_move_.dtheta_ < -1)
+		instance->next_move_.dtheta_ = -1;
+
+	instance->next_move_.firing_ = firing;
+
 	return 0;
 }
 
-void LuaAI::SetCameraPosition(float _x, float _y)
+int LuaAI::l_SetCameraPosition(lua_State* _luaVM)
 {
-	Camera::Instance().SetCentre(_x, _y, CameraLevel::Intro);
-	Camera::Instance().SetFocus(self_->GetPosition().x, self_->GetPosition().y, CameraLevel::Intro);
+	LuaAI* instance = ((LuaAI*)(lua_touserdata(_luaVM, -3)));
+	assert(instance);
+
+	float x = static_cast<float>(lua_tonumber(_luaVM, -2));
+	float y = static_cast<float>(lua_tonumber(_luaVM, -1));
+	Camera::Instance().SetCentre(x, y, CameraLevel::Intro);
+	Camera::Instance().SetFocus(instance->self_->GetPosition().x, instance->self_->GetPosition().y, CameraLevel::Intro);
+	return 0;
 }
 
-static int l_ChangeAI(lua_State* luaVM)
+int LuaAI::l_ChangeAI(lua_State* _luaVM)
 {
-	LuaAI* instance = ((LuaAI*)(lua_touserdata(luaVM, -2)));
+	LuaAI* instance = ((LuaAI*)(lua_touserdata(_luaVM, -2)));
 	assert(instance);
-	std::string filename = lua_tostring(luaVM, -1);
+	std::string filename = lua_tostring(_luaVM, -1);
 	instance->ChangeAI(filename);
 	return 0;
 }
@@ -165,8 +156,8 @@ void LuaAI::ChangeAI(std::string _file_name)
 		initialise_coroutine();
 		target_ = NULL;
 		self_ = NULL;
-		pick_random_next = false;
-		pick_closest_next = false;
+		pick_random_next_ = false;
+		pick_closest_next_ = false;
 		sum_time_ = 0;
 	}
 }
@@ -213,8 +204,8 @@ LuaAI::LuaAI(std::string _file_name, int _chunk_reference, lua_State* _luaVM)
 	initialise_coroutine();
 	target_ = NULL;
 	self_ = NULL;
-	pick_random_next = false;
-	pick_closest_next = false;
+	pick_random_next_ = false;
+	pick_closest_next_ = false;
 	sum_time_ = 0;
 	ok_to_run_ = true;
 }
@@ -323,7 +314,6 @@ void LuaAI::resume_coroutine(Core_ptr _self, float _timespan)
 				lua_pushstring(lua_state_, "core_damage");
 					lua_pushnumber(lua_state_, _self->GetMaxHealth()- _self->GetHealth());
 			lua_settable(lua_state_, -3);
-
 				lua_pushstring(lua_state_, "target");
 				lua_gettable(lua_state_, -2);
 					lua_pushstring(lua_state_, "valid");
@@ -378,9 +368,9 @@ AIAction LuaAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vecto
 	next_move_ = AIAction();
 	sum_time_ += _timespan;
 	
-	if(pick_closest_next)
+	if(pick_closest_next_)
 	{
-		pick_closest_next = false;
+		pick_closest_next_ = false;
 		if(target_ != NULL)
 			target_->RemoveSubscriber(this);
 		if(_enemies.size() > 0)
@@ -395,9 +385,9 @@ AIAction LuaAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vecto
 		}
 	}
 	
-	if(pick_random_next)
+	if(pick_random_next_)
 	{
-		pick_random_next = false;
+		pick_random_next_ = false;
 		if(target_ != NULL)
 			target_->RemoveSubscriber(this);
 		if(_enemies.size() > 0)

@@ -77,6 +77,7 @@ void Blaster::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 			fire_projectile(new SmallBullet(Vector3f(Random::RandomRange(-2, 2), Random::RandomRange(1, 7), 0)), _spawn_prj);
 			cooldown_ = cooldown_time_;
 			PowerTick(-1);
+			SoundManager::Instance().PlaySample("fire1.wav");
 		}
 	}
 }

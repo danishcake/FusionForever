@@ -1,0 +1,149 @@
+score = 0
+
+enemy_types = {"GW_A", "GW_B", "GW_C"}
+
+random_type = function()
+	local i = math.random(1, #enemy_types)
+	return enemy_types[i]
+end
+
+playerLives = coroutine.wrap(function()
+	player_id = challenge:SpawnShip("GW_Player", 0, Vector:new(200, 0), 0, "KeyboardAI", 1)
+	challenge:WaitForDeath(player_id)
+	challenge:WaitFor(1)
+	challenge:Defeat()
+end)
+
+circleOf = function(ship_type, quantity, rings, delay, radius, force, direction_factor)
+	for i = 1, quantity do
+		local angle = direction_factor * i * 360 * rings / quantity
+		local ship_data = challenge:GetShipData(player_id)
+		local ship_id = challenge:SpawnShip(ship_type, force, ship_data.position + Vector:new(math.cos(math.rad(angle)), math.sin(math.rad(angle))) * radius, 0, "GW_A.luaAI", 2)
+		challenge:SetDeathFunction(ship_id, ScoreTen)
+		challenge:WaitFor(delay)
+	end
+end
+
+ScoreTen = function()
+	score=score+10
+	challenge:SetCounterA(true, score, -1)
+end
+
+attacks_finished = 0
+
+enemySpawn1 = coroutine.wrap(function()
+	challenge:WaitFor(1)
+
+	circleOf("GW_A", 50, 2, 0.2, 1000, 1, 1)
+	challenge:WaitFor(2)
+	circleOf("GW_A", 50, 2, 0.2, 1000, 1, -1)
+	challenge:WaitFor(1)
+	circleOf("GW_A", 50, 2, 0.2, 1000, 1, 1)
+	
+	challenge:WaitForForceCountLessThan(1, 1)
+	
+	circleOf("GW_A", 100, 1, 0, 1300, 1, 1)
+	
+	attacks_finished = attacks_finished + 1
+	while true do
+		coroutine.yield()
+	end
+end)
+
+enemySpawn2 = coroutine.wrap(function()
+	challenge:WaitFor(1)
+
+	circleOf("GW_B", 50, 2, 0.2, 900, 2, -1)
+	challenge:WaitFor(2)
+	circleOf("GW_B", 50, 2, 0.2, 900, 2, 1)
+	challenge:WaitFor(1)
+	circleOf("GW_B", 50, 2, 0.2, 900, 2, -1)
+	
+	challenge:WaitForForceCountLessThan(2, 1)
+	
+	circleOf("GW_B", 100, 1, 0, 1200, 1, 1)
+	
+	attacks_finished = attacks_finished + 1
+	while true do
+		coroutine.yield()
+	end
+end)
+
+enemySpawn3 = coroutine.wrap(function()
+	challenge:WaitFor(1)
+
+	circleOf("GW_C", 50, 2, 0.2, 800, 3, 1)
+	challenge:WaitFor(2)
+	circleOf("GW_C", 50, 2, 0.2, 800, 3, -1)
+	challenge:WaitFor(1)
+	circleOf("GW_C", 50, 2, 0.2, 800, 3, 1)
+	challenge:WaitForForceCountLessThan(3, 1)
+	
+	circleOf("GW_C", 100, 1, 0, 1100, 1, 1)
+	
+	attacks_finished = attacks_finished + 1
+	while true do
+		coroutine.yield()
+	end
+end)
+
+enemySpawn4 = coroutine.wrap(function()
+	challenge:WaitFor(1)
+
+	circleOf("GW_A", 50, 2, 0.2, 700, 4, -1)
+	challenge:WaitFor(2)
+	circleOf("GW_B", 50, 2, 0.2, 700, 4, 1)
+	challenge:WaitFor(1)
+	circleOf("GW_C", 50, 2, 0.2, 700, 4, -1)
+	challenge:WaitForForceCountLessThan(4, 1)
+	challenge:WaitFor(5)
+	challenge:WaitForAllEnemiesDead(0)
+	
+	circleOf("GW_D", 30, 1, 0, 700, 1, 1)
+	challenge:WaitFor(0.4)
+	circleOf("GW_D", 30, 1, 0, 760, 1, 1)
+	challenge:WaitFor(0.4)
+	circleOf("GW_D", 30, 1, 0, 820, 1, 1)
+	challenge:WaitForAllEnemiesDead(0)
+	
+	attacks_finished = attacks_finished + 1
+	while true do
+		coroutine.yield()
+	end
+end)
+
+
+
+challenge:DisplayMessage("Geometry Wars knockoff 4", 2);
+challenge:DisplayMessage("by Edward Woolhouse", 2);
+challenge:WaitFor(1.5)
+challenge:DisplayMessage("What a tiny but well armed ship.", 2);
+challenge:WaitFor(0.5)
+challenge:DisplayMessage("Incoming! Fend off the attackers!", 2);
+challenge:WaitFor(1.0)
+challenge:DisplayMessage("Get ready...", 2);
+challenge:WaitFor(1.0)
+
+challenge:SetFriendly(1, 2)
+challenge:SetFriendly(1, 3)
+challenge:SetFriendly(1, 4)
+challenge:SetFriendly(2, 3)
+challenge:SetFriendly(2, 4)
+challenge:SetFriendly(3, 4)
+
+challenge:SetCounterA(true, score, -1)
+
+while true do
+	playerLives()
+
+	
+
+	enemySpawn1()
+	enemySpawn2()
+	enemySpawn3()
+	enemySpawn4()
+	if attacks_finished == 4 then
+		challenge:Victory()
+	end
+	coroutine.yield()
+end

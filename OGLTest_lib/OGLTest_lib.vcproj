@@ -64,8 +64,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="SDL.lib SDLmain.lib"
-				AdditionalLibraryDirectories="$(PROGRAMFILES)\SDL-1.2.12\lib"
+				AdditionalDependencies="SDL.lib SDLmain.lib SDL_mixer.lib"
+				AdditionalLibraryDirectories="&quot;$(PROGRAMFILES)\SDL-1.2.12\lib&quot;;&quot;$(PROGRAMFILES)\SDL_mixer-1.2.8\lib&quot;"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -130,8 +130,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="SDL.lib SDLmain.lib"
-				AdditionalLibraryDirectories="&quot;$(PROGRAMFILES)\SDL-1.2.12\lib&quot;"
+				AdditionalDependencies="SDL.lib SDLmain.lib SDL_mixer.lib"
+				AdditionalLibraryDirectories="&quot;$(PROGRAMFILES)\SDL-1.2.12\lib&quot;;&quot;$(PROGRAMFILES)\SDL_mixer-1.2.8\lib&quot;"
 			/>
 			<Tool
 				Name="VCALinkTool"

@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<Section x="0" y="0" Angle="0" Delay="0" SectionType="GW_C" Health="32">
+  <Section x="-15" y="-15" SectionType="SmallSquare" Health="8"/>
+  <Section x="15" y="-15" SectionType="SmallSquare" Health="8"/>
+  <Section x="15" y="15" SectionType="SmallSquare" Health="8"/>
+  <Section x="-15" y="15" SectionType="SmallSquare" Health="8"/>
+  <Section x="-15" y="0" SectionType="SmallSquare" Health="8"/>
+  <Section x="15" y="0" SectionType="SmallSquare" Health="8"/>
+  <Section x="0" y="-15" SectionType="SmallSquare" Health="8"/>
+  <Section x="0" y="15" SectionType="SmallSquare" Health="8"/>
+</Section>

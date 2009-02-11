@@ -1,0 +1,112 @@
+score = 0
+
+enemy_types = {"GW_A", "GW_B", "GW_C"}
+
+random_type = function()
+	local i = math.random(1, #enemy_types)
+	return enemy_types[i]
+end
+
+player_phase = 0
+
+playerLives = coroutine.wrap(function()
+	player_id = challenge:SpawnShip("GW_Player", 0, Vector:new(0, 0), 0, "KeyboardAI", 1)
+	challenge:WaitForDeath(player_id)
+	if player_phase == 0 then
+		challenge:WaitFor(1)
+		challenge:Defeat()
+	end
+	if player_phase == 1 then
+		challenge:WaitFor(1)
+		player_id = challenge:SpawnShip("GW_PlayerLaser", 0, Vector:new(0, 0), 0, "KeyboardAI", 1)
+	end
+	challenge:WaitForDeath(player_id)
+	challenge:WaitFor(1)
+	challenge:Defeat()
+end)
+
+circleOf = function(ship_type, quantity, rings, delay, radius, force)
+	local force_value = force
+	if force_value == nil then
+		force_value = 1
+	end
+	for i = 1, quantity do
+		local angle = i * 360 * rings / quantity
+		local ship_data = challenge:GetShipData(player_id)
+		local ship_id = challenge:SpawnShip(ship_type, force_value, ship_data.position + Vector:new(math.cos(math.rad(angle)), math.sin(math.rad(angle))) * radius, 0, "GW_A.luaAI", 2)
+		challenge:SetDeathFunction(ship_id, ScoreTen)
+		challenge:WaitFor(delay)
+	end
+end
+
+ScoreTen = function()
+	score=score+10
+	challenge:SetCounterA(true, score, -1)
+end
+
+spawn_continuous = true
+spawn_timer = 4
+
+continuous_rings = coroutine.wrap(function()
+	while true do
+		challenge:WaitFor(spawn_timer)
+		if spawn_continuous == true then
+			circleOf(random_type(), 20, 1, 0, 700, 2)
+		end
+	end
+end)
+
+enemySpawn = coroutine.wrap(function()
+	challenge:WaitFor(1)
+
+	circleOf("GW_A", 10, 1, 0, 700)
+	challenge:WaitFor(3)
+	spawn_timer = 3.5
+	
+	circleOf("GW_A", 100, 1, 0.1, 1000)
+	spawn_timer = 3.2
+	circleOf("GW_A", 100, 1, 0.09, 900)
+	spawn_timer = 2.9
+	circleOf("GW_A", 100, 1, 0.08, 800)
+
+--Give the player a more powerful ship!
+	challenge:ClearArea(Vector:new(0,0), 500)
+	player_phase = 1
+	challenge:DisplayMessage("Time to bring out the big guns!", 2);
+	challenge:KillShip(player_id)
+	
+	spawn_timer = 2.7
+	circleOf("GW_A", 100, 1, 0.07, 700)
+	spawn_timer = 2.5
+	circleOf("GW_A", 100, 1, 0.06, 600)
+	spawn_timer = 2.2
+	circleOf("GW_A", 100, 1, 0.05, 500)
+	spawn_timer = 2.0
+	circleOf("GW_A", 100, 1, 0.05, 400)
+	spawn_timer = 1.8
+	circleOf("GW_A", 100, 1, 0.05, 400)
+	
+	
+	challenge:WaitForForceCountLessThan(1, 1)
+	challenge:WaitFor(1)
+	challenge:Victory()
+end)
+
+challenge:DisplayMessage("Geometry Wars knockoff 3", 2);
+challenge:DisplayMessage("by Edward Woolhouse", 2);
+challenge:WaitFor(1.5)
+challenge:DisplayMessage("What a tiny but well armed ship.", 2);
+challenge:WaitFor(0.5)
+challenge:DisplayMessage("Incoming! Fend off the attackers!", 2);
+challenge:WaitFor(1.0)
+challenge:DisplayMessage("Get ready...", 2);
+challenge:WaitFor(1.0)
+challenge:SetFriendly(1, 2)
+challenge:SetCounterA(true, score, -1)
+
+while true do
+	playerLives()
+	enemySpawn()
+	continuous_rings()
+	coroutine.yield()
+end

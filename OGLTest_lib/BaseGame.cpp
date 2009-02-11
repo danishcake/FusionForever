@@ -26,7 +26,7 @@ BaseGame::BaseGame(std::string _challenge_filename)
 	LuaAI::SetUninitialised();
 	luaL_openlibs(luaVM_);
 	challenge_ = new LuaChallenge(luaVM_, _challenge_filename, this);
-	Camera::Instance().SetWidth(Camera::Instance().GetWindowWidth()); //Zoom 1:1
+	Camera::Instance().SetWidth(static_cast<float>(Camera::Instance().GetWindowWidth())); //Zoom 1:1
 	Camera::Instance().SetCentre(0, 0, CameraLevel::Human);
 }
 
@@ -117,6 +117,7 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 	/* Update the radar */
 	radar_.Update(enemies[0], friends[0],_timespan);
 
+	GridCollisionManager::ClearStatic();
 	for(int force = 0; force < MAX_FORCES; force++)
 	{
 		collision_managers_[force].Clear();
@@ -166,6 +167,7 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 	}
 
 	//Ship-ship collisions
+	int check_count = 0;
 	for(int force_a = 0; force_a < MAX_FORCES; force_a++)
 	{
 		for(int force_b = force_a+1; force_b < MAX_FORCES; force_b++)
@@ -176,29 +178,30 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 			{
 				for(int y = 0; y < GRID_SECTIONS; y++)
 				{
-					std::vector<Section_ptr>& sections_a = collision_managers_[force_a].GetAtCoordinate(x, y);
-					BOOST_FOREACH(Section_ptr a, sections_a)
+					std::vector<Section_ptr>& sections_a = collision_managers_[force_a].GetExactAtCoordinate(x, y);
+					std::vector<Section_ptr>& sections_b = collision_managers_[force_b].GetAtCoordinate(x, y);
+					if(sections_a.size() > 0 && sections_b.size() > 0)
 					{
-						std::vector<Section_ptr> sections_b;
-						collision_managers_[force_b].GetAtPoint(sections_b, a->GetGlobalPosition());
-						BOOST_FOREACH(Section_ptr b, sections_b)
+						BOOST_FOREACH(Section_ptr a, sections_a)
 						{
-							if(Collisions2f::CirclesIntersect(a->GetGlobalPosition(), a->GetRadius(), b->GetGlobalPosition(), b->GetRadius()))
+							BOOST_FOREACH(Section_ptr b, sections_b)
 							{
-								//Circle-circle collisions seem to be close enough. 
-								//If a and b overlap then reduce both healths by minimum of the two healths
-								float lowest_health = a->GetHealth() < b->GetHealth() ? a->GetHealth() : b->GetHealth();
-								a->TakeDamage(lowest_health, b->GetRoot()->GetSectionID());
-								b->TakeDamage(lowest_health, a->GetRoot()->GetSectionID());
+								if(Collisions2f::CirclesIntersect(a->GetGlobalPosition(), a->GetRadius(), b->GetGlobalPosition(), b->GetRadius()))
+								{
+									//Circle-circle collisions seem to be close enough. 
+									//If a and b overlap then reduce both healths by minimum of the two healths
+									float lowest_health = a->GetHealth() < b->GetHealth() ? a->GetHealth() : b->GetHealth();
+									a->TakeDamage(lowest_health, b->GetRoot()->GetSectionID());
+									b->TakeDamage(lowest_health, a->GetRoot()->GetSectionID());
+								}
 							}
 						}
+						check_count += sections_a.size() * sections_b.size();
 					}
 				}
 			}
 		}
 	}
-	
-	
 
 	//Get dead sections deathspawn
 	for(int force = 0; force < MAX_FORCES; force++)
@@ -279,6 +282,24 @@ Section_ptr BaseGame::GetSectionData(int _section_id)
 	}
 	return NULL;
 }
+
+std::vector<Core*> BaseGame::GetShipsInArea(Vector3f _position, float _radius)
+{
+	std::vector<Core*> cores;
+	cores.reserve(10);
+	for(int force = 0; force < MAX_FORCES; force++)
+	{
+		BOOST_FOREACH(Core_ptr core, ships_[force])
+		{
+			if(Collisions2f::PointInCircle(core->GetPosition(), _position, _radius))
+			{
+				cores.push_back(core);
+			}
+		}
+	}
+	return cores;
+}
+
 
 void BaseGame::SetHostility(int _force_a, int _force_b, bool _hostile)
 {

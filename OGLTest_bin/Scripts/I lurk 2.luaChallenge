@@ -1,0 +1,83 @@
+--Function that picks a random enemy type from the list
+enemy_types = {"Cilia", "JuggernautA", "JuggernautB", "KineticB", "KineticA", "TheBulk"}
+random_type = function()
+	local i = math.random(1, #enemy_types)
+	return enemy_types[i]
+end
+
+--Number of kills required to win
+win_score = 50
+
+playerLives = coroutine.wrap(function()
+	player_id = challenge:SpawnShip("TheMine", 0, Vector:new(0, 0), 0, "KeyboardAI", 100)
+	challenge:WaitForDeath(player_id)
+	challenge:WaitFor(1)
+
+	challenge:Defeat()
+end)
+
+score = 0
+function kill_one()
+	score = score + 1
+	challenge:SetCounterA(true, score, win_score)
+end
+
+enemySpawn1 = coroutine.wrap(function()
+	while true do
+		local ship_id = challenge:SpawnShip(random_type(), 1, Vector:new(0, 1000) + Vector:random_ring(1000, 2000), 0, "SimpleAI.luaAI", 1)
+		challenge:SetDeathFunction(ship_id, kill_one)
+		challenge:WaitFor(0.3)
+		challenge:WaitForForceCountLessThan(1, 10)
+	end
+end)
+
+enemySpawn2 = coroutine.wrap(function()
+	while true do
+		local ship_id = challenge:SpawnShip(random_type(), 2, Vector:new(0, 1000) + Vector:random_ring(1000, 2000), 0, "SimpleAI.luaAI", 1)
+		challenge:SetDeathFunction(ship_id, kill_one)
+		challenge:WaitFor(0.3)
+		challenge:WaitForForceCountLessThan(2, 10)
+	end
+end)
+
+waitForScore = coroutine.wrap(function()
+	while score < win_score do
+		coroutine.yield()
+	end
+	challenge:Victory()
+end)
+
+waitForTimeout = coroutine.wrap(function()
+	while challenge.time - start_time < 60 do
+		challenge:SetCounterB(true, math.floor(challenge.time - start_time), 60)
+		challenge:WaitFor(0.5)
+	end
+	challenge:SetCounterB(true, 60, 60)
+	challenge:Defeat()
+end)
+
+
+
+challenge:DisplayMessage("I Lurk 2", 2);
+challenge:DisplayMessage("by Edward Woolhouse", 2);
+challenge:WaitFor(1.5)
+challenge:DisplayMessage("You are a mine", 2);
+challenge:WaitFor(0.5)
+challenge:DisplayMessage("Try to kill " .. win_score .. " enemies in under 1 minute", 2);
+challenge:WaitFor(0.5)
+challenge:DisplayMessage("Get ready...", 2);
+challenge:WaitFor(1.0)
+
+challenge:SetCounterA(true, score, win_score)
+
+start_time = challenge.time
+while true do
+	playerLives()
+	enemySpawn1()
+	enemySpawn2()
+	waitForScore()
+	waitForTimeout()
+	coroutine.yield()
+end
+
+

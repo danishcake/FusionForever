@@ -1,0 +1,75 @@
+--Function that picks a random enemy type from the list
+enemy_types = {"GW_A", "GW_B", "GW_C"}
+random_type = function()
+	local i = math.random(1, #enemy_types)
+	return enemy_types[i]
+end
+
+--Number of kills required to win
+win_score = 400
+--Time limit in seconds
+time_limit = 60
+
+playerLives = coroutine.wrap(function()
+	player_id = challenge:SpawnShip("TheMine", 0, Vector:new(0, 0), 0, "KeyboardAI", 100)
+	challenge:WaitForDeath(player_id)
+	challenge:WaitFor(1)
+
+	challenge:Defeat()
+end)
+
+score = 0
+function kill_one()
+	score = score + 1
+	challenge:SetCounterA(true, score, win_score)
+end
+
+enemySpawn1 = coroutine.wrap(function()
+	while true do
+		local ship_id = challenge:SpawnShip(random_type(), 1, Vector:random_ring(200, 800), 0, "SimpleAI.luaAI", 1)
+		challenge:SetDeathFunction(ship_id, kill_one)
+		challenge:WaitFor(0.05)
+		challenge:WaitForForceCountLessThan(1, 200)
+	end
+end)
+
+waitForScore = coroutine.wrap(function()
+	while score < win_score do
+		coroutine.yield()
+	end
+	challenge:Victory()
+end)
+
+waitForTimeout = coroutine.wrap(function()
+	while challenge.time - start_time < time_limit do
+		challenge:SetCounterB(true, math.floor(challenge.time - start_time), time_limit)
+		challenge:WaitFor(0.5)
+	end
+	challenge:SetCounterB(true, time_limit, time_limit)
+	challenge:Defeat()
+end)
+
+
+
+challenge:DisplayMessage("I Lurk 3", 2);
+challenge:DisplayMessage("by Edward Woolhouse", 2);
+challenge:WaitFor(1.5)
+challenge:DisplayMessage("You are a mine", 2);
+challenge:WaitFor(0.5)
+challenge:DisplayMessage("Try to kill " .. win_score .. " enemies in under " .. (time_limit / 60) .. " minutes", 2);
+challenge:WaitFor(0.5)
+challenge:DisplayMessage("Get ready...", 2);
+challenge:WaitFor(1.0)
+
+challenge:SetCounterA(true, score, win_score)
+
+start_time = challenge.time
+while true do
+	playerLives()
+	enemySpawn1()
+	waitForScore()
+	waitForTimeout()
+	coroutine.yield()
+end
+
+

@@ -200,13 +200,16 @@ int _tmain(int argc, _TCHAR* argv[])
 		if(!CEGUI::FontManager::getSingleton().isFontPresent( "Commonwealth-10" ) )
 			CEGUI::FontManager::getSingleton().createFont( "Commonwealth-10.font" );
 		CEGUI::System::getSingleton().setDefaultFont( "Commonwealth-10" );
-		CEGUI::FontManager::getSingleton().notifyScreenResolution(CEGUI::Size(Camera::Instance().GetWindowWidth(), Camera::Instance().GetWindowHeight()));
+		CEGUI::FontManager::getSingleton().notifyScreenResolution(CEGUI::Size(static_cast<float>(Camera::Instance().GetWindowWidth()), static_cast<float>(Camera::Instance().GetWindowHeight())));
 	} catch(CEGUI::Exception e)
 	{
 		Logger::ErrorOut() << e.getMessage().c_str() << "\n";
 		Logger::ErrorOut() << "Unable to open Commonwealth-10.font, is it missing, or is the working directory wrong?\n";
 		isFinished = true;
 	}
+
+	CEGUI::System::getSingleton().setDefaultTooltip("TaharezLook/Tooltip");
+
 	if(!isFinished)
 	{
 		scene_stack.push_back(BaseScene_ptr(new MenuScene()));

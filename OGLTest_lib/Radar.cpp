@@ -128,7 +128,7 @@ void Radar::Draw()
 		glColor3ubv((GLubyte*)&edge_color);
 		//glColor3ub(100,100,100);
 		glVertexPointer(3, GL_FLOAT, 0, &outline_[0]);
-		glDrawArrays(GL_LINE_STRIP, 0, outline_.size());
+		glDrawArrays(GL_LINE_STRIP, 0, static_cast<GLsizei>(outline_.size()));
 		glLineWidth(1);
 
 
@@ -136,14 +136,14 @@ void Radar::Draw()
 		{
 			glVertexPointer(3, GL_FLOAT, 0, &small_points_enemies_[0]);
 			glColor3ubv((GLubyte*)&enemy_color);
-			glDrawArrays(GL_POINTS, 0, small_points_enemies_.size());
+			glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(small_points_enemies_.size()));
 		}
 
 		if(small_points_friends_.size() > 0)
 		{
 			glColor3ubv((GLubyte*)&friend_color);
 			glVertexPointer(3, GL_FLOAT, 0, &small_points_friends_[0]);
-			glDrawArrays(GL_POINTS, 0, small_points_friends_.size());
+			glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(small_points_friends_.size()));
 		}
 
 		glPointSize(2);
@@ -151,14 +151,14 @@ void Radar::Draw()
 		{
 			glVertexPointer(3, GL_FLOAT, 0, &large_points_enemies_[0]);
 			glColor3ubv((GLubyte*)&enemy_color);
-			glDrawArrays(GL_POINTS, 0, large_points_enemies_.size());
+			glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(large_points_enemies_.size()));
 		}
 
 		if(large_points_friends_.size() > 0)
 		{
 			glColor3ubv((GLubyte*)&friend_color);
 			glVertexPointer(3, GL_FLOAT, 0, &large_points_friends_[0]);
-			glDrawArrays(GL_POINTS, 0, large_points_friends_.size());
+			glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(large_points_friends_.size()));
 		}
 
 		glPointSize(3);
@@ -166,14 +166,14 @@ void Radar::Draw()
 		{
 			glVertexPointer(3, GL_FLOAT, 0, &huge_points_enemies_[0]);
 			glColor3ubv((GLubyte*)&enemy_color);
-			glDrawArrays(GL_POINTS, 0, huge_points_enemies_.size());
+			glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(huge_points_enemies_.size()));
 		}
 
 		if(huge_points_friends_.size() > 0)
 		{
 			glColor3ubv((GLubyte*)&friend_color);
 			glVertexPointer(3, GL_FLOAT, 0, &huge_points_friends_[0]);
-			glDrawArrays(GL_POINTS, 0, huge_points_friends_.size());
+			glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(huge_points_friends_.size()));
 		}
 
 		glPopMatrix();

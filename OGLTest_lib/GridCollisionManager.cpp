@@ -1,14 +1,22 @@
 #include "StdAfx.h"
 #include "GridCollisionManager.h"
 
+
+unsigned int GridCollisionManager::left_edge_count_ = 0;
+unsigned int GridCollisionManager::right_edge_count_ = 0;
+unsigned int GridCollisionManager::top_edge_count_ = 0;
+unsigned int GridCollisionManager::bottom_edge_count_ = 0;
+
+float GridCollisionManager::left_edge_ = -GRID_SECTIONS * MINIMUM_GRID_SIZE / 2.0f;
+float GridCollisionManager::width_ = GRID_SECTIONS * MINIMUM_GRID_SIZE;;
+float GridCollisionManager::bottom_edge_ = -GRID_SECTIONS * MINIMUM_GRID_SIZE / 2.0f;;
+float GridCollisionManager::height_ = GRID_SECTIONS * MINIMUM_GRID_SIZE;;
+float GridCollisionManager::grid_width_ = width_/GRID_SECTIONS;;
+float GridCollisionManager::grid_height_ = height_/GRID_SECTIONS;;
+
+
 GridCollisionManager::GridCollisionManager()
 {
-	left_edge_ = -GRID_SECTIONS * MINIMUM_GRID_SIZE / 2.0f;
-	width_ = GRID_SECTIONS * MINIMUM_GRID_SIZE;
-	bottom_edge_ = -GRID_SECTIONS * MINIMUM_GRID_SIZE / 2.0f;
-	height_ = GRID_SECTIONS * MINIMUM_GRID_SIZE;
-	grid_width_ = width_/GRID_SECTIONS;
-	grid_height_ = height_/GRID_SECTIONS;
 	total_returned_ = 0;
 	largest_returned_ = 0;
 	total_tracked_ = 0;
@@ -55,77 +63,79 @@ GridCollisionManager::~GridCollisionManager(void)
 {
 }
 
-void GridCollisionManager::Clear()
+void GridCollisionManager::ClearStatic()
 {
-	//Logger::ErrorOut() << "Minimum efficiency" << ((float)largest_returned_ / (float)total_tracked_) << "\n";
-
 	/*
 	Resize rules: 
 	If any edge has more then 10% then expand thatway by 10%.
 	If any edge has zero then move towards centre by shink by half a unit%.
 	*/
 
-	if(total_tracked_ > 20)
+	if(grid_width_ > MINIMUM_GRID_SIZE)
 	{
-		if(grid_width_ > MINIMUM_GRID_SIZE)
+		if(left_edge_count_ == 0)
 		{
-			if(left_edge_count_ == 0)
-			{
-				left_edge_ += grid_width_/2.0f;
-				grid_width_ = (grid_width_* (GRID_SECTIONS-2) - (grid_width_/2.0f)) / ((float)GRID_SECTIONS-2.0f);
-			}
-			if(right_edge_count_ == 0)
-			{
-				grid_width_ = (grid_width_* (GRID_SECTIONS-2) - (grid_width_/2.0f)) / ((float)GRID_SECTIONS-2.0f);
-			}
+			left_edge_ += grid_width_/2.0f;
+			grid_width_ = (grid_width_* (GRID_SECTIONS-2) - (grid_width_/2.0f)) / ((float)GRID_SECTIONS-2.0f);
 		}
-		if(grid_height_ > MINIMUM_GRID_SIZE)
+		if(right_edge_count_ == 0)
 		{
-			if(bottom_edge_count_ == 0)
-			{
-				bottom_edge_ += grid_height_ / 2.0f;
-				grid_height_ = (grid_height_* (GRID_SECTIONS-2) - (grid_height_/2.0f)) / ((float)GRID_SECTIONS-2.0f);
-			}
-			if(top_edge_count_ == 0)
-			{
-				grid_height_ = (grid_height_* (GRID_SECTIONS-2) - (grid_height_/2.0f)) / ((float)GRID_SECTIONS-2.0f);
-			}
-		}
-
-		if(left_edge_count_ > total_tracked_ / 10)
-		{
-			left_edge_ -= grid_width_/2.0f;
-			grid_width_ = (grid_width_* (GRID_SECTIONS-2) + (grid_width_/2.0f)) / ((float)GRID_SECTIONS-2.0f);
-		}
-		if(bottom_edge_count_ > total_tracked_ / 10)
-		{
-			bottom_edge_ -= grid_height_/2.0f;
-			grid_height_ = (grid_height_* (GRID_SECTIONS-2) + (grid_height_/2.0f)) / ((float)GRID_SECTIONS-2.0f);
-		}
-		if(right_edge_count_ > total_tracked_ / 10)
-		{
-			grid_width_ = (grid_width_* (GRID_SECTIONS-2) + (grid_width_/2.0f)) / ((float)GRID_SECTIONS-2.0f);
-		}
-		if(top_edge_count_ > total_tracked_ / 10)
-		{
-			grid_height_ = (grid_height_* (GRID_SECTIONS-2) + (grid_height_/2.0f)) / ((float)GRID_SECTIONS-2.0f);
+			grid_width_ = (grid_width_* (GRID_SECTIONS-2) - (grid_width_/2.0f)) / ((float)GRID_SECTIONS-2.0f);
 		}
 	}
+	if(grid_height_ > MINIMUM_GRID_SIZE)
+	{
+		if(bottom_edge_count_ == 0)
+		{
+			bottom_edge_ += grid_height_ / 2.0f;
+			grid_height_ = (grid_height_* (GRID_SECTIONS-2) - (grid_height_/2.0f)) / ((float)GRID_SECTIONS-2.0f);
+		}
+		if(top_edge_count_ == 0)
+		{
+			grid_height_ = (grid_height_* (GRID_SECTIONS-2) - (grid_height_/2.0f)) / ((float)GRID_SECTIONS-2.0f);
+		}
+	}
+
+	if(left_edge_count_ > 1)
+	{
+		left_edge_ -= grid_width_/2.0f;
+		grid_width_ = (grid_width_* (GRID_SECTIONS-2) + (grid_width_/2.0f)) / ((float)GRID_SECTIONS-2.0f);
+	}
+	if(bottom_edge_count_ > 1)
+	{
+		bottom_edge_ -= grid_height_/2.0f;
+		grid_height_ = (grid_height_* (GRID_SECTIONS-2) + (grid_height_/2.0f)) / ((float)GRID_SECTIONS-2.0f);
+	}
+	if(right_edge_count_ > 1)
+	{
+		grid_width_ = (grid_width_* (GRID_SECTIONS-2) + (grid_width_/2.0f)) / ((float)GRID_SECTIONS-2.0f);
+	}
+	if(top_edge_count_ > 1)
+	{
+		grid_height_ = (grid_height_* (GRID_SECTIONS-2) + (grid_height_/2.0f)) / ((float)GRID_SECTIONS-2.0f);
+	}
+
+	left_edge_count_ = 0;
+	right_edge_count_ = 0;
+	top_edge_count_ = 0;
+	bottom_edge_count_ = 0;
+}
+
+void GridCollisionManager::Clear()
+{
+	//Logger::ErrorOut() << "Minimum efficiency" << ((float)largest_returned_ / (float)total_tracked_) << "\n";
+
 	for(int x = 0; x < GRID_SECTIONS; x++)
 	{
 		for(int y= 0; y < GRID_SECTIONS; y++)
 		{
 			sections_[x][y].clear();
+			sections_exact_[x][y].clear();
 		}
 	}
 	total_returned_ = 0;
 	largest_returned_ = 0;
 	total_tracked_ = 0;
-	left_edge_count_ = 0;
-	right_edge_count_ = 0;
-	top_edge_count_ = 0;
-	bottom_edge_count_ = 0;
-
 }
 
 void GridCollisionManager::Register(Section_ptr _section)
@@ -143,6 +153,7 @@ void GridCollisionManager::Register(Section_ptr _section)
 	{
 		adjacency_lookup_[x][y][i]->push_back(_section);
 	}
+	sections_exact_[x][y].push_back(_section);
 	left_edge_count_ += (x == 0);
 	right_edge_count_ += (x == (GRID_SECTIONS-1));
 	top_edge_count_ += (y == (GRID_SECTIONS-1));

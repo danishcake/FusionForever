@@ -48,7 +48,7 @@ int LuaTimeout::SafeResume(lua_State* coroutine)
 int LuaTimeout::ExecutionMonitor(void* param)
 {
 	LuaTimeout* td = static_cast<LuaTimeout*>(param);
-	int call_id;
+	int call_id = 0;
 	float watch_time = 0;
 	while(true)
 	{

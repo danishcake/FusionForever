@@ -16,21 +16,23 @@ public:
 	virtual void Register(Section_ptr _section);
 	virtual void GetAtPoint(std::vector<Section_ptr>& _result, Vector3f _point);
 	std::vector<Section_ptr>& GetAtCoordinate(int _x, int _y){return sections_[_x][_y];}
+	std::vector<Section_ptr>& GetExactAtCoordinate(int _x, int _y){return sections_exact_[_x][_y];}
 	virtual void Render();
-
+	static void ClearStatic();
 private:
 	std::vector<Section_ptr> sections_[GRID_SECTIONS][GRID_SECTIONS];
-	float left_edge_;
-	float width_;
-	float bottom_edge_;
-	float height_;
-	float grid_width_;
-	float grid_height_;
+	std::vector<Section_ptr> sections_exact_[GRID_SECTIONS][GRID_SECTIONS];
+	static float left_edge_;
+	static float width_;
+	static float bottom_edge_;
+	static float height_;
+	static float grid_width_;
+	static float grid_height_;
 
-	unsigned int left_edge_count_;
-	unsigned int right_edge_count_;
-	unsigned int top_edge_count_;
-	unsigned int bottom_edge_count_;
+	static unsigned int left_edge_count_;
+	static unsigned int right_edge_count_;
+	static unsigned int top_edge_count_;
+	static unsigned int bottom_edge_count_;
 
 	std::vector<Section_ptr>* adjacency_lookup_[GRID_SECTIONS][GRID_SECTIONS][9];
 	int adjacency_lookup_count_[GRID_SECTIONS][GRID_SECTIONS];

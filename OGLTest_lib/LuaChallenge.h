@@ -44,6 +44,8 @@ class LuaChallenge
 {
 private:
 	static int l_SpawnShip(lua_State* _luaVM);
+	static int l_KillShip(lua_State* _luaVM);
+	static int l_GetShipsInArea(lua_State* _luaVM);
 	static int l_SetDeathFunction(lua_State* _luaVM);
 	static int l_luaError(lua_State* _luaVM);
 	static int l_Victory(lua_State* _luaVM);
@@ -55,6 +57,7 @@ private:
 	static int l_SetHostility(lua_State* _luaVM);
 	static int l_DisplayMessage(lua_State* _luaVM);
 	static int l_SetCounter(lua_State* _luaVM);
+	
 	
 	GLColor force_colors_[8];
 	
@@ -81,6 +84,7 @@ private:
 	void ReturnToEditor(){state_ = ChallengeState::ReturnToEditor;}
 	void SetHostility(int _force_b, int force_b, bool _hostility);
 	Core* GetShipData(int _ship_id);
+	std::vector<Core*> GetShipsInArea(Vector3f _position, float _radius);
 	void DisplayMessage(std::string _message, float _time);
 	void SetCounter(int _counter, int _value, int _max, bool _visible);
 

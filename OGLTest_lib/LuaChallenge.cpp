@@ -83,6 +83,56 @@ int LuaChallenge::SpawnShip(std::string _ship_name, int _force, Vector2f _positi
 	return core->GetSectionID();
 }
 
+int LuaChallenge::l_GetShipsInArea(lua_State* _luaVM)
+{
+	if(!(lua_gettop(_luaVM) == 4))
+	{
+		luaL_error(_luaVM, "SpawnShip must be called with 4 parameters");
+	}
+	
+	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -4)));
+	assert(challenge);
+	float x = static_cast<float>(lua_tonumber(_luaVM, -3));
+	float y = static_cast<float>(lua_tonumber(_luaVM, -2));
+	float r = static_cast<float>(lua_tonumber(_luaVM, -1));
+
+	lua_createtable(_luaVM, 0, 0); //Stack contains an empty table
+
+	//Iterate over forces and build a table with index of all ships within circle
+	int ship_index = 0;
+	std::vector<Core_ptr> cores = challenge->GetShipsInArea(Vector3f(x, y, 0), r);
+	BOOST_FOREACH(Core_ptr core, cores)
+	{
+		lua_pushinteger(_luaVM, ship_index);
+		lua_pushinteger(_luaVM, core->GetSectionID());
+		lua_settable(_luaVM, -3);
+		ship_index++;
+	}
+	return 1;
+}
+
+std::vector<Core_ptr> LuaChallenge::GetShipsInArea(Vector3f _position, float _radius)
+{
+	return game_->GetShipsInArea(_position, _radius);
+}
+
+
+int LuaChallenge::l_KillShip(lua_State* _luaVM)
+{
+	if(!(lua_gettop(_luaVM) == 2))
+	{
+		luaL_error(_luaVM, "SpawnShip must be called with 2 parameters");
+	}
+	
+	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -2)));
+	assert(challenge);
+
+	int ship_id_target = static_cast<int>(lua_tointeger(_luaVM, -1));
+	Core_ptr target = challenge->GetShipData(ship_id_target);
+	target->TakeDamage(target->GetMaxHealth(), -1); //Anonymous damage
+	return 0;
+}
+
 int LuaChallenge::l_luaError(lua_State* _luaVM)
 {
 	Logger::ErrorOut() << lua_tostring(_luaVM, -1) << "\n";
@@ -107,7 +157,7 @@ int LuaChallenge::l_SetHostility(lua_State* _luaVM)
 	if(forceB < 0 || forceB > MAX_FORCES)
 		luaL_error(_luaVM, "ForceB should be between 0 and %d", MAX_FORCES);
 
-	bool hostile = static_cast<bool>(lua_toboolean(_luaVM, -1));
+	bool hostile = (lua_toboolean(_luaVM, -1) != 0);
 
 	challenge->SetHostility(forceA, forceB, hostile);
 	return 0;
@@ -281,7 +331,7 @@ int LuaChallenge::l_SetCounter(lua_State* _luaVM)
 	}
 	int max = static_cast<int>(lua_tointeger(_luaVM, -1));
 	int value = static_cast<int>(lua_tointeger(_luaVM, -2));
-	bool visible = static_cast<bool>(lua_toboolean(_luaVM, -3));
+	bool visible = (lua_toboolean(_luaVM, -3) != 0);
 	int counter_id = static_cast<int>(lua_tointeger(_luaVM, -4));
 	if(counter_id < 1 || counter_id > 3)
 	{
@@ -310,12 +360,14 @@ LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* 
 	lua_register(_luaVM, "Draw", l_Draw);
 	lua_register(_luaVM, "ReturnToEditor", l_ReturnToEditor);
 	lua_register(_luaVM, "GetShipData", l_GetShipData);
+	lua_register(_luaVM, "GetShipsInArea", l_GetShipsInArea);
 	lua_register(_luaVM, "_ALERT", l_luaError);
 	lua_register(_luaVM, "SetDeathFunction", l_SetDeathFunction);
 	lua_register(_luaVM, "SetShipTarget", l_SetShipTarget);
 	lua_register(_luaVM, "SetHostility", l_SetHostility);
 	lua_register(_luaVM, "DisplayMessage", l_DisplayMessage);
 	lua_register(_luaVM, "SetCounter", l_SetCounter);
+	lua_register(_luaVM, "KillShip", l_KillShip);
 
 	state_ = ChallengeState::NotStarted;
 

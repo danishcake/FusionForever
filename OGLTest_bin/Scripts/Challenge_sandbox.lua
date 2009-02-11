@@ -124,6 +124,26 @@ function challenge_:SetShipTarget(ship_id, target_id)
 	SetShipTarget(self.challenge_pointer, ship_id, target_id)
 end
 
+function challenge_:KillShip(ship_id)
+	KillShip(self.challenge_pointer, ship_id)
+end
+
+function challenge_:GetShipsInArea(position, radius)
+	local ship_index = GetShipsInArea(self.challenge_pointer, position.x, position.y, radius)
+	local ships = {}
+	for i,v in ipairs(ship_index) do
+		table.insert(ships, self:GetShipData(v))
+	end
+	return ships;
+end
+
+function challenge_:ClearArea(position, radius)
+	local ships = self:GetShipsInArea(position, radius)
+	for i,v in ipairs(ships) do
+		self:KillShip(v.ship_id)
+	end
+end
+
 function challenge_:Victory()
 	Victory(self.challenge_pointer)
 end

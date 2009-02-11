@@ -88,7 +88,7 @@ AIAction KeyboardAI::Tick(float _timespan, std::vector<Core*>& _allies, std::vec
 		float dotprod = turn_data.turn_factor;
 		action.dtheta_ = ClampTurnDirection(dotprod, 0.4f);
 
-		Vector3f peer_factors = (point_to_face * 2) / Vector3f(Camera::Instance().GetWindowWidth(), Camera::Instance().GetWindowHeight(), 0);
+		Vector3f peer_factors = (point_to_face * 2) / Vector3f(static_cast<float>(Camera::Instance().GetWindowWidth()), static_cast<float>(Camera::Instance().GetWindowHeight()), 0);
 		peer_factors *= 0.8f;
 		Vector3f camera_centre = _self->GetGlobalPosition() + peer_factors * Vector3f(Camera::Instance().GetWidth() / 2.0f, Camera::Instance().GetHeight() / 2.0f, 0);
 		Camera::Instance().SetCentre(camera_centre.x, camera_centre.y, CameraLevel::Human);

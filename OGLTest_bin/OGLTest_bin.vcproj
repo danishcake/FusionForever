@@ -381,11 +381,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\Geometry Wars 1.luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\Geometry Wars 2.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\GeometryWars.luaChallenge"
+					RelativePath=".\Scripts\Geometry Wars 3.luaChallenge"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Geometry Wars 4.luaChallenge"
 					>
 				</File>
 				<File
@@ -397,7 +405,15 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\I lurk.luaChallenge"
+					RelativePath=".\Scripts\I lurk 1.luaChallenge"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\I lurk 2.luaChallenge"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\I lurk 3.luaChallenge"
 					>
 				</File>
 				<File
@@ -635,7 +651,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\GW_D.xmlShip"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\GW_Player.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\GW_PlayerLaser.xmlShip"
 					>
 				</File>
 				<File
@@ -797,7 +821,15 @@
 			Name="Sounds"
 			>
 			<File
-				RelativePath=".\Sounds\ding.wav"
+				RelativePath=".\Sounds\fire1.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\hit1.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\load_challenge.wav"
 				>
 			</File>
 		</Filter>
