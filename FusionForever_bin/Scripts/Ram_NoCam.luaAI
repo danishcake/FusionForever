@@ -1,0 +1,28 @@
+if ship.target.valid == false then
+	ship:PickRandomTarget()
+end
+
+local end_time = ship.time + 10
+local dpos = Vector:new(0, 0)
+
+local spin_direction = false;
+if math.random() > 0.5 then spin_direction = true; end
+
+while ship.time < end_time do
+
+	if ship.target.valid == true then
+		Vector:subtract(ship.position, ship.target.position, dpos)
+		local range = dpos:length()
+		local dp = dpos:normalise()
+		if spin_direction then
+			ship:SetAll(dp.x, dp.y, 1, false)
+		else
+			ship:SetAll(dp.x, dp.y, -1, false)
+		end
+	else
+		ship:PickClosestTarget()
+	end
+	coroutine.yield()
+end
+
+

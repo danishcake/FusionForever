@@ -3,10 +3,6 @@ if ship.target.valid == false then
 end
 
 local end_time = ship.time + 10
-local swerve_time = 0
-local swerve_type = 0
-local swerve_time_max = 0.3
-
 local dpos = Vector:new(0, 0)
 
 local spin_direction = false;
@@ -42,14 +38,16 @@ end
 
 
 while ship.time < end_time do
-	swerve_time = swerve_time - ship.dtime
-	
 	if ship.target.valid == true then
 		Vector:subtract(ship.position, ship.target.position, dpos)
 		local range = dpos:length()
 		local dp = dpos:normalise()
 		
-		ship:SetAll(dp.x, dp.y, 1, false)
+		if spin_direction then
+			ship:SetAll(dp.x, dp.y, 1, false)
+		else
+			ship:SetAll(dp.x, dp.y, -1, false)
+		end
 		update_camera()
 	else
 		ship:PickClosestTarget()

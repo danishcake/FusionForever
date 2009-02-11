@@ -1,12 +1,17 @@
 if ship.target.valid == false then
 	ship:PickClosestTarget()
 end
-if math.random() < 0.75 then
-	ship:PickRandomTarget()
+if ship.time == 0 then
+	if math.random() < 0.75 then
+		ship:PickRandomTarget()
+	end
 end
+coroutine.yield()
 
 
 local end_time = ship.time + 10
+local strafe_change_time = ship.time + 5
+strafe_d = 1
 while ship.time < end_time do
 
     if ship.target.valid == true then
@@ -31,9 +36,13 @@ while ship.time < end_time do
                 ship:SetAll(dp.x, dp.y, turn, firing)
             else
                 --Strafe
-                ship:SetAll(dp.y, -dp.x, turn, firing)
+                ship:SetAll(dp.y * strafe_d, -dp.x * strafe_d, turn, firing)
+				strafe_change_time = ship.time + 5
             end
         end
+		if ship.time > strafe_change_time then
+			strafe_d = strafe_d * -1
+		end
     else
         ship:PickClosestTarget()
     end

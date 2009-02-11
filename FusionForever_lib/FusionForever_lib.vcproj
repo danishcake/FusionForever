@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="OGLTest_lib"
+	Name="FusionForever_lib"
 	ProjectGUID="{808546DA-755E-4123-9867-69BE06547FC5}"
-	RootNamespace="OGLTest"
+	RootNamespace="FusionForever_lib"
 	Keyword="Win32Proj"
 	>
 	<Platforms>

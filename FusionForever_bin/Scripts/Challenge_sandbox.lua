@@ -203,7 +203,7 @@ setmetatable(challenge_, challenge_mt_)
 --Return a table to be the environment
 local env_cage = {
 	io = {}, --Disable all IO calls
-	os = {}, --Disable all OS calls
+	os = {time = os.time}, --Disable all OS calls
 	debug = {}, --Disable all debug
 	require = {}, --Disable requiring packages
 	module = {}, --Disable all module stuff

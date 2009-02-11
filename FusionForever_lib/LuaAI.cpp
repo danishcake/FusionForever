@@ -377,7 +377,7 @@ AIAction LuaAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vecto
 		{
 			std::vector<Core_ptr> enemies_sorted_by_range = _enemies;
 			std::sort(enemies_sorted_by_range.begin(), enemies_sorted_by_range.end(), RelativeRangeSort<Core_ptr, Core_ptr>(_self));
-			target_ = _enemies[0];
+			target_ = enemies_sorted_by_range[0];
 			target_->AddSubscriber(this);
 		} else
 		{
