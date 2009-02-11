@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="OGLTest_bin"
+	Name="FusionForever_bin"
 	ProjectGUID="{9D1BDD7E-EC0F-458A-BD22-0512476A99C7}"
-	RootNamespace="OGLTest_bin"
+	RootNamespace="FusionForever_bin"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -73,7 +73,7 @@
 				ExecutionBucket="6"
 				Optimization="0"
 				WholeProgramOptimization="false"
-				AdditionalIncludeDirectories="&quot;$(PROGRAMFILES)\tinyxml&quot;;&quot;$(PROGRAMFILES)\lua\include&quot;;..\OGLTest_lib;&quot;$(PROGRAMFILES)\CEGUI-SDK-0.6.0\include&quot;;&quot;$(PROGRAMFILES)\SDL-1.2.12\include&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0&quot;"
+				AdditionalIncludeDirectories="&quot;$(PROGRAMFILES)\tinyxml&quot;;&quot;$(PROGRAMFILES)\lua\include&quot;;..\FusionForever_lib;&quot;$(PROGRAMFILES)\CEGUI-SDK-0.6.0\include&quot;;&quot;$(PROGRAMFILES)\SDL-1.2.12\include&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;TIXML_USE_STL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
@@ -98,9 +98,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				ExecutionBucket="10"
-				AdditionalDependencies="lua51.lib OGLTest_lib.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib CEGUIBase_d.lib OpenGLGUIRenderer_d.lib tinyxmld_STL.lib SDL_mixer.lib"
+				AdditionalDependencies="lua51.lib FusionForever_lib.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib CEGUIBase_d.lib OpenGLGUIRenderer_d.lib tinyxmld_STL.lib SDL_mixer.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(PROGRAMFILES)\SDL_mixer-1.2.8\lib&quot;;&quot;$(PROGRAMFILES)\tinyxml\Debug_STL&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0\lib&quot;;&quot;$(PROGRAMFILES)\SDL-1.2.12\lib&quot;;../OGLTest_lib/Debug;&quot;$(PROGRAMFILES)\lua\lib&quot;;&quot;$(PROGRAMFILES)\CEGUI-SDK-0.6.0\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(PROGRAMFILES)\SDL_mixer-1.2.8\lib&quot;;&quot;$(PROGRAMFILES)\tinyxml\Debug_STL&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0\lib&quot;;&quot;$(PROGRAMFILES)\SDL-1.2.12\lib&quot;;../FusionForever_lib/Debug;&quot;$(PROGRAMFILES)\lua\lib&quot;;&quot;$(PROGRAMFILES)\CEGUI-SDK-0.6.0\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				LinkTimeCodeGeneration="0"
@@ -189,7 +189,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="&quot;$(PROGRAMFILES)\tinyxml&quot;;&quot;$(PROGRAMFILES)\lua\include&quot;;..\OGLTest_lib;&quot;$(PROGRAMFILES)\CEGUI-SDK-0.6.0\include&quot;;&quot;$(PROGRAMFILES)\SDL-1.2.12\include&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0&quot;"
+				AdditionalIncludeDirectories="&quot;$(PROGRAMFILES)\tinyxml&quot;;&quot;$(PROGRAMFILES)\lua\include&quot;;..\FusionForever_lib;&quot;$(PROGRAMFILES)\CEGUI-SDK-0.6.0\include&quot;;&quot;$(PROGRAMFILES)\SDL-1.2.12\include&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -208,9 +208,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="lua51.lib OGLTest_lib.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib CEGUIBase.lib OpenGLGUIRenderer.lib tinyxml_STL.lib SDL_mixer.lib"
+				AdditionalDependencies="lua51.lib FusionForever_lib.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib CEGUIBase.lib OpenGLGUIRenderer.lib tinyxml_STL.lib SDL_mixer.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(PROGRAMFILES)\SDL_mixer-1.2.8\lib&quot;;&quot;$(PROGRAMFILES)\tinyxml\Release_STL&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0\lib&quot;;&quot;$(PROGRAMFILES)\SDL-1.2.12\lib&quot;;../OGLTest_lib/Release;&quot;$(PROGRAMFILES)\lua\lib&quot;;&quot;$(PROGRAMFILES)\CEGUI-SDK-0.6.0\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(PROGRAMFILES)\SDL_mixer-1.2.8\lib&quot;;&quot;$(PROGRAMFILES)\tinyxml\Release_STL&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0\lib&quot;;&quot;$(PROGRAMFILES)\SDL-1.2.12\lib&quot;;../FusionForever_lib/Release;&quot;$(PROGRAMFILES)\lua\lib&quot;;&quot;$(PROGRAMFILES)\CEGUI-SDK-0.6.0\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -260,7 +260,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\OGLTest_bin.cpp"
+				RelativePath=".\FusionForeverMain.cpp"
 				>
 			</File>
 			<File
@@ -303,11 +303,11 @@
 					>
 				</File>
 				<File
-					RelativePath="IntroScene.cpp"
+					RelativePath="MenuScene.cpp"
 					>
 				</File>
 				<File
-					RelativePath="MenuScene.cpp"
+					RelativePath=".\TitleScene.cpp"
 					>
 				</File>
 			</Filter>
@@ -349,11 +349,11 @@
 					>
 				</File>
 				<File
-					RelativePath="IntroScene.h"
+					RelativePath="MenuScene.h"
 					>
 				</File>
 				<File
-					RelativePath="MenuScene.h"
+					RelativePath=".\TitleScene.h"
 					>
 				</File>
 			</Filter>
@@ -426,6 +426,10 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\Incoming! 3.luaChallenge"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Intro.luaChallenge"
 					>
 				</File>
 				<File
@@ -627,6 +631,10 @@
 				Name="XMLShips"
 				>
 				<File
+					RelativePath=".\Scripts\BurnerGrawp.xmlShip"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\Cilia.xmlShip"
 					>
 				</File>
@@ -735,6 +743,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\Ram_NoCam.luaAI"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\RotatingAI.luaAI"
 					>
 				</File>
@@ -781,6 +793,18 @@
 			>
 			<File
 				RelativePath=".\Textures\Defeat.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\FusionForever.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\Logo.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\PressAnyKey.texture"
 				>
 			</File>
 			<File

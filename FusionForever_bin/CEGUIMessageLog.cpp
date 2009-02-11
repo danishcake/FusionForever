@@ -61,6 +61,7 @@ CEGUIMessageLog::~CEGUIMessageLog(void)
 		li.time = -1;
 	}
 	//TODO check this doesn't leak
+	//TODO check why this is commented out!
 	//log_items_.erase(std::remove_if(log_items_.begin(), log_items_.end(), isLTEZero(root_)),log_items_.end());
 }
 

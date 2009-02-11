@@ -11,6 +11,7 @@
 
 #include "BaseScene.h"
 #include "MenuScene.h"
+#include "TitleScene.h"
 #include "FadeInScene.h"
 #include "Camera.h"
 #include "Settings.h"
@@ -151,7 +152,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	bool isFinished = false;
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-	SDL_WM_SetCaption("SDL Test", "SDL Test");
+	SDL_WM_SetCaption("Fusion Forever", "Fusion Forever");
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -187,6 +188,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		CEGUI::SchemeManager::getSingleton().loadScheme( "TaharezLook.scheme" );
 		CEGUI::System::getSingleton().setDefaultMouseCursor( "TaharezLook", "MouseArrow" );
+		CEGUI::ImagesetManager::getSingleton().createImagesetFromImageFile("Logo", "Textures/Logo.texture");
+
 	} catch(CEGUI::Exception e)
 	{
 		Logger::ErrorOut() << e.getMessage().c_str() << "\n";
@@ -212,7 +215,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	if(!isFinished)
 	{
-		scene_stack.push_back(BaseScene_ptr(new MenuScene()));
+		scene_stack.push_back(BaseScene_ptr(new TitleScene()));
 		scene_stack.push_back(BaseScene_ptr(new FadeInScene()));
 	}
 

@@ -159,6 +159,46 @@ MenuScene::MenuScene(void)
 	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 	CEGUI::Window* myRoot = wmgr.createWindow( "DefaultWindow", "Menu/Root" );
 
+	//Use a variable to track the menu item position to account for aspect ratio changes
+	float menu_position = 0.025f;
+	CEGUI::DefaultWindow* background_image = static_cast<CEGUI::DefaultWindow*>(wmgr.createWindow("TaharezLook/StaticImage", "Menu/Background"));
+	background_image->setPosition(CEGUI::UVector2(CEGUI::UDim(0.02, 0), CEGUI::UDim(menu_position, 0)));
+	background_image->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), 
+											  CEGUI::UDim(0.075 * Camera::Instance().GetAspectRatio(), 0)));
+	background_image->setProperty("Image", "set:Logo image:full_image");
+	background_image->setProperty("FrameEnabled", "false");
+	menu_position += background_image->getSize().d_y.d_scale + 0.05;
+	myRoot->addChildWindow(background_image);
+	
+
+	CEGUI::PushButton* pBtnStart = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/Start");
+	pBtnStart->setSize( CEGUI::UVector2( CEGUI::UDim( 0.15f, 0 ), CEGUI::UDim( 0.05f, 0 ) ) );
+	pBtnStart->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.02f, 0), CEGUI::UDim( menu_position, 0 ) ) );
+	pBtnStart->setText( "Start Game" );
+	pBtnStart->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::StartChallenge, this));
+	pBtnStart->setEnabled(false);
+	pBtnStart->setTooltipText("Start the selected challenge");
+	menu_position += pBtnStart->getSize().d_y.d_scale + 0.05;
+	myRoot->addChildWindow(pBtnStart);
+
+	CEGUI::PushButton* pBtnEditor = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/Editor");
+	pBtnEditor->setSize( CEGUI::UVector2( CEGUI::UDim( 0.15f, 0 ), CEGUI::UDim( 0.05f, 0 ) ) );
+	pBtnEditor->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.02f, 0), CEGUI::UDim( menu_position, 0 ) ) );
+	pBtnEditor->setText( "Ship Editor" );
+	pBtnEditor->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::StartEditor, this));
+	pBtnEditor->setTooltipText("Create your own ships!");
+	menu_position += pBtnEditor->getSize().d_y.d_scale + 0.05;
+	myRoot->addChildWindow(pBtnEditor);
+
+	CEGUI::PushButton* pBtnSettings = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/SettingsBtn");
+	pBtnSettings->setSize( CEGUI::UVector2( CEGUI::UDim( 0.15f, 0 ), CEGUI::UDim( 0.05f, 0 ) ) );
+	pBtnSettings->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.02f, 0), CEGUI::UDim( menu_position, 0 ) ) );
+	pBtnSettings->setText( "Settings" );
+	pBtnSettings->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::cbSettings, this));
+	pBtnSettings->setTooltipText("Change resolution and other settings");
+	menu_position += pBtnSettings->getSize().d_y.d_scale + 0.05;
+	myRoot->addChildWindow(pBtnSettings);
+
 	CEGUI::PushButton* pBtnQuit = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/Quit");
 	pBtnQuit->setSize( CEGUI::UVector2( CEGUI::UDim( 0.15f , 0 ), CEGUI::UDim( 0.05f, 0 ) ) );
 	pBtnQuit->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.02f, 0), CEGUI::UDim( 0.9f, 0 ) ) );
@@ -167,30 +207,6 @@ MenuScene::MenuScene(void)
 	pBtnQuit->setTooltipText("Are you leaving so soon?");
 	myRoot->addChildWindow(pBtnQuit);
 
-	CEGUI::PushButton* pBtnStart = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/Start");
-	pBtnStart->setSize( CEGUI::UVector2( CEGUI::UDim( 0.15f, 0 ), CEGUI::UDim( 0.05f, 0 ) ) );
-	pBtnStart->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.02f, 0), CEGUI::UDim( 0.05f, 0 ) ) );
-	pBtnStart->setText( "Start Game" );
-	pBtnStart->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::StartChallenge, this));
-	pBtnStart->setEnabled(false);
-	pBtnStart->setTooltipText("Start the selected challenge");
-	myRoot->addChildWindow(pBtnStart);
-
-	CEGUI::PushButton* pBtnEditor = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/Editor");
-	pBtnEditor->setSize( CEGUI::UVector2( CEGUI::UDim( 0.15f, 0 ), CEGUI::UDim( 0.05f, 0 ) ) );
-	pBtnEditor->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.02f, 0), CEGUI::UDim( 0.15f, 0 ) ) );
-	pBtnEditor->setText( "Ship Editor" );
-	pBtnEditor->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::StartEditor, this));
-	pBtnEditor->setTooltipText("Create your own ships!");
-	myRoot->addChildWindow(pBtnEditor);
-
-	CEGUI::PushButton* pBtnSettings = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/SettingsBtn");
-	pBtnSettings->setSize( CEGUI::UVector2( CEGUI::UDim( 0.15f, 0 ), CEGUI::UDim( 0.05f, 0 ) ) );
-	pBtnSettings->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.02f, 0), CEGUI::UDim( 0.25f, 0 ) ) );
-	pBtnSettings->setText( "Settings" );
-	pBtnSettings->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::cbSettings, this));
-	pBtnSettings->setTooltipText("Change resolution and other settings");
-	myRoot->addChildWindow(pBtnSettings);
 
 	CEGUI::Window* pWndChallenges = wmgr.createWindow( "TaharezLook/FrameWindow", "Menu/Levels" );
 	pWndChallenges->setPosition(CEGUI::UVector2(CEGUI::UDim(0.2f, 0),CEGUI::UDim(0.02f,0)));
@@ -223,7 +239,7 @@ MenuScene::MenuScene(void)
 			if(ext == ".luaChallenge")
 			{
 				std::string challenge_name = boost::filesystem::basename(itr->path());
-				if(challenge_name != "EditorTemp")
+				if(challenge_name != "EditorTemp" && challenge_name != "Intro")
 				{
 					CEGUI::ListboxTextItem* lbi = new CEGUI::ListboxTextItem(challenge_name);
 					lbi->setSelectionBrushImage(sel_img);
