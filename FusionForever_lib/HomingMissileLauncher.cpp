@@ -90,6 +90,7 @@ void HomingMissileLauncher::Tick(float _timespan, std::vector<Projectile_ptr>& _
 			fire_projectile(hm, _spawn_prj);
 			cooldown_ = cooldown_time_;
 			PowerTick(-5);
+			
 		}
 	}
 }

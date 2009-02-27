@@ -422,6 +422,10 @@ void Section::AttachChildren(std::vector<Section_ptr> _children)
 /* Decrements health, starts section flashing and reports the damage to the core */
 void Section::TakeDamage(float _damage, int _section_id)
 {
+	static std::string explosions[] = {"Explosion2.wav", "Explosion3.wav", "Explosion4.wav"};
+	if(health_ > 0 && (health_ - _damage) <= 0)
+		SoundManager::Instance().PlaySample(explosions[Random::RandomIndex(3)]);
+
 	health_-=_damage; 
 	damage_flash_timer_ = SECTION_FLASH_TIME;
 	GetRoot()->ReportDamage(_damage);

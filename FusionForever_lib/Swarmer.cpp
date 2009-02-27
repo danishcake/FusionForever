@@ -90,6 +90,7 @@ void Swarmer::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 			fire_projectile(hm, _spawn_prj);
 			cooldown_ = cooldown_time_;
 			PowerTick(-1);
+			SoundManager::Instance().PlaySample("Fire3.wav");
 		}
 	}
 }

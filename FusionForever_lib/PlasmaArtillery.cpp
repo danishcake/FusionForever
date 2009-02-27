@@ -79,6 +79,7 @@ void PlasmaArtillery::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_
 			fire_projectile(plasmabolt, _spawn_prj);
 			cooldown_ = cooldown_time_;
 			PowerTick(-25);
+			SoundManager::Instance().PlaySample("fire2.wav");
 		}
 	}
 }

@@ -46,6 +46,17 @@ protected:
 	 * Beam energy usage/s
 	 */
 	float beam_energy_use_;
+
+	/*
+	 * Sound to play when charging
+	 */
+	std::string charge_up_sound_;
+
+	/*
+	 * Sound to play while firing
+	 */
+	std::string firing_sound_;
+
 public:
    /**
      * Creates a BeamFiringSection.

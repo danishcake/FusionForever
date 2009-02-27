@@ -93,8 +93,8 @@ public:
 	const float GetHealth(){return health_.GetValue();}
 	const float GetMaxHealth(){return health_.GetMaxValue();}
 	void SetMaxHealth(float _max_health);
+
 	void TakeDamage(float _damage, int _section_id);
-	
 	void SetFlashing(){flash_state_ = true; damage_flash_timer_ = 100000.0f;} //Two mechanisms for flashing, damage and this method. Settings flash timer prevent conflict
 	void SetNotFlashing(){flash_state_ = false; damage_flash_timer_ = 0.0f;}
 	void ScaleHealth(float _factor);

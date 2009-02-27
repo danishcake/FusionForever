@@ -4,6 +4,8 @@
 #include "LuaAI.h"
 #include "Decoration.h"
 #include "KeyboardAI.h"
+#include "SoundManager.h"
+
 
 extern "C"
 {
@@ -193,6 +195,7 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 									float lowest_health = a->GetHealth() < b->GetHealth() ? a->GetHealth() : b->GetHealth();
 									a->TakeDamage(lowest_health, b->GetRoot()->GetSectionID());
 									b->TakeDamage(lowest_health, a->GetRoot()->GetSectionID());
+									SoundManager::Instance().PlaySample("Crash1.wav");
 								}
 							}
 						}

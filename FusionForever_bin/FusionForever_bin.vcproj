@@ -625,6 +625,10 @@
 						RelativePath=".\Scripts\SpikeRH.XMLSection"
 						>
 					</File>
+					<File
+						RelativePath=".\Scripts\SuperGeneratorCube.XMLSection"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -720,6 +724,10 @@
 				>
 				<File
 					RelativePath=".\Scripts\AI_BackStabber.luaAI"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\CiliaAI.luaAI"
 					>
 				</File>
 				<File
@@ -845,7 +853,39 @@
 			Name="Sounds"
 			>
 			<File
+				RelativePath=".\Sounds\Crash1.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Explosion1.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Explosion2.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Explosion3.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Explosion4.wav"
+				>
+			</File>
+			<File
 				RelativePath=".\Sounds\fire1.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Fire2.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Fire3.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Fire4.wav"
 				>
 			</File>
 			<File

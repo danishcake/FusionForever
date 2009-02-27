@@ -13,40 +13,42 @@ local end_time = ship.time + 10
 local strafe_change_time = ship.time + 5
 strafe_d = 1
 while ship.time < end_time do
+	if ship.target.valid == true then
+		local range = (ship.target.position - ship.position):length()
+		local dp = (ship.target.position - ship.position):normalise()
+		local firing = range < 1000
+		local turn = 0
+		if ((ship.time /5) % 4) > 1 and ((ship.time /5) % 4) < 2 then
+			turn = 1
+		elseif ((ship.time / 5) % 4) > 3 then
+			turn = -1
+		end
 
-    if ship.target.valid == true then
-        local range = (ship.target.position - ship.position):length()
-        local dp = (ship.target.position - ship.position):normalise()
-        local firing = range < 1000
-        local turn = 0
-        if ((ship.time /5) % 4) > 1 and ((ship.time /5) % 4) < 2 then
-            turn = 1
-        elseif ((ship.time / 5) % 4) > 3 then
-            turn = -1
-        end
-
-        if ship.ship_damage / ship.ship_health_max > 0.6 then
-            ship:ChangeAI("Ram.luaAI")
-        else 
-            if range < 200 then
-                --Back off
-                ship:SetAll(-dp.x, -dp.y, turn, firing)
-            elseif range > 400 then
-                --Advance
-                ship:SetAll(dp.x, dp.y, turn, firing)
-            else
-                --Strafe
-                ship:SetAll(dp.y * strafe_d, -dp.x * strafe_d, turn, firing)
-				strafe_change_time = ship.time + 5
-            end
-        end
-		if ship.time > strafe_change_time then
+		if ship.ship_damage / ship.ship_health_max > 0.6 then
+			ship:ChangeAI("Ram.luaAI")
+		else 
+			if range < 200 then
+				--Back off
+				ship:SetAll(-dp.x, -dp.y, turn, firing)
+			elseif range > 400 then
+				--Advance
+				ship:SetAll(dp.x, dp.y, turn, firing)
+			else
+				--Strafe
+				ship:SetAll(dp.y * strafe_d, -dp.x * strafe_d, turn, firing)
+			end
+		end
+	else
+		ship:PickClosestTarget()
+	end
+	if ship.time > strafe_change_time then
+		if math.random() > 0.5 then
 			strafe_d = strafe_d * -1
 		end
-    else
-        ship:PickClosestTarget()
-    end
-    coroutine.yield()
+		strafe_change_time = ship.time + 5
+	end
+	
+	coroutine.yield()
 end
 
 

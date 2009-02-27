@@ -1,6 +1,17 @@
 <?xml version="1.0" ?>
 <Section x="0" y="0" Angle="-0.122405499" Health="1800" Delay="0" SectionType="SquareCore" angle="0">
-    <Section x="0" y="0" Angle="0" SectionType="DriveUnit"/>
+  <Section x="0" y="0" Angle="0" SectionType="SuperGeneratorCube"/>
+  <Section x="0" y="0" Angle="0" SectionType="SuperGeneratorCube"/>
+  <Section x="0" y="0" Angle="0" SectionType="SuperGeneratorCube"/>
+  <Section x="0" y="0" Angle="0" SectionType="SuperGeneratorCube"/>
+  <Section x="0" y="0" Angle="0" SectionType="SuperGeneratorCube"/>
+  <Section x="0" y="0" Angle="0" SectionType="SuperGeneratorCube"/>
+  <Section x="0" y="0" Angle="0" SectionType="SuperGeneratorCube"/>
+  <Section x="0" y="0" Angle="0" SectionType="SuperGeneratorCube"/>
+  <Section x="0" y="0" Angle="0" SectionType="SuperGeneratorCube"/>
+  <Section x="0" y="0" Angle="0" SectionType="SuperGeneratorCube"/>
+  <Section x="0" y="0" Angle="0" SectionType="SuperGeneratorCube"/>
+  <Section x="0" y="0" Angle="0" SectionType="DriveUnit"/>
     <Section x="0" y="10" Angle="0" Health="800" Delay="0" SectionType="TrackerArm" TurnRate="10" AngleRange="30" OnlyWhenFiring="0">
         <Section x="0" y="12.5" Angle="0" Health="1200" Delay="0" SectionType="LongRigidArm">
             <Section x="0" y="17.5" Angle="0" Health="800" Delay="0" SectionType="TrackerArm" TurnRate="10" AngleRange="30" OnlyWhenFiring="0">

@@ -14,6 +14,8 @@ BeamFiringSection::BeamFiringSection(void)
 	beam_deco_spawn_ = 0;
 	beam_charge_.SetPosition(Vector3f(0, 4.0f, 0));
 	beam_energy_use_ = 5;
+	charge_up_sound_ = "";
+	firing_sound_ = "";
 }
 
 BeamFiringSection::~BeamFiringSection(void)
@@ -29,6 +31,9 @@ void BeamFiringSection::Tick(float _timespan, std::vector<Projectile_ptr>& _spaw
 	if(firing_&& PowerRequirement(10))
 	{		
 		beam_sum_time_ += _timespan;
+		if(!ltv_firing_ && charge_up_sound_.length() != 0)
+			SoundManager::Instance().PlaySample(charge_up_sound_);
+
 		if(beam_sum_time_ < beam_charge_time_)
 		{
 			beam_charge_.SetScale(beam_sum_time_ / beam_charge_time_);

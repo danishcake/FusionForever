@@ -5,24 +5,21 @@ if math.random() < 0.75 then
 	ship:PickRandomTarget()
 end
 
-local end_time = ship.time + 0.5
+local end_time = ship.time + 5
 while ship.time < end_time do
 	if ship.target.valid == true then
 		local range = (ship.target.position - ship.position):length()
 		local dp = (ship.target.position - ship.position):normalise()
-		local firing = range < 1000
-
-		if range < 200 then
-			--Back off
-			ship:SetAll(-dp.x, -dp.y, 0, firing)
-		elseif range > 400 then
+		--local firing = range < 1000
+		if range > 200 then
 			--Advance
-			ship:SetAll(dp.x, dp.y, 0, firing)
+			ship:SetAll(dp.x, dp.y, 0, true)
 		else
 			--Strafe
-			ship:SetAll(dp.y, -dp.x, 0, firing)
+			ship:SetAll(dp.y, -dp.x, 0, true)
 		end
 		ship:PickClosestTarget()
+	end
 	coroutine.yield()
 end
 

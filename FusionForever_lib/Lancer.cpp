@@ -30,6 +30,7 @@ Lancer::Lancer(void)
 	beam_cooldown_time_ = 0.05f;
 	beam_fire_time_ = 0.1f;
 	beam_energy_use_ = 8;
+	charge_up_sound_ = "Fire4.wav";
 }
 
 Lancer::~Lancer(void)
