@@ -445,11 +445,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\Right Tool For The Job.luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\SurviveTheFeud.luaChallenge"
 					>
 				</File>
 				<File
 					RelativePath=".\Scripts\The Available Resources.luaChallenge"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Wrong Tool for the Job.luaChallenge"
 					>
 				</File>
 			</Filter>
@@ -519,6 +527,10 @@
 					</File>
 					<File
 						RelativePath=".\Scripts\DriveUnit.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\EnergyStorageLarge.XMLSection"
 						>
 					</File>
 					<File
@@ -699,6 +711,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\MrFlak.xmlShip"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\Protoship.xmlShip"
 					>
 				</File>
@@ -708,6 +724,10 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\Razorsaw.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\SpaceStation.xmlShip"
 					>
 				</File>
 				<File
@@ -760,6 +780,10 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\SimpleAI.luaAI"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\SpaceStationAI.luaAI"
 					>
 				</File>
 			</Filter>

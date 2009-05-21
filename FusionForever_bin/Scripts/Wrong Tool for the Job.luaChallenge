@@ -1,0 +1,23 @@
+playerLives = coroutine.wrap(function()
+	player_id = challenge:SpawnShip("MrFlak", 0, Vector:new(200, 0), 0, "KeyboardAI", 1)
+	challenge:WaitForDeath(player_id)
+	challenge:WaitFor(1)
+
+	challenge:Defeat()
+end)
+
+enemySpawn = coroutine.wrap(function()
+	challenge:WaitFor(1)
+	challenge:SpawnShip("JuggernautA", 1, Vector:new(0, 500), 0, "SimpleAI.luaAI", 2)
+	
+	challenge:WaitForAllEnemiesDead(0)
+	challenge:WaitFor(1)
+	
+	challenge:Victory()
+end)
+
+while true do
+	playerLives()
+	enemySpawn()
+	coroutine.yield()
+end

@@ -195,6 +195,7 @@ local env_cage = {
 	string = string,
 	print = print,
 	ship = ship_,
+	ipairs = ipairs,
 }
 
 local env_mt = {__index = env_cage}

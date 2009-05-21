@@ -1,0 +1,127 @@
+playerLives = coroutine.wrap(function()
+	player_id = challenge:SpawnShip("MrFlak", 0, Vector:new(200, 0), 0, "KeyboardAI", 1)
+	challenge:WaitForDeath(player_id)
+	challenge:WaitFor(1)
+
+	challenge:Defeat()
+end)
+
+spacestation = coroutine.wrap(function()
+	space_station_id = challenge:SpawnShip("SpaceStation", 0, Vector:new(0, 0), 0, "SpaceStationAI.luaAI", 1)
+	challenge:WaitForDeath(space_station_id)
+	challenge:WaitFor(1)
+
+	challenge:Defeat()
+end)
+
+
+spawnBunch = function(ship_type, quantity, delay, position, max_radius)
+	local v3 = Vector:new(0,0)
+	local random_pos = Vector:new(0, 0);
+	
+	for i = 1, quantity do
+		local angle = math.random(0, 360)
+		local radius = max_radius * math.random()
+		local ship_data = challenge:GetShipData(player_id)
+		random_pos.x = math.cos(math.rad(angle)) * radius
+		random_pos.y = math.sin(math.rad(angle)) * radius
+
+		Vector:add(ship_data.position, position, v3)
+		Vector:add(v3, random_pos, v3)
+		
+		local ship_id = challenge:SpawnShip(ship_type, 1, v3, 0, "GW_A.luaAI", 2)
+		challenge:SetShipTarget(ship_id, space_station_id)
+		challenge:WaitFor(delay)
+	end
+end
+
+allAround = function(type, delay, count, positions)
+	local bunches = {}
+	for i, v in ipairs(positions) do
+		local spawn = coroutine.create(spawnBunch)	
+		coroutine.resume(spawn, type, count, delay, v, 100)
+		table.insert(bunches, spawn)
+	end
+	
+	while true do
+		local dead_count = 0
+		for i, v in ipairs(bunches) do
+			if coroutine.status(v) ~= "dead" then
+				coroutine.resume(v)
+			else
+				dead_count = dead_count + 1
+			end
+			if dead_count == #bunches then
+				return
+			else
+				challenge:WaitFor(delay)
+			end	
+		end
+	end
+end
+
+enemySpawn = coroutine.wrap(function()
+	challenge:WaitFor(1)
+
+	
+
+	spawnBunch("GW_B", 30, 0.04, Vector:new(1000, 0), 100)
+	challenge:WaitFor(3)
+	spawnBunch("GW_B", 30, 0.04, Vector:new(-1000, 0), 100)
+	challenge:WaitFor(3)
+	challenge:WaitForAllEnemiesDead(0)
+
+	allAround("GW_A", 0.04, 20, {Vector:new(-1000, 0), Vector:new(1000, 0)})
+	challenge:WaitForAllEnemiesDead(0)	
+	
+	
+	allAround("GW_A", 0.04, 30, {Vector:new(-1000, 0), Vector:new(1000, 0)})
+	challenge:WaitFor(4)
+	
+	allAround("GW_A", 0.04, 40, {Vector:new(-1000, 0), Vector:new(1000, 0)})
+	challenge:WaitFor(4)
+
+	allAround("GW_A", 0.04, 60, {Vector:new(-1000, 0), Vector:new(1000, 0)})
+	challenge:WaitFor(4)
+
+	challenge:WaitForAllEnemiesDead(0)
+		
+	allAround("GW_A", 0.04, 30, {Vector:new(-1000, 0), Vector:new(1000, 0), Vector:new(0, -1000)})
+	challenge:WaitFor(5)
+	
+	allAround("GW_A", 0.04, 30, {Vector:new(-1000, 0), Vector:new(1000, 0), Vector:new(0, 1000)})
+	challenge:WaitFor(5)
+	
+	allAround("GW_A", 0.04, 30, {Vector:new(-1000, 0), Vector:new(0, -1000), Vector:new(0, 1000)})
+	challenge:WaitFor(5)
+	
+	allAround("GW_A", 0.04, 30, {Vector:new(1000, -1000), Vector:new(1000, 0), Vector:new(0, 1000)})
+	challenge:WaitFor(5)
+	
+	challenge:WaitForAllEnemiesDead(0)
+	
+	allAround("GW_A", 0.04, 100, {Vector:new(1000, 0), Vector:new(2000, -200), Vector:new(3000, 200)})
+	challenge:WaitFor(5)
+	
+	
+	challenge:WaitForAllEnemiesDead(0)
+	
+	challenge:WaitFor(1)
+	challenge:Victory()
+end)
+
+challenge:DisplayMessage("Right Tool for the Right Job", 2);
+challenge:DisplayMessage("by Edward Woolhouse", 2);
+challenge:WaitFor(1.5)
+challenge:DisplayMessage("Sometimes the right tool", 2);
+challenge:WaitFor(0.5)
+challenge:DisplayMessage("will make the job.", 2);
+challenge:WaitFor(1.5)
+challenge:DisplayMessage("Protect the space station!", 2);
+
+while true do
+	playerLives()
+	spacestation()
+	enemySpawn()
+	coroutine.yield()
+end

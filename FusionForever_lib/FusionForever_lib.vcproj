@@ -246,6 +246,10 @@
 				Name="Projectiles"
 				>
 				<File
+					RelativePath=".\Flak.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\HomingMissile.cpp"
 					>
 				</File>
@@ -254,7 +258,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MiniBolt.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\PlasmaBolt.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PlasmaRound.cpp"
 					>
 				</File>
 				<File
@@ -329,11 +341,23 @@
 						>
 					</File>
 					<File
+						RelativePath=".\Deterer.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\FiringSection.cpp"
 						>
 					</File>
 					<File
+						RelativePath=".\FlakCannon.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\HeatBeamGun.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\HeavyChainGun.cpp"
 						>
 					</File>
 					<File
@@ -584,6 +608,10 @@
 				Name="Projectiles"
 				>
 				<File
+					RelativePath=".\Flak.h"
+					>
+				</File>
+				<File
 					RelativePath=".\HomingMissile.h"
 					>
 				</File>
@@ -592,7 +620,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MiniBolt.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PlasmaBolt.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PlasmaRound.h"
 					>
 				</File>
 				<File
@@ -667,11 +703,23 @@
 						>
 					</File>
 					<File
+						RelativePath=".\Deterer.h"
+						>
+					</File>
+					<File
 						RelativePath=".\FiringSection.h"
 						>
 					</File>
 					<File
+						RelativePath=".\FlakCannon.h"
+						>
+					</File>
+					<File
 						RelativePath=".\HeatBeamGun.h"
+						>
+					</File>
+					<File
+						RelativePath=".\HeavyChainGun.h"
 						>
 					</File>
 					<File

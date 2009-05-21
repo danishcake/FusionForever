@@ -223,6 +223,7 @@ local env_cage = {
 	print = print,
 	error = error,
 	challenge = challenge_,
+	ipairs = ipairs,
 }
 
 local env_mt = {__index = env_cage}

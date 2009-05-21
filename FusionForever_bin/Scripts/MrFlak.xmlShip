@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<Section x="0" y="0" Angle="-0.0953683555" Health="9000" Delay="0.300000012" SectionType="GiantCore" angle="0">
+    <Section x="-15" y="15" Angle="0" Health="1500" Delay="0" SectionType="FlakCannon" />
+    <Section x="15" y="15" Angle="0" Health="1500" Delay="0" SectionType="FlakCannon" />
+    <Section x="-10" y="0" Angle="0" Health="1500" Delay="0.5" SectionType="FlakCannon" />
+    <Section x="10" y="0" Angle="0" Health="1500" Delay="0.5" SectionType="FlakCannon" />
+    <Section x="0" y="15" Angle="0" Health="1500" Delay="0.25" SectionType="FlakCannon" />
+    <Section x="5" y="-15" Angle="0" Health="1500" Delay="0.300000012" SectionType="FlakCannon" />
+    <Section x="-5" y="-15" Angle="0" Health="1500" Delay="0" SectionType="FlakCannon" />
+    <Section x="20" y="-10" Angle="-45" Health="700" Delay="0" SectionType="SweptWingRH">
+        <Section x="0" y="0" Angle="60" Health="1200" Delay="0" SectionType="LongRigidArm">
+            <Section x="0" y="17.5" Angle="-30" Health="1200" Delay="0" SectionType="LongRigidArm">
+                <Section x="0" y="17.5" Angle="15" Health="1500" Delay="0" SectionType="FlakCannon" />
+            </Section>
+        </Section>
+        <Section x="10" y="-20" Angle="45" Health="1500" Delay="0" SectionType="FlakCannon" />
+        <Section x="5" y="-10" Angle="45" Health="1500" Delay="0" SectionType="FlakCannon" />
+    </Section>
+    <Section x="-20" y="-10" Angle="45" Health="700" Delay="0" SectionType="SweptWingLH">
+        <Section x="0" y="0" Angle="-60" Health="1200" Delay="0" SectionType="LongRigidArm">
+            <Section x="0" y="17.5" Angle="30" Health="1200" Delay="0" SectionType="LongRigidArm">
+                <Section x="0" y="17.5" Angle="-15" Health="1500" Delay="0" SectionType="FlakCannon" />
+            </Section>
+        </Section>
+        <Section x="-10" y="-20" Angle="-45" Health="1500" Delay="0" SectionType="FlakCannon" />
+        <Section x="-5" y="-10" Angle="-45" Health="1500" Delay="0" SectionType="FlakCannon" />
+    </Section>
+    <Section x="7.5" y="10" Angle="0" Health="1800" Delay="0" SectionType="ProngRH">
+        <Section x="-2.5" y="15" Angle="0" Health="1500" Delay="0" SectionType="FlakCannon" />
+    </Section>
+    <Section x="-7.5" y="10" Angle="0" Health="1800" Delay="0" SectionType="ProngLH">
+        <Section x="2.5" y="15" Angle="0" Health="1500" Delay="0" SectionType="FlakCannon" />
+    </Section>
+    <Section x="-15" y="-15" Angle="0" Health="300" Delay="0" SectionType="EnergyStorageSmall">
+        <Section x="0" y="-15" Angle="0" Health="300" Delay="0" SectionType="GeneratorCube" />
+        <Section x="0" y="-5" Angle="0" Health="200" Delay="0" SectionType="EnergyStorageLarge" />
+    </Section>
+    <Section x="15" y="-15" Angle="0" Health="300" Delay="0" SectionType="EnergyStorageSmall">
+        <Section x="0" y="-15" Angle="0" Health="300" Delay="0" SectionType="GeneratorCube" />
+        <Section x="0" y="-5" Angle="0" Health="200" Delay="0" SectionType="EnergyStorageLarge" />
+    </Section>
+    <Section x="0" y="-22.5" Angle="0" Health="1500" Delay="0" SectionType="DriveUnit">
+        <Section x="5" y="-5" Angle="0" Health="200" Delay="0" SectionType="EnergyStorageLarge" />
+        <Section x="-5" y="-5" Angle="0" Health="200" Delay="0" SectionType="EnergyStorageLarge" />
+    </Section>
+</Section>

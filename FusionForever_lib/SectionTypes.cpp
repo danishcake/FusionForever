@@ -14,7 +14,9 @@
 #include "JointTracker.h"
 #include "Lancer.h"
 #include "Burner.h"
-
+#include "Deterer.h"
+#include "FlakCannon.h"
+#include "HeavyChainGun.h"
 
 namespace SectionTypes
 {
@@ -63,6 +65,9 @@ namespace SectionTypes
 	Section_ptr CreateTrackerArmInstance(){return new TrackerArm();}
 	Section_ptr CreateLancerInstance(){return new Lancer();}
 	Section_ptr CreateBurnerInstance(){return new Burner();}
+  	Section_ptr CreateDetererInstance(){return new Deterer();}
+	Section_ptr CreateFlakCannonInstance(){return new FlakCannon();}
+	Section_ptr CreateHeavyChainGunInstance(){return new HeavyChainGun();}
 
 	void RegisterSections()
 	{
@@ -78,5 +83,8 @@ namespace SectionTypes
 		SectionTypes::RegisterSectionType(CreateTrackerArmInstance, "TrackerArm");
 		SectionTypes::RegisterSectionType(CreateLancerInstance, "Lancer");
 		SectionTypes::RegisterSectionType(CreateBurnerInstance, "Burner");
+		SectionTypes::RegisterSectionType(CreateDetererInstance, "Deterer");
+		SectionTypes::RegisterSectionType(CreateFlakCannonInstance, "FlakCannon");
+		SectionTypes::RegisterSectionType(CreateHeavyChainGunInstance, "HeavyChainGun");
 	}
 }

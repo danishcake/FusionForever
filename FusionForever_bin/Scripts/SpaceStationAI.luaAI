@@ -1,0 +1,31 @@
+if ship.target.valid == false or math.random() < 0.2 then
+	ship:PickRandomTarget()
+end
+
+ship:WaitFor(1)
+local starting_position = Vector:new(ship.position.x, ship.position.y)
+local starting_angle = ship.angle
+
+local d = Vector:new(0, 0)
+while true do
+	Vector.subtract(starting_position, ship.position, d)
+	if d:lengthSqr() > 100 then
+		ship:SetMoveDirection(-d.x, -d.y)
+	end
+	if ship.angle < starting_angle - 10 then
+		ship:SetTurnDirection(-1)
+	end
+	if ship.angle > starting_angle + 10 then
+		ship:SetTurnDirection(1)
+	end
+	ship:SetFiring(true)
+	
+	if ship.target.valid == false then
+		ship:PickRandomTarget()
+	end
+	
+	coroutine.yield()
+end
+
+
+

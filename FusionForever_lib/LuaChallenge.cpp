@@ -256,7 +256,6 @@ int LuaChallenge::l_SetShipTarget(lua_State* _luaVM)
 	if(core && target)
 	{
 		core->GetAI()->SpecifyTarget(target);
-		Logger::DiagnosticOut() << "Making " << ship_id_core << " target " << ship_id_target << "\n";
 	}
 	if(!core)
 		Logger::ErrorOut() << "Unable to find target with ID" << ship_id_target << "\n";

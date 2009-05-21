@@ -81,8 +81,9 @@ mineSpawn = coroutine.wrap(function()
 	challenge:WaitFor(3)
 	
 	spawnMines(4, mineSpawnDie)
+	mineSpawnCount = 4
 	challenge:WaitFor(3)
-	mineSpawnCount = 6
+	mineSpawnCount = mineSpawnCount + 2
 	spawnMinesBehind(2, mineSpawnDie)
 	WaitForMinesDead()
 	
