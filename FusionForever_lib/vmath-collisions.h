@@ -309,11 +309,7 @@ public:
          out = P2;
       else
          out = P1 + beta * L;
-      if((beta >=0.0f) && (beta <=1.0f) &&
-         (DistanceSqr(out, c) < radius * radius))
-         return true;
-      else
-         return false;
+      return DistanceSqr(out, c) < radius * radius;
    }
 
    /**
@@ -335,11 +331,7 @@ public:
          out = P2;
       else
          out = P1 + L * beta;
-      if((beta >=0.0f) && (beta <=1.0f) &&
-         (DistanceSqr(out, c) < radius * radius))
-         return true;
-      else
-         return false;
+      return DistanceSqr(out, c) < radius * radius;
    }
 
 
@@ -351,6 +343,7 @@ public:
    * @param radius The radius of the circle
    * @param out The point of closest approach
    */
+   //TODO fix
    static bool LineInCircle(const Vector2<T> P1, const Vector2<T> P2, const Vector2<T> c, const T radius, Vector2<T>& out)
    {
       Vector2<T> L = P2 - P1;
@@ -360,7 +353,7 @@ public:
       else if (beta >1)
          out = P2;
       else
-         out = P1 + beta * L;
+         out = P1 + L * beta;
       if((beta >=0.0f) && (beta <=1.0f) &&
          (DistanceSqr(out, c) < radius * radius))
          return true;
@@ -376,6 +369,7 @@ public:
    * @param radius The radius of the circle
    * @param out The point of closest approach
    */
+   //TODO fix
    static bool LineInCircle(const Vector3<T> P1, const Vector3<T> P2, const Vector3<T> c, const T radius, Vector3<T>& out)
    {
       Vector3<T> L = P2 - P1;
@@ -385,7 +379,7 @@ public:
       else if (beta >1)
          out = P2;
       else
-         out = P1 + beta * L;
+         out = P1 + L * beta;
       if((beta >=0.0f) && (beta <=1.0f) &&
          (DistanceSqr(out, c) < radius * radius))
          return true;

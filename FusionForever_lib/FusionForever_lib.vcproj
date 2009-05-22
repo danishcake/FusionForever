@@ -250,6 +250,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\HomingBomb.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\HomingMissile.cpp"
 					>
 				</File>
@@ -370,6 +374,10 @@
 					</File>
 					<File
 						RelativePath=".\PlasmaArtillery.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\SmartBomber.cpp"
 						>
 					</File>
 					<File
@@ -612,6 +620,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\HomingBomb.h"
+					>
+				</File>
+				<File
 					RelativePath=".\HomingMissile.h"
 					>
 				</File>
@@ -732,6 +744,10 @@
 					</File>
 					<File
 						RelativePath=".\PlasmaArtillery.h"
+						>
+					</File>
+					<File
+						RelativePath=".\SmartBomber.h"
 						>
 					</File>
 					<File

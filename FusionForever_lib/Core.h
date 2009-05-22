@@ -34,6 +34,10 @@ protected:
 	 */
 	float total_damage_;
 	/*
+	 * The total damage done to shields
+	 */
+	float total_shield_damage_;
+	/*
 	 * The loss of thrust factor - increases with damage but decays to zero over 1 second
 	 */
 	float loss_of_thrust_factor_;
@@ -101,7 +105,7 @@ public:
 	/*
 	 * Reports damage taken by a subsection
 	 */
-	void ReportDamage(float _damage);
+	void ReportDamage(float _damage, float _shield_damage);
 	/*
 	 * Gets the total health of the ship
 	 */

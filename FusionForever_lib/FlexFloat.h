@@ -304,5 +304,12 @@ public:
 	 {
 		 return GetValue() > _n;
 	 }
+	 /*
+	  * EQ
+	  */
+	 bool operator==(float _n)
+	 {
+		 return GetValue() == _n;
+	 }
 
 };

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SectionDefinition> 
+	<Outline> M 5,0 L 2.5,17.5 L 0,20 L -2.5,17.5 L -5,0 L -2.5,-2.5 L 2.5,-2.5 L 5,0 z </Outline>
+	<Health> 800 </Health>
+	<SubSectionPosition x = "0" y = "17.5"/>
+	<Mass> 400 </Mass>
+</SectionDefinition>

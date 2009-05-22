@@ -1,16 +1,16 @@
 #include "StdAfx.h"
-#include "HomingMissileLauncher.h"
-#include "HomingMissile.h"
+#include "SmartBomber.h"
 #include "Core.h"
+#include "HomingBomb.h"
 
 //Initialise all static class members
-bool HomingMissileLauncher::initialised_ = false;
-int HomingMissileLauncher::outline_dl_ = 0;
-int HomingMissileLauncher::outline_verts_index_ = 0;
-int HomingMissileLauncher::fill_dl_ = 0;
-int HomingMissileLauncher::fill_verts_index_ = 0;
+bool SmartBomber::initialised_ = false;
+int SmartBomber::outline_dl_ = 0;
+int SmartBomber::outline_verts_index_ = 0;
+int SmartBomber::fill_dl_ = 0;
+int SmartBomber::fill_verts_index_ = 0;
 
-HomingMissileLauncher::HomingMissileLauncher(void)
+SmartBomber::SmartBomber(void)
 : FiringSection()
 {
 	if(!initialised_)
@@ -25,17 +25,17 @@ HomingMissileLauncher::HomingMissileLauncher(void)
 	fill_.SetDisplayList(fill_dl_);
 	findRadius();
 
-	health_ = FlexFloat(1000, 1000);
-	cooldown_time_ = 0.9f;
+	health_ = FlexFloat(400, 400);
+	cooldown_time_ = 3.0f;
 	default_sub_section_position_ = Vector3f(0, 0, 0);
-	mass_ = 300;
+	mass_ = 400;
 }
 
-HomingMissileLauncher::~HomingMissileLauncher(void)
+SmartBomber::~SmartBomber(void)
 {
 }
 
-void HomingMissileLauncher::InitialiseGraphics(void)
+void SmartBomber::InitialiseGraphics(void)
 {
 	boost::shared_ptr<std::vector<Vector3f>> temp_outline = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 
@@ -66,13 +66,13 @@ void HomingMissileLauncher::InitialiseGraphics(void)
 	fill_dl_ = Filled::CreateFillDisplayList(temp_fill);
 }
 
-void HomingMissileLauncher::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager)
+void SmartBomber::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager)
 {
 	Section::Tick(_timespan, _spawn_prj, _spawn_dec, _transform, _enemies, _collision_manager);
 	cooldown_ -= _timespan;
 	if(firing_)
 	{
-		if(cooldown_ <= 0.0f && PowerRequirement(25))
+		if(cooldown_ <= 0.0f && PowerRequirement(35))
 		{
 			BaseEntity* target = NULL;
 			Core* core_target = root_->GetTarget();
@@ -85,17 +85,17 @@ void HomingMissileLauncher::Tick(float _timespan, std::vector<Projectile_ptr>& _
 				int index = Random::RandomIndex(static_cast<int>(_enemies.size()));
 				target = _enemies[index];
 			}
-			HomingMissile* hm = new HomingMissile(Vector3f(0, 5, 0), target, fill_.GetFillColor());
+			HomingBomb* bomb = new HomingBomb(Vector3f(0, 3, 0), target);
 
-			fire_projectile(hm, _spawn_prj);
+			fire_projectile(bomb, _spawn_prj);
 			cooldown_ = cooldown_time_;
-			PowerTick(-5);
+			PowerTick(25);
 		}
 	}
 }
 
-void HomingMissileLauncher::ToXML(TiXmlElement* _node)
+void SmartBomber::ToXML(TiXmlElement* _node)
 {
 	Section::ToXML(_node);
-	_node->SetAttribute("SectionType", "HomingMissileLauncher");
+	_node->SetAttribute("SectionType", "SmartBomber");
 }

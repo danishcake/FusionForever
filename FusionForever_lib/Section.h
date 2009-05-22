@@ -45,9 +45,20 @@ protected:
 	bool transformed_fill_verts_valid_;
 	bool transformed_outline_verts_valid_;
 	Outlined outline_;
+	Outlined shield_outline_;
 
 	std::vector<Section_ptr> sub_sections_;
 	FlexFloat health_;
+
+	bool has_shield_;
+	FlexFloat shield_;
+	FlexFloat shield_shock_time_; //After damage only recharge after this long of no damage
+	FlexFloat shield_down_time_;  //After total shield destruction restore to 20% after this time
+	FlexFloat shield_recharge_rate_; //Recharge rate
+	FlexFloat shield_recharge_cost_; //Energy per shield
+	FlexFloat shield_radius_;
+	float time_since_damage_;
+
 
 	bool firing_;
 	bool ltv_firing_;
@@ -87,6 +98,7 @@ public:
 	void RayCollisionFilter(Vector3f P1, Vector3f P2, std::vector<Section_ptr>& _valid_sections, float& _min_distance, float& _max_distance);
 	void SetColor(GLColor _color);
 	virtual void Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager);
+	void CollectShields(std::vector<Section_ptr>& _shields);
 	virtual void GetDeathSpawn(std::vector<Decoration_ptr>& _spawn_dec);
 
 	//Getters/Setters
@@ -106,6 +118,10 @@ public:
 	bool IsCore(){return root_ == NULL;}
 	Core_ptr GetRoot();
 	Section_ptr GetParent(){return parent_;}
+
+	bool HasShield(){return has_shield_;}
+	float GetShieldRadius(){return shield_radius_.GetValue();}
+	float GetShieldHealth(){return shield_.GetValue();}
 
 	//Predicates
 	static bool IsRemovable(Section_ptr section)

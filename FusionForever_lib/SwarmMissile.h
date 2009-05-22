@@ -14,6 +14,6 @@ protected:
 public:
 	SwarmMissile(Vector3f _position, BaseEntity* _target);
 	virtual ~SwarmMissile(void);
-	virtual void Hit(std::vector<Decoration_ptr>& _spawn);
+	virtual void Hit(std::vector<Decoration_ptr>& _spawn, std::vector<Projectile_ptr>& _projectile_spawn);
 	virtual void Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform);
 };

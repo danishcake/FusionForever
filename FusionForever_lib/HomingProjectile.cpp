@@ -25,14 +25,14 @@ void HomingProjectile::Tick(float _timespan, std::vector<Decoration_ptr>& _spawn
 	float turn_rate = 0;
 	if(target_ != NULL)
 	{//Turn to face target
-		Vector3f target_position = target_->GetGlobalPosition() -= this->position_;
+		Vector3f target_position = target_->GetGlobalPosition() - this->position_;
 		TurnData turn_data = GetTurnDirection(this->angle_, target_position);
 		turn_rate = turn_data.turn_factor;
 	}
 
 	turn_rate += 0.5f * sinf(wave_sum_);
 
-	angle_ += turn_rate * _timespan * turn_rate_;
+	angle_ += turn_rate * _timespan * turn_rate_; //TODO check!
 	velocity_  = Vector3f(scalar_speed_ * sin(angle_ * M_PI / 180.0f), scalar_speed_ * cos(angle_ * M_PI / 180.0f),0);
 	Projectile::Tick(_timespan, _spawn_dec, _transform);
 }

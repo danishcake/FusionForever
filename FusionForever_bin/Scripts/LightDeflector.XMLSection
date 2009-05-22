@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SectionDefinition> 
+	<Outline> M -2.5,2.5 L 2.5,2.5 L 2.5,-2.5 L -2.5,-2.5 L -2.5,2.5 z </Outline>
+	<Health> 50 </Health>
+	<SubSectionPosition x = "0" y = "0"/>
+	<Mass> 100 </Mass>
+	<PowerGeneration> 0 </PowerGeneration>
+	<Shield>
+		<Health>50</Health>
+		<ShockTime>0.5</ShockTime>
+		<DownTime>2.5</DownTime>
+		<RechargeRate>500</RechargeRate>
+		<RechargeCost>1</RechargeCost>
+		<Radius>30</Radius>
+	</Shield>
+</SectionDefinition>

@@ -369,6 +369,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\Broadsided.luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\BulkFight.luaChallenge"
 					>
 				</File>
@@ -642,10 +646,82 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="Unsorted"
+					>
+					<File
+						RelativePath=".\Scripts\CenterPiece.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\Circle.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\Clamp.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\FlareArm.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\LargeSpire.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\SpikeArmLH.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\SpikeArmRH.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\Spire.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\TripleAdaptor.XMLSection"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Shields"
+					>
+					<File
+						RelativePath=".\Scripts\HeavyDeflector.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\HeavyShieldCube.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\LightDeflector.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\MilitaryShieldCube.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\ShieldCube.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\SuperShieldCube.XMLSection"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="XMLShips"
 				>
+				<File
+					RelativePath=".\Scripts\Broadside.xmlShip"
+					>
+				</File>
 				<File
 					RelativePath=".\Scripts\BurnerGrawp.xmlShip"
 					>
@@ -712,6 +788,10 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\MrFlak.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\NewTech.xmlShip"
 					>
 				</File>
 				<File

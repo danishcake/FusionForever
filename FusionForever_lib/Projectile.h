@@ -25,7 +25,7 @@ public:
 
 	void DrawSelf();
 	virtual void Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec,  Matrix4f _transform);
-	virtual void Hit(std::vector<Decoration_ptr>& _spawn) = 0;
+	virtual void Hit(std::vector<Decoration_ptr>& _deco_spawn, std::vector<Projectile_ptr>& _projectile_spawn) = 0;
 	
 	float GetDamage(){return damage_;}
 	float GetLifetime(){return lifetime_;}

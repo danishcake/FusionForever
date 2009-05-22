@@ -8,6 +8,8 @@ struct XMLFilledOutlinedData
 	int outline_verts_index;
 	int fill_dl;
 	int fill_verts_index;
+	int shield_outline_dl;
+	int shield_outline_verts_index;
 
 	float default_health;
 	
@@ -15,6 +17,20 @@ struct XMLFilledOutlinedData
 	float energy_storage;
 	float power_generation;
 	float thrust;
+
+	bool has_shield;
+	float shield_health;
+	float shield_shocktime;
+	float shield_downtime;
+	float shield_recharge_rate;
+	float shield_recharge_cost;
+	float shield_radius;
+
+
+
+
+
+
 
 	Vector3f default_subsection_position;
 	Vector3f size;

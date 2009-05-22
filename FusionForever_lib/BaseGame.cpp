@@ -129,23 +129,64 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 	const Matrix4f identity = Matrix4f();
 	std::vector<Projectile_ptr> projectile_spawn;
 	projectile_spawn.reserve(50);
+	std::vector<std::vector<Section_ptr>> shields(MAX_FORCES, std::vector<Section_ptr>(8));
+
 	for(int force = 0; force < MAX_FORCES; force++)
 	{
 		projectile_spawn.clear();
+		shields[force].clear();
 		BOOST_FOREACH(Core_ptr core, ships_[force])
 		{
 			core->Tick(_timespan, projectile_spawn, decoration_spawn, identity, friends[force], enemies[force], &collision_managers_[force]);
+			core->CollectShields(shields[force]);
 		}
 		//Add spawned projectiles
 		projectiles_[force].insert(projectiles_[force].end(), projectile_spawn.begin(), projectile_spawn.end());
 	}
 
-	//Tick and collide projectiles
+	//Tick projectiles
 	for(int force = 0; force < MAX_FORCES; force++)
 	{
 		BOOST_FOREACH(Projectile_ptr projectile, projectiles_[force])
 		{
 			projectile->Tick(_timespan, decoration_spawn, identity);
+		}
+	}
+
+	//Collide projectiles with shields
+	for(int force = 0; force < MAX_FORCES; force++)
+	{
+		projectile_spawn.clear();
+		for(int other_force = 0; other_force < MAX_FORCES; other_force++)
+		{
+			if(force != other_force && hostility_[force][other_force] == Hostility::Hostile)
+			{
+				BOOST_FOREACH(Section_ptr shield, shields[other_force])
+				{
+					BOOST_FOREACH(Projectile_ptr projectile, projectiles_[force])
+					{
+						if(Collisions2f::CirclesIntersect(projectile->GetPosition(), projectile->GetRadius(), shield->GetGlobalPosition(), shield->GetShieldRadius()) &&
+							shield->GetShieldHealth() > 0)
+						{
+							shield->TakeDamage(projectile->GetDamage(), shield->GetRoot()->GetSectionID());
+							projectile->SetLifetime(0);
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		projectiles_[force].insert(projectiles_[force].end(), projectile_spawn.begin(), projectile_spawn.end());
+	}
+
+
+	//Collide projectiles with ships
+	for(int force = 0; force < MAX_FORCES; force++)
+	{
+		projectile_spawn.clear();
+		BOOST_FOREACH(Projectile_ptr projectile, projectiles_[force])
+		{
 			//Collect up all local enemies to test collisions against
 			for(int other_force = 0; other_force < MAX_FORCES; other_force++)
 			{
@@ -156,16 +197,17 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 					std::sort(filtered.begin(),filtered.end(), RelativeRangeSort<Projectile_ptr, Section_ptr>(projectile));
 					BOOST_FOREACH(Section_ptr section, filtered)
 					{
-						if(section->CheckCollisions(projectile)) 
+						if(section->CheckCollisions(projectile))
 							break; //Checks the collisions and does damage
 					}
 				}
 			}
 			if(projectile->GetLifetime()<=0)
 			{
-				projectile->Hit(decoration_spawn);
+				projectile->Hit(decoration_spawn, projectile_spawn);
 			}
 		}
+		projectiles_[force].insert(projectiles_[force].end(), projectile_spawn.begin(), projectile_spawn.end());
 	}
 
 	//Ship-ship collisions

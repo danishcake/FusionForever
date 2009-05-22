@@ -17,6 +17,7 @@
 #include "Deterer.h"
 #include "FlakCannon.h"
 #include "HeavyChainGun.h"
+#include "SmartBomber.h"
 
 namespace SectionTypes
 {
@@ -65,9 +66,10 @@ namespace SectionTypes
 	Section_ptr CreateTrackerArmInstance(){return new TrackerArm();}
 	Section_ptr CreateLancerInstance(){return new Lancer();}
 	Section_ptr CreateBurnerInstance(){return new Burner();}
-  	Section_ptr CreateDetererInstance(){return new Deterer();}
+	Section_ptr CreateDetererInstance(){return new Deterer();}
 	Section_ptr CreateFlakCannonInstance(){return new FlakCannon();}
 	Section_ptr CreateHeavyChainGunInstance(){return new HeavyChainGun();}
+	Section_ptr CreateSmartBomberInstance(){return new SmartBomber();}
 
 	void RegisterSections()
 	{
@@ -86,5 +88,6 @@ namespace SectionTypes
 		SectionTypes::RegisterSectionType(CreateDetererInstance, "Deterer");
 		SectionTypes::RegisterSectionType(CreateFlakCannonInstance, "FlakCannon");
 		SectionTypes::RegisterSectionType(CreateHeavyChainGunInstance, "HeavyChainGun");
+		SectionTypes::RegisterSectionType(CreateSmartBomberInstance, "SmartBomber");
 	}
 }

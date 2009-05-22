@@ -18,6 +18,13 @@ Section::Section(void)
 : BaseEntity()
 {
 	health_ = FlexFloat(800, 800);
+	shield_ = FlexFloat(0, 0);
+	has_shield_ = false;
+	shield_shock_time_ = FlexFloat(3, 3);
+	shield_down_time_ = FlexFloat(10, 10);
+	shield_recharge_rate_ = FlexFloat(1, 1);
+	shield_recharge_cost_ = FlexFloat(1, 1);
+	shield_radius_ = FlexFloat(0, 0);
 	energy_ = FlexFloat(10,10);
 	power_generation_= FlexFloat(0);
 	thrust_ = FlexFloat(0);
@@ -37,6 +44,7 @@ Section::Section(void)
 	first_tick_ = true;
 	mass_ = 100;
 	moment_ = 100;
+	time_since_damage_ = 1000; //Not yet taken damage, arbitary large #
 }
 
 Section::~Section(void)
@@ -67,6 +75,10 @@ void Section::DrawSelf(void)
 	glLoadMatrixf(ltv_transform_);
 	fill_.DrawFillDisplayList();
 	outline_.DrawOutlinedDisplayList();
+	if(has_shield_ && shield_ > 0)
+	{
+		shield_outline_.DrawOutlinedDisplayList();
+	}
 	//Draw children
 	BOOST_FOREACH(Section_ptr section, sub_sections_)
 	{
@@ -92,8 +104,6 @@ void Section::DrawEditorSupport(float _grid_size, Section_ptr _selected)
 
 	if(_selected == this)
 	{
-		
-
 		glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
 	}
 
@@ -204,6 +214,7 @@ void Section::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 
 	sub_sections_.erase(std::remove_if(sub_sections_.begin(), sub_sections_.end(),
 		                Section::IsRemovable), sub_sections_.end());
+	time_since_damage_ += _timespan;
 	damage_flash_timer_ -= _timespan;
 	flash_timer_ += _timespan;
 	if(damage_flash_timer_ > 0)
@@ -221,6 +232,20 @@ void Section::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 		outline_.SetOutlineColor(outline_color_base_.GetFaded(0));
 	else
 		outline_.SetOutlineColor(outline_color_base_);
+
+	if(has_shield_)
+	{
+		if(shield_.GetValue() > 0 && time_since_damage_ > shield_shock_time_.GetValue() &&
+			PowerRequirement((shield_recharge_cost_ * shield_recharge_rate_ * _timespan * 5).GetValue()))
+		{
+			shield_ += shield_recharge_rate_ * _timespan;
+			PowerTick(-(shield_recharge_cost_ * shield_recharge_rate_ * _timespan).GetValue());
+		}
+		if(shield_.GetValue() == 0 && time_since_damage_ > shield_down_time_.GetValue())
+		{
+			shield_ = shield_.GetMaxValue() * 0.2f;
+		}
+	}
 }
 
 bool Section::CheckCollisions(Projectile_ptr _projectile)
@@ -260,15 +285,20 @@ bool Section::CheckCollisions(Projectile_ptr _projectile)
 void Section::RayCollisionFilter(Vector3f P1, Vector3f P2, std::vector<Section_ptr>& _valid_sections, float& _min_distance, float& _max_distance)
 {
 	bool hasCollided = false;
+	float effective_radius;
+	if(has_shield_ && shield_ > 0)
+		effective_radius = shield_radius_.GetValue();
+	else
+		effective_radius = radius_;
 
-	if(Collisions2f::LineInCircle(P1, P2, ltv_position_, radius_))
+	if(Collisions2f::LineInCircle(P1, P2, ltv_position_, effective_radius))
 	{
 		_valid_sections.push_back(this);
 		float distance = Collisions2f::Distance(ltv_position_, P1);
-		if(distance - radius_ < _min_distance)
-			_min_distance = distance - radius_;
-		if(distance + radius_ > _max_distance)
-			_max_distance = distance + radius_;
+		if(distance - effective_radius < _min_distance)
+			_min_distance = distance - effective_radius;
+		if(distance + effective_radius > _max_distance)
+			_max_distance = distance + effective_radius;
 
 	}
 	BOOST_FOREACH(Section_ptr section, sub_sections_)
@@ -350,14 +380,25 @@ bool Section::CheckCollisions(const Vector3f _lineP1, const Vector3f _lineP2, Ve
 		transformed_outline_verts_valid_ = true;
 	}
 
-	Vector3f collision_point;
-	Vector3f* first_point = &transformed_outline_verts_[0];
-	int num_points = static_cast<int>(outline_.GetOutlineVerts()->size());
-
-	if(Collisions2f::LineInPolygon(_lineP1, _lineP2, first_point, num_points, collision_point))
+	if(has_shield_ && shield_ > 0)
 	{
-		_collision_point = collision_point;
-		return true;
+		Vector3f collision_point;
+		if(Collisions2f::LineInCircle(_lineP1, _lineP2, ltv_position_, shield_radius_.GetValue(), collision_point))
+		{
+			_collision_point = collision_point;
+			return true;
+		}
+	} else
+	{
+		Vector3f collision_point;
+		Vector3f* first_point = &transformed_outline_verts_[0];
+		int num_points = static_cast<int>(outline_.GetOutlineVerts()->size());
+
+		if(Collisions2f::LineInPolygon(_lineP1, _lineP2, first_point, num_points, collision_point))
+		{
+			_collision_point = collision_point;
+			return true;
+		}
 	}
 	return false;
 }
@@ -422,13 +463,20 @@ void Section::AttachChildren(std::vector<Section_ptr> _children)
 /* Decrements health, starts section flashing and reports the damage to the core */
 void Section::TakeDamage(float _damage, int _section_id)
 {
-	static std::string explosions[] = {"Explosion2.wav", "Explosion3.wav", "Explosion4.wav"};
-	if(health_ > 0 && (health_ - _damage) <= 0)
-		SoundManager::Instance().PlaySample(explosions[Random::RandomIndex(3)]);
-
-	health_-=_damage; 
-	damage_flash_timer_ = SECTION_FLASH_TIME;
-	GetRoot()->ReportDamage(_damage);
+	float remainder = _damage;
+	if(has_shield_ && shield_ > 0)
+	{
+		remainder -= shield_.GetValue();
+		shield_ -= _damage;		
+		GetRoot()->ReportDamage(0, _damage);
+	} else
+	{
+		health_-=_damage;
+		damage_flash_timer_ = SECTION_FLASH_TIME;
+		GetRoot()->ReportDamage(_damage, 0);
+	}
+	
+	time_since_damage_ = 0;
 }
 
 /* Adjusts the Cores maximum health, changed max health of section */
@@ -523,4 +571,14 @@ void Section::GetProperties(std::vector<Property*>& _properties )
 bool Section::ParseSpecific(TiXmlElement* _node)
 {
 	return true;
+}
+
+void Section::CollectShields(std::vector<Section_ptr>& _shields)
+{
+	if(has_shield_)
+		_shields.push_back(this);
+	BOOST_FOREACH(Section_ptr child, sub_sections_)
+	{
+		child->CollectShields(_shields);
+	}
 }

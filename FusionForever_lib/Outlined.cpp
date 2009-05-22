@@ -4,6 +4,7 @@
 Outlined::Outlined(void)
 {
 	outline_color_ = GLColor(255,255,255);
+	outline_display_list_ = -1;
 }
 
 Outlined::~Outlined(void)
@@ -25,7 +26,8 @@ void Outlined::DrawOutline(void)
 void Outlined::DrawOutlinedDisplayList(void)
 {
 	glColor4ub(outline_color_.r, outline_color_.g, outline_color_.b, outline_color_.a);
-	glCallList(outline_display_list_);
+	if(outline_display_list_ != -1)
+		glCallList(outline_display_list_);
 }
 
 int Outlined::CreateOutlinedDisplayList(boost::shared_ptr<std::vector<Vector3f>> _verts)

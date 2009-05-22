@@ -47,7 +47,7 @@ void PlasmaBolt::InitialiseGraphics()
 	fill_dl_ = Filled::CreateFillDisplayList(temp_fill);
 }
 
-void PlasmaBolt::Hit(std::vector<Decoration_ptr>& _spawn)
+void PlasmaBolt::Hit(std::vector<Decoration_ptr>& _spawn, std::vector<Projectile_ptr>& _projectile_spawn)
 {
 	for(int i = 0; i < 25; i++)
 	{

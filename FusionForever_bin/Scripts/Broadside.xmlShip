@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+<Section x="0" y="0" Angle="-0.712727189" Health="1800" Delay="0" SectionType="SquareCore" angle="0">
+    <Section x="7.5" y="0" Angle="90" Health="1200" Delay="0" SectionType="LongRigidArm">
+        <Section x="0" y="17.5" Angle="0" Health="1200" Delay="0" SectionType="LongRigidArm">
+            <Section x="0" y="17.5" Angle="0" Health="1200" Delay="0" SectionType="LongRigidArm">
+                <Section x="0" y="17.5" Angle="0" Health="1200" Delay="0" SectionType="LongRigidArm">
+                    <Section x="0" y="17.5" Angle="0" Health="1200" Delay="0" SectionType="LongRigidArm">
+                        <Section x="0" y="17.5" Angle="0" Health="1200" Delay="0" SectionType="LongRigidArm">
+                            <Section x="0" y="17.5" Angle="0" Health="1200" Delay="0" SectionType="LongRigidArm">
+                                <Section x="0" y="17.5" Angle="0" Health="1200" Delay="0" SectionType="LongRigidArm">
+                                    <Section x="0" y="17.5" Angle="0" Health="1200" Delay="0" SectionType="LongRigidArm">
+                                        <Section x="0" y="17.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                                        <Section x="0" y="17.5" Angle="-90" Health="400" Delay="0.800000012" SectionType="SmartBomber" />
+                                    </Section>
+                                    <Section x="0" y="17.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                                    <Section x="0" y="17.5" Angle="-90" Health="400" Delay="0.699999988" SectionType="SmartBomber" />
+                                </Section>
+                                <Section x="0" y="17.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                                <Section x="0" y="17.5" Angle="-90" Health="400" Delay="0.600000024" SectionType="SmartBomber" />
+                            </Section>
+                            <Section x="0" y="17.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                            <Section x="0" y="17.5" Angle="-90" Health="400" Delay="0.5" SectionType="SmartBomber" />
+                        </Section>
+                        <Section x="0" y="17.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                        <Section x="0" y="17.5" Angle="-90" Health="400" Delay="0.400000006" SectionType="SmartBomber" />
+                    </Section>
+                    <Section x="0" y="17.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                    <Section x="0" y="17.5" Angle="-90" Health="400" Delay="0.300000012" SectionType="SmartBomber" />
+                </Section>
+                <Section x="0" y="17.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                <Section x="0" y="17.5" Angle="-90" Health="400" Delay="0.200000003" SectionType="SmartBomber" />
+            </Section>
+            <Section x="0" y="17.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+            <Section x="0" y="17.5" Angle="-90" Health="400" Delay="0.100000001" SectionType="SmartBomber" />
+        </Section>
+        <Section x="0" y="17.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+        <Section x="0" y="17.5" Angle="-90" Health="400" Delay="0" SectionType="SmartBomber" />
+    </Section>
+    <Section x="-7.5" y="0" Angle="-90" Health="1200" Delay="0" SectionType="LongRigidArm">
+        <Section x="0" y="17.5" Angle="0" Health="1200" Delay="0" SectionType="LongRigidArm">
+            <Section x="0" y="17.5" Angle="0" Health="1200" Delay="0" SectionType="LongRigidArm">
+                <Section x="0" y="17.5" Angle="0" Health="1200" Delay="0" SectionType="LongRigidArm">
+                    <Section x="0" y="17.5" Angle="0" Health="1200" Delay="0" SectionType="LongRigidArm">
+                        <Section x="0" y="17.5" Angle="0" Health="1200" Delay="0" SectionType="LongRigidArm">
+                            <Section x="0" y="17.5" Angle="0" Health="1200" Delay="0" SectionType="LongRigidArm">
+                                <Section x="0" y="17.5" Angle="0" Health="1200" Delay="0" SectionType="LongRigidArm">
+                                    <Section x="0" y="17.5" Angle="0" Health="1200" Delay="0" SectionType="LongRigidArm">
+                                        <Section x="0" y="17.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                                        <Section x="0" y="17.5" Angle="90" Health="400" Delay="0.800000012" SectionType="SmartBomber" />
+                                    </Section>
+                                    <Section x="0" y="17.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                                    <Section x="0" y="17.5" Angle="90" Health="400" Delay="0.699999988" SectionType="SmartBomber" />
+                                </Section>
+                                <Section x="0" y="17.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                                <Section x="0" y="17.5" Angle="90" Health="400" Delay="0.600000024" SectionType="SmartBomber" />
+                            </Section>
+                            <Section x="0" y="17.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                            <Section x="0" y="17.5" Angle="90" Health="400" Delay="0.5" SectionType="SmartBomber" />
+                        </Section>
+                        <Section x="0" y="17.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                        <Section x="0" y="17.5" Angle="90" Health="400" Delay="0.400000006" SectionType="SmartBomber" />
+                    </Section>
+                    <Section x="0" y="17.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                    <Section x="0" y="17.5" Angle="90" Health="400" Delay="0.300000012" SectionType="SmartBomber" />
+                </Section>
+                <Section x="0" y="17.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                <Section x="0" y="17.5" Angle="90" Health="400" Delay="0.200000003" SectionType="SmartBomber" />
+            </Section>
+            <Section x="0" y="17.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+            <Section x="0" y="17.5" Angle="90" Health="400" Delay="0.100000001" SectionType="SmartBomber" />
+        </Section>
+        <Section x="0" y="17.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+        <Section x="0" y="17.5" Angle="90" Health="400" Delay="0" SectionType="SmartBomber" />
+    </Section>
+    <Section x="0" y="20" Angle="0" Health="1400" Delay="0" SectionType="OctoSection">
+        <Section x="0" y="10" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+        <Section x="-5" y="-5" Angle="0" Health="50" Delay="0" SectionType="HeavyShieldCube" />
+        <Section x="5" y="-5" Angle="0" Health="50" Delay="0" SectionType="HeavyShieldCube" />
+    </Section>
+    <Section x="-15" y="2.5" Angle="0" Health="1800" Delay="0" SectionType="ProngLH">
+        <Section x="2.5" y="15" Angle="0" Health="1500" Delay="0" SectionType="FlakCannon" />
+    </Section>
+    <Section x="15" y="2.5" Angle="0" Health="1800" Delay="0" SectionType="ProngRH">
+        <Section x="-2.5" y="15" Angle="0" Health="1500" Delay="0" SectionType="FlakCannon" />
+    </Section>
+    <Section x="0" y="-10" Angle="-180" Health="800" Delay="0" SectionType="Clamp" />
+    <Section x="15" y="-15" Angle="0" Health="1500" Delay="0" SectionType="DriveUnit" />
+    <Section x="-15" y="-15" Angle="0" Health="1500" Delay="0" SectionType="DriveUnit" />
+</Section>

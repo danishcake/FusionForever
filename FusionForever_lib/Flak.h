@@ -12,5 +12,5 @@ protected:
 public:
 	Flak(Vector3f _position);
 	virtual ~Flak(void);
-	virtual void Hit(std::vector<Decoration_ptr>& _spawn);
+	virtual void Hit(std::vector<Decoration_ptr>& _spawn, std::vector<Projectile_ptr>& _projectile_spawn);
 };

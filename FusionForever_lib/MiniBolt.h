@@ -12,5 +12,5 @@ protected:
 public:
 	MiniBolt(Vector3f _position);
 	virtual ~MiniBolt(void);
-	virtual void Hit(std::vector<Decoration_ptr>& _spawn);
+	virtual void Hit(std::vector<Decoration_ptr>& _spawn, std::vector<Projectile_ptr>& _projectile_spawn);
 };

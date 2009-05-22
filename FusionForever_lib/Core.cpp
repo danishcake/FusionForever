@@ -39,6 +39,7 @@ Core::Core(BaseAI* _AI)
 	target_ = NULL;
 	death_function_reference_ = 0;
 	total_damage_ = 0;
+	total_shield_damage_ = 0;
 	total_health_ = health_.GetMaxValue();
 	loss_of_thrust_factor_ = 0;
 	last_damage_time_;
@@ -282,7 +283,7 @@ void Core::EndSubscription(Subscriber* _source)
 		target_ = NULL;
 }
 
-void Core::ReportDamage(float _damage)
+void Core::ReportDamage(float _damage, float _shield_damage)
 {
 	total_damage_ += _damage;
 	last_damage_time_ = 0;
