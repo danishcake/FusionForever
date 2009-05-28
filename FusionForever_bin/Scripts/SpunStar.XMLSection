@@ -4,4 +4,7 @@
 	<Health> 1500 </Health>
 	<Thrust> 2 </Thrust>
 	<Mass> 600 </Mass>
+  <Categories>
+    <Category>Medium</Category>
+  </Categories>
 </SectionDefinition>

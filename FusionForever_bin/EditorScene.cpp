@@ -11,7 +11,6 @@
 #include "XMLCore.h"
 #include "XMLSection.h"
 #include "Property.h"
-#include "RotatingAI.h"
 
 #include "SectionTypes.h"
 
@@ -171,7 +170,7 @@ bool EditorScene::cbLoadDialogueLoad(const CEGUI::EventArgs& e)
 		Core_ptr loaded_core = Core::CreateCore(filename);
 		if(loaded_core)
 		{
-			loaded_core->OverrideAI(new RotatingAI(0));
+			//loaded_core->OverrideAI(LuaAI::FromScript("EditorAI.luaAI", this->game_->challenge_->luaAIcache_));
 			game_->LoadCore(loaded_core);
 			SetSelected(loaded_core);
 			filename_ = filename;
@@ -238,7 +237,7 @@ bool EditorScene::cbSetCoreToXMLCore(const CEGUI::EventArgs& e)
 		Core_ptr core = XMLCore::CreateXMLCore(we.window->getText().c_str());
 		if(core != NULL)
 		{
-			core->OverrideAI(new RotatingAI(0));
+			//core->OverrideAI(LuaAI::FromScript("EditorAI.luaAI", this->game_->GetLuaVM()));
 			game_->SetCore(core);
 			SetSelected(static_cast<Section_ptr>(this->game_->GetCore()));
 		} else
@@ -560,32 +559,28 @@ EditorScene::EditorScene(void)
 	}
 	pPalette->addTab(pTabWeapons);
 
-	CEGUI::DefaultWindow* pTabXML = (CEGUI::DefaultWindow*)wmgr.createWindow("TaharezLook/TabContentPane");
-	pTabXML->setProperty("EnableBottom","1");
-	pTabXML->setText("XML Sections");
-	CEGUI::ScrollablePane* pTabXMLPane = (CEGUI::ScrollablePane*)wmgr.createWindow("TaharezLook/ScrollablePane");
-	pTabXMLPane->setSize(CEGUI::UVector2( CEGUI::UDim( 1, 0),    CEGUI::UDim( 1, 0 ) ) );
-	pTabXML->addChildWindow(pTabXMLPane);
+	LoadXMLSections();
+	std::pair<std::string, std::vector<std::string> > pair;
+	BOOST_FOREACH(pair, categories_)
 	{
-		float width = 2;
+		CEGUI::DefaultWindow* pTabXML = (CEGUI::DefaultWindow*)wmgr.createWindow("TaharezLook/TabContentPane");
+		pTabXML->setProperty("EnableBottom","1");
+		pTabXML->setText(pair.first.c_str());
+		CEGUI::ScrollablePane* pTabXMLPane = (CEGUI::ScrollablePane*)wmgr.createWindow("TaharezLook/ScrollablePane");
+		pTabXMLPane->setSize(CEGUI::UVector2( CEGUI::UDim( 1, 0),    CEGUI::UDim( 1, 0 ) ) );
+		pTabXML->addChildWindow(pTabXMLPane);
+		
+		float width = 4;
 		float height = 1;
-		boost::filesystem::directory_iterator end_itr;
-		for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/Sections");
-			itr != end_itr;
-			++itr)
+
+		BOOST_FOREACH(std::string xml_section, pair.second)
 		{
-			if(boost::filesystem::is_regular((itr->status())))
-			{
-				std::string ext = boost::filesystem::extension(*itr);
-				if(ext == ".XMLSection")
-				{
-					std::string filename = boost::filesystem::basename(itr->path());
-					AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), filename.c_str(), static_cast<CEGUI::Window*>(pTabXMLPane), width, height);
-				}
-			}
+			AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), xml_section.c_str(), static_cast<CEGUI::Window*>(pTabXMLPane), width, height);
 		}
+
+		pPalette->addTab(pTabXML);
 	}
-	pPalette->addTab(pTabXML);
+
 	myRoot->addChildWindow(pPalette);
 
 
@@ -709,7 +704,6 @@ void EditorScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 		return_time_ = sum_time_ + (FadeOutScene::FOTime + FadeInScene::FITime ) + 0.05f;
 		waiting_for_return_ = true;
 	}
-
 }
 
 
@@ -839,4 +833,29 @@ bool EditorScene::cbEnumeratedPropertyChanged(const CEGUI::EventArgs& e)
 	const CEGUI::Combobox* cb = static_cast<const CEGUI::Combobox*>(we.window);
 	prop->SetEnumerationValue((int)cb->getSelectedItem()->getUserData());	
 	return true;
+}
+
+
+void EditorScene::LoadXMLSections()
+{
+	boost::filesystem::directory_iterator end_itr;
+	for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/Sections");
+		itr != end_itr;
+		++itr)
+	{
+		if(boost::filesystem::is_regular((itr->status())))
+		{
+			std::string ext = boost::filesystem::extension(*itr);
+			if(ext == ".XMLSection")
+			{
+				std::string filename = boost::filesystem::basename(itr->path());
+				std::vector<std::string> categories = XMLSection::GetCategories(filename);
+				BOOST_FOREACH(std::string category, categories)
+				{
+					categories_[category].push_back(filename);
+				}
+				categories_["All"].push_back(filename);
+			}
+		}
+	}
 }

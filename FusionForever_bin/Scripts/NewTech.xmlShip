@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<Section x="0" y="0" Angle="13.2511692" Health="9000" Delay="0" SectionType="GiantCore" angle="0">
+<Section x="0" y="0" Angle="2.18287611" Health="9000" Delay="0" SectionType="GiantCore" angle="0">
     <Section x="10" y="15" Angle="0" Health="1800" Delay="0" SectionType="ProngRH">
         <Section x="-2.5" y="15" Angle="0" Health="750" Delay="0" SectionType="HeavyChainGun" />
     </Section>
@@ -10,11 +10,13 @@
         <Section x="2.5" y="15" Angle="0" Health="800" Delay="0" SectionType="TrackerArm" TurnRate="90" AngleRange="30" OnlyWhenFiring="0">
             <Section x="0" y="0" Angle="0" Health="1500" Delay="0" SectionType="FlakCannon" />
         </Section>
+        <Section x="-2.5" y="2.5" Angle="-75" Health="300" Delay="0" SectionType="GeneratorSpike" />
     </Section>
     <Section x="-10" y="-15" Angle="-180" Health="1800" Delay="0" SectionType="ProngRH">
         <Section x="-2.5" y="15" Angle="0" Health="800" Delay="0" SectionType="TrackerArm" TurnRate="90" AngleRange="30" OnlyWhenFiring="0">
             <Section x="0" y="0" Angle="0" Health="1500" Delay="0" SectionType="FlakCannon" />
         </Section>
+        <Section x="2.5" y="2.5" Angle="75" Health="300" Delay="0" SectionType="GeneratorSpike" />
     </Section>
     <Section x="-15" y="0" Angle="-90" Health="1600" Delay="0" SectionType="WidePlate" />
     <Section x="15" y="0" Angle="90" Health="1600" Delay="0" SectionType="WidePlate" />
@@ -33,6 +35,7 @@
                 </Section>
             </Section>
         </Section>
+        <Section x="-2.5" y="7.5" Angle="-75" Health="300" Delay="0" SectionType="GeneratorSpike" />
     </Section>
     <Section x="-15" y="10" Angle="-105" Health="1800" Delay="0" SectionType="ProngRH">
         <Section x="-2.5" y="15" Angle="105" Health="1500" Delay="0" SectionType="FlakCannon" />
@@ -49,9 +52,14 @@
                 </Section>
             </Section>
         </Section>
+        <Section x="2.5" y="7.5" Angle="75" Health="300" Delay="0" SectionType="GeneratorSpike" />
     </Section>
     <Section x="-2.5" y="20" Angle="0" Health="400" Delay="0" SectionType="SmartBomber" />
     <Section x="2.5" y="20" Angle="0" Health="400" Delay="0" SectionType="SmartBomber" />
     <Section x="-17.5" y="-12.5" Angle="0" Health="1500" Delay="0" SectionType="Deterer" />
     <Section x="17.5" y="-12.5" Angle="0" Health="1500" Delay="0" SectionType="Deterer" />
+    <Section x="22.5" y="-2.5" Angle="0" Health="300" Delay="0" SectionType="GeneratorCube" />
+    <Section x="-22.5" y="0" Angle="0" Health="300" Delay="0" SectionType="GeneratorCube" />
+    <Section x="-2.5" y="-20" Angle="-180" Health="300" Delay="0" SectionType="GeneratorSpike" />
+    <Section x="2.5" y="-20" Angle="-180" Health="300" Delay="0" SectionType="GeneratorSpike" />
 </Section>

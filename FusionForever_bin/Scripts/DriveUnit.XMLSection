@@ -5,4 +5,8 @@
 	<Mass> 400 </Mass>
 	<Thrust> 85 </Thrust>
 	<PowerGeneration> 5 </PowerGeneration>
+  <Categories>
+    <Category>Medium</Category>
+    <Category>Thruster</Category>
+  </Categories>
 </SectionDefinition>

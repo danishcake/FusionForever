@@ -5,4 +5,8 @@
 	<SubSectionPosition x = "0" y = "0"/>
 	<Mass> 100 </Mass>
   <PowerGeneration> 250 </PowerGeneration>
+  <Categories>
+    <Category>Small</Category>
+    <Category>Generator</Category>
+  </Categories>
 </SectionDefinition>

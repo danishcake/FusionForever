@@ -7,7 +7,7 @@ playerLives = coroutine.wrap(function()
 end)
 
 spacestation = coroutine.wrap(function()
-	space_station_id = challenge:SpawnShip("SpaceStation", 0, Vector:new(0, 0), 0, "SpaceStationAI.luaAI", 1)
+	space_station_id = challenge:SpawnShip("SpaceStation", 0, Vector:new(0, 0), 0, "SpaceStationAI.luaAI", 0.5)
 	challenge:WaitForDeath(space_station_id)
 	challenge:WaitFor(1)
 
@@ -29,7 +29,7 @@ spawnBunch = function(ship_type, quantity, delay, position, max_radius)
 		Vector:add(ship_data.position, position, v3)
 		Vector:add(v3, random_pos, v3)
 		
-		local ship_id = challenge:SpawnShip(ship_type, 1, v3, 0, "GW_A.luaAI", 2)
+		local ship_id = challenge:SpawnShip(ship_type, 1, v3, 0, "GW_A.luaAI", 9)
 		challenge:SetShipTarget(ship_id, space_station_id)
 		challenge:WaitFor(delay)
 	end

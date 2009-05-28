@@ -12,5 +12,9 @@
 		<RechargeRate>500</RechargeRate>
 		<RechargeCost>2</RechargeCost>
 		<Radius>35</Radius>
-	</Shield>
+  </Shield>
+  <Categories>
+    <Category>Small</Category>
+    <Category>Shield</Category>
+  </Categories>
 </SectionDefinition>

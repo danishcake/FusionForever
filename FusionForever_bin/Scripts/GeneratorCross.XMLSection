@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SectionDefinition> 
-	<Outline> M 2.5,0 L 0,10 L -2.5,0 L 2.5,0 z </Outline>
+  <Outline> M 2,-2 L 6,-2 L 8,0 L 6,2 L 2,2 L 2,6 L 0,8 L -2,6 L -2,2 L -6,2 L -8,0 L -6,-2 L -2,-2 L -2,-6 L 0,-8 L 2,-6 L 2,-2 z </Outline>
 	<Health> 300 </Health>
 	<SubSectionPosition x = "0" y = "10"/>
 	<Mass> 100 </Mass>
-  <PowerGeneration> 10 </PowerGeneration>
+  <PowerGeneration> 50 </PowerGeneration>
   <Categories>
     <Category>Small</Category>
     <Category>Generator</Category>

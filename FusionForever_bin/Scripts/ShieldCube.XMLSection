@@ -13,4 +13,8 @@
 		<RechargeCost>0.1</RechargeCost>
 		<Radius>50</Radius>
 	</Shield>
+  <Categories>
+    <Category>Small</Category>
+    <Category>Shield</Category>
+  </Categories>
 </SectionDefinition>

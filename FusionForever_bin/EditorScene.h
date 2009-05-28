@@ -76,4 +76,7 @@ protected:
 	EditorDragMode::Enum drag_mode_;
 
 	std::string filename_;
+
+	std::map<std::string, std::vector<std::string> > categories_;
+	void LoadXMLSections();
 };

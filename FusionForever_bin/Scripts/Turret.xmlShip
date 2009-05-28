@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<Section x="0" y="0" Angle="-0.441943079" Health="1800" Delay="0" SectionType="SquareCore" angle="0">
+    <Section x="10" y="10" Angle="45" Health="800" Delay="0" SectionType="JointTracker">
+        <Section x="0" y="0" Angle="0" Health="750" Delay="0" SectionType="HeavyChainGun">
+            <Section x="0" y="10" Angle="0" Health="50" Delay="0" SectionType="LightDeflector" />
+        </Section>
+    </Section>
+    <Section x="-10" y="10" Angle="-45" Health="800" Delay="0" SectionType="JointTracker">
+        <Section x="0" y="0" Angle="0" Health="750" Delay="0" SectionType="HeavyChainGun">
+            <Section x="0" y="10" Angle="0" Health="50" Delay="0" SectionType="LightDeflector" />
+        </Section>
+    </Section>
+    <Section x="-10" y="-10" Angle="-135" Health="800" Delay="0" SectionType="JointTracker">
+        <Section x="0" y="0" Angle="0" Health="750" Delay="0" SectionType="HeavyChainGun">
+            <Section x="0" y="10" Angle="0" Health="50" Delay="0" SectionType="LightDeflector" />
+        </Section>
+    </Section>
+    <Section x="10" y="-10" Angle="135" Health="800" Delay="0" SectionType="JointTracker">
+        <Section x="0" y="0" Angle="0" Health="750" Delay="0" SectionType="HeavyChainGun">
+            <Section x="0" y="10" Angle="0" Health="50" Delay="0" SectionType="LightDeflector" />
+        </Section>
+    </Section>
+    <Section x="0" y="0" Angle="0" Health="50" Delay="0" SectionType="MilitaryShieldCube" />
+    <Section x="0" y="10" Angle="0" Health="1600" Delay="0" SectionType="WidePlate">
+        <Section x="0" y="7.5" Angle="0" Health="300" Delay="0" SectionType="GeneratorCross" />
+    </Section>
+    <Section x="-10" y="0" Angle="-90" Health="1600" Delay="0" SectionType="WidePlate">
+        <Section x="0" y="7.5" Angle="0" Health="300" Delay="0" SectionType="GeneratorCross" />
+    </Section>
+    <Section x="10" y="0" Angle="90" Health="1600" Delay="0" SectionType="WidePlate">
+        <Section x="0" y="7.5" Angle="0" Health="300" Delay="0" SectionType="GeneratorCross" />
+    </Section>
+    <Section x="0" y="-10" Angle="-180" Health="1600" Delay="0" SectionType="WidePlate">
+        <Section x="0" y="7.5" Angle="0" Health="300" Delay="0" SectionType="GeneratorCross" />
+    </Section>
+</Section>

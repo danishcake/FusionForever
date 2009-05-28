@@ -2,6 +2,7 @@
 #include <string>
 #include "vmath.h"
 #include "GLColor.h"
+#include "SandboxCache.h"
 
 struct lua_State;
 class LuaTimeout;
@@ -68,6 +69,7 @@ private:
 	float sum_time_;
 	
 	LuaTimeout* monitor_thread_;
+	SandboxCache luaAIcache_;
 
 	int chunk_reference_;
 	int environment_reference_;
@@ -94,4 +96,5 @@ public:
 
 	ChallengeState::Enum Tick(float _timespan);
 	void CallDeathFunction(int _death_function_refence);
+	SandboxCache* GetLuaAICache(){return &luaAIcache_;}
 };

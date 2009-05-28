@@ -6,4 +6,8 @@
 	<Mass> 150 </Mass>
 	<EnergyStorage> 75 </EnergyStorage>
 	<PowerGeneration> 1 </PowerGeneration>
+  <Categories>
+    <Category>Small</Category>
+    <Category>EnergyStorage</Category>
+  </Categories>
 </SectionDefinition>

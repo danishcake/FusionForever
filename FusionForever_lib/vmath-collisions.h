@@ -341,24 +341,34 @@ public:
    * @param P2 The second point in the line segment
    * @param c The centre of the circle
    * @param radius The radius of the circle
-   * @param out The point of closest approach
+   * @param out The point of closest approach. Only set if intersection occurs
    */
-   //TODO fix
-   static bool LineInCircle(const Vector2<T> P1, const Vector2<T> P2, const Vector2<T> c, const T radius, Vector2<T>& out)
+   static bool LineInCircle(const Vector2<T> P1, const Vector2<T> P2, const Vector2<T> centre, const T radius, Vector2<T>& out)
    {
-      Vector2<T> L = P2 - P1;
-      T beta = ((c.x - P1.x) * L.x - (P1.y - c.y) * L.y) / L.lengthSq();
-      if(beta < 0)
-         out = P1;
-      else if (beta >1)
-         out = P2;
-      else
-         out = P1 + L * beta;
-      if((beta >=0.0f) && (beta <=1.0f) &&
-         (DistanceSqr(out, c) < radius * radius))
-         return true;
-      else
-         return false;
+      Vector2<T> start = P1 - centre;
+      Vector2<T> v = P2 - P1;
+      T a = v.lengthSq();
+      T b = 2 * start.dotProduct(v);
+      T c = start.lengthSq() -  radius * radius;
+
+      T discriminant = b * b - 4 * a * c;
+      if(discriminant > 0 && a != 0)
+      {
+         //Parameterised roots solved, line intersect first at smallest position T
+         T dsqrt = sqrt(discriminant);
+         T t1 = (-b + dsqrt) / (2 * a);
+         T t2 = (-b - dsqrt) / (2 * a);
+         if(t1 < t2 && t1 >= 0 && t1 <= 1)
+         {
+            out = P1 + v * t1;
+            return true;
+         } else if(t2 < t1 && t2 >= 0 && t2 <= 1)
+         {
+            out = P1 + v * t2;
+            return true;
+         }
+      }
+      return false;
    }
 
    /**
@@ -370,21 +380,32 @@ public:
    * @param out The point of closest approach
    */
    //TODO fix
-   static bool LineInCircle(const Vector3<T> P1, const Vector3<T> P2, const Vector3<T> c, const T radius, Vector3<T>& out)
+   static bool LineInCircle(const Vector3<T> P1, const Vector3<T> P2, const Vector3<T> centre, const T radius, Vector3<T>& out)
    {
-      Vector3<T> L = P2 - P1;
-      T beta = ((c.x - P1.x) * L.x - (P1.y - c.y) * L.y) / L.lengthSq();
-      if(beta < 0)
-         out = P1;
-      else if (beta >1)
-         out = P2;
-      else
-         out = P1 + L * beta;
-      if((beta >=0.0f) && (beta <=1.0f) &&
-         (DistanceSqr(out, c) < radius * radius))
-         return true;
-      else
-         return false;
+      Vector3<T> start = P1 - centre;
+      Vector3<T> v = P2 - P1;
+      T a = v.lengthSq();
+      T b = 2 * start.dotProduct(v);
+      T c = start.lengthSq() -  radius * radius;
+
+      T discriminant = b * b - 4 * a * c;
+      if(discriminant > 0 && a != 0)
+      {
+         //Parameterised roots solved, line intersect first at smallest position T
+         T dsqrt = sqrt(discriminant);
+         T t1 = (-b + dsqrt) / (2 * a);
+         T t2 = (-b - dsqrt) / (2 * a);
+         if(t1 < t2 && t1 >= 0 && t1 <= 1)
+         {
+            out = P1 + v * t1;
+            return true;
+         } else if(t2 < t1 && t2 >= 0 && t2 <= 1)
+         {
+            out = P1 + v * t2;
+            return true;
+         }
+      }
+      return false;
    }
 
    /**

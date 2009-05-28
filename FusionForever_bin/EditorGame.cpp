@@ -4,13 +4,15 @@
 #include "XMLCore.h"
 #include "RotatingAI.h"
 #include <sdl.h>
+#include "LuaAI.h"
+#include "LuaChallenge.h"
 
 EditorGame::EditorGame(void) : BaseGame("")
 {
 	Core_ptr core = XMLCore::CreateXMLCore("SquareCore");
 	if(core)
 	{
-		core->OverrideAI(new RotatingAI(0));
+		core->OverrideAI(LuaAI::FromScript("EditorAI.luaAI", challenge_->GetLuaAICache()));
 		AddShip(core, 0);
 		selected_section_ = ships_[0].at(0);
 	} else
@@ -33,6 +35,7 @@ void EditorGame::SetCore(Core* _core)
 
 	ships_[0].push_back(_core);
 	ships_[0].at(0)->AttachChildren(children);
+	_core->OverrideAI(LuaAI::FromScript("EditorAI.luaAI", challenge_->GetLuaAICache()));
 }
 
 void EditorGame::LoadCore(Core* _core)
@@ -40,6 +43,7 @@ void EditorGame::LoadCore(Core* _core)
 	delete ships_[0].at(0);
 	ships_[0].clear();
 	ships_[0].push_back(_core);
+	_core->OverrideAI(LuaAI::FromScript("EditorAI.luaAI", challenge_->GetLuaAICache()));
 }
 
 Core* EditorGame::GetCore()

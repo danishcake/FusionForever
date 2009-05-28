@@ -4,4 +4,7 @@
 	<Health> 1500 </Health>
 	<SubSectionPosition x = "-10" y = "-10"/>
 	<Mass> 500 </Mass>
+  <Categories>
+    <Category>Medium</Category>
+  </Categories>
 </SectionDefinition>

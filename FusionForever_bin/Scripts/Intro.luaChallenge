@@ -20,7 +20,6 @@ function()
 end,
 
 function()
-	print("Intro 3")
 	for i = 0, 10 do
 		challenge:SpawnShip("KineticA", 1, Vector:new(200, -150 + 30 * i), 0, "FleeingAI.luaAI", 1)
 	end
@@ -30,7 +29,6 @@ function()
 end,
 
 function()
-	print("Intro 4")
 	challenge:SpawnShip("Cilia", 1, Vector:new(0, 0), 0, "CiliaAI.luaAI", 1)
 	for i = 0, 100 do
 		challenge:SpawnShip("TheMine", 0, Vector:random_ring(800, 800), 0, "Ram_NoCam.luaAI", 0.2)
@@ -39,7 +37,6 @@ function()
 end,
 
 function()
-	print("Intro 5")
 	challenge:SpawnShip("Grawp", 1, Vector:new(300, 0), 0, "GrawpAI.luaAI", 1)
 	challenge:SpawnShip("Grawp", 2, Vector:new(0, 300), 0, "GrawpAI.luaAI", 1)
 	challenge:SpawnShip("Grawp", 3, Vector:new(-300, 0), 0, "GrawpAI.luaAI", 1)
@@ -51,8 +48,6 @@ function()
 end,
 
 function()
-	print("Intro 6")
-
 	mine_id = challenge:SpawnShip("TheMine", 2, Vector:new(0, 0), 0, "Ram.luaAI", 25)
 	coroutine.yield();
 	grawp_id = challenge:SpawnShip("Grawp", 0, Vector:new(300, 0), 0, "GrawpAI.luaAI", 1)
@@ -73,7 +68,6 @@ function()
 end,
 
 function()
-	print("Intro 7")
 	challenge:SpawnShip("Grawp", 0, Vector:new(400, 0), 0, "GrawpAI.luaAI", 1)
 	challenge:SpawnShip("Grawp", 0, Vector:new(-400, 0), 0, "GrawpAI.luaAI", 1)
 	challenge:SpawnShip("Grawp", 0, Vector:new(0, 400), 0, "GrawpAI.luaAI", 1)
@@ -81,17 +75,43 @@ function()
 	
 	challenge:SpawnShip("Cilia", 1, Vector:new(0, 0), 0, "CiliaAI.luaAI", 3)
 end,
+
+function()
+	challenge:SpawnShip("Broadside", 2, Vector:new(500, 0), -90, "SimpleAI.luaAI", 1);
+	challenge:SpawnShip("Broadside", 1, Vector:new(-500, 0), 90, "SimpleAI.luaAI", 1);
+end,
+
+function()
+	challenge:SpawnShip("ShieldCover", 0, Vector:new(0, 0), 0, "SpaceStationAI.luaAI", 1);
+	
+	challenge:SpawnShip("NewTech", 1, Vector:new(400,  0), 0, "TurretAI.luaAI", 1);
+	challenge:SpawnShip("MrFlak", 2, Vector:new(-400, 0), 0, "TurretAI.luaAI", 1);
+	challenge:SpawnShip("Turret", 3, Vector:new(0,  400), 0, "TurretAI.luaAI", 1);
+	challenge:SpawnShip("LaserTurret", 4, Vector:new(0, -400), 0, "TurretAI.luaAI", 1);
+end,
+
+function()
+	
+	challenge:SpawnShip("Turret", 0, Vector:new( 100, 100), 0, "BurstTurretAI.luaAI", 0.01);
+	challenge:SpawnShip("Turret", 0, Vector:new( -100, 100), 0, "BurstTurretAI.luaAI", 0.01);
+	challenge:SpawnShip("Turret", 0, Vector:new( -100, -100), 0, "BurstTurretAI.luaAI", 0.01);
+	challenge:SpawnShip("Turret", 0, Vector:new( 100, -100), 0, "BurstTurretAI.luaAI", 0.01);
+	
+	
+	for i = 0, 200 do
+		challenge:SpawnShip("TheMine", 1, Vector:random_ring(1000, 1500), 0, "Ram_NoCam.luaAI", 0.01)
+		challenge:WaitFor(0.04)
+	end
+
+end,
 }
 
 --Pick a random intro
-introlist[math.random(1, #introlist)]()
---introlist[1]()
---introlist[2]()
---introlist[3]()
---introlist[4]()
---introlist[5]()
---introlist[6]()
---introlist[7]()
+local intro = math.random(1, #introlist);
+print("Intro " .. intro)
+introlist[intro]()
+
+
 
 
 

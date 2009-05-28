@@ -1,0 +1,104 @@
+<?xml version="1.0" ?>
+<Section x="0" y="0" Angle="0.195896611" Health="1800" Delay="0" SectionType="SquareCore" angle="0">
+    <Section x="-12.5" y="12.5" Angle="0" Health="50" Delay="0" SectionType="SuperShieldCube" />
+    <Section x="-12.5" y="-12.5" Angle="0" Health="50" Delay="0" SectionType="SuperShieldCube" />
+    <Section x="12.5" y="-12.5" Angle="0" Health="50" Delay="0" SectionType="SuperShieldCube" />
+    <Section x="12.5" y="12.5" Angle="0" Health="50" Delay="0" SectionType="SuperShieldCube" />
+    <Section x="10" y="0" Angle="90" Health="1000" Delay="0" SectionType="TripleAdaptor">
+        <Section x="5" y="7.5" Angle="30" Health="500" Delay="0" SectionType="Spire">
+            <Section x="0" y="12.5" Angle="0" Health="800" Delay="0" SectionType="TrackerArm" TurnRate="90" AngleRange="30" OnlyWhenFiring="0">
+                <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Spire">
+                    <Section x="0" y="12.5" Angle="0" Health="800" Delay="0" SectionType="TrackerArm" TurnRate="90" AngleRange="30" OnlyWhenFiring="0">
+                        <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Spire">
+                            <Section x="0" y="12.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                            <Section x="0" y="12.5" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
+                        </Section>
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="0" y="7.5" Angle="0" Health="500" Delay="0" SectionType="Spire">
+            <Section x="0" y="12.5" Angle="0" Health="800" Delay="0" SectionType="TrackerArm" TurnRate="90" AngleRange="30" OnlyWhenFiring="0">
+                <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Spire">
+                    <Section x="0" y="12.5" Angle="0" Health="800" Delay="0" SectionType="TrackerArm" TurnRate="90" AngleRange="30" OnlyWhenFiring="0">
+                        <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Spire">
+                            <Section x="0" y="12.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                            <Section x="0" y="12.5" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
+                        </Section>
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="-5" y="7.5" Angle="-30" Health="500" Delay="0" SectionType="Spire">
+            <Section x="0" y="12.5" Angle="0" Health="800" Delay="0" SectionType="TrackerArm" TurnRate="90" AngleRange="30" OnlyWhenFiring="0">
+                <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Spire">
+                    <Section x="0" y="12.5" Angle="0" Health="800" Delay="0" SectionType="TrackerArm" TurnRate="90" AngleRange="30" OnlyWhenFiring="0">
+                        <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Spire">
+                            <Section x="0" y="12.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                            <Section x="0" y="12.5" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
+                        </Section>
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+    </Section>
+    <Section x="0" y="10" Angle="0" Health="1000" Delay="0" SectionType="TripleAdaptor">
+        <Section x="0" y="0" Angle="0" Health="900" Delay="0" SectionType="FlareArm">
+            <Section x="0" y="20" Angle="0" Health="800" Delay="0" SectionType="TrackerArm" TurnRate="180" AngleRange="60" OnlyWhenFiring="0">
+                <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Spire">
+                    <Section x="0" y="12.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector">
+                        <Section x="0" y="0" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+    </Section>
+    <Section x="0" y="-10" Angle="180" Health="1000" Delay="0" SectionType="TripleAdaptor">
+        <Section x="0" y="0" Angle="0" Health="900" Delay="0" SectionType="FlareArm">
+            <Section x="0" y="20" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+            <Section x="-2.5" y="15" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+            <Section x="2.5" y="15" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+            <Section x="-5" y="10" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+            <Section x="5" y="10" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+            <Section x="0" y="27.5" Angle="0" Health="1500" Delay="0" SectionType="DriveUnit" />
+        </Section>
+    </Section>
+    <Section x="-10" y="0" Angle="-90" Health="1000" Delay="0" SectionType="TripleAdaptor">
+        <Section x="-5" y="7.5" Angle="-30" Health="500" Delay="0" SectionType="Spire">
+            <Section x="0" y="12.5" Angle="0" Health="800" Delay="0" SectionType="TrackerArm" TurnRate="90" AngleRange="30" OnlyWhenFiring="0">
+                <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Spire">
+                    <Section x="0" y="12.5" Angle="0" Health="800" Delay="0" SectionType="TrackerArm" TurnRate="90" AngleRange="30" OnlyWhenFiring="0">
+                        <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Spire">
+                            <Section x="0" y="12.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                            <Section x="0" y="12.5" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
+                        </Section>
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="5" y="7.5" Angle="30" Health="500" Delay="0" SectionType="Spire">
+            <Section x="0" y="12.5" Angle="0" Health="800" Delay="0" SectionType="TrackerArm" TurnRate="90" AngleRange="30" OnlyWhenFiring="0">
+                <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Spire">
+                    <Section x="0" y="12.5" Angle="0" Health="800" Delay="0" SectionType="TrackerArm" TurnRate="90" AngleRange="30" OnlyWhenFiring="0">
+                        <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Spire">
+                            <Section x="0" y="12.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                            <Section x="0" y="12.5" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
+                        </Section>
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="0" y="7.5" Angle="0" Health="500" Delay="0" SectionType="Spire">
+            <Section x="0" y="12.5" Angle="0" Health="800" Delay="0" SectionType="TrackerArm" TurnRate="90" AngleRange="30" OnlyWhenFiring="0">
+                <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Spire">
+                    <Section x="0" y="12.5" Angle="0" Health="800" Delay="0" SectionType="TrackerArm" TurnRate="90" AngleRange="30" OnlyWhenFiring="0">
+                        <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Spire">
+                            <Section x="0" y="12.5" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+                            <Section x="0" y="12.5" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
+                        </Section>
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+    </Section>
+</Section>

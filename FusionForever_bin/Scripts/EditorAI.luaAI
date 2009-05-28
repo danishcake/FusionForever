@@ -1,0 +1,27 @@
+local td = 0
+local firing = false
+local dp = Vector:new(0, 0)
+
+while true do
+	if ship.position:lengthSqr() > 10 then
+		dp.x = -ship.position.x / 1000
+		dp.y = -ship.position.y / 1000
+	else
+		dp.x = 0
+		dp.y = 0
+	end
+
+	if ship.angle < -5 then
+		td = -ship.angle / 360
+	end
+	if ship.angle > 5 then
+		td = -ship.angle / 360
+	end
+	
+	ship:SetAll(dp.x, dp.y, td, true)
+
+	coroutine.yield()
+end
+
+
+

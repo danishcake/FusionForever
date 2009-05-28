@@ -1,0 +1,30 @@
+local lives = 3
+
+playerLives = coroutine.wrap(function()
+	while lives > 0 do
+		challenge:SetCounterA(true, lives, 3)
+		player_id = challenge:SpawnShip("NewTech", 0, Vector:new(200, 0), 0, "KeyboardAI", 1)
+		challenge:WaitForDeath(player_id)
+		challenge:WaitFor(1)
+		lives = lives -1
+	end
+	
+	challenge:Defeat()
+end)
+
+enemySpawn = coroutine.wrap(function()
+	challenge:WaitFor(1)
+	challenge:SpawnShip("Broadside", 1, Vector:new(1200, 0), 0, "SimpleAI.luaAI", 2)
+	challenge:SpawnShip("Broadside", 1, Vector:new(-1200, 0), 0, "SimpleAI.luaAI", 2)
+	
+	challenge:WaitForAllEnemiesDead(0)
+	challenge:WaitFor(1)
+	
+	challenge:Victory()
+end)
+
+while true do
+	playerLives()
+	enemySpawn()
+	coroutine.yield()
+end

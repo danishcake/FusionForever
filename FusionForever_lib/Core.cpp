@@ -90,6 +90,14 @@ void Core::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::v
 			max_speed *= 1.5f;
 			max_spin *= 1.5f;
 		}
+		float damage_fraction = GetTotalDamage() / GetTotalHealth();
+		if(damage_fraction > 0.7f)
+		{
+			float slow_factor = 1.0f - 0.95f *((damage_fraction - 0.7f) / 0.3f);
+			max_speed = max_speed * slow_factor;
+			max_spin = max_spin * slow_factor;
+			effective_thrust *= slow_factor;
+		}
 
 		if(action.target_ != NULL && target_ != action.target_)
 		{

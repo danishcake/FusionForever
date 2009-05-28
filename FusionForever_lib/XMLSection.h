@@ -26,15 +26,10 @@ struct XMLFilledOutlinedData
 	float shield_recharge_cost;
 	float shield_radius;
 
-
-
-
-
-
-
 	Vector3f default_subsection_position;
 	Vector3f size;
 	std::string filename;
+	std::vector<std::string> categories;
 };
 
 class XMLSection :
@@ -50,7 +45,9 @@ public:
 	virtual ~XMLSection(void);
 	static bool ParseSVGPath(std::string _path, XMLFilledOutlinedData& _out);
 	static XMLSection* CreateXMLSection(std::string _name);
+	static bool ParseXMLSection(std::string _name);
 	static void Triangulate(std::vector<Vector3f>& _temp_outline);
 	virtual void ToXML(TiXmlElement* _node);
+	static std::vector<std::string> GetCategories(std::string _name);
 	
 };

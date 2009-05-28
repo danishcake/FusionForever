@@ -44,7 +44,33 @@ XMLSection::~XMLSection(void)
 {
 }
 
+std::vector<std::string> XMLSection::GetCategories(std::string _name)
+{
+	if(name_map_.find(_name) != name_map_.end())
+	{
+		return name_map_[_name].categories;
+	} else
+	{
+		if(ParseXMLSection(_name))
+			return name_map_[_name].categories; //Potential bug? If load fails then name_map_ still gains extra index
+	}
+	return std::vector<std::string>();
+}
+
 XMLSection* XMLSection::CreateXMLSection(std::string _name)
+{
+	if(name_map_.find(_name) != name_map_.end())
+	{
+		return new XMLSection(name_map_[_name]);
+	} else
+	{
+		if(ParseXMLSection(_name))
+			return new XMLSection(name_map_[_name]);
+	}
+	return NULL;
+}
+
+bool XMLSection::ParseXMLSection(std::string _name)
 {
 	std::string file_name;
 	if(_name.find("Scripts/Sections") == std::string::npos)
@@ -52,232 +78,244 @@ XMLSection* XMLSection::CreateXMLSection(std::string _name)
 	else
 		file_name = _name + ".xmlSection";
 
-	if(name_map_.find(_name) != name_map_.end())
+	XMLFilledOutlinedData indicies;
+	indicies.filename = _name;
+	TiXmlDocument section = TiXmlDocument(file_name.c_str());
+	if(section.LoadFile())
 	{
-		return new XMLSection(name_map_[_name]);
-	} else
-	{
-		XMLFilledOutlinedData indicies;
-		indicies.filename = _name;
-		TiXmlDocument section = TiXmlDocument(file_name.c_str());
-		if(section.LoadFile())
+		TiXmlHandle section_handle = TiXmlHandle(&section);
+
+		TiXmlElement* core_def = section_handle.FirstChild("SectionDefinition").Element();
+		if(!core_def)
 		{
-			TiXmlHandle section_handle = TiXmlHandle(&section);
+			Logger::ErrorOut() << "Error parsing XMLCore" << file_name << " - no SectionDefinition element defined at root\n";
+			return false;
+		}
 
-			TiXmlElement* core_def = section_handle.FirstChild("SectionDefinition").Element();
-			if(!core_def)
+		TiXmlElement* health_element =					section_handle.FirstChild("SectionDefinition").FirstChild("Health").Element();
+		TiXmlElement* mass_element =					section_handle.FirstChild("SectionDefinition").FirstChild("Mass").Element();
+		TiXmlElement* outline_element =					section_handle.FirstChild("SectionDefinition").FirstChild("Outline").Element();
+		TiXmlElement* subsection_position_element =		section_handle.FirstChild("SectionDefinition").FirstChild("SubSectionPosition").Element();
+		TiXmlElement* size_element =					section_handle.FirstChild("SectionDefinition").FirstChild("Size").Element();
+		TiXmlElement* thrust_element =					section_handle.FirstChild("SectionDefinition").FirstChild("Thrust").Element();
+		TiXmlElement* power_generation_element =		section_handle.FirstChild("SectionDefinition").FirstChild("PowerGeneration").Element();
+		TiXmlElement* energy_storage_element =			section_handle.FirstChild("SectionDefinition").FirstChild("EnergyStorage").Element();
+		TiXmlElement* shield_health_element =			section_handle.FirstChild("SectionDefinition").FirstChild("Shield").FirstChild("Health").Element();
+		TiXmlElement* shield_shocktime_element =		section_handle.FirstChild("SectionDefinition").FirstChild("Shield").FirstChild("ShockTime").Element();
+		TiXmlElement* shield_downtime_element =			section_handle.FirstChild("SectionDefinition").FirstChild("Shield").FirstChild("DownTime").Element();
+		TiXmlElement* shield_recharge_rate_element =	section_handle.FirstChild("SectionDefinition").FirstChild("Shield").FirstChild("RechargeRate").Element();
+		TiXmlElement* shield_recharge_cost_element =	section_handle.FirstChild("SectionDefinition").FirstChild("Shield").FirstChild("RechargeCost").Element();
+		TiXmlElement* shield_radius_element =			section_handle.FirstChild("SectionDefinition").FirstChild("Shield").FirstChild("Radius").Element();
+		TiXmlElement* categories_element =				section_handle.FirstChild("SectionDefinition").FirstChild("Categories").Element();
+
+
+		indicies.default_subsection_position = Vector3f();
+		if(subsection_position_element)
+		{
+			subsection_position_element->QueryValueAttribute("x", &indicies.default_subsection_position.x);
+			subsection_position_element->QueryValueAttribute("y", &indicies.default_subsection_position.y);
+		}
+
+		indicies.size = Vector3f();
+		if(size_element)
+		{
+			size_element->QueryValueAttribute("x", &indicies.size.x);
+			size_element->QueryValueAttribute("y", &indicies.size.y);
+		}
+
+		indicies.default_health = 500;
+		if(health_element)
+		{
+			try
 			{
-				Logger::ErrorOut() << "Error parsing XMLCore" << file_name << " - no SectionDefinition element defined at root\n";
-				return NULL;
+				indicies.default_health = boost::lexical_cast<float,std::string>(health_element->GetText());
+			}
+			catch(boost::bad_lexical_cast &)
+			{
+				Logger::ErrorOut() << "Health in " << file_name << " not numeric:" << health_element->GetText() << "\n";
+			}
+		}
+
+		indicies.mass = 100;
+		if(mass_element)
+		{
+			try
+			{
+				indicies.mass = boost::lexical_cast<float,std::string>(mass_element->GetText());
+			}
+			catch(boost::bad_lexical_cast &)
+			{
+				Logger::ErrorOut() << "Mass in " << file_name << " not numeric:" << mass_element->GetText() << "\n";
+			}
+		}
+
+		indicies.thrust = 0;
+		if(thrust_element)
+		{
+			try
+			{
+				indicies.thrust = boost::lexical_cast<float,std::string>(thrust_element->GetText());
+			}
+			catch(boost::bad_lexical_cast &)
+			{
+				Logger::ErrorOut() << "Thrust in " << file_name << " not numeric:" << thrust_element->GetText() << "\n";
+			}
+		}
+
+		indicies.energy_storage = 0;
+		if(energy_storage_element)
+		{
+			try
+			{
+				indicies.energy_storage = boost::lexical_cast<float,std::string>(energy_storage_element->GetText());
+			}
+			catch(boost::bad_lexical_cast &)
+			{
+				Logger::ErrorOut() << "Energy storage in " << file_name << " not numeric:" << energy_storage_element->GetText() << "\n";
+			}
+		}
+
+		indicies.power_generation = 0;
+		if(power_generation_element)
+		{
+			try
+			{
+				indicies.power_generation = boost::lexical_cast<float,std::string>(power_generation_element->GetText());
+			}
+			catch(boost::bad_lexical_cast &)
+			{
+				Logger::ErrorOut() << "Power generation in " << file_name << " not numeric:" << power_generation_element->GetText() << "\n";
+			}
+		}
+
+		indicies.has_shield = false;
+		indicies.shield_health = 0;
+		indicies.shield_shocktime = 0;
+		indicies.shield_downtime = 0;
+		indicies.shield_recharge_rate = 0;
+		indicies.shield_recharge_cost = 0;
+		indicies.shield_radius = 0;
+
+		if(shield_health_element			&&
+		   shield_shocktime_element			&&
+		   shield_downtime_element			&&
+		   shield_recharge_rate_element		&&
+		   shield_recharge_cost_element		&&
+		   shield_radius_element)
+		{
+			bool shield_error = false;
+
+			try
+			{
+				indicies.shield_health = boost::lexical_cast<float,std::string>(shield_health_element->GetText());
+			}
+			catch(boost::bad_lexical_cast &)
+			{
+				shield_error = true;
+				Logger::ErrorOut() << "Shield health in " << file_name << " not numeric:" << shield_health_element->GetText() << "\n";
 			}
 
-			TiXmlElement* health_element =					section_handle.FirstChild("SectionDefinition").FirstChild("Health").Element();
-			TiXmlElement* mass_element =					section_handle.FirstChild("SectionDefinition").FirstChild("Mass").Element();
-			TiXmlElement* outline_element =					section_handle.FirstChild("SectionDefinition").FirstChild("Outline").Element();
-			TiXmlElement* subsection_position_element =		section_handle.FirstChild("SectionDefinition").FirstChild("SubSectionPosition").Element();
-			TiXmlElement* size_element =					section_handle.FirstChild("SectionDefinition").FirstChild("Size").Element();
-			TiXmlElement* thrust_element =					section_handle.FirstChild("SectionDefinition").FirstChild("Thrust").Element();
-			TiXmlElement* power_generation_element =		section_handle.FirstChild("SectionDefinition").FirstChild("PowerGeneration").Element();
-			TiXmlElement* energy_storage_element =			section_handle.FirstChild("SectionDefinition").FirstChild("EnergyStorage").Element();
-			TiXmlElement* shield_health_element =			section_handle.FirstChild("SectionDefinition").FirstChild("Shield").FirstChild("Health").Element();
-			TiXmlElement* shield_shocktime_element =		section_handle.FirstChild("SectionDefinition").FirstChild("Shield").FirstChild("ShockTime").Element();
-			TiXmlElement* shield_downtime_element =			section_handle.FirstChild("SectionDefinition").FirstChild("Shield").FirstChild("DownTime").Element();
-			TiXmlElement* shield_recharge_rate_element =	section_handle.FirstChild("SectionDefinition").FirstChild("Shield").FirstChild("RechargeRate").Element();
-			TiXmlElement* shield_recharge_cost_element =	section_handle.FirstChild("SectionDefinition").FirstChild("Shield").FirstChild("RechargeCost").Element();
-			TiXmlElement* shield_radius_element =			section_handle.FirstChild("SectionDefinition").FirstChild("Shield").FirstChild("Radius").Element();
-
-
-			indicies.default_subsection_position = Vector3f();
-			if(subsection_position_element)
+			try
 			{
-				subsection_position_element->QueryValueAttribute("x", &indicies.default_subsection_position.x);
-				subsection_position_element->QueryValueAttribute("y", &indicies.default_subsection_position.y);
+				indicies.shield_shocktime = boost::lexical_cast<float,std::string>(shield_shocktime_element->GetText());
+			}
+			catch(boost::bad_lexical_cast &)
+			{
+				shield_error = true;
+				Logger::ErrorOut() << "Shield shock time in " << file_name << " not numeric:" << shield_shocktime_element->GetText() << "\n";
 			}
 
-			indicies.size = Vector3f();
-			if(size_element)
+			try
 			{
-				size_element->QueryValueAttribute("x", &indicies.size.x);
-				size_element->QueryValueAttribute("y", &indicies.size.y);
+				indicies.shield_downtime = boost::lexical_cast<float,std::string>(shield_downtime_element->GetText());
+			}
+			catch(boost::bad_lexical_cast &)
+			{
+				shield_error = true;
+				Logger::ErrorOut() << "Shield down time in " << file_name << " not numeric:" << shield_downtime_element->GetText() << "\n";
 			}
 
-			indicies.default_health = 500;
-			if(health_element)
+			try
 			{
-				try
-				{
-					indicies.default_health = boost::lexical_cast<float,std::string>(health_element->GetText());
-				}
-				catch(boost::bad_lexical_cast &)
-				{
-					Logger::ErrorOut() << "Health in " << file_name << " not numeric:" << health_element->GetText() << "\n";
-				}
+				indicies.shield_recharge_rate = boost::lexical_cast<float,std::string>(shield_recharge_rate_element->GetText());
+			}
+			catch(boost::bad_lexical_cast &)
+			{
+				shield_error = true;
+				Logger::ErrorOut() << "Shield recharge rate in " << file_name << " not numeric:" << shield_recharge_rate_element->GetText() << "\n";
 			}
 
-			indicies.mass = 100;
-			if(mass_element)
+			try
 			{
-				try
-				{
-					indicies.mass = boost::lexical_cast<float,std::string>(mass_element->GetText());
-				}
-				catch(boost::bad_lexical_cast &)
-				{
-					Logger::ErrorOut() << "Mass in " << file_name << " not numeric:" << mass_element->GetText() << "\n";
-				}
+				indicies.shield_recharge_cost = boost::lexical_cast<float,std::string>(shield_recharge_cost_element->GetText());
+			}
+			catch(boost::bad_lexical_cast &)
+			{
+				shield_error = true;
+				Logger::ErrorOut() << "Shield recharge cost in " << file_name << " not numeric:" << shield_recharge_cost_element->GetText() << "\n";
 			}
 
-			indicies.thrust = 0;
-			if(thrust_element)
+			try
 			{
-				try
-				{
-					indicies.thrust = boost::lexical_cast<float,std::string>(thrust_element->GetText());
-				}
-				catch(boost::bad_lexical_cast &)
-				{
-					Logger::ErrorOut() << "Thrust in " << file_name << " not numeric:" << thrust_element->GetText() << "\n";
-				}
+				indicies.shield_radius = boost::lexical_cast<float,std::string>(shield_radius_element->GetText());
+			}
+			catch(boost::bad_lexical_cast &)
+			{
+				shield_error = true;
+				Logger::ErrorOut() << "Shield radius in " << file_name << " not numeric:" << shield_radius_element->GetText() << "\n";
 			}
 
-			indicies.energy_storage = 0;
-			if(energy_storage_element)
+			if(!shield_error)
 			{
-				try
+				indicies.has_shield = true;
+				boost::shared_ptr<std::vector<Vector3f>> verts(new std::vector<Vector3f>());
+				for(int i = 0; i < 64; i++)
 				{
-					indicies.energy_storage = boost::lexical_cast<float,std::string>(energy_storage_element->GetText());
+					float angle = static_cast<float>(i) * 2 * M_PI / 64.0f ;
+					(*verts).push_back(Vector3f(indicies.shield_radius * cosf(angle), indicies.shield_radius * sinf(angle), 0));
 				}
-				catch(boost::bad_lexical_cast &)
-				{
-					Logger::ErrorOut() << "Energy storage in " << file_name << " not numeric:" << energy_storage_element->GetText() << "\n";
-				}
+				indicies.shield_outline_verts_index = Datastore::Instance().AddVerts(verts);
+				indicies.shield_outline_dl = Outlined::CreateOutlinedDisplayList(verts);
 			}
+		}
 
-			indicies.power_generation = 0;
-			if(power_generation_element)
+		if(categories_element)
+		{
+			TiXmlElement* category = categories_element->FirstChildElement("Category");
+			while(category)
 			{
-				try
+				std::string category_text = category->GetText();
+				if(category_text.length() > 0)
 				{
-					indicies.power_generation = boost::lexical_cast<float,std::string>(power_generation_element->GetText());
-				}
-				catch(boost::bad_lexical_cast &)
-				{
-					Logger::ErrorOut() << "Power generation in " << file_name << " not numeric:" << power_generation_element->GetText() << "\n";
-				}
-			}
-
-			indicies.has_shield = false;
-			indicies.shield_health = 0;
-			indicies.shield_shocktime = 0;
-			indicies.shield_downtime = 0;
-			indicies.shield_recharge_rate = 0;
-			indicies.shield_recharge_cost = 0;
-			indicies.shield_radius = 0;
-
-			if(shield_health_element			&&
-			   shield_shocktime_element			&&
-			   shield_downtime_element			&&
-			   shield_recharge_rate_element		&&
-			   shield_recharge_cost_element		&&
-			   shield_radius_element)
-			{
-				bool shield_error = false;
-
-				try
-				{
-					indicies.shield_health = boost::lexical_cast<float,std::string>(shield_health_element->GetText());
-				}
-				catch(boost::bad_lexical_cast &)
-				{
-					shield_error = true;
-					Logger::ErrorOut() << "Shield health in " << file_name << " not numeric:" << shield_health_element->GetText() << "\n";
-				}
-
-				try
-				{
-					indicies.shield_shocktime = boost::lexical_cast<float,std::string>(shield_shocktime_element->GetText());
-				}
-				catch(boost::bad_lexical_cast &)
-				{
-					shield_error = true;
-					Logger::ErrorOut() << "Shield shock time in " << file_name << " not numeric:" << shield_shocktime_element->GetText() << "\n";
-				}
-
-				try
-				{
-					indicies.shield_downtime = boost::lexical_cast<float,std::string>(shield_downtime_element->GetText());
-				}
-				catch(boost::bad_lexical_cast &)
-				{
-					shield_error = true;
-					Logger::ErrorOut() << "Shield down time in " << file_name << " not numeric:" << shield_downtime_element->GetText() << "\n";
-				}
-
-				try
-				{
-					indicies.shield_recharge_rate = boost::lexical_cast<float,std::string>(shield_recharge_rate_element->GetText());
-				}
-				catch(boost::bad_lexical_cast &)
-				{
-					shield_error = true;
-					Logger::ErrorOut() << "Shield recharge rate in " << file_name << " not numeric:" << shield_recharge_rate_element->GetText() << "\n";
-				}
-
-				try
-				{
-					indicies.shield_recharge_cost = boost::lexical_cast<float,std::string>(shield_recharge_cost_element->GetText());
-				}
-				catch(boost::bad_lexical_cast &)
-				{
-					shield_error = true;
-					Logger::ErrorOut() << "Shield recharge cost in " << file_name << " not numeric:" << shield_recharge_cost_element->GetText() << "\n";
-				}
-
-				try
-				{
-					indicies.shield_radius = boost::lexical_cast<float,std::string>(shield_radius_element->GetText());
-				}
-				catch(boost::bad_lexical_cast &)
-				{
-					shield_error = true;
-					Logger::ErrorOut() << "Shield radius in " << file_name << " not numeric:" << shield_radius_element->GetText() << "\n";
-				}
-
-				if(!shield_error)
-				{
-					indicies.has_shield = true;
-					boost::shared_ptr<std::vector<Vector3f>> verts(new std::vector<Vector3f>());
-					for(int i = 0; i < 64; i++)
-					{
-						float angle = static_cast<float>(i) * 2 * M_PI / 64.0f ;
-						(*verts).push_back(Vector3f(indicies.shield_radius * cosf(angle), indicies.shield_radius * sinf(angle), 0));
-					}
-					indicies.shield_outline_verts_index = Datastore::Instance().AddVerts(verts);
-					indicies.shield_outline_dl = Outlined::CreateOutlinedDisplayList(verts);
-				}
-			}
-
-
-			if(outline_element)
-			{
-				if(ParseSVGPath(outline_element->GetText(), indicies))
-				{
-					name_map_[_name] = indicies;
-					return new XMLSection(indicies);
+					indicies.categories.push_back(category_text);
 				} else
 				{
-					Logger::ErrorOut() << "Error parsing outline in " << file_name << "\n";
+					Logger::ErrorOut() << "Zero length category text in " << file_name << "\n";
 				}
+				category = category->NextSiblingElement("Category");
+			}
+		}
+
+
+		if(outline_element)
+		{
+			if(ParseSVGPath(outline_element->GetText(), indicies))
+			{
+				name_map_[_name] = indicies;
+				return true;
 			} else
 			{
-				Logger::ErrorOut() << "Required field Outline missing in " << file_name << "\n";
+				Logger::ErrorOut() << "Error parsing outline in " << file_name << "\n";
 			}
 		} else
 		{
-			Logger::ErrorOut() << "Unable to open file '" << file_name << "' :" <<section.ErrorDesc() << "\n";
+			Logger::ErrorOut() << "Required field Outline missing in " << file_name << "\n";
 		}
+	} else
+	{
+		Logger::ErrorOut() << "Unable to open file '" << file_name << "' :" <<section.ErrorDesc() << "\n";
 	}
-	return NULL;	
+	return false;
 }
 
 bool XMLSection::ParseSVGPath(std::string _path, XMLFilledOutlinedData& _out)

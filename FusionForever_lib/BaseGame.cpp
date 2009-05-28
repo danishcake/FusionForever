@@ -25,7 +25,6 @@ BaseGame::BaseGame(std::string _challenge_filename)
 		}
 	}
 	luaVM_ = lua_open();
-	LuaAI::SetUninitialised();
 	luaL_openlibs(luaVM_);
 	challenge_ = new LuaChallenge(luaVM_, _challenge_filename, this);
 	Camera::Instance().SetWidth(static_cast<float>(Camera::Instance().GetWindowWidth())); //Zoom 1:1

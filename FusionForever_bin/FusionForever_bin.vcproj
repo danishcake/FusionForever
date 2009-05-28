@@ -192,6 +192,7 @@
 				AdditionalIncludeDirectories="&quot;$(PROGRAMFILES)\tinyxml&quot;;&quot;$(PROGRAMFILES)\lua\include&quot;;..\FusionForever_lib;&quot;$(PROGRAMFILES)\CEGUI-SDK-0.6.0\include&quot;;&quot;$(PROGRAMFILES)\SDL-1.2.12\include&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;TIXML_USE_STL"
 				RuntimeLibrary="2"
+				FloatingPointModel="2"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
@@ -510,6 +511,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\Scripts\FlareArm.XMLSection"
+						>
+					</File>
+					<File
 						RelativePath=".\Scripts\FrontPlatingLH.XMLSection"
 						>
 					</File>
@@ -518,13 +523,25 @@
 						>
 					</File>
 					<File
+						RelativePath=".\Scripts\LargeSpire.XMLSection"
+						>
+					</File>
+					<File
 						RelativePath=".\Scripts\SmallBulkhead.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\SpikeArmRH.XMLSection"
 						>
 					</File>
 				</Filter>
 				<Filter
 					Name="Medium 20x20"
 					>
+					<File
+						RelativePath=".\Scripts\Clamp.XMLSection"
+						>
+					</File>
 					<File
 						RelativePath=".\Scripts\DecoPlateSection.XMLSection"
 						>
@@ -543,6 +560,14 @@
 					</File>
 					<File
 						RelativePath=".\Scripts\ForwardWingRH.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\FusionGenerator.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\GeneratorCross.XMLSection"
 						>
 					</File>
 					<File
@@ -570,6 +595,14 @@
 						>
 					</File>
 					<File
+						RelativePath=".\Scripts\SpikeArmLH.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\Spire.XMLSection"
+						>
+					</File>
+					<File
 						RelativePath=".\Scripts\SpunStar.XMLSection"
 						>
 					</File>
@@ -579,6 +612,10 @@
 					</File>
 					<File
 						RelativePath=".\Scripts\SweptWingRH.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\TripleAdaptor.XMLSection"
 						>
 					</File>
 					<File
@@ -597,6 +634,10 @@
 				<Filter
 					Name="Small - 10x10 or less"
 					>
+					<File
+						RelativePath=".\Scripts\Circle.XMLSection"
+						>
+					</File>
 					<File
 						RelativePath=".\Scripts\EnergyStorageSmall.XMLSection"
 						>
@@ -651,38 +692,6 @@
 					>
 					<File
 						RelativePath=".\Scripts\CenterPiece.XMLSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\Circle.XMLSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\Clamp.XMLSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\FlareArm.XMLSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\LargeSpire.XMLSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\SpikeArmLH.XMLSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\SpikeArmRH.XMLSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\Spire.XMLSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\TripleAdaptor.XMLSection"
 						>
 					</File>
 				</Filter>
@@ -763,6 +772,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\HeavyTurret.xmlShip"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\JuggernautA.xmlShip"
 					>
 				</File>
@@ -787,6 +800,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\LaserTurret.xmlShip"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\MrFlak.xmlShip"
 					>
 				</File>
@@ -807,6 +824,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\ShieldCover.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\ShieldTech.xmlShip"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\SpaceStation.xmlShip"
 					>
 				</File>
@@ -818,6 +843,10 @@
 					RelativePath=".\Scripts\TheMine.xmlShip"
 					>
 				</File>
+				<File
+					RelativePath=".\Scripts\Turret.xmlShip"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="AI"
@@ -827,7 +856,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\BurstTurretAI.luaAI"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\CiliaAI.luaAI"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\EditorAI.luaAI"
 					>
 				</File>
 				<File
@@ -864,6 +901,10 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\SpaceStationAI.luaAI"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\TurretAI.luaAI"
 					>
 				</File>
 			</Filter>

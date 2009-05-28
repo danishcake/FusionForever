@@ -5,20 +5,12 @@
 
 struct lua_State;
 class LuaTimeout;
+class SandboxCache;
 
 class LuaAI :
 	public BaseAI
 {
 private:
-	/* A map of all the preloaded AI chunks references in the registry, to avoid reloading them */
-	static std::map<std::string, int> ai_chunk_reference_;
-	/* Index of the LuaAI sandbox chunk used for creating environments in the registry */
-	static int ai_sandbox_reference_;
-	/* Tracks whether the lua functions are initialised. On first LuaAI instantiation it will register
-	 * the l_* functions below. It should be cleared down with a call to LuaAI::SetUninitialised()
-	 * on the creation of a new BaseGame with it's new lua_State
-	 */
-	static bool initialised_lua_;
 	/* Monitor to abort long running scripts */
 	static LuaTimeout* monitor_thread_;
 
@@ -31,13 +23,22 @@ private:
 	static int l_SetCameraPosition(lua_State* _luaVM);
 	static int l_ChangeAI(lua_State* _luaVM);
 
+	/*
+	 * Static initialisation. Called once per creation of a lua_State by a new LuaChallenge
+	 */
+	static void RegisterLuaFunctions(SandboxCache* _cache);
+
 protected:
-	LuaAI(std::string _file_name, int _chunk_reference, lua_State* _luaVM);
+	LuaAI(std::string _file_name, int _chunk_reference, SandboxCache* _cache);
 	/* Filename of the AI script */
 	std::string script_name_;
 	
 	/* Global lua_State passed from BaseGame via LuaChallenge */
-	lua_State* lua_state_;
+	lua_State* luaVM_;
+	/* Cache of entries - kept so that the LuaAI can change AI types by itself */
+	SandboxCache* cache_;
+	/* Index of the sandbox */
+	int ai_sandbox_reference_;
 	/* Index of AI coroutine in registry */
 	int coroutine_reference_;
 	/* Index of environment table in registry */
@@ -97,19 +98,14 @@ public:
 	void ChangeAI(std::string _filename);
 
 	/*
-	 * Static initialisation. Called once per creation of a lua_State by a new LuaChallenge
-	 * Should be called after SetUnitialised(), which clears down flags
-	 */
-	static void RegisterLuaFunctions(lua_State* _luaVM);
-	/*
 	 * Clears down initialisation, so that on creation of next LuaAI the lua functions are reregistered.
 	 * Called by BaseGame on initialisation
 	 */
-	static void SetUninitialised();
+	//static void SetUninitialised();
 	/*
 	 * Returns a LuaAI created from the specified script file, or NULL in case of failure
 	 */
-	static LuaAI* FromScript(std::string _file_name, lua_State* _luaVM);
+	static LuaAI* FromScript(std::string _file_name, SandboxCache* _luaVM);
 
 	virtual void EndSubscription(Subscriber* _source);
 

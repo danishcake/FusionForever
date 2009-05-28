@@ -1,0 +1,50 @@
+if ship.target.valid == false or math.random() < 0.2 then
+	ship:PickRandomTarget()
+end
+
+ship:WaitFor(0.1)
+local starting_position = Vector:new(ship.position.x, ship.position.y)
+local starting_angle = ship.angle
+
+local td = 0
+local firing = false
+local dp = Vector:new(0, 0)
+local time_since_fire = 0
+local repick_time = ship.time + 0.1
+
+while true do
+	local dpos = ship.position - starting_position
+	if dpos:lengthSqr() > 10 then
+		dp.x = -dpos.x / 100
+		dp.y = -dpos.y / 100
+	else
+		dp.x = 0
+		dp.y = 0
+	end
+	
+	local tdp = Vector:new(ship.target.position.x - ship.position.x, ship.target.position.y - ship.position.y):normalise()
+	local right_vector = Vector:new(math.cos(math.rad(ship.angle)), -math.sin(math.rad(ship.angle)))
+	local dotp = tdp:dot(right_vector)
+	
+	time_since_fire = time_since_fire + ship.dtime
+	
+	if math.abs(dotp) < 0.2 and ship.target.valid then
+		time_since_fire = 0
+	else
+		repick_time = ship.time + 0.1
+	end
+	local firing = (math.abs(dotp) < 0.2 and ship.target.valid) or time_since_fire < 0.3
+	
+	
+	ship:SetAll(dp.x, dp.y, dotp, firing)
+	
+	if ship.target.valid == false or ship.time > repick_time then
+		ship:PickRandomTarget()
+		repick_time = ship.time + 0.1
+		end
+	
+	coroutine.yield()
+end
+
+
+

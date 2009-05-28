@@ -5,5 +5,8 @@
 	<SubSectionPosition x = "0" y = "-15"/>
 	<Mass> 2000 </Mass>
   <EnergyStorage>20</EnergyStorage>
+  <Categories>
+    <Category>Large</Category>
+  </Categories>
 </SectionDefinition>
 

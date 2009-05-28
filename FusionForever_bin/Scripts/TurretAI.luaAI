@@ -9,6 +9,7 @@ local starting_angle = ship.angle
 local td = 0
 local firing = false
 local dp = Vector:new(0, 0)
+local time_since_fire = 0
 
 while true do
 	local dpos = ship.position - starting_position
@@ -19,16 +20,20 @@ while true do
 		dp.x = 0
 		dp.y = 0
 	end
-	if ship.angle < starting_angle - 10 then
-		td = (starting_angle - ship.angle) / 50
-		if td > 1 then td = 1 end
-	end
-	if ship.angle > starting_angle + 10 then
-		td = (starting_angle - ship.angle) / 50
-		if td < -1 then td = -1 end
-	end
 	
-	ship:SetAll(dp.x, dp.y, td, true)
+	local tdp = Vector:new(ship.target.position.x - ship.position.x, ship.target.position.y - ship.position.y):normalise()
+	local right_vector = Vector:new(math.cos(math.rad(ship.angle)), -math.sin(math.rad(ship.angle)))
+	local dotp = tdp:dot(right_vector)
+	
+	time_since_fire = time_since_fire + ship.dtime
+	
+	if math.abs(dotp) < 0.2 and ship.target.valid then
+		time_since_fire = 0
+	end
+	local firing = (math.abs(dotp) < 0.2 and ship.target.valid) or time_since_fire < 0.3
+	
+	
+	ship:SetAll(dp.x, dp.y, dotp, firing)
 	
 	if ship.target.valid == false then
 		ship:PickRandomTarget()

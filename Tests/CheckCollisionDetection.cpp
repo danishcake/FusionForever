@@ -31,7 +31,15 @@ TEST(CheckBeamCollisions)
 	CHECK(should_collide_B);
 	CHECK_CLOSE(10, collision_point_B.x, 0.001f);
 	CHECK_CLOSE(50, collision_point_B.y, 0.001f);
+}
 
-
-
+TEST(CheckLineCircleIntersection)
+{
+	Vector2f centre(10, 20);
+	Vector2f lineAP1(30, 20);
+	Vector2f lineAP2(-30, 20);
+	Vector2f cp;
+	bool hit = Collisions2f::LineInCircle(lineAP1, lineAP2, centre, 10, cp);
+	CHECK(hit);
+	CHECK_EQUAL(Vector2f(20, 20), cp);
 }

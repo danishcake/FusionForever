@@ -64,7 +64,7 @@ int LuaChallenge::SpawnShip(std::string _ship_name, int _force, Vector2f _positi
 			ai = new KeyboardAI();
 		} else
 		{
-			ai = LuaAI::FromScript(_ai_script, luaVM_);
+			ai = LuaAI::FromScript(_ai_script, &luaAIcache_);
 			if(!ai)
 			{
 				delete core; 
@@ -351,7 +351,7 @@ void LuaChallenge::SetCounter(int _counter, int _value, int _max, bool _visible)
 }
 
 LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* _game) : 
-	luaVM_(_luaVM), challenge_(_challenge), game_(_game)
+	luaVM_(_luaVM), challenge_(_challenge), game_(_game), luaAIcache_(luaVM_)
 {
 	lua_register(_luaVM, "SpawnShip", l_SpawnShip);
 	lua_register(_luaVM, "Victory", l_Victory);
@@ -458,7 +458,7 @@ bool LuaChallenge::createEnvironmentAndCoroutine()
 	if(env_run_error != 0 )
 	{
 		Logger::ErrorOut() << lua_tostring(luaVM_, -1) << "\n";
-		lua_pop(luaVM_, 2);
+		lua_pop(luaVM_, 2); //Pop error message and chunk
 		return false;
 	}
 	//Should now have a reference to the environment on stack
