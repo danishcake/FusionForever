@@ -3,11 +3,8 @@
 #include "Camera.h"
 #include "Datastore.h"
 
-bool Starfield::initialised_ = false;
-
-#define SF_PARALAX1 0.7f
-#define SF_GRIDSIZE 750.0f
-
+static const float SF_PARALAX1 = 0.7f;
+static const float SF_GRIDSIZE = 750.0f;
 
 Starfield::Starfield()
 {
@@ -23,7 +20,7 @@ Starfield::~Starfield(void)
 	
 }
 
-void Starfield::DrawStarfield(Vector3f position_)
+void Starfield::DrawStarfield(Vector3f _position)
 {
 	int max_index = static_cast<int>(SF_MAX_POINTS / pow(Camera::Instance().GetWidth() / SF_GRIDSIZE,2.0f));
 	if(max_index > SF_MAX_POINTS)
@@ -37,14 +34,14 @@ void Starfield::DrawStarfield(Vector3f position_)
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, stars_);
 
-	glTranslatef(position_.x, position_.y, 0);
-	Vector3f offset = Vector3f(-fmodf(SF_PARALAX1 * position_.x, SF_GRIDSIZE),
-					  -fmodf(SF_PARALAX1 * position_.y, SF_GRIDSIZE),
+	glTranslatef(_position.x, _position.y, 0);
+	Vector3f offset = Vector3f(-fmodf(SF_PARALAX1 * _position.x, SF_GRIDSIZE),
+					  -fmodf(SF_PARALAX1 * _position.y, SF_GRIDSIZE),
 					  0);
 	glTranslatef(offset.x, offset.y,0);
 
 	int x_minus_times = static_cast<int>(((Camera::Instance().GetWidth() / 2.0f) / SF_GRIDSIZE) + 2) + 1;
-	int y_minus_times = static_cast<int>(((Camera::Instance().GetHeight() / 2.0f) / SF_GRIDSIZE) + 2);
+	int y_minus_times = static_cast<int>(((Camera::Instance().GetHeight() / 2.0f) / SF_GRIDSIZE) + 2) + 1;
 	float left = -SF_GRIDSIZE * x_minus_times;
 	for(int x = 0; x < x_minus_times * 2; x++)
 	{

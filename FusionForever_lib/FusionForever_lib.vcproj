@@ -48,7 +48,7 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
 				RuntimeLibrary="3"
-				FloatingPointModel="2"
+				FloatingPointModel="0"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
@@ -161,10 +161,6 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File
-				RelativePath=".\SandboxCache.cpp"
-				>
-			</File>
 			<Filter
 				Name="Scenes"
 				>
@@ -226,6 +222,10 @@
 				</File>
 				<File
 					RelativePath=".\Explosion.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\GasClouds.cpp"
 					>
 				</File>
 				<File
@@ -465,6 +465,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\SandboxCache.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\SectionTypes.cpp"
 					>
 				</File>
@@ -551,10 +555,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\SandboxCache.h"
-				>
-			</File>
 			<Filter
 				Name="AI"
 				>
@@ -600,6 +600,10 @@
 				</File>
 				<File
 					RelativePath=".\Explosion.h"
+					>
+				</File>
+				<File
+					RelativePath=".\GasClouds.h"
 					>
 				</File>
 				<File
@@ -848,6 +852,10 @@
 				</File>
 				<File
 					RelativePath=".\Random.h"
+					>
+				</File>
+				<File
+					RelativePath=".\SandboxCache.h"
 					>
 				</File>
 				<File

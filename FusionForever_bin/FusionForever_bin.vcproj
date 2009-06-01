@@ -78,7 +78,7 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
 				RuntimeLibrary="3"
-				FloatingPointModel="2"
+				FloatingPointModel="0"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
@@ -952,6 +952,10 @@
 			</File>
 			<File
 				RelativePath=".\Textures\FusionForever.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\GasCloud.texture"
 				>
 			</File>
 			<File

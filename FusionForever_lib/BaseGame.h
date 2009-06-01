@@ -2,6 +2,7 @@
 #include <vector>
 #include "Core.h"
 #include "Starfield.h"
+#include "GasClouds.h"
 #include "GridCollisionManager.h"
 #include <string>
 #include "Radar.h"
@@ -52,6 +53,7 @@ protected:
 	std::vector<Core_ptr> friends[MAX_FORCES];
 
 	Starfield starfield_;
+	GasClouds gas_clouds_;
 	Radar radar_;
 	LuaChallenge* challenge_;
 	lua_State* luaVM_;

@@ -10,8 +10,8 @@ public:
 
 	bool operator()(list_t a, list_t b) const
 	{
-		return Collisions2f::DistanceSqr(a->GetGlobalPosition(),reference_->GetGlobalPosition()) <
-			   Collisions2f::DistanceSqr(b->GetGlobalPosition(),reference_->GetGlobalPosition());
+		return Collisions2f::DistanceSqr(a->GetGlobalPosition(), reference_->GetGlobalPosition()) <
+			   Collisions2f::DistanceSqr(b->GetGlobalPosition(), reference_->GetGlobalPosition());
 	}
 };
 

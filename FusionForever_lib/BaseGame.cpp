@@ -59,6 +59,8 @@ BaseGame::~BaseGame(void)
 
 void BaseGame::Draw()
 {
+//	gas_clouds_.DrawGasClouds(Vector3f(Camera::Instance().GetCentreX(), Camera::Instance().GetCentreY(), 0));
+	gas_clouds_.DrawGasClouds(Vector3f(Camera::Instance().GetFocusX(), Camera::Instance().GetFocusY(), 0));
 	starfield_.DrawStarfield(Vector3f(Camera::Instance().GetFocusX(), Camera::Instance().GetFocusY(), 0));
 	radar_.Draw();
 	for(int force = 0; force < MAX_FORCES; force++)
