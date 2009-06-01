@@ -43,7 +43,11 @@ void TitleScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 	{
 		for(int key = 0; key < SDLK_LAST; key++)
 		{
-			if(key != SDLK_NUMLOCK && key != SDLK_CAPSLOCK && key != SDLK_SCROLLOCK && keystates[key])
+			if(key != SDLK_NUMLOCK &&
+			   key != SDLK_CAPSLOCK && 
+			   key != SDLK_SCROLLOCK && 
+			   key!= SDLK_F9 && //For fraps/taksi
+			   keystates[key] )
 			{
 				exit_to_menu_ = true;
 			}

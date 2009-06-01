@@ -27,8 +27,10 @@ BaseGame::BaseGame(std::string _challenge_filename)
 	luaVM_ = lua_open();
 	luaL_openlibs(luaVM_);
 	challenge_ = new LuaChallenge(luaVM_, _challenge_filename, this);
+	Camera::Instance().SetupCamera(); //Clears the CameraLevel
 	Camera::Instance().SetWidth(static_cast<float>(Camera::Instance().GetWindowWidth())); //Zoom 1:1
 	Camera::Instance().SetCentre(0, 0, CameraLevel::Human);
+	Camera::Instance().SetFocus(0, 0, CameraLevel::Human);
 }
 
 BaseGame::~BaseGame(void)

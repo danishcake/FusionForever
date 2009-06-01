@@ -29,13 +29,25 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="XMLShip copier"
+				Name="Texture copier"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
 			/>
 			<Tool
 				Name="Lua utilities copier"
 			/>
 			<Tool
-				Name="VCCustomBuildTool"
+				Name="XMLShip copier"
+			/>
+			<Tool
+				Name="LuaAI copier"
+			/>
+			<Tool
+				Name="XMLCore copier"
+			/>
+			<Tool
+				Name="Sounds copier"
 			/>
 			<Tool
 				Name="ChallengeScript copier"
@@ -60,6 +72,7 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				FloatingPointModel="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
@@ -122,13 +135,25 @@
 				Name="VCPreBuildEventTool"
 			/>
 			<Tool
-				Name="XMLShip copier"
+				Name="Texture copier"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
 			/>
 			<Tool
 				Name="Lua utilities copier"
 			/>
 			<Tool
-				Name="VCCustomBuildTool"
+				Name="XMLShip copier"
+			/>
+			<Tool
+				Name="LuaAI copier"
+			/>
+			<Tool
+				Name="XMLCore copier"
+			/>
+			<Tool
+				Name="Sounds copier"
 			/>
 			<Tool
 				Name="ChallengeScript copier"
@@ -150,6 +175,7 @@
 				AdditionalIncludeDirectories="&quot;C:\Program Files\boost\boost_1_36_0&quot;;&quot;$(SolutionDir)FusionForever_lib&quot;;&quot;$(SolutionDir)UnitTest++Redist\Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
+				FloatingPointModel="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"

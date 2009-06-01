@@ -94,6 +94,7 @@ void Core::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::v
 		if(damage_fraction > 0.7f)
 		{
 			float slow_factor = 1.0f - 0.95f *((damage_fraction - 0.7f) / 0.3f);
+			slow_factor = slow_factor > 1.0f ? 1.0f : slow_factor < 0.05f ? 0.05f : slow_factor;
 			max_speed = max_speed * slow_factor;
 			max_spin = max_spin * slow_factor;
 			effective_thrust *= slow_factor;
