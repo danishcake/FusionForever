@@ -463,17 +463,18 @@ void Section::AttachChildren(std::vector<Section_ptr> _children)
 /* Decrements health, starts section flashing and reports the damage to the core */
 void Section::TakeDamage(float _damage, int _section_id)
 {
-	float remainder = _damage;
+	float threat = 0;
 	if(has_shield_ && shield_ > 0)
 	{
-		remainder -= shield_.GetValue();
-		shield_ -= _damage;		
-		GetRoot()->ReportDamage(0, _damage);
+		threat = _damage < shield_.GetValue() ? _damage : shield_.GetValue();
+		shield_ -= _damage;
+		GetRoot()->ReportDamage(0, threat);		
 	} else
 	{
-		health_-=_damage;
+		health_ -= _damage;
 		damage_flash_timer_ = SECTION_FLASH_TIME;
-		GetRoot()->ReportDamage(_damage, 0);
+		threat = _damage < health_.GetValue() ? _damage : health_.GetValue();
+		GetRoot()->ReportDamage(threat, 0);
 	}
 	
 	time_since_damage_ = 0;

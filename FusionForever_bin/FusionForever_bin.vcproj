@@ -959,7 +959,59 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Textures\LensFlare1.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\LensFlare2.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\LensFlare3.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\LensFlare4.texture"
+				>
+			</File>
+			<File
 				RelativePath=".\Textures\Logo.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\Nebula1.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\Nebula2.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\Nebula3.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\Nebula4.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\Nebula5.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\Nebula6.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\Nebula7.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\Nebula8.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\Nebula9.texture"
 				>
 			</File>
 			<File

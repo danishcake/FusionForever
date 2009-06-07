@@ -12,10 +12,10 @@ while true do
 	end
 
 	if ship.angle < -1 then
-		td = -ship.angle / 3600
+		td = -0.1
 	end
 	if ship.angle > 1 then
-		td = -ship.angle / 3600
+		td = -0.1
 	end
 	
 	ship:SetAll(dp.x, dp.y, td, true)
