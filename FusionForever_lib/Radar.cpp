@@ -104,9 +104,9 @@ void Radar::Draw()
 		if(time_since_player_update_ > RadarFadeTime / 2.0f)
 		{
 			float fade = 1.0f - ((time_since_player_update_ - (RadarFadeTime / 2.0f)) / (RadarFadeTime / 2.0f));
-			friend_color = friend_color.GetFaded(fade);
-			enemy_color = enemy_color.GetFaded(fade);
-			edge_color = edge_color.GetFaded(fade);
+			friend_color.a = (unsigned char)(255.0f * fade);
+			enemy_color.a = (unsigned char)(255.0f * fade);
+			edge_color.a = (unsigned char)(255.0f * fade);
 		}
 
 		glMatrixMode(GL_PROJECTION);
@@ -125,7 +125,7 @@ void Radar::Draw()
 
 		//Draw background rings and central spot
 		glLineWidth(2);
-		glColor3ubv((GLubyte*)&edge_color);
+		glColor4ubv((GLubyte*)&edge_color);
 		//glColor3ub(100,100,100);
 		glVertexPointer(3, GL_FLOAT, 0, &outline_[0]);
 		glDrawArrays(GL_LINE_STRIP, 0, static_cast<GLsizei>(outline_.size()));
@@ -134,14 +134,14 @@ void Radar::Draw()
 
 		if(small_points_enemies_.size() > 0)
 		{
+			glColor4ubv((GLubyte*)&enemy_color);
 			glVertexPointer(3, GL_FLOAT, 0, &small_points_enemies_[0]);
-			glColor3ubv((GLubyte*)&enemy_color);
 			glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(small_points_enemies_.size()));
 		}
 
 		if(small_points_friends_.size() > 0)
 		{
-			glColor3ubv((GLubyte*)&friend_color);
+			glColor4ubv((GLubyte*)&friend_color);
 			glVertexPointer(3, GL_FLOAT, 0, &small_points_friends_[0]);
 			glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(small_points_friends_.size()));
 		}
@@ -149,14 +149,14 @@ void Radar::Draw()
 		glPointSize(2);
 		if(large_points_enemies_.size() > 0)
 		{
+			glColor4ubv((GLubyte*)&enemy_color);
 			glVertexPointer(3, GL_FLOAT, 0, &large_points_enemies_[0]);
-			glColor3ubv((GLubyte*)&enemy_color);
 			glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(large_points_enemies_.size()));
 		}
 
 		if(large_points_friends_.size() > 0)
 		{
-			glColor3ubv((GLubyte*)&friend_color);
+			glColor4ubv((GLubyte*)&friend_color);
 			glVertexPointer(3, GL_FLOAT, 0, &large_points_friends_[0]);
 			glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(large_points_friends_.size()));
 		}
@@ -164,14 +164,14 @@ void Radar::Draw()
 		glPointSize(3);
 		if(huge_points_enemies_.size() > 0)
 		{
+			glColor4ubv((GLubyte*)&enemy_color);
 			glVertexPointer(3, GL_FLOAT, 0, &huge_points_enemies_[0]);
-			glColor3ubv((GLubyte*)&enemy_color);
 			glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(huge_points_enemies_.size()));
 		}
 
 		if(huge_points_friends_.size() > 0)
 		{
-			glColor3ubv((GLubyte*)&friend_color);
+			glColor4ubv((GLubyte*)&friend_color);
 			glVertexPointer(3, GL_FLOAT, 0, &huge_points_friends_[0]);
 			glDrawArrays(GL_POINTS, 0, static_cast<GLsizei>(huge_points_friends_.size()));
 		}

@@ -1,0 +1,12 @@
+
+
+challenge:DisplayMessage("Dynamic Ship building", 2);
+challenge:DisplayMessage("by Edward Woolhouse", 2);
+challenge:WaitFor(1.5)
+challenge:DisplayMessage("Demos the use of the ship builder", 2);
+challenge:WaitFor(0.5)
+
+builder:CreateNew("SquareCore")
+
+
+challenge:Victory()

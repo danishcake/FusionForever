@@ -39,6 +39,41 @@ int LuaTimeout::SafeResume(lua_State* coroutine)
 		lua_pushstring(coroutine, abort_message.c_str());
 		return LUA_ERRRUN;
 	}
+	if(resume_result != LUA_YIELD && resume_result != 0)
+	{
+		Logger::ErrorOut() << "Lua Error: Begin stack dump\n";
+		//Stack is not unwound, so can dump it
+		
+		/* Stack dump lifted wholesale from http://www.lua.org/pil/24.2.3.html */
+		int i;
+		int top = lua_gettop(coroutine);
+		for (i = 1; i <= top; i++) {  /* repeat for each level */
+			int t = lua_type(coroutine, i);
+			switch (t) {
+				case LUA_TSTRING:  /* strings */
+					Logger::ErrorOut() << i << " String: " << lua_tostring(coroutine, i);
+				break;
+
+				case LUA_TBOOLEAN:  /* booleans */
+					Logger::ErrorOut() << i << " Boolean: " << (lua_toboolean(coroutine, i) ? "true" : "false");
+				break;
+
+				case LUA_TNUMBER:  /* numbers */
+					Logger::ErrorOut() << i << " Number: " << lua_tonumber(coroutine, i);
+				break;
+
+				default:  /* other values */
+					Logger::ErrorOut() << i << " Other: " << lua_typename(coroutine, t);
+				break;
+			}
+			Logger::ErrorOut() << "\n";
+		}
+		Logger::ErrorOut() << "\n End stack dump\n"; /* end the listing */
+	
+		//Now tidy up stack. Error message should be left at the top, but everything else cleared away
+		lua_insert(coroutine, 1);
+		lua_pop(coroutine, lua_gettop(coroutine) - 1);
+	}
 	return resume_result;
 }
 

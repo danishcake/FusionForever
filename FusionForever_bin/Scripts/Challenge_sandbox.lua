@@ -1,5 +1,10 @@
 local owner_pointer = ...;
 require "Vector"
+require "ShipBuilder"
+
+--Initialises the ship builder
+builder_:LateInit(owner_pointer)
+
 
 --This sets up a the environment for a Challenge script to run in.
 local challenge_ = 
@@ -224,6 +229,7 @@ local env_cage = {
 	error = error,
 	challenge = challenge_,
 	ipairs = ipairs,
+	builder = builder_
 }
 
 local env_mt = {__index = env_cage}

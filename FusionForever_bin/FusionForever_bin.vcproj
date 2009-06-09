@@ -380,6 +380,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\CoreBuilder.luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\Demo1.luaChallenge"
 					>
 				</File>
@@ -477,6 +481,18 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\Challenge_sandbox.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Deepcopy.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Section.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\ShipBuilder.lua"
 					>
 				</File>
 				<File
