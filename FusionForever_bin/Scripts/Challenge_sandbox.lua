@@ -3,7 +3,7 @@ require "Vector"
 require "ShipBuilder"
 
 --Initialises the ship builder
-builder_:LateInit(owner_pointer)
+builder_:init(owner_pointer)
 
 
 --This sets up a the environment for a Challenge script to run in.

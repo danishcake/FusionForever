@@ -6,6 +6,11 @@
 #include <boost/algorithm/string.hpp>
 #include "LuaTimeout.h"
 
+//For lua based ship creation
+#include "XMLCore.h"
+#include "XMLSection.h"
+#include "SectionTypes.h"
+
 extern "C"
 {
 #include "lua.h"
@@ -350,6 +355,180 @@ void LuaChallenge::SetCounter(int _counter, int _value, int _max, bool _visible)
 	game_->SetCounter(_counter, _value, _max, _visible);
 }
 
+
+int LuaChallenge::l_GetDesign(lua_State* _luaVM)
+{
+	if(!(lua_gettop(_luaVM) == 2))
+	{
+		luaL_error(_luaVM, "GetCoreDesign must be called with 2 parameters");
+	}
+	return 1;
+}
+int LuaChallenge::l_SpawnDesign(lua_State* _luaVM)
+{
+	//Stack = Challenge_ptr-core-position-angle-force-health_scale
+	//Refered to as BASE from hereon
+	if(!(lua_gettop(_luaVM) == 6))
+	{
+		luaL_error(_luaVM, "SpawnCoreDesign must be called with 2 parameters");
+	}
+
+	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -6)));
+	assert(challenge);
+
+	//Need to build the ship here
+	Core_ptr core = NULL;
+
+	if(!lua_isnumber(_luaVM, -1))
+		luaL_error(_luaVM, "Health-scale (param 6) should be numeric, not %s", lua_typename(_luaVM, lua_type(_luaVM, -1)));
+	if(!lua_isnumber(_luaVM, -2))
+		luaL_error(_luaVM, "Force (param 5) should be numeric, not %s", lua_typename(_luaVM, lua_type(_luaVM, -2)));
+	if(!lua_isnumber(_luaVM, -3))
+		luaL_error(_luaVM, "Angle (param 4) should be numeric, not %s", lua_typename(_luaVM, lua_type(_luaVM, -3)));
+	if(!lua_istable(_luaVM, -4))
+		luaL_error(_luaVM, "Position (param 3) should be a table, not %s", lua_typename(_luaVM, lua_type(_luaVM, -4)));
+	if(!lua_istable(_luaVM, -5))
+		luaL_error(_luaVM, "Core (param 2) should be a table, not %s", lua_typename(_luaVM, lua_type(_luaVM, -5)));
+	
+
+
+	float health_scale = lua_tonumber(_luaVM, -1);								//Stack = BASE
+	int force = lua_tointeger(_luaVM, -2);										//Stack = BASE
+	float angle = lua_tonumber(_luaVM, -3);										//Stack = BASE
+
+																				//Position at -4
+	Vector3f position;
+	lua_pushstring(_luaVM, "x");												//Stack = BASE-"x"
+	lua_gettable(_luaVM, -5);													//Stack = BASE-x
+	if(!lua_isnumber(_luaVM, -1))
+		luaL_error(_luaVM, "param 3 should be a table with a numeric x key");
+	position.x = lua_tonumber(_luaVM, -1);										//Stack = BASE-x
+	lua_pop(_luaVM, 1);															//Stack = BASE
+
+	lua_pushstring(_luaVM, "y");												//Stack = BASE-"y"
+	lua_gettable(_luaVM, -5);													//Stack = BASE-y
+	if(!lua_isnumber(_luaVM, -1))
+		luaL_error(_luaVM, "param 3 should be a table with a numeric y key");
+	position.y = lua_tonumber(_luaVM, -1);										//Stack = BASE-y
+	lua_pop(_luaVM, 1);															//Stack = BASE
+
+
+	ParseLuaShip(_luaVM, (Section**)&core, 2);
+
+	
+	core->SetPosition(position);
+	core->SetAngle(angle);
+	core->ScaleHealth(health_scale);
+	int ship_id =  challenge->SpawnDesign(core, force);
+	lua_pushinteger(_luaVM, ship_id);
+	return 1;
+	//return 1;
+}
+
+void LuaChallenge::ParseLuaShip(lua_State* _luaVM, Section** _parent, int _stack_index)
+{
+	int start_stack = lua_gettop(_luaVM);
+	/* Parse section type */
+	lua_pushstring(_luaVM, "section_type");										//Stack = BASE-"section_type"
+	lua_gettable(_luaVM, _stack_index);													//Stack = BASE-section_type
+	std::string section_type = lua_tostring(_luaVM, -1);						//Stack = BASE-section_type
+	lua_pop(_luaVM, 1);															//Stack = BASE
+
+	/* Parse position */
+	lua_pushstring(_luaVM, "position");											//Stack = Base-"position"
+	lua_gettable(_luaVM, _stack_index);													//Stack = Base-position
+	Vector3f position;
+
+	lua_pushstring(_luaVM, "x");												//Stack = BASE-position-"x"
+	lua_gettable(_luaVM, -2);													//Stack = BASE-position-x
+	position.x = lua_tonumber(_luaVM, -1);										//Stack = BASE-position-x
+	lua_pop(_luaVM, 1);															//Stack = BASE
+
+	lua_pushstring(_luaVM, "y");												//Stack = BASE-position-"y"
+	lua_gettable(_luaVM, -2);													//Stack = BASE-position-y
+	position.y = lua_tonumber(_luaVM, -1);										//Stack = BASE-position-y
+	lua_pop(_luaVM, 2);															//Stack = BASE
+	
+	/* Parse angle */
+	lua_pushstring(_luaVM, "angle");											//Stack = BASE-"angle"
+	lua_gettable(_luaVM, _stack_index);													//Stack = BASE-angle
+	float angle = lua_tonumber(_luaVM, -1);										//Stack = BASE-angle
+	lua_pop(_luaVM, 1);															//Stack = BASE
+
+	/* Parse health */
+	lua_pushstring(_luaVM, "health");											//Stack = BASE-"health"
+	lua_gettable(_luaVM, _stack_index);													//Stack = BASE-health
+	lua_pushstring(_luaVM, "override");										//Stack = BASE-health-"override"
+	lua_gettable(_luaVM, -2);													//Stack = BASE-health-override
+	bool override_health = lua_toboolean(_luaVM, -1);							//Stack = BASE-health-override
+	lua_pop(_luaVM, 1);
+	lua_pushstring(_luaVM, "value");											//Stack = BASE-health-"value"
+	lua_gettable(_luaVM, -2);													//Stack = BASE-health-value
+	float health = lua_tonumber(_luaVM, -1);									//Stack = BASE-health-value
+	lua_pop(_luaVM, 2);															//Stack = BASE
+
+	//Create section, attach to parent and populate fields.
+	Section* current_section = NULL;
+	if(*_parent)
+	{
+		current_section = SectionTypes::GetSection(section_type);
+		if(!current_section)
+			current_section = XMLSection::CreateXMLSection(section_type);
+
+		if(!current_section)
+			luaL_error(_luaVM, "Unable to find %s in built in or XML sections", section_type);
+
+		current_section->SetAngle(angle);
+		current_section->SetPosition(position);
+		if(override_health)
+			current_section->SetMaxHealth(health);
+		(*_parent)->AddChild(current_section);
+	} else
+	{
+		*_parent = XMLCore::CreateXMLCore(section_type);
+		if(!*_parent)
+			luaL_error(_luaVM, "Unable to create core of type : %s", section_type);
+		(*_parent)->SetAngle(angle);
+		(*_parent)->SetPosition(position);
+		if(override_health)
+			(*_parent)->SetMaxHealth(health);
+		current_section = *_parent;
+	}
+
+	/* Parse subsections and attach*/
+	lua_pushstring(_luaVM, "subsections");										//Stack = BASE-"subsections"
+	lua_gettable(_luaVM, _stack_index);											//Stack = BASE-subsections
+	lua_pushnil(_luaVM);														//Stack = BASE-subsections-nil
+	while(lua_next(_luaVM, -2))													//Stack = BASE-subsections-k-v
+	{
+		ParseLuaShip(_luaVM, &current_section, lua_gettop(_luaVM));
+		lua_pop(_luaVM, 1);														//Stack = BASE-subsections-k
+	}
+																				//Stack = BASE-subsections
+	lua_pop(_luaVM, 1);															//Stack = BASE
+	int end_stack = lua_gettop(_luaVM);
+	assert(start_stack == end_stack);
+}
+
+int LuaChallenge::SpawnDesign(Core_ptr _core, int _force)
+{
+	game_->AddShip(_core, _force);
+	return _core->GetSectionID();
+}
+
+
+
+int LuaChallenge::l_UpdateDesign(lua_State* _luaVM)
+{
+	if(!(lua_gettop(_luaVM) == 2))
+	{
+		luaL_error(_luaVM, "SpawnCoreDesign must be called with 2 parameters");
+	}
+	return 0;
+}
+
+
+
 LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* _game) : 
 	luaVM_(_luaVM), challenge_(_challenge), game_(_game), luaAIcache_(luaVM_)
 {
@@ -367,6 +546,11 @@ LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* 
 	lua_register(_luaVM, "DisplayMessage", l_DisplayMessage);
 	lua_register(_luaVM, "SetCounter", l_SetCounter);
 	lua_register(_luaVM, "KillShip", l_KillShip);
+
+	lua_register(_luaVM, "SpawnDesign", l_SpawnDesign);
+	lua_register(_luaVM, "UpdateDesign", l_UpdateDesign);
+	lua_register(_luaVM, "GetDesign`", l_GetDesign);
+
 
 	state_ = ChallengeState::NotStarted;
 

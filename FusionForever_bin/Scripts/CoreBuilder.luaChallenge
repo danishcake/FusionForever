@@ -6,7 +6,42 @@ challenge:WaitFor(1.5)
 challenge:DisplayMessage("Demos the use of the ship builder", 2);
 challenge:WaitFor(0.5)
 
-builder:CreateNew("SquareCore")
+
+
+--Build a ship and spawn it
+
+core = builder:createNew("SquareCore")
+
+armour = builder:createNew("WidePlate")
+armour.position.y = 10
+for i = 0, 360 do
+	gun = builder:createNew("Blaster")
+	gun.angle = i
+	gun.position.y = 5
+	armour:attachChild(gun)
+end
+
+
+
+core:attachChild(armour)
+
+
+core:overrideHealth(2000)
+local ship_id = builder:spawn(core, Vector:new(50, 50), 0, 0, 1)
+challenge:DisplayMessage("Spawned a ship designed in lua", 2);
+
+challenge:WaitFor(2)
+
+
+
+--obtain the spawned ship and add another gun!
+
+core = builder:getCore(ship_id)
+gun = builder:createNew("Gun")
+gun.angle = 180
+gun.position = Vector:new(0, -10)
+
+core.attachChild(gun)
 
 
 challenge:Victory()

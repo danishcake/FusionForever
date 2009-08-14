@@ -38,7 +38,7 @@ namespace ChallengeState
 }
 
 class BaseGame;
-//class Section;
+class Section;
 class Core;
 
 class LuaChallenge
@@ -58,8 +58,14 @@ private:
 	static int l_SetHostility(lua_State* _luaVM);
 	static int l_DisplayMessage(lua_State* _luaVM);
 	static int l_SetCounter(lua_State* _luaVM);
+
+	static int l_GetDesign(lua_State* _luaVM);
+	static int l_SpawnDesign(lua_State* _luaVM);
+
+	static void ParseLuaShip(lua_State* _luaVM, Section** _parent, int _stack_index);
+	static int l_UpdateDesign(lua_State* _luaVM);
 	
-	
+
 	GLColor force_colors_[8];
 	
 	lua_State* luaVM_;
@@ -80,6 +86,7 @@ private:
 
 	//Non obvious reason for passing _luaVM - if lual_error is called from c function not called from lua then it exits. This means I need the lua_State passed by lua
 	int SpawnShip(std::string _ship_name, int _force, Vector2f _position, float angle, std::string _ai_script, float _health_scale, lua_State* _luaVM);
+	int SpawnDesign(Core* _core, int _force);
 	void DeclareVictory() {state_ = ChallengeState::Victory;}
 	void DeclareDefeat() {state_ = ChallengeState::Defeat;}
 	void DeclareDraw() {state_ = ChallengeState::Draw;}
