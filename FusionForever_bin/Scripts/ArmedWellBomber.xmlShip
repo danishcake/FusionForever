@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<Section x="0" y="0" Angle="-0.0822769478" Health="1" Delay="0" SectionType="GW_Player" angle="0">
+    <Section x="0" y="-7.5" Angle="0" Health="500" Delay="0" SectionType="SmallRocket" />
+    <Section x="0" y="0" Angle="0" Health="50" Delay="0" SectionType="HeavyDeflector" />
+    <Section x="0" y="0" Angle="0" Health="100" Delay="0" SectionType="SuperGeneratorCube" />
+    <Section x="0" y="10" Angle="0" Health="400" Delay="0" SectionType="SmartBomber" />
+    <Section x="0" y="7.5" Angle="0" Health="400" Delay="0" SectionType="SmartBomber" />
+    <Section x="0" y="5" Angle="0" Health="400" Delay="0" SectionType="SmartBomber" />
+    <Section x="0" y="2.5" Angle="0" Health="400" Delay="0" SectionType="SmartBomber" />
+    <Section x="0" y="0" Angle="0" Health="400" Delay="0" SectionType="SmartBomber" />
+    <Section x="0" y="-2.5" Angle="0" Health="400" Delay="0" SectionType="SmartBomber" />
+    <Section x="2.5" y="0" Angle="0" Health="400" Delay="0" SectionType="SmartBomber" />
+    <Section x="-2.5" y="0" Angle="0" Health="400" Delay="0" SectionType="SmartBomber" />
+    <Section x="5" y="-2.5" Angle="0" Health="400" Delay="0" SectionType="SmartBomber" />
+    <Section x="-5" y="-2.5" Angle="0" Health="400" Delay="0" SectionType="SmartBomber" />
+</Section>

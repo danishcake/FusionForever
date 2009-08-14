@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<Section x="0" y="0" Angle="0" Health="1800" Delay="0" SectionType="SquareCore" angle="0">
+    <Section x="0" y="0" Angle="0" Health="800" Delay="0" SectionType="SpinningJoint">
+        <Section x="0" y="7.5" Angle="0" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="0" y="-7.5" Angle="-180" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="-7.5" y="0" Angle="-90" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="7.5" y="0" Angle="90" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="-5" y="5" Angle="-45" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="-5" y="-5" Angle="-135" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="5" y="5" Angle="45" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="5" y="-5" Angle="135" Health="400" Delay="0" SectionType="Spike" />
+    </Section>
+    <Section x="0" y="0" Angle="0" Health="800" Delay="0" SectionType="SpinningJoint">
+        <Section x="0" y="15" Angle="0" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="0" y="-15" Angle="-180" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="-15" y="0" Angle="-90" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="15" y="0" Angle="90" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="-12.5" y="12.5" Angle="-45" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="-12.5" y="-12.5" Angle="-135" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="12.5" y="12.5" Angle="45" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="12.5" y="-12.5" Angle="135" Health="400" Delay="0" SectionType="Spike" />
+    </Section>
+    <Section x="0" y="0" Angle="0" Health="800" Delay="0" SectionType="SpinningJoint">
+        <Section x="0" y="22.5" Angle="0" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="0" y="-22.5" Angle="-180" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="-22.5" y="0" Angle="-90" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="22.5" y="0" Angle="90" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="-20" y="20" Angle="-45" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="-20" y="-20" Angle="-135" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="20" y="20" Angle="45" Health="400" Delay="0" SectionType="Spike" />
+        <Section x="20" y="-20" Angle="135" Health="400" Delay="0" SectionType="Spike" />
+    </Section>
+</Section>

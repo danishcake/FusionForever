@@ -1,0 +1,38 @@
+local newships = 
+{
+"Tortoise", "PlasmoHeavy", "PlasmoFast", "MissileSpew", "Plasmo", "BigSquare", "MantaB", "Fractal", "FractalB", "FractalC", "FractalD", "Manta", "Burnboy", "Spidernaut"
+}
+
+playerLives = coroutine.wrap(function()
+	local life = 1
+	local i = 0
+	for i = 1, #newships do
+		local player_id = challenge:SpawnShip(newships[i], 0, Vector:new(0, 0), 0, "KeyboardAI", 1)
+		challenge:WaitForDeath(player_id)
+		challenge:WaitFor(1)
+	end
+
+	challenge:WaitFor(1)
+	challenge:Defeat()
+end)
+
+enemySpawn = coroutine.wrap(function()
+	challenge:WaitFor(1)
+	local i = 0
+	for i = 1, #newships do
+		local enemy_ship = challenge:SpawnShip(newships[i], 1, Vector:new(0, 2000), 0, "SimpleAI.luaAI", 1)
+		challenge:WaitForDeath(enemy_ship)
+		challenge:WaitFor(1)
+	end
+
+	challenge:WaitForAllEnemiesDead(0)
+	challenge:Victory()
+end)
+
+while true do
+	playerLives()
+	enemySpawn()
+	coroutine.yield()
+end
+
+

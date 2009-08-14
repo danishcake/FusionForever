@@ -1,0 +1,66 @@
+<?xml version="1.0" ?>
+<Section x="0" y="0" Angle="-0.00416056532" Health="1800" Delay="0" SectionType="SquareCore" angle="0">
+    <Section x="0" y="15" Angle="0" Health="10000" Delay="0" SectionType="Bulkhead">
+        <Section x="0" y="10" Angle="0" Health="6000" Delay="0" SectionType="SmallBulkhead">
+            <Section x="0" y="0" Angle="0" Health="800" Delay="0" SectionType="JointTracker">
+                <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Circle">
+                    <Section x="0" y="5" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+                    <Section x="-5" y="0" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+                    <Section x="5" y="0" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+                </Section>
+            </Section>
+        </Section>
+    </Section>
+    <Section x="-25" y="0" Angle="-90" Health="12000" Delay="0" SectionType="CenterFrontBody">
+        <Section x="-10" y="0" Angle="270" Health="800" Delay="0" SectionType="LargeSpire" />
+        <Section x="-5" y="25" Angle="90" Health="1500" Delay="0" SectionType="WingLH" />
+        <Section x="-7.5" y="20" Angle="75" Health="1500" Delay="0" SectionType="WingLH" />
+        <Section x="-7.5" y="20" Angle="90" Health="500" Delay="0" SectionType="SmallRocket" />
+        <Section x="15" y="0" Angle="90" Health="800" Delay="0" SectionType="JointTracker">
+            <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Circle">
+                <Section x="0" y="5" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="-5" y="0" Angle="0" Health="1500" Delay="0.200000003" SectionType="PlasmaArtillery" />
+                <Section x="5" y="0" Angle="0" Health="1500" Delay="0.200000003" SectionType="PlasmaArtillery" />
+            </Section>
+        </Section>
+        <Section x="7.5" y="17.5" Angle="90" Health="800" Delay="0" SectionType="JointTracker">
+            <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Circle">
+                <Section x="0" y="5" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="-5" y="0" Angle="0" Health="1500" Delay="0.200000003" SectionType="PlasmaArtillery" />
+                <Section x="5" y="0" Angle="0" Health="1500" Delay="0.200000003" SectionType="PlasmaArtillery" />
+            </Section>
+        </Section>
+        <Section x="0" y="0" Angle="0" Health="300" Delay="0" SectionType="GeneratorCross" />
+        <Section x="-7.5" y="10" Angle="90" Health="500" Delay="0" SectionType="SmallRocket" />
+    </Section>
+    <Section x="25" y="0" Angle="90" Health="12000" Delay="0" SectionType="CenterFrontBody">
+        <Section x="10" y="0" Angle="90" Health="800" Delay="0" SectionType="LargeSpire" />
+        <Section x="5" y="25" Angle="-90" Health="1500" Delay="0" SectionType="WingRH" />
+        <Section x="7.5" y="20" Angle="-75" Health="1500" Delay="0" SectionType="WingRH" />
+        <Section x="7.5" y="20" Angle="-90" Health="500" Delay="0" SectionType="SmallRocket" />
+        <Section x="-15" y="0" Angle="-90" Health="800" Delay="0" SectionType="JointTracker">
+            <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Circle">
+                <Section x="0" y="5" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="5" y="0" Angle="0" Health="1500" Delay="0.200000003" SectionType="PlasmaArtillery" />
+                <Section x="-5" y="0" Angle="0" Health="1500" Delay="0.200000003" SectionType="PlasmaArtillery" />
+            </Section>
+        </Section>
+        <Section x="-7.5" y="17.5" Angle="-90" Health="800" Delay="0" SectionType="JointTracker">
+            <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Circle">
+                <Section x="0" y="5" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="-5" y="0" Angle="0" Health="1500" Delay="0.200000003" SectionType="PlasmaArtillery" />
+                <Section x="5" y="0" Angle="0" Health="1500" Delay="0.200000003" SectionType="PlasmaArtillery" />
+            </Section>
+        </Section>
+        <Section x="0" y="0" Angle="0" Health="300" Delay="0" SectionType="GeneratorCross" />
+        <Section x="7.5" y="10" Angle="-90" Health="500" Delay="0" SectionType="SmallRocket" />
+    </Section>
+    <Section x="0" y="-25" Angle="180" Health="12000" Delay="0" SectionType="CenterFrontBody">
+        <Section x="12.5" y="0" Angle="-150" Health="500" Delay="0" SectionType="SmallRocket" />
+        <Section x="-12.5" y="0" Angle="150" Health="500" Delay="0" SectionType="SmallRocket" />
+        <Section x="0" y="0" Angle="0" Health="1500" Delay="0" SectionType="DriveUnit" />
+        <Section x="10" y="5" Angle="-165" Health="500" Delay="0" SectionType="SmallRocket" />
+        <Section x="-10" y="5" Angle="165" Health="500" Delay="0" SectionType="SmallRocket" />
+    </Section>
+    <Section x="0" y="0" Angle="0" Health="300" Delay="0" SectionType="GeneratorCross" />
+</Section>

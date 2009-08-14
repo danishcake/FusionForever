@@ -1,0 +1,36 @@
+playerLives = coroutine.wrap(function()
+	local player_id = challenge:SpawnShip("ArmedWell", 0, Vector:new(0, 0), 0, "KeyboardAI", 0.1)
+	challenge:WaitForDeath(player_id)
+	challenge:WaitFor(1)
+
+	challenge:WaitFor(1)
+	challenge:Defeat()
+end)
+
+enemySpawn = coroutine.wrap(function()
+	challenge:WaitFor(1)
+
+	local enemy_ship = challenge:SpawnShip("Tortoise", 1, Vector:new(2000, 0), 0, "SimpleAI.luaAI", 1)
+	challenge:WaitForDeath(enemy_ship)
+	challenge:WaitFor(1)
+
+	challenge:WaitForAllEnemiesDead(0)
+	challenge:Victory()
+end)
+
+challenge:DisplayMessage("Duel 3", 2);
+challenge:DisplayMessage("by Edward Woolhouse", 2);
+challenge:WaitFor(1.5)
+challenge:DisplayMessage("This tortoise looks hard to crack!", 2);
+challenge:WaitFor(1.0)
+challenge:DisplayMessage("Get ready...", 2);
+challenge:WaitFor(1.0)
+
+
+while true do
+	playerLives()
+	enemySpawn()
+	coroutine.yield()
+end
+
+

@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<Section x="0" y="0" Angle="0" Health="1500" Delay="0" SectionType="TinyCore" angle="0">
+    <Section x="-5" y="0" Angle="15" Health="700" Delay="0" SectionType="SweptWingLH" />
+    <Section x="5" y="0" Angle="-15" Health="700" Delay="0" SectionType="SweptWingRH" />
+    <Section x="0" y="10" Angle="0" Health="1500" Delay="0" SectionType="FlakCannon" />
+</Section>

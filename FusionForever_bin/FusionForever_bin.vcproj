@@ -368,6 +368,10 @@
 				Name="Challenges"
 				>
 				<File
+					RelativePath=".\Scripts\57 Varieties.luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\Backstabber.luaChallenge"
 					>
 				</File>
@@ -385,6 +389,26 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\Demo1.luaChallenge"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Duel 1.luaChallenge"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Duel 2.luaChallenge"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Duel 3.luaChallenge"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Duel 4.luaChallenge"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Duel 5.luaChallenge"
 					>
 				</File>
 				<File
@@ -445,6 +469,10 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\JuggernautFight.luaChallenge"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Newships.luaChallenge"
 					>
 				</File>
 				<File
@@ -533,11 +561,35 @@
 						>
 					</File>
 					<File
+						RelativePath=".\Scripts\FlatBulkhead.XMLSection"
+						>
+					</File>
+					<File
 						RelativePath=".\Scripts\FrontPlatingLH.XMLSection"
 						>
 					</File>
 					<File
 						RelativePath=".\Scripts\FrontPlatingRH.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\HeavyArm.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\HeavyArm2.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\HeavyLongSpike.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\HeavySpike.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\InverseBearEars.XMLSection"
 						>
 					</File>
 					<File
@@ -549,6 +601,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\Scripts\SmallFlatBulkhead.XMLSection"
+						>
+					</File>
+					<File
 						RelativePath=".\Scripts\SpikeArmRH.XMLSection"
 						>
 					</File>
@@ -556,6 +612,14 @@
 				<Filter
 					Name="Medium 20x20"
 					>
+					<File
+						RelativePath=".\Scripts\BearEarMuff.XMLSection"
+						>
+					</File>
+					<File
+						RelativePath=".\Scripts\BearEarMuff2.XMLSection"
+						>
+					</File>
 					<File
 						RelativePath=".\Scripts\Clamp.XMLSection"
 						>
@@ -717,6 +781,10 @@
 					Name="Shields"
 					>
 					<File
+						RelativePath=".\Scripts\AblativeShield.XMLSection"
+						>
+					</File>
+					<File
 						RelativePath=".\Scripts\HeavyDeflector.XMLSection"
 						>
 					</File>
@@ -746,7 +814,23 @@
 				Name="XMLShips"
 				>
 				<File
+					RelativePath=".\Scripts\ArmedWell.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\ArmedWellBomber.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\BigSquare.xmlShip"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\Broadside.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Burnboy.xmlShip"
 					>
 				</File>
 				<File
@@ -755,6 +839,46 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\Cilia.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\DevilHead.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\DevilHead2.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\FlyA.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\FlyB.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\FlyC.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\FlyD.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Fractal.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\FractalB.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\FractalC.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\FractalD.xmlShip"
 					>
 				</File>
 				<File
@@ -814,11 +938,27 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\Largess.xmlShip"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\Lasership.xmlShip"
 					>
 				</File>
 				<File
 					RelativePath=".\Scripts\LaserTurret.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Manta.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\MantaB.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\MissileSpew.xmlShip"
 					>
 				</File>
 				<File
@@ -830,11 +970,31 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\Plasmo.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\PlasmoFast.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\PlasmoHeavy.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\PlayerMine.xmlShip"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\Protoship.xmlShip"
 					>
 				</File>
 				<File
 					RelativePath=".\Scripts\Ramrod.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Razorback.xmlShip"
 					>
 				</File>
 				<File
@@ -854,11 +1014,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\Spidernaut.xmlShip"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\TheBulk.xmlShip"
 					>
 				</File>
 				<File
 					RelativePath=".\Scripts\TheMine.xmlShip"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Tortoise.xmlShip"
 					>
 				</File>
 				<File
@@ -871,6 +1039,10 @@
 				>
 				<File
 					RelativePath=".\Scripts\AI_BackStabber.luaAI"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\BurnerAI.luaAI"
 					>
 				</File>
 				<File

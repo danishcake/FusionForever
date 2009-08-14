@@ -11,7 +11,7 @@ win_score = 400
 time_limit = 60
 
 playerLives = coroutine.wrap(function()
-	player_id = challenge:SpawnShip("TheMine", 0, Vector:new(0, 0), 0, "KeyboardAI", 100)
+	player_id = challenge:SpawnShip("PlayerMine", 0, Vector:new(0, 0), 0, "KeyboardAI", 100)
 	challenge:WaitForDeath(player_id)
 	challenge:WaitFor(1)
 

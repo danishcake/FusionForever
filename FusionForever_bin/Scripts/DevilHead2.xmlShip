@@ -1,0 +1,130 @@
+<?xml version="1.0" ?>
+<Section x="0" y="0" Angle="-0.316435993" Health="1800" Delay="0" SectionType="SquareCore" angle="0">
+    <Section x="0" y="-25" Angle="-180" Health="12000" Delay="0" SectionType="CenterFrontBody">
+        <Section x="10" y="-2.5" Angle="30" Health="900" Delay="0" SectionType="FlareArm">
+            <Section x="0" y="20" Angle="0" Health="800" Delay="0" SectionType="JointTracker">
+                <Section x="0" y="0" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
+            </Section>
+        </Section>
+        <Section x="-10" y="-2.5" Angle="-30" Health="900" Delay="0" SectionType="FlareArm">
+            <Section x="0" y="20" Angle="0" Health="800" Delay="0" SectionType="JointTracker">
+                <Section x="0" y="0" Angle="0" Health="800" Delay="0" SectionType="HeatBeamGun" />
+            </Section>
+        </Section>
+    </Section>
+    <Section x="-10" y="20" Angle="0" Health="1400" Delay="0" SectionType="OctoSection">
+        <Section x="-7.5" y="7.5" Angle="-30" Health="800" Delay="0" SectionType="LargeSpire" />
+        <Section x="-2.5" y="10" Angle="0" Health="400" Delay="0" SectionType="Spike">
+            <Section x="0" y="10" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+        </Section>
+        <Section x="2.5" y="10" Angle="0" Health="400" Delay="0" SectionType="Spike">
+            <Section x="0" y="10" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+        </Section>
+        <Section x="7.5" y="7.5" Angle="45" Health="400" Delay="0" SectionType="Spike">
+            <Section x="0" y="10" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+        </Section>
+        <Section x="-10" y="5" Angle="-90" Health="400" Delay="0" SectionType="Spike">
+            <Section x="0" y="10" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+        </Section>
+        <Section x="-10" y="0" Angle="-90" Health="400" Delay="0" SectionType="Spike">
+            <Section x="0" y="10" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+        </Section>
+        <Section x="-7.5" y="-7.5" Angle="-135" Health="400" Delay="0" SectionType="Spike">
+            <Section x="0" y="10" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+        </Section>
+    </Section>
+    <Section x="10" y="20" Angle="0" Health="1400" Delay="0" SectionType="OctoSection">
+        <Section x="7.5" y="7.5" Angle="30" Health="800" Delay="0" SectionType="LargeSpire" />
+        <Section x="2.5" y="10" Angle="0" Health="400" Delay="0" SectionType="Spike">
+            <Section x="0" y="10" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+        </Section>
+        <Section x="-2.5" y="10" Angle="0" Health="400" Delay="0" SectionType="Spike">
+            <Section x="0" y="10" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+        </Section>
+        <Section x="-7.5" y="7.5" Angle="-45" Health="400" Delay="0" SectionType="Spike">
+            <Section x="0" y="10" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+        </Section>
+        <Section x="7.5" y="-7.5" Angle="135" Health="400" Delay="0" SectionType="Spike">
+            <Section x="0" y="10" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+        </Section>
+        <Section x="10" y="-2.5" Angle="90" Health="400" Delay="0" SectionType="Spike">
+            <Section x="0" y="10" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+        </Section>
+        <Section x="10" y="2.5" Angle="90" Health="400" Delay="0" SectionType="Spike">
+            <Section x="0" y="10" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+        </Section>
+    </Section>
+    <Section x="-15" y="-10" Angle="0" Health="30000" Delay="0" SectionType="SpikeArmLH">
+        <Section x="-5" y="2.5" Angle="-90" Health="800" Delay="0" SectionType="JointTracker">
+            <Section x="0" y="0" Angle="0" Health="800" Delay="0" SectionType="Burner" />
+        </Section>
+    </Section>
+    <Section x="15" y="-10" Angle="0" Health="3000" Delay="0" SectionType="SpikeArmRH">
+        <Section x="5" y="2.5" Angle="90" Health="800" Delay="0" SectionType="JointTracker">
+            <Section x="0" y="0" Angle="0" Health="800" Delay="0" SectionType="Burner" />
+        </Section>
+    </Section>
+    <Section x="0" y="-67.5" Angle="0" Health="9000" Delay="0" SectionType="BearEars">
+        <Section x="-15" y="20" Angle="-105" Health="900" Delay="0" SectionType="FlareArm">
+            <Section x="0" y="20" Angle="-15" Health="900" Delay="0" SectionType="FlareArm">
+                <Section x="0" y="20" Angle="-30" Health="900" Delay="0" SectionType="FlareArm">
+                    <Section x="0" y="20" Angle="0" Health="800" Delay="0" SectionType="JointTracker">
+                        <Section x="0" y="0" Angle="0" Health="800" Delay="0" SectionType="LargeSpire">
+                            <Section x="0" y="17.5" Angle="0" Health="800" Delay="0" SectionType="JointTracker">
+                                <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Spire">
+                                    <Section x="0" y="12.5" Angle="0" Health="750" Delay="0" SectionType="HeavyChainGun" />
+                                </Section>
+                            </Section>
+                        </Section>
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="15" y="20" Angle="105" Health="900" Delay="0" SectionType="FlareArm">
+            <Section x="0" y="20" Angle="15" Health="900" Delay="0" SectionType="FlareArm">
+                <Section x="0" y="20" Angle="30" Health="900" Delay="0" SectionType="FlareArm">
+                    <Section x="0" y="20" Angle="0" Health="800" Delay="0" SectionType="JointTracker">
+                        <Section x="0" y="0" Angle="0" Health="800" Delay="0" SectionType="LargeSpire">
+                            <Section x="0" y="17.5" Angle="0" Health="800" Delay="0" SectionType="JointTracker">
+                                <Section x="0" y="0" Angle="0" Health="500" Delay="0" SectionType="Spire">
+                                    <Section x="0" y="12.5" Angle="0" Health="750" Delay="0" SectionType="HeavyChainGun" />
+                                </Section>
+                            </Section>
+                        </Section>
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="0" y="-20" Angle="-180" Health="6000" Delay="0" SectionType="SmallBulkhead">
+            <Section x="-12.5" y="15" Angle="0" Health="8000" Delay="0" SectionType="FrontPlatingLH">
+                <Section x="0" y="15" Angle="0" Health="900" Delay="0" SectionType="FlareArm">
+                    <Section x="0" y="20" Angle="0" Health="900" Delay="0" SectionType="FlareArm">
+                        <Section x="0" y="20" Angle="0" Health="500" Delay="0" SectionType="Spire" />
+                    </Section>
+                </Section>
+                <Section x="-20" y="-20" Angle="0" Health="1500" Delay="0" SectionType="DriveUnit" />
+            </Section>
+            <Section x="10" y="15" Angle="0" Health="8000" Delay="0" SectionType="FrontPlatingRH">
+                <Section x="0" y="15" Angle="0" Health="900" Delay="0" SectionType="FlareArm">
+                    <Section x="0" y="20" Angle="0" Health="900" Delay="0" SectionType="FlareArm">
+                        <Section x="0" y="20" Angle="0" Health="500" Delay="0" SectionType="Spire" />
+                    </Section>
+                </Section>
+                <Section x="20" y="-20" Angle="0" Health="1500" Delay="0" SectionType="DriveUnit" />
+            </Section>
+            <Section x="0" y="0" Angle="0" Health="200" Delay="0" SectionType="EnergyStorageLarge" />
+        </Section>
+        <Section x="0" y="15" Angle="0" Health="900" Delay="0" SectionType="FlareArm">
+            <Section x="0" y="20" Angle="0" Health="900" Delay="0" SectionType="FlareArm">
+                <Section x="0" y="20" Angle="0" Health="500" Delay="0" SectionType="Spire" />
+            </Section>
+        </Section>
+        <Section x="0" y="15" Angle="0" Health="900" Delay="0" SectionType="FlareArm">
+            <Section x="0" y="20" Angle="0" Health="900" Delay="0" SectionType="FlareArm">
+                <Section x="0" y="20" Angle="0" Health="500" Delay="0" SectionType="Spire" />
+            </Section>
+        </Section>
+        <Section x="0" y="-15" Angle="0" Health="300" Delay="0" SectionType="GeneratorCross" />
+        <Section x="0" y="0" Angle="0" Health="600" Delay="0" SectionType="FusionGenerator" />
+    </Section>
+</Section>

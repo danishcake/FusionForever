@@ -1,0 +1,39 @@
+local enemies = {{"FlyA", "SimpleAI.luaAI"}, {"FlyB", "BurnerAI.luaAI"}, {"FlyC", "SimpleAI.luaAI"}, {"FlyD", "SimpleAI.luaAI"}}
+
+
+playerLives = coroutine.wrap(function()
+	player_id = challenge:SpawnShip("ArmedWellBomber", 0, Vector:new(0, 0), 0, "KeyboardAI", 0.1)
+	challenge:WaitForDeath(player_id)
+	challenge:WaitFor(1)
+	
+	challenge:Defeat()
+end)
+
+force1Spawn = coroutine.wrap(function()
+	challenge:WaitFor(2)
+	for i = 0, 57 do
+		local ship_type = math.random(1, #enemies);
+		local ship_data =  challenge:GetShipData(player_id)
+		challenge:SpawnShip(enemies[ship_type][1], 1, ship_data.position + Vector:random_ring(400, 900), 0, enemies[ship_type][2], 0.01)
+		challenge:WaitFor(0.5)
+		challenge:WaitForForceCountLessThan(1, 10)
+	end
+	challenge:WaitForAllEnemiesDead(0)
+	challenge:WaitFor(1)
+	challenge:Victory()
+end)
+
+challenge:DisplayMessage("57 Varieties", 2);
+challenge:DisplayMessage("by Edward Woolhouse", 2);
+challenge:WaitFor(1.5)
+challenge:DisplayMessage("Kill 57 enemies", 2);
+
+challenge:WaitFor(0.5)
+challenge:DisplayMessage("Get ready...", 2);
+challenge:WaitFor(1.0)
+
+while true do
+	playerLives()
+	force1Spawn()
+	coroutine.yield()
+end

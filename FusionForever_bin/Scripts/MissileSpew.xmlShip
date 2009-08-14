@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<Section x="0" y="0" Angle="-3.02002821e-014" Health="1800" Delay="0" SectionType="SquareCore" angle="0">
+    <Section x="-10" y="10" Angle="-60" Health="800" Delay="0" SectionType="JointAngles">
+        <Section x="0" y="15" Angle="0" Health="900" Delay="0" SectionType="HeavyLongSpike">
+            <Section x="0" y="20" Angle="0" Health="50" Delay="0" SectionType="HeavyShieldCube" />
+        </Section>
+    </Section>
+    <Section x="10" y="10" Angle="60" Health="800" Delay="0" SectionType="JointAngles">
+        <Section x="0" y="15" Angle="0" Health="900" Delay="0" SectionType="HeavyLongSpike">
+            <Section x="0" y="20" Angle="0" Health="50" Delay="0" SectionType="HeavyShieldCube" />
+        </Section>
+    </Section>
+    <Section x="0" y="10" Angle="0" Health="800" Delay="0" SectionType="LargeSpire">
+        <Section x="0" y="17.5" Angle="0" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
+        <Section x="2.5" y="15" Angle="15" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
+        <Section x="-2.5" y="15" Angle="-15" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
+        <Section x="2.5" y="10" Angle="30" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
+        <Section x="-2.5" y="10" Angle="-30" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
+        <Section x="-2.5" y="5" Angle="-45" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
+        <Section x="2.5" y="5" Angle="45" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
+    </Section>
+</Section>

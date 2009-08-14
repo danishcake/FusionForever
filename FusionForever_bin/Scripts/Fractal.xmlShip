@@ -1,0 +1,99 @@
+<?xml version="1.0" ?>
+<Section x="0" y="0" Angle="0.0163736306" Health="1800" Delay="0" SectionType="SquareCore" angle="0">
+    <Section x="12.5" y="12.5" Angle="0" Health="200" Delay="0" SectionType="EnergyStorageLarge">
+        <Section x="0" y="0" Angle="0" Health="50" Delay="0" SectionType="LightDeflector" />
+    </Section>
+    <Section x="-12.5" y="12.5" Angle="0" Health="200" Delay="0" SectionType="EnergyStorageLarge">
+        <Section x="0" y="0" Angle="0" Health="50" Delay="0" SectionType="LightDeflector" />
+    </Section>
+    <Section x="-12.5" y="-12.5" Angle="0" Health="200" Delay="0" SectionType="EnergyStorageLarge">
+        <Section x="0" y="0" Angle="0" Health="50" Delay="0" SectionType="LightDeflector" />
+    </Section>
+    <Section x="12.5" y="-12.5" Angle="0" Health="200" Delay="0" SectionType="EnergyStorageLarge">
+        <Section x="0" y="0" Angle="0" Health="50" Delay="0" SectionType="LightDeflector" />
+    </Section>
+    <Section x="12.5" y="0" Angle="0" Health="200" Delay="0" SectionType="EnergyStorageLarge">
+        <Section x="0" y="0" Angle="0" Health="50" Delay="0" SectionType="LightDeflector" />
+    </Section>
+    <Section x="0" y="12.5" Angle="0" Health="200" Delay="0" SectionType="EnergyStorageLarge">
+        <Section x="0" y="0" Angle="0" Health="50" Delay="0" SectionType="LightDeflector" />
+    </Section>
+    <Section x="-12.5" y="0" Angle="0" Health="200" Delay="0" SectionType="EnergyStorageLarge">
+        <Section x="0" y="0" Angle="0" Health="50" Delay="0" SectionType="LightDeflector" />
+    </Section>
+    <Section x="0" y="-12.5" Angle="0" Health="200" Delay="0" SectionType="EnergyStorageLarge">
+        <Section x="0" y="0" Angle="0" Health="50" Delay="0" SectionType="LightDeflector" />
+    </Section>
+    <Section x="-27.5" y="0" Angle="270" Health="150" Delay="0" SectionType="DriveUnit">
+        <Section x="0" y="10" Angle="0" Health="100" Delay="0" SectionType="JointTracker">
+            <Section x="0" y="0" Angle="0" Health="100" Delay="0" SectionType="Circle">
+                <Section x="0" y="5" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="-5" y="0" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="5" y="0" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+            </Section>
+        </Section>
+    </Section>
+    <Section x="27.5" y="0" Angle="90" Health="150" Delay="0" SectionType="DriveUnit">
+        <Section x="0" y="10" Angle="0" Health="100" Delay="0" SectionType="JointTracker">
+            <Section x="0" y="0" Angle="0" Health="100" Delay="0" SectionType="Circle">
+                <Section x="0" y="5" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="-5" y="0" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="5" y="0" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+            </Section>
+        </Section>
+    </Section>
+    <Section x="0" y="-27.5" Angle="180" Health="150" Delay="0" SectionType="DriveUnit">
+        <Section x="0" y="10" Angle="0" Health="100" Delay="0" SectionType="JointTracker">
+            <Section x="0" y="0" Angle="0" Health="100" Delay="0" SectionType="Circle">
+                <Section x="0" y="5" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="-5" y="0" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="5" y="0" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+            </Section>
+        </Section>
+    </Section>
+    <Section x="0" y="27.5" Angle="0" Health="150" Delay="0" SectionType="DriveUnit">
+        <Section x="0" y="10" Angle="0" Health="100" Delay="0" SectionType="JointTracker">
+            <Section x="0" y="0" Angle="0" Health="100" Delay="0" SectionType="Circle">
+                <Section x="0" y="5" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="-5" y="0" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="5" y="0" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+            </Section>
+        </Section>
+    </Section>
+    <Section x="-22.5" y="-22.5" Angle="225" Health="150" Delay="0" SectionType="DriveUnit">
+        <Section x="0" y="10" Angle="0" Health="100" Delay="0" SectionType="JointTracker">
+            <Section x="0" y="0" Angle="0" Health="100" Delay="0" SectionType="Circle">
+                <Section x="0" y="5" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="-5" y="0" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="5" y="0" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+            </Section>
+        </Section>
+    </Section>
+    <Section x="22.5" y="-22.5" Angle="135" Health="150" Delay="0" SectionType="DriveUnit">
+        <Section x="0" y="10" Angle="0" Health="100" Delay="0" SectionType="JointTracker">
+            <Section x="0" y="0" Angle="0" Health="100" Delay="0" SectionType="Circle">
+                <Section x="0" y="5" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="-5" y="0" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="5" y="0" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+            </Section>
+        </Section>
+    </Section>
+    <Section x="22.5" y="22.5" Angle="45" Health="150" Delay="0" SectionType="DriveUnit">
+        <Section x="0" y="10" Angle="0" Health="100" Delay="0" SectionType="JointTracker">
+            <Section x="0" y="0" Angle="0" Health="100" Delay="0" SectionType="Circle">
+                <Section x="0" y="5" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="-5" y="0" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="5" y="0" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+            </Section>
+        </Section>
+    </Section>
+    <Section x="-22.5" y="22.5" Angle="315" Health="150" Delay="0" SectionType="DriveUnit">
+        <Section x="0" y="10" Angle="0" Health="100" Delay="0" SectionType="JointTracker">
+            <Section x="0" y="0" Angle="0" Health="100" Delay="0" SectionType="Circle">
+                <Section x="0" y="5" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="-5" y="0" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+                <Section x="5" y="0" Angle="0" Health="150" Delay="0" SectionType="PlasmaArtillery" />
+            </Section>
+        </Section>
+    </Section>
+</Section>
