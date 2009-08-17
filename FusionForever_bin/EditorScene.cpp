@@ -208,7 +208,7 @@ bool EditorScene::cbDelete(const CEGUI::EventArgs& e)
 		parent->AttachChildren(detached);
 
 
-		parent->AttachChildren(detached);
+		//parent->AttachChildren(detached);
 		SetSelected(parent);
 	}
 	return true;
@@ -402,6 +402,41 @@ bool EditorScene::cbBackgroundMouseLeave(const CEGUI::EventArgs& e)
 }
 
 
+bool EditorScene::cbCopy(const CEGUI::EventArgs& e)
+{
+	return true;
+}
+bool EditorScene::cbCut(const CEGUI::EventArgs& e)
+{
+	if(selection_ && selection_->GetParent())
+	{
+		if(cut_section_)
+		{
+			delete cut_section_;
+		}
+		Section_ptr parent = selection_->GetParent();
+
+		std::vector<Section_ptr> parent_detached =  parent->DetachChildren();
+		parent_detached.erase(std::remove( parent_detached.begin(), parent_detached.end(), selection_), parent_detached.end());
+		
+		cut_section_ = selection_;
+
+		parent->AttachChildren(parent_detached);
+		SetSelected(parent);
+	}
+	return true;
+}
+bool EditorScene::cbPaste(const CEGUI::EventArgs& e)
+{
+	if(selection_ && cut_section_)
+	{
+		selection_->AddChild(cut_section_);
+		cut_section_ = NULL;
+	}
+	return true;
+}
+
+
 void AddItemToTab(CEGUI::Event::Subscriber _subscriber, CEGUI::String _text, CEGUI::Window* _tab, float& _width, float& _height)
 {
 	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
@@ -432,6 +467,7 @@ EditorScene::EditorScene(void)
 	drag_mode_ = EditorDragMode::NotDragging;
 	move_first_tick = true;
 	waiting_for_return_ = false;
+	cut_section_ = NULL;
 
 	sum_time_ = 0;
 
@@ -494,6 +530,19 @@ EditorScene::EditorScene(void)
 	pBtnToggleTime->setText( "Time on" );
 	myRoot->addChildWindow(pBtnToggleTime);
 
+	CEGUI::PushButton* pBtnCut = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/Cut");
+	pBtnCut->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 55 ), CEGUI::UDim( 0, 30 ) ) );
+	pBtnCut->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 10), CEGUI::UDim( 0, 130 ) ) );
+	pBtnCut->subscribeEvent(CEGUI::Window::EventMouseClick,CEGUI::Event::Subscriber(&EditorScene::cbCut, this));
+	pBtnCut->setText( "Cut" );
+	myRoot->addChildWindow(pBtnCut);
+
+	CEGUI::PushButton* pBtnPaste = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/Paste");
+	pBtnPaste->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 55 ), CEGUI::UDim( 0, 30 ) ) );
+	pBtnPaste->setPosition( CEGUI::UVector2( CEGUI::UDim( 0, 70), CEGUI::UDim( 0, 130 ) ) );
+	pBtnPaste->subscribeEvent(CEGUI::Window::EventMouseClick, CEGUI::Event::Subscriber(&EditorScene::cbPaste, this));
+	pBtnPaste->setText( "Paste" );
+	myRoot->addChildWindow(pBtnPaste);
 
 	CEGUI::PushButton* pBtnQuit = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Edit/QuitToMenu");
 	pBtnQuit->setSize( CEGUI::UVector2( CEGUI::UDim( 0, 55 ), CEGUI::UDim( 0, 30 ) ) );

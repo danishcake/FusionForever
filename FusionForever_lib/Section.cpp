@@ -120,6 +120,25 @@ void Section::DrawEditorSupport(float _grid_size, Section_ptr _selected)
 	glVertex3f(start.x +_grid_size, start.y +_grid_size, 0);
 
 	glEnd();
+
+
+	glLineWidth(2);
+	glPushMatrix();
+	glTranslatef(start.x, start.y, 0);
+	glRotatef(-GetGlobalAngle(), 0, 0, 1);
+	
+	glBegin(GL_LINES);
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);	
+	glVertex3f(0, 0, 0);
+	glVertex3f(_grid_size * 4, 0, 0);
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);	
+	glVertex3f(0, 0, 0);
+	glVertex3f(0, _grid_size * 4, 0);
+	
+	glEnd();
+	glPopMatrix();
+	glLineWidth(1);
+
 	BOOST_FOREACH(Section_ptr child, sub_sections_)
 	{
 		child->DrawEditorSupport(_grid_size, _selected);

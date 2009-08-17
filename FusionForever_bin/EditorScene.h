@@ -46,6 +46,10 @@ public:
 	bool cbSetCoreToXMLCore(const CEGUI::EventArgs& e);
 	bool cbAddSection(const CEGUI::EventArgs& e);
 
+	bool cbCopy(const CEGUI::EventArgs& e);
+	bool cbCut(const CEGUI::EventArgs& e);
+	bool cbPaste(const CEGUI::EventArgs& e);
+
 	bool cbBackgroundClick(const CEGUI::EventArgs& e);
 	bool cbBackgroundMove(const CEGUI::EventArgs& e);
 	bool cbBackgroundMBD(const CEGUI::EventArgs& e);
@@ -67,6 +71,8 @@ protected:
 	float sum_time_;
 	float fade_out_time_;
 	EditorGame* game_;
+
+	Section* cut_section_;
 
 	CEGUI::Point old_position;
 	Vector3f accumulated_snap;

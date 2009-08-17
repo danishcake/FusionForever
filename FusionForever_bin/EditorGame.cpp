@@ -71,3 +71,15 @@ void EditorGame::Draw()
 	Vector3f scaled_line = Camera::Instance().ScreenDeltaToWorldDelta(Vector3f(5,0,0));
 	ships_[0].at(0)->DrawEditorSupport(scaled_line.x, selected_section_);
 }
+
+int EditorGame::Tick(float _timespan, GameGUI& _gui)
+{
+	//Stop ship rotating 
+	if(ships_[0][0])
+	{
+		ships_[0][0]->SetPosition(Vector3f(0, 0, 0));
+		ships_[0][0]->SetAngle(0);
+	}
+
+	return BaseGame::Tick(_timespan, _gui);
+}

@@ -21,6 +21,7 @@ public:
 	Core* GetCore();
 	
 	virtual void Draw();
+	virtual int Tick(float _timespan, GameGUI& _gui);
 
 	void SetSelectedSection(Section* _selected_section)
 	{
