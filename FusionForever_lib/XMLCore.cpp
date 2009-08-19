@@ -22,7 +22,7 @@ XMLCore::XMLCore(XMLCoreData _fill_outline_data, BaseAI* _AI)
 	energy_ = FlexFloat(_fill_outline_data.energy_storage, _fill_outline_data.energy_storage);
 	power_generation_ = FlexFloat(_fill_outline_data.power_generation);
 	thrust_ = FlexFloat(_fill_outline_data.thrust);
-	filename_ = _fill_outline_data.filename;
+	section_type_ = _fill_outline_data.filename;
 }
 
 XMLCore::~XMLCore(void)
@@ -44,6 +44,7 @@ XMLCore* XMLCore::CreateXMLCore(std::string _name)
 	{
 		XMLCoreData indicies;
 		indicies.filename = _name;
+
 		TiXmlDocument section = TiXmlDocument(file_name.c_str());
 		if(section.LoadFile())
 		{
@@ -280,5 +281,5 @@ void XMLCore::InitialiseGraphics()
 void XMLCore::ToXML(TiXmlElement* _node)
 {
 	Section::ToXML(_node);
-	_node->SetAttribute("SectionType", filename_);
+	_node->SetAttribute("SectionType", section_type_);
 }

@@ -27,7 +27,6 @@ class XMLCore :
 private:
 	XMLCore(XMLCoreData _core_data, BaseAI* _AI);
 	static std::map<std::string, XMLCoreData> name_map_;
-	std::string filename_;
 protected:
 	virtual void InitialiseGraphics();
 public:	

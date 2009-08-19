@@ -28,6 +28,7 @@ PlasmaArtillery::PlasmaArtillery(void)
 	cooldown_time_ = 4.0f;
 	default_sub_section_position_ = Vector3f(0, 0, 0);
 	mass_ = 450;
+	section_type_ = "PlasmaArtillery";
 }
 
 PlasmaArtillery::~PlasmaArtillery(void)
@@ -84,8 +85,3 @@ void PlasmaArtillery::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_
 	}
 }
 
-void PlasmaArtillery::ToXML(TiXmlElement* _node)
-{
-	Section::ToXML(_node);
-	_node->SetAttribute("SectionType", "PlasmaArtillery");
-}

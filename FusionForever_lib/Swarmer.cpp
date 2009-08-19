@@ -29,6 +29,7 @@ Swarmer::Swarmer(void)
 	cooldown_time_ = 0.15f;
 	default_sub_section_position_ = Vector3f(0, 0, 0);
 	mass_ = 250;
+	section_type_ = "Swamer";
 }
 
 Swarmer::~Swarmer(void)
@@ -93,10 +94,4 @@ void Swarmer::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 			SoundManager::Instance().PlaySample("Fire3.wav");
 		}
 	}
-}
-
-void Swarmer::ToXML(TiXmlElement* _node)
-{
-	Section::ToXML(_node);
-	_node->SetAttribute("SectionType", "Swarmer");
 }

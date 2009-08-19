@@ -531,6 +531,19 @@ Core_ptr Section::GetRoot()
 	return root_ != NULL ? root_ : static_cast<Core_ptr>(this);
 }
 
+Section* Section::GetSectionByID(int _section_id)
+{
+	if(section_id_ == _section_id)
+		return this;
+	BOOST_FOREACH(Section_ptr section, sub_sections_)
+	{
+		Section* ss = section->GetSectionByID(_section_id);
+		if(ss)
+			return ss;
+	}
+	return NULL;
+}
+
 void Section::ToXML(TiXmlElement* _node)
 {
 	BOOST_FOREACH(Section_ptr section, sub_sections_)
@@ -546,6 +559,7 @@ void Section::ToXML(TiXmlElement* _node)
 	_node->SetAttribute("Angle", boost::lexical_cast<std::string, float>(angle_));
 	_node->SetAttribute("Health", boost::lexical_cast<std::string, float>(health_.GetMaxValue()));
 	_node->SetAttribute("Delay", boost::lexical_cast<std::string, float>(firing_delay_));
+	_node->SetAttribute("SectionType", section_type_);
 }
 
 void Section::SaveToXML(std::string _filename)

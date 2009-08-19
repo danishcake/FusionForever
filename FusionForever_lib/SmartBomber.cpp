@@ -29,6 +29,7 @@ SmartBomber::SmartBomber(void)
 	cooldown_time_ = 3.0f;
 	default_sub_section_position_ = Vector3f(0, 0, 0);
 	mass_ = 400;
+	section_type_ = "SmartBomber";
 }
 
 SmartBomber::~SmartBomber(void)
@@ -92,10 +93,4 @@ void SmartBomber::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj,
 			PowerTick(25);
 		}
 	}
-}
-
-void SmartBomber::ToXML(TiXmlElement* _node)
-{
-	Section::ToXML(_node);
-	_node->SetAttribute("SectionType", "SmartBomber");
 }

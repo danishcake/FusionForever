@@ -37,7 +37,7 @@ XMLSection::XMLSection(XMLFilledOutlinedData _fill_outline_data)
 		shield_outline_.GetOutlineVerts() = Datastore::Instance().GetVerts(_fill_outline_data.shield_outline_verts_index);
 		shield_outline_.SetDisplayList(_fill_outline_data.shield_outline_dl);
 	}
-	filename_ = _fill_outline_data.filename;
+	section_type_ = _fill_outline_data.filename;
 }
 
 XMLSection::~XMLSection(void)
@@ -432,5 +432,5 @@ void XMLSection::InitialiseGraphics()
 void XMLSection::ToXML(TiXmlElement* _node)
 {
 	Section::ToXML(_node);
-	_node->SetAttribute("SectionType", filename_);
+	_node->SetAttribute("SectionType", section_type_);
 }

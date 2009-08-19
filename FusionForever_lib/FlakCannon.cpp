@@ -28,6 +28,7 @@ FlakCannon::FlakCannon(void)
 	cooldown_time_ = 1.5f;
 	default_sub_section_position_ = Vector3f(0, 0, 0);
 	mass_ = 450;
+	section_type_ = "FlakCannon";
 }
 
 FlakCannon::~FlakCannon(void)
@@ -82,10 +83,4 @@ void FlakCannon::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, 
 			PowerTick(-20);
 		}
 	}
-}
-
-void FlakCannon::ToXML(TiXmlElement* _node)
-{
-	Section::ToXML(_node);
-	_node->SetAttribute("SectionType", "FlakCannon");
 }

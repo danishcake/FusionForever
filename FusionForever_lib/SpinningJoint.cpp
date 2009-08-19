@@ -26,6 +26,7 @@ SpinningJoint::SpinningJoint()
 	degrees_per_second_ = 90;
 	default_sub_section_position_ = Vector3f(0, 0, 0);
 	mass_ = 200;
+	section_type_ = "SpinningJoint";
 }
 
 SpinningJoint::~SpinningJoint()
@@ -77,7 +78,7 @@ void SpinningJoint::GetProperties(std::vector<Property*>& _properties )
 void SpinningJoint::ToXML(TiXmlElement* _node)
 {
 	Section::ToXML(_node);
-	_node->SetAttribute("SectionType", "SpinningJoint");
+	_node->SetAttribute("RotationRate", boost::lexical_cast<std::string, float>(degrees_per_second_));
 }
 
 bool SpinningJoint::ParseSpecific(TiXmlElement* _node)

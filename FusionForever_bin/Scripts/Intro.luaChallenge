@@ -102,12 +102,71 @@ function()
 		challenge:SpawnShip("TheMine", 1, Vector:random_ring(1000, 1500), 0, "Ram_NoCam.luaAI", 0.01)
 		challenge:WaitFor(0.04)
 	end
+end,
 
+function()
+
+	--Build a ship and spawn it
+
+	core = builder:createNew("SquareCore")
+	core:overrideHealth(2000)
+
+	armour = builder:createNew("WidePlate")
+	armour.position.y = 10
+	core:attachChild(armour)
+	
+	generator = builder:createNew("SuperGeneratorCube")
+	core:attachChild(generator)
+
+	for i = 0, 36 do
+		gun = builder:createNew("Blaster")
+		gun.angle = i * 10
+		gun.position.y = 5
+		armour:attachChild(gun)
+	end
+
+
+	local ship_id = builder:spawnDesign(core, Vector:new(50, 50), 0, 0, 1)
+	challenge:DisplayMessage("Spawned a ship designed in lua", 2);
+
+	challenge:WaitFor(1)
+
+	--obtain the spawned ship and add another gun!
+	challenge:DisplayMessage("Adding guns to an existing ship", 2);
+
+	for i = 0, 18 do
+		core = builder:getDesign(ship_id)
+		gun = builder:createNew("Blaster")
+		gun.angle = i * 10
+		gun.position = Vector:new(math.sin(math.rad(i * 10)) * 10, math.cos(math.rad(i * 10)) * 10 - 10)
+		core:attachChild(gun)
+		gun = builder:createNew("Blaster")
+		gun.angle = -i * 10
+		gun.position = Vector:new(math.sin(math.rad(-i * 10)) * 10, math.cos(math.rad(-i * 10)) * 10 - 10)
+		core:attachChild(gun)		
+		
+		builder:updateShip(core)
+		challenge:WaitFor(0.1)
+	end
+	
+	core = builder:getDesign(ship_id)
+	challenge:WaitFor(1)
+	core.subsections[1]:detach()
+	builder:updateShip(core)
+	
+	core = builder:getDesign(ship_id)
+	challenge:WaitFor(1)
+	core.subsections[2].section_type = "HeavyChainGun"
+	builder:updateShip(core)
+	
+
+	challenge:WaitFor(2)
 end,
 }
 
 --Pick a random intro
-local intro = math.random(1, #introlist);
+--local intro = math.random(1, #introlist)
+local intro = #introlist
 print("Intro " .. intro)
 introlist[intro]()
 

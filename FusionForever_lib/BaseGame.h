@@ -37,6 +37,7 @@ public:
 	int GetForceCount(int _force);
 	int GetEnemyCount(int _force);
 	int GetFriendCount(int _force);
+	Section* GetCoreData(int _section_id);
 	Section* GetSectionData(int _section_id);
 	std::vector<Core*> GetShipsInArea(Vector3f _position, float _radius);
 

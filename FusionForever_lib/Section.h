@@ -37,6 +37,7 @@ private:
 	bool first_tick_;
 protected:
 	int section_id_;
+	std::string section_type_;
 	Section_ptr parent_;
 	Core_ptr root_;
 	Filled fill_;
@@ -114,6 +115,7 @@ public:
 	void SetFiringDelay(float _firing_delay) {firing_delay_ = _firing_delay;}
 	float GetFiringDelay(){return firing_delay_;}
 	int GetSectionID(){return section_id_;}
+	Section* GetSectionByID(int _section_id);
 
 	bool IsCore(){return root_ == NULL;}
 	Core_ptr GetRoot();
@@ -162,4 +164,8 @@ public:
 
 	/* Private and protected methods exposed for unit testing purposes */
 	void UnitTestPowerTick(float _power_delta){PowerTick(_power_delta);}
+
+	/* Lua construction support */
+	std::string GetSectionType(){return section_type_;}
+	std::vector<Section_ptr>& GetSubsections(){return sub_sections_;}
 };

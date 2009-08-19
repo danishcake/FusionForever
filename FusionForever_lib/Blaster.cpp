@@ -28,6 +28,7 @@ Blaster::Blaster(void)
 	cooldown_time_ = 0.133f;
 	default_sub_section_position_ = Vector3f(0, 0, 0);
 	mass_ = 150;
+	section_type_ = "Blaster";
 }
 
 Blaster::~Blaster(void)
@@ -82,9 +83,4 @@ void Blaster::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 	}
 }
 
-void Blaster::ToXML(TiXmlElement* _node)
-{
-	Section::ToXML(_node);
-	_node->SetAttribute("SectionType", "Blaster");
-}
 

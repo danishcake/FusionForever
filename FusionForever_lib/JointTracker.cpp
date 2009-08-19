@@ -31,6 +31,7 @@ JointTracker::JointTracker()
 	default_sub_section_position_ = Vector3f(0, 0, 0);
 	mass_ = 200;
 	only_when_firing_ = false;
+	section_type_ = "JointTracker";
 }
 
 JointTracker::~JointTracker()
@@ -98,7 +99,7 @@ void JointTracker::EndSubscription(Subscriber* _source)
 void JointTracker::ToXML(TiXmlElement* _node)
 {
 	Section::ToXML(_node);
-	_node->SetAttribute("SectionType", "JointTracker");
+	_node->SetAttribute("OnlyWhenFiring", only_when_firing_ ? "1" : "0");
 }
 
 static void sSetOnlyWhenFiring(Section_ptr _section, int _value){static_cast<JointTracker*>(_section)->SetOnlyWhenFiring(_value);}

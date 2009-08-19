@@ -318,7 +318,7 @@ int BaseGame::GetFriendCount(int _force)
 	return static_cast<int>(friends[_force].size());
 }
 
-Section_ptr BaseGame::GetSectionData(int _section_id)
+Section_ptr BaseGame::GetCoreData(int _section_id)
 {
 	for(int force = 0; force < MAX_FORCES; force++)
 	{
@@ -326,6 +326,20 @@ Section_ptr BaseGame::GetSectionData(int _section_id)
 		{
 			if(core->GetSectionID() == _section_id)
 				return core;
+		}
+	}
+	return NULL;
+}
+
+Section_ptr BaseGame::GetSectionData(int _section_id)
+{
+	for(int force = 0; force < MAX_FORCES; force++)
+	{
+		BOOST_FOREACH(Core_ptr core, ships_[force])
+		{
+			Section* section = core->GetSectionByID(_section_id);
+			if(section)
+				return section;
 		}
 	}
 	return NULL;

@@ -8,40 +8,76 @@ challenge:WaitFor(0.5)
 
 
 
---Build a ship and spawn it
+cost = {}
 
-core = builder:createNew("SquareCore")
-
-armour = builder:createNew("WidePlate")
-armour.position.y = 10
-for i = 0, 360 do
-	gun = builder:createNew("Blaster")
-	gun.angle = i
-	gun.position.y = 5
-	armour:attachChild(gun)
+function cost:new(section_type, cost)
+	local o = {}
+	o.section_type = section_type
+	o.cost = cost
+	return o
 end
 
 
 
-core:attachChild(armour)
+local arms = {cost:new("LongRigidArm", 10),
+			  cost:new("RigidArm", 6),
+			  cost:new("Spike", 3),
+			  cost:new("Spire", 10),
+			  cost:new("LargeSpire", 15),
+			  cost:new("FlareArm", 18)}
+local center_body = {cost:new("Clamp", 15),
+					 cost:new("CenterFrontBody", 35),
+					 cost:new("BearEars", 25),
+					 cost:new("Circle", 15),
+					 cost:new("LargeSquare", 15),
+					 cost:new("OctoSection", 15)}
+local asym_arms = {cost:new("Spike", 5),
+				   cost:new("NarrowProngLH", 10),
+				   cost:new("NarrowProngRH", 10),
+				   cost:new("ProngLH", 10)}
+local cores = {cost:new("SquareCore", 10),
+			   cost:new("GiantCore", 20),
+			   cost:new("TinyCore", 20)}
+local all = {arms, center_body, asym_arms}
 
+for i = 1, 40 do
+	local budget = 50 * i
+	challenge:DisplayMessage("Budget = " .. budget, 2);
+	local core_type = math.random(1, #cores)
+	design = builder:createNew(cores[core_type].section_type)
+	budget = budget - cores[core_type].cost
+	local head = design
+	local depth = 1
+	while budget > 0 do
+		local addition_type = math.random(1, #all)
+		local addition_index = math.random(1, #(all[addition_type]))
+		local newbit = builder:createNew(all[addition_type][addition_index].section_type)
+		budget = budget - all[addition_type][addition_index].cost
+		head:attachChild(newbit)
+		newbit.angle = math.random(0, 360)
+		newbit.position.x = math.random(-10, 10)
+		newbit.position.y = math.random(-10, 10)
+		if math.random(1, 6) == 1 or depth > 3 then
+			depth = 1
+			head = design
+		else
+			depth = depth + 1
+			head = newbit
+		end
+	end
+	
+	x = ((i % 10) - 2) * 80
+	y = (math.floor(i / 10) - 5) * 80
+	ship_id = builder:spawnDesign(design, Vector:new(x, y), 0, i%8, 1)
+	challenge:WaitFor(0.25)
+	--challenge:KillShip(ship_id)
+	
+end
 
-core:overrideHealth(2000)
-local ship_id = builder:spawn(core, Vector:new(50, 50), 0, 0, 1)
-challenge:DisplayMessage("Spawned a ship designed in lua", 2);
+for i = 0, 7 do
+	challenge:SpawnShip("TheMine", i, Vector:from_angle(i * 360 / 8) * 600, 0, "Ram.luaAI", 400)
+end
 
-challenge:WaitFor(2)
-
-
-
---obtain the spawned ship and add another gun!
-
-core = builder:getCore(ship_id)
-gun = builder:createNew("Gun")
-gun.angle = 180
-gun.position = Vector:new(0, -10)
-
-core.attachChild(gun)
-
+challenge:WaitFor(20)
 
 challenge:Victory()

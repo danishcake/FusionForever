@@ -35,6 +35,7 @@ ChainGun::ChainGun(void)
 	mass_ = 150;
 	spun_up_factor_ = 0.0f;
 	firing_time_ = 0;
+	section_type_ = "ChainGun";
 }
 
 ChainGun::~ChainGun(void)
@@ -115,11 +116,5 @@ void ChainGun::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, st
 	{
 		_spawn_dec.push_back(new Sparks());
 	}
-}
-
-void ChainGun::ToXML(TiXmlElement* _node)
-{
-	Section::ToXML(_node);
-	_node->SetAttribute("SectionType", "ChainGun");
 }
 

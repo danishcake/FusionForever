@@ -28,6 +28,7 @@ Deterer::Deterer(void)
 	cooldown_time_ = 1.25f;
 	default_sub_section_position_ = Vector3f(0, 0, 0);
 	mass_ = 450;
+	section_type_ = "Deterer";
 }
 
 Deterer::~Deterer(void)
@@ -101,10 +102,4 @@ void Deterer::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 			PowerTick(-35);
 		}
 	}
-}
-
-void Deterer::ToXML(TiXmlElement* _node)
-{
-	Section::ToXML(_node);
-	_node->SetAttribute("SectionType", "Deterer");
 }

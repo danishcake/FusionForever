@@ -35,6 +35,7 @@ HeavyChainGun::HeavyChainGun(void)
 	mass_ = 200;
 	spun_up_factor_ = 0.0f;
 	firing_time_ = 0;
+	section_type_ = "HeavyChainGun";
 }
 
 HeavyChainGun::~HeavyChainGun(void)
@@ -100,10 +101,3 @@ void HeavyChainGun::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_pr
 	}
 	ltv_firing_time_ = firing_time_;
 }
-
-void HeavyChainGun::ToXML(TiXmlElement* _node)
-{
-	Section::ToXML(_node);
-	_node->SetAttribute("SectionType", "HeavyChainGun");
-}
-

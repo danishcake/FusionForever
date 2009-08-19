@@ -38,7 +38,6 @@ class XMLSection :
 private:
 	XMLSection(XMLFilledOutlinedData _fill_outline_data);
 	static std::map<std::string, XMLFilledOutlinedData> name_map_;
-	std::string filename_;
 protected:
 	virtual void InitialiseGraphics();
 public:	

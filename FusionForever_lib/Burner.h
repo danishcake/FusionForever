@@ -15,5 +15,4 @@ protected:
 public:
 	Burner(void);
 	virtual ~Burner(void);
-	virtual void ToXML(TiXmlElement* _node);
 };

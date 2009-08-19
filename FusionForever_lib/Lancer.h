@@ -15,5 +15,4 @@ protected:
 public:
 	Lancer(void);
 	virtual ~Lancer(void);
-	virtual void ToXML(TiXmlElement* _node);
 };

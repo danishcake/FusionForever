@@ -34,6 +34,7 @@ TrackerArm::TrackerArm()
 	angle_range_ = 30.0f;
 	angle_centre_ = angle_;
 	turn_rate_ = TURN_RATE;
+	section_type_ = "TrackerArm";
 }
 
 TrackerArm::~TrackerArm()
@@ -106,7 +107,6 @@ void TrackerArm::EndSubscription(Subscriber* _source)
 void TrackerArm::ToXML(TiXmlElement* _node)
 {
 	Section::ToXML(_node);
-	_node->SetAttribute("SectionType", "TrackerArm");
 	_node->SetAttribute("TurnRate", boost::lexical_cast<std::string, float>(turn_rate_));
 	_node->SetAttribute("AngleRange", boost::lexical_cast<std::string, float>(angle_range_));
 	_node->SetAttribute("OnlyWhenFiring", boost::lexical_cast<std::string, bool>(only_when_firing_));

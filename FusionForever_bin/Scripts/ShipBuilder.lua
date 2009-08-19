@@ -12,29 +12,30 @@ end
 
 --Creates a new ship with just a core of the specified type
 function builder_:createNew(core_type)
-	local core = Section:new{section_type = core_type}
-	return core
+	return Section:new{section_type = core_type}
 end
 
 --Obtains a core representing the specified ship
-function builder_:getCore(ship_id)
+function builder_:getDesign(ship_id)
 	--Call into C to get a populated core object back
-	local core = GetCore(self.challenge_pointer, ship_id)
+	local core = GetDesign(self.challenge_pointer, ship_id)
 	core.challenge_pointer = self.challenge_pointer
-	core.edit_mode.existing = true
+	core.edit_mode = {}
+	core.edit_mode.edit_existing = true
 	core.edit_mode.ship_id = ship_id
+	core = Section:new(core)
 	return core
 end
 
 --Spawns the ship prototype into the world
-function builder_:spawn(core, position, angle, force, health_scale)
-	local ship_id = SpawnDesign(self.challenge_pointer, core, position, angle, force, health_scale)
+function builder_:spawnDesign(core, position, angle, force, health_scale)
+	return SpawnDesign(self.challenge_pointer, core, position, angle, force, health_scale)
 end
 
 --Updates an existing ship with the new prototype
-function builder_:update(core)
-	if self.edit_mode.edit_existing == true and self.edit_mode.ship_id ~= -1 then
-		
+function builder_:updateShip(core)
+	if core.edit_mode.edit_existing == true and core.edit_mode.ship_id ~= -1 then
+		UpdateDesign(self.challenge_pointer, core)
 	else
 		error("Cannot call UpdateCore on a new ship, can only call it on a ship obtained through GetCore(ship_id)")
 	end

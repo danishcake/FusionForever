@@ -59,10 +59,12 @@ private:
 	static int l_DisplayMessage(lua_State* _luaVM);
 	static int l_SetCounter(lua_State* _luaVM);
 
+	
+	static void ParseExistingShip(lua_State* _luaVM, Section* _section, int _child_key, int _stack_size);
 	static int l_GetDesign(lua_State* _luaVM);
 	static int l_SpawnDesign(lua_State* _luaVM);
 
-	static void ParseLuaShip(lua_State* _luaVM, Section** _parent, int _stack_index);
+	static void ParseLuaShip(lua_State* _luaVM, Section** _parent, int _stack_index, bool _update_mode, LuaChallenge* _challenge);
 	static int l_UpdateDesign(lua_State* _luaVM);
 	
 
@@ -93,6 +95,7 @@ private:
 	void ReturnToEditor(){state_ = ChallengeState::ReturnToEditor;}
 	void SetHostility(int _force_b, int force_b, bool _hostility);
 	Core* GetShipData(int _ship_id);
+	Section* GetSectionData(int _section_id);
 	std::vector<Core*> GetShipsInArea(Vector3f _position, float _radius);
 	void DisplayMessage(std::string _message, float _time);
 	void SetCounter(int _counter, int _value, int _max, bool _visible);

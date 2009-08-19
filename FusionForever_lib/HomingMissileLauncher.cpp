@@ -29,6 +29,8 @@ HomingMissileLauncher::HomingMissileLauncher(void)
 	cooldown_time_ = 0.9f;
 	default_sub_section_position_ = Vector3f(0, 0, 0);
 	mass_ = 300;
+	section_type_ = "HomingMissileLauncher";
+
 }
 
 HomingMissileLauncher::~HomingMissileLauncher(void)
@@ -92,10 +94,4 @@ void HomingMissileLauncher::Tick(float _timespan, std::vector<Projectile_ptr>& _
 			PowerTick(-5);
 		}
 	}
-}
-
-void HomingMissileLauncher::ToXML(TiXmlElement* _node)
-{
-	Section::ToXML(_node);
-	_node->SetAttribute("SectionType", "HomingMissileLauncher");
 }

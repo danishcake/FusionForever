@@ -29,6 +29,7 @@ JointAngles::JointAngles()
 	pause_time_ = 1;
 	default_sub_section_position_ = Vector3f(0, 0, 0);
 	mass_ = 200;
+	section_type_ = "JointAngles";
 }
 
 JointAngles::~JointAngles()
@@ -107,7 +108,11 @@ void JointAngles::GetProperties(std::vector<Property*>& _properties )
 void JointAngles::ToXML(TiXmlElement* _node)
 {
 	Section::ToXML(_node);
-	_node->SetAttribute("SectionType", "JointAngles");
+	_node->SetAttribute("FirstAngle", boost::lexical_cast<std::string, float>(first_angle_));
+	_node->SetAttribute("SecondAngle", boost::lexical_cast<std::string, float>(second_angle_));
+	_node->SetAttribute("TransitionTime", boost::lexical_cast<std::string, float>(transition_time_));
+	_node->SetAttribute("PauseTime", boost::lexical_cast<std::string, float>(pause_time_));
+
 }
 
 bool JointAngles::ParseSpecific(TiXmlElement* _node)
@@ -123,8 +128,8 @@ bool JointAngles::ParseSpecific(TiXmlElement* _node)
 	_node->QueryFloatAttribute("PauseTime", &pause_time);
 
 	first_angle_ = first_angle;
-	second_angle = second_angle_;
-	transition_time = transition_time_;
-	pause_time = pause_time_;
+	second_angle_ = second_angle;
+	transition_time_ = transition_time;
+	pause_time_ = pause_time;
 	return true;
 }

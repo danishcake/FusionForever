@@ -30,6 +30,7 @@ HeatBeamGun::HeatBeamGun(void)
 	beam_cooldown_time_ = 0.5f;
 	beam_fire_time_ = 2.0f;
 	beam_energy_use_ = 5;
+	section_type_ = "HeatBeamGun";
 }
 
 HeatBeamGun::~HeatBeamGun(void)
@@ -85,10 +86,4 @@ void HeatBeamGun::InitialiseGraphics(void)
 
 	fill_verts_index_ = Datastore::Instance().AddVerts(temp_fill);
 	fill_dl_= Filled::CreateFillDisplayList(temp_fill);
-}
-
-void HeatBeamGun::ToXML(TiXmlElement* _node)
-{
-	Section::ToXML(_node);
-	_node->SetAttribute("SectionType", "HeatBeamGun");
 }

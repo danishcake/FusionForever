@@ -31,6 +31,7 @@ Lancer::Lancer(void)
 	beam_fire_time_ = 0.1f;
 	beam_energy_use_ = 8;
 	charge_up_sound_ = "Fire4.wav";
+	section_type_ = "Lancer";
 }
 
 Lancer::~Lancer(void)
@@ -86,10 +87,4 @@ void Lancer::InitialiseGraphics(void)
 
 	fill_verts_index_ = Datastore::Instance().AddVerts(temp_fill);
 	fill_dl_= Filled::CreateFillDisplayList(temp_fill);
-}
-
-void Lancer::ToXML(TiXmlElement* _node)
-{
-	Section::ToXML(_node);
-	_node->SetAttribute("SectionType", "Lancer");
 }

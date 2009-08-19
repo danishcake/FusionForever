@@ -30,6 +30,7 @@ Burner::Burner(void)
 	beam_cooldown_time_ = 0.2f;
 	beam_fire_time_ = 5.0f;
 	beam_energy_use_ = 4;
+	section_type_ = "Burner";
 }
 
 Burner::~Burner(void)
@@ -85,10 +86,4 @@ void Burner::InitialiseGraphics(void)
 
 	fill_verts_index_ = Datastore::Instance().AddVerts(temp_fill);
 	fill_dl_= Filled::CreateFillDisplayList(temp_fill);
-}
-
-void Burner::ToXML(TiXmlElement* _node)
-{
-	Section::ToXML(_node);
-	_node->SetAttribute("SectionType", "Burner");
 }
