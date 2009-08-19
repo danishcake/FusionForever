@@ -34,6 +34,7 @@ public:
 	bool cbDelete(const CEGUI::EventArgs& e);
 	bool cbDeleteTree(const CEGUI::EventArgs& e);
 	bool cbTry(const CEGUI::EventArgs& e);
+	bool cbStartTry(const CEGUI::EventArgs& e);
 	bool cbToggleTime(const CEGUI::EventArgs& e);
 
 	bool cbSaveDialogueSave(const CEGUI::EventArgs& e);
@@ -85,4 +86,6 @@ protected:
 
 	std::map<std::string, std::vector<std::string> > categories_;
 	void LoadXMLSections();
+
+	void SetupTryMenu(CEGUI::Window* _root);
 };

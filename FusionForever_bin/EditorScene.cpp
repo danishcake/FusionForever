@@ -431,6 +431,8 @@ bool EditorScene::cbPaste(const CEGUI::EventArgs& e)
 	if(selection_ && cut_section_)
 	{
 		selection_->AddChild(cut_section_);
+		cut_section_->SetPosition(Vector3f(0, 0, 0));
+		SetSelected(cut_section_);
 		cut_section_ = NULL;
 	}
 	return true;
@@ -707,8 +709,71 @@ EditorScene::EditorScene(void)
 	
 
 	myRoot->addChildWindow(pWndSave);
-
+	SetupTryMenu(myRoot);
 }
+
+void EditorScene::SetupTryMenu(CEGUI::Window* _root)
+{
+	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
+	CEGUI::Window* pWndTry = wmgr.createWindow( "TaharezLook/FrameWindow", "Edit/TryDialogue" );
+	pWndTry->setVisible(false);
+	pWndTry->setModalState(false);
+	pWndTry->setSize(CEGUI::UVector2(CEGUI::UDim(1, -150), CEGUI::UDim(1, -140)));
+	pWndTry->setPosition(CEGUI::UVector2(CEGUI::UDim(0,140), CEGUI::UDim(0, 10)));
+
+	CEGUI::DefaultWindow* pTxtShip = (CEGUI::DefaultWindow*)wmgr.createWindow("TaharezLook/StaticText", "Edit/TryDialogue/ShipListDescription");
+	pTxtShip->setText("Select enemy ship");
+	pTxtShip->setSize(CEGUI::UVector2(CEGUI::UDim(0.25, -30), CEGUI::UDim(0, 30)));
+	pTxtShip->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 10), CEGUI::UDim(0, 30)));
+	pTxtShip->setProperty("BackgroundEnabled", "False");
+	pTxtShip->setProperty("FrameEnabled", "False");
+
+	CEGUI::Combobox* pCmbShips = (CEGUI::Combobox*)wmgr.createWindow("TaharezLook/Combobox", "Edit/TryDialogue/ShipList");
+	pCmbShips->setSize(CEGUI::UVector2(CEGUI::UDim(0.75, -30), CEGUI::UDim(0, 30)));
+	pCmbShips->setPosition(CEGUI::UVector2(CEGUI::UDim(0.25, 20), CEGUI::UDim(0, 30)));
+	
+	CEGUI::DefaultWindow* pTxtEnemyAI = (CEGUI::DefaultWindow*)wmgr.createWindow("TaharezLook/StaticText", "Edit/TryDialogue/EnemyAIListDescription");
+	pTxtEnemyAI->setText("Select enemy AI");
+	pTxtEnemyAI->setSize(CEGUI::UVector2(CEGUI::UDim(0.25, -30), CEGUI::UDim(0, 30)));
+	pTxtEnemyAI->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 10), CEGUI::UDim(0, 62)));
+	pTxtEnemyAI->setProperty("BackgroundEnabled", "False");
+	pTxtEnemyAI->setProperty("FrameEnabled", "False");
+
+	CEGUI::Combobox* pCmbEAI = (CEGUI::Combobox*)wmgr.createWindow("TaharezLook/Combobox", "Edit/TryDialogue/EnemyAIList");
+	pCmbEAI->setSize(CEGUI::UVector2(CEGUI::UDim(0.75, -30), CEGUI::UDim(0, 30)));
+	pCmbEAI->setPosition(CEGUI::UVector2(CEGUI::UDim(0.25, 20), CEGUI::UDim(0, 62)));
+
+	CEGUI::DefaultWindow* pTxtPlayerAI = (CEGUI::DefaultWindow*)wmgr.createWindow("TaharezLook/StaticText", "Edit/TryDialogue/PlayerAIListDescription");
+	pTxtPlayerAI->setText("Select player AI");
+	pTxtPlayerAI->setSize(CEGUI::UVector2(CEGUI::UDim(0.25, -30), CEGUI::UDim(0, 30)));
+	pTxtPlayerAI->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 10), CEGUI::UDim(0, 94)));
+	pTxtPlayerAI->setProperty("BackgroundEnabled", "False");
+	pTxtPlayerAI->setProperty("FrameEnabled", "False");
+
+	CEGUI::Combobox* pCmbPAI = (CEGUI::Combobox*)wmgr.createWindow("TaharezLook/Combobox", "Edit/TryDialogue/PlayerAIList");
+	pCmbPAI->setSize(CEGUI::UVector2(CEGUI::UDim(0.75, -30), CEGUI::UDim(0, 30)));
+	pCmbPAI->setPosition(CEGUI::UVector2(CEGUI::UDim(0.25, 20), CEGUI::UDim(0, 94)));
+
+
+	CEGUI::PushButton* pBtnStartTry = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button", "Edit/TryDialogue/StartTry");
+	pBtnStartTry->setSize(CEGUI::UVector2(CEGUI::UDim(0.20, 0), CEGUI::UDim(0, 30)));
+	pBtnStartTry->setPosition(CEGUI::UVector2(CEGUI::UDim(0.8, -10), CEGUI::UDim(0, 126)));
+	pBtnStartTry->setText("Go!");
+
+	
+	
+	pWndTry->addChildWindow(pTxtShip);
+	pWndTry->addChildWindow(pCmbShips);
+	pWndTry->addChildWindow(pTxtEnemyAI);
+	pWndTry->addChildWindow(pCmbEAI);
+	pWndTry->addChildWindow(pTxtPlayerAI);
+	pWndTry->addChildWindow(pCmbPAI);
+	pWndTry->addChildWindow(pBtnStartTry);
+	
+	
+	_root->addChildWindow(pWndTry);
+}
+
 
 EditorScene::~EditorScene(void)
 {
@@ -842,7 +907,14 @@ void EditorScene::SetSelected(Section_ptr _selection)
 
 bool EditorScene::cbTry(const CEGUI::EventArgs& e)
 {
+	if(lock_gui_)
+		return true;
+	CEGUI::Window* pWndSave = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue");
+	pWndSave->setVisible(true);
+	pWndSave->setModalState(true);
+
 	//Create a challenge 'editortemp.luaChallenge and save a tempory copy of the ship 
+	/*
 	game_->GetCore()->SaveToXML("EditorTemp.xmlShip");
 	std::ofstream challenge = std::ofstream("Scripts/Challenges/EditorTemp.luaChallenge");
 	
@@ -855,8 +927,8 @@ bool EditorScene::cbTry(const CEGUI::EventArgs& e)
 	challenge << "end\n";
 	challenge << "challenge:ReturnToEditor()\n";
 	challenge.close();
-
-	try_challenge_ = true;
+	*/
+	//try_challenge_ = true;
 	
 	return true;
 }
