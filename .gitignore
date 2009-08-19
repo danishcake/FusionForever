@@ -3,6 +3,8 @@ FusionForever_bin/Debug/
 FusionForever_bin/Release/
 FusionForever_lib/Debug/
 FusionForever_lib/Release/
+FusionForever_bin/FusionForever_bin.vcproj.*.*.user
+FusionForever_lib/FusionForever_lib.vcproj.*.*.user
 Tests/Debug/
 Tests/Release/
 debug/*.lua
@@ -13,6 +15,11 @@ debug/*.pdb
 debug/scripts/
 debug/sounds/
 debug/textures/
+debug/CEGUI.log
+debug/ErrorLog.txt
+debug/ProgressRecord.xml
+debug/Settings.xml
+
 release/*.lua
 release/*.exe
 release/*.bat
@@ -20,4 +27,7 @@ release/*.pdb
 release/scripts/
 release/sounds/
 release/textures/
-
+release/CEGUI.log
+release/ErrorLog.txt
+release/ProgressRecord.xml
+release/Settings.xml

@@ -35,6 +35,7 @@ public:
 	bool cbDeleteTree(const CEGUI::EventArgs& e);
 	bool cbTry(const CEGUI::EventArgs& e);
 	bool cbStartTry(const CEGUI::EventArgs& e);
+	bool cbCancelTry(const CEGUI::EventArgs& e);
 	bool cbToggleTime(const CEGUI::EventArgs& e);
 
 	bool cbSaveDialogueSave(const CEGUI::EventArgs& e);

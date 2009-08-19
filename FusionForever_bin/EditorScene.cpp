@@ -439,6 +439,72 @@ bool EditorScene::cbPaste(const CEGUI::EventArgs& e)
 }
 
 
+bool EditorScene::cbTry(const CEGUI::EventArgs& e)
+{
+	if(lock_gui_)
+		return true;
+	CEGUI::Window* pWndSave = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue");
+	pWndSave->setVisible(true);
+	pWndSave->setModalState(true);
+
+	return true;
+}
+
+bool EditorScene::cbStartTry(const CEGUI::EventArgs& e)
+{
+	CEGUI::Window* pWndTry= (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue");
+	pWndTry->setModalState(false);
+	pWndTry->setVisible(false);
+
+	//Create a challenge 'editortemp.luaChallenge and save a tempory copy of the ship 
+	game_->GetCore()->SaveToXML("EditorTemp.xmlShip");
+	std::ofstream challenge = std::ofstream("Scripts/Challenges/EditorTemp.luaChallenge");
+	
+	challenge << "challenge:WaitFor(1)\n";
+	challenge << "challenge:SpawnShip(\"LaserShip\", 1, Vector:new(0, 500), 180, \"SimpleAI.luaAI\", 1)\n";
+	challenge << "challenge:SpawnShip(\"EditorTemp\", 0, Vector:new(0, -500), 0, \"KeyboardAI\", 1)\n";
+	challenge << "challenge:WaitFor(0.1)\n";
+	challenge << "while challenge.force_count[0] > 0 and challenge.force_count[1] > 0 do\n";
+	challenge << "\tcoroutine.yield()\n";
+	challenge << "end\n";
+	challenge << "challenge:ReturnToEditor()\n";
+	challenge.close();
+	
+	try_challenge_ = true;
+
+	return true;
+}
+bool EditorScene::cbCancelTry(const CEGUI::EventArgs& e)
+{
+	CEGUI::Window* pWndTry= (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue");
+	pWndTry->setModalState(false);
+	pWndTry->setVisible(false);
+	return true;
+}
+bool EditorScene::cbPropertyChanged(const CEGUI::EventArgs& e)
+{
+	const CEGUI::WindowEventArgs& we = static_cast<const CEGUI::WindowEventArgs&>(e);
+	Property* prop = (Property*)we.window->getUserData();
+	try
+	{
+		prop->SetFloat(boost::lexical_cast<float, std::string>(we.window->getText().c_str()));
+	} catch(boost::bad_lexical_cast e)
+	{
+		Logger::ErrorOut() << "Unable to parse " << we.window->getText().c_str() << " to a float\n";
+	}
+	return true;
+}
+
+bool EditorScene::cbEnumeratedPropertyChanged(const CEGUI::EventArgs& e)
+{
+	const CEGUI::WindowEventArgs& we = 	static_cast<const CEGUI::WindowEventArgs&>(e);
+	Property* prop = (Property*)we.window->getUserData();
+	const CEGUI::Combobox* cb = static_cast<const CEGUI::Combobox*>(we.window);
+	prop->SetEnumerationValue((int)cb->getSelectedItem()->getUserData());	
+	return true;
+}
+
+
 void AddItemToTab(CEGUI::Event::Subscriber _subscriber, CEGUI::String _text, CEGUI::Window* _tab, float& _width, float& _height)
 {
 	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
@@ -712,6 +778,13 @@ EditorScene::EditorScene(void)
 	SetupTryMenu(myRoot);
 }
 
+EditorScene::~EditorScene(void)
+{
+	CEGUI::WindowManager::getSingleton().destroyWindow("Edit/Root");
+	CEGUI::WindowManager::getSingleton().destroyWindow("Edit/QuitToMenu");
+	delete game_;
+}
+
 void EditorScene::SetupTryMenu(CEGUI::Window* _root)
 {
 	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
@@ -720,6 +793,9 @@ void EditorScene::SetupTryMenu(CEGUI::Window* _root)
 	pWndTry->setModalState(false);
 	pWndTry->setSize(CEGUI::UVector2(CEGUI::UDim(1, -150), CEGUI::UDim(1, -140)));
 	pWndTry->setPosition(CEGUI::UVector2(CEGUI::UDim(0,140), CEGUI::UDim(0, 10)));
+	pWndTry->setProperty("SizingEnabled", "False");
+	pWndTry->setProperty("CloseButtonEnabled", "False");
+	pWndTry->setProperty("DragMovingEnabled", "False");
 
 	CEGUI::DefaultWindow* pTxtShip = (CEGUI::DefaultWindow*)wmgr.createWindow("TaharezLook/StaticText", "Edit/TryDialogue/ShipListDescription");
 	pTxtShip->setText("Select enemy ship");
@@ -757,8 +833,13 @@ void EditorScene::SetupTryMenu(CEGUI::Window* _root)
 
 	CEGUI::PushButton* pBtnStartTry = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button", "Edit/TryDialogue/StartTry");
 	pBtnStartTry->setSize(CEGUI::UVector2(CEGUI::UDim(0.20, 0), CEGUI::UDim(0, 30)));
-	pBtnStartTry->setPosition(CEGUI::UVector2(CEGUI::UDim(0.8, -10), CEGUI::UDim(0, 126)));
+	pBtnStartTry->setPosition(CEGUI::UVector2(CEGUI::UDim(0.6, -20), CEGUI::UDim(0, 126)));
 	pBtnStartTry->setText("Go!");
+
+	CEGUI::PushButton* pBtnCancelTry = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button", "Edit/TryDialogue/CancelTry");
+	pBtnCancelTry->setSize(CEGUI::UVector2(CEGUI::UDim(0.20, 0), CEGUI::UDim(0, 30)));
+	pBtnCancelTry->setPosition(CEGUI::UVector2(CEGUI::UDim(0.8, -10), CEGUI::UDim(0, 126)));
+	pBtnCancelTry->setText("Cancel!");
 
 	
 	
@@ -769,18 +850,16 @@ void EditorScene::SetupTryMenu(CEGUI::Window* _root)
 	pWndTry->addChildWindow(pTxtPlayerAI);
 	pWndTry->addChildWindow(pCmbPAI);
 	pWndTry->addChildWindow(pBtnStartTry);
+	pWndTry->addChildWindow(pBtnCancelTry);
 	
 	
 	_root->addChildWindow(pWndTry);
+
+	/* Attach events at end, as intellisense screws up for rest of method */
+	pBtnCancelTry->subscribeEvent(CEGUI::Window::EventMouseClick,CEGUI::Event::Subscriber(&EditorScene::cbCancelTry, this));
+	pBtnStartTry->subscribeEvent(CEGUI::Window::EventMouseClick,CEGUI::Event::Subscriber(&EditorScene::cbStartTry, this));
 }
 
-
-EditorScene::~EditorScene(void)
-{
-	CEGUI::WindowManager::getSingleton().destroyWindow("Edit/Root");
-	CEGUI::WindowManager::getSingleton().destroyWindow("Edit/QuitToMenu");
-	delete game_;
-}
 
 void EditorScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 {
@@ -904,58 +983,6 @@ void EditorScene::SetSelected(Section_ptr _selection)
 		height+=35;
 	}
 }
-
-bool EditorScene::cbTry(const CEGUI::EventArgs& e)
-{
-	if(lock_gui_)
-		return true;
-	CEGUI::Window* pWndSave = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue");
-	pWndSave->setVisible(true);
-	pWndSave->setModalState(true);
-
-	//Create a challenge 'editortemp.luaChallenge and save a tempory copy of the ship 
-	/*
-	game_->GetCore()->SaveToXML("EditorTemp.xmlShip");
-	std::ofstream challenge = std::ofstream("Scripts/Challenges/EditorTemp.luaChallenge");
-	
-	challenge << "challenge:WaitFor(1)\n";
-	challenge << "challenge:SpawnShip(\"LaserShip\", 1, Vector:new(0, 500), 180, \"SimpleAI.luaAI\", 1)\n";
-	challenge << "challenge:SpawnShip(\"EditorTemp\", 0, Vector:new(0, -500), 0, \"KeyboardAI\", 1)\n";
-	challenge << "challenge:WaitFor(0.1)\n";
-	challenge << "while challenge.force_count[0] > 0 and challenge.force_count[1] > 0 do\n";
-	challenge << "\tcoroutine.yield()\n";
-	challenge << "end\n";
-	challenge << "challenge:ReturnToEditor()\n";
-	challenge.close();
-	*/
-	//try_challenge_ = true;
-	
-	return true;
-}
-
-bool EditorScene::cbPropertyChanged(const CEGUI::EventArgs& e)
-{
-	const CEGUI::WindowEventArgs& we = static_cast<const CEGUI::WindowEventArgs&>(e);
-	Property* prop = (Property*)we.window->getUserData();
-	try
-	{
-		prop->SetFloat(boost::lexical_cast<float, std::string>(we.window->getText().c_str()));
-	} catch(boost::bad_lexical_cast e)
-	{
-		Logger::ErrorOut() << "Unable to parse " << we.window->getText().c_str() << " to a float\n";
-	}
-	return true;
-}
-
-bool EditorScene::cbEnumeratedPropertyChanged(const CEGUI::EventArgs& e)
-{
-	const CEGUI::WindowEventArgs& we = 	static_cast<const CEGUI::WindowEventArgs&>(e);
-	Property* prop = (Property*)we.window->getUserData();
-	const CEGUI::Combobox* cb = static_cast<const CEGUI::Combobox*>(we.window);
-	prop->SetEnumerationValue((int)cb->getSelectedItem()->getUserData());	
-	return true;
-}
-
 
 void EditorScene::LoadXMLSections()
 {
