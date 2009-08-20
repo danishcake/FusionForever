@@ -31,3 +31,8 @@ release/CEGUI.log
 release/ErrorLog.txt
 release/ProgressRecord.xml
 release/Settings.xml
+
+
+FusionForever.suo
+Tests/Tests.vcproj.*.*.user
+

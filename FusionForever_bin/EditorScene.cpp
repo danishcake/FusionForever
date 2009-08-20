@@ -444,6 +444,56 @@ bool EditorScene::cbTry(const CEGUI::EventArgs& e)
 	if(lock_gui_)
 		return true;
 	CEGUI::Window* pWndSave = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue");
+
+	CEGUI::Combobox* pCmbShips = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue/ShipList");
+	pCmbShips->resetList();
+	CEGUI::Combobox* pCmbEnemyAI = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue/EnemyAIList");
+	pCmbEnemyAI->resetList();
+	CEGUI::Combobox* pCmbPlayerAI = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue/PlayerAIList");
+	pCmbPlayerAI->resetList();
+	boost::filesystem::directory_iterator end_itr;	
+	for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/Ships");
+		itr != end_itr;
+		++itr)
+	{
+		if(boost::filesystem::is_regular((itr->status())))
+		{
+			std::string ext = boost::filesystem::extension(*itr);
+			if(ext == ".xmlShip")
+			{
+				CEGUI::ListboxItem* lbi = new CEGUI::ListboxTextItem(boost::filesystem::basename(itr->path()));
+				//lbi->setSelectionBrushImage(sel_img);
+				pCmbShips->addItem(lbi);
+			}
+		}
+	}
+
+	pCmbShips->setText("LaserShip");
+
+	for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/AI");
+		itr != end_itr;
+		++itr)
+	{
+		if(boost::filesystem::is_regular((itr->status())))
+		{
+			std::string ext = boost::filesystem::extension(*itr);
+			if(ext == ".luaAI")
+			{
+				CEGUI::ListboxItem* lbi = new CEGUI::ListboxTextItem(itr->path().filename());
+				pCmbEnemyAI->addItem(lbi);
+				CEGUI::ListboxItem* lbi2 = new CEGUI::ListboxTextItem(itr->path().filename());
+				pCmbPlayerAI->addItem(lbi2);
+			}
+		}
+	}
+	CEGUI::ListboxItem* kb_lbi1 = new CEGUI::ListboxTextItem("KeyboardAI");
+	pCmbEnemyAI->addItem(kb_lbi1);
+	pCmbEnemyAI->setText("SimpleAI.luaAI");
+	CEGUI::ListboxItem* kb_lbi2 = new CEGUI::ListboxTextItem("KeyboardAI");
+	pCmbPlayerAI->addItem(kb_lbi2);
+	pCmbPlayerAI->setText("KeyboardAI");
+
+
 	pWndSave->setVisible(true);
 	pWndSave->setModalState(true);
 
@@ -805,8 +855,9 @@ void EditorScene::SetupTryMenu(CEGUI::Window* _root)
 	pTxtShip->setProperty("FrameEnabled", "False");
 
 	CEGUI::Combobox* pCmbShips = (CEGUI::Combobox*)wmgr.createWindow("TaharezLook/Combobox", "Edit/TryDialogue/ShipList");
-	pCmbShips->setSize(CEGUI::UVector2(CEGUI::UDim(0.75, -30), CEGUI::UDim(0, 30)));
+	pCmbShips->setSize(CEGUI::UVector2(CEGUI::UDim(0.75, -30), CEGUI::UDim(0.5, 30)));
 	pCmbShips->setPosition(CEGUI::UVector2(CEGUI::UDim(0.25, 20), CEGUI::UDim(0, 30)));
+	pCmbShips->setReadOnly(true);
 	
 	CEGUI::DefaultWindow* pTxtEnemyAI = (CEGUI::DefaultWindow*)wmgr.createWindow("TaharezLook/StaticText", "Edit/TryDialogue/EnemyAIListDescription");
 	pTxtEnemyAI->setText("Select enemy AI");
@@ -816,8 +867,9 @@ void EditorScene::SetupTryMenu(CEGUI::Window* _root)
 	pTxtEnemyAI->setProperty("FrameEnabled", "False");
 
 	CEGUI::Combobox* pCmbEAI = (CEGUI::Combobox*)wmgr.createWindow("TaharezLook/Combobox", "Edit/TryDialogue/EnemyAIList");
-	pCmbEAI->setSize(CEGUI::UVector2(CEGUI::UDim(0.75, -30), CEGUI::UDim(0, 30)));
+	pCmbEAI->setSize(CEGUI::UVector2(CEGUI::UDim(0.75, -30), CEGUI::UDim(0.5, 30)));
 	pCmbEAI->setPosition(CEGUI::UVector2(CEGUI::UDim(0.25, 20), CEGUI::UDim(0, 62)));
+	pCmbEAI->setReadOnly(true);
 
 	CEGUI::DefaultWindow* pTxtPlayerAI = (CEGUI::DefaultWindow*)wmgr.createWindow("TaharezLook/StaticText", "Edit/TryDialogue/PlayerAIListDescription");
 	pTxtPlayerAI->setText("Select player AI");
@@ -827,9 +879,9 @@ void EditorScene::SetupTryMenu(CEGUI::Window* _root)
 	pTxtPlayerAI->setProperty("FrameEnabled", "False");
 
 	CEGUI::Combobox* pCmbPAI = (CEGUI::Combobox*)wmgr.createWindow("TaharezLook/Combobox", "Edit/TryDialogue/PlayerAIList");
-	pCmbPAI->setSize(CEGUI::UVector2(CEGUI::UDim(0.75, -30), CEGUI::UDim(0, 30)));
+	pCmbPAI->setSize(CEGUI::UVector2(CEGUI::UDim(0.75, -30), CEGUI::UDim(0.5, 30)));
 	pCmbPAI->setPosition(CEGUI::UVector2(CEGUI::UDim(0.25, 20), CEGUI::UDim(0, 94)));
-
+	pCmbPAI->setReadOnly(true);
 
 	CEGUI::PushButton* pBtnStartTry = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button", "Edit/TryDialogue/StartTry");
 	pBtnStartTry->setSize(CEGUI::UVector2(CEGUI::UDim(0.20, 0), CEGUI::UDim(0, 30)));
