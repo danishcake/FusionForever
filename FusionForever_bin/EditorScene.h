@@ -36,6 +36,7 @@ public:
 	bool cbTry(const CEGUI::EventArgs& e);
 	bool cbStartTry(const CEGUI::EventArgs& e);
 	bool cbCancelTry(const CEGUI::EventArgs& e);
+	bool cbReloadTryItems(const CEGUI::EventArgs& e);
 	bool cbToggleTime(const CEGUI::EventArgs& e);
 
 	bool cbSaveDialogueSave(const CEGUI::EventArgs& e);
@@ -89,4 +90,5 @@ protected:
 	void LoadXMLSections();
 
 	void SetupTryMenu(CEGUI::Window* _root);
+	void LoadTryMenuItems();
 };

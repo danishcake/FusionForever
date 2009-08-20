@@ -29,7 +29,7 @@ Swarmer::Swarmer(void)
 	cooldown_time_ = 0.15f;
 	default_sub_section_position_ = Vector3f(0, 0, 0);
 	mass_ = 250;
-	section_type_ = "Swamer";
+	section_type_ = "Swarmer";
 }
 
 Swarmer::~Swarmer(void)

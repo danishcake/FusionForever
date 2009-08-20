@@ -445,55 +445,6 @@ bool EditorScene::cbTry(const CEGUI::EventArgs& e)
 		return true;
 	CEGUI::Window* pWndSave = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue");
 
-	CEGUI::Combobox* pCmbShips = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue/ShipList");
-	pCmbShips->resetList();
-	CEGUI::Combobox* pCmbEnemyAI = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue/EnemyAIList");
-	pCmbEnemyAI->resetList();
-	CEGUI::Combobox* pCmbPlayerAI = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue/PlayerAIList");
-	pCmbPlayerAI->resetList();
-	boost::filesystem::directory_iterator end_itr;	
-	for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/Ships");
-		itr != end_itr;
-		++itr)
-	{
-		if(boost::filesystem::is_regular((itr->status())))
-		{
-			std::string ext = boost::filesystem::extension(*itr);
-			if(ext == ".xmlShip")
-			{
-				CEGUI::ListboxItem* lbi = new CEGUI::ListboxTextItem(boost::filesystem::basename(itr->path()));
-				//lbi->setSelectionBrushImage(sel_img);
-				pCmbShips->addItem(lbi);
-			}
-		}
-	}
-
-	pCmbShips->setText("LaserShip");
-
-	for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/AI");
-		itr != end_itr;
-		++itr)
-	{
-		if(boost::filesystem::is_regular((itr->status())))
-		{
-			std::string ext = boost::filesystem::extension(*itr);
-			if(ext == ".luaAI")
-			{
-				CEGUI::ListboxItem* lbi = new CEGUI::ListboxTextItem(itr->path().filename());
-				pCmbEnemyAI->addItem(lbi);
-				CEGUI::ListboxItem* lbi2 = new CEGUI::ListboxTextItem(itr->path().filename());
-				pCmbPlayerAI->addItem(lbi2);
-			}
-		}
-	}
-	CEGUI::ListboxItem* kb_lbi1 = new CEGUI::ListboxTextItem("KeyboardAI");
-	pCmbEnemyAI->addItem(kb_lbi1);
-	pCmbEnemyAI->setText("SimpleAI.luaAI");
-	CEGUI::ListboxItem* kb_lbi2 = new CEGUI::ListboxTextItem("KeyboardAI");
-	pCmbPlayerAI->addItem(kb_lbi2);
-	pCmbPlayerAI->setText("KeyboardAI");
-
-
 	pWndSave->setVisible(true);
 	pWndSave->setModalState(true);
 
@@ -502,6 +453,12 @@ bool EditorScene::cbTry(const CEGUI::EventArgs& e)
 
 bool EditorScene::cbStartTry(const CEGUI::EventArgs& e)
 {
+	CEGUI::Combobox* pCmbShips = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue/ShipList");
+	CEGUI::Combobox* pCmbEnemyAI = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue/EnemyAIList");
+	CEGUI::Combobox* pCmbPlayerAI = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue/PlayerAIList");
+
+	
+
 	CEGUI::Window* pWndTry= (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue");
 	pWndTry->setModalState(false);
 	pWndTry->setVisible(false);
@@ -511,8 +468,14 @@ bool EditorScene::cbStartTry(const CEGUI::EventArgs& e)
 	std::ofstream challenge = std::ofstream("Scripts/Challenges/EditorTemp.luaChallenge");
 	
 	challenge << "challenge:WaitFor(1)\n";
-	challenge << "challenge:SpawnShip(\"LaserShip\", 1, Vector:new(0, 500), 180, \"SimpleAI.luaAI\", 1)\n";
-	challenge << "challenge:SpawnShip(\"EditorTemp\", 0, Vector:new(0, -500), 0, \"KeyboardAI\", 1)\n";
+	challenge << "challenge:SpawnShip(\"";
+	challenge << pCmbShips->getText();
+	challenge << "\", 1, Vector:new(0, 500), 180, \"";
+	challenge << pCmbEnemyAI->getText();
+	challenge << "\", 1)\n";
+	challenge << "challenge:SpawnShip(\"EditorTemp\", 0, Vector:new(0, -500), 0, \"";
+	challenge << pCmbPlayerAI->getText();
+	challenge << "\", 1)\n";
 	challenge << "challenge:WaitFor(0.1)\n";
 	challenge << "while challenge.force_count[0] > 0 and challenge.force_count[1] > 0 do\n";
 	challenge << "\tcoroutine.yield()\n";
@@ -529,6 +492,11 @@ bool EditorScene::cbCancelTry(const CEGUI::EventArgs& e)
 	CEGUI::Window* pWndTry= (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue");
 	pWndTry->setModalState(false);
 	pWndTry->setVisible(false);
+	return true;
+}
+bool EditorScene::cbReloadTryItems(const CEGUI::EventArgs& e)
+{
+	LoadTryMenuItems();
 	return true;
 }
 bool EditorScene::cbPropertyChanged(const CEGUI::EventArgs& e)
@@ -893,7 +861,13 @@ void EditorScene::SetupTryMenu(CEGUI::Window* _root)
 	pBtnCancelTry->setPosition(CEGUI::UVector2(CEGUI::UDim(0.8, -10), CEGUI::UDim(0, 126)));
 	pBtnCancelTry->setText("Cancel!");
 
-	
+	CEGUI::PushButton* pBtnReloadLists = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button", "Edit/TryDialogue/ReloadLists");
+	pBtnReloadLists->setSize(CEGUI::UVector2(CEGUI::UDim(0.20, 0), CEGUI::UDim(0, 30)));
+	pBtnReloadLists->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0, 10), CEGUI::UDim(0, 126)));
+	pBtnReloadLists->setText("Reload");
+
+
+	LoadTryMenuItems();
 	
 	pWndTry->addChildWindow(pTxtShip);
 	pWndTry->addChildWindow(pCmbShips);
@@ -903,6 +877,7 @@ void EditorScene::SetupTryMenu(CEGUI::Window* _root)
 	pWndTry->addChildWindow(pCmbPAI);
 	pWndTry->addChildWindow(pBtnStartTry);
 	pWndTry->addChildWindow(pBtnCancelTry);
+	pWndTry->addChildWindow(pBtnReloadLists);
 	
 	
 	_root->addChildWindow(pWndTry);
@@ -910,8 +885,60 @@ void EditorScene::SetupTryMenu(CEGUI::Window* _root)
 	/* Attach events at end, as intellisense screws up for rest of method */
 	pBtnCancelTry->subscribeEvent(CEGUI::Window::EventMouseClick,CEGUI::Event::Subscriber(&EditorScene::cbCancelTry, this));
 	pBtnStartTry->subscribeEvent(CEGUI::Window::EventMouseClick,CEGUI::Event::Subscriber(&EditorScene::cbStartTry, this));
+	pBtnReloadLists->subscribeEvent(CEGUI::Window::EventMouseClick,CEGUI::Event::Subscriber(&EditorScene::cbReloadTryItems, this));
 }
 
+void EditorScene::LoadTryMenuItems()
+{
+	//Load ships and AI
+	CEGUI::Combobox* pCmbShips = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue/ShipList");
+	pCmbShips->resetList();
+	CEGUI::Combobox* pCmbEnemyAI = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue/EnemyAIList");
+	pCmbEnemyAI->resetList();
+	CEGUI::Combobox* pCmbPlayerAI = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue/PlayerAIList");
+	pCmbPlayerAI->resetList();
+	boost::filesystem::directory_iterator end_itr;	
+	for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/Ships");
+		itr != end_itr;
+		++itr)
+	{
+		if(boost::filesystem::is_regular((itr->status())))
+		{
+			std::string ext = boost::filesystem::extension(*itr);
+			if(ext == ".xmlShip")
+			{
+				CEGUI::ListboxItem* lbi = new CEGUI::ListboxTextItem(boost::filesystem::basename(itr->path()));
+				//lbi->setSelectionBrushImage(sel_img);
+				pCmbShips->addItem(lbi);
+			}
+		}
+	}
+
+	pCmbShips->setText("LaserShip");
+
+	for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/AI");
+		itr != end_itr;
+		++itr)
+	{
+		if(boost::filesystem::is_regular((itr->status())))
+		{
+			std::string ext = boost::filesystem::extension(*itr);
+			if(ext == ".luaAI")
+			{
+				CEGUI::ListboxItem* lbi = new CEGUI::ListboxTextItem(itr->path().filename());
+				pCmbEnemyAI->addItem(lbi);
+				CEGUI::ListboxItem* lbi2 = new CEGUI::ListboxTextItem(itr->path().filename());
+				pCmbPlayerAI->addItem(lbi2);
+			}
+		}
+	}
+	CEGUI::ListboxItem* kb_lbi1 = new CEGUI::ListboxTextItem("KeyboardAI");
+	pCmbEnemyAI->addItem(kb_lbi1);
+	pCmbEnemyAI->setText("SimpleAI.luaAI");
+	CEGUI::ListboxItem* kb_lbi2 = new CEGUI::ListboxTextItem("KeyboardAI");
+	pCmbPlayerAI->addItem(kb_lbi2);
+	pCmbPlayerAI->setText("KeyboardAI");
+}
 
 void EditorScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 {

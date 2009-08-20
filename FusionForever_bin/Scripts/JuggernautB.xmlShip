@@ -40,4 +40,7 @@
             <Section x="-10" y="5" Angle="0" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
         </Section>
     </Section>
+    <Section x="0" y="10" Angle="0" Health="300" Delay="0" SectionType="GeneratorSpike" />
+    <Section x="-10" y="0" Angle="-90" Health="300" Delay="0" SectionType="GeneratorSpike" />
+    <Section x="10" y="0" Angle="90" Health="300" Delay="0" SectionType="GeneratorSpike" />
 </Section>
