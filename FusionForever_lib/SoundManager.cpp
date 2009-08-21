@@ -37,6 +37,11 @@ SoundManager& SoundManager::Instance()
 
 void SoundManager::PlaySample(std::string _filename)
 {
+	sample_queue_[_filename]++;
+}
+
+void SoundManager::PlayEnqueuedSample(std::string _filename, unsigned char _distance)
+{
 	//Look the sound up, it's probably already loaded. If not then load it.
 	if(status_ != SoundStatus::OK)
 		return;
@@ -59,14 +64,33 @@ void SoundManager::PlaySample(std::string _filename)
 	{
 		//Play the sound
 		int channel = Mix_PlayChannel(-1, sample, 0);
+		
 		if(channel < 0)
 		{
 		//	Logger::ErrorOut() << Mix_GetError() << "\n";
 		}
 		else
 		{
+			Mix_SetDistance(channel, _distance);
 		//	Logger::DiagnosticOut() << "Playing on" << channel << "\n";
 		}
 	}
-	
 }
+
+void SoundManager::Tick()
+{
+	std::pair<std::string, int> sample_request;
+	
+	BOOST_FOREACH(sample_request, sample_queue_)
+	{
+		if(sample_request.second < 5)
+		{
+			PlayEnqueuedSample(sample_request.first, 128);
+		} else
+		{
+			PlayEnqueuedSample(sample_request.first, 0);
+		}
+	}
+	sample_queue_.clear();
+}
+

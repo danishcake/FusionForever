@@ -16,7 +16,7 @@
 #include "Camera.h"
 #include "Settings.h"
 #include "SectionTypes.h"
-
+#include <SoundManager.h>
 
 clock_t ltv_time;
 std::vector<BaseScene_ptr> scene_stack;
@@ -83,6 +83,8 @@ void Tick()
 	}
 
 	CEGUI::System::getSingleton().injectTimePulse(time_elapsed);
+
+	SoundManager::Instance().Tick();
 }
 
 bool IsSceneRemovable(BaseScene_ptr _scene)
