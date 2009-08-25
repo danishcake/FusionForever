@@ -30,7 +30,6 @@ function Section:new(o)
 	if o.action == nil then
 		o.action = "Create"
 	end
-	
 	setmetatable(o, self)
 	return o
 end
@@ -67,4 +66,26 @@ function Section:detach()
 	copy.action = "None"
 
 	return copy
+end
+
+function Section:Dump(inset, index)
+	if inset == nil then 
+		inset = 0 
+	end
+	if index == nil then
+		index = "root"
+	end
+	if self.parent == nil then
+		print("Core: " .. self.section_type)
+	else
+		local space = ""
+		for i = 0, inset do
+			space = space .. " "
+		end
+		
+		print(index .. ", " .. self.section_id .. space .. "Child: " ..self.section_type .. self.child_id)
+	end
+	for i,v in pairs(self.subsections) do
+		v:Dump(inset + 1, i)
+	end
 end

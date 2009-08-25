@@ -400,7 +400,7 @@ void LuaChallenge::ParseExistingShip(lua_State* _luaVM, Section* _section, int _
 	
 	if(_stack_size > 0)
 	{
-		lua_pushvalue(_luaVM, -3);											//Stack = BASE-table-parent
+		lua_pushvalue(_luaVM, -4);											//Stack = BASE-table-parent
 		lua_setfield(_luaVM, -2, "parent");
 	}
 	
@@ -507,28 +507,33 @@ int LuaChallenge::l_SpawnDesign(lua_State* _luaVM)
 	position.y = lua_tonumber(_luaVM, -1);										//Stack = BASE-y
 	lua_pop(_luaVM, 1);															//Stack = BASE
 
-	ParseLuaShip(_luaVM, (Section**)&core, 2, false, challenge);
-
+	std::stack<std::vector<int>> indices;
+	int aaa = lua_gettop(_luaVM);
+	lua_pushvalue(_luaVM, -5);
+	ParseLuaShip(_luaVM, (Section**)&core,  false, challenge, indices);
+	lua_pop(_luaVM, 1);
+	int bbb = lua_gettop(_luaVM);
 	core->SetPosition(position);
 	core->SetAngle(angle);
 	core->ScaleHealth(health_scale);
 	int ship_id =  challenge->SpawnDesign(core, force);
 	lua_pushinteger(_luaVM, ship_id);
+	int ccc = lua_gettop(_luaVM);
 	return 1;
 }
 
-void LuaChallenge::ParseLuaShip(lua_State* _luaVM, Section** _parent, int _stack_index, bool _update_mode, LuaChallenge* _challenge)
+void LuaChallenge::ParseLuaShip(lua_State* _luaVM, Section** _parent, bool _update_mode, LuaChallenge* _challenge, std::stack<std::vector<int>>& indices)
 {
 	int start_stack = lua_gettop(_luaVM);
 	/* Parse section type */
 	lua_pushstring(_luaVM, "section_type");										//Stack = BASE-"section_type"
-	lua_gettable(_luaVM, _stack_index);											//Stack = BASE-section_type
+	lua_gettable(_luaVM, -2);													//Stack = BASE-section_type
 	std::string section_type = lua_tostring(_luaVM, -1);						//Stack = BASE-section_type
 	lua_pop(_luaVM, 1);															//Stack = BASE
 
 	/* Parse position */
 	lua_pushstring(_luaVM, "position");											//Stack = Base-"position"
-	lua_gettable(_luaVM, _stack_index);											//Stack = Base-position
+	lua_gettable(_luaVM, -2);													//Stack = Base-position
 	Vector3f position;
 
 	lua_pushstring(_luaVM, "x");												//Stack = BASE-position-"x"
@@ -543,13 +548,13 @@ void LuaChallenge::ParseLuaShip(lua_State* _luaVM, Section** _parent, int _stack
 	
 	/* Parse angle */
 	lua_pushstring(_luaVM, "angle");											//Stack = BASE-"angle"
-	lua_gettable(_luaVM, _stack_index);											//Stack = BASE-angle
+	lua_gettable(_luaVM, -2);													//Stack = BASE-angle
 	float angle = lua_tonumber(_luaVM, -1);										//Stack = BASE-angle
 	lua_pop(_luaVM, 1);															//Stack = BASE
 
 	/* Parse health */
 	lua_pushstring(_luaVM, "health");											//Stack = BASE-"health"
-	lua_gettable(_luaVM, _stack_index);											//Stack = BASE-health
+	lua_gettable(_luaVM, -2);													//Stack = BASE-health
 	lua_pushstring(_luaVM, "override");											//Stack = BASE-health-"override"
 	lua_gettable(_luaVM, -2);													//Stack = BASE-health-override
 	bool override_health = lua_toboolean(_luaVM, -1);							//Stack = BASE-health-override
@@ -560,12 +565,12 @@ void LuaChallenge::ParseLuaShip(lua_State* _luaVM, Section** _parent, int _stack
 	lua_pop(_luaVM, 2);															//Stack = BASE
 
 	lua_pushstring(_luaVM, "action");											//Stack = BASE-"action"
-	lua_gettable(_luaVM, _stack_index);													//Stack = BASE-action
+	lua_gettable(_luaVM, -2);													//Stack = BASE-action
 	std::string action = lua_tostring(_luaVM, -1);								//Stack = BASE-action
 	lua_pop(_luaVM, 1);															//Stack = BASE
 
 	lua_pushstring(_luaVM, "section_id");										//Stack = BASE-"section_id"
-	lua_gettable(_luaVM, _stack_index);													//Stack = BASE-section_id
+	lua_gettable(_luaVM, -2);													//Stack = BASE-section_id
 	int section_id = lua_tointeger(_luaVM, -1)	;								//Stack = BASE-section_id
 	lua_pop(_luaVM, 1);															//Stack = BASE
 
@@ -640,7 +645,7 @@ void LuaChallenge::ParseLuaShip(lua_State* _luaVM, Section** _parent, int _stack
 				}
 				if(current_section->GetAngle() != angle)
 				{
-					current_section->SetAngle(health);
+					current_section->SetAngle(angle);
 				}
 				if(current_section->GetPosition() != position)
 				{
@@ -680,20 +685,63 @@ void LuaChallenge::ParseLuaShip(lua_State* _luaVM, Section** _parent, int _stack
 	}
 	if(current_section)
 	{
-		/* Parse subsections and attach*/
-		lua_pushstring(_luaVM, "subsections");										//Stack = BASE-"subsections"
-		lua_gettable(_luaVM, _stack_index);											//Stack = BASE-subsections
-		lua_pushnil(_luaVM);														//Stack = BASE-subsections-nil
-		while(lua_next(_luaVM, -2))													//Stack = BASE-subsections-k-v
+		/* Parse children and attach*/
+		lua_pushstring(_luaVM, "subsections");							//Stack = Section-"subsections"
+		lua_gettable(_luaVM, -2);										//Stack = Section-subsections[]
+
+		/* get keys for subsection table (these are not guaranteed to be numeric, or without gaps */
+		lua_pushnil(_luaVM);											//Stack = Section-subsections[]-nil
+		indices.push(std::vector<int>());
+		while(lua_next(_luaVM, -2))										//Stack = Section-subsections[]-key-subsection
 		{
-			ParseLuaShip(_luaVM, &current_section, lua_gettop(_luaVM), _update_mode, _challenge);
-			lua_pop(_luaVM, 1);														//Stack = BASE-subsections-k
+			//TODO error check type
+			indices.top().push_back(lua_tonumber(_luaVM, -2));
+			lua_pop(_luaVM, 1);											//Stack = Section-subsections[]-key
 		}
-																					//Stack = BASE-subsections
-		lua_pop(_luaVM, 1);															//Stack = BASE
-		int end_stack = lua_gettop(_luaVM);
-		assert(start_stack == end_stack);
+		//lua_next pops key at end of loop automatically
+
+		for(std::vector<int>::iterator it = indices.top().begin(); it != indices.top().end(); ++it)
+		{
+			lua_pushinteger(_luaVM, *it);									//Stack = Section-subsections[]-key
+			lua_gettable(_luaVM, -2);										//Stack = Section-subsections[]-subsection
+			lua_remove(_luaVM, -3);											//Stack = subsections[]-subsection
+			lua_remove(_luaVM, -2);											//Stack = subsection
+			ParseLuaShip(_luaVM, &current_section, _update_mode, _challenge, indices);
+																			//Stack = Section
+			lua_pushstring(_luaVM, "subsections");							//Stack = Section-"subsections"
+			lua_gettable(_luaVM, -2);										//Stack = Section-subsections[]
+		}
+		lua_pop(_luaVM, 1);													//Stack = Section
+		indices.pop();
+		lua_pushstring(_luaVM, "parent");									//Stack = Section-"parent"
+		lua_gettable(_luaVM, -2);											//Stack = Section-parent/nil
+		lua_remove(_luaVM, -2);												//Stack = parent
 	}
+}
+
+
+void RecursiveInfDepth(lua_State* _luaVM, std::stack<int>& indices)
+{																	//Stack = Section
+	/* Get section params */
+	/* Get children */
+	indices.push(1);
+	lua_pushstring(_luaVM, "subsections");							//Stack = Section-"subsections"
+	lua_gettable(_luaVM, -2);										//Stack = Section-subsections[]
+	lua_pushinteger(_luaVM, indices.top());							//Stack = Section-subsections[]-1
+	lua_gettable(_luaVM, -2);										//Stack = Section-subsections[]-subsection
+	while(!lua_isnil(_luaVM, -1))
+	{
+		RecursiveInfDepth(_luaVM, indices);
+		indices.top()++;
+		lua_pop(_luaVM, 1);											//Stack = Section-subsections[]
+		lua_pushinteger(_luaVM, indices.top());						//Stack = Section-subsections[]-n
+		lua_gettable(_luaVM, -2);									//Stack = Section-subsections[]-subsection/nil
+	}
+	indices.pop();
+	lua_pop(_luaVM, 1);												//Stack = Section
+	lua_pushstring(_luaVM, "parent");								//Stack = Section-"parent"
+	lua_gettable(_luaVM, -2);										//Stack = Section-parent
+	lua_remove(_luaVM, -2);											//Stack = parent
 }
 
 int LuaChallenge::SpawnDesign(Core_ptr _core, int _force)
@@ -717,8 +765,8 @@ int LuaChallenge::l_UpdateDesign(lua_State* _luaVM)
 
 	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -2)));
 	assert(challenge);
-
-	ParseLuaShip(_luaVM, NULL, 2, TRUE, challenge);
+	std::stack<std::vector<int>> indices;
+	ParseLuaShip(_luaVM, NULL, TRUE, challenge, indices);
 	return 0;
 }
 

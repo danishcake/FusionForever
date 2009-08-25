@@ -125,17 +125,23 @@ function()
 		armour:attachChild(gun)
 	end
 
-
 	local ship_id = builder:spawnDesign(core, Vector:new(50, 50), 0, 0, 1)
 	challenge:DisplayMessage("Spawned a ship designed in lua", 2);
-
+	print("OK, created core")
 	challenge:WaitFor(1)
+
 
 	--obtain the spawned ship and add another gun!
 	challenge:DisplayMessage("Adding guns to an existing ship", 2);
 
+	core = builder:getDesign(ship_id)
+--	core:Dump()
+
+
 	for i = 0, 18 do
 		core = builder:getDesign(ship_id)
+		
+		--print("Got design")
 		gun = builder:createNew("Blaster")
 		gun.angle = i * 10
 		gun.position = Vector:new(math.sin(math.rad(i * 10)) * 10, math.cos(math.rad(i * 10)) * 10 - 10)
@@ -144,7 +150,7 @@ function()
 		gun.angle = -i * 10
 		gun.position = Vector:new(math.sin(math.rad(-i * 10)) * 10, math.cos(math.rad(-i * 10)) * 10 - 10)
 		core:attachChild(gun)		
-		
+		--print("Updating")
 		builder:updateShip(core)
 		challenge:WaitFor(0.1)
 	end
@@ -152,13 +158,15 @@ function()
 	core = builder:getDesign(ship_id)
 	challenge:WaitFor(1)
 	core.subsections[1]:detach()
+	print("Destroying a bit")
 	builder:updateShip(core)
 	
 	core = builder:getDesign(ship_id)
-	challenge:WaitFor(1)
+	challenge:WaitFor(4)
 	core.subsections[2].section_type = "HeavyChainGun"
+	print("Changing to a heavy chaingun")
 	builder:updateShip(core)
-	
+
 
 	challenge:WaitFor(2)
 end,

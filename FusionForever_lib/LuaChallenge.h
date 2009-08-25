@@ -1,8 +1,10 @@
 #pragma once
+#include <stack>
 #include <string>
 #include "vmath.h"
 #include "GLColor.h"
 #include "SandboxCache.h"
+
 
 struct lua_State;
 class LuaTimeout;
@@ -64,7 +66,7 @@ private:
 	static int l_GetDesign(lua_State* _luaVM);
 	static int l_SpawnDesign(lua_State* _luaVM);
 
-	static void ParseLuaShip(lua_State* _luaVM, Section** _parent, int _stack_index, bool _update_mode, LuaChallenge* _challenge);
+	static void ParseLuaShip(lua_State* _luaVM, Section** _parent, bool _update_mode, LuaChallenge* _challenge, std::stack<std::vector<int>>& indices);
 	static int l_UpdateDesign(lua_State* _luaVM);
 	
 

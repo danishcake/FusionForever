@@ -36,6 +36,7 @@ end
 function builder_:updateShip(core)
 	if core.edit_mode.edit_existing == true and core.edit_mode.ship_id ~= -1 then
 		UpdateDesign(self.challenge_pointer, core)
+		coroutine.yield()
 	else
 		error("Cannot call UpdateCore on a new ship, can only call it on a ship obtained through GetCore(ship_id)")
 	end
