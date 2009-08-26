@@ -285,10 +285,13 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 	{
 		int player_id = KeyboardAI::GetPlayerIDs()[0];
 		Core_ptr core = static_cast<Core_ptr>(GetSectionData(player_id));
+		if(core)
+		{
 		_gui.ship_health_fraction = 1.0f - (core->GetTotalDamage() / core->GetTotalHealth());
 		_gui.core_health_fraction = (core->GetHealth() / core->GetMaxHealth());
 		_gui.energy_fraction = core->GetEnergy().GetValue() / core->GetEnergy().GetMaxValue();
 		_gui.render_bars = true;
+		}
 	} else
 		_gui.render_bars = false;
 	

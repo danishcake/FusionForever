@@ -1,0 +1,28 @@
+#pragma once
+#include "Decoration.h"
+
+class Section;
+
+/**
+  * When a section dies it should be moved to section decoration
+  * When the decoration dies it destroys the section
+  */
+class SectionDecoration :
+	public Decoration
+{
+protected:
+	virtual void InitialiseGraphics();
+
+	/* The dying section */
+	Section* section_;
+
+	float full_lifetime_;
+	GLColor original_color_;
+
+public:
+	SectionDecoration(Section* _section);
+	virtual ~SectionDecoration(void);
+
+	virtual void Tick(float _timespan, Matrix4f _transform);
+	virtual void DrawSelf();
+};

@@ -241,6 +241,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\SectionDecoration.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Sparks.cpp"
 					>
 				</File>
@@ -616,6 +620,10 @@
 				</File>
 				<File
 					RelativePath=".\Ricochet.h"
+					>
+				</File>
+				<File
+					RelativePath=".\SectionDecoration.h"
 					>
 				</File>
 				<File

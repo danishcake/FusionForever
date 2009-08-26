@@ -11,6 +11,7 @@
 #include "Datastore.h"
 #include "Camera.h"
 #include "FlexFloat.h"
+#include "SectionDecoration.h"
 
 class Section;
 //typedef boost::shared_ptr<Section> Section_ptr;
@@ -98,7 +99,10 @@ public:
 	bool CheckCollisions(const Vector3f _lineP1, const Vector3f _lineP2, Vector3f& _collision_point);
 	void RayCollisionFilter(Vector3f P1, Vector3f P2, std::vector<Section_ptr>& _valid_sections, float& _min_distance, float& _max_distance);
 	void SetColor(GLColor _color);
+	void SetOutlineColor(GLColor _color);
+	GLColor GetColor();
 	virtual void Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager);
+	void DeathTick();
 	void CollectShields(std::vector<Section_ptr>& _shields);
 	virtual void GetDeathSpawn(std::vector<Decoration_ptr>& _spawn_dec);
 
@@ -132,7 +136,6 @@ public:
 		if(dead)
 		{
 			Camera::Instance().Shake(0.3f);
-			delete section;
 		}
 		return dead;
 	}

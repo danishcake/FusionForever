@@ -73,10 +73,11 @@ void BeamFiringSection::DrawSelf()
 {
 	Section::DrawSelf();
 	//Now draw beam if firing
-	if(firing_)
+	if(firing_ && health_ > 0)
 	{
 		if(beam_sum_time_ >= beam_charge_time_ && beam_sum_time_ < beam_charge_time_ + beam_fire_time_)
 			beam_->DrawSelf();
 	}
-	beam_charge_.DrawSelf();
+	if(health_ > 0)
+		beam_charge_.DrawSelf();
 }

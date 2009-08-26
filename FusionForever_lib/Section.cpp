@@ -49,23 +49,7 @@ Section::Section(void)
 
 Section::~Section(void)
 {
-	if(root_)
-	{
-		root_->AddMass(-mass_);
-		root_->AddMoment(-moment_);
-		root_->AddEnergyCap(-energy_.GetMaxValue());
-		root_->AddThrust(-thrust_);
 
-		Vector3f rel_position = GetGlobalPosition() - root_->GetGlobalPosition();
-		Vector3f rel_position_norm = rel_position;
-		if(rel_position_norm.length() > 0)
-			rel_position_norm.normalize();
-		root_->ImpartMomentum(rel_position_norm * mass_ * 10, rel_position);
-	}
-	BOOST_FOREACH(Section_ptr sub_section, sub_sections_)
-	{
-		delete sub_section;
-	}
 }
 
 void Section::DrawSelf(void)
@@ -75,7 +59,7 @@ void Section::DrawSelf(void)
 	glLoadMatrixf(ltv_transform_);
 	fill_.DrawFillDisplayList();
 	outline_.DrawOutlinedDisplayList();
-	if(has_shield_ && shield_ > 0)
+	if(has_shield_ && shield_ > 0 && health_ > 0)
 	{
 		shield_outline_.DrawOutlinedDisplayList();
 	}
@@ -168,8 +152,11 @@ void Section::findRadius(void)
 
 void Section::GetDeathSpawn(std::vector<Decoration_ptr>& _spawn_dec)
 {
+	_spawn_dec.push_back(new SectionDecoration(this));
+	
 	BOOST_FOREACH(Section_ptr section, sub_sections_)
 	{
+		section->TakeDamage(section->GetHealth(), -1);;
 		section->GetDeathSpawn(_spawn_dec);
 	}
 	BOOST_FOREACH(Vector3f vert, *outline_.GetOutlineVerts())
@@ -178,6 +165,26 @@ void Section::GetDeathSpawn(std::vector<Decoration_ptr>& _spawn_dec)
 		puff->SetPosition(ltv_transform_ * vert);
 		_spawn_dec.push_back(Decoration_ptr(puff));
 	}
+	sub_sections_.clear();
+	if(root_)
+	{
+		root_->AddMass(-mass_);
+		root_->AddMoment(-moment_);
+		root_->AddEnergyCap(-energy_.GetMaxValue());
+		root_->AddThrust(-thrust_);
+
+		Vector3f rel_position = GetGlobalPosition() - root_->GetGlobalPosition();
+		Vector3f rel_position_norm = rel_position;
+		if(rel_position_norm.length() > 0)
+			rel_position_norm.normalize();
+		root_->ImpartMomentum(rel_position_norm * mass_ * 10, rel_position);
+	}
+	StopSubscribing();
+}
+
+void Section::DeathTick()
+{
+	BaseEntity::Tick(0, Matrix4f());
 }
 
 void Section::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager)
@@ -429,6 +436,16 @@ void Section::SetColor(GLColor _color)
 	{
 		sub_sections_[i]->SetColor(_color);
 	}
+}
+
+void Section::SetOutlineColor(GLColor _color)
+{
+	outline_.SetOutlineColor(_color);
+}
+
+GLColor Section::GetColor()
+{
+	return fill_.GetFillColor();
 }
 
 
