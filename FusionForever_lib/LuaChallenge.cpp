@@ -417,11 +417,9 @@ void LuaChallenge::ParseExistingShip(lua_State* _luaVM, Section* _section, int _
 	//Now add subsections
 	std::vector<Section_ptr> subsections = _section->GetSubsections();
 	int child_key = 1;
-	int l_start = lua_gettop(_luaVM);
 	
 	BOOST_FOREACH(Section_ptr section, subsections)
 	{
-		int l_start_inner = lua_gettop(_luaVM);
 		lua_pushnumber(_luaVM, child_key);									//Stack = BASE-table-subsections-key
 		lua_newtable(_luaVM);												//Stack = BASE-table-subsections-key-section
 		lua_settable(_luaVM, -3);											//Stack = BASE-table-subsections
@@ -442,11 +440,8 @@ void LuaChallenge::ParseExistingShip(lua_State* _luaVM, Section* _section, int _
 		lua_pushstring(_luaVM, "subsections");								//Stack = BASE-parent-"subsections"
 		lua_gettable(_luaVM, -2);											//Stack = BASE-parent-subsections
 
-
 		child_key++;
-		int l_end_inner = lua_gettop(_luaVM);
 	}
-	int l_end = lua_gettop(_luaVM);
 	lua_pop(_luaVM, 1);														//Stack = BASE-table
 	lua_pushnumber(_luaVM, child_key);										//Stack = BASE-table-child_count
 	lua_setfield(_luaVM, -2, "child_count");								//Stack = BASE-table
@@ -471,7 +466,6 @@ int LuaChallenge::l_GetDesign(lua_State* _luaVM)
 	assert(challenge);
 
 	Core_ptr core = challenge->GetShipData(ship_id);
-	int stack_start = lua_gettop(_luaVM);
 	if(core)
 	{
 		lua_newtable(_luaVM);														//Stack = BASE-unpopulated table
@@ -481,7 +475,6 @@ int LuaChallenge::l_GetDesign(lua_State* _luaVM)
 		Logger::DiagnosticOut() << "Unable to find a ship with ID " << ship_id << " to obtain design\n";
 		lua_pushnil(_luaVM);
 	}
-	int stack_end = lua_gettop(_luaVM);
 
 	return 1;
 }
@@ -534,17 +527,14 @@ int LuaChallenge::l_SpawnDesign(lua_State* _luaVM)
 	lua_pop(_luaVM, 1);															//Stack = BASE
 
 	std::stack<std::vector<int>> indices;
-	int aaa = lua_gettop(_luaVM);
 	lua_pushvalue(_luaVM, -5);
 	ParseLuaShip(_luaVM, (Section**)&core,  false, challenge, indices);
 	lua_pop(_luaVM, 1);
-	int bbb = lua_gettop(_luaVM);
 	core->SetPosition(position);
 	core->SetAngle(angle);
 	core->ScaleHealth(health_scale);
 	int ship_id =  challenge->SpawnDesign(core, force);
 	lua_pushinteger(_luaVM, ship_id);
-	int ccc = lua_gettop(_luaVM);
 	return 1;
 }
 
