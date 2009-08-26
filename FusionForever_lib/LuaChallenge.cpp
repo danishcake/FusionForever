@@ -362,7 +362,8 @@ void LuaChallenge::SetCounter(int _counter, int _value, int _max, bool _visible)
 
 void LuaChallenge::ParseExistingShip(lua_State* _luaVM, Section* _section, int _childkey, int _stack_size)
 {
-	lua_newtable(_luaVM);													//Stack = BASE-table
+	int start_stack_size = lua_gettop(_luaVM);
+	//lua_newtable(_luaVM);													//Stack = BASE-table
 	lua_pushnumber(_luaVM, _section->GetAngle());							//Stack = BASE-table-angle
 	lua_setfield(_luaVM, -2, "angle");										//Stack = BASE-table
 	lua_newtable(_luaVM);													//Stack = BASE-table-table
@@ -398,11 +399,12 @@ void LuaChallenge::ParseExistingShip(lua_State* _luaVM, Section* _section, int _
 	lua_setfield(_luaVM, -2, "value");										//Stack = BASE-table-health
 	lua_pop(_luaVM, 1);														//Stack = BASE-table
 	
+	/*
 	if(_stack_size > 0)
 	{
 		lua_pushvalue(_luaVM, -4);											//Stack = BASE-table-parent
 		lua_setfield(_luaVM, -2, "parent");
-	}
+	}*/
 	
 
 	lua_newtable(_luaVM);													//Stack = BASE-table-table
@@ -415,13 +417,36 @@ void LuaChallenge::ParseExistingShip(lua_State* _luaVM, Section* _section, int _
 	//Now add subsections
 	std::vector<Section_ptr> subsections = _section->GetSubsections();
 	int child_key = 1;
+	int l_start = lua_gettop(_luaVM);
+	
 	BOOST_FOREACH(Section_ptr section, subsections)
 	{
+		int l_start_inner = lua_gettop(_luaVM);
 		lua_pushnumber(_luaVM, child_key);									//Stack = BASE-table-subsections-key
-		ParseExistingShip(_luaVM, section, child_key, _stack_size + 1);		//Stack = BASE-table-subsections-key-section
+		lua_newtable(_luaVM);												//Stack = BASE-table-subsections-key-section
 		lua_settable(_luaVM, -3);											//Stack = BASE-table-subsections
+		lua_pushnumber(_luaVM, child_key);									//Stack = BASE-table-subsections-key
+		lua_gettable(_luaVM, -2);											//Stack = BASE-table-subsections-section
+		lua_pushstring(_luaVM, "parent");									//Stack = BASE-table-subsections-section-"parent"
+		lua_pushvalue(_luaVM, -4);											//Stack = BASE-table-subsections-section-"parent"-parent
+		lua_settable(_luaVM, -3);											//Stack = BASE-table-subsections-section
+
+		lua_remove(_luaVM, -3);												//Stack = BASE-subsections-section
+		lua_remove(_luaVM, -2);												//Stack = BASE-section
+
+		ParseExistingShip(_luaVM, section, child_key, _stack_size + 1);		//Stack = BASE-section
+		//Restore stack to table-subsections
+		lua_pushstring(_luaVM, "parent");									//Stack = BASE-section-"parent"
+		lua_gettable(_luaVM, -2);											//Stack = BASE-section-parent
+		lua_remove(_luaVM, -2);												//Stack = BASE-parent
+		lua_pushstring(_luaVM, "subsections");								//Stack = BASE-parent-"subsections"
+		lua_gettable(_luaVM, -2);											//Stack = BASE-parent-subsections
+
+
 		child_key++;
+		int l_end_inner = lua_gettop(_luaVM);
 	}
+	int l_end = lua_gettop(_luaVM);
 	lua_pop(_luaVM, 1);														//Stack = BASE-table
 	lua_pushnumber(_luaVM, child_key);										//Stack = BASE-table-child_count
 	lua_setfield(_luaVM, -2, "child_count");								//Stack = BASE-table
@@ -449,6 +474,7 @@ int LuaChallenge::l_GetDesign(lua_State* _luaVM)
 	int stack_start = lua_gettop(_luaVM);
 	if(core)
 	{
+		lua_newtable(_luaVM);														//Stack = BASE-unpopulated table
 		ParseExistingShip(_luaVM, core, 0, 0);										//Stack = BASE-coredesign
 	} else
 	{

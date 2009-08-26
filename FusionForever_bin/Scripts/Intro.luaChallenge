@@ -154,6 +154,26 @@ function()
 		builder:updateShip(core)
 		challenge:WaitFor(0.1)
 	end
+	challenge:WaitFor(2)
+	print("Adding lots of guns")
+	challenge:WaitFor(0.5)
+	core = builder:getDesign(ship_id)
+	active1 = core
+	active2 = core
+	for i = 0, 20 do
+		local gun_l = builder:createNew("PlasmaArtillery")
+		local gun_r = builder:createNew("PlasmaArtillery")
+		gun_l.position = Vector:new(20, 0)
+		gun_r.position = Vector:new(-20, 0)
+		active1:attachChild(gun_l)
+		active2:attachChild(gun_r)
+		active1 = gun_l
+		active2 = gun_r
+	end
+	builder:updateShip(core)
+	print("Guns done")
+	challenge:WaitFor(2)
+	
 	
 	core = builder:getDesign(ship_id)
 	challenge:WaitFor(1)
@@ -173,8 +193,8 @@ end,
 }
 
 --Pick a random intro
---local intro = math.random(1, #introlist)
-local intro = #introlist
+local intro = math.random(1, #introlist)
+--local intro = #introlist
 print("Intro " .. intro)
 introlist[intro]()
 
