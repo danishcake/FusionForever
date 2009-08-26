@@ -18,6 +18,11 @@ public:
 	void RemoveSubscriber(Subscriber* _subscriber);
 
 	/**
+	  * Removes all current subscribers
+	  */
+	void StopSubscribing();
+
+	/**
 	  * Alert a subscription that it is about to be invalidated
 	  */
 	virtual void EndSubscription(Subscriber* _source);
