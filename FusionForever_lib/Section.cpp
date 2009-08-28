@@ -207,6 +207,12 @@ void Section::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 			root_->AddEnergyCap(energy_.GetMaxValue());
 			root_->AddThrust(thrust_);
 			root_->AddTotalHealth(health_.GetMaxValue());
+		} else if(GetRoot() == this)
+		{
+			/* If the root has it's health scaled it will not be counted. On first tick we correct 
+			   this by setting to zero then adding on the true value.								*/
+			GetRoot()->AddTotalHealth(-GetRoot()->GetTotalHealth());
+			GetRoot()->AddTotalHealth(health_.GetMaxValue());
 		}
 		BillboardDeco* warp = new BillboardDeco("Warp", 0.5, BillboardDecoType::Warp);
 		warp->SetPosition(this->GetGlobalPosition());
@@ -507,9 +513,9 @@ void Section::TakeDamage(float _damage, int _section_id)
 		GetRoot()->ReportDamage(0, threat);		
 	} else
 	{
-		health_ -= _damage;
 		damage_flash_timer_ = SECTION_FLASH_TIME;
 		threat = _damage < health_.GetValue() ? _damage : health_.GetValue();
+		health_ -= _damage;
 		GetRoot()->ReportDamage(threat, 0);
 	}
 	
