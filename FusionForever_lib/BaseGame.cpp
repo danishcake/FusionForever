@@ -159,7 +159,6 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 	//Collide projectiles with shields
 	for(int force = 0; force < MAX_FORCES; force++)
 	{
-		projectile_spawn.clear();
 		for(int other_force = 0; other_force < MAX_FORCES; other_force++)
 		{
 			if(force != other_force && hostility_[force][other_force] == Hostility::Hostile)
@@ -173,14 +172,11 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 						{
 							shield->TakeDamage(projectile->GetDamage(), shield->GetRoot()->GetSectionID());
 							projectile->SetLifetime(0);
-							break;
 						}
 					}
 				}
 			}
 		}
-
-		projectiles_[force].insert(projectiles_[force].end(), projectile_spawn.begin(), projectile_spawn.end());
 	}
 
 
@@ -190,18 +186,21 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 		projectile_spawn.clear();
 		BOOST_FOREACH(Projectile_ptr projectile, projectiles_[force])
 		{
-			//Collect up all local enemies to test collisions against
-			for(int other_force = 0; other_force < MAX_FORCES; other_force++)
+			if(projectile->GetLifetime() > 0)
 			{
-				filtered.clear();
-				if(other_force != force && hostility_[force][other_force] == Hostility::Hostile)
+				//Collect up all local enemies to test collisions against
+				for(int other_force = 0; other_force < MAX_FORCES; other_force++)
 				{
-					collision_managers_[other_force].GetAtPoint(filtered, projectile->GetPosition());
-					std::sort(filtered.begin(),filtered.end(), RelativeRangeSort<Projectile_ptr, Section_ptr>(projectile));
-					BOOST_FOREACH(Section_ptr section, filtered)
+					filtered.clear();
+					if(other_force != force && hostility_[force][other_force] == Hostility::Hostile)
 					{
-						if(section->CheckCollisions(projectile))
-							break; //Checks the collisions and does damage
+						collision_managers_[other_force].GetAtPoint(filtered, projectile->GetPosition());
+						std::sort(filtered.begin(),filtered.end(), RelativeRangeSort<Projectile_ptr, Section_ptr>(projectile));
+						BOOST_FOREACH(Section_ptr section, filtered)
+						{
+							if(section->CheckCollisions(projectile))
+								break; //Checks the collisions and does damage
+						}
 					}
 				}
 			}
