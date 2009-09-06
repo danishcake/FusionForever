@@ -324,6 +324,10 @@
 					RelativePath=".\Section.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\SectionMetadata.cpp"
+					>
+				</File>
 				<Filter
 					Name="Cores"
 					>
@@ -704,6 +708,10 @@
 				>
 				<File
 					RelativePath=".\Section.h"
+					>
+				</File>
+				<File
+					RelativePath=".\SectionMetadata.h"
 					>
 				</File>
 				<Filter

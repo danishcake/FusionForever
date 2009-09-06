@@ -788,6 +788,12 @@ int LuaChallenge::l_UpdateDesign(lua_State* _luaVM)
 
 
 
+
+int LuaChallenge::l_GetSectionMetadataByType(lua_State* _luaVM)
+{
+	return 0;
+}
+
 LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* _game) : 
 	luaVM_(_luaVM), challenge_(_challenge), game_(_game), luaAIcache_(luaVM_)
 {
@@ -810,6 +816,7 @@ LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* 
 	lua_register(_luaVM, "UpdateDesign", l_UpdateDesign);
 	lua_register(_luaVM, "GetDesign", l_GetDesign);
 
+	lua_register(_luaVM, "GetSectionMetadataByType", l_GetSectionMetadataByType);
 
 	state_ = ChallengeState::NotStarted;
 

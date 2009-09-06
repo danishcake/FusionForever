@@ -45,10 +45,9 @@ namespace SectionTypes
 		return names;
 	}
 
-	void RegisterSectionType(Section* (*factory_method_)(), std::string _name)
+	void RegisterSectionType(Section* (*_factory_method)(), std::string _name)
 	{
-		p_map[_name] = factory_method_;
-		//p_map.insert(std::pair<std::string, Section*(*)()>(_name, factory_method_));
+		p_map[_name] = _factory_method;
 	}
 
 /* Factory methods - creates and instance of the section. Registered with

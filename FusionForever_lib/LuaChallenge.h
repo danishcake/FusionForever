@@ -68,6 +68,8 @@ private:
 
 	static void ParseLuaShip(lua_State* _luaVM, Section** _parent, bool _update_mode, LuaChallenge* _challenge, std::stack<std::vector<int>>& indices);
 	static int l_UpdateDesign(lua_State* _luaVM);
+
+	static int l_GetSectionMetadataByType(lua_State* _luaVM);
 	
 
 	GLColor force_colors_[8];
