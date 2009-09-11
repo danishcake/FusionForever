@@ -45,4 +45,10 @@ public:
 	 * @return False on missing required elements.
 	 */
 	virtual bool ParseSpecific(TiXmlElement* _node);
+
+	/*
+	 * Register section metadata - section name associated with a number of 
+	 * tags, values and coordinates
+	 */
+	virtual void RegisterMetadata();
 };

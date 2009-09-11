@@ -63,7 +63,10 @@ public:
    /**
      * Gets/sets the firing ID of the beam
      */
-
 	int GetFirer_ID(){return firer_id_;}
 	void SetFirer_ID(int _firer_id){firer_id_ = _firer_id;}
+
+	float GetMaxDistance(){ return max_distance_; }
+	float GetDPS(){return damage_per_second_;}
+
 };

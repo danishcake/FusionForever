@@ -85,3 +85,9 @@ void PlasmaArtillery::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_
 	}
 }
 
+
+void PlasmaArtillery::RegisterMetadata()
+{
+	FiringSection::RegisterMetadata();
+	SectionMetadata::RegisterSectionKeyValue(section_type_, "Range", 2400);
+}

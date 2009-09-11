@@ -133,3 +133,9 @@ bool JointAngles::ParseSpecific(TiXmlElement* _node)
 	pause_time_ = pause_time;
 	return true;
 }
+
+void JointAngles::RegisterMetadata()
+{
+	Section::RegisterMetadata();
+	SectionMetadata::RegisterSectionTag(section_type_, "Joint");
+}

@@ -53,4 +53,10 @@ public:
      * @param _enemies A list of enemies.
      */
 	virtual void Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager);
+
+	/*
+	 * Register section metadata - section name associated with a number of 
+	 * tags, values and coordinates
+	 */
+	virtual void RegisterMetadata();
 };

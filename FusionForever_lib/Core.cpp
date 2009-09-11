@@ -297,3 +297,9 @@ void Core::ReportDamage(float _damage, float _shield_damage)
 	total_damage_ += _damage;
 	last_damage_time_ = 0;
 }
+
+void Core::RegisterMetadata()
+{
+	Section::RegisterMetadata();
+	SectionMetadata::RegisterSectionTag(section_type_, "Core");
+}

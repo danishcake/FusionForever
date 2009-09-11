@@ -12,6 +12,7 @@
 #include "Camera.h"
 #include "FlexFloat.h"
 #include "SectionDecoration.h"
+#include "SectionMetadata.h"
 
 class Section;
 //typedef boost::shared_ptr<Section> Section_ptr;
@@ -171,4 +172,9 @@ public:
 	/* Lua construction support */
 	std::string GetSectionType(){return section_type_;}
 	std::vector<Section_ptr>& GetSubsections(){return sub_sections_;}
+
+	/*
+	 * Register section metadata - section name associated with a number of tags, values and coordinates
+	 */
+	virtual void RegisterMetadata();
 };

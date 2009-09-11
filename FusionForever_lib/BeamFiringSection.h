@@ -77,4 +77,10 @@ public:
      * Draws the BeamFiringSection and when firing, the beam as well.
      */
 	virtual void DrawSelf();
+
+	/*
+	 * Register section metadata - section name associated with a number of 
+	 * tags, values and coordinates
+	 */
+	virtual void RegisterMetadata();
 };

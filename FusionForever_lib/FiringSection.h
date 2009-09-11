@@ -13,4 +13,10 @@ protected:
 public:
 	FiringSection(void);
 	virtual ~FiringSection(void);
+
+	/*
+	 * Register section metadata - section name associated with a number of 
+	 * tags, values and coordinates
+	 */
+	virtual void RegisterMetadata();
 };

@@ -639,3 +639,13 @@ void Section::CollectShields(std::vector<Section_ptr>& _shields)
 		child->CollectShields(_shields);
 	}
 }
+
+void Section::RegisterMetadata()
+{
+	SectionMetadata::RegisterSectionKeyValue(section_type_, "Health", health_.GetMaxValue());
+	SectionMetadata::RegisterSectionKeyValue(section_type_, "Thrust", thrust_.GetMaxValue());
+	SectionMetadata::RegisterSectionKeyValue(section_type_, "Energy", energy_.GetMaxValue());
+	SectionMetadata::RegisterSectionKeyValue(section_type_, "Power", power_generation_.GetMaxValue());
+	SectionMetadata::RegisterSectionKeyValue(section_type_, "Radius", radius_);
+	SectionMetadata::RegisterSectionKeyValue(section_type_, "IsShield", has_shield_);
+}

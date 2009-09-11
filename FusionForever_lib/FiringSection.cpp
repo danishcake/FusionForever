@@ -22,3 +22,10 @@ void FiringSection::fire_projectile(Projectile_ptr _projectile, std::vector<Proj
 	_spawn_prj.push_back(Projectile_ptr(_projectile));
 	_projectile->SetFirer_ID(root_->GetSectionID()); //This assumes that a Core will never be cajoled into firing
 }
+
+void FiringSection::RegisterMetadata()
+{
+	Section::RegisterMetadata();
+	SectionMetadata::RegisterSectionTag(section_type_, "Weapon");
+	SectionMetadata::RegisterSectionKeyValue(section_type_, "Cooldown", cooldown_time_);
+}

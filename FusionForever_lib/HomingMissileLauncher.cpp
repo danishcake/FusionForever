@@ -95,3 +95,10 @@ void HomingMissileLauncher::Tick(float _timespan, std::vector<Projectile_ptr>& _
 		}
 	}
 }
+
+void HomingMissileLauncher::RegisterMetadata()
+{
+	FiringSection::RegisterMetadata();
+	SectionMetadata::RegisterSectionKeyValue(section_type_, "Range", 1315);
+	SectionMetadata::RegisterSectionTag(section_type_, "Homing");
+}

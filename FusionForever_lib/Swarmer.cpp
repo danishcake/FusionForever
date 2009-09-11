@@ -95,3 +95,10 @@ void Swarmer::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 		}
 	}
 }
+
+void Swarmer::RegisterMetadata()
+{
+	FiringSection::RegisterMetadata();
+	SectionMetadata::RegisterSectionKeyValue(section_type_, "Range", 1000);
+	SectionMetadata::RegisterSectionTag(section_type_, "Homing");
+}

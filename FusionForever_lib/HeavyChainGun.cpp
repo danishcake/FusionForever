@@ -101,3 +101,10 @@ void HeavyChainGun::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_pr
 	}
 	ltv_firing_time_ = firing_time_;
 }
+
+void HeavyChainGun::RegisterMetadata()
+{
+	FiringSection::RegisterMetadata();
+	SectionMetadata::RegisterSectionKeyValue(section_type_, "Range", 1800);
+	SectionMetadata::RegisterSectionTag(section_type_, "FiringRamps");
+}

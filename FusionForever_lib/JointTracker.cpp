@@ -122,3 +122,10 @@ bool JointTracker::ParseSpecific(TiXmlElement* _node)
 	only_when_firing_ = only_when_firing;
 	return true;
 }
+
+void JointTracker::RegisterMetadata()
+{
+	Section::RegisterMetadata();
+	SectionMetadata::RegisterSectionTag(section_type_, "Joint");
+	SectionMetadata::RegisterSectionTag(section_type_, "Tracker");
+}

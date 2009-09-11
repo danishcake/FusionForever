@@ -88,3 +88,9 @@ bool SpinningJoint::ParseSpecific(TiXmlElement* _node)
 	degrees_per_second_ = degrees_per_second;
 	return true;
 }
+
+void SpinningJoint::RegisterMetadata()
+{
+	Section::RegisterMetadata();
+	SectionMetadata::RegisterSectionTag(section_type_, "Joint");
+}

@@ -149,3 +149,8 @@ bool TrackerArm::ParseSpecific(TiXmlElement* _node)
 	return true;
 }
 
+void TrackerArm::RegisterMetadata()
+{
+	Section::RegisterMetadata();
+	SectionMetadata::RegisterSectionTag(section_type_, "Joint");
+}

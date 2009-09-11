@@ -48,6 +48,11 @@ namespace SectionTypes
 	void RegisterSectionType(Section* (*_factory_method)(), std::string _name)
 	{
 		p_map[_name] = _factory_method;
+
+		Section* section = _factory_method();
+		section->RegisterMetadata();
+		delete section;
+
 	}
 
 /* Factory methods - creates and instance of the section. Registered with

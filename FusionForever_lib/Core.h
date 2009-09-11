@@ -144,6 +144,12 @@ public:
 	  * Called by 
 	  */
 	virtual void EndSubscription(Subscriber* _source);
+
+	/*
+	 * Register section metadata - section name associated with a number of 
+	 * tags, values and coordinates
+	 */
+	virtual void RegisterMetadata();
 };
 
 

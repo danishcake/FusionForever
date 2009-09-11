@@ -83,4 +83,9 @@ void Blaster::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 	}
 }
 
+void Blaster::RegisterMetadata()
+{
+	FiringSection::RegisterMetadata();
+	SectionMetadata::RegisterSectionKeyValue(section_type_, "Range", 1280);
+}
 

@@ -81,3 +81,13 @@ void BeamFiringSection::DrawSelf()
 	if(health_ > 0)
 		beam_charge_.DrawSelf();
 }
+
+
+void BeamFiringSection::RegisterMetadata()
+{
+	Section::RegisterMetadata();
+	SectionMetadata::RegisterSectionTag(section_type_, "Beam");
+	SectionMetadata::RegisterSectionTag(section_type_, "Weapon");
+	SectionMetadata::RegisterSectionKeyValue(section_type_, "Range", beam_->GetMaxDistance());
+	SectionMetadata::RegisterSectionKeyValue(section_type_, "BeamDPS", beam_->GetDPS());
+}

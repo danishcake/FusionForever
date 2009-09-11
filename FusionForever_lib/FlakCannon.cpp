@@ -84,3 +84,9 @@ void FlakCannon::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, 
 		}
 	}
 }
+
+void FlakCannon::RegisterMetadata()
+{
+	FiringSection::RegisterMetadata();
+	SectionMetadata::RegisterSectionKeyValue(section_type_, "Range", 640);
+}

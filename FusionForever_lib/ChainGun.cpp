@@ -118,3 +118,10 @@ void ChainGun::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, st
 	}
 }
 
+void ChainGun::RegisterMetadata()
+{
+	FiringSection::RegisterMetadata();
+	SectionMetadata::RegisterSectionKeyValue(section_type_, "Range", 1280);
+	SectionMetadata::RegisterSectionTag(section_type_, "FiringRamps");
+}
+
