@@ -30,6 +30,7 @@ struct XMLFilledOutlinedData
 	Vector3f size;
 	std::string filename;
 	std::vector<std::string> categories;
+	std::vector<std::string> tags;
 };
 
 class XMLSection :
@@ -48,5 +49,7 @@ public:
 	static void Triangulate(std::vector<Vector3f>& _temp_outline);
 	virtual void ToXML(TiXmlElement* _node);
 	static std::vector<std::string> GetCategories(std::string _name);
+
+	static void Preload();
 	
 };

@@ -147,7 +147,6 @@ switch ( button )
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	SectionTypes::RegisterSections();
 	Vector2<int> resolution = Settings::Instance().GetResolution();
 	srand((unsigned int)time(NULL));
 	Camera::Instance().SetAspectRatio(resolution.x, resolution.y);
@@ -175,7 +174,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	glClearColor(0.0f,0.0f,0.0f,0.0f);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+	
+	SectionTypes::RegisterSections();
 	ltv_time = clock();
 
 	CEGUI::OpenGLRenderer* renderer = new CEGUI::OpenGLRenderer(0, Camera::Instance().GetWindowWidth(), Camera::Instance().GetWindowHeight());

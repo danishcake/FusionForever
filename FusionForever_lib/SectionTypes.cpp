@@ -18,6 +18,7 @@
 #include "FlakCannon.h"
 #include "HeavyChainGun.h"
 #include "SmartBomber.h"
+#include "XMLSection.h"
 
 namespace SectionTypes
 {
@@ -77,6 +78,7 @@ namespace SectionTypes
 
 	void RegisterSections()
 	{
+		XMLSection::Preload();
 		SectionTypes::RegisterSectionType(CreatePlasmaArtillery, "PlasmaArtillery");
 		SectionTypes::RegisterSectionType(CreateSwarmerInstance, "Swarmer");
 		SectionTypes::RegisterSectionType(CreateSpinningJointInstance, "SpinningJoint");

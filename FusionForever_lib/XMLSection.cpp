@@ -2,6 +2,8 @@
 #include "XMLSection.h"
 #include <sstream>
 #include "Triangulate.h"
+#include <boost/filesystem.hpp>
+#include "SectionMetadata.h"
 
 std::map<std::string, XMLFilledOutlinedData> XMLSection::name_map_ = std::map<std::string, XMLFilledOutlinedData>();
 
@@ -107,6 +109,7 @@ bool XMLSection::ParseXMLSection(std::string _name)
 		TiXmlElement* shield_recharge_cost_element =	section_handle.FirstChild("SectionDefinition").FirstChild("Shield").FirstChild("RechargeCost").Element();
 		TiXmlElement* shield_radius_element =			section_handle.FirstChild("SectionDefinition").FirstChild("Shield").FirstChild("Radius").Element();
 		TiXmlElement* categories_element =				section_handle.FirstChild("SectionDefinition").FirstChild("Categories").Element();
+		TiXmlElement* tags_element =					section_handle.FirstChild("SectionDefinition").FirstChild("Tags").Element();
 
 
 		indicies.default_subsection_position = Vector3f();
@@ -295,7 +298,22 @@ bool XMLSection::ParseXMLSection(std::string _name)
 				category = category->NextSiblingElement("Category");
 			}
 		}
-
+		if(tags_element)
+		{
+			TiXmlElement* tag = tags_element->FirstChildElement("Tag");
+			while(tag)
+			{
+				std::string tag_text = tag->GetText();
+				if(tag_text.length() > 0)
+				{
+					indicies.tags.push_back(tag_text);
+				} else
+				{
+					Logger::ErrorOut() << "Zero length tag text in " << file_name << "\n";
+				}
+				tag = tag->NextSiblingElement("Tag");
+			}
+		}
 
 		if(outline_element)
 		{
@@ -433,4 +451,50 @@ void XMLSection::ToXML(TiXmlElement* _node)
 {
 	Section::ToXML(_node);
 	_node->SetAttribute("SectionType", section_type_);
+}
+
+void XMLSection::Preload()
+{
+	int success_count = 0;
+	int total_count = 0;
+	Logger::DiagnosticOut() << "Preloading XMLSections\n";
+	/* Iterate over XML sections and load them. */
+	boost::filesystem::directory_iterator end_itr;
+	for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/Sections");
+		itr != end_itr;
+		++itr)
+	{
+		if(boost::filesystem::is_regular((itr->status())))
+		{
+			std::string ext = boost::filesystem::extension(*itr);
+			if(ext == ".XMLSection")
+			{
+				std::string section_name = boost::filesystem::basename(itr->path());
+				XMLSection* section = XMLSection::CreateXMLSection(section_name);
+				if(section)
+				{
+					success_count++;
+					if(name_map_.find(section_name) != name_map_.end())
+					{
+						for(std::vector<std::string>::iterator it = name_map_[section_name].tags.begin(); it != name_map_[section_name].tags.end(); ++it)
+						{
+							SectionMetadata::RegisterSectionTag(section_name, *it);
+						}
+						 
+					} else
+					{
+						Logger::ErrorOut() << "Unable to lookup the preloaded data for " << section_name << "\n";
+					}
+				} else
+				{
+					Logger::ErrorOut() << "Unable to preload " << section_name << ". Scripts relying on it may fail\n";
+				}
+				
+
+				delete section;
+				total_count++;
+			}
+		}
+	}
+	Logger::DiagnosticOut() << "Preloaded " <<success_count << "/" << total_count << " successfully\n";
 }
