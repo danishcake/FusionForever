@@ -41,3 +41,11 @@ function builder_:updateShip(core)
 		error("Cannot call UpdateCore on a new ship, can only call it on a ship obtained through GetCore(ship_id)")
 	end
 end
+
+function builder_:getSectionMetadata(section)
+	return GetSectionMetadataByType(self.challenge_pointer, section.section_type)
+end
+
+function builder_:getSectionTypeMetadata(section_type)
+	return GetSectionMetadataByType(self.challenge_pointer, section_type)
+end

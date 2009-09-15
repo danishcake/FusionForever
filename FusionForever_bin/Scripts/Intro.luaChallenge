@@ -190,11 +190,20 @@ function()
 
 	challenge:WaitFor(2)
 end,
+
+function()
+	metadata = builder:getSectionTypeMetadata("HeavyChainGun")
+	
+	print("Got tags:")
+	for k,v in ipairs(metadata.Tags) do
+		print("Tag: " .. v)
+	end 
+end,
 }
 
 --Pick a random intro
-local intro = math.random(1, #introlist)
---local intro = #introlist
+--local intro = math.random(1, #introlist)
+local intro = #introlist
 print("Intro " .. intro)
 introlist[intro]()
 

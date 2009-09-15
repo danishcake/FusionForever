@@ -791,7 +791,34 @@ int LuaChallenge::l_UpdateDesign(lua_State* _luaVM)
 
 int LuaChallenge::l_GetSectionMetadataByType(lua_State* _luaVM)
 {
-	return 0;
+	if(!(lua_gettop(_luaVM) == 2))
+	{
+		luaL_error(_luaVM, "GetSectionMetadataByType must be called with 2 parameters");
+	}
+	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -2)));
+	assert(challenge);
+	std::string section_type = lua_tostring(_luaVM, -1);
+	if(section_type.length() == 0)
+		luaL_error(_luaVM, "GetSectionMetadataByType must be called with a section type. Empty string found");
+
+	int a = lua_gettop(_luaVM);
+	lua_newtable(_luaVM);					//ret
+	lua_pushstring(_luaVM, "Tags");			//ret-"Tags"
+	lua_newtable(_luaVM);					//ret-"Tags"-table
+	std::vector<std::string> tags = SectionMetadata::GetTags(section_type);
+	int tag_index = 1;
+	for(std::vector<std::string>::iterator it = tags.begin(); it != tags.end(); ++it)
+	{
+		lua_pushinteger(_luaVM, tag_index++);	//ret-"Tags"-table-index
+		lua_pushstring(_luaVM, it->c_str());	//ret-"Tags"-table-index-"tag"
+		lua_settable(_luaVM, -3);				//ret-"Tags"-table
+		Logger::DiagnosticOut() << "Returned a tag for section " << section_type << " of " << *it << "\n";
+	}
+	lua_settable(_luaVM, -3);					//ret
+	bool c = lua_istable(_luaVM, -1);
+	int b = lua_gettop(_luaVM);
+
+	return 1;
 }
 
 LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* _game) : 
