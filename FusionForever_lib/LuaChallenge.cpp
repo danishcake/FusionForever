@@ -801,7 +801,6 @@ int LuaChallenge::l_GetSectionMetadataByType(lua_State* _luaVM)
 	if(section_type.length() == 0)
 		luaL_error(_luaVM, "GetSectionMetadataByType must be called with a section type. Empty string found");
 
-	int a = lua_gettop(_luaVM);
 	lua_newtable(_luaVM);					//ret
 	lua_pushstring(_luaVM, "Tags");			//ret-"Tags"
 	lua_newtable(_luaVM);					//ret-"Tags"-table
@@ -815,8 +814,18 @@ int LuaChallenge::l_GetSectionMetadataByType(lua_State* _luaVM)
 		Logger::DiagnosticOut() << "Returned a tag for section " << section_type << " of " << *it << "\n";
 	}
 	lua_settable(_luaVM, -3);					//ret
-	bool c = lua_istable(_luaVM, -1);
-	int b = lua_gettop(_luaVM);
+
+	lua_pushstring(_luaVM, "Values");			//ret-"Values"
+	lua_newtable(_luaVM);						//ret-"Values"-table
+	std::map<std::string, double> key_values = SectionMetadata::GetValues(section_type);
+	for(std::map<std::string, double>::iterator it = key_values.begin(); it != key_values.end(); ++it)
+	{
+		lua_pushstring(_luaVM, it->first.c_str());	//ret-"Values"-table-"tag"
+		lua_pushnumber(_luaVM, it->second);			//ret-"Values"-table-"tag"-value
+		
+		lua_settable(_luaVM, -3);
+	}
+	lua_settable(_luaVM, -3);
 
 	return 1;
 }

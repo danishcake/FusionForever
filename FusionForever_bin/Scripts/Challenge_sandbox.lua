@@ -229,6 +229,7 @@ local env_cage = {
 	error = error,
 	challenge = challenge_,
 	ipairs = ipairs,
+	pairs = pairs,
 	builder = builder_
 }
 

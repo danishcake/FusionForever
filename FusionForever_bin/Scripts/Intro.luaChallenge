@@ -197,7 +197,13 @@ function()
 	print("Got tags:")
 	for k,v in ipairs(metadata.Tags) do
 		print("Tag: " .. v)
-	end 
+	end
+	
+	print("Got values:")
+	for key, val in pairs(metadata.Values) do
+		print("Value: " .. key .. ":" .. val)
+	end
+		
 end,
 }
 
