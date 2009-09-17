@@ -473,6 +473,7 @@ void XMLSection::Preload()
 				XMLSection* section = XMLSection::CreateXMLSection(section_name);
 				if(section)
 				{
+					SectionMetadata::RegisterSection(section_name);
 					success_count++;
 					if(name_map_.find(section_name) != name_map_.end())
 					{
@@ -480,17 +481,21 @@ void XMLSection::Preload()
 						{
 							SectionMetadata::RegisterSectionTag(section_name, *it);
 						}
+						SectionMetadata::RegisterSectionKeyCoordinate(section_name,"default_sub_section_position", 
+							name_map_[section_name].default_subsection_position.x, 
+							name_map_[section_name].default_subsection_position.y);
 						 
 					} else
 					{
 						Logger::ErrorOut() << "Unable to lookup the preloaded data for " << section_name << "\n";
 					}
+					section->RegisterMetadata();
 				} else
 				{
 					Logger::ErrorOut() << "Unable to preload " << section_name << ". Scripts relying on it may fail\n";
 				}
 				
-
+				
 				delete section;
 				total_count++;
 			}

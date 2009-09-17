@@ -791,12 +791,10 @@ int LuaChallenge::l_UpdateDesign(lua_State* _luaVM)
 
 int LuaChallenge::l_GetSectionMetadataByType(lua_State* _luaVM)
 {
-	if(!(lua_gettop(_luaVM) == 2))
+	if(!(lua_gettop(_luaVM) == 1))
 	{
-		luaL_error(_luaVM, "GetSectionMetadataByType must be called with 2 parameters");
+		luaL_error(_luaVM, "GetSectionMetadataByType must be called with 1 parameter");
 	}
-	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -2)));
-	assert(challenge);
 	std::string section_type = lua_tostring(_luaVM, -1);
 	if(section_type.length() == 0)
 		luaL_error(_luaVM, "GetSectionMetadataByType must be called with a section type. Empty string found");
@@ -811,7 +809,6 @@ int LuaChallenge::l_GetSectionMetadataByType(lua_State* _luaVM)
 		lua_pushinteger(_luaVM, tag_index++);	//ret-"Tags"-table-index
 		lua_pushstring(_luaVM, it->c_str());	//ret-"Tags"-table-index-"tag"
 		lua_settable(_luaVM, -3);				//ret-"Tags"-table
-		Logger::DiagnosticOut() << "Returned a tag for section " << section_type << " of " << *it << "\n";
 	}
 	lua_settable(_luaVM, -3);					//ret
 
@@ -823,10 +820,48 @@ int LuaChallenge::l_GetSectionMetadataByType(lua_State* _luaVM)
 		lua_pushstring(_luaVM, it->first.c_str());	//ret-"Values"-table-"tag"
 		lua_pushnumber(_luaVM, it->second);			//ret-"Values"-table-"tag"-value
 		
-		lua_settable(_luaVM, -3);
+		lua_settable(_luaVM, -3);					//ret-"Values"-table
 	}
-	lua_settable(_luaVM, -3);
+	lua_settable(_luaVM, -3);						//ret
 
+	lua_pushstring(_luaVM, "Coordinates");		//ret-"Coordinates"
+	lua_newtable(_luaVM);						//ret-"Coordinates"-table
+	std::map<std::string, Vector2d> coordinate_values = SectionMetadata::GetCoordinates(section_type);
+	for(std::map<std::string, Vector2d>::iterator it = coordinate_values.begin(); it != coordinate_values.end(); ++it)
+	{
+		lua_pushstring(_luaVM, it->first.c_str());	//ret-"Coordinates"-table-"tag"
+		lua_newtable(_luaVM);
+		lua_pushstring(_luaVM, "x");
+		lua_pushnumber(_luaVM, it->second.x);		//ret-"Coordinates"-table-"tag"-table-"x"-x
+		lua_settable(_luaVM, -3);					//ret-"Coordinates"-table-"tag"-table
+		lua_pushstring(_luaVM, "y");
+		lua_pushnumber(_luaVM, it->second.y);		//ret-"Coordinates"-table-"tag"-table-"y"-y
+		lua_settable(_luaVM, -3);					//ret-"Coordinates"-table-"tag"-table
+		
+		lua_settable(_luaVM, -3);					//ret-"Coordinates"-table
+	}
+	lua_settable(_luaVM, -3);						//ret
+
+	return 1;
+}
+
+int LuaChallenge::l_GetSectionTypes(lua_State* _luaVM)
+{
+	if(!(lua_gettop(_luaVM) == 0))
+	{
+		luaL_error(_luaVM, "GetSectionTypes must be called with no parameters");
+	}
+
+	lua_newtable(_luaVM);
+	std::vector<std::string> section_types = SectionMetadata::GetSections();
+	int section_count = 1;
+	for(std::vector<std::string>::iterator it = section_types.begin(); it != section_types.end(); ++it)
+	{
+		lua_pushinteger(_luaVM, section_count);
+		lua_pushstring(_luaVM, it->c_str());
+		lua_settable(_luaVM, -3);
+		section_count++;
+	}
 	return 1;
 }
 
@@ -853,6 +888,7 @@ LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* 
 	lua_register(_luaVM, "GetDesign", l_GetDesign);
 
 	lua_register(_luaVM, "GetSectionMetadataByType", l_GetSectionMetadataByType);
+	lua_register(_luaVM, "GetSectionTypes", l_GetSectionTypes);
 
 	state_ = ChallengeState::NotStarted;
 

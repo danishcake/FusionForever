@@ -192,17 +192,27 @@ function()
 end,
 
 function()
-	metadata = builder:getSectionTypeMetadata("HeavyChainGun")
-	
-	print("Got tags:")
-	for k,v in ipairs(metadata.Tags) do
-		print("Tag: " .. v)
+
+	section_types = builder:getSectionTypes()
+	print("Got " .. #section_types .. " section types")
+	for index, section_type in ipairs(section_types) do
+		metadata = builder:getSectionTypeMetadata(section_type)
+
+		print("Got " .. #metadata.Tags .. " tags, " .. #metadata.Values .. " values and " .. #metadata.Coordinates .. " coordintes for " .. section_type)
+		for k,v in ipairs(metadata.Tags) do
+			print("Tag: " .. v)
+		end
+		
+		for key, val in pairs(metadata.Values) do
+			print("Value: " .. key .. ":" .. val)
+		end
+		
+		for key, val in pairs(metadata.Coordinates) do
+			print("Coordinate: " .. key .. ": (" .. val.x .. "," .. val.y .. ")")
+		end
 	end
 	
-	print("Got values:")
-	for key, val in pairs(metadata.Values) do
-		print("Value: " .. key .. ":" .. val)
-	end
+
 		
 end,
 }

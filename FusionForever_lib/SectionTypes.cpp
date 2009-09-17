@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "SectionTypes.h"
+#include "SectionMetadata.h"
 #include "Section.h"
 
 #include "PlasmaArtillery.h"
@@ -52,6 +53,7 @@ namespace SectionTypes
 
 		Section* section = _factory_method();
 		section->RegisterMetadata();
+		SectionMetadata::RegisterSection(_name);
 		delete section;
 
 	}

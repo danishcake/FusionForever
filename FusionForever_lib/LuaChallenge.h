@@ -70,6 +70,7 @@ private:
 	static int l_UpdateDesign(lua_State* _luaVM);
 
 	static int l_GetSectionMetadataByType(lua_State* _luaVM);
+	static int l_GetSectionTypes(lua_State* _luaVM);
 	
 
 	GLColor force_colors_[8];

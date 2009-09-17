@@ -51,5 +51,4 @@ public:
 	static std::vector<std::string> GetCategories(std::string _name);
 
 	static void Preload();
-	
 };

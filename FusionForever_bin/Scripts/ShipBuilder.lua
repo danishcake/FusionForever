@@ -43,9 +43,13 @@ function builder_:updateShip(core)
 end
 
 function builder_:getSectionMetadata(section)
-	return GetSectionMetadataByType(self.challenge_pointer, section.section_type)
+	return GetSectionMetadataByType(section.section_type)
 end
 
 function builder_:getSectionTypeMetadata(section_type)
-	return GetSectionMetadataByType(self.challenge_pointer, section_type)
+	return GetSectionMetadataByType(section_type)
+end
+
+function builder_:getSectionTypes()
+	return GetSectionTypes()
 end
