@@ -7,6 +7,27 @@ challenge:DisplayMessage("Demos the use of the ship builder", 2);
 challenge:WaitFor(0.5)
 
 
+function()
+	section_types = builder:getSectionTypes()
+	print("Got " .. #section_types .. " section types")
+	for index, section_type in ipairs(section_types) do
+		metadata = builder:getSectionTypeMetadata(section_type)
+
+		print("Got " .. #metadata.Tags .. " tags, " .. #metadata.Values .. " values and " .. #metadata.Coordinates .. " coordintes for " .. section_type)
+		for k,v in ipairs(metadata.Tags) do
+			print("Tag: " .. v)
+		end
+		
+		for key, val in pairs(metadata.Values) do
+			print("Value: " .. key .. ":" .. val)
+		end
+		
+		for key, val in pairs(metadata.Coordinates) do
+			print("Coordinate: " .. key .. ": (" .. val.x .. "," .. val.y .. ")")
+		end
+	end
+end,
+
 
 cost = {}
 
@@ -16,6 +37,8 @@ function cost:new(section_type, cost)
 	o.cost = cost
 	return o
 end
+
+
 
 
 
