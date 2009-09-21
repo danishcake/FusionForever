@@ -66,7 +66,7 @@ void BeamFiringSection::Tick(float _timespan, std::vector<Projectile_ptr>& _spaw
 		beam_charge_.SetScale(beam_sum_time_ / beam_cooldown_time_);
 	}
 	ltv_firing_ = firing_;
-	beam_charge_.Tick(_timespan, ltv_transform_);
+	beam_charge_.Tick(_timespan, ltv_transform_, _spawn_dec);
 }
 
 void BeamFiringSection::DrawSelf()

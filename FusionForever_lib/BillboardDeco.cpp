@@ -20,9 +20,9 @@ BillboardDeco::~BillboardDeco(void)
 	delete billboard_;
 }
 
-void BillboardDeco::Tick(float _timespan, Matrix4f _transform)
+void BillboardDeco::Tick(float _timespan, Matrix4f _transform, std::vector<Decoration_ptr>& _decoration_spawn)
 {
-	Decoration::Tick(_timespan, _transform);
+	Decoration::Tick(_timespan, _transform, _decoration_spawn);
 	float life_fraction = (total_lifetime_ - lifetime_) / total_lifetime_;
 	switch(billboard_type_)
 	{

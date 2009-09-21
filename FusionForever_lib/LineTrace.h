@@ -17,7 +17,7 @@ public:
 	LineTrace(BaseEntity* _source, GLColor trail_color_);
 	virtual ~LineTrace(void);
 
-	virtual void Tick(float _timespan, Matrix4f _transform);
+	virtual void Tick(float _timespan, Matrix4f _transform, std::vector<Decoration_ptr>& _decoration_spawn);
 	virtual void DrawSelf();
 	virtual void EndSubscription(Subscriber* _source);
 };

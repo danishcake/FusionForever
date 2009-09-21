@@ -27,10 +27,10 @@ Sparks::~Sparks(void)
 {
 }
 
-void Sparks::Tick(float _timespan, Matrix4f _transform)
+void Sparks::Tick(float _timespan, Matrix4f _transform, std::vector<Decoration_ptr>& _decoration_spawn)
 {
 	Matrix4f scaleM  = Matrix4f::createScale(SPARK_SIZE* (sqrtf((SPARKS_LIFETIME - lifetime_) / SPARKS_LIFETIME)));
-	Decoration::Tick(_timespan, _transform);
+	Decoration::Tick(_timespan, _transform, _decoration_spawn);
 	_transform = ltv_transform_ * scaleM;
 	ltv_transform_ = _transform;
 }

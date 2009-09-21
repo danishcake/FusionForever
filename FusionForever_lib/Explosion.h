@@ -15,5 +15,5 @@ public:
 	Explosion();
 	virtual ~Explosion(void);
 
-	virtual void Tick(float _timespan, Matrix4f _transform);
+	virtual void Tick(float _timespan, Matrix4f _transform, std::vector<Decoration_ptr>& _decoration_spawn);
 };

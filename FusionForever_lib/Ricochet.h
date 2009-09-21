@@ -16,7 +16,7 @@ public:
 	Ricochet(float _angle, bool _reversed);
 	virtual ~Ricochet(void);
 
-	virtual void Tick(float _timespan, Matrix4f _transform);
+	virtual void Tick(float _timespan, Matrix4f _transform, std::vector<Decoration_ptr>& _decoration_spawn);
 
 	void ResetTimer();
 };

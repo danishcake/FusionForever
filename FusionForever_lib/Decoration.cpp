@@ -15,7 +15,7 @@ Decoration::~Decoration(void)
 	deco_free_count_++;
 }
 
-void Decoration::Tick(float _timespan, Matrix4f _transform)
+void Decoration::Tick(float _timespan, Matrix4f _transform, std::vector<Decoration_ptr>& _decoration_spawn)
 {
 	lifetime_-=_timespan;
 	BaseEntity::Tick(_timespan, _transform);

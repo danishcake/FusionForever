@@ -36,14 +36,14 @@ SectionDecoration::~SectionDecoration()
 {
 	delete section_;
 }
-void SectionDecoration::Tick(float _timespan, Matrix4f _transform)
+void SectionDecoration::Tick(float _timespan, Matrix4f _transform, std::vector<Decoration_ptr>& _decoration_spawn)
 {
 	float speed = this->velocity_.length();
 	speed = speed * expf(-_timespan * 1);
 	velocity_.normalize();
 	velocity_ *= speed;
 
-	Decoration::Tick(_timespan, _transform);
+	Decoration::Tick(_timespan, _transform, _decoration_spawn);
 	section_->SetPosition(position_);
 	section_->SetAngle(angle_);
 	section_->DeathTick();

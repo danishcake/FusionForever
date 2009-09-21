@@ -18,7 +18,7 @@ LineTrace::~LineTrace(void)
 		source_->RemoveSubscriber(this);
 }
 
-void LineTrace::Tick(float _timespan, Matrix4f _transform)
+void LineTrace::Tick(float _timespan, Matrix4f _transform, std::vector<Decoration_ptr>& _decoration_spawn)
 {
 	if(source_!=NULL)
 	{
@@ -29,7 +29,7 @@ void LineTrace::Tick(float _timespan, Matrix4f _transform)
 	{
 		//lifetime_ = 0;
 	}
-	Decoration::Tick(_timespan, _transform);
+	Decoration::Tick(_timespan, _transform, _decoration_spawn);
 	if(first_run_)
 	{
 		for(int i = 0; i < MAX_LINE_SECTIONS; i++)

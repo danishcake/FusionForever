@@ -36,10 +36,10 @@ Puff::~Puff(void)
 {
 }
 
-void Puff::Tick(float _timespan, Matrix4f _transform)
+void Puff::Tick(float _timespan, Matrix4f _transform, std::vector<Decoration_ptr>& _decoration_spawn)
 {
 	Matrix4f scaleM  = Matrix4f::createScale(((PUFF_LIFETIME - lifetime_)/PUFF_LIFETIME));
-	Decoration::Tick(_timespan, _transform);
+	Decoration::Tick(_timespan, _transform, _decoration_spawn);
 	_transform = ltv_transform_ * scaleM;
 	ltv_transform_ = _transform;
 }

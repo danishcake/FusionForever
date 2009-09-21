@@ -262,13 +262,14 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 			}
 		}
 	}
-	//Add spawned decorations 
-	decorations_.insert(decorations_.end(),decoration_spawn.begin(), decoration_spawn.end());
 	//Tick decorations
 	BOOST_FOREACH(Decoration_ptr decoration, decorations_)
 	{
-		decoration->Tick(_timespan, identity);
+		decoration->Tick(_timespan, identity, decoration_spawn);
 	}
+
+	//Add spawned decorations 
+	decorations_.insert(decorations_.end(), decoration_spawn.begin(), decoration_spawn.end());
 
 	//Remove the dead
 	decorations_.erase(std::remove_if(decorations_.begin(), decorations_.end(), Decoration::IsRemovable), decorations_.end());

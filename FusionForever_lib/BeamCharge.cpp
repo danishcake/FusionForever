@@ -30,11 +30,11 @@ void BeamCharge::SetScale(float _scale)
 	lifetime_ = 1.0f;
 }
 
-void BeamCharge::Tick(float _timespan, Matrix4f _transform)
+void BeamCharge::Tick(float _timespan, Matrix4f _transform, std::vector<Decoration_ptr>& _decoration_spawn)
 {
 	angle_ = Random::RandomRange(0, 360);
 	Matrix4f scaleM  = Matrix4f::createScale(scale_);
-	Decoration::Tick(_timespan, _transform);
+	Decoration::Tick(_timespan, _transform, _decoration_spawn);
 	_transform = ltv_transform_ * scaleM;
 	ltv_transform_ = _transform;
 }

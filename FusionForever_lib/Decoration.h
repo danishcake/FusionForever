@@ -36,7 +36,7 @@ public:
      * @param _timespan The amount of time that has passed since the last frame.
      * @param _transform The parent transform
      */
-	virtual void Tick(float _timespan, Matrix4f _transform);
+	virtual void Tick(float _timespan, Matrix4f _transform, std::vector<Decoration_ptr>& _decoration_spawn);
    /**
      * Draws the decoration
      */

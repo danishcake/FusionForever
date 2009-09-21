@@ -29,14 +29,14 @@ Ricochet::~Ricochet(void)
 {
 }
 
-void Ricochet::Tick(float _timespan, Matrix4f _transform)
+void Ricochet::Tick(float _timespan, Matrix4f _transform, std::vector<Decoration_ptr>& _decoration_spawn)
 {
 	float life_scale = ((RICOCHET_LIFETIME - lifetime_)/RICOCHET_LIFETIME);
 	if(reversed_)
 		life_scale = (1 - life_scale);
 	Matrix4f scaleM  = Matrix4f::createScale(3*life_scale + 1);
 	Matrix4f translationM = Matrix4f::createTranslation(0, 100 * life_scale, 0);
-	Decoration::Tick(_timespan, _transform);
+	Decoration::Tick(_timespan, _transform, _decoration_spawn);
 	_transform = ltv_transform_ * translationM;
 	_transform = _transform * scaleM;
 	ltv_transform_ = _transform;
