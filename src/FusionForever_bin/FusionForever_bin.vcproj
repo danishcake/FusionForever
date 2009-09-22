@@ -1532,6 +1532,178 @@
 				</FileConfiguration>
 			</File>
 		</Filter>
+		<Filter
+			Name="CEGUI"
+			>
+			<File
+				RelativePath=".\CEGUI\Commonv2c.ttf"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Deploying CEGUI resource $(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Deploying CEGUI resource $(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\CEGUI\Commonwealth-10.font"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Deploying CEGUI resource $(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Deploying CEGUI resource $(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\CEGUI\TaharezLook.imageset"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Deploying CEGUI resource $(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Deploying CEGUI resource $(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\CEGUI\TaharezLook.looknfeel"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Deploying CEGUI resource $(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Deploying CEGUI resource $(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\CEGUI\TaharezLook.scheme"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Deploying CEGUI resource $(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Deploying CEGUI resource $(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\CEGUI\TaharezLook.tga"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Deploying CEGUI resource $(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Deploying CEGUI resource $(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\CEGUI\TaharezLookWidgetAliases.scheme"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Deploying CEGUI resource $(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Deploying CEGUI resource $(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
 			>
