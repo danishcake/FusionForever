@@ -1705,6 +1705,30 @@
 			</File>
 		</Filter>
 		<File
+			RelativePath=".\licenses.zip"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Deploying license text"
+					CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+					Outputs="$(OutDir)\$(InputFileName)"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Deploying license text"
+					CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+					Outputs="$(OutDir)\$(InputFileName)"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
 			RelativePath=".\ReadMe.txt"
 			>
 		</File>
