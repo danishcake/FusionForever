@@ -32,6 +32,22 @@ private:
      * The height of the orthographic projection.
      */
 	float height_;
+	/**
+     * The x-axis centre target of the orthographic projection.
+     */
+	float centre_x_target_;
+   /**
+     * The y-axis centre target of the orthographic projection.
+     */
+	float centre_y_target_;
+	/**
+     * The x-axis centre target velocity of the orthographic projection.
+     */
+	float centre_x_velocity_;
+   /**
+     * The y-axis centre target velocity of the orthographic projection.
+     */
+	float centre_y_velocity_;
    /**
      * The x-axis centre of the orthographic projection.
      */
@@ -191,6 +207,17 @@ public:
 	  * @return The aspect ratio
 	  */
 	float GetAspectRatio(){return ratio_;}
+	void SetCentreTarget(float _x, float _y, CameraLevel::Enum _level)
+	{
+		//Ignore updates with lower importance
+		if(camera_level_ <= _level)
+		{
+			camera_level_ = _level;
+			centre_x_target_ = _x;
+			centre_y_target_ = _y;
+		}
+	}
+
    /**
      * Sets the point at the centre of the scene.
      * @param _x The x-axis centre of the scene
@@ -204,6 +231,10 @@ public:
 			camera_level_ = _level;
 			centre_x_ = _x;
 			centre_y_ = _y;
+			centre_x_target_ = centre_x_;
+			centre_y_target_ = centre_y_;
+			centre_x_velocity_ = 0;
+			centre_y_velocity_ = 0;
 		}
 	}
    /**
@@ -256,13 +287,7 @@ public:
      */
 	Vector3f ScreenDeltaToWorldDelta(Vector3f _screen_delta);
 
-	void TickCamera(float _timespan)
-	{
-		shake_time_ -= _timespan;
-		zoom_time_ -= _timespan;
-		if(zoom_time_ < 0)
-			zoom_time_ = 0;
-	}
+	void TickCamera(float _timespan);
 	void SetupCamera();
 
 	void ZoomOut()

@@ -9,6 +9,10 @@ Camera::Camera(void)
 	height_ = 200.0f;
 	centre_x_ = 0.0f;
 	centre_y_ = 0.0f;
+	centre_x_target_ = 0.0f;
+	centre_y_target_ = 0.0f;
+	centre_x_velocity_ = 0.0f;
+	centre_y_velocity_ = 0.0f;
 	shake_time_ = 0.0f;
 	window_width_ = 200;
 	window_height_ = 200;
@@ -18,6 +22,50 @@ Camera::Camera(void)
 
 Camera::~Camera(void)
 {
+}
+
+void Camera::TickCamera(float _timespan)
+{
+	shake_time_ -= _timespan;
+	zoom_time_ -= _timespan;
+	if(zoom_time_ < 0)
+		zoom_time_ = 0;
+	
+	/* Smooth the motion of the camera */
+	const float camera_gain = 1.0f;
+	const float velocity_limit = 10.0f;
+
+	float centre_dx = centre_x_target_ - centre_x_;
+	float centre_dy = centre_y_target_ - centre_y_;
+	
+	centre_x_velocity_ += centre_dx * fabs(centre_dx) * camera_gain * _timespan;
+	centre_y_velocity_ += centre_dy * fabs(centre_dy) * camera_gain * _timespan;
+
+
+	//Limit velocity so that it doesn't get too fast, but doesn't reduce below a certain threshold
+	if(fabs(centre_x_velocity_) > fabs(centre_dx) * velocity_limit && fabs(centre_x_velocity_) > 5)
+		centre_x_velocity_ = centre_x_velocity_ * fabs(centre_dx) * velocity_limit / fabs(centre_x_velocity_);
+	if(fabs(centre_y_velocity_) > fabs(centre_dy) * velocity_limit && fabs(centre_y_velocity_) > 5)
+		centre_y_velocity_ = centre_y_velocity_ * fabs(centre_dy) * velocity_limit / fabs(centre_y_velocity_);
+
+
+	centre_x_ += centre_x_velocity_ * _timespan;
+	centre_y_ += centre_y_velocity_ * _timespan;
+
+	float centre_dx2 = centre_x_target_ - centre_x_;
+	float centre_dy2 = centre_y_target_ - centre_y_;
+
+	//If overshot then clamp to correct position
+	if(centre_dx2 * centre_dx < 0)
+	{
+		centre_x_ = centre_x_target_;
+		centre_x_velocity_ = 0;
+	}
+	if(centre_dy2 * centre_dy < 0)
+	{
+		centre_y_ = centre_y_target_;
+		centre_y_velocity_ = 0;
+	}
 }
 
 void Camera::SetupCamera()
