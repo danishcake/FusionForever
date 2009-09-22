@@ -20,8 +20,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\FusionForever\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)obj\FusionForever_bin\$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
 			>
@@ -101,7 +101,7 @@
 				ExecutionBucket="10"
 				AdditionalDependencies="lua51.lib FusionForever_lib.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib CEGUIBase_d.lib OpenGLGUIRenderer_d.lib tinyxmld_STL.lib SDL_mixer.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(PROGRAMFILES)\SDL_mixer-1.2.8\lib&quot;;&quot;$(PROGRAMFILES)\tinyxml\Debug_STL&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0\lib&quot;;&quot;$(PROGRAMFILES)\SDL-1.2.12\lib&quot;;../FusionForever_lib/Debug;&quot;$(PROGRAMFILES)\lua\lib&quot;;&quot;$(PROGRAMFILES)\CEGUI-SDK-0.6.0\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(PROGRAMFILES)\SDL_mixer-1.2.8\lib&quot;;&quot;$(PROGRAMFILES)\tinyxml\Debug_STL&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0\lib&quot;;&quot;$(PROGRAMFILES)\SDL-1.2.12\lib&quot;;&quot;$(SolutionDir)\lib\$(ConfigurationName)&quot;;&quot;$(PROGRAMFILES)\lua\lib&quot;;&quot;$(PROGRAMFILES)\CEGUI-SDK-0.6.0\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				LinkTimeCodeGeneration="0"
@@ -141,8 +141,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\FusionForever\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)obj\FusionForever_bin\$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
@@ -213,7 +213,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="lua51.lib FusionForever_lib.lib opengl32.lib glu32.lib SDL.lib SDLmain.lib CEGUIBase.lib OpenGLGUIRenderer.lib tinyxml_STL.lib SDL_mixer.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(PROGRAMFILES)\SDL_mixer-1.2.8\lib&quot;;&quot;$(PROGRAMFILES)\tinyxml\Release_STL&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0\lib&quot;;&quot;$(PROGRAMFILES)\SDL-1.2.12\lib&quot;;../FusionForever_lib/Release;&quot;$(PROGRAMFILES)\lua\lib&quot;;&quot;$(PROGRAMFILES)\CEGUI-SDK-0.6.0\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(PROGRAMFILES)\SDL_mixer-1.2.8\lib&quot;;&quot;$(PROGRAMFILES)\tinyxml\Release_STL&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0\lib&quot;;&quot;$(PROGRAMFILES)\SDL-1.2.12\lib&quot;;&quot;$(SolutionDir)\lib\$(ConfigurationName)&quot;;&quot;$(PROGRAMFILES)\lua\lib&quot;;&quot;$(PROGRAMFILES)\CEGUI-SDK-0.6.0\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"

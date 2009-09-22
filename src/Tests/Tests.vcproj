@@ -20,8 +20,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\FusionForeverLibTests\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)obj\FusionForever_lib_tests\$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
 			>
@@ -67,7 +67,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\boost\boost_1_36_0&quot;;&quot;$(SolutionDir)FusionForever_lib&quot;;&quot;$(SolutionDir)UnitTest++Redist\Include&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\boost\boost_1_36_0&quot;;&quot;$(SolutionDir)src\FusionForever_lib&quot;;&quot;$(SolutionDir)src\UnitTest++Redist\Include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -91,7 +91,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="UnitTest++.vsnet2005.lib opengl32.lib glu32.lib tinyxmld_STL.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)UnitTest++Redist\Debug&quot;;&quot;c:\Program Files\tinyxml\Debug_STL&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)src\UnitTest++Redist\Debug&quot;;&quot;$(PROGRAMFILES)\tinyxml\Debug_STL&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -125,8 +125,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)bin\FusionForeverLibTests\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)obj\FusionForever_lib_tests\$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
@@ -172,7 +172,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;C:\Program Files\boost\boost_1_36_0&quot;;&quot;$(SolutionDir)FusionForever_lib&quot;;&quot;$(SolutionDir)UnitTest++Redist\Include&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files\boost\boost_1_36_0&quot;;&quot;$(SolutionDir)src\FusionForever_lib&quot;;&quot;$(SolutionDir)src\UnitTest++Redist\Include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				FloatingPointModel="2"
@@ -194,7 +194,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="UnitTest++.vsnet2005.lib opengl32.lib glu32.lib tinyxml_STL.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)UnitTest++Redist\Release&quot;;&quot;c:\Program Files\tinyxml\Release_STL&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)src\UnitTest++Redist\Release&quot;;&quot;$(PROGRAMFILES)\tinyxml\Release_STL&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -319,6 +319,10 @@
 		<Filter
 			Name="TestScripts"
 			>
+			<File
+				RelativePath=".\Scripts\RigidArm.XMLSection"
+				>
+			</File>
 			<File
 				RelativePath=".\Scripts\SquareCore.XMLCore"
 				>
