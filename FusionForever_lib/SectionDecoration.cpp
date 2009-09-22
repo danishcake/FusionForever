@@ -2,6 +2,8 @@
 #include "SectionDecoration.h"
 #include "Section.h"
 #include "Core.h"
+#include "Puff.h"
+#include "Explosion.h"
 
 void SectionDecoration::InitialiseGraphics()
 {
@@ -29,6 +31,8 @@ SectionDecoration::SectionDecoration(Section* _section)
 		lifetime_ = Random::RandomRange(0.5, 5);
 		
 	full_lifetime_ = lifetime_;
+	explosion_timer_ = 0.2f;
+	big_explosion_timer_ = Random::RandomRange(lifetime_ * 0.8f, full_lifetime_ * 2.0f);
 	original_color_ = section_->GetColor();
 }
 
@@ -51,6 +55,32 @@ void SectionDecoration::Tick(float _timespan, Matrix4f _transform, std::vector<D
 	faded.a = 255 * (lifetime_/ full_lifetime_);
 	section_->SetColor(faded);
 	section_->SetOutlineColor(GLColor(255,255,255, faded.a));
+
+	explosion_timer_ -= _timespan;
+	if(explosion_timer_ <= 0)
+	{
+		for(int i = 0; i < 3; i++)
+		{
+			Decoration_ptr puff = new Puff();
+			puff->SetPosition(GetGlobalPosition() + Vector3d(Random::RandomCentered(0, section_->GetRadius()), Random::RandomCentered(0, section_->GetRadius()), 0));
+			_decoration_spawn.push_back(puff);
+		}
+		explosion_timer_ = Random::RandomRange(0.01f, 0.25f);
+	}
+
+	big_explosion_timer_ -= _timespan;
+	if(big_explosion_timer_ <= 0)
+	{
+		for(int i = 0; i < 8; i++)
+		{
+			Decoration_ptr explosion = new Explosion();
+			explosion->SetPosition(GetGlobalPosition() + Vector3d(Random::RandomCentered(0, section_->GetRadius()), Random::RandomCentered(0, section_->GetRadius()), 0));
+			_decoration_spawn.push_back(explosion);
+		}
+		big_explosion_timer_ = full_lifetime_ * 10; //Never explode again
+	}
+
+
 }
 
 void SectionDecoration::DrawSelf()

@@ -17,7 +17,10 @@ protected:
 	Section* section_;
 
 	float full_lifetime_;
+	float explosion_timer_;
+	float big_explosion_timer_;
 	GLColor original_color_;
+
 
 public:
 	SectionDecoration(Section* _section);

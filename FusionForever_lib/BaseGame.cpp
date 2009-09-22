@@ -110,13 +110,10 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 		friends[force].clear();
 		for(int other_force = 0; other_force < MAX_FORCES; other_force++)
 		{
-			//if(other_force != force)
-			{
-				if(hostility_[force][other_force] == Hostility::Hostile)
-					enemies[force].insert(enemies[force].end(),ships_[other_force].begin(), ships_[other_force].end());
-				if(hostility_[force][other_force] == Hostility::Friendly)
-					friends[force].insert(friends[force].end(),ships_[other_force].begin(), ships_[other_force].end());
-			}
+			if(hostility_[force][other_force] == Hostility::Hostile)
+				enemies[force].insert(enemies[force].end(),ships_[other_force].begin(), ships_[other_force].end());
+			if(hostility_[force][other_force] == Hostility::Friendly)
+				friends[force].insert(friends[force].end(),ships_[other_force].begin(), ships_[other_force].end());
 		}
 	}
 	/* Update the radar */
@@ -262,14 +259,22 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 			}
 		}
 	}
+	//Add spawned decorations 
+	decorations_.insert(decorations_.end(), decoration_spawn.begin(), decoration_spawn.end());
+	decoration_spawn.clear();
 	//Tick decorations
 	BOOST_FOREACH(Decoration_ptr decoration, decorations_)
 	{
 		decoration->Tick(_timespan, identity, decoration_spawn);
 	}
-
 	//Add spawned decorations 
 	decorations_.insert(decorations_.end(), decoration_spawn.begin(), decoration_spawn.end());
+	//Tick just the spawned decorations. Lets not worry about generational issues
+	BOOST_FOREACH(Decoration_ptr decoration, decoration_spawn)
+	{
+		decoration->Tick(_timespan, identity, decoration_spawn);
+	}
+
 
 	//Remove the dead
 	decorations_.erase(std::remove_if(decorations_.begin(), decorations_.end(), Decoration::IsRemovable), decorations_.end());
