@@ -336,6 +336,58 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="DLLs"
+			>
+			<File
+				RelativePath=".\DLLs\SDL.dll"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Deploying DLL $(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Deploying DLL $(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\DLLs\SDL_mixer.dll"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Deploying DLL $(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Deploying DLL $(InputFileName)"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						Outputs="$(OutDir)\$(InputFileName)"
+					/>
+				</FileConfiguration>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
