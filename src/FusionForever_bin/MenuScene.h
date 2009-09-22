@@ -23,6 +23,7 @@ public:
 	bool cbSettings(const CEGUI::EventArgs& e);
 	bool cbChallengeSelectionChanged(const CEGUI::EventArgs& e);
 	bool cbMouseMoveOverChallenges(const CEGUI::EventArgs& e);
+	bool cbFullscreenChange(const CEGUI::EventArgs& e);
 	
 protected:
 	bool start_challenge_;
@@ -34,4 +35,6 @@ protected:
 
 	float sum_time_;
 	float fade_out_time_;
+
+	void PopulateResolutions(bool _fullscreen);
 };

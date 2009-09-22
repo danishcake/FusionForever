@@ -103,8 +103,90 @@ bool MenuScene::cbSettings(const CEGUI::EventArgs& e)
 	pWndSettings->setVisible(true);
 	pWndSettings->setModalState(true);
 
+
+	CEGUI::Checkbox* pCmbFullscreen = (CEGUI::Checkbox*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings/Fullscreen");
+	pCmbFullscreen->setSelected(Settings::Instance().GetFullscreen());
+	PopulateResolutions(pCmbFullscreen->isSelected());
+
+	CEGUI::Combobox* pCmbResolution = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings/Resolutions");
+	CEGUI::ListboxItem* settings_res = pCmbResolution->findItemWithText(boost::lexical_cast<std::string, int>(Settings::Instance().GetResolution().x) + "x" + boost::lexical_cast<std::string, int>(Settings::Instance().GetResolution().y), NULL);
+	if(settings_res)
+	{
+		pCmbResolution->setItemSelectState(settings_res, true);
+		pCmbResolution->setText(pCmbResolution->getSelectedItem()->getText());
+	}
+
 	return true;
 }
+
+bool MenuScene::cbFullscreenChange(const CEGUI::EventArgs& e)
+{
+	CEGUI::Checkbox* pCmbFullscreen = (CEGUI::Checkbox*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings/Fullscreen");
+	CEGUI::Combobox* pCmbResolution = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings/Resolutions");
+	pCmbResolution->resetList();
+
+	PopulateResolutions(pCmbFullscreen->isSelected());
+	pCmbResolution->clearAllSelections();
+	if(!pCmbResolution->findItemWithText(pCmbResolution->getText(), NULL))
+	{
+		CEGUI::ListboxItem* res640x480 = pCmbResolution->findItemWithText("640x480", NULL);
+		if(res640x480)
+		{
+			pCmbResolution->setItemSelectState(res640x480, true);
+		} else
+		{
+			pCmbResolution->setItemSelectState((size_t)0, true);
+		}
+		pCmbResolution->setText(pCmbResolution->getSelectedItem()->getText());
+	}
+
+	return true;
+}
+
+void MenuScene::PopulateResolutions(bool _fullscreen)
+{
+	CEGUI::Combobox* pCmbResolution = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings/Resolutions");
+
+	SDL_Rect** modes = SDL_ListModes(NULL, (_fullscreen ? SDL_FULLSCREEN : 0) | SDL_HWSURFACE);
+	if(modes == (SDL_Rect**)NULL)
+	{
+		Logger::DiagnosticOut() << "No video modes are valid, adding some default ones and hoping for the best\n";
+	} else if(modes == (SDL_Rect**)-1)
+	{
+		Logger::DiagnosticOut() << "All video modes are valid, adding some default ones\n";
+	} else
+	{
+		Logger::DiagnosticOut() << "The following video modes are valid\n";
+		for(int i=0; modes[i]; ++i)
+		{
+			Logger::DiagnosticOut() << modes[i]->w << "," << modes[i]->h << "\n";
+			std::string res_string = boost::lexical_cast<std::string, int>(modes[i]->w) + "x" + 
+									 boost::lexical_cast<std::string, int>(modes[i]->h);
+			pCmbResolution->addItem(new CEGUI::ListboxTextItem(res_string));
+		}
+	}
+	if(modes == (SDL_Rect**)-1 || modes == (SDL_Rect**)NULL)
+	{
+		//Regular
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("320x240"));
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("640x480"));
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("800x600"));
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("1024x768"));
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("1280x1024"));
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("1600x1200"));
+		//Vertical
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("480x640"));
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("600x800"));
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("768x1024"));
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("1024x1280"));
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("1200x1600"));
+		//Widescreen
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("800x480"));
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("1024x600"));
+		pCmbResolution->addItem(new CEGUI::ListboxTextItem("1280x768"));
+	}
+}
+
 
 bool MenuScene::ExitGame(const CEGUI::EventArgs& e)
 {
@@ -284,16 +366,8 @@ MenuScene::MenuScene(void)
 		pCmbResolution->setSize(CEGUI::UVector2(CEGUI::UDim(1, -20), CEGUI::UDim(0.5, 30)));
 		pCmbResolution->setReadOnly(true);
 		pCmbResolution->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 10), CEGUI::UDim(0, 30)));
-		
-		pCmbResolution->addItem(new CEGUI::ListboxTextItem("320x240"));
-		pCmbResolution->addItem(new CEGUI::ListboxTextItem("640x480"));
-		pCmbResolution->addItem(new CEGUI::ListboxTextItem("800x600"));
-		pCmbResolution->addItem(new CEGUI::ListboxTextItem("1024x768"));
-		pCmbResolution->addItem(new CEGUI::ListboxTextItem("1280x1024"));
-		pCmbResolution->addItem(new CEGUI::ListboxTextItem("1600x1200"));
-		pCmbResolution->addItem(new CEGUI::ListboxTextItem("800x480"));
-		pCmbResolution->addItem(new CEGUI::ListboxTextItem("1024x600"));
-		pCmbResolution->addItem(new CEGUI::ListboxTextItem("1280x768"));
+
+
 		
 		pWndSettings->addChildWindow(pCmbResolution);
 
@@ -303,7 +377,10 @@ MenuScene::MenuScene(void)
 		pCmbCheckbox->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 10), CEGUI::UDim(0, 70)));
 		pCmbCheckbox->setText("Fullscreen");
 		pCmbCheckbox->setSelected(Settings::Instance().GetFullscreen());
+		pCmbCheckbox->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&MenuScene::cbFullscreenChange, this));
 		pWndSettings->addChildWindow(pCmbCheckbox);
+
+		PopulateResolutions(pCmbCheckbox->isSelected());
 	}
 
 	myRoot->addChildWindow(pWndSettings);
