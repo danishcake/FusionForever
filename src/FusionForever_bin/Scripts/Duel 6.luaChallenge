@@ -1,0 +1,40 @@
+playerLives = coroutine.wrap(function()
+	local player_id = challenge:SpawnShip("ArmedWell", 0, Vector:new(0, 0), 0, "KeyboardAI", 0.1)
+	challenge:WaitForDeath(player_id)
+	challenge:WaitFor(1)
+
+	challenge:WaitFor(1)
+	challenge:Defeat()
+end)
+
+enemySpawn = coroutine.wrap(function()
+	challenge:WaitFor(1)
+
+	challenge:SpawnShip("MantaB", 1, Vector:new(2000, 0), -90, "SimpleAI.luaAI", 1)
+	challenge:SpawnShip("MantaB", 1, Vector:new(-2000, 0), 90, "AI_BackStabber.luaAI", 1)
+	challenge:SpawnShip("MantaB", 1, Vector:new(0, 2000), 180, "AI_BackStabber.luaAI", 1)
+	challenge:SpawnShip("MantaB", 1, Vector:new(0, -2000), 0, "SimpleAI.luaAI", 1)
+	
+	challenge:WaitForAllEnemiesDead(0)
+	challenge:WaitFor(1)
+
+	challenge:WaitForAllEnemiesDead(0)
+	challenge:Victory()
+end)
+
+challenge:DisplayMessage("Duel 6", 2);
+challenge:DisplayMessage("by Edward Woolhouse", 2);
+challenge:WaitFor(1.5)
+challenge:DisplayMessage("This hardly seems a fair duel, it's 4 on 1!", 2);
+challenge:WaitFor(1.0)
+challenge:DisplayMessage("Get ready...", 2);
+challenge:WaitFor(1.0)
+
+
+while true do
+	playerLives()
+	enemySpawn()
+	coroutine.yield()
+end
+
+

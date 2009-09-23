@@ -412,6 +412,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\Duel 6.luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\FleeingAI vs SimpleAI.luaChallenge"
 					>
 				</File>
@@ -1300,7 +1304,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1314,7 +1318,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1328,7 +1332,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1342,7 +1346,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1356,7 +1360,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1370,7 +1374,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1384,7 +1388,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1398,7 +1402,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1412,7 +1416,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1422,7 +1426,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1436,7 +1440,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1450,7 +1454,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1464,7 +1468,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1474,7 +1478,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1488,7 +1492,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1498,7 +1502,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1512,7 +1516,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1526,7 +1530,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1544,7 +1548,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying CEGUI resource $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1554,7 +1558,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying CEGUI resource $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1568,7 +1572,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying CEGUI resource $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1578,7 +1582,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying CEGUI resource $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1592,7 +1596,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying CEGUI resource $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1602,7 +1606,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying CEGUI resource $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1616,7 +1620,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying CEGUI resource $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1626,7 +1630,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying CEGUI resource $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1640,7 +1644,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying CEGUI resource $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1650,7 +1654,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying CEGUI resource $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1664,7 +1668,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying CEGUI resource $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1674,7 +1678,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying CEGUI resource $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1688,7 +1692,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying CEGUI resource $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1698,7 +1702,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying CEGUI resource $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -1713,7 +1717,7 @@
 				<Tool
 					Name="VCCustomBuildTool"
 					Description="Deploying license text"
-					CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+					CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 					Outputs="$(OutDir)\$(InputFileName)"
 				/>
 			</FileConfiguration>
@@ -1723,7 +1727,7 @@
 				<Tool
 					Name="VCCustomBuildTool"
 					Description="Deploying license text"
-					CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+					CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 					Outputs="$(OutDir)\$(InputFileName)"
 				/>
 			</FileConfiguration>
