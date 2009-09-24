@@ -45,7 +45,7 @@ void PlasmaRound::InitialiseGraphics()
 	fill_dl_ = Filled::CreateFillDisplayList(temp_fill);
 }
 
-void PlasmaRound::Hit(std::vector<Decoration_ptr>& _spawn, std::vector<Projectile_ptr>& _projectile_spawn)
+void PlasmaRound::Hit(std::vector<Decoration_ptr>& _spawn, std::vector<Projectile_ptr>& /*_projectile_spawn*/)
 {
 	Decoration_ptr spark = Decoration_ptr(new Ricochet(angle_ , false));
 	spark->SetPosition(position_);

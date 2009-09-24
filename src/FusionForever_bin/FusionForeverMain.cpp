@@ -145,7 +145,7 @@ switch ( button )
 	}
 }
 
-int _tmain(int argc, _TCHAR* argv[])
+int _tmain(int /*argc*/, _TCHAR* /*argv[]*/)
 {
 	Vector2<int> resolution = Settings::Instance().GetResolution();
 	srand((unsigned int)time(NULL));

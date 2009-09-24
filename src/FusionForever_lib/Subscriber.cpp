@@ -29,7 +29,7 @@ void Subscriber::StopSubscribing()
 	subscribers_.clear();
 }
 
-void Subscriber::EndSubscription(Subscriber* _source)
+void Subscriber::EndSubscription(Subscriber*)
 {
 	//Do nothing, but overloaded versions should check the incoming pointer, and invalidate them if they match
 }

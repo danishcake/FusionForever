@@ -11,7 +11,7 @@
 #include <boost/filesystem.hpp>
 #include "SoundManager.h"
 
-bool MenuScene::cbChallengeSelectionChanged(const CEGUI::EventArgs& e)
+bool MenuScene::cbChallengeSelectionChanged(const CEGUI::EventArgs& /*e*/)
 {
 	CEGUI::WindowManager& wmgr = CEGUI::WindowManager::getSingleton();
 	CEGUI::Listbox* pWndChallengeList = (CEGUI::Listbox*)wmgr.getWindow("Menu/LevelsList");
@@ -23,11 +23,10 @@ bool MenuScene::cbChallengeSelectionChanged(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool MenuScene::StartChallenge(const CEGUI::EventArgs& e)
+bool MenuScene::StartChallenge(const CEGUI::EventArgs& /*e*/)
 {
 	if(lock_gui_)
 		return true;
-	const CEGUI::WindowEventArgs& we = 	static_cast<const CEGUI::WindowEventArgs&>(e);
 	CEGUI::Listbox* pChallengeList = (CEGUI::Listbox*)CEGUI::WindowManager::getSingleton().getWindow("Menu/LevelsList");
 	if(pChallengeList->getSelectedCount() == 1)
 	{
@@ -44,7 +43,7 @@ bool MenuScene::StartChallenge(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool MenuScene::StartEditor(const CEGUI::EventArgs& e)
+bool MenuScene::StartEditor(const CEGUI::EventArgs& /*e*/)
 {
 	if(lock_gui_)
 		return true;
@@ -57,7 +56,7 @@ bool MenuScene::StartEditor(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool MenuScene::cbSettingsOK(const CEGUI::EventArgs& e)
+bool MenuScene::cbSettingsOK(const CEGUI::EventArgs& /*e*/)
 {
 	CEGUI::Window* pWndSettings = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings");
 	pWndSettings->setVisible(false);
@@ -86,7 +85,7 @@ bool MenuScene::cbSettingsOK(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool MenuScene::cbSettingsCancel(const CEGUI::EventArgs& e)
+bool MenuScene::cbSettingsCancel(const CEGUI::EventArgs& /*e*/)
 {
 	CEGUI::Window* pWndSettings = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings");
 	pWndSettings->setVisible(false);
@@ -94,7 +93,7 @@ bool MenuScene::cbSettingsCancel(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool MenuScene::cbSettings(const CEGUI::EventArgs& e)
+bool MenuScene::cbSettings(const CEGUI::EventArgs& /*e*/)
 {
 	if(lock_gui_)
 		return true;
@@ -119,7 +118,7 @@ bool MenuScene::cbSettings(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool MenuScene::cbFullscreenChange(const CEGUI::EventArgs& e)
+bool MenuScene::cbFullscreenChange(const CEGUI::EventArgs& /*e*/)
 {
 	CEGUI::Checkbox* pCmbFullscreen = (CEGUI::Checkbox*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings/Fullscreen");
 	CEGUI::Combobox* pCmbResolution = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings/Resolutions");
@@ -188,7 +187,7 @@ void MenuScene::PopulateResolutions(bool _fullscreen)
 }
 
 
-bool MenuScene::ExitGame(const CEGUI::EventArgs& e)
+bool MenuScene::ExitGame(const CEGUI::EventArgs& /*e*/)
 {
 	if(lock_gui_)
 		return true;
@@ -245,11 +244,11 @@ MenuScene::MenuScene(void)
 	float menu_position = 0.025f;
 	CEGUI::DefaultWindow* background_image = static_cast<CEGUI::DefaultWindow*>(wmgr.createWindow("TaharezLook/StaticImage", "Menu/Background"));
 	background_image->setPosition(CEGUI::UVector2(CEGUI::UDim(0.02, 0), CEGUI::UDim(menu_position, 0)));
-	background_image->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), 
-											  CEGUI::UDim(0.075 * Camera::Instance().GetAspectRatio(), 0)));
+	background_image->setSize(CEGUI::UVector2(CEGUI::UDim(0.15f, 0), 
+											  CEGUI::UDim(0.075f * Camera::Instance().GetAspectRatio(), 0)));
 	background_image->setProperty("Image", "set:Logo image:full_image");
 	background_image->setProperty("FrameEnabled", "false");
-	menu_position += background_image->getSize().d_y.d_scale + 0.05;
+	menu_position += background_image->getSize().d_y.d_scale + 0.05f;
 	myRoot->addChildWindow(background_image);
 	
 
@@ -260,7 +259,7 @@ MenuScene::MenuScene(void)
 	pBtnStart->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::StartChallenge, this));
 	pBtnStart->setEnabled(false);
 	pBtnStart->setTooltipText("Start the selected challenge");
-	menu_position += pBtnStart->getSize().d_y.d_scale + 0.05;
+	menu_position += pBtnStart->getSize().d_y.d_scale + 0.05f;
 	myRoot->addChildWindow(pBtnStart);
 
 	CEGUI::PushButton* pBtnEditor = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/Editor");
@@ -269,7 +268,7 @@ MenuScene::MenuScene(void)
 	pBtnEditor->setText( "Ship Editor" );
 	pBtnEditor->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::StartEditor, this));
 	pBtnEditor->setTooltipText("Create your own ships!");
-	menu_position += pBtnEditor->getSize().d_y.d_scale + 0.05;
+	menu_position += pBtnEditor->getSize().d_y.d_scale + 0.05f;
 	myRoot->addChildWindow(pBtnEditor);
 
 	CEGUI::PushButton* pBtnSettings = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/SettingsBtn");
@@ -278,7 +277,7 @@ MenuScene::MenuScene(void)
 	pBtnSettings->setText( "Settings" );
 	pBtnSettings->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MenuScene::cbSettings, this));
 	pBtnSettings->setTooltipText("Change resolution and other settings");
-	menu_position += pBtnSettings->getSize().d_y.d_scale + 0.05;
+	menu_position += pBtnSettings->getSize().d_y.d_scale + 0.05f;
 	myRoot->addChildWindow(pBtnSettings);
 
 	CEGUI::PushButton* pBtnQuit = (CEGUI::PushButton*)wmgr.createWindow("TaharezLook/Button","Menu/Quit");

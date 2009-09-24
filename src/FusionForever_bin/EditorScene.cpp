@@ -17,7 +17,7 @@
 #include <boost/filesystem.hpp>
 #include <fstream>
 
-bool EditorScene::cbToggleTime(const CEGUI::EventArgs& e)
+bool EditorScene::cbToggleTime(const CEGUI::EventArgs& /*e*/)
 {
 	CEGUI::Window* pBtnToggleTime = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/ToggleTime");
 	pBtnToggleTime->setText(time_frozen_ ? "Time on" : "Time off");
@@ -48,7 +48,7 @@ bool EditorScene::cbAddSection(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool EditorScene::cbReturnToMenu(const CEGUI::EventArgs& e)
+bool EditorScene::cbReturnToMenu(const CEGUI::EventArgs& /*e*/)
 {
 	if(lock_gui_)
 		return true;
@@ -61,7 +61,7 @@ bool EditorScene::cbReturnToMenu(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool EditorScene::cbSave(const CEGUI::EventArgs& e)
+bool EditorScene::cbSave(const CEGUI::EventArgs& /*e*/)
 {
 	if(lock_gui_)
 		return true;
@@ -97,7 +97,7 @@ bool EditorScene::cbSave(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool EditorScene::cbSaveDialogueListSelected(const CEGUI::EventArgs& e)
+bool EditorScene::cbSaveDialogueListSelected(const CEGUI::EventArgs& /*e*/)
 {
 	CEGUI::Listbox* pLbShips = (CEGUI::Listbox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/SaveDialogue/Shiplist");
 	CEGUI::Editbox* pTbFilename = (CEGUI::Editbox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/SaveDialogue/Filename");
@@ -107,7 +107,7 @@ bool EditorScene::cbSaveDialogueListSelected(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool EditorScene::cbSaveDialogueSave(const CEGUI::EventArgs& e)
+bool EditorScene::cbSaveDialogueSave(const CEGUI::EventArgs& /*e*/)
 {
 	CEGUI::Window* pWndSave = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/SaveDialogue");
 	pWndSave->setVisible(false);
@@ -119,7 +119,7 @@ bool EditorScene::cbSaveDialogueSave(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool EditorScene::cbSaveDialogueCancel(const CEGUI::EventArgs& e)
+bool EditorScene::cbSaveDialogueCancel(const CEGUI::EventArgs& /*e*/)
 {
 	CEGUI::Window* pWndSave = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/SaveDialogue");
 	pWndSave->setVisible(false);
@@ -127,7 +127,7 @@ bool EditorScene::cbSaveDialogueCancel(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool EditorScene::cbLoad(const CEGUI::EventArgs& e)
+bool EditorScene::cbLoad(const CEGUI::EventArgs& /*e*/)
 {
 	if(lock_gui_)
 		return true;
@@ -160,7 +160,7 @@ bool EditorScene::cbLoad(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool EditorScene::cbLoadDialogueLoad(const CEGUI::EventArgs& e)
+bool EditorScene::cbLoadDialogueLoad(const CEGUI::EventArgs& /*e*/)
 {
 	CEGUI::Listbox* pLbShips = (CEGUI::Listbox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/LoadDialogue/Shiplist");
 	CEGUI::Window* pWndLoad = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/LoadDialogue");
@@ -184,7 +184,7 @@ bool EditorScene::cbLoadDialogueLoad(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool EditorScene::cbLoadDialogueCancel(const CEGUI::EventArgs& e)
+bool EditorScene::cbLoadDialogueCancel(const CEGUI::EventArgs& /*e*/)
 {
 	CEGUI::Window* pWndLoad = (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/LoadDialogue");
 	pWndLoad->setVisible(false);
@@ -192,7 +192,7 @@ bool EditorScene::cbLoadDialogueCancel(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool EditorScene::cbDelete(const CEGUI::EventArgs& e)
+bool EditorScene::cbDelete(const CEGUI::EventArgs& /*e*/)
 {
 	if(selection_ != NULL && !selection_->IsCore())
 	{
@@ -207,14 +207,12 @@ bool EditorScene::cbDelete(const CEGUI::EventArgs& e)
 		parent->AttachChildren(parent_detached);
 		parent->AttachChildren(detached);
 
-
-		//parent->AttachChildren(detached);
 		SetSelected(parent);
 	}
 	return true;
 }
 
-bool EditorScene::cbDeleteTree(const CEGUI::EventArgs& e)
+bool EditorScene::cbDeleteTree(const CEGUI::EventArgs& /*e*/)
 {
 	if(selection_ != NULL && !selection_->IsCore())
 	{
@@ -256,7 +254,6 @@ bool EditorScene::cbBackgroundClick(const CEGUI::EventArgs& e)
 	if(we.button == CEGUI::LeftButton)
 	{
 		Vector3f world_click = Camera::Instance().ScreenToWorld(Vector3f(we.position.d_x, we.position.d_y, 0));
-		Section* clicked_section = game_->GetAtMouseCoord(world_click);
 
 		static std::list<Section_ptr> ltv_clicked_sections;
 		static int item_index = 0;
@@ -385,7 +382,7 @@ bool EditorScene::cbBackgroundMBD(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool EditorScene::cbBackgroundMBU(const CEGUI::EventArgs& e)
+bool EditorScene::cbBackgroundMBU(const CEGUI::EventArgs& /*e*/)
 {
 	drag_mode_ = EditorDragMode::NotDragging;
 	move_first_tick = true;
@@ -393,7 +390,7 @@ bool EditorScene::cbBackgroundMBU(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool EditorScene::cbBackgroundMouseLeave(const CEGUI::EventArgs& e)
+bool EditorScene::cbBackgroundMouseLeave(const CEGUI::EventArgs& /*e*/)
 {
 	drag_mode_ = EditorDragMode::NotDragging;
 	move_first_tick = true;
@@ -402,11 +399,11 @@ bool EditorScene::cbBackgroundMouseLeave(const CEGUI::EventArgs& e)
 }
 
 
-bool EditorScene::cbCopy(const CEGUI::EventArgs& e)
+bool EditorScene::cbCopy(const CEGUI::EventArgs& /*e*/)
 {
 	return true;
 }
-bool EditorScene::cbCut(const CEGUI::EventArgs& e)
+bool EditorScene::cbCut(const CEGUI::EventArgs& /*e*/)
 {
 	if(selection_ && selection_->GetParent())
 	{
@@ -426,7 +423,7 @@ bool EditorScene::cbCut(const CEGUI::EventArgs& e)
 	}
 	return true;
 }
-bool EditorScene::cbPaste(const CEGUI::EventArgs& e)
+bool EditorScene::cbPaste(const CEGUI::EventArgs& /*e*/)
 {
 	if(selection_ && cut_section_)
 	{
@@ -439,7 +436,7 @@ bool EditorScene::cbPaste(const CEGUI::EventArgs& e)
 }
 
 
-bool EditorScene::cbTry(const CEGUI::EventArgs& e)
+bool EditorScene::cbTry(const CEGUI::EventArgs& /*e*/)
 {
 	if(lock_gui_)
 		return true;
@@ -451,7 +448,7 @@ bool EditorScene::cbTry(const CEGUI::EventArgs& e)
 	return true;
 }
 
-bool EditorScene::cbStartTry(const CEGUI::EventArgs& e)
+bool EditorScene::cbStartTry(const CEGUI::EventArgs& /*e*/)
 {
 	CEGUI::Combobox* pCmbShips = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue/ShipList");
 	CEGUI::Combobox* pCmbEnemyAI = (CEGUI::Combobox*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue/EnemyAIList");
@@ -487,14 +484,14 @@ bool EditorScene::cbStartTry(const CEGUI::EventArgs& e)
 
 	return true;
 }
-bool EditorScene::cbCancelTry(const CEGUI::EventArgs& e)
+bool EditorScene::cbCancelTry(const CEGUI::EventArgs& /*e*/)
 {
 	CEGUI::Window* pWndTry= (CEGUI::Window*)CEGUI::WindowManager::getSingleton().getWindow("Edit/TryDialogue");
 	pWndTry->setModalState(false);
 	pWndTry->setVisible(false);
 	return true;
 }
-bool EditorScene::cbReloadTryItems(const CEGUI::EventArgs& e)
+bool EditorScene::cbReloadTryItems(const CEGUI::EventArgs& /*e*/)
 {
 	LoadTryMenuItems();
 	return true;
@@ -518,7 +515,7 @@ bool EditorScene::cbEnumeratedPropertyChanged(const CEGUI::EventArgs& e)
 	const CEGUI::WindowEventArgs& we = 	static_cast<const CEGUI::WindowEventArgs&>(e);
 	Property* prop = (Property*)we.window->getUserData();
 	const CEGUI::Combobox* cb = static_cast<const CEGUI::Combobox*>(we.window);
-	prop->SetEnumerationValue((int)cb->getSelectedItem()->getUserData());	
+	prop->SetEnumerationValue(reinterpret_cast<int>(cb->getSelectedItem()->getUserData()));	
 	return true;
 }
 

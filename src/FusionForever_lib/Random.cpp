@@ -49,3 +49,8 @@ int Random::RandomIndex(int _array_size)
 {
 	return rand() % _array_size;
 }
+
+int Random::RandomQuantity(int _min, int _max)
+{
+	return _min + rand() % (1 + _max - _min);
+}

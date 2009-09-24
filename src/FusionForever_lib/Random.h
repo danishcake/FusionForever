@@ -15,4 +15,5 @@ public:
 	static void Seed();
 	static void Seed(unsigned int _seed);
 	static int RandomIndex(int _array_size);
+	static int RandomQuantity(int _min, int _max);
 };

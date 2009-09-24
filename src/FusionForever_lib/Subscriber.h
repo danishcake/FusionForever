@@ -25,7 +25,7 @@ public:
 	/**
 	  * Alert a subscription that it is about to be invalidated
 	  */
-	virtual void EndSubscription(Subscriber* _source);
+	virtual void EndSubscription(Subscriber*);
 
 private:
 	/**

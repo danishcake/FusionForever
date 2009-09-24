@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "vmath-collisions.h"
 
+/*
 void Test()
 {
 	Vector2f v1 = Vector2f(1,1);
@@ -22,4 +23,4 @@ void Test()
 	
 	Vector2f intersectionPoint;
 	bool linesIntersect = Collisions2f::LineSegmentsIntersect(v1,v2,v3,v4, intersectionPoint);
-}
+}*/

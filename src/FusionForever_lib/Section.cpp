@@ -316,7 +316,6 @@ bool Section::CheckCollisions(Projectile_ptr _projectile)
 
 void Section::RayCollisionFilter(Vector3f P1, Vector3f P2, std::vector<Section_ptr>& _valid_sections, float& _min_distance, float& _max_distance)
 {
-	bool hasCollided = false;
 	float effective_radius;
 	if(has_shield_ && shield_ > 0)
 		effective_radius = shield_radius_.GetValue();
@@ -503,7 +502,7 @@ void Section::AttachChildren(std::vector<Section_ptr> _children)
 }
 
 /* Decrements health, starts section flashing and reports the damage to the core */
-void Section::TakeDamage(float _damage, int _section_id)
+void Section::TakeDamage(float _damage, int /*_section_id*/)
 {
 	float threat = 0;
 	if(has_shield_ && shield_ > 0)
@@ -625,7 +624,7 @@ void Section::GetProperties(std::vector<Property*>& _properties )
 	_properties.push_back(new Property(this, sSetFiringDelay, sGetFiringDelay, "FiringDelay"));
 }
 
-bool Section::ParseSpecific(TiXmlElement* _node)
+bool Section::ParseSpecific(TiXmlElement* /*_node*/)
 {
 	return true;
 }

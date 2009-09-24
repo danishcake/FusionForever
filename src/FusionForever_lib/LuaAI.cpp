@@ -247,7 +247,7 @@ bool LuaAI::initialise_coroutine()
 		environment_reference_ = luaL_ref(luaVM_, LUA_REGISTRYINDEX);
 		lua_rawgeti(luaVM_, LUA_REGISTRYINDEX, environment_reference_); //Gets the environment back
 
-		int result = lua_setfenv(luaVM_, -2);
+		lua_setfenv(luaVM_, -2);
 		lua_pop(luaVM_, 1); //Pops chunk from stack
 	}
 
@@ -351,7 +351,7 @@ void LuaAI::resume_coroutine(Core_ptr _self, float _timespan)
 	assert(lua_gettop(luaVM_) == 0);
 }
 
-AIAction LuaAI::Tick(float _timespan, std::vector<Core_ptr>& _allies, std::vector<Core_ptr>& _enemies, Core_ptr _self)
+AIAction LuaAI::Tick(float _timespan, std::vector<Core_ptr>& /*_allies*/, std::vector<Core_ptr>& _enemies, Core_ptr _self)
 {
 	/* Clears the next move, the resumes the AI			*/
 	/* which will call methods on the LuaAI, setting	*/

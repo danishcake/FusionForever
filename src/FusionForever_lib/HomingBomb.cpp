@@ -87,13 +87,12 @@ void HomingBomb::Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec, 
 {
 	if(lifetime_ > 9)
 	{
-		scalar_speed_ = 50 + (lifetime_ - 9.0) * 450;
+		scalar_speed_ = 50.0f + (lifetime_ - 9.0f) * 450.0f;
 		velocity_  = Vector3f(scalar_speed_ * sin(angle_ * M_PI / 180.0f), scalar_speed_ * cos(angle_ * M_PI / 180.0f),0);
 	} else
 	{
 		scalar_speed_ = 400;
 
-		float turn_rate = 0;
 		if(target_ != NULL)
 		{
 			Vector3f target_position = target_->GetGlobalPosition() - this->position_;

@@ -2,6 +2,7 @@
 
 #include "vmath.h"
 #include <cmath>
+#include <cfloat>
 
 /**
 * Class for 2D collisions.
@@ -455,14 +456,14 @@ public:
    static bool LineInPolygon(const Vector3<T> P1, const Vector3<T> P2, const Vector3<T>* hull, const int num_points, Vector3<T>& out)
    {
       Vector3<T> intersectionPoint;
-      float lengthSqOfIntersection;
+      float lengthSqOfIntersection = FLT_MAX;
       bool has_intersected = false;
       for(int i = 0; i < num_points; i++)
       {
          if(LineSegmentsIntersect(P1, P2, hull[i], hull[i==num_points-1? 0:i+1], intersectionPoint))
          {
             float lengthSq = (intersectionPoint - P1).lengthSq();
-            if(!has_intersected || lengthSq < lengthSqOfIntersection)
+            if(lengthSq < lengthSqOfIntersection)
             {
                lengthSqOfIntersection = lengthSq;
                has_intersected = true;

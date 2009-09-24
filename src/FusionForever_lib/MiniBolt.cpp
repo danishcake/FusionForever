@@ -69,7 +69,7 @@ void MiniBolt::InitialiseGraphics()
 	fill_dl_ = Filled::CreateFillDisplayList(temp_fill);
 }
 
-void MiniBolt::Hit(std::vector<Decoration_ptr>& _spawn, std::vector<Projectile_ptr>& _projectile_spawn)
+void MiniBolt::Hit(std::vector<Decoration_ptr>& _spawn, std::vector<Projectile_ptr>& /*_projectile_spawn*/)
 {
 	Decoration_ptr puff = Decoration_ptr(new Puff());
 	puff->SetPosition(position_);

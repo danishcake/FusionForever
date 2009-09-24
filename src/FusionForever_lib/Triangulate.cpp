@@ -127,14 +127,8 @@ bool Triangulate::Process(const Vector2dVector_ptr contour, Vector2dVector_ptr r
 
       /* resest error detection counter */
       count = 2*nv;
-    }
-		else
-		{
-			int abced = 1;
-		}
+	}
   }
-
-
 
   delete V;
 

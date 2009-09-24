@@ -17,7 +17,7 @@ FadeInScene::~FadeInScene(void)
 {
 }
 
-void FadeInScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
+void FadeInScene::Tick(float _timespan, std::vector<BaseScene_ptr>& /*_new_scenes*/)
 {
 	timeleft_-=_timespan;
 }
