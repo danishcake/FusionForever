@@ -88,7 +88,12 @@ bool MenuScene::cbSettingsOK(const CEGUI::EventArgs& /*e*/)
 		y = boost::lexical_cast<int, std::string>(ys);
 		Settings::Instance().SetResolution(Vector2<int>(x, y));
 	}
+	CEGUI::Checkbox* pCmbSmooth = (CEGUI::Checkbox*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings/SmoothMouse");
+	Settings::Instance().SetCameraSmoothed(pCmbSmooth->isSelected());
 
+	CEGUI::Spinner* pSnrZoom = (CEGUI::Spinner*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings/ZoomFactor");
+	Settings::Instance().SetCameraZoom(pSnrZoom->getCurrentValue() / 100.0f);
+	//pSnrZoom->setCurrentValue(Settings::Instance().GetCameraZoom() * 100.0f);
 
 	return true;
 }
@@ -122,6 +127,12 @@ bool MenuScene::cbSettings(const CEGUI::EventArgs& /*e*/)
 		pCmbResolution->setItemSelectState(settings_res, true);
 		pCmbResolution->setText(pCmbResolution->getSelectedItem()->getText());
 	}
+
+	CEGUI::Checkbox* pCmbSmooth = (CEGUI::Checkbox*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings/SmoothMouse");
+	pCmbSmooth->setSelected(Settings::Instance().GetCameraSmoothed());
+
+	CEGUI::Spinner* pSnrZoom = (CEGUI::Spinner*)CEGUI::WindowManager::getSingleton().getWindow("Menu/Settings/ZoomFactor");
+	pSnrZoom->setCurrentValue(Settings::Instance().GetCameraZoom() * 100.01f);
 
 	return true;
 }
@@ -388,6 +399,32 @@ MenuScene::MenuScene(void)
 		pWndSettings->addChildWindow(pCmbCheckbox);
 
 		PopulateResolutions(pCmbCheckbox->isSelected());
+
+
+		CEGUI::Checkbox* pCmbSmooth = (CEGUI::Checkbox*)wmgr.createWindow("TaharezLook/Checkbox", "Menu/Settings/SmoothMouse");
+		pCmbSmooth->setSize(CEGUI::UVector2(CEGUI::UDim(1, -20), CEGUI::UDim(0, 30)));
+		pCmbSmooth->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 10), CEGUI::UDim(0, 110)));
+		pCmbSmooth->setText("Smooth camera");
+		pCmbSmooth->setSelected(Settings::Instance().GetCameraSmoothed());
+		pWndSettings->addChildWindow(pCmbSmooth);
+
+		CEGUI::Spinner* pSdrZoom = (CEGUI::Spinner*)wmgr.createWindow("TaharezLook/Spinner", "Menu/Settings/ZoomFactor");
+		pSdrZoom->setMaximumValue(100);
+		pSdrZoom->setMinimumValue(0);
+		pSdrZoom->setStepSize(5.0f);
+		pSdrZoom->setCurrentValue(Settings::Instance().GetCameraZoom() * 100.0f);
+		pSdrZoom->setSize(CEGUI::UVector2(CEGUI::UDim(0.5f, -30), CEGUI::UDim(0, 30)));
+		pSdrZoom->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 10), CEGUI::UDim(0, 150)));
+		pWndSettings->addChildWindow(pSdrZoom);
+
+		CEGUI::DefaultWindow* zoom_text = (CEGUI::DefaultWindow*)wmgr.createWindow("TaharezLook/StaticText", "Menu/Settings/ZoomText" );
+		zoom_text->setSize(CEGUI::UVector2(CEGUI::UDim(0.5, -30), CEGUI::UDim(0, 30)));
+		zoom_text->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5, 20), CEGUI::UDim(0, 150)));
+		zoom_text->setText("Camera zoom factor");
+		zoom_text->setProperty("BackgroundEnabled", "False");
+		zoom_text->setProperty("FrameEnabled", "False");
+		pWndSettings->addChildWindow(zoom_text);
+
 	}
 
 	myRoot->addChildWindow(pWndSettings);
