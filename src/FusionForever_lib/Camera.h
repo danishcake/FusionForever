@@ -216,8 +216,17 @@ public:
 		if(camera_level_ <= _level)
 		{
 			camera_level_ = _level;
-			centre_x_target_ = _x;
-			centre_y_target_ = _y;
+			if(!camera_smoothed_)
+			{
+				centre_x_target_ = _x;
+				centre_y_target_ = _y;
+				centre_x_ = _x;
+				centre_y_ = _y;
+			} else
+			{
+				centre_x_target_ = _x;
+				centre_y_target_ = _y;
+			}
 		}
 	}
 

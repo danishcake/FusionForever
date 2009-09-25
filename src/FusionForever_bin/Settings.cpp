@@ -111,5 +111,12 @@ Settings::~Settings(void)
 	TiXmlElement* fullscreen = settings_handle.FirstChild("Fullscreen").Element();
 	fullscreen->SetAttribute("Value", fullscreen_ ? "1" : "0");
 
+	TiXmlElement* camerasmoothed = settings_handle.FirstChild("CamSmoothed").Element();
+	camerasmoothed->SetAttribute("Value", camera_smoothed_ ? "1" : "0");
+
+	TiXmlElement* camerazoom = settings_handle.FirstChild("CamZoom").Element();
+	camerazoom->SetAttribute("Value", boost::lexical_cast<std::string, float>(camera_zoom_));
+
+
 	settings_doc_.SaveFile("Settings.xml");
 }
