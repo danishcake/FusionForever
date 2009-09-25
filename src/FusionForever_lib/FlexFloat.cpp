@@ -23,7 +23,7 @@ FlexFloat::~FlexFloat(void)
 {
 }
 
-float FlexFloat::GetValue()
+float FlexFloat::GetValue() const 
 {
 	return base_value_;
 }

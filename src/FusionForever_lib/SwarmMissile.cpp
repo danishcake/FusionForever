@@ -33,7 +33,7 @@ SwarmMissile::~SwarmMissile(void)
 
 }
 
-void SwarmMissile::Hit(std::vector<Decoration_ptr>& _spawn, std::vector<Projectile_ptr>& _projectile_spawn)
+void SwarmMissile::Hit(std::vector<Decoration_ptr>& _spawn, std::vector<Projectile_ptr>& /*_projectile_spawn*/)
 {
 	Puff* p = new Puff();
 	p->SetPosition(ltv_position_);

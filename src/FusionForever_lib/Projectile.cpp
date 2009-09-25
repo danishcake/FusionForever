@@ -20,7 +20,7 @@ Projectile::~Projectile(void)
 	projectile_free_count_ ++;
 }
 
-void Projectile::Tick(float _timespan, std::vector<Decoration_ptr>& _spawn_dec,  Matrix4f _transform)
+void Projectile::Tick(float _timespan, std::vector<Decoration_ptr>& /*_spawn_dec*/,  Matrix4f _transform)
 {
 	lifetime_ -= _timespan;
 	BaseEntity::Tick(_timespan, _transform);

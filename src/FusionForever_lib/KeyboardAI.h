@@ -13,7 +13,7 @@ public:
 	KeyboardAI(void);
 	virtual ~KeyboardAI(void);
 	virtual AIAction Tick(float _timespan, std::vector<Core*>& _allies, std::vector<Core*>& _enemies, Core* _self);
-	virtual void SpecifyTarget(Core* _target){}
+	virtual void SpecifyTarget(Core*){}
 	virtual bool IsHuman(){return true;}
 
 	static int GetInstanceCount(){return static_cast<int>(player_ids_.size());}

@@ -26,9 +26,9 @@ SectionDecoration::SectionDecoration(Section* _section)
 		lifetime_ = 0.25f;
 	else if(section_->GetMass() < 1000)
 	{
-		lifetime_ = Random::RandomRange(0.5, 0.5 + 4.5 * (section_->GetMass() / 1000.0f));
+		lifetime_ = Random::RandomRange(0.5f, 0.5f + 4.5f * (section_->GetMass() / 1000.0f));
 	} else
-		lifetime_ = Random::RandomRange(0.5, 5);
+		lifetime_ = Random::RandomRange(0.5f, 5.0f);
 		
 	full_lifetime_ = lifetime_;
 	explosion_timer_ = 0.2f;
@@ -52,7 +52,7 @@ void SectionDecoration::Tick(float _timespan, Matrix4f _transform, std::vector<D
 	section_->SetAngle(angle_);
 	section_->DeathTick();
 	GLColor faded = original_color_;
-	faded.a = 255 * (lifetime_/ full_lifetime_);
+	faded.a = static_cast<unsigned char>(255.0f * (lifetime_/ full_lifetime_));
 	section_->SetColor(faded);
 	section_->SetOutlineColor(GLColor(255,255,255, faded.a));
 

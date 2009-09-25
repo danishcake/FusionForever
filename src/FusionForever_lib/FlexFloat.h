@@ -31,7 +31,7 @@ public:
 	/*
 	 * Gets the maximum value
 	 */
-	float GetMaxValue() {return max_base_value_;}
+	float GetMaxValue() const {return max_base_value_;}
 	/*
 	 * Adds to the max_base_value
 	 */
@@ -44,14 +44,14 @@ public:
 	/*
 	 * Gets the value
 	 */
-	float GetValue();
+	float GetValue() const;
 
 	/*
 	 * Addition operator
 	 * @param _n The value to be added
 	 * @return previous value + _n
 	 */
-	 FlexFloat& operator+=(float _n)
+	 FlexFloat& operator+=(const float _n)
 	 {
 		 base_value_ += _n;
 		 ClampValue();
@@ -77,7 +77,7 @@ public:
 	 * @return previous value + _n
 	 * LHS maximum is preserved
 	 */
-	 FlexFloat& operator+=(FlexFloat& _n)
+	 FlexFloat& operator+=(const FlexFloat& _n)
 	 {
 		base_value_ += _n.GetValue();
 		ClampValue();
@@ -90,7 +90,7 @@ public:
 	 * @return previous value + _n
 	 * LHS maximum is preserved
 	 */
-	 FlexFloat operator+(FlexFloat& _n)
+	 FlexFloat operator+(const FlexFloat& _n)
 	 {
 		 if(use_max_base_value_)
 			return FlexFloat(base_value_ + _n.GetValue(), max_base_value_);
@@ -103,7 +103,7 @@ public:
 	 * @param _n The value to be subtracted
 	 * @return previous value - _n
 	 */
-	 FlexFloat& operator-=(float _n)
+	 FlexFloat& operator-=(const float _n)
 	 {
 		 base_value_ -= _n;
 		 ClampValue();
@@ -115,7 +115,7 @@ public:
 	 * @param _n The value to be subtracted
 	 * @return previous value - _n
 	 */
-	 FlexFloat operator-(float _n)
+	 FlexFloat operator-(const float _n)
 	 {
 		 if(use_max_base_value_)
 			return FlexFloat(base_value_ - _n, max_base_value_);
@@ -142,7 +142,7 @@ public:
 	 * @return previous value - _n
 	 * LHS maximum is preserved
 	 */
-	 FlexFloat operator-(FlexFloat& _n)
+	 FlexFloat operator-(const FlexFloat& _n)
 	 {
 		 if(use_max_base_value_)
 			return FlexFloat(base_value_ - _n.GetValue(), max_base_value_);
@@ -155,7 +155,7 @@ public:
 	 * @param _n The value to be multiplied
 	 * @return previous value * _n
 	 */
-	 FlexFloat& operator*=(float _n)
+	 FlexFloat& operator*=(const float _n)
 	 {
 		 base_value_ *= _n;
 		 ClampValue();
@@ -167,7 +167,7 @@ public:
 	 * @param _n The value to be multiplied
 	 * @return previous value * _n
 	 */
-	 FlexFloat operator*(float _n)
+	 FlexFloat operator*(const float _n)
 	 {
 		 if(use_max_base_value_)
 			return FlexFloat(base_value_ * _n, max_base_value_);
@@ -181,7 +181,7 @@ public:
 	 * @return previous value * _n
 	 * LHS maximum is preserved
 	 */
-	 FlexFloat& operator*=(FlexFloat& _n)
+	 FlexFloat& operator*=(const FlexFloat& _n)
 	 {
 		base_value_ *= _n.GetValue();
 		ClampValue();
@@ -194,7 +194,7 @@ public:
 	 * @return previous value * _n
 	 * LHS maximum is preserved
 	 */
-	 FlexFloat operator*(FlexFloat& _n)
+	 FlexFloat operator*(const FlexFloat& _n)
 	 {
 		 if(use_max_base_value_)
 			return FlexFloat(base_value_ * _n.GetValue(), max_base_value_);
@@ -207,7 +207,7 @@ public:
 	 * @param _n The value to be divided
 	 * @return previous value / _n
 	 */
-	 FlexFloat& operator/=(float _n)
+	 FlexFloat& operator/=(const float _n)
 	 {
 		 base_value_ /= _n;
 		 ClampValue();
@@ -219,7 +219,7 @@ public:
 	 * @param _n The value to be divided
 	 * @return previous value / _n
 	 */
-	 FlexFloat operator/(float _n)
+	 FlexFloat operator/(const float _n)
 	 {
 		 if(use_max_base_value_)
 			return FlexFloat(base_value_ / _n, max_base_value_);
@@ -233,7 +233,7 @@ public:
 	 * @return previous value / _n
 	 * LHS maximum is preserved
 	 */
-	 FlexFloat& operator/=(FlexFloat& _n)
+	 FlexFloat& operator/=(const FlexFloat& _n)
 	 {
 		base_value_ /= _n.GetValue();
 		ClampValue();
@@ -246,7 +246,7 @@ public:
 	 * @return previous value / _n
 	 * LHS maximum is preserved
 	 */
-	 FlexFloat operator/(FlexFloat& _n)
+	 FlexFloat operator/(const FlexFloat& _n)
 	 {
 		 if(use_max_base_value_)
 			return FlexFloat(base_value_ / _n.GetValue(), max_base_value_);
@@ -267,7 +267,7 @@ public:
 	  * @param _n The value being assigned
 	  * @return The assigned value
 	  */
-	 FlexFloat operator=(float _n)
+	 FlexFloat operator=(const float _n)
 	 {
 		 base_value_ = _n;
 		 ClampValue();
@@ -277,7 +277,7 @@ public:
 	 /*
 	  * LToE
 	  */
-	 bool operator<=(float _n)
+	 bool operator<=(const float _n)
 	 {
 		 return GetValue() <= _n;
 	 }
@@ -285,7 +285,7 @@ public:
 	 /*
 	  * GToE
 	  */
-	 bool operator>=(float _n)
+	 bool operator>=(const float _n)
 	 {
 		 return GetValue() >= _n;
 	 }
@@ -293,21 +293,21 @@ public:
 	 /*
 	  * LT
 	  */
-	 bool operator<(float _n)
+	 bool operator<(const float _n)
 	 {
 		 return GetValue() < _n;
 	 }
 	 /*
 	  * GT
 	  */
-	 bool operator>(float _n)
+	 bool operator>(const float _n)
 	 {
 		 return GetValue() > _n;
 	 }
 	 /*
 	  * EQ
 	  */
-	 bool operator==(float _n)
+	 bool operator==(const float _n)
 	 {
 		 return GetValue() == _n;
 	 }

@@ -210,7 +210,7 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 	}
 
 	//Ship-ship collisions
-	int check_count = 0;
+	size_t check_count = 0;
 	for(int force_a = 0; force_a < MAX_FORCES; force_a++)
 	{
 		for(int force_b = force_a+1; force_b < MAX_FORCES; force_b++)

@@ -71,7 +71,7 @@ void FlakCannon::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, 
 	{
 		if(cooldown_ <= 0.0f && PowerRequirement(50))
 		{
-			int flecette_count = Random::RandomRange(10, 15);
+			int flecette_count = static_cast<int>(Random::RandomQuantity(10, 15));
 			for(int i = 0; i < flecette_count; i++)
 			{
 				Projectile_ptr proj = new Flak(Vector3f(Random::RandomRange(-6, 6), Random::RandomRange(-2, 2), 0));

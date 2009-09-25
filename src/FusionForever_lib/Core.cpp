@@ -292,7 +292,7 @@ void Core::EndSubscription(Subscriber* _source)
 		target_ = NULL;
 }
 
-void Core::ReportDamage(float _damage, float _shield_damage)
+void Core::ReportDamage(float _damage, float /*_shield_damage*/)
 {
 	total_damage_ += _damage;
 	last_damage_time_ = 0;

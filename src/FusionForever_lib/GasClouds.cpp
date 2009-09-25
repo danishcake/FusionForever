@@ -6,7 +6,6 @@
 
 GasClouds::GasClouds(void)
 {
-	const float radius = 1000;
 	billboard_ = new Billboard("GasCloud", BillboardType::WorldSpace);
 	billboard_->SetSize(Vector2f(2048, 2048));
 	billboard_->SetColor(GLColor(255, 255, 255, 0.2f));
@@ -45,10 +44,10 @@ void GasClouds::DrawGasClouds(Vector3f _position)
 {
 	int x_minus_times = static_cast<int>(((Camera::Instance().GetWidth() / 2.0f) / 2048) + 2) + 1;
 	int y_minus_times = static_cast<int>(((Camera::Instance().GetHeight() / 2.0f) / 2048) + 2);
-	float left = -2048 * x_minus_times;
+	float left = -2048.0f * x_minus_times;
 	for(int x = 0; x < x_minus_times * 2; x++)
 	{
-		float top = -2048 * y_minus_times;
+		float top = -2048.0f * y_minus_times;
 		for(int y = 0; y < y_minus_times * 2; y++)
 		{
 			Vector3f offset = Vector3f(-fmodf(0.75f * _position.x, 2048),

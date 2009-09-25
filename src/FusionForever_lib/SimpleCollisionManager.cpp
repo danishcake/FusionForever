@@ -19,7 +19,7 @@ void SimpleCollisionManager::Register(Section_ptr _section)
 	sections_.push_back(_section);
 }
 
-void SimpleCollisionManager::GetAtPoint(std::vector<Section_ptr>& _result, Vector3f _point)
+void SimpleCollisionManager::GetAtPoint(std::vector<Section_ptr>& _result, Vector3f)
 {
 	_result.insert(_result.begin(), sections_.begin(), sections_.end());
 }

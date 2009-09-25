@@ -24,7 +24,7 @@ Explosion::Explosion(void)
 	}
 	else
 	{
-		fill_.SetFillColor(GLColor(255, static_cast<int>(Random::RandomRange(20,120)), static_cast<int>(Random::RandomRange(0,20))));
+		fill_.SetFillColor(GLColor(255, static_cast<unsigned char>(Random::RandomQuantity(20,120)), static_cast<unsigned char>(Random::RandomQuantity(0,20))));
 	}
 
 	lifetime_ = ExplosionLifetime;

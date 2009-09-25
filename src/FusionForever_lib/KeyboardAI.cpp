@@ -21,7 +21,7 @@ KeyboardAI::~KeyboardAI(void)
 	}
 }
 
-AIAction KeyboardAI::Tick(float _timespan, std::vector<Core*>& _allies, std::vector<Core*>& _enemies, Core* _self)
+AIAction KeyboardAI::Tick(float /*_timespan*/, std::vector<Core*>& /*_allies*/, std::vector<Core*>& _enemies, Core* _self)
 {
 	if(player_id_ == -1)
 	{
