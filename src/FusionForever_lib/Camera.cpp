@@ -18,6 +18,7 @@ Camera::Camera(void)
 	window_height_ = 200;
 	focus_x_ = 0.0f;
 	focus_y_ = 0.0f;
+	camera_smoothed_ = true;
 }
 
 Camera::~Camera(void)
@@ -31,6 +32,12 @@ void Camera::TickCamera(float _timespan)
 	if(zoom_time_ < 0)
 		zoom_time_ = 0;
 	
+	if(!camera_smoothed_)
+	{
+		centre_x_ = centre_x_target_;
+		centre_y_ = centre_y_target_;
+	}
+
 	/* Smooth the motion of the camera */
 	const float camera_gain = 1.0f;
 	const float velocity_limit = 10.0f;

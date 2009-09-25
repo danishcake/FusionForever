@@ -101,7 +101,10 @@ private:
 		width_= _width;
 		height_ = width_ / ratio_;
 	}
-
+    /*
+     * The camera zoom state
+     */
+	bool camera_smoothed_;
 	/*
 	 * The highest level of importance received this frame
 	 */
@@ -286,6 +289,14 @@ public:
      * @return The world movement corresponding to _screen_delta
      */
 	Vector3f ScreenDeltaToWorldDelta(Vector3f _screen_delta);
+	/*
+	 * Set smoothed
+	 * @param _camera_smoothed The camera smoothing state
+	 */
+	void SetSmoothed(bool _camera_smoothed)
+	{
+		camera_smoothed_ = _camera_smoothed;
+	}
 
 	void TickCamera(float _timespan);
 	void SetupCamera();

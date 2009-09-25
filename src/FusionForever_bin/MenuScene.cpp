@@ -7,6 +7,8 @@
 #include "Settings.h"
 #include "ScoreKeeper.h"
 #include <sdl.h>
+#include <Camera.h>
+#include <KeyboardAI.h>
 
 #include <boost/filesystem.hpp>
 #include "SoundManager.h"
@@ -38,6 +40,9 @@ bool MenuScene::StartChallenge(const CEGUI::EventArgs& /*e*/)
 	fade_out_time_ = FadeOutScene::FOTime * 0.9f;
 	fading_out_ = true;
 
+	KeyboardAI::SetZoomFactor(Settings::Instance().GetCameraZoom());
+	Camera::Instance().SetSmoothed(Settings::Instance().GetCameraSmoothed());
+
 	SoundManager::Instance().PlaySample("load_challenge.wav");
 	 
 	return true;
@@ -52,6 +57,9 @@ bool MenuScene::StartEditor(const CEGUI::EventArgs& /*e*/)
 	lock_gui_ = true;
 	fade_out_time_ = FadeOutScene::FOTime * 0.9f;
 	fading_out_ = true;
+
+	KeyboardAI::SetZoomFactor(Settings::Instance().GetCameraZoom());
+	Camera::Instance().SetSmoothed(Settings::Instance().GetCameraSmoothed());
 
 	return true;
 }
