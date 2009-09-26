@@ -168,7 +168,7 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 							shield->GetShieldHealth() > 0)
 						{
 							shield->TakeDamage(projectile->GetDamage(), shield->GetRoot()->GetSectionID());
-							projectile->SetLifetime(0);
+							projectile->SetLifetime(-10000);
 						}
 					}
 				}

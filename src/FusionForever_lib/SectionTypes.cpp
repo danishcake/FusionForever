@@ -19,6 +19,8 @@
 #include "FlakCannon.h"
 #include "HeavyChainGun.h"
 #include "SmartBomber.h"
+#include "PhotonCannon.h"
+#include "ShotgunArtillery.h"
 #include "XMLSection.h"
 
 namespace SectionTypes
@@ -77,6 +79,8 @@ namespace SectionTypes
 	Section_ptr CreateFlakCannonInstance(){return new FlakCannon();}
 	Section_ptr CreateHeavyChainGunInstance(){return new HeavyChainGun();}
 	Section_ptr CreateSmartBomberInstance(){return new SmartBomber();}
+	Section_ptr CreatePhotonCannonInstance(){return new PhotonCannon();}
+	Section_ptr CreateShotgunArtilleryInstance(){return new ShotgunArtillery();}
 
 	void RegisterSections()
 	{
@@ -97,5 +101,7 @@ namespace SectionTypes
 		SectionTypes::RegisterSectionType(CreateFlakCannonInstance, "FlakCannon");
 		SectionTypes::RegisterSectionType(CreateHeavyChainGunInstance, "HeavyChainGun");
 		SectionTypes::RegisterSectionType(CreateSmartBomberInstance, "SmartBomber");
+		SectionTypes::RegisterSectionType(CreatePhotonCannonInstance, "PhotonCannon");
+		SectionTypes::RegisterSectionType(CreateShotgunArtilleryInstance, "ShotgunArtillery");
 	}
 }

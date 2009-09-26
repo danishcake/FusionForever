@@ -280,6 +280,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PhotonPulse.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\PlasmaBolt.cpp"
 					>
 				</File>
@@ -289,6 +293,10 @@
 				</File>
 				<File
 					RelativePath=".\Projectile.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ShotgunShell.cpp"
 					>
 				</File>
 				<File
@@ -329,6 +337,10 @@
 				</File>
 				<File
 					RelativePath=".\SectionMetadata.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\SectionTypes.cpp"
 					>
 				</File>
 				<Filter
@@ -391,7 +403,15 @@
 						>
 					</File>
 					<File
+						RelativePath=".\PhotonCannon.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\PlasmaArtillery.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ShotgunArtillery.cpp"
 						>
 					</File>
 					<File
@@ -477,10 +497,6 @@
 				</File>
 				<File
 					RelativePath=".\SandboxCache.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\SectionTypes.cpp"
 					>
 				</File>
 				<File
@@ -666,6 +682,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PhotonPulse.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PlasmaBolt.h"
 					>
 				</File>
@@ -675,6 +695,10 @@
 				</File>
 				<File
 					RelativePath=".\Projectile.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ShotgunShell.h"
 					>
 				</File>
 				<File
@@ -715,6 +739,10 @@
 				</File>
 				<File
 					RelativePath=".\SectionMetadata.h"
+					>
+				</File>
+				<File
+					RelativePath=".\SectionTypes.h"
 					>
 				</File>
 				<Filter
@@ -777,7 +805,15 @@
 						>
 					</File>
 					<File
+						RelativePath=".\PhotonCannon.h"
+						>
+					</File>
+					<File
 						RelativePath=".\PlasmaArtillery.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ShotgunArtillery.h"
 						>
 					</File>
 					<File
@@ -875,10 +911,6 @@
 				</File>
 				<File
 					RelativePath=".\SandboxCache.h"
-					>
-				</File>
-				<File
-					RelativePath=".\SectionTypes.h"
 					>
 				</File>
 				<File
