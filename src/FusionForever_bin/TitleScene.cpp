@@ -70,7 +70,7 @@ void TitleScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 	if(logo_timer_ > 1.5f && !spawned_instruction_)
 	{
 		instruction_billboard_ = boost::shared_ptr<Billboard>(new Billboard("PressAnyKey", BillboardType::ScreenSpace));
-		instruction_billboard_->SetSize(Vector2f(256, 64));
+		instruction_billboard_->SetSize(Vector2f(256, 128));
 		instruction_billboard_->SetColor(GLColor(255, 255, 255, 0.0f));
 		instruction_billboard_->SetOffset(Vector2f(1.1f, 1));
 		instruction_billboard_->SetPosition(Vector3f(static_cast<float>(Camera::Instance().GetWindowWidth()), static_cast<float>(Camera::Instance().GetWindowHeight()), 0));
