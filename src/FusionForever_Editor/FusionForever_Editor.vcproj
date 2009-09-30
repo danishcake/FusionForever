@@ -412,7 +412,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -426,7 +426,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -440,7 +440,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -454,7 +454,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -468,7 +468,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>
@@ -490,7 +490,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Deploying DLL $(InputFileName)"
-						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;"
+						CommandLine="copy /Y &quot;$(InputPath)&quot; &quot;$(OutDir)&quot;&#x0D;&#x0A;"
 						Outputs="$(OutDir)\$(InputFileName)"
 					/>
 				</FileConfiguration>

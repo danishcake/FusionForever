@@ -14,7 +14,7 @@
    <string>FusionForever_Editor</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="FusionForeverWidget" name="graphicsView">
+   <widget class="FusionForeverWidget" name="fusionForeverWidget">
     <property name="geometry">
      <rect>
       <x>280</x>

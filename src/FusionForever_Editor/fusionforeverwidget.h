@@ -13,6 +13,9 @@ public:
 	FusionForeverWidget(QWidget *parent);
 	~FusionForeverWidget();
 
+public slots:
+	void Tick();
+
 protected:
 	void initializeGL();
 	void paintGL();
