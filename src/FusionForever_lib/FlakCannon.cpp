@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "FlakCannon.h"
 #include "Flak.h"
+#include "SVGParser.h"
+#include "Triangulate.h"
 
 //Initialise all static class members
 bool FlakCannon::initialised_ = false;
@@ -38,26 +40,17 @@ FlakCannon::~FlakCannon(void)
 
 void FlakCannon::InitialiseGraphics()
 {
-	//Initialise outline
+	//Initialise outline and fill from embedded SVG from Inkscape
 	boost::shared_ptr<std::vector<Vector3f>> temp_outline = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 
-	temp_outline->push_back(Vector3f(0, -3, 0));	//0
-	temp_outline->push_back(Vector3f(3, 0, 0));	//1
-	temp_outline->push_back(Vector3f(0, 3, 0));		//2
-	temp_outline->push_back(Vector3f(-3, 0, 0));    //3
+	*temp_outline = SVGParser::ParsePath("M 0,3 L 1,4 L 2,3 L 3,4 L 4,3 L 3,0 L 3,-1 L 2,-2 L -2,-2 L -3,-1 L -3,0 L -4,3 L -3,4 L -2,3 L -1,4 L 0,3 z");
+	temp_outline->pop_back();
 
 	outline_verts_index_ = Datastore::Instance().AddVerts(temp_outline);
 	outline_dl_ = Outlined::CreateOutlinedDisplayList(temp_outline);
 
 	boost::shared_ptr<std::vector<Vector3f>> temp_fill = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
-
-	temp_fill->push_back((*temp_outline)[0]);
-	temp_fill->push_back((*temp_outline)[1]);
-	temp_fill->push_back((*temp_outline)[2]);
-
-	temp_fill->push_back((*temp_outline)[0]);
-	temp_fill->push_back((*temp_outline)[2]);
-	temp_fill->push_back((*temp_outline)[3]);
+	Triangulate::Process(temp_outline, temp_fill);
 
 	fill_verts_index_ = Datastore::Instance().AddVerts(temp_fill);
 	fill_dl_ = Filled::CreateFillDisplayList(temp_fill);

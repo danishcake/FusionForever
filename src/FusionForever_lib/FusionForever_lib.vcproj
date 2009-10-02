@@ -344,18 +344,6 @@
 					>
 				</File>
 				<Filter
-					Name="Cores"
-					>
-					<File
-						RelativePath=".\Core.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\XMLCore.cpp"
-						>
-					</File>
-				</Filter>
-				<Filter
 					Name="Guns"
 					>
 					<File
@@ -451,6 +439,18 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="Cores"
+					>
+					<File
+						RelativePath=".\Core.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\XMLCore.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Utility"
@@ -526,6 +526,10 @@
 							UsePrecompiledHeader="1"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\SVGParser.cpp"
+					>
 				</File>
 				<File
 					RelativePath=".\TextureLoader.cpp"
@@ -927,6 +931,10 @@
 				</File>
 				<File
 					RelativePath=".\stdafx.h"
+					>
+				</File>
+				<File
+					RelativePath=".\SVGParser.h"
 					>
 				</File>
 				<File

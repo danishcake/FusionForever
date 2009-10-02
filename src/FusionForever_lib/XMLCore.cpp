@@ -2,7 +2,9 @@
 #include "XMLCore.h"
 #include <sstream>
 #include "Triangulate.h"
+#include "SVGParser.h"
 #include "RotatingAI.h"
+
 
 std::map<std::string, XMLCoreData> XMLCore::name_map_ = std::map<std::string, XMLCoreData>();
 
@@ -173,59 +175,12 @@ bool XMLCore::ParseSVGPath(std::string _path, XMLCoreData& _out)
 
 	boost::shared_ptr<std::vector<Vector3f>> temp_outline = boost::shared_ptr<std::vector<Vector3f>>(new std::vector<Vector3f>());
 
-	bool is_absolute = false;
-	bool ltv_is_absolute = false;
-	int prev_stored = 0;
-	int comma_pos = 0;
-	for(unsigned int i = 0; i < _path.length(); i++)
+	try
 	{
-		ltv_is_absolute = is_absolute;
-		bool found = false; //Found an M, L, m or l
-		if(_path[i] == 'M' || _path[i] == 'L')
-		{
-			is_absolute = true;
-			found = true;
-		} else if(_path[i] == 'm' || _path[i] == 'l')
-		{
-			is_absolute = false;
-			found = true;
-		} else if(_path[i] == 'z')
-		{
-			found = true;
-		} else if(_path[i] == ',')
-		{
-			if(comma_pos==0)
-				comma_pos = i;
-		}
-		if(found)
-		{
-			if(i!=0)
-			{ //Between prev_stored and i there is a coordinate
-				if(comma_pos != 0)
-				{
-					std::string coordx = _path.substr(prev_stored+1, comma_pos - prev_stored-1);
-					std::string coordy = _path.substr(comma_pos+1, i - comma_pos - 1);
-					int c_x = atoi(coordx.c_str());
-					int c_y = atoi(coordy.c_str());
-					if(ltv_is_absolute)
-						temp_outline->push_back(Vector3f(static_cast<float>(c_x), static_cast<float>(c_y), 0.0f));
-					else
-						temp_outline->push_back((*temp_outline)[temp_outline->size()-1] + Vector3f(static_cast<float>(c_x), static_cast<float>(c_y), 0));
-					comma_pos = 0;
-				} else
-				{
-					Logger::ErrorOut() << "XMLCore: No comma found in coordinate\n";
-					error_found = true;
-				}
-				
-			}
-			prev_stored = i;
-		}
+		*temp_outline = SVGParser::ParsePath(_path);
 	}
-	
-	if(temp_outline->size() <= 2)
+	catch(std::string error)
 	{
-		Logger::ErrorOut() << "XMLCore: Must define more than 2 points\n";
 		error_found = true;
 	}
 
