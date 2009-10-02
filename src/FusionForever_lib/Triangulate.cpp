@@ -60,7 +60,8 @@ bool Triangulate::Snip(const Vector2dVector_ptr contour,int u,int v,int w,int n,
   Cx = (*contour)[V[w]].x;
   Cy = (*contour)[V[w]].y;
 
-  if ( EPSILON > (((Bx-Ax)*(Cy-Ay)) - ((By-Ay)*(Cx-Ax))) ) return false;
+  if ( EPSILON > (((Bx-Ax)*(Cy-Ay)) - ((By-Ay)*(Cx-Ax))) ) 
+	  return false;
 
   for (p=0;p<n;p++)
   {

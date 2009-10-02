@@ -276,6 +276,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MediumBullet.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\MiniBolt.cpp"
 					>
 				</File>
@@ -344,18 +348,6 @@
 					>
 				</File>
 				<Filter
-					Name="Cores"
-					>
-					<File
-						RelativePath=".\Core.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\XMLCore.cpp"
-						>
-					</File>
-				</Filter>
-				<Filter
 					Name="Guns"
 					>
 					<File
@@ -388,6 +380,10 @@
 					</File>
 					<File
 						RelativePath=".\HeatBeamGun.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\HeavyBlaster.cpp"
 						>
 					</File>
 					<File
@@ -448,6 +444,18 @@
 					>
 					<File
 						RelativePath=".\XMLSection.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Cores"
+					>
+					<File
+						RelativePath=".\Core.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\XMLCore.cpp"
 						>
 					</File>
 				</Filter>
@@ -526,6 +534,10 @@
 							UsePrecompiledHeader="1"
 						/>
 					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\SVGParser.cpp"
+					>
 				</File>
 				<File
 					RelativePath=".\TextureLoader.cpp"
@@ -678,6 +690,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\MediumBullet.h"
+					>
+				</File>
+				<File
 					RelativePath=".\MiniBolt.h"
 					>
 				</File>
@@ -790,6 +806,10 @@
 					</File>
 					<File
 						RelativePath=".\HeatBeamGun.h"
+						>
+					</File>
+					<File
+						RelativePath=".\HeavyBlaster.h"
 						>
 					</File>
 					<File
@@ -927,6 +947,10 @@
 				</File>
 				<File
 					RelativePath=".\stdafx.h"
+					>
+				</File>
+				<File
+					RelativePath=".\SVGParser.h"
 					>
 				</File>
 				<File
