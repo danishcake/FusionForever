@@ -14,6 +14,9 @@ public:
 
 private:
 	Ui::FusionForever_EditorClass ui;
+
+private slots:
+	void actionReloadSectionList();
 };
 
 #endif // FUSIONFOREVER_EDITOR_H

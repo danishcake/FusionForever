@@ -2,6 +2,7 @@
 #define FUSIONFOREVERWIDGET_H
 
 #include <QGLWidget>
+#include <vector>
 
 class Section;
 
@@ -21,8 +22,18 @@ protected:
 	void paintGL();
 	void resizeGL(int width, int height);
 
+	virtual void mouseReleaseEvent(QMouseEvent *);
+	virtual void mousePressEvent(QMouseEvent *);
+	virtual void mouseDoubleClickEvent(QMouseEvent *);
+	virtual void mouseMoveEvent(QMouseEvent *);
+	virtual void wheelEvent(QWheelEvent *);
+
 private:
+	void SetSelection(Section*);
 	Section* core_;
+	Section* selection_;
+	std::vector<Section*> sections_under_mouse_;
+	size_t section_under_mouse_index_;
 	
 };
 
