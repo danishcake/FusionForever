@@ -21,6 +21,7 @@
 #include "SmartBomber.h"
 #include "PhotonCannon.h"
 #include "ShotgunArtillery.h"
+#include "HeavyBlaster.h"
 #include "XMLSection.h"
 
 namespace SectionTypes
@@ -81,6 +82,7 @@ namespace SectionTypes
 	Section_ptr CreateSmartBomberInstance(){return new SmartBomber();}
 	Section_ptr CreatePhotonCannonInstance(){return new PhotonCannon();}
 	Section_ptr CreateShotgunArtilleryInstance(){return new ShotgunArtillery();}
+	Section_ptr CreateHeavyBlasterInstance(){return new HeavyBlaster();}
 
 	void RegisterSections()
 	{
@@ -103,5 +105,6 @@ namespace SectionTypes
 		SectionTypes::RegisterSectionType(CreateSmartBomberInstance, "SmartBomber");
 		SectionTypes::RegisterSectionType(CreatePhotonCannonInstance, "PhotonCannon");
 		SectionTypes::RegisterSectionType(CreateShotgunArtilleryInstance, "ShotgunArtillery");
+		SectionTypes::RegisterSectionType(CreateHeavyBlasterInstance, "HeavyBlaster");
 	}
 }
