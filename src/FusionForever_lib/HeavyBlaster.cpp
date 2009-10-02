@@ -62,13 +62,13 @@ void HeavyBlaster::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj
 	cooldown_ -= _timespan;
 	if(firing_)
 	{
-		if(cooldown_ <= 0.0f && PowerRequirement(25))
+		if(cooldown_ <= 0.0f && PowerRequirement(15))
 		{
 			Projectile_ptr p1 = new MediumBullet(Vector3f(0, 4, 0));
 			fire_projectile(p1, _spawn_prj);
 			cooldown_ = cooldown_time_;
 
-			PowerTick(-15);
+			PowerTick(-4);
 		}
 	}
 }

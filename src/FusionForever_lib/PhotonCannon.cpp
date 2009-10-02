@@ -26,7 +26,7 @@ PhotonCannon::PhotonCannon(void)
 	findRadius();
 
 	health_ = FlexFloat(600, 600);
-	cooldown_time_ = 0.20f;
+	cooldown_time_ = 0.10f;
 	default_sub_section_position_ = Vector3f(0, 0, 0);
 	mass_ = 300;
 	section_type_ = "PhotonCannon";
@@ -74,7 +74,7 @@ void PhotonCannon::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj
 			fire_projectile(p1, _spawn_prj);
 			cooldown_ = cooldown_time_;
 
-			PowerTick(-8);
+			PowerTick(-5);
 		}
 	}
 }

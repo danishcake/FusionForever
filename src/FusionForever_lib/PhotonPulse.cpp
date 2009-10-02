@@ -17,7 +17,7 @@ PhotonPulse::PhotonPulse(Vector3f _position)
 	fill_.GetFillVerts() = Datastore::Instance().GetVerts(fill_verts_index_);
 	fill_.SetDisplayList(fill_dl_);
 	fill_.SetFillColor(GLColor(150, 159, 255));
-	damage_ = 80;
+	damage_ = 45;
 	lifetime_ = 3.0;
 	velocity_.y = 750;
 	position_ = _position;
