@@ -14,9 +14,13 @@ public:
 
 private:
 	Ui::FusionForever_EditorClass ui;
+	QMenu* selection_menu_;
 
 private slots:
-	void actionReloadSectionList();
+	void reloadSectionList();
+	void saveShip();
+	void newShip();
+	void openShip();
 };
 
 #endif // FUSIONFOREVER_EDITOR_H

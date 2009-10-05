@@ -13,7 +13,7 @@ TEST(XMLSectionTests)
 /* Tests a ship formed of all hardcoded sections and a TestSection */
 TEST(XMLShipTests)
 {
-	Core_ptr core = Core::CreateCore("TestShip");
+	Core_ptr core = Core::CreateCore("./Scripts/Ships/TestShip.xmlShip");
 	CHECK(core);
 	delete core;
 } 
