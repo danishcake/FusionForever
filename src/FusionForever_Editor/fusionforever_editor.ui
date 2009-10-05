@@ -82,7 +82,27 @@
      </property>
      <item row="0" column="0">
       <widget class="QToolBox" name="toolBoxSections">
+       <property name="styleSheet">
+        <string notr="true">QToolBox::tab {
+background: rgb(198, 198, 198);
+}
+
+QWidget {
+background: white;
+}
+
+QPushButton {
+border: 0px solid white;
+}
+</string>
+       </property>
+       <property name="lineWidth">
+        <number>1</number>
+       </property>
        <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <property name="tabSpacing">
         <number>0</number>
        </property>
        <widget class="QWidget" name="pageAll">
@@ -90,8 +110,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>70</width>
-          <height>701</height>
+          <width>92</width>
+          <height>707</height>
          </rect>
         </property>
         <attribute name="label">

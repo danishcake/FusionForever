@@ -2,7 +2,7 @@
 #include <qtimer.h>
 #include <SectionTypes.h>
 #include <SectionMetadata.h>
-#include <QPushButton.h>
+#include <SectionButton.h>
 #include <set>
 
 FusionForever_Editor::FusionForever_Editor(QWidget *parent, Qt::WFlags flags)
@@ -25,14 +25,18 @@ FusionForever_Editor::~FusionForever_Editor()
 
 void FusionForever_Editor::actionReloadSectionList()
 {
+	
 	std::vector<std::string> names = SectionMetadata::GetSections();
 	std::set<std::string> tag_list;
 	std::map<std::string, std::vector<std::string> > tag_entries;
+	
 
 	for(std::vector<std::string>::iterator it = names.begin(); it != names.end(); ++it)
 	{
-		QPushButton* itemButton = new QPushButton(it->c_str(), ui.pageAll);
+		SectionButton* itemButton = new SectionButton(ui.pageAll, it->c_str(), it->c_str());
 		ui.gridLayoutAll->addWidget(itemButton);
+
+		QObject::connect(itemButton, SIGNAL(sectionClicked(std::string)), ui.fusionForeverWidget, SLOT(AddSection(std::string)));
 
 		std::vector<std::string> tags = SectionMetadata::GetTags(*it);
 		for(std::vector<std::string>::iterator tag = tags.begin(); tag != tags.end(); ++tag)
@@ -53,12 +57,12 @@ void FusionForever_Editor::actionReloadSectionList()
 		for(std::vector<std::string>::iterator it2 = tag_entries[*it].begin(); it2 != tag_entries[*it].end(); ++it2)
 		{
 			QPushButton* itemButton = new QPushButton(it2->c_str(), toolbox_page);
+			QObject::connect(itemButton, SIGNAL(sectionClicked(std::string)), ui.fusionForeverWidget, SLOT(AddSection(std::string)));
 			toolbox_page_layout->addWidget(itemButton);
 		}
 
 		QSpacerItem* spacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 		toolbox_page_layout->addItem(spacer);
-
 	}
 
 }

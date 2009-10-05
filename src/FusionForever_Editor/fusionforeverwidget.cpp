@@ -82,6 +82,15 @@ void FusionForeverWidget::Tick()
 	updateGL();
 }
 
+void FusionForeverWidget::AddSection(std::string _item_name)
+{
+	Logger::DiagnosticOut() << "Adding section " << _item_name;
+}
+
+void FusionForeverWidget::DeleteSelection()
+{
+}
+
 
 void FusionForeverWidget::initializeGL()
 {

@@ -16,6 +16,8 @@ public:
 
 public slots:
 	void Tick();
+	void AddSection(std::string _item_name);
+	void DeleteSelection();
 
 protected:
 	void initializeGL();
