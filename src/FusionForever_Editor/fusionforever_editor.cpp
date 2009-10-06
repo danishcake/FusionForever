@@ -7,6 +7,8 @@
 #include <set>
 #include <QFileDialog>
 #include "ScenarioDialog.h"
+#include <stdlib.h>
+#include <fstream>
 
 FusionForever_Editor::FusionForever_Editor(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
@@ -36,6 +38,7 @@ FusionForever_Editor::FusionForever_Editor(QWidget *parent, Qt::WFlags flags)
 	QObject::connect(ui.actionNew, SIGNAL(triggered()), this, SLOT(newShip()));
 	QObject::connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(openShip()));
 	QObject::connect(ui.actionConfigure, SIGNAL(triggered()), scenario_dialog_, SLOT(showDialog()));
+	QObject::connect(ui.actionTry, SIGNAL(triggered()), this, SLOT(tryShip()));
 }
 
 FusionForever_Editor::~FusionForever_Editor()
@@ -84,7 +87,6 @@ void FusionForever_Editor::reloadSectionList(std::vector<std::pair<std::string, 
 		QSpacerItem* spacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 		toolbox_page_layout->addItem(spacer);
 	}
-
 }
 
 /* Action handlers */
@@ -108,5 +110,12 @@ void FusionForever_Editor::openShip()
 
 void FusionForever_Editor::tryShip()
 {
+	ui.fusionForeverWidget->Save("Scripts/Ships/EditorTemp.xmlShip");
 
+	std::ofstream challenge = std::ofstream("Scripts/Challenges/EditorTemp.luaChallenge");
+	challenge << scenario_dialog_->GetScenarioString();
+	challenge.close();
+
+	std::string launch_cmd = "FusionForever_bin.exe -s EditorTemp.luaChallenge";
+	system(launch_cmd.c_str());
 }

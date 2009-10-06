@@ -12,7 +12,7 @@ public:
 	ScenarioDialog(QWidget *parent);
 	~ScenarioDialog();
 
-	QString const GetScenarioString();
+	std::string const GetScenarioString();
 
 private:
 	Ui::ScenarioDialog ui;

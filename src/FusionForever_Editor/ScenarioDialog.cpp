@@ -7,13 +7,35 @@ ScenarioDialog::ScenarioDialog(QWidget *parent)
 	ui.setupUi(this);
 
 	enemy_ship_ = "Lasership";
-	player_ai_ = "KeyboardAI";
 	enemy_ai_ = "SimpleAI";
+	player_ai_ = "KeyboardAI";
+	
 }
 
 ScenarioDialog::~ScenarioDialog()
 {
 
+}
+
+std::string const ScenarioDialog::GetScenarioString()
+{
+	std::string challenge;
+
+	challenge += "challenge:WaitFor(1)\n";
+	challenge += "challenge:SpawnShip(\"";
+	challenge += enemy_ship_.toStdString();
+	challenge += "\", 1, Vector:new(0, 500), 180, \"";
+	challenge += enemy_ai_.toStdString();
+	challenge += "\", 1)\n";
+	challenge += "challenge:SpawnShip(\"EditorTemp\", 0, Vector:new(0, -500), 0, \"";
+	challenge += player_ai_.toStdString();
+	challenge += "\", 1)\n";
+	challenge += "challenge:WaitFor(0.1)\n";
+	challenge += "while challenge.force_count[0] > 0 and challenge.force_count[1] > 0 do\n";
+	challenge += "\tcoroutine.yield()\n";
+	challenge += "end\n";
+	challenge += "challenge:ReturnToEditor()\n";
+	return challenge;
 }
 
 void ScenarioDialog::showDialog()
