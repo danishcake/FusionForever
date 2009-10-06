@@ -967,7 +967,7 @@ void EditorScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 	{
 		try_challenge_ = false;
 		std::vector<BaseScene_ptr> fo_done_scenes;
-		fo_done_scenes.push_back(BaseScene_ptr(new GameScene("EditorTemp")));
+		fo_done_scenes.push_back(BaseScene_ptr(new GameScene("Scripts/Challenges/EditorTemp.luaChallenge")));
 		fo_done_scenes.push_back(BaseScene_ptr(new FadeInScene()));
 		BaseScene_ptr fo = BaseScene_ptr(new FadeOutScene(fo_done_scenes));
 		_new_scenes.push_back(fo);

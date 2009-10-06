@@ -6,8 +6,8 @@ ScenarioDialog::ScenarioDialog(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	enemy_ship_ = "Lasership";
-	enemy_ai_ = "SimpleAI";
+	enemy_ship_ = "Scripts/Ships/Lasership.xmlShip";
+	enemy_ai_ = "Scripts/AI/SimpleAI.luaAI";
 	player_ai_ = "KeyboardAI";
 	
 }
@@ -20,14 +20,14 @@ ScenarioDialog::~ScenarioDialog()
 std::string const ScenarioDialog::GetScenarioString()
 {
 	std::string challenge;
-
+	challenge += "challenge.use_absolute_paths = true\n";
 	challenge += "challenge:WaitFor(1)\n";
 	challenge += "challenge:SpawnShip(\"";
 	challenge += enemy_ship_.toStdString();
 	challenge += "\", 1, Vector:new(0, 500), 180, \"";
 	challenge += enemy_ai_.toStdString();
 	challenge += "\", 1)\n";
-	challenge += "challenge:SpawnShip(\"EditorTemp\", 0, Vector:new(0, -500), 0, \"";
+	challenge += "challenge:SpawnShip(\"Scripts/Ships/EditorTemp.xmlShip\", 0, Vector:new(0, -500), 0, \"";
 	challenge += player_ai_.toStdString();
 	challenge += "\", 1)\n";
 	challenge += "challenge:WaitFor(0.1)\n";

@@ -53,7 +53,7 @@ int LuaChallenge::l_SpawnShip(lua_State* _luaVM)
 int LuaChallenge::SpawnShip(std::string _ship_name, int _force, Vector2f _position, float angle, std::string _ai_script, float _health_scale, lua_State* _luaVM)
 {
 	//Attempt to load ship
-	std::string shippath = "./Scripts/Ships/" + _ship_name + ".xmlShip";
+	std::string shippath = _ship_name;
 	Core_ptr core = Core::CreateCore(shippath);
 	if(core)
 	{
@@ -936,7 +936,7 @@ LuaChallenge::~LuaChallenge(void)
 
 bool LuaChallenge::loadChallenge()
 {
-	int load_result = luaL_loadfile(luaVM_, (std::string("Scripts/Challenges/") + challenge_).c_str());
+	int load_result = luaL_loadfile(luaVM_, challenge_.c_str());
 	if(load_result==0)
 	{
 		chunk_reference_ = luaL_ref(luaVM_, LUA_REGISTRYINDEX);

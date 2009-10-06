@@ -147,10 +147,6 @@ void Core::OverrideAI(BaseAI* _new_AI)
 Core_ptr Core::CreateCore(std::string _name)
 {
 	std::string file_name = _name;
-	/*if(_name.find("Scripts/Ships") == std::string::npos)
-		file_name = "Scripts/Ships/" + _name + ".xmlShip";
-	else
-		file_name = _name + ".xmlShip";*/
 
 	TiXmlDocument ship_document = TiXmlDocument(file_name.c_str());
 	if(ship_document.LoadFile())

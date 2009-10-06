@@ -116,6 +116,6 @@ void FusionForever_Editor::tryShip()
 	challenge << scenario_dialog_->GetScenarioString();
 	challenge.close();
 
-	std::string launch_cmd = "FusionForever_bin.exe -s EditorTemp.luaChallenge";
+	std::string launch_cmd = "FusionForever_bin.exe -s Scripts/Challenges/EditorTemp.luaChallenge";
 	system(launch_cmd.c_str());
 }

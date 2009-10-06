@@ -16,7 +16,7 @@
 TitleScene::TitleScene()
 {
 	Camera::Instance().SetWidth(500);
-	game_ = new BaseGame("Intro.luaChallenge");
+	game_ = new BaseGame("Scripts/Challenges/Intro.luaChallenge");
 	for(int i = 0; i < 4; i++)
 		Camera::Instance().ZoomOut();
 
