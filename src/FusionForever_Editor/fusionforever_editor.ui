@@ -52,9 +52,18 @@
      <string>Edit</string>
     </property>
     <addaction name="actionDelete_selection"/>
+    <addaction name="actionRemove"/>
+   </widget>
+   <widget class="QMenu" name="menuScenario">
+    <property name="title">
+     <string>Scenario</string>
+    </property>
+    <addaction name="actionConfigure"/>
+    <addaction name="actionTry"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
+   <addaction name="menuScenario"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockWidget_3">
@@ -191,6 +200,35 @@ border: 0px solid white;
    </property>
    <property name="toolTip">
     <string>Exits the editor</string>
+   </property>
+  </action>
+  <action name="actionActionTry">
+   <property name="text">
+    <string>actionTry</string>
+   </property>
+  </action>
+  <action name="actionRemove">
+   <property name="text">
+    <string>Remove</string>
+   </property>
+   <property name="toolTip">
+    <string>Removes this section but attaches its children to the parent</string>
+   </property>
+  </action>
+  <action name="actionConfigure">
+   <property name="text">
+    <string>Configure</string>
+   </property>
+   <property name="toolTip">
+    <string>Configures a scenario to try your ship in</string>
+   </property>
+  </action>
+  <action name="actionTry">
+   <property name="text">
+    <string>Try</string>
+   </property>
+   <property name="toolTip">
+    <string>Launches FusionForever to try the ship out</string>
    </property>
   </action>
  </widget>

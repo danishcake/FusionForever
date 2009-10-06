@@ -259,12 +259,27 @@ void FusionForeverWidget::paintGL()
 				glLoadIdentity();
 
 				section->DeathTick();
+				section->SetOutlineColor(GLColor(0,0,0));
 				section->DrawSelf();
+				
 				glFlush();
 
+
 				QImage icon = grabFrameBuffer();
-				QPixmap pm = QPixmap::fromImage(icon);
-				section_icons.push_back(std::pair<std::string, QPixmap*>(*it, new QPixmap(pm.pixmapData())));
+				if(height() > width())
+				{
+					int top = (height() - width()) / 2;
+					QImage icon2 = icon.copy(0, top, width(), width());
+					QPixmap pm = QPixmap::fromImage(icon2);
+					section_icons.push_back(std::pair<std::string, QPixmap*>(*it, new QPixmap(pm.pixmapData())));
+				} else
+				{
+					int left = (width() - height()) / 2;
+					QImage icon2 = icon.copy(left, 0, height(), height());
+					QPixmap pm = QPixmap::fromImage(icon2);
+					section_icons.push_back(std::pair<std::string, QPixmap*>(*it, new QPixmap(pm.pixmapData())));
+				}
+
 				
 				delete section;
 			}

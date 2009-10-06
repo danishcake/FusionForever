@@ -6,19 +6,20 @@
 #include "SectionPopup.h"
 #include <set>
 #include <QFileDialog>
+#include "ScenarioDialog.h"
 
 FusionForever_Editor::FusionForever_Editor(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
 {
 	ui.setupUi(this);
 	
-	
+	scenario_dialog_ = new ScenarioDialog(this);
+	scenario_dialog_->setModal(true);
+
 	QTimer* timer = new QTimer(this);
 	timer->setInterval(25);
 	QObject::connect(timer, SIGNAL(timeout()), ui.fusionForeverWidget, SLOT(Tick()));
 	timer->start();
-
-	//QObject::connect(ui.actionRefresh_Sections, SIGNAL(triggered()), this, SLOT(actionReloadSectionList()));
 
 	QList<QAction*> popup_actions;
 	popup_actions.push_back(ui.actionDelete_selection);
@@ -34,6 +35,7 @@ FusionForever_Editor::FusionForever_Editor(QWidget *parent, Qt::WFlags flags)
 	QObject::connect(ui.actionSave, SIGNAL(triggered()), this, SLOT(saveShip()));
 	QObject::connect(ui.actionNew, SIGNAL(triggered()), this, SLOT(newShip()));
 	QObject::connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(openShip()));
+	QObject::connect(ui.actionConfigure, SIGNAL(triggered()), scenario_dialog_, SLOT(showDialog()));
 }
 
 FusionForever_Editor::~FusionForever_Editor()
@@ -43,7 +45,6 @@ FusionForever_Editor::~FusionForever_Editor()
 
 void FusionForever_Editor::reloadSectionList(std::vector<std::pair<std::string, QPixmap*> > _icons)
 {
-	//std::vector<std::string> names = SectionMetadata::GetSections();
 	std::set<std::string> tag_list;
 	std::map<std::string, std::vector<std::pair<std::string, QPixmap*> > > tag_entries;
 	
@@ -86,6 +87,8 @@ void FusionForever_Editor::reloadSectionList(std::vector<std::pair<std::string, 
 
 }
 
+/* Action handlers */
+
 void FusionForever_Editor::saveShip()
 {
 	QString filename = QFileDialog::getSaveFileName(this, "Save Ship", "./Scripts/Ships/", "XMLShip format (*.xmlShip)");
@@ -100,6 +103,10 @@ void FusionForever_Editor::newShip()
 void FusionForever_Editor::openShip()
 {
 	QString filename = QFileDialog::getOpenFileName(this, "Save Ship", "./Scripts/Ships/", "XMLShip format (*.xmlShip)");
-//	filename.remove(".xmlShip", Qt::CaseInsensitive);
 	ui.fusionForeverWidget->Open(filename.toStdString());
+}
+
+void FusionForever_Editor::tryShip()
+{
+
 }
