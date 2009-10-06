@@ -25,6 +25,7 @@ FusionForever_Editor::FusionForever_Editor(QWidget *parent, Qt::WFlags flags)
 
 	QList<QAction*> popup_actions;
 	popup_actions.push_back(ui.actionDelete_selection);
+	popup_actions.push_back(ui.actionRemove);
 
 	selection_menu_ = new SectionPopup(this, popup_actions);
 	QObject::connect(ui.fusionForeverWidget, SIGNAL(selectionChanged(Section* , std::vector<Section*>)), selection_menu_, SLOT(selectionChanged(Section*, std::vector<Section*>))); 
@@ -34,11 +35,22 @@ FusionForever_Editor::FusionForever_Editor(QWidget *parent, Qt::WFlags flags)
 	
 	
 	QObject::connect(ui.actionDelete_selection, SIGNAL(triggered()), ui.fusionForeverWidget, SLOT(DeleteSelection()));
+	QObject::connect(ui.actionRemove, SIGNAL(triggered()), ui.fusionForeverWidget, SLOT(RemoveSelection()));
+
+	QObject::connect(ui.actionSet_snap_to_0_5, SIGNAL(triggered()), this, SLOT(setGridSize0_5()));
+	QObject::connect(ui.actionSet_snap_to_1, SIGNAL(triggered()), this, SLOT(setGridSize1()));
+	QObject::connect(ui.actionSet_snap_to_2_5, SIGNAL(triggered()), this, SLOT(setGridSize2_5()));
+	QObject::connect(ui.actionIncrease_snap, SIGNAL(triggered()), ui.fusionForeverWidget, SLOT(IncreaseGridSize()));
+	QObject::connect(ui.actionDecrease_snap, SIGNAL(triggered()), ui.fusionForeverWidget, SLOT(DecreaseGridSize()));
+
+
+
 	QObject::connect(ui.actionSave, SIGNAL(triggered()), this, SLOT(saveShip()));
 	QObject::connect(ui.actionNew, SIGNAL(triggered()), this, SLOT(newShip()));
 	QObject::connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(openShip()));
 	QObject::connect(ui.actionConfigure, SIGNAL(triggered()), scenario_dialog_, SLOT(showDialog()));
 	QObject::connect(ui.actionTry, SIGNAL(triggered()), this, SLOT(tryShip()));
+	
 }
 
 FusionForever_Editor::~FusionForever_Editor()
@@ -118,4 +130,19 @@ void FusionForever_Editor::tryShip()
 
 	std::string launch_cmd = "FusionForever_bin.exe -s Scripts/Challenges/EditorTemp.luaChallenge";
 	system(launch_cmd.c_str());
+}
+
+void FusionForever_Editor::setGridSize0_5()
+{
+	ui.fusionForeverWidget->SetGridSize(0.5f);
+}
+
+void FusionForever_Editor::setGridSize1()
+{
+	ui.fusionForeverWidget->SetGridSize(1.0f);
+}
+
+void FusionForever_Editor::setGridSize2_5()
+{
+	ui.fusionForeverWidget->SetGridSize(2.5f);
 }

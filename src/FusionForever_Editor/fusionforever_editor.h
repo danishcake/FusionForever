@@ -25,6 +25,10 @@ private slots:
 	void newShip();
 	void openShip();
 	void tryShip();
+
+	void setGridSize0_5();
+	void setGridSize1();
+	void setGridSize2_5();
 };
 
 #endif // FUSIONFOREVER_EDITOR_H

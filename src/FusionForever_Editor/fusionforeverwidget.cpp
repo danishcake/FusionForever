@@ -16,6 +16,7 @@ FusionForeverWidget::FusionForeverWidget(QWidget *parent)
 	drag_occurred_ = false;
 	icon_render_mode = true;
 	setMouseTracking(true);
+	grid_snap_ = 2.5f;
 }
 
 FusionForeverWidget::~FusionForeverWidget()
@@ -101,21 +102,21 @@ void FusionForeverWidget::mouseMoveEvent(QMouseEvent* me)
 	} else if(drag_mode_ == EditorDragMode::MoveDrag && selection_ && selection_ != core_)
 	{
 		accumulated_snap += world_move;
-		if(fabsf(accumulated_snap.x) >= 2.5f)
+		if(fabsf(accumulated_snap.x) >= grid_snap_)
 		{
 			//Rotate the move vector into the parents space
 			Vector3f delta = Vector3f(accumulated_snap.x, 0 , 0);
 			delta.rotate(0, 0, selection_->GetParent()->GetGlobalAngle());
-			Vector3f snap_to = (selection_->GetPosition() + delta).snap(2.5f);
+			Vector3f snap_to = (selection_->GetPosition() + delta).snap(grid_snap_);
 			selection_->SetPosition(snap_to);
 			accumulated_snap.x = 0;
 		}
-		if(fabsf(accumulated_snap.y) >= 2.5f)
+		if(fabsf(accumulated_snap.y) >= grid_snap_)
 		{
 			//Rotate the move vector into the parents space
 			Vector3f delta = Vector3f(0, accumulated_snap.y , 0);
 			delta.rotate(0, 0, selection_->GetParent()->GetGlobalAngle());
-			Vector3f snap_to = (selection_->GetPosition() + delta).snap(2.5f);
+			Vector3f snap_to = (selection_->GetPosition() + delta).snap(grid_snap_);
 			selection_->SetPosition(snap_to);
 			accumulated_snap.y = 0;
 		}
@@ -183,7 +184,6 @@ void FusionForeverWidget::AddSection(std::string _item_name)
 		{
 			Logger::ErrorOut() << "Unable to create section of type '" << _item_name << "'\n";
 		}
-
 	}
 }
 
@@ -197,6 +197,41 @@ void FusionForeverWidget::DeleteSelection()
 	}
 }
 
+void FusionForeverWidget::InsertSection(std::string _item_name)
+{
+	if(selection_ && selection_ != core_)
+	{
+		Section_ptr nSection = SectionTypes::GetSection(_item_name);
+		if(nSection)
+		{
+			//Detach children, remove selection from them. Add new section and attach selection to it.
+			Section_ptr parent = selection_->GetParent();
+			std::vector<Section_ptr> children = parent->DetachChildren();
+			children.erase(std::remove(children.begin(), children.end(), selection_), children.end());
+			children.push_back(nSection);
+			nSection->AddChild(selection_);
+			parent->AttachChildren(children);
+		} else
+		{
+			Logger::ErrorOut() << "Unable to create section of type '" << _item_name << "'\n";
+		}
+	}
+}
+
+void FusionForeverWidget::RemoveSelection()
+{
+	if(selection_ && core_ != selection_)
+	{
+		Section_ptr parent = selection_->GetParent();
+		std::vector<Section_ptr> children = parent->DetachChildren();
+		std::vector<Section_ptr> selection_children = selection_->DetachChildren();
+		children.erase(std::remove(children.begin(), children.end(), selection_), children.end());
+		children.insert(children.end(), selection_children.begin(), selection_children.end());
+		parent->AttachChildren(children);
+		selection_->TakeDamage(selection_->GetMaxHealth() + 1, -1);	
+		SetSelection(parent);
+	}
+}
 void FusionForeverWidget::SelectSection(int _section_id)
 {
 	Section_ptr select = core_->GetSectionByID(_section_id);
@@ -223,6 +258,24 @@ void FusionForeverWidget::Open(std::string _filename)
 		core_ = XMLCore::CreateXMLCore("SquareCore");
 	}
 }
+
+
+void FusionForeverWidget::SetGridSize(float _snap)
+{
+	grid_snap_ = _snap;
+}
+
+void FusionForeverWidget::IncreaseGridSize()
+{
+	grid_snap_ *= sqrt(2.0);
+}
+
+void FusionForeverWidget::DecreaseGridSize()
+{
+	grid_snap_ *= sqrt(0.5);
+}
+
+
 
 void FusionForeverWidget::initializeGL()
 {

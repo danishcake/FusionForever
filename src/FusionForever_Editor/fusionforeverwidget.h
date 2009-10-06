@@ -30,8 +30,13 @@ public:
 public slots:
 	void Tick();
 	void AddSection(std::string _item_name);
+	void InsertSection(std::string _item_name);
+	void RemoveSelection();
 	void DeleteSelection();
 	void SelectSection(int /*_section_id*/);
+	void SetGridSize(float /*_snap*/);
+	void IncreaseGridSize();
+	void DecreaseGridSize();
 
 signals:
 	void selectionChanged(Section* /*_current_selection*/, std::vector<Section*> /*_all_possible_selections*/);
@@ -61,6 +66,7 @@ private:
 	Vector2f ltv_mouse_position_;
 	Vector3f accumulated_snap;
 	bool icon_render_mode;
+	float grid_snap_;
 	
 };
 
