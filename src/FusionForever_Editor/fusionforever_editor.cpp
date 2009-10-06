@@ -26,7 +26,7 @@ FusionForever_Editor::FusionForever_Editor(QWidget *parent, Qt::WFlags flags)
 	selection_menu_ = new SectionPopup(this, popup_actions);
 	QObject::connect(ui.fusionForeverWidget, SIGNAL(selectionChanged(Section* , std::vector<Section*>)), selection_menu_, SLOT(selectionChanged(Section*, std::vector<Section*>))); 
 	QObject::connect(ui.fusionForeverWidget, SIGNAL(rightClick()), selection_menu_, SLOT(show_popup())); 
-	QObject::connect(ui.fusionForeverWidget, SIGNAL(initialisedSections()), this, SLOT(reloadSectionList())); 
+	QObject::connect(ui.fusionForeverWidget, SIGNAL(initialisedSections(std::vector<std::pair<std::string, QPixmap*> >)), this, SLOT(reloadSectionList(std::vector<std::pair<std::string, QPixmap*> >))); 
 	QObject::connect(selection_menu_, SIGNAL(select_item(int)), ui.fusionForeverWidget, SLOT(SelectSection(int))); 
 	
 	
@@ -41,21 +41,22 @@ FusionForever_Editor::~FusionForever_Editor()
 
 }
 
-void FusionForever_Editor::reloadSectionList()
+void FusionForever_Editor::reloadSectionList(std::vector<std::pair<std::string, QPixmap*> > _icons)
 {
-	std::vector<std::string> names = SectionMetadata::GetSections();
+	//std::vector<std::string> names = SectionMetadata::GetSections();
 	std::set<std::string> tag_list;
-	std::map<std::string, std::vector<std::string> > tag_entries;
+	std::map<std::string, std::vector<std::pair<std::string, QPixmap*> > > tag_entries;
 	
 
-	for(std::vector<std::string>::iterator it = names.begin(); it != names.end(); ++it)
+	for(std::vector<std::pair<std::string, QPixmap*> >::iterator it = _icons.begin(); it != _icons.end(); ++it)
 	{
-		SectionButton* itemButton = new SectionButton(ui.pageAll, it->c_str(), it->c_str());
+		
+		SectionButton* itemButton = new SectionButton(ui.pageAll, it->first.c_str(), it->first.c_str(), *it->second);
 		ui.gridLayoutAll->addWidget(itemButton);
 
 		QObject::connect(itemButton, SIGNAL(sectionClicked(std::string)), ui.fusionForeverWidget, SLOT(AddSection(std::string)));
 
-		std::vector<std::string> tags = SectionMetadata::GetTags(*it);
+		std::vector<std::string> tags = SectionMetadata::GetTags(it->first);
 		for(std::vector<std::string>::iterator tag = tags.begin(); tag != tags.end(); ++tag)
 		{
 			tag_list.insert(*tag);
@@ -71,9 +72,9 @@ void FusionForever_Editor::reloadSectionList()
 		toolbox_page_layout->setMargin(0);
 		ui.toolBoxSections->addItem(toolbox_page, it->c_str());
 
-		for(std::vector<std::string>::iterator it2 = tag_entries[*it].begin(); it2 != tag_entries[*it].end(); ++it2)
+		for(std::vector<std::pair<std::string, QPixmap*> >::iterator it2 = tag_entries[*it].begin(); it2 != tag_entries[*it].end(); ++it2)
 		{
-			QPushButton* itemButton = new SectionButton(toolbox_page, it2->c_str(), it2->c_str());
+			QPushButton* itemButton = new SectionButton(toolbox_page, it2->first.c_str(), it2->first.c_str(), *it2->second);
 			toolbox_page_layout->addWidget(itemButton);
 
 			QObject::connect(itemButton, SIGNAL(sectionClicked(std::string)), ui.fusionForeverWidget, SLOT(AddSection(std::string)));

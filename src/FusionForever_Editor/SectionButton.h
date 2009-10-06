@@ -8,7 +8,7 @@ class SectionButton : public QPushButton
 	Q_OBJECT
 
 public:
-	SectionButton(QWidget *parent, const QString& _text, const std::string _data);
+	SectionButton(QWidget *parent, const QString& _text, const std::string _data, const QPixmap& _icon);
 	~SectionButton();
 
 signals:

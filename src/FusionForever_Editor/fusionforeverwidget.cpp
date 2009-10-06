@@ -14,6 +14,7 @@ FusionForeverWidget::FusionForeverWidget(QWidget *parent)
 	selection_ = NULL;
 	drag_mode_ = EditorDragMode::NotDragging;
 	drag_occurred_ = false;
+	icon_render_mode = true;
 	setMouseTracking(true);
 }
 
@@ -226,19 +227,56 @@ void FusionForeverWidget::Open(std::string _filename)
 void FusionForeverWidget::initializeGL()
 {
 	SectionTypes::RegisterSections();
-	emit initialisedSections();
-	core_ = XMLCore::CreateXMLCore("SquareCore");
-	Section_ptr section = SectionTypes::GetSection("RigidArm");
-	section->SetPosition(Vector3f(7, 4, 0));
-	core_->AddChild(section);
 	
 	glClearColor(0.0f,0.0f,0.0f,0.0f);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
 }
 
 void FusionForeverWidget::paintGL()
 {
+	if(icon_render_mode) 
+	{ //On first pass render all sections to an icon
+		glClearColor(1.0f,1.0f,1.0f,0.0f);
+		std::vector<std::string> section_types = SectionTypes::GetNames();
+		std::vector<std::pair<std::string, QPixmap*> > section_icons;
+
+		for(std::vector<std::string>::iterator it = section_types.begin(); it != section_types.end(); ++it)
+		{
+			Section_ptr section = SectionTypes::GetSection(*it);
+			if(section)
+			{
+				float radius = section->GetRadius();
+				
+				Camera::Instance().SetHeight(radius*2);
+				Camera::Instance().SetWidth(radius*2);
+
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				Camera::Instance().SetupCamera();
+				glMatrixMode(GL_MODELVIEW);
+				glLoadIdentity();
+
+				section->DeathTick();
+				section->DrawSelf();
+				glFlush();
+
+				QImage icon = grabFrameBuffer();
+				QPixmap pm = QPixmap::fromImage(icon);
+				section_icons.push_back(std::pair<std::string, QPixmap*>(*it, new QPixmap(pm.pixmapData())));
+				
+				delete section;
+			}
+		}
+
+		core_ = XMLCore::CreateXMLCore("SquareCore");
+		icon_render_mode = false;
+
+		emit initialisedSections(section_icons);
+		glClearColor(0.0f,0.0f,0.0f,0.0f);
+	}
+	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	Camera::Instance().SetupCamera();
 	glMatrixMode(GL_MODELVIEW);
@@ -247,10 +285,11 @@ void FusionForeverWidget::paintGL()
 	Vector3f scaled_line = Camera::Instance().ScreenDeltaToWorldDelta(Vector3f(5,0,0));
 	core_->DrawEditorSupport(scaled_line.x, selection_);
 	glFlush();
+
 }
 
 void FusionForeverWidget::resizeGL(int width, int height)
 {
 	Camera::Instance().SetAspectRatio(width, height);
-	glViewport(0, 0, width, height);	
+	glViewport(0, 0, width, height);
 }

@@ -36,7 +36,7 @@ public slots:
 signals:
 	void selectionChanged(Section* /*_current_selection*/, std::vector<Section*> /*_all_possible_selections*/);
 	void rightClick();
-	void initialisedSections();
+	void initialisedSections(std::vector<std::pair<std::string, QPixmap*> >);
 
 protected:
 	void initializeGL();
@@ -60,6 +60,7 @@ private:
 	bool drag_occurred_;
 	Vector2f ltv_mouse_position_;
 	Vector3f accumulated_snap;
+	bool icon_render_mode;
 	
 };
 

@@ -17,7 +17,7 @@ private:
 	QMenu* selection_menu_;
 
 private slots:
-	void reloadSectionList();
+	void reloadSectionList(std::vector<std::pair<std::string, QPixmap*> >);
 	void saveShip();
 	void newShip();
 	void openShip();
