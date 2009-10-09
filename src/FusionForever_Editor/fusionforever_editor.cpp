@@ -46,6 +46,7 @@ FusionForever_Editor::FusionForever_Editor(QWidget *parent, Qt::WFlags flags)
 
 
 	QObject::connect(ui.actionSave, SIGNAL(triggered()), this, SLOT(saveShip()));
+	QObject::connect(ui.actionSave_As, SIGNAL(triggered()), this, SLOT(saveShipAs()));
 	QObject::connect(ui.actionNew, SIGNAL(triggered()), this, SLOT(newShip()));
 	QObject::connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(openShip()));
 	QObject::connect(ui.actionConfigure, SIGNAL(triggered()), scenario_dialog_, SLOT(showDialog()));
@@ -105,19 +106,41 @@ void FusionForever_Editor::reloadSectionList(std::vector<std::pair<std::string, 
 
 void FusionForever_Editor::saveShip()
 {
+	if(filename_.length() == 0)
+	{
+		QString filename = QFileDialog::getSaveFileName(this, "Save Ship", "./Scripts/Ships/", "XMLShip format (*.xmlShip)");
+		if(filename.length() != 0)
+		{
+			filename_ = filename.toStdString();
+			ui.fusionForeverWidget->Save(filename_);
+		}
+	} else
+	{
+		ui.fusionForeverWidget->Save(filename_);
+	}
+}
+
+void FusionForever_Editor::saveShipAs()
+{
 	QString filename = QFileDialog::getSaveFileName(this, "Save Ship", "./Scripts/Ships/", "XMLShip format (*.xmlShip)");
-	ui.fusionForeverWidget->Save(filename.toStdString());
+	if(filename.length() != 0)
+	{
+		filename_ = filename.toStdString();
+		ui.fusionForeverWidget->Save(filename_);
+	}
 }
 
 void FusionForever_Editor::newShip()
 {
 	ui.fusionForeverWidget->New();
+	filename_ = "";
 }
 
 void FusionForever_Editor::openShip()
 {
 	QString filename = QFileDialog::getOpenFileName(this, "Save Ship", "./Scripts/Ships/", "XMLShip format (*.xmlShip)");
-	ui.fusionForeverWidget->Open(filename.toStdString());
+	filename_ = filename.toStdString();
+	ui.fusionForeverWidget->Open(filename_);
 }
 
 void FusionForever_Editor::tryShip()

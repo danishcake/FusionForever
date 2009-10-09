@@ -18,10 +18,12 @@ private:
 	Ui::FusionForever_EditorClass ui;
 	QMenu* selection_menu_;
 	ScenarioDialog* scenario_dialog_;
+	std::string filename_;
 
 private slots:
 	void reloadSectionList(std::vector<std::pair<std::string, QPixmap*> >);
 	void saveShip();
+	void saveShipAs();
 	void newShip();
 	void openShip();
 	void tryShip();
