@@ -110,6 +110,7 @@ int LuaAI::l_ChangeAI(lua_State* _luaVM)
 	LuaAI* instance = ((LuaAI*)(lua_touserdata(_luaVM, -2)));
 	assert(instance);
 	std::string filename = lua_tostring(_luaVM, -1);
+	filename = filename;
 	instance->ChangeAI(filename);
 	return 0;
 }
@@ -127,7 +128,7 @@ void LuaAI::ChangeAI(std::string _file_name)
 	int chunk_reference = cache_->GetReference(_file_name);
 	if(chunk_reference == LUA_NOREF)
 	{
-		int load_result = luaL_loadfile(luaVM_, (std::string("scripts/ai/") + _file_name).c_str());
+		int load_result = luaL_loadfile(luaVM_, _file_name.c_str());
 		if(load_result == 0)
 		{
 			chunk_reference = cache_->AddReference(_file_name);
@@ -423,7 +424,7 @@ LuaAI* LuaAI::FromScript(std::string _file_name, SandboxCache* _cache)
 		return new LuaAI(_file_name, cached_chunk, _cache);
 	} else
 	{
-		int load_result = luaL_loadfile(_cache->GetLuaVM(), (std::string("scripts/ai/") + _file_name).c_str());
+		int load_result = luaL_loadfile(_cache->GetLuaVM(), _file_name.c_str());
 		if(load_result==0)
 		{
 			cached_chunk = _cache->AddReference(_file_name);

@@ -9,8 +9,14 @@ class Logger
 private:
 	Logger(std::string _filename);
 	std::ofstream output_;
+	static std::string prefix_;
 
 public:
+	static void SetPrefix(std::string _prefix)
+	{
+		prefix_ = _prefix;
+	}
+
 	static Logger& ErrorOut()
 	{
 		static Logger logger("ErrorLog.txt");

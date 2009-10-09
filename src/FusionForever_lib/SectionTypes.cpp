@@ -32,7 +32,14 @@ namespace SectionTypes
 	{
 		if(p_map.find(_name) != p_map.end())
 		{
-			return p_map[_name]();
+			if(p_map[_name] == NULL)
+			{
+				return XMLSection::CreateXMLSection(_name);
+			} 
+			else
+			{
+				return p_map[_name]();
+			}
 		} else
 		{
 			return NULL;
@@ -58,7 +65,11 @@ namespace SectionTypes
 		section->RegisterMetadata();
 		SectionMetadata::RegisterSection(_name);
 		delete section;
+	}
 
+	void RegisterXMLSectionType(std::string _name)
+	{
+		p_map[_name] = NULL;
 	}
 
 /* Factory methods - creates and instance of the section. Registered with

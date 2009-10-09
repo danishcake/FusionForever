@@ -5,6 +5,7 @@
 #include <boost/filesystem.hpp>
 #include "SectionMetadata.h"
 #include "SVGParser.h"
+#include "SectionTypes.h"
 
 std::map<std::string, XMLFilledOutlinedData> XMLSection::name_map_ = std::map<std::string, XMLFilledOutlinedData>();
 
@@ -444,6 +445,7 @@ void XMLSection::Preload()
 						Logger::ErrorOut() << "Unable to lookup the preloaded data for " << section_name << "\n";
 					}
 					section->RegisterMetadata();
+					SectionTypes::RegisterXMLSectionType(section_name);
 				} else
 				{
 					Logger::ErrorOut() << "Unable to preload " << section_name << ". Scripts relying on it may fail\n";

@@ -440,7 +440,7 @@ void MenuScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 	{
 		start_challenge_ = false;
 		std::vector<BaseScene_ptr> fo_done_scenes;
-		fo_done_scenes.push_back(BaseScene_ptr(new GameScene(challenge_name_)));
+		fo_done_scenes.push_back(BaseScene_ptr(new GameScene("Scripts/Challenges/" + challenge_name_ + ".luaChallenge")));
 		fo_done_scenes.push_back(BaseScene_ptr(new FadeInScene()));
 		BaseScene_ptr fo = BaseScene_ptr(new FadeOutScene(fo_done_scenes));
 		_new_scenes.push_back(fo);

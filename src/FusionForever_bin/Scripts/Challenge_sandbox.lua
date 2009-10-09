@@ -14,6 +14,7 @@ local challenge_ =
 	force_count = {0,0,0,0,0,0,0,0},
 	friend_count = {0,0,0,0,0,0,0,0},
 	time = 0,
+	use_absolute_paths = false,
 }
 
 function challenge_:SpawnShip(ship_name, force, position, angle, ai_script, health_scale)
@@ -24,6 +25,12 @@ function challenge_:SpawnShip(ship_name, force, position, angle, ai_script, heal
 	assert(type(position.y) == "number", "3 position must be a Vector")
 	assert(type(angle) == "number", "angle must be a number")
 	assert(type(ai_script) == "string", "ai_script must be a string")
+
+	
+	if self.use_absolute_paths ~= true then
+		if ai_script ~= "KeyboardAI" then ai_script = "Scripts/AI/" .. ai_script end
+		ship_name = "Scripts/Ships/" .. ship_name .. ".xmlShip"
+	end
 
 	if health_scale ~= nil then 
 		assert(type(health_scale) == "number", "If specified, health_scale must be a number")

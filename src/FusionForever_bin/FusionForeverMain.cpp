@@ -13,6 +13,7 @@
 #include "MenuScene.h"
 #include "TitleScene.h"
 #include "FadeInScene.h"
+#include "GameScene.h"
 #include "Camera.h"
 #include "Settings.h"
 #include "SectionTypes.h"
@@ -145,7 +146,7 @@ switch ( button )
 	}
 }
 
-int _tmain(int /*argc*/, _TCHAR* /*argv[]*/)
+int _tmain(int argc, _TCHAR* argv[])
 {
 	Vector2<int> resolution = Settings::Instance().GetResolution();
 	srand((unsigned int)time(NULL));
@@ -215,10 +216,28 @@ int _tmain(int /*argc*/, _TCHAR* /*argv[]*/)
 
 	CEGUI::System::getSingleton().setDefaultTooltip("TaharezLook/Tooltip");
 
+	Logger::DiagnosticOut() << "Command line arguments\n";
+	std::vector<std::string> args;
+	for(int i = 0; i < argc; i++)
+	{
+		char conv[1000];
+		wcstombs(conv, argv[i],1000);
+		Logger::DiagnosticOut() << conv << "\n";
+		args.push_back(std::string(conv));
+	}
+
 	if(!isFinished)
 	{
-		scene_stack.push_back(BaseScene_ptr(new TitleScene()));
-		scene_stack.push_back(BaseScene_ptr(new FadeInScene()));
+		if(args.size() == 3 && !args[1].compare("-s"))
+		{
+			scene_stack.push_back(new GameScene(args[2]));
+			scene_stack.push_back(BaseScene_ptr(new FadeInScene()));
+		} else
+		{
+			scene_stack.push_back(BaseScene_ptr(new TitleScene()));
+			scene_stack.push_back(BaseScene_ptr(new FadeInScene()));
+		}
+
 	}
 
 	SDL_Event sdl_event;

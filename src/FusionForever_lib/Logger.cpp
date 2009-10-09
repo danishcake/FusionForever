@@ -1,9 +1,12 @@
 #include "StdAfx.h"
 #include "Logger.h"
 
+std::string Logger::prefix_;
+
 Logger::Logger(std::string _filename)
 {
-	output_.open(_filename.c_str(), std::ios::trunc);
+	std::string filename = prefix_ + _filename;
+	output_.open(filename.c_str(), std::ios::trunc);
 }
 
 Logger::~Logger(void)

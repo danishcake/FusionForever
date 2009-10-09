@@ -167,6 +167,7 @@ bool EditorScene::cbLoadDialogueLoad(const CEGUI::EventArgs& /*e*/)
 	if(pLbShips->getSelectedCount() == 1)
 	{
 		std::string filename = pLbShips->getFirstSelectedItem()->getText().c_str();
+		filename = "./Scripts/Ships/" + filename + ".xmlShip";
 		Core_ptr loaded_core = Core::CreateCore(filename);
 		if(loaded_core)
 		{
@@ -352,7 +353,7 @@ bool EditorScene::cbBackgroundMove(const CEGUI::EventArgs& e)
 			accumulated_snap = Vector3f();
 		}
 	}
-	if(drag_mode_ ==EditorDragMode::ScrollDrag)
+	if(drag_mode_ == EditorDragMode::ScrollDrag)
 	{
 		Camera::Instance().SetCentre(Camera::Instance().GetCentreX() - world_move.x, Camera::Instance().GetCentreY() - world_move.y, CameraLevel::Human);
 	}
@@ -966,7 +967,7 @@ void EditorScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 	{
 		try_challenge_ = false;
 		std::vector<BaseScene_ptr> fo_done_scenes;
-		fo_done_scenes.push_back(BaseScene_ptr(new GameScene("EditorTemp")));
+		fo_done_scenes.push_back(BaseScene_ptr(new GameScene("Scripts/Challenges/EditorTemp.luaChallenge")));
 		fo_done_scenes.push_back(BaseScene_ptr(new FadeInScene()));
 		BaseScene_ptr fo = BaseScene_ptr(new FadeOutScene(fo_done_scenes));
 		_new_scenes.push_back(fo);

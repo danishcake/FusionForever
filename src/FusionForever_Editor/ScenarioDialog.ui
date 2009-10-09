@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ScenarioDialog</class>
+ <widget class="QDialog" name="ScenarioDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>228</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QPushButton" name="pbPickEnemy">
+     <property name="text">
+      <string>Pick enemy</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" colspan="2">
+    <widget class="QLabel" name="lblEnemy">
+     <property name="text">
+      <string>Enemy ship</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QPushButton" name="pbPickEnemyAI">
+     <property name="text">
+      <string>Pick enemy AI</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" colspan="2">
+    <widget class="QLabel" name="lblEnemyAI">
+     <property name="text">
+      <string>Enemy AI</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QPushButton" name="pbPickPlayerAI">
+     <property name="text">
+      <string>Pick player AI</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QPushButton" name="pbUseKeyboard">
+     <property name="text">
+      <string>Use Keyboard</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QLabel" name="lblPlayerAI">
+     <property name="text">
+      <string>Player AI</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="3">
+    <layout class="QHBoxLayout">
+     <property name="spacing">
+      <number>6</number>
+     </property>
+     <property name="margin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QPushButton" name="acceptButton">
+       <property name="text">
+        <string>Accept</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelButton">
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>131</width>
+         <height>31</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>cancelButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ScenarioDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>169</x>
+     <y>214</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>179</x>
+     <y>148</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pbPickEnemy</sender>
+   <signal>clicked()</signal>
+   <receiver>ScenarioDialog</receiver>
+   <slot>pickEnemyShip()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>48</x>
+     <y>26</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>48</x>
+     <y>120</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pbPickEnemyAI</sender>
+   <signal>clicked()</signal>
+   <receiver>ScenarioDialog</receiver>
+   <slot>pickEnemyAI()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>58</x>
+     <y>57</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>69</x>
+     <y>129</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pbPickPlayerAI</sender>
+   <signal>clicked()</signal>
+   <receiver>ScenarioDialog</receiver>
+   <slot>pickPlayerAI()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>30</x>
+     <y>86</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>27</x>
+     <y>122</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pbUseKeyboard</sender>
+   <signal>clicked()</signal>
+   <receiver>ScenarioDialog</receiver>
+   <slot>useKeyboardAI()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>220</x>
+     <y>83</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>336</x>
+     <y>187</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>acceptButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ScenarioDialog</receiver>
+   <slot>refire_accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>38</x>
+     <y>206</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>252</x>
+     <y>200</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>pickEnemyShip()</slot>
+  <slot>pickEnemyAI()</slot>
+  <slot>pickPlayerAI()</slot>
+  <slot>useKeyboardAI()</slot>
+  <slot>refire_accept()</slot>
+ </slots>
+</ui>

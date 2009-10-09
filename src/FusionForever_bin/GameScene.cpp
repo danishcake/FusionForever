@@ -21,7 +21,7 @@ GameScene::GameScene(std::string _challenge)
 	sum_time_ = 0;
 
 	Camera::Instance().SetWidth(500);
-	game_ = new BaseGame(_challenge + ".luaChallenge");
+	game_ = new BaseGame(_challenge);
 	for(int i = 0; i < 4; i++)
 		Camera::Instance().ZoomOut();
 

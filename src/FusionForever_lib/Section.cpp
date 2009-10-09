@@ -596,7 +596,7 @@ void Section::SaveToXML(std::string _filename)
 	root->SetAttribute("angle", boost::lexical_cast<std::string, float>(0));
 	doc.LinkEndChild(root);
 
-	doc.SaveFile(std::string("Scripts/Ships/") + _filename);
+	doc.SaveFile(_filename);
 }
 
 /* Static functions to wrap member functions for callbacks */
