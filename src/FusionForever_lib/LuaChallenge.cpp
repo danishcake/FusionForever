@@ -11,6 +11,7 @@
 #include "XMLSection.h"
 #include "SectionTypes.h"
 
+#include "LabelLayer.h"
 extern "C"
 {
 #include "lua.h"
@@ -299,6 +300,8 @@ int LuaChallenge::l_LabelShip(lua_State* _luaVM)
 	bool label_on = static_cast<bool>(lua_toboolean(_luaVM, -1));
 
 	Core_ptr core = static_cast<Core_ptr>(challenge->GetShipData(ship_id));
+	LabelLayer ll((Section*)core);
+
 	//TODO label the ship
 	return 0;
 }

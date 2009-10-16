@@ -15,3 +15,15 @@ public:
 	}
 };
 
+template <class list_t> 
+class YPositionSort: public std::binary_function<list_t, list_t, bool> 
+{
+public:
+	YPositionSort(){}
+
+	bool operator()(list_t a, list_t b) const
+	{
+		return a->GetGlobalPosition().y < b->GetGlobalPosition().y;
+	}
+};
+

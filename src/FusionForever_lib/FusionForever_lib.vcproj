@@ -232,6 +232,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\LabelLayer.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\LineTrace.cpp"
 					>
 				</File>
@@ -643,6 +647,10 @@
 				</File>
 				<File
 					RelativePath=".\GasClouds.h"
+					>
+				</File>
+				<File
+					RelativePath=".\LabelLayer.h"
 					>
 				</File>
 				<File
