@@ -31,6 +31,7 @@ BaseGame::BaseGame(std::string _challenge_filename)
 	Camera::Instance().SetWidth(static_cast<float>(Camera::Instance().GetWindowWidth())); //Zoom 1:1
 	Camera::Instance().SetCentre(0, 0, CameraLevel::Human);
 	Camera::Instance().SetFocus(0, 0, CameraLevel::Human);
+	running_state_ = GameState::Running;
 }
 
 BaseGame::~BaseGame(void)
@@ -92,196 +93,200 @@ void BaseGame::Draw()
 
 int BaseGame::Tick(float _timespan, GameGUI& _gui)
 {
-	std::vector<Decoration_ptr> decoration_spawn;
-	std::vector<Section_ptr> filtered;
-	filtered.reserve(50);
-	decoration_spawn.reserve(20);
-
 	//Tick scripts
 	ChallengeState::Enum state = challenge_->Tick(_timespan);
-
-	
 	Camera::Instance().TickCamera(_timespan);
 
-	//Calculate enemies and friends of each force
-	for(int force = 0; force < MAX_FORCES; force++)
+	if(running_state_ == GameState::Running)
 	{
-		enemies[force].clear();
-		friends[force].clear();
-		for(int other_force = 0; other_force < MAX_FORCES; other_force++)
+		std::vector<Decoration_ptr> decoration_spawn;
+		std::vector<Section_ptr> filtered;
+		filtered.reserve(50);
+		decoration_spawn.reserve(20);
+
+		//Calculate enemies and friends of each force
+		for(int force = 0; force < MAX_FORCES; force++)
 		{
-			if(hostility_[force][other_force] == Hostility::Hostile)
-				enemies[force].insert(enemies[force].end(),ships_[other_force].begin(), ships_[other_force].end());
-			if(hostility_[force][other_force] == Hostility::Friendly)
-				friends[force].insert(friends[force].end(),ships_[other_force].begin(), ships_[other_force].end());
-		}
-	}
-	/* Update the radar */
-	radar_.Update(enemies[0], friends[0],_timespan);
-
-	GridCollisionManager::ClearStatic();
-	for(int force = 0; force < MAX_FORCES; force++)
-	{
-		collision_managers_[force].Clear();
-	}
-
-	//Tick ships
-	const Matrix4f identity = Matrix4f();
-	std::vector<Projectile_ptr> projectile_spawn;
-	projectile_spawn.reserve(50);
-	std::vector<std::vector<Section_ptr>> shields(MAX_FORCES, std::vector<Section_ptr>(8));
-
-	for(int force = 0; force < MAX_FORCES; force++)
-	{
-		projectile_spawn.clear();
-		shields[force].clear();
-		BOOST_FOREACH(Core_ptr core, ships_[force])
-		{
-			core->Tick(_timespan, projectile_spawn, decoration_spawn, identity, friends[force], enemies[force], &collision_managers_[force]);
-			core->CollectShields(shields[force]);
-		}
-		//Add spawned projectiles
-		projectiles_[force].insert(projectiles_[force].end(), projectile_spawn.begin(), projectile_spawn.end());
-	}
-
-	//Tick projectiles
-	for(int force = 0; force < MAX_FORCES; force++)
-	{
-		BOOST_FOREACH(Projectile_ptr projectile, projectiles_[force])
-		{
-			projectile->Tick(_timespan, decoration_spawn, identity);
-		}
-	}
-
-	//Collide projectiles with shields
-	for(int force = 0; force < MAX_FORCES; force++)
-	{
-		for(int other_force = 0; other_force < MAX_FORCES; other_force++)
-		{
-			if(force != other_force && hostility_[force][other_force] == Hostility::Hostile)
+			enemies[force].clear();
+			friends[force].clear();
+			for(int other_force = 0; other_force < MAX_FORCES; other_force++)
 			{
-				BOOST_FOREACH(Section_ptr shield, shields[other_force])
-				{
-					BOOST_FOREACH(Projectile_ptr projectile, projectiles_[force])
-					{
-						if(Collisions2f::CirclesIntersect(projectile->GetPosition(), projectile->GetRadius(), shield->GetGlobalPosition(), shield->GetShieldRadius()) &&
-							shield->GetShieldHealth() > 0)
-						{
-							shield->TakeDamage(projectile->GetDamage(), shield->GetRoot()->GetSectionID());
-							projectile->SetLifetime(-10000);
-						}
-					}
-				}
+				if(hostility_[force][other_force] == Hostility::Hostile)
+					enemies[force].insert(enemies[force].end(),ships_[other_force].begin(), ships_[other_force].end());
+				if(hostility_[force][other_force] == Hostility::Friendly)
+					friends[force].insert(friends[force].end(),ships_[other_force].begin(), ships_[other_force].end());
 			}
 		}
-	}
+		/* Update the radar */
+		radar_.Update(enemies[0], friends[0],_timespan);
 
-
-	//Collide projectiles with ships
-	for(int force = 0; force < MAX_FORCES; force++)
-	{
-		projectile_spawn.clear();
-		BOOST_FOREACH(Projectile_ptr projectile, projectiles_[force])
+		GridCollisionManager::ClearStatic();
+		for(int force = 0; force < MAX_FORCES; force++)
 		{
-			if(projectile->GetLifetime() > 0)
+			collision_managers_[force].Clear();
+		}
+
+		//Tick ships
+		const Matrix4f identity = Matrix4f();
+		std::vector<Projectile_ptr> projectile_spawn;
+		projectile_spawn.reserve(50);
+		std::vector<std::vector<Section_ptr>> shields(MAX_FORCES, std::vector<Section_ptr>(8));
+
+		for(int force = 0; force < MAX_FORCES; force++)
+		{
+			projectile_spawn.clear();
+			shields[force].clear();
+			BOOST_FOREACH(Core_ptr core, ships_[force])
 			{
-				//Collect up all local enemies to test collisions against
-				for(int other_force = 0; other_force < MAX_FORCES; other_force++)
-				{
-					filtered.clear();
-					if(other_force != force && hostility_[force][other_force] == Hostility::Hostile)
-					{
-						collision_managers_[other_force].GetAtPoint(filtered, projectile->GetPosition());
-						std::sort(filtered.begin(),filtered.end(), RelativeRangeSort<Projectile_ptr, Section_ptr>(projectile));
-						BOOST_FOREACH(Section_ptr section, filtered)
-						{
-							if(section->CheckCollisions(projectile))
-								break; //Checks the collisions and does damage
-						}
-					}
-				}
+				core->Tick(_timespan, projectile_spawn, decoration_spawn, identity, friends[force], enemies[force], &collision_managers_[force]);
+				core->CollectShields(shields[force]);
 			}
-			if(projectile->GetLifetime()<=0)
+			//Add spawned projectiles
+			projectiles_[force].insert(projectiles_[force].end(), projectile_spawn.begin(), projectile_spawn.end());
+		}
+
+		//Tick projectiles
+		for(int force = 0; force < MAX_FORCES; force++)
+		{
+			BOOST_FOREACH(Projectile_ptr projectile, projectiles_[force])
 			{
-				projectile->Hit(decoration_spawn, projectile_spawn);
+				projectile->Tick(_timespan, decoration_spawn, identity);
 			}
 		}
-		projectiles_[force].insert(projectiles_[force].end(), projectile_spawn.begin(), projectile_spawn.end());
-	}
 
-	//Ship-ship collisions
-	size_t check_count = 0;
-	for(int force_a = 0; force_a < MAX_FORCES; force_a++)
-	{
-		for(int force_b = force_a+1; force_b < MAX_FORCES; force_b++)
+		//Collide projectiles with shields
+		for(int force = 0; force < MAX_FORCES; force++)
 		{
-			if(hostility_[force_a][force_b] == Hostility::Friendly)
-				continue;
-			for(int x = 0; x < GRID_SECTIONS; x++)
+			for(int other_force = 0; other_force < MAX_FORCES; other_force++)
 			{
-				for(int y = 0; y < GRID_SECTIONS; y++)
+				if(force != other_force && hostility_[force][other_force] == Hostility::Hostile)
 				{
-					std::vector<Section_ptr>& sections_a = collision_managers_[force_a].GetExactAtCoordinate(x, y);
-					std::vector<Section_ptr>& sections_b = collision_managers_[force_b].GetAtCoordinate(x, y);
-					if(sections_a.size() > 0 && sections_b.size() > 0)
+					BOOST_FOREACH(Section_ptr shield, shields[other_force])
 					{
-						BOOST_FOREACH(Section_ptr a, sections_a)
+						BOOST_FOREACH(Projectile_ptr projectile, projectiles_[force])
 						{
-							BOOST_FOREACH(Section_ptr b, sections_b)
+							if(Collisions2f::CirclesIntersect(projectile->GetPosition(), projectile->GetRadius(), shield->GetGlobalPosition(), shield->GetShieldRadius()) &&
+								shield->GetShieldHealth() > 0)
 							{
-								if(Collisions2f::CirclesIntersect(a->GetGlobalPosition(), a->GetRadius(), b->GetGlobalPosition(), b->GetRadius()))
-								{
-									//Circle-circle collisions seem to be close enough. 
-									//If a and b overlap then reduce both healths by minimum of the two healths
-									float lowest_health = a->GetHealth() < b->GetHealth() ? a->GetHealth() : b->GetHealth();
-									a->TakeDamage(lowest_health, b->GetRoot()->GetSectionID());
-									b->TakeDamage(lowest_health, a->GetRoot()->GetSectionID());
-									SoundManager::Instance().PlaySample("Crash1.wav");
-								}
+								shield->TakeDamage(projectile->GetDamage(), shield->GetRoot()->GetSectionID());
+								projectile->SetLifetime(-10000);
 							}
 						}
-						check_count += sections_a.size() * sections_b.size();
 					}
 				}
 			}
 		}
-	}
 
-	//Get dead sections deathspawn
-	for(int force = 0; force < MAX_FORCES; force++)
-	{
-		BOOST_FOREACH(Core_ptr core, ships_[force])
+
+		//Collide projectiles with ships
+		for(int force = 0; force < MAX_FORCES; force++)
 		{
-			if(core->GetHealth() <= 0)
+			projectile_spawn.clear();
+			BOOST_FOREACH(Projectile_ptr projectile, projectiles_[force])
 			{
-				core->GetDeathSpawn(decoration_spawn);
-				challenge_->CallDeathFunction(core->GetDeathFunctionReference());
+				if(projectile->GetLifetime() > 0)
+				{
+					//Collect up all local enemies to test collisions against
+					for(int other_force = 0; other_force < MAX_FORCES; other_force++)
+					{
+						filtered.clear();
+						if(other_force != force && hostility_[force][other_force] == Hostility::Hostile)
+						{
+							collision_managers_[other_force].GetAtPoint(filtered, projectile->GetPosition());
+							std::sort(filtered.begin(),filtered.end(), RelativeRangeSort<Projectile_ptr, Section_ptr>(projectile));
+							BOOST_FOREACH(Section_ptr section, filtered)
+							{
+								if(section->CheckCollisions(projectile))
+									break; //Checks the collisions and does damage
+							}
+						}
+					}
+				}
+				if(projectile->GetLifetime()<=0)
+				{
+					projectile->Hit(decoration_spawn, projectile_spawn);
+				}
+			}
+			projectiles_[force].insert(projectiles_[force].end(), projectile_spawn.begin(), projectile_spawn.end());
+		}
+
+		//Ship-ship collisions
+		size_t check_count = 0;
+		for(int force_a = 0; force_a < MAX_FORCES; force_a++)
+		{
+			for(int force_b = force_a+1; force_b < MAX_FORCES; force_b++)
+			{
+				if(hostility_[force_a][force_b] == Hostility::Friendly)
+					continue;
+				for(int x = 0; x < GRID_SECTIONS; x++)
+				{
+					for(int y = 0; y < GRID_SECTIONS; y++)
+					{
+						std::vector<Section_ptr>& sections_a = collision_managers_[force_a].GetExactAtCoordinate(x, y);
+						std::vector<Section_ptr>& sections_b = collision_managers_[force_b].GetAtCoordinate(x, y);
+						if(sections_a.size() > 0 && sections_b.size() > 0)
+						{
+							BOOST_FOREACH(Section_ptr a, sections_a)
+							{
+								BOOST_FOREACH(Section_ptr b, sections_b)
+								{
+									if(Collisions2f::CirclesIntersect(a->GetGlobalPosition(), a->GetRadius(), b->GetGlobalPosition(), b->GetRadius()))
+									{
+										//Circle-circle collisions seem to be close enough. 
+										//If a and b overlap then reduce both healths by minimum of the two healths
+										float lowest_health = a->GetHealth() < b->GetHealth() ? a->GetHealth() : b->GetHealth();
+										a->TakeDamage(lowest_health, b->GetRoot()->GetSectionID());
+										b->TakeDamage(lowest_health, a->GetRoot()->GetSectionID());
+										SoundManager::Instance().PlaySample("Crash1.wav");
+									}
+								}
+							}
+							check_count += sections_a.size() * sections_b.size();
+						}
+					}
+				}
 			}
 		}
-	}
-	//Add spawned decorations 
-	decorations_.insert(decorations_.end(), decoration_spawn.begin(), decoration_spawn.end());
-	decoration_spawn.clear();
-	//Tick decorations
-	BOOST_FOREACH(Decoration_ptr decoration, decorations_)
-	{
-		decoration->Tick(_timespan, identity, decoration_spawn);
-	}
-	//Add spawned decorations 
-	decorations_.insert(decorations_.end(), decoration_spawn.begin(), decoration_spawn.end());
-	//Tick just the spawned decorations. Lets not worry about generational issues
-	BOOST_FOREACH(Decoration_ptr decoration, decoration_spawn)
-	{
-		decoration->Tick(_timespan, identity, decoration_spawn);
-	}
+
+		//Get dead sections deathspawn
+		for(int force = 0; force < MAX_FORCES; force++)
+		{
+			BOOST_FOREACH(Core_ptr core, ships_[force])
+			{
+				if(core->GetHealth() <= 0)
+				{
+					core->GetDeathSpawn(decoration_spawn);
+					challenge_->CallDeathFunction(core->GetDeathFunctionReference());
+				}
+			}
+		}
+		//Add spawned decorations 
+		decorations_.insert(decorations_.end(), decoration_spawn.begin(), decoration_spawn.end());
+		decoration_spawn.clear();
+		//Tick decorations
+		BOOST_FOREACH(Decoration_ptr decoration, decorations_)
+		{
+			decoration->Tick(_timespan, identity, decoration_spawn);
+		}
+		//Add spawned decorations 
+		decorations_.insert(decorations_.end(), decoration_spawn.begin(), decoration_spawn.end());
+		//Tick just the spawned decorations. Lets not worry about generational issues
+		BOOST_FOREACH(Decoration_ptr decoration, decoration_spawn)
+		{
+			decoration->Tick(_timespan, identity, decoration_spawn);
+		}
 
 
-	//Remove the dead
-	decorations_.erase(std::remove_if(decorations_.begin(), decorations_.end(), Decoration::IsRemovable), decorations_.end());
-	for(int force = 0; force < MAX_FORCES; force++)
+		//Remove the dead
+		decorations_.erase(std::remove_if(decorations_.begin(), decorations_.end(), Decoration::IsRemovable), decorations_.end());
+		for(int force = 0; force < MAX_FORCES; force++)
+		{
+			projectiles_[force].erase(std::remove_if(projectiles_[force].begin(), projectiles_[force].end(), Projectile::IsProjectileRemovable), projectiles_[force].end());
+			ships_[force].erase(std::remove_if(ships_[force].begin(), ships_[force].end(), Section::IsRemovable), ships_[force].end());
+		}
+	} else
 	{
-		projectiles_[force].erase(std::remove_if(projectiles_[force].begin(), projectiles_[force].end(), Projectile::IsProjectileRemovable), projectiles_[force].end());
-		ships_[force].erase(std::remove_if(ships_[force].begin(), ships_[force].end(), Section::IsRemovable), ships_[force].end());
+		
 	}
 
 	_gui = gui_; //Copy in messages and counter data
@@ -324,6 +329,24 @@ int BaseGame::GetEnemyCount(int _force)
 int BaseGame::GetFriendCount(int _force)
 {
 	return static_cast<int>(friends[_force].size());
+}
+
+void BaseGame::Resume()
+{
+	if(running_state_ == GameState::Running)
+	{
+		Logger::DiagnosticOut() << "Warning: Script resumed an already running game - error in challenge script?\n";
+	}
+	running_state_ = GameState::Running;
+}
+
+void BaseGame::Pause()
+{
+	if(running_state_ == GameState::Paused)
+	{
+		Logger::DiagnosticOut() << "Warning: Script paused an already paused game - error in challenge script?\n";
+	}
+	running_state_ = GameState::Paused;
 }
 
 Section_ptr BaseGame::GetCoreData(int _section_id)

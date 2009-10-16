@@ -189,12 +189,18 @@ function()
 
 
 	challenge:WaitFor(2)
+end,
+
+function()
+	player_id = challenge:SpawnShip("Turret", 0, Vector:new( 100, 100), 0, "BurstTurretAI.luaAI", 0.01);
+	challenge:waitFor(1)
+	challenge:Inspect(player_id)
 end
 }
 
 --Pick a random intro
 local intro = math.random(1, #introlist)
---local intro = #introlist
+local intro = #introlist
 print("Intro " .. intro)
 introlist[intro]()
 

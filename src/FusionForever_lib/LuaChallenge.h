@@ -51,7 +51,10 @@ private:
 	static int l_GetShipsInArea(lua_State* _luaVM);
 	static int l_SetDeathFunction(lua_State* _luaVM);
 	static int l_luaError(lua_State* _luaVM);
+	static int l_LabelShip(lua_State* _luaVM);
 	static int l_Victory(lua_State* _luaVM);
+	static int l_PauseGame(lua_State* _luaVM);
+	static int l_ResumeGame(lua_State* _luaVM);
 	static int l_Defeat(lua_State* _luaVM);
 	static int l_Draw(lua_State* _luaVM);
 	static int l_ReturnToEditor(lua_State* _luaVM);
@@ -60,6 +63,8 @@ private:
 	static int l_SetHostility(lua_State* _luaVM);
 	static int l_DisplayMessage(lua_State* _luaVM);
 	static int l_SetCounter(lua_State* _luaVM);
+	static int l_GetCamera(lua_State* _luaVM);
+	static int l_SetCamera(lua_State* _luaVM);
 
 	
 	static void ParseExistingShip(lua_State* _luaVM, Section* _section, int _child_key, int _stack_size);
@@ -104,6 +109,9 @@ private:
 	std::vector<Core*> GetShipsInArea(Vector3f _position, float _radius);
 	void DisplayMessage(std::string _message, float _time);
 	void SetCounter(int _counter, int _value, int _max, bool _visible);
+
+	void Resume();
+	void Pause();
 
 public:
 	LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* _game);
