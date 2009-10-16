@@ -172,12 +172,13 @@ function challenge_:Inspect(ship_id)
 	
 	path = Path:new(false)
 	path:addPoint(cp, 1)
-	path:addPoint(shipdata.position, 1)
+	path:addPoint(shipdata.position + Vector:new(-10, 10), 3)
+	path:addPoint(shipdata.position + Vector:new(10, -10), 1)
 	
 	widthpath = Path:new(false)
 	widthpath:addPoint(Vector:new(camera.w, 0), 1)
 	widthpath:addPoint(Vector:new(200, 0), 3)
-	widthpath:addPoint(Vector:new(200, 0), 0.5)
+	widthpath:addPoint(Vector:new(300, 0), 0.5)
 	widthpath:addPoint(Vector:new(camera.w, 0), 1)
 	
 		

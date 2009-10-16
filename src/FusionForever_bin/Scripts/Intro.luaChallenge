@@ -193,7 +193,7 @@ end,
 
 function()
 	player_id = challenge:SpawnShip("Turret", 0, Vector:new( 100, 100), 0, "BurstTurretAI.luaAI", 0.01);
-	challenge:waitFor(1)
+	challenge:WaitFor(1)
 	challenge:Inspect(player_id)
 end
 }
