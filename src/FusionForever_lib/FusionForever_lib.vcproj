@@ -232,7 +232,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\LabelLayer.cpp"
+					RelativePath=".\LabelDecoration.cpp"
 					>
 				</File>
 				<File
@@ -650,7 +650,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\LabelLayer.h"
+					RelativePath=".\LabelDecoration.h"
 					>
 				</File>
 				<File

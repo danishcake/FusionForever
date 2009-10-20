@@ -5,6 +5,8 @@
 #include "Decoration.h"
 #include "KeyboardAI.h"
 #include "SoundManager.h"
+#include "SortFunctors.h"
+#include "LabelDecoration.h"
 
 
 extern "C"
@@ -31,6 +33,7 @@ BaseGame::BaseGame(std::string _challenge_filename)
 	Camera::Instance().SetWidth(static_cast<float>(Camera::Instance().GetWindowWidth())); //Zoom 1:1
 	Camera::Instance().SetCentre(0, 0, CameraLevel::Human);
 	Camera::Instance().SetFocus(0, 0, CameraLevel::Human);
+	time_rate_ = 1;
 	running_state_ = GameState::Running;
 }
 
@@ -97,7 +100,35 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 	ChallengeState::Enum state = challenge_->Tick(_timespan);
 	Camera::Instance().TickCamera(_timespan);
 
-	if(running_state_ == GameState::Running)
+	const float ddt = 1.0f;
+	switch(running_state_)
+	{
+	case GameState::Pausing:
+		if(time_rate_ >= 0)
+			time_rate_ -= _timespan * ddt;
+		if(time_rate_ < 0)
+		{
+			time_rate_ = 0;
+			running_state_ = GameState::Paused;
+		}
+		break;
+	case GameState::Resuming:
+		if(time_rate_ <= 1)
+			time_rate_ += _timespan * ddt;
+		if(time_rate_ > 1)
+		{
+			time_rate_ = 1;
+			running_state_ = GameState::Running;
+		}
+		break;
+	}
+
+	_timespan = _timespan * time_rate_;
+
+	const Matrix4f identity = Matrix4f();
+	if(running_state_ == GameState::Running || 
+	   running_state_ == GameState::Pausing ||
+	   running_state_ == GameState::Resuming)
 	{
 		std::vector<Decoration_ptr> decoration_spawn;
 		std::vector<Section_ptr> filtered;
@@ -127,7 +158,6 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 		}
 
 		//Tick ships
-		const Matrix4f identity = Matrix4f();
 		std::vector<Projectile_ptr> projectile_spawn;
 		projectile_spawn.reserve(50);
 		std::vector<std::vector<Section_ptr>> shields(MAX_FORCES, std::vector<Section_ptr>(8));
@@ -286,7 +316,17 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 		}
 	} else
 	{
-		
+		std::vector<Decoration_ptr> decoration_spawn;
+		BOOST_FOREACH(Decoration_ptr decoration, decorations_)
+		{
+			decoration->Tick(_timespan, identity, decoration_spawn);
+		}
+		BOOST_FOREACH(Decoration_ptr decoration, decoration_spawn)
+		{
+			delete decoration;
+		}
+
+
 	}
 
 	_gui = gui_; //Copy in messages and counter data
@@ -337,7 +377,7 @@ void BaseGame::Resume()
 	{
 		Logger::DiagnosticOut() << "Warning: Script resumed an already running game - error in challenge script?\n";
 	}
-	running_state_ = GameState::Running;
+	running_state_ = GameState::Resuming;
 }
 
 void BaseGame::Pause()
@@ -346,7 +386,55 @@ void BaseGame::Pause()
 	{
 		Logger::DiagnosticOut() << "Warning: Script paused an already paused game - error in challenge script?\n";
 	}
-	running_state_ = GameState::Paused;
+	running_state_ = GameState::Pausing;
+}
+
+void buildSectionList(std::vector<Section*>& _sections, Section* _section)
+{
+	std::vector<Section*> ss = _section->GetSubsections();
+	for(std::vector<Section*>::iterator it = ss.begin(); it != ss.end(); ++it)
+	{
+	   buildSectionList(_sections, *it);
+	}
+	_sections.insert(_sections.end(), ss.begin(), ss.end());
+}
+void BaseGame::LabelShip(Core* _core, float _lifetime)
+{
+	std::vector<Section*> sections;
+	
+	buildSectionList(sections, _core);
+	std::vector<Section*> left_sections;
+	std::vector<Section*> right_sections;
+	for(std::vector<Section*>::iterator it = sections.begin(); it != sections.end(); ++it)
+	{
+		if((*it)->GetGlobalPosition().x - _core->GetGlobalPosition().x < 0)
+			left_sections.push_back(*it);
+		else
+			right_sections.push_back(*it);
+	}
+	std::sort(left_sections.begin(), left_sections.end(), YPositionSort<Section_ptr>());
+	std::sort(right_sections.begin(), right_sections.end(), YPositionSort<Section_ptr>());
+
+	Vector3f screen_position(10, 40, 0);
+	float delay = 0;
+	const float delay_delta = 2.0f / (left_sections.size() + right_sections.size());
+	for(std::vector<Section*>::iterator it = left_sections.begin(); it != left_sections.end(); ++it)
+	{
+		LabelDecoration* ld = new LabelDecoration(*it, screen_position, _lifetime + delay);
+		screen_position.y += Camera::Instance().GetWindowHeight() / left_sections.size();
+		decorations_.push_back(ld);
+		delay += delay_delta;
+	}
+
+	delay /= 2.0f;
+	screen_position = Vector3f(Camera::Instance().GetWindowWidth()-50, 40, 0);
+	for(std::vector<Section*>::iterator it = right_sections.begin(); it != right_sections.end(); ++it)
+	{
+		LabelDecoration* ld = new LabelDecoration(*it, screen_position, _lifetime + delay);
+		screen_position.y += Camera::Instance().GetWindowHeight() / right_sections.size();
+		decorations_.push_back(ld);
+		delay += delay_delta;
+	}
 }
 
 Section_ptr BaseGame::GetCoreData(int _section_id)

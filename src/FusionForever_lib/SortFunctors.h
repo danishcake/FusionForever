@@ -23,7 +23,7 @@ public:
 
 	bool operator()(list_t a, list_t b) const
 	{
-		return a->GetGlobalPosition().y < b->GetGlobalPosition().y;
+		return a->GetGlobalPosition().y > b->GetGlobalPosition().y;
 	}
 };
 
