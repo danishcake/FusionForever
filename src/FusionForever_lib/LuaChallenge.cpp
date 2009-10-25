@@ -2,6 +2,7 @@
 #include "LuaChallenge.h"
 #include "KeyboardAI.h"
 #include "LuaAI.h"
+#include "PlayerAI.h"
 #include "BaseGame.h"
 #include <boost/algorithm/string.hpp>
 #include "LuaTimeout.h"
@@ -65,7 +66,10 @@ int LuaChallenge::SpawnShip(std::string _ship_name, int _force, Vector2f _positi
 		//Set the AI - either KeyboardAI or a LuaAI
 		std::transform(_ai_script.begin(), _ai_script.end(), _ai_script.begin(), toupper);
 		BaseAI* ai = NULL;
-		if(boost::iequals(_ai_script, std::string("KEYBOARDAI")))
+		if(boost::iequals(_ai_script, std::string("PLAYERAI")))
+		{
+			ai = new PlayerAI(0);
+		} else if(boost::iequals(_ai_script, std::string("KEYBOARDAI")))
 		{
 			ai = new KeyboardAI();
 		} else
