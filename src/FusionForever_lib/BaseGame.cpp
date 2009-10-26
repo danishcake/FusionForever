@@ -415,7 +415,7 @@ void BaseGame::LabelShip(Core* _core, float _lifetime)
 	std::sort(left_sections.begin(), left_sections.end(), YPositionSort<Section_ptr>());
 	std::sort(right_sections.begin(), right_sections.end(), YPositionSort<Section_ptr>());
 
-	Vector3f screen_position(10, 40, 0);
+	Vector3f screen_position(50, 40, 0);
 	float delay = 0;
 	const float delay_delta = 2.0f / (left_sections.size() + right_sections.size());
 	for(std::vector<Section*>::iterator it = left_sections.begin(); it != left_sections.end(); ++it)

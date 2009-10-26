@@ -1,6 +1,8 @@
 #pragma once
 #include "Decoration.h"
 
+class Billboard;
+
 class LabelDecoration :
 	public Decoration
 {
@@ -10,6 +12,7 @@ protected:
 	Vector3f source_location_;
 	Vector3f screen_position_;
 	float full_lifetime_;
+	std::vector<Billboard*> labels_;
 public:
 	LabelDecoration(BaseEntity* _source, Vector3f _screen_position, float _lifetime);
 	virtual ~LabelDecoration(void);

@@ -1283,6 +1283,10 @@
 				RelativePath=".\Textures\Warp.texture"
 				>
 			</File>
+			<File
+				RelativePath=".\Textures\WeaponIcon.texture"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Sounds"
