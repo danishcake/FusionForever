@@ -1187,11 +1187,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Textures\EnergyStorageIcon.texture"
+				>
+			</File>
+			<File
 				RelativePath=".\Textures\FusionForever.texture"
 				>
 			</File>
 			<File
 				RelativePath=".\Textures\GasCloud.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\GeneratorIcon.texture"
 				>
 			</File>
 			<File
@@ -1280,6 +1288,10 @@
 			</File>
 			<File
 				RelativePath=".\Textures\ShieldIcon.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\ThrusterIcon.texture"
 				>
 			</File>
 			<File

@@ -49,6 +49,38 @@ LabelDecoration::LabelDecoration(BaseEntity* _source, Vector3f _screen_position,
 			screen_position += icon_spacing;
 			interesting = true;
 		}
+		if(!it->compare("Generator"))
+		{
+			Billboard* bb = new Billboard("GeneratorIcon", BillboardType::ScreenSpace);
+			bb->SetPosition(screen_position);
+			labels_.push_back(bb);
+			screen_position += icon_spacing;
+			interesting = true;
+		}
+		if(!it->compare("EnergyStorage"))
+		{
+			Billboard* bb = new Billboard("EnergyStorageIcon", BillboardType::ScreenSpace);
+			bb->SetPosition(screen_position);
+			labels_.push_back(bb);
+			screen_position += icon_spacing;
+			interesting = true;
+		}
+		if(!it->compare("Thruster"))
+		{
+			Billboard* bb = new Billboard("ThrusterIcon", BillboardType::ScreenSpace);
+			bb->SetPosition(screen_position);
+			labels_.push_back(bb);
+			screen_position += icon_spacing;
+			interesting = true;
+		}
+		if(section->IsCore())
+		{
+			Billboard* bb = new Billboard("CoreIcon", BillboardType::ScreenSpace);
+			bb->SetPosition(screen_position);
+			labels_.push_back(bb);
+			screen_position += icon_spacing;
+			interesting = true;
+		}
 	}
 	if(!interesting)
 		lifetime_ = -1;
