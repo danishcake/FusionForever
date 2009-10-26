@@ -66,9 +66,16 @@ int LuaChallenge::SpawnShip(std::string _ship_name, int _force, Vector2f _positi
 		//Set the AI - either KeyboardAI or a LuaAI
 		std::transform(_ai_script.begin(), _ai_script.end(), _ai_script.begin(), toupper);
 		BaseAI* ai = NULL;
-		if(boost::iequals(_ai_script, std::string("PLAYERAI")))
+		if(_ai_script.find("PLAYERAI") != std::string::npos)
 		{
-			ai = new PlayerAI(0);
+			try
+			{
+				int player_id = boost::lexical_cast<int, std::string>(_ai_script.substr(_ai_script.length() - 1, 1));
+				ai = new PlayerAI(player_id);
+			} catch(...)
+			{
+				luaL_error(_luaVM, "PlayerAI should be form PlayerAI# where # is 0-9");
+			}
 		} else if(boost::iequals(_ai_script, std::string("KEYBOARDAI")))
 		{
 			ai = new KeyboardAI();

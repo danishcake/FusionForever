@@ -8,6 +8,8 @@ protected:
 	int player_id_;
 	Vector3f ltv_mouse_position_;
 	Vector3f movement_integrator_;
+	bool lock_angle_;
+	Vector3f lock_vector_;
 public:
 	PlayerAI(int _player_id);
 	virtual ~PlayerAI(void);
