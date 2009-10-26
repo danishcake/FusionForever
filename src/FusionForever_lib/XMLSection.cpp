@@ -439,6 +439,8 @@ void XMLSection::Preload()
 						SectionMetadata::RegisterSectionKeyCoordinate(section_name,"default_sub_section_position", 
 							name_map_[section_name].default_subsection_position.x, 
 							name_map_[section_name].default_subsection_position.y);
+						if(section->HasShield())
+							SectionMetadata::RegisterSectionTag(section_name, "Shield");
 						 
 					} else
 					{

@@ -1179,6 +1179,10 @@
 			Name="Textures"
 			>
 			<File
+				RelativePath=".\Textures\BeamIcon.texture"
+				>
+			</File>
+			<File
 				RelativePath=".\Textures\Defeat.texture"
 				>
 			</File>
@@ -1272,6 +1276,10 @@
 			</File>
 			<File
 				RelativePath=".\Textures\puff64x64green.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\ShieldIcon.texture"
 				>
 			</File>
 			<File

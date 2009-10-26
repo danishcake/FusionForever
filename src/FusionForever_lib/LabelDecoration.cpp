@@ -11,23 +11,49 @@ LabelDecoration::LabelDecoration(BaseEntity* _source, Vector3f _screen_position,
 	assert(source_ != NULL);
 	source_->AddSubscriber(this);
 	source_location_ = source_->GetGlobalPosition();
-	screen_position_ = _screen_position;
 	lifetime_ = _lifetime;
 	full_lifetime_ = _lifetime;
 	fill_.SetFillColor(GLColor(255, 255, 255));
 
 	Section_ptr section = (Section_ptr)_source;
 	std::vector<std::string> tags = SectionMetadata::GetTags(section->GetSectionType());
-	
+	Vector3f screen_position = _screen_position;
+	Vector3f icon_spacing(25, 0, 0);
+	if(screen_position.x > Camera::Instance().GetWidth() * 0.1f)
+		icon_spacing.x *= -1;
+	bool interesting = false;
+
 	for(std::vector<std::string>::iterator it = tags.begin(); it != tags.end(); ++it)
 	{
-		if(it->compare("Weapon"))
+		if(!it->compare("Weapon"))
 		{
 			Billboard* bb = new Billboard("WeaponIcon", BillboardType::ScreenSpace);
-			bb->SetPosition(_screen_position);
+			bb->SetPosition(screen_position);
 			labels_.push_back(bb);
+			screen_position += icon_spacing;
+			interesting = true;
+		}
+		if(!it->compare("Beam"))
+		{
+			Billboard* bb = new Billboard("BeamIcon", BillboardType::ScreenSpace);
+			bb->SetPosition(screen_position);
+			labels_.push_back(bb);
+			screen_position += icon_spacing;
+			interesting = true;
+		}
+		if(!it->compare("Shield"))
+		{
+			Billboard* bb = new Billboard("ShieldIcon", BillboardType::ScreenSpace);
+			bb->SetPosition(screen_position);
+			labels_.push_back(bb);
+			screen_position += icon_spacing;
+			interesting = true;
 		}
 	}
+	if(!interesting)
+		lifetime_ = -1;
+
+	screen_position_ = screen_position;
 }
 
 LabelDecoration::~LabelDecoration(void)
