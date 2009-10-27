@@ -412,26 +412,31 @@ void BaseGame::LabelShip(Core* _core, float _lifetime)
 		else
 			right_sections.push_back(*it);
 	}
+
+	left_sections.erase(std::remove_if(left_sections.begin(), left_sections.end(), LabelDecoration::HasNoRelevantTags), left_sections.end());
+	right_sections.erase(std::remove_if(right_sections.begin(), right_sections.end(), LabelDecoration::HasNoRelevantTags), right_sections.end());
 	std::sort(left_sections.begin(), left_sections.end(), YPositionSort<Section_ptr>());
 	std::sort(right_sections.begin(), right_sections.end(), YPositionSort<Section_ptr>());
-
-	Vector3f screen_position(50, 40, 0);
-	float delay = 0;
+	
 	const float delay_delta = 2.0f / (left_sections.size() + right_sections.size());
+	Vector3f screen_position(16, 24, 0);
+	float label_spacing = (float)(Camera::Instance().GetWindowHeight() - 24) / (float)left_sections.size();
+	float delay = 0;
 	for(std::vector<Section*>::iterator it = left_sections.begin(); it != left_sections.end(); ++it)
 	{
 		LabelDecoration* ld = new LabelDecoration(*it, screen_position, _lifetime + delay);
-		screen_position.y += Camera::Instance().GetWindowHeight() / left_sections.size();
+		screen_position.y += label_spacing;
 		decorations_.push_back(ld);
 		delay += delay_delta;
 	}
 
+	screen_position = Vector3f(Camera::Instance().GetWindowWidth()-16, 24, 0);
+	label_spacing = (float)(Camera::Instance().GetWindowHeight() - 24) / (float)right_sections.size();
 	delay /= 2.0f;
-	screen_position = Vector3f(Camera::Instance().GetWindowWidth()-50, 40, 0);
 	for(std::vector<Section*>::iterator it = right_sections.begin(); it != right_sections.end(); ++it)
 	{
 		LabelDecoration* ld = new LabelDecoration(*it, screen_position, _lifetime + delay);
-		screen_position.y += Camera::Instance().GetWindowHeight() / right_sections.size();
+		screen_position.y += label_spacing;
 		decorations_.push_back(ld);
 		delay += delay_delta;
 	}

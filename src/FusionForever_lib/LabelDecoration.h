@@ -2,6 +2,7 @@
 #include "Decoration.h"
 
 class Billboard;
+class Section;
 
 class LabelDecoration :
 	public Decoration
@@ -20,4 +21,15 @@ public:
 	virtual void Tick(float _timespan, Matrix4f _transform, std::vector<Decoration_ptr>& _decoration_spawn);
 	virtual void DrawSelf();
 	virtual void EndSubscription(Subscriber* _source);
+
+	static std::vector<std::string> GetRelevantTags(Section* _section);
+
+	static bool HasNoRelevantTags(Section* _section)
+	{
+		if(GetRelevantTags(_section).size() == 0)
+		{
+			return true;
+		}
+		return false;
+	}
 };

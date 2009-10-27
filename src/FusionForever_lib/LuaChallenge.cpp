@@ -299,8 +299,10 @@ int LuaChallenge::l_LabelShip(lua_State* _luaVM)
 	float label_length = static_cast<float>(lua_tonumber(_luaVM, -1));
 
 	Core_ptr core = static_cast<Core_ptr>(challenge->GetShipData(ship_id));
-	
-	challenge->game_->LabelShip(core, label_length);
+	if(core)
+		challenge->game_->LabelShip(core, label_length);
+	else
+		Logger::DiagnosticOut() << "Ship: " << ship_id << " died before it was labeled\n";
 
 	//TODO label the ship
 	return 0;

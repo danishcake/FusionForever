@@ -192,8 +192,8 @@ function()
 end,
 
 function()
-	player_id = challenge:SpawnShip("DevilHead", 0, Vector:new( 100, 100), 0, "SimpleAI.luaAI", 0.01);
-	challenge:SpawnShip("Turret", 0, Vector:new( -100, -100), 0, "BurstTurretAI.luaAI", 0.01);
+	player_id = challenge:SpawnShip("RazorSaw", 0, Vector:new( 100, 100), 0, "TurretAI.luaAI", 1);
+	challenge:SpawnShip("MrFlak", 0, Vector:new( -100, -100), 0, "TurretAI.luaAI", 1);
 	challenge:WaitFor(1)
 	challenge:Inspect(player_id)
 	
@@ -206,9 +206,9 @@ function()
 	mine_id = challenge:SpawnShip("TheMine", 1, Vector:random_ring(1000, 1500), 0, "Ram_NoCam.luaAI", 0.01)
 	challenge:Inspect(mine_id)
 	
-	for i = 0, 30 do
+	for i = 0, 300 do
 		challenge:SpawnShip("TheMine", 1, Vector:random_ring(1000, 1500), 0, "Ram_NoCam.luaAI", 0.01)
-		challenge:WaitFor(0.2)
+		challenge:WaitFor(0.1)
 	end
 end
 }

@@ -16,12 +16,13 @@ LabelDecoration::LabelDecoration(BaseEntity* _source, Vector3f _screen_position,
 	fill_.SetFillColor(GLColor(255, 255, 255));
 
 	Section_ptr section = (Section_ptr)_source;
-	std::vector<std::string> tags = SectionMetadata::GetTags(section->GetSectionType());
 	Vector3f screen_position = _screen_position;
 	Vector3f icon_spacing(25, 0, 0);
 	if(screen_position.x > Camera::Instance().GetWidth() * 0.1f)
 		icon_spacing.x *= -1;
 	bool interesting = false;
+
+	std::vector<std::string> tags = GetRelevantTags((Section*)_source);
 
 	for(std::vector<std::string>::iterator it = tags.begin(); it != tags.end(); ++it)
 	{
@@ -73,7 +74,7 @@ LabelDecoration::LabelDecoration(BaseEntity* _source, Vector3f _screen_position,
 			screen_position += icon_spacing;
 			interesting = true;
 		}
-		if(section->IsCore())
+		if(!it->compare("Core"))
 		{
 			Billboard* bb = new Billboard("CoreIcon", BillboardType::ScreenSpace);
 			bb->SetPosition(screen_position);
@@ -160,4 +161,24 @@ void LabelDecoration::EndSubscription(Subscriber* _source)
 {
 	if(source_ == _source)
 		source_ = NULL;
+}
+
+
+std::vector<std::string> LabelDecoration::GetRelevantTags(Section* _section)
+{
+	std::vector<std::string> relevant_tags;
+	std::vector<std::string> tags = SectionMetadata::GetTags(_section->GetSectionType());
+	for(std::vector<std::string>::iterator it = tags.begin(); it != tags.end(); ++it)
+	{
+		if(!it->compare("Weapon") || !it->compare("Beam") || !it->compare("Shield") ||
+		   !it->compare("Generator") || !it->compare("EnergyStorage") || !it->compare("Thruster"))
+		{
+			relevant_tags.push_back(*it);
+		}
+	}
+	if(_section->IsCore())
+	{
+		relevant_tags.push_back("Core");
+	}
+	return relevant_tags;
 }
