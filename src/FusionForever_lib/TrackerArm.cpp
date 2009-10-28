@@ -153,4 +153,5 @@ void TrackerArm::RegisterMetadata()
 {
 	Section::RegisterMetadata();
 	SectionMetadata::RegisterSectionTag(section_type_, "Joint");
+	SectionMetadata::RegisterSectionTag(section_type_, "Tracker");
 }

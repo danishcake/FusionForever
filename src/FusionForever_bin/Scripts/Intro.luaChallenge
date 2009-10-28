@@ -192,7 +192,7 @@ function()
 end,
 
 function()
-	player_id = challenge:SpawnShip("RazorSaw", 0, Vector:new( 100, 100), 0, "TurretAI.luaAI", 1);
+	player_id = challenge:SpawnShip("Largess", 0, Vector:new( 100, 100), 0, "TurretAI.luaAI", 1);
 	challenge:SpawnShip("MrFlak", 0, Vector:new( -100, -100), 0, "TurretAI.luaAI", 1);
 	challenge:WaitFor(1)
 	challenge:Inspect(player_id)

@@ -82,6 +82,14 @@ LabelDecoration::LabelDecoration(BaseEntity* _source, Vector3f _screen_position,
 			screen_position += icon_spacing;
 			interesting = true;
 		}
+		if(!it->compare("Joint"))
+		{
+			Billboard* bb = new Billboard("JointIcon", BillboardType::ScreenSpace);
+			bb->SetPosition(screen_position);
+			labels_.push_back(bb);
+			screen_position += icon_spacing;
+			interesting = true;
+		}
 	}
 	if(!interesting)
 		lifetime_ = -1;
@@ -133,8 +141,6 @@ void LabelDecoration::Tick(float _timespan, Matrix4f _transform, std::vector<Dec
 	for(std::vector<Billboard*>::iterator it = labels_.begin(); it != labels_.end(); ++it)
 	{
 		(*it)->SetColor(GLColor(255, 255, 255, alpha));
-		//(*it)->SetPosition(position_);
-		//(*it)->Tick(_timespan, _transform, _decoration_spawn);
 	}
 }
 
@@ -171,7 +177,8 @@ std::vector<std::string> LabelDecoration::GetRelevantTags(Section* _section)
 	for(std::vector<std::string>::iterator it = tags.begin(); it != tags.end(); ++it)
 	{
 		if(!it->compare("Weapon") || !it->compare("Beam") || !it->compare("Shield") ||
-		   !it->compare("Generator") || !it->compare("EnergyStorage") || !it->compare("Thruster"))
+		   !it->compare("Generator") || !it->compare("EnergyStorage") ||
+		   !it->compare("Joint") || !it->compare("Thruster"))
 		{
 			relevant_tags.push_back(*it);
 		}

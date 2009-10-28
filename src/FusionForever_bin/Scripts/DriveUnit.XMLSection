@@ -9,4 +9,8 @@
     <Category>Medium</Category>
     <Category>Thruster</Category>
   </Categories>
+  <Tags>
+    <Tag>Thruster</Tag>
+    <Tag>Generator</Tag>
+  </Tags>
 </SectionDefinition>

@@ -649,6 +649,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\Scripts\SpikeArmLH.XMLSection"
+						>
+					</File>
+					<File
 						RelativePath=".\Scripts\SpikeArmRH.XMLSection"
 						>
 					</File>
@@ -718,10 +722,6 @@
 					</File>
 					<File
 						RelativePath=".\Scripts\SmallRocket.XMLSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\SpikeArmLH.XMLSection"
 						>
 					</File>
 					<File
@@ -1200,6 +1200,10 @@
 			</File>
 			<File
 				RelativePath=".\Textures\GeneratorIcon.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\JointIcon.texture"
 				>
 			</File>
 			<File

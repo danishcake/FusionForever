@@ -9,4 +9,7 @@
     <Category>Small</Category>
     <Category>Generator</Category>
   </Categories>
+  <Tags>
+    <Tag>Generator</Tag>
+  </Tags>
 </SectionDefinition>
