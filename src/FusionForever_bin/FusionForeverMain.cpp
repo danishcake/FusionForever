@@ -18,9 +18,11 @@
 #include "Settings.h"
 #include "SectionTypes.h"
 #include <SoundManager.h>
+#include <PlayerAI.h>
 
 clock_t ltv_time;
 std::vector<BaseScene_ptr> scene_stack;
+
 
 void Redraw()
 {
@@ -153,7 +155,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	Camera::Instance().SetAspectRatio(resolution.x, resolution.y);
 
 	bool isFinished = false;
-	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK);
+	PlayerAI::LoadBindings();
+
 	SDL_WM_SetCaption("Fusion Forever", "Fusion Forever");
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 

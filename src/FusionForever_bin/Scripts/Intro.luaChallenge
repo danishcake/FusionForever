@@ -193,8 +193,8 @@ end
 }
 
 --Pick a random intro
-local intro = math.random(1, #introlist)
---local intro = #introlist
+--local intro = math.random(1, #introlist)
+local intro = #introlist
 print("Intro " .. intro)
 introlist[intro]()
 

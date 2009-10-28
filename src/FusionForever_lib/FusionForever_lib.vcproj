@@ -200,6 +200,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PlayerAI.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\RotatingAI.cpp"
 					>
 				</File>
@@ -615,6 +619,10 @@
 				</File>
 				<File
 					RelativePath=".\LuaAI.h"
+					>
+				</File>
+				<File
+					RelativePath=".\PlayerAI.h"
 					>
 				</File>
 				<File

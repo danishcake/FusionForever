@@ -488,6 +488,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\PVP.luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\ReverseJuggernaut.luaChallenge"
 					>
 				</File>

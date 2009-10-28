@@ -1,0 +1,30 @@
+score = 0
+
+playerLives1 = coroutine.wrap(function()
+	local player_id = challenge:SpawnShip("Manta", 0, Vector:new(400, 0), 0, "PlayerAI0", 1)
+	challenge:WaitForDeath(player_id)
+	challenge:WaitFor(1)
+
+	challenge:Victory()
+end)
+
+playerLives2 = coroutine.wrap(function()
+	local player_id = challenge:SpawnShip("GW_Player", 1, Vector:new(-400, 0), 0, "PlayerAI1", 1)
+	challenge:WaitForDeath(player_id)
+	challenge:WaitFor(1)
+	challenge:Victory()
+end)
+
+challenge:DisplayMessage("PVP", 2);
+challenge:DisplayMessage("by Edward Woolhouse", 2);
+challenge:WaitFor(1.5)
+challenge:DisplayMessage("The first PVP scenario - keeping it balanced!", 2);
+challenge:WaitFor(0.5)
+
+
+challenge:SetCounterA(true, score, -1)
+while true do
+	playerLives1()
+	playerLives2()
+	coroutine.yield()
+end
