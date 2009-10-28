@@ -5,6 +5,7 @@
 #include "ICollisionManager.h"
 #include "Property.h"
 #include "BillboardDeco.h"
+#include "ThrusterTrail.h"
 
 int Section::section_count_ = 0;
 int Section::section_freed_ = 0;
@@ -217,6 +218,13 @@ void Section::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 		BillboardDeco* warp = new BillboardDeco("Warp", 0.5, BillboardDecoType::Warp);
 		warp->SetPosition(this->GetGlobalPosition());
 		_spawn_dec.push_back(warp);
+		if(thrust_ > 0)
+		{
+			ThrusterTrail* trail = new ThrusterTrail(this, 1, GLColor(255,255,255));
+			_spawn_dec.push_back(trail);
+		}
+
+
 		first_tick_ = false;
 	}
 	_collision_manager->Register(this);

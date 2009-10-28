@@ -255,6 +255,10 @@
 					RelativePath=".\Starfield.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\ThrusterTrail.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Projectiles"
@@ -667,6 +671,10 @@
 				</File>
 				<File
 					RelativePath=".\Starfield.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ThrusterTrail.h"
 					>
 				</File>
 			</Filter>
