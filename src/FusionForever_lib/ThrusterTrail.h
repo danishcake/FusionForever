@@ -15,6 +15,7 @@ class ThrusterTrail :
 protected:
 	std::vector<float> points_;
 	std::vector<Vector3f> cartesian_points_;
+	std::vector<Vector3f> fill_points_;
 	virtual void InitialiseGraphics(){}
 	BaseEntity* source_;
 	bool first_run_;
