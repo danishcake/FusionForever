@@ -1,5 +1,6 @@
 #pragma once
 #include "vmath.h"
+#include <vector>
 
 #define CAMERA_ZOOM_TIME 0.3f
 
@@ -32,14 +33,6 @@ private:
      * The height of the orthographic projection.
      */
 	float height_;
-	/**
-     * The x-axis centre target of the orthographic projection.
-     */
-	float centre_x_target_;
-   /**
-     * The y-axis centre target of the orthographic projection.
-     */
-	float centre_y_target_;
 	/**
      * The x-axis centre target velocity of the orthographic projection.
      */
@@ -109,6 +102,11 @@ private:
 	 * The highest level of importance received this frame
 	 */
 	CameraLevel::Enum camera_level_;
+	/*
+	 * List of target centre coordinates
+	 */
+	std::vector<Vector2f> target_centres_;
+
 public:
 	virtual ~Camera(void);
    /**
@@ -210,45 +208,13 @@ public:
 	  * @return The aspect ratio
 	  */
 	float GetAspectRatio(){return ratio_;}
-	void SetCentreTarget(float _x, float _y, CameraLevel::Enum _level)
-	{
-		//Ignore updates with lower importance
-		if(camera_level_ <= _level)
-		{
-			camera_level_ = _level;
-			if(!camera_smoothed_)
-			{
-				centre_x_target_ = _x;
-				centre_y_target_ = _y;
-				centre_x_ = _x;
-				centre_y_ = _y;
-			} else
-			{
-				centre_x_target_ = _x;
-				centre_y_target_ = _y;
-			}
-		}
-	}
-
+	void SetCentreTarget(float _x, float _y, CameraLevel::Enum _level);
    /**
      * Sets the point at the centre of the scene.
      * @param _x The x-axis centre of the scene
      * @param _y The y-axis centre of the scene
      */
-	void SetCentre(float _x, float _y, CameraLevel::Enum _level)
-	{
-		//Ignore updates with lower importance
-		if(camera_level_ <= _level)
-		{
-			camera_level_ = _level;
-			centre_x_ = _x;
-			centre_y_ = _y;
-			centre_x_target_ = centre_x_;
-			centre_y_target_ = centre_y_;
-			centre_x_velocity_ = 0;
-			centre_y_velocity_ = 0;
-		}
-	}
+	void SetCentre(float _x, float _y, CameraLevel::Enum _level);
    /**
      * Sets the focus of the camera. Generally the player position. Used for Starfield paralax
      * @param _x The x-axis focus.
