@@ -4,7 +4,9 @@
 	<Health> 9000 </Health>
 	<SubSectionPosition x = "0" y = "15"/>
 	<Mass> 900 </Mass>
-	<Thrust>100</Thrust>
+  <Thrust>
+    <Power>100</Power>
+  </Thrust>
   <PowerGeneration>50</PowerGeneration>
   <EnergyStorage>100</EnergyStorage>
 </CoreDefinition>

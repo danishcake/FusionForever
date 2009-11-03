@@ -29,7 +29,6 @@ function challenge_:SpawnShip(ship_name, force, position, angle, ai_script, heal
 	
 	if self.use_absolute_paths ~= true then
 		local ts = string.sub(ai_script, 1, -2)
-		print(ts .. " of " .. string.sub(ai_script, -2))
 		if (ts ~= "PlayerAI") and (ai_script ~= "KeyboardAI") then ai_script = "Scripts/AI/" .. ai_script end
 		ship_name = "Scripts/Ships/" .. ship_name .. ".xmlShip"
 	end

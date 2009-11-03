@@ -3,7 +3,9 @@
 	<Outline>M -7.5,0 L -2.5,10 L 2.5,10 L 7.5,0 L 2.5,-5 L -2.5,-5 L -7.5,0 z</Outline>
 	<Health> 1500 </Health>
 	<Mass> 400 </Mass>
-	<Thrust> 115 </Thrust>
+  <Thrust>
+    <Power>115</Power>
+  </Thrust>
   <PowerGeneration>38</PowerGeneration>
   <EnergyStorage>100</EnergyStorage>
 </CoreDefinition>

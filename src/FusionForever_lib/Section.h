@@ -80,6 +80,8 @@ protected:
 	FlexFloat thrust_;
 	FlexFloat energy_;
 	FlexFloat power_generation_;
+	GLColor thrust_color_;
+	float thrust_scale_;
 
 	/*
 	 * Drains power from core - expects a negative number

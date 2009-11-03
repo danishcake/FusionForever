@@ -24,6 +24,8 @@ XMLCore::XMLCore(XMLCoreData _fill_outline_data, BaseAI* _AI)
 	energy_ = FlexFloat(_fill_outline_data.energy_storage, _fill_outline_data.energy_storage);
 	power_generation_ = FlexFloat(_fill_outline_data.power_generation);
 	thrust_ = FlexFloat(_fill_outline_data.thrust);
+	thrust_color_ = _fill_outline_data.thrust_color;
+	thrust_scale_ = _fill_outline_data.thrust_scale;
 	section_type_ = _fill_outline_data.filename;
 }
 
@@ -64,7 +66,9 @@ XMLCore* XMLCore::CreateXMLCore(std::string _name)
 			TiXmlElement* outline_element =					section_handle.FirstChild("CoreDefinition").FirstChild("Outline").Element();
 			TiXmlElement* subsection_position_element =		section_handle.FirstChild("CoreDefinition").FirstChild("SubSectionPosition").Element();
 			TiXmlElement* size_element =					section_handle.FirstChild("CoreDefinition").FirstChild("Size").Element();
-			TiXmlElement* thrust_element =					section_handle.FirstChild("CoreDefinition").FirstChild("Thrust").Element();
+			TiXmlElement* thrust_element =					section_handle.FirstChild("CoreDefinition").FirstChild("Thrust").FirstChild("Power").Element();
+			TiXmlElement* thrust_scale_element =			section_handle.FirstChild("CoreDefinition").FirstChild("Thrust").FirstChild("TrailScale").Element();
+			TiXmlElement* thrust_color_element =			section_handle.FirstChild("CoreDefinition").FirstChild("Thrust").FirstChild("TrailColor").Element();
 			TiXmlElement* power_generation_element =		section_handle.FirstChild("CoreDefinition").FirstChild("PowerGeneration").Element();
 			TiXmlElement* energy_storage_element =			section_handle.FirstChild("CoreDefinition").FirstChild("EnergyStorage").Element();
 
@@ -118,6 +122,30 @@ XMLCore* XMLCore::CreateXMLCore(std::string _name)
 				catch(boost::bad_lexical_cast &)
 				{
 					Logger::ErrorOut() << "Thrust in " << file_name << " not numeric:" << thrust_element->GetText() << "\n";
+				}
+			}
+
+			indicies.thrust_scale = -1;
+			if(thrust_scale_element)
+			{
+				try
+				{
+					indicies.thrust_scale = boost::lexical_cast<float,std::string>(thrust_scale_element->GetText());
+				}
+				catch(boost::bad_lexical_cast &)
+				{
+					Logger::ErrorOut() << "Thrust scale in " << file_name << " not numeric:" << thrust_scale_element->GetText() << "\n";
+				}
+			}
+
+			indicies.thrust_color = GLColor(255, 255, 255);
+			if(thrust_color_element)
+			{
+				if(thrust_color_element->QueryValueAttribute("r", &indicies.thrust_color.r) != TIXML_SUCCESS ||
+				   thrust_color_element->QueryValueAttribute("g", &indicies.thrust_color.g) != TIXML_SUCCESS ||
+				   thrust_color_element->QueryValueAttribute("b", &indicies.thrust_color.b) != TIXML_SUCCESS)
+				{
+					Logger::ErrorOut() << "Thrust color in " << file_name << " does not contain all of r, g & b attributes, or they cannot be changed to unsigned char\n";
 				}
 			}
 

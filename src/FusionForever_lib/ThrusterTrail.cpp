@@ -120,14 +120,34 @@ void ThrusterTrail::Tick(float _timespan, Matrix4f _transform, std::vector<Decor
 			}
 		}
 
-		lifetime_ = 0.1f; // should live as long as source exists
+		lifetime_ = 1.0f; // should live as long as source exists
 		ltv_source_position_ = source_->GetGlobalPosition();
+
+		const float minimum_length = 0.4f;
+		const float fade_length = 1.0f;
+		
+		if(section_length_ < minimum_length)
+		{
+			fill_.GetFillColor().a = 0;
+		} else if(section_length_ < fade_length + minimum_length)
+		{
+			float alpha = 255.0f * ((section_length_ - minimum_length) / fade_length) ;
+			fill_.GetFillColor().a = alpha;
+		} else
+		{
+			fill_.GetFillColor().a = 255;
+		}
+		
+	} else
+	{
+		fill_.GetFillColor().a = 255.0f * lifetime_;
 	}
 }
 
 void ThrusterTrail::DrawSelf()
 {
-	glColor4ub(fill_.GetFillColor().r,fill_.GetFillColor().g, fill_.GetFillColor().b, (unsigned char)(255.0f*(lifetime_ * 10.0f)));
+	
+	glColor4ub(fill_.GetFillColor().r,fill_.GetFillColor().g, fill_.GetFillColor().b, fill_.GetFillColor().a);
 	glPushMatrix();
 	glLoadIdentity();
 
