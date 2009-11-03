@@ -17,9 +17,6 @@ ThrusterTrail::ThrusterTrail(BaseEntity* _source, float _length_scale, GLColor t
 	/* Create initial array of points, triangles etc */
 	cartesian_points_.push_back(Vector3f(0,0,0));
 	cartesian_points_.push_back(Vector3f(0,0,0));
-	//fill_points_.push_back(Vector3f(0, 0, 0));
-	//fill_points_.push_back(Vector3f(0, 0, 0));
-	//fill_points_.push_back(Vector3f(0, 0, 0));
 	points_.push_back(0);
 	points_.push_back(0);
 		
@@ -146,8 +143,7 @@ void ThrusterTrail::Tick(float _timespan, Matrix4f _transform, std::vector<Decor
 
 void ThrusterTrail::DrawSelf()
 {
-	
-	glColor4ub(fill_.GetFillColor().r,fill_.GetFillColor().g, fill_.GetFillColor().b, fill_.GetFillColor().a);
+	glColor4ub(fill_.GetFillColor().r, fill_.GetFillColor().g, fill_.GetFillColor().b, fill_.GetFillColor().a);
 	glPushMatrix();
 	glLoadIdentity();
 

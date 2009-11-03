@@ -6,7 +6,7 @@
 	<Thrust>
     <Power>35</Power>
     <TrailScale>1</TrailScale>
-    <TrailColor r="255" b="255"g="255"/>
+    <TrailColor r="255" b="255" g="255"/>
   </Thrust>
 	<PowerGeneration> -2 </PowerGeneration>
   <Categories>

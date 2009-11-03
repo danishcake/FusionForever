@@ -222,7 +222,7 @@ void Section::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 		_spawn_dec.push_back(warp);
 		if(thrust_ > 0 && thrust_scale_ > 0)
 		{
-			ThrusterTrail* trail = new ThrusterTrail(this, 1, GLColor(255,255,255));
+			ThrusterTrail* trail = new ThrusterTrail(this, thrust_scale_, thrust_color_);
 			_spawn_dec.push_back(trail);
 		}
 

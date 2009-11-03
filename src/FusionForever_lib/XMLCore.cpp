@@ -141,11 +141,19 @@ XMLCore* XMLCore::CreateXMLCore(std::string _name)
 			indicies.thrust_color = GLColor(255, 255, 255);
 			if(thrust_color_element)
 			{
-				if(thrust_color_element->QueryValueAttribute("r", &indicies.thrust_color.r) != TIXML_SUCCESS ||
-				   thrust_color_element->QueryValueAttribute("g", &indicies.thrust_color.g) != TIXML_SUCCESS ||
-				   thrust_color_element->QueryValueAttribute("b", &indicies.thrust_color.b) != TIXML_SUCCESS)
+				int r = 255;
+				int g = 255;
+				int b = 255;
+				if(thrust_color_element->QueryValueAttribute("r", &r) != TIXML_SUCCESS ||
+				   thrust_color_element->QueryValueAttribute("g", &g) != TIXML_SUCCESS ||
+				   thrust_color_element->QueryValueAttribute("b", &b)!= TIXML_SUCCESS)
 				{
 					Logger::ErrorOut() << "Thrust color in " << file_name << " does not contain all of r, g & b attributes, or they cannot be changed to unsigned char\n";
+				} else
+				{
+					indicies.thrust_color.r = r;
+					indicies.thrust_color.g = g;
+					indicies.thrust_color.b = b;
 				}
 			}
 
