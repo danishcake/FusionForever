@@ -196,6 +196,7 @@ AIAction PlayerAI::Tick(float _timespan, std::vector<Core*>& /*_allies*/, std::v
 	int mb = SDL_GetMouseState(&mx, &my);
 
 	Vector3f point_to_face;
+	Vector3f peer_factor;
 	bool lock_movement = false;
 	bool lock_angle = false;
 	bool look_backwards = false;
@@ -229,9 +230,11 @@ AIAction PlayerAI::Tick(float _timespan, std::vector<Core*>& /*_allies*/, std::v
 			{
 			case Action::LookXAxis:
 				point_to_face.x = Camera::Instance().ScreenToWorld(Vector3f(axis_value, 0, 0)).x;
+				peer_factor.x = (axis_value - (Camera::Instance().GetWindowWidth() / 2.0f)) / Camera::Instance().GetWindowWidth();
 				break;
 			case Action::LookYAxis:
 				point_to_face.y = Camera::Instance().ScreenToWorld(Vector3f(0, axis_value, 0)).y;
+				peer_factor.y = -(axis_value - (Camera::Instance().GetWindowHeight() / 2.0f)) / Camera::Instance().GetWindowHeight();
 				break;
 			case Action::XMovement:
 				movement_integrator_.x *= (1.0f - 0.2f * _timespan);
@@ -261,9 +264,11 @@ AIAction PlayerAI::Tick(float _timespan, std::vector<Core*>& /*_allies*/, std::v
 				{
 				case Action::LookXAxis:
 					point_to_face.x += axis_value;
+					peer_factor.x = axis_value * 0.5f;
 					break;
 				case Action::LookYAxis:
 					point_to_face.y -= axis_value;
+					peer_factor.y = -axis_value * 0.5f;
 					break;
 				case Action::XMovement:
 					action.dx_ += axis_value;
@@ -324,24 +329,26 @@ AIAction PlayerAI::Tick(float _timespan, std::vector<Core*>& /*_allies*/, std::v
 	}
 	if(lock_angle_)
 	{
-		point_to_face = lock_vector_ + _self->GetAngle();
+		point_to_face = lock_vector_ + _self->GetGlobalPosition();//+ _self->GetAngle();
 	}
-	//Vector3f point_to_face_world = Camera::Instance().ScreenToWorld(point_to_face); //TODO should changes this method to map screen to world, without inverted y
+
 	Vector3f point_to_face_relative = point_to_face - _self->GetGlobalPosition();
 	if(point_to_face_relative.lengthSq()!=0)
 	{
 		TurnData turn_data = GetTurnDirection(_self->GetAngle(), point_to_face_relative);
 		float dotprod = turn_data.turn_factor;
 		action.dtheta_ = ClampTurnDirection(dotprod, 0.4f);
-		//point_to_face_relative.normalize();
 
-		Vector3f peer_factors = point_to_face_relative / Vector3f(static_cast<float>(Camera::Instance().GetWindowWidth()), static_cast<float>(Camera::Instance().GetWindowHeight()), 0);
-		if(peer_factors.lengthSq() > 1)
-			peer_factors.normalize();
-		peer_factors *= 0.5f * 0.8f;
-		Vector3f camera_centre = _self->GetGlobalPosition() + peer_factors * Vector3f(Camera::Instance().GetWidth() / 2.0f, Camera::Instance().GetHeight() / 2.0f, 0);
-		camera_centre.z = 0;
-		Camera::Instance().SetCentreTarget(camera_centre.x, camera_centre.y, CameraLevel::Human);
+		if(peer_factor.lengthSq() > 1)
+			peer_factor.normalize();
+		peer_factor *= 0.8f;
+		Vector3f camera_centre = _self->GetGlobalPosition();
+		Vector3f camera_offset = peer_factor * Vector3f(Camera::Instance().GetWidth(), Camera::Instance().GetHeight(), 0);
+		Camera::Instance().SetCentreTarget(camera_centre.x, camera_centre.y, camera_offset.x, camera_offset.y, CameraLevel::Human);
+		Camera::Instance().SetFocus(_self->GetPosition().x, _self->GetPosition().y, CameraLevel::Human);
+	} else
+	{
+		Camera::Instance().SetCentreTarget(_self->GetPosition().x, _self->GetPosition().y, 0, 0, CameraLevel::Human);
 		Camera::Instance().SetFocus(_self->GetPosition().x, _self->GetPosition().y, CameraLevel::Human);
 	}
 

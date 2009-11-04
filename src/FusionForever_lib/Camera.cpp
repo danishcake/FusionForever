@@ -23,15 +23,19 @@ Camera::~Camera(void)
 {
 }
 
-void Camera::SetCentreTarget(float _x, float _y, CameraLevel::Enum _level)
+void Camera::SetCentreTarget(float _x, float _y, float _px, float _py, CameraLevel::Enum _level)
 {
 	if(_level > camera_level_)
 	{
 		target_centres_.clear();
+		target_offsets_.clear();
 		camera_level_ = _level;
 	}
 	if(_level == camera_level_)
+	{
 		target_centres_.push_back(Vector2f(_x, _y));
+		target_offsets_.push_back(Vector2f(_px, _py));
+	}
 }
 
 void Camera::SetCentre(float _x, float _y, CameraLevel::Enum _level)
@@ -56,16 +60,51 @@ void Camera::TickCamera(float _timespan)
 	if(zoom_time_ < 0)
 		zoom_time_ = 0;
 	
+	Vector2f top_right;
+	top_right.x = -FLT_MAX;
+	top_right.y = -FLT_MAX;
+	Vector2f bottom_left;
+	bottom_left.x = FLT_MAX;
+	bottom_left.y = FLT_MAX;
+	
 	Vector2f target_centre;
 	Vector2f target_focus;
+	Vector2f target_offset;
+
+	/*
+	When multiple target centres present the screen bounds should be found that encompass them all, 
+	plus a bit of room around the edge.
+	*/
+
 	for(std::vector<Vector2f>::iterator it = target_centres_.begin(); it != target_centres_.end(); ++it)
 	{
-		target_centre += *it;
+		if(it->x < bottom_left.x)
+			bottom_left.x = it->x;
+		if(it->x > top_right.x)
+			top_right.x = it->x;
+		if(it->y < bottom_left.y)
+			bottom_left.y = it->y;
+		if(it->y > top_right.y)
+			top_right.y = it->y;
+	}
+	for(std::vector<Vector2f>::iterator it = target_offsets_.begin(); it != target_offsets_.end(); ++it)
+	{
+		target_offset += *it;
 	}
 	if(target_centres_.size() > 1)
 	{
 		focus_x_ = centre_x_;
 		focus_y_ = centre_y_;
+
+		target_centre = (bottom_left + top_right) / 2;
+		float dw = (top_right.x - bottom_left.x) + 400;
+		float dh = (top_right.y - bottom_left.y) + 400;
+		dh *= GetAspectRatio();
+		float largest = dw > dh ? dw : dh;
+		desired_width_ = largest;
+	} else
+	{
+		target_centre = top_right + target_offset;
 	}
 
 	if(!camera_smoothed_)

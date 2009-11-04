@@ -68,9 +68,9 @@ void ThrusterTrail::Tick(float _timespan, Matrix4f _transform, std::vector<Decor
 
 		float new_weight = 1.0f - expf(-_timespan * 7.0f);
 
-		float rotation_rate = (400 + speed) * 6;
-		if(section_length_ > 0.1f)
-			rotation_rate /= section_length_;
+		float rotation_rate = (400 + speed) * 1;
+		//if(section_length_ > 0.1f)
+			//rotation_rate /= section_length_;
 		if(section_length_ < 0)
 			section_length_ = 0;
 

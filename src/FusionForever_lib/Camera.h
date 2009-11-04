@@ -106,6 +106,7 @@ private:
 	 * List of target centre coordinates
 	 */
 	std::vector<Vector2f> target_centres_;
+	std::vector<Vector2f> target_offsets_;
 
 public:
 	virtual ~Camera(void);
@@ -208,7 +209,7 @@ public:
 	  * @return The aspect ratio
 	  */
 	float GetAspectRatio(){return ratio_;}
-	void SetCentreTarget(float _x, float _y, CameraLevel::Enum _level);
+	void SetCentreTarget(float _x, float _y, float _px, float _py, CameraLevel::Enum _level);
    /**
      * Sets the point at the centre of the scene.
      * @param _x The x-axis centre of the scene
