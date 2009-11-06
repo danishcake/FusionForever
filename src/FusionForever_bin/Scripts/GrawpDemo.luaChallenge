@@ -1,17 +1,17 @@
 playerLives = coroutine.wrap(function()
 	challenge:DisplayMessage("3 Lives Remaining", 1);
 	
-	player_id = challenge:SpawnShip("KineticA", 0, Vector:new(0, 0), 0, "KeyboardAI", 1)
+	player_id = challenge:SpawnShip("KineticA", 0, Vector:new(0, 0), 0, "PlayerAI0", 1)
 	challenge:WaitForDeath(player_id)
 	challenge:WaitFor(1)
 	
 	challenge:DisplayMessage("2 Lives Remaining", 1);
-	player_id = challenge:SpawnShip("KineticA", 0, Vector:new(0, 0), 0, "KeyboardAI", 1)
+	player_id = challenge:SpawnShip("KineticA", 0, Vector:new(0, 0), 0, "PlayerAI0", 1)
 	challenge:WaitForDeath(player_id)
 	challenge:WaitFor(1)
 	
 	challenge:DisplayMessage("1 Life Remaining", 1);
-	player_id = challenge:SpawnShip("KineticA", 0, Vector:new(0, 0), 0, "KeyboardAI", 1)
+	player_id = challenge:SpawnShip("KineticA", 0, Vector:new(0, 0), 0, "PlayerAI0", 1)
 	challenge:WaitForDeath(player_id)
 	challenge:WaitFor(1)
 	

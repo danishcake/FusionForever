@@ -1,5 +1,5 @@
 playerSpawn = coroutine.wrap(function()
-	player_id = challenge:SpawnShip("Protoship", 0, Vector:new(0,0), 0, "KeyboardAI", 1)
+	player_id = challenge:SpawnShip("Protoship", 0, Vector:new(0,0), 0, "PlayerAI0", 1)
 	challenge:WaitForForceCountLessThan(0, 1)
 	challenge:WaitFor(1)
 	challenge:Defeat()
