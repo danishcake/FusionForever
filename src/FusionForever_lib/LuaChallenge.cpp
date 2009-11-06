@@ -63,7 +63,7 @@ int LuaChallenge::SpawnShip(std::string _ship_name, int _force, Vector2f _positi
 		core->SetColor(force_colors_[_force]);
 		core->ScaleHealth(_health_scale);
 		
-		//Set the AI - either KeyboardAI or a LuaAI
+		//Set the AI - either a PlayerAI, KeyboardAI or a LuaAI
 		std::transform(_ai_script.begin(), _ai_script.end(), _ai_script.begin(), toupper);
 		BaseAI* ai = NULL;
 		if(_ai_script.find("PLAYERAI") != std::string::npos)

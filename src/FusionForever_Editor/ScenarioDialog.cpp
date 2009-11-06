@@ -8,7 +8,7 @@ ScenarioDialog::ScenarioDialog(QWidget *parent)
 
 	enemy_ship_ = "Scripts/Ships/Lasership.xmlShip";
 	enemy_ai_ = "Scripts/AI/SimpleAI.luaAI";
-	player_ai_ = "KeyboardAI";
+	player_ai_ = "PlayerAI0";
 	
 }
 
@@ -83,7 +83,7 @@ void ScenarioDialog::pickPlayerAI()
 
 void ScenarioDialog::useKeyboardAI()
 {
-	selected_player_ai_ = "KeyboardAI";
+	selected_player_ai_ = "PlayerAI0";
 	ui.lblPlayerAI->setText(selected_player_ai_);
 }
 

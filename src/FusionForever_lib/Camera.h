@@ -99,6 +99,10 @@ private:
      */
 	bool camera_smoothed_;
 	/*
+	 * The camera zoom factor, which affects how far AI peer
+	 */
+	float zoom_factor_;
+	/*
 	 * The highest level of importance received this frame
 	 */
 	CameraLevel::Enum camera_level_;
@@ -273,7 +277,11 @@ public:
 	{
 		camera_smoothed_ = _camera_smoothed;
 	}
-
+	/*
+	 * Set zoom factor
+	 * @param _zoom_factor The camera zoom factor, how far the camera peers towards the edge
+	 */
+	void SetZoomFactor(float _zoom_factor){zoom_factor_ = _zoom_factor;}
 	void TickCamera(float _timespan);
 	void SetupCamera();
 

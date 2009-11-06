@@ -4,6 +4,8 @@
 #include "Core.h"
 #include "sdl.h"
 
+std::vector<int> PlayerAI::core_ids_;
+
 #ifndef STR_ME
 #define STR_ME( X ) ( # X )
 #endif
@@ -182,14 +184,30 @@ PlayerAI::PlayerAI(int _player_id)
 {
 	player_id_ = _player_id;
 	lock_angle_ = false;
+	core_id_ = -1;
 }
 
 PlayerAI::~PlayerAI(void)
 {
+	if(core_id_ != -1)
+	{
+		core_ids_.erase(std::remove(core_ids_.begin(), core_ids_.end(), core_id_), core_ids_.end());
+	}
 }
 
 AIAction PlayerAI::Tick(float _timespan, std::vector<Core*>& /*_allies*/, std::vector<Core*>& _enemies, Core* _self)
 {
+	if(core_id_ == -1)
+	{
+		core_id_ = _self->GetSectionID();
+		if(core_id_ != -1)
+		{
+			core_ids_.push_back(core_id_);
+		}
+		else
+			Logger::ErrorOut() << "Player ID of -1 encountered\n";
+	}
+
 	AIAction action;
 	Uint8* keystates = SDL_GetKeyState(0);
 	int mx, my;
@@ -230,11 +248,11 @@ AIAction PlayerAI::Tick(float _timespan, std::vector<Core*>& /*_allies*/, std::v
 			{
 			case Action::LookXAxis:
 				point_to_face.x = Camera::Instance().ScreenToWorld(Vector3f(axis_value, 0, 0)).x;
-				peer_factor.x = (axis_value - (Camera::Instance().GetWindowWidth() / 2.0f)) / Camera::Instance().GetWindowWidth();
+				peer_factor.x = (axis_value - (Camera::Instance().GetWindowWidth() / 2.0f)) * 2.0f / Camera::Instance().GetWindowWidth();
 				break;
 			case Action::LookYAxis:
 				point_to_face.y = Camera::Instance().ScreenToWorld(Vector3f(0, axis_value, 0)).y;
-				peer_factor.y = -(axis_value - (Camera::Instance().GetWindowHeight() / 2.0f)) / Camera::Instance().GetWindowHeight();
+				peer_factor.y = -(axis_value - (Camera::Instance().GetWindowHeight() / 2.0f)) * 2.0f / Camera::Instance().GetWindowHeight();
 				break;
 			case Action::XMovement:
 				movement_integrator_.x *= (1.0f - 0.2f * _timespan);
@@ -264,11 +282,11 @@ AIAction PlayerAI::Tick(float _timespan, std::vector<Core*>& /*_allies*/, std::v
 				{
 				case Action::LookXAxis:
 					point_to_face.x += axis_value;
-					peer_factor.x = axis_value * 0.5f;
+					peer_factor.x = axis_value;
 					break;
 				case Action::LookYAxis:
 					point_to_face.y -= axis_value;
-					peer_factor.y = -axis_value * 0.5f;
+					peer_factor.y = -axis_value;
 					break;
 				case Action::XMovement:
 					action.dx_ += axis_value;
@@ -341,10 +359,8 @@ AIAction PlayerAI::Tick(float _timespan, std::vector<Core*>& /*_allies*/, std::v
 
 		if(peer_factor.lengthSq() > 1)
 			peer_factor.normalize();
-		peer_factor *= 0.8f;
 		Vector3f camera_centre = _self->GetGlobalPosition();
-		Vector3f camera_offset = peer_factor * Vector3f(Camera::Instance().GetWidth(), Camera::Instance().GetHeight(), 0);
-		Camera::Instance().SetCentreTarget(camera_centre.x, camera_centre.y, camera_offset.x, camera_offset.y, CameraLevel::Human);
+		Camera::Instance().SetCentreTarget(camera_centre.x, camera_centre.y, peer_factor.x, peer_factor.y, CameraLevel::Human);
 		Camera::Instance().SetFocus(_self->GetPosition().x, _self->GetPosition().y, CameraLevel::Human);
 	} else
 	{

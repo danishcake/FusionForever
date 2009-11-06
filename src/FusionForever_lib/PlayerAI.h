@@ -6,6 +6,9 @@ class PlayerAI :
 {
 protected:
 	int player_id_;
+	int core_id_;
+	static std::vector<int> core_ids_;
+
 	Vector3f ltv_mouse_position_;
 	Vector3f movement_integrator_;
 	bool lock_angle_;
@@ -18,4 +21,5 @@ public:
 	virtual bool IsHuman(){return true;}
 
 	static void LoadBindings();
+	static std::vector<int> GetPlayerIDs(){return core_ids_;}
 };

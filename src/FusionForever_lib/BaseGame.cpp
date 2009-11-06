@@ -3,7 +3,7 @@
 #include "LuaChallenge.h"
 #include "LuaAI.h"
 #include "Decoration.h"
-#include "KeyboardAI.h"
+#include "PlayerAI.h"
 #include "SoundManager.h"
 
 
@@ -286,9 +286,9 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 
 	_gui = gui_; //Copy in messages and counter data
 	//Update the health/energy bars displayed
-	if(KeyboardAI::GetPlayerIDs().size() > 0)
+	if(PlayerAI::GetPlayerIDs().size() > 0)
 	{
-		int player_id = KeyboardAI::GetPlayerIDs()[0];
+		int player_id = PlayerAI::GetPlayerIDs()[0];
 		Core_ptr core = static_cast<Core_ptr>(GetSectionData(player_id));
 		if(core)
 		{

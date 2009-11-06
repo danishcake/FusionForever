@@ -17,6 +17,7 @@ Camera::Camera(void)
 	focus_x_ = 0.0f;
 	focus_y_ = 0.0f;
 	camera_smoothed_ = true;
+	zoom_factor_ = 0.8f;
 }
 
 Camera::~Camera(void)
@@ -104,7 +105,7 @@ void Camera::TickCamera(float _timespan)
 		desired_width_ = largest;
 	} else
 	{
-		target_centre = top_right + target_offset;
+		target_centre = top_right + Vector2f(GetWidth() / 2, GetHeight() / 2) * target_offset * zoom_factor_;
 	}
 
 	if(!camera_smoothed_)

@@ -40,8 +40,8 @@ bool MenuScene::StartChallenge(const CEGUI::EventArgs& /*e*/)
 	fade_out_time_ = FadeOutScene::FOTime * 0.9f;
 	fading_out_ = true;
 
-	KeyboardAI::SetZoomFactor(Settings::Instance().GetCameraZoom());
 	Camera::Instance().SetSmoothed(Settings::Instance().GetCameraSmoothed());
+	Camera::Instance().SetZoomFactor(Settings::Instance().GetCameraZoom());
 
 	SoundManager::Instance().PlaySample("load_challenge.wav");
 	 
@@ -58,7 +58,7 @@ bool MenuScene::StartEditor(const CEGUI::EventArgs& /*e*/)
 	fade_out_time_ = FadeOutScene::FOTime * 0.9f;
 	fading_out_ = true;
 
-	KeyboardAI::SetZoomFactor(Settings::Instance().GetCameraZoom());
+	Camera::Instance().SetZoomFactor(Settings::Instance().GetCameraZoom());
 	Camera::Instance().SetSmoothed(Settings::Instance().GetCameraSmoothed());
 
 	return true;
