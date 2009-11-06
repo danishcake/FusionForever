@@ -103,7 +103,7 @@ void Camera::TickCamera(float _timespan)
 		dh *= GetAspectRatio();
 		float largest = dw > dh ? dw : dh;
 		desired_width_ = largest;
-	} else
+	} else if (target_centres_.size() == 1)
 	{
 		target_centre = top_right + Vector2f(GetWidth() / 2, GetHeight() / 2) * target_offset * zoom_factor_;
 	}
