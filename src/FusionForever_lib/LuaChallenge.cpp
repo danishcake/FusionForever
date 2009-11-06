@@ -203,6 +203,122 @@ int LuaChallenge::l_SetDeathFunction(lua_State* _luaVM)
 	return 0;
 }
 
+
+int LuaChallenge::l_PauseGame(lua_State* _luaVM)
+{
+	if(!(lua_gettop(_luaVM) == 1))
+	{
+		luaL_error(_luaVM, "PauseGame must be called with only the challenge pointer");
+	}
+
+	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -1)));
+	assert(challenge);
+	challenge->Pause();
+	return 0;
+}
+
+void LuaChallenge::Pause()
+{
+	game_->Pause();
+}
+
+int LuaChallenge::l_ResumeGame(lua_State* _luaVM)
+{
+	if(!(lua_gettop(_luaVM) == 1))
+	{
+		luaL_error(_luaVM, "UnpauseGame must be called with only the challenge pointer");
+	}
+
+	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -1)));
+	assert(challenge);
+	challenge->Resume();
+	return 0;
+}
+
+void LuaChallenge::Resume()
+{
+	game_->Resume();
+}
+
+int LuaChallenge::l_GetCamera(lua_State* _luaVM)
+{
+	/* Returns a table with centre, focus and size of camera window */
+	if(!(lua_gettop(_luaVM) == 1))
+	{
+		luaL_error(_luaVM, "GetCamera must be called with only the challenge pointer");
+	}
+
+	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -1)));
+	assert(challenge);
+
+	lua_newtable(_luaVM);
+	lua_pushstring(_luaVM, "cx");
+	lua_pushnumber(_luaVM, Camera::Instance().GetCentreX());
+	lua_settable(_luaVM, -3);
+	lua_pushstring(_luaVM, "cy");
+	lua_pushnumber(_luaVM, Camera::Instance().GetCentreY());
+	lua_settable(_luaVM, -3);
+	lua_pushstring(_luaVM, "fx");
+	lua_pushnumber(_luaVM, Camera::Instance().GetFocusX());
+	lua_settable(_luaVM, -3);
+	lua_pushstring(_luaVM, "fy");
+	lua_pushnumber(_luaVM, Camera::Instance().GetFocusY());
+	lua_settable(_luaVM, -3);
+	lua_pushstring(_luaVM, "w");
+	lua_pushnumber(_luaVM, Camera::Instance().GetWidth());
+	lua_settable(_luaVM, -3);
+	lua_pushstring(_luaVM, "h");
+	lua_pushnumber(_luaVM, Camera::Instance().GetHeight());
+	lua_settable(_luaVM, -3);
+
+	return 1;
+}
+
+int LuaChallenge::l_SetCamera(lua_State* _luaVM)
+{
+	if(!(lua_gettop(_luaVM) == 6))
+	{
+		luaL_error(_luaVM, "SetCamera must be called with the challenge pointer, cx, cy, fx, fy, w");
+	}
+
+	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -6)));
+	assert(challenge);
+	float cx = static_cast<float>(lua_tonumber(_luaVM, -5));
+	float cy = static_cast<float>(lua_tonumber(_luaVM, -4));
+	float fx = static_cast<float>(lua_tonumber(_luaVM, -3));
+	float fy = static_cast<float>(lua_tonumber(_luaVM, -2));
+	float w = static_cast<float>(lua_tonumber(_luaVM, -1));
+
+	Camera::Instance().SetCentre(cx, cy, CameraLevel::Cutscene);
+	Camera::Instance().SetFocus(fx, fy, CameraLevel::Cutscene);
+	Camera::Instance().SetWidth(w);	//Sets height automatically based on aspect ratio
+
+	return 0;
+}
+
+int LuaChallenge::l_LabelShip(lua_State* _luaVM)
+{
+	if(!(lua_gettop(_luaVM) == 3))
+	{
+		luaL_error(_luaVM, "LabelShip must be called with three parameters");
+	}
+	
+	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -3)));
+	assert(challenge);
+	
+	int ship_id = static_cast<int>(lua_tointeger(_luaVM, -2));
+	float label_length = static_cast<float>(lua_tonumber(_luaVM, -1));
+
+	Core_ptr core = static_cast<Core_ptr>(challenge->GetShipData(ship_id));
+	if(core)
+		challenge->game_->LabelShip(core, label_length);
+	else
+		Logger::DiagnosticOut() << "Ship: " << ship_id << " died before it was labeled\n";
+
+	//TODO label the ship
+	return 0;
+}
+
 int LuaChallenge::l_Victory(lua_State* _luaVM)
 {
 	if(!(lua_gettop(_luaVM) == 1))
@@ -876,7 +992,10 @@ LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* 
 	lua_register(_luaVM, "Defeat", l_Defeat);
 	lua_register(_luaVM, "Draw", l_Draw);
 	lua_register(_luaVM, "ReturnToEditor", l_ReturnToEditor);
+	lua_register(_luaVM, "PauseGame", l_PauseGame);
+	lua_register(_luaVM, "ResumeGame", l_ResumeGame);	
 	lua_register(_luaVM, "GetShipData", l_GetShipData);
+	lua_register(_luaVM, "LabelShip", l_LabelShip);
 	lua_register(_luaVM, "GetShipsInArea", l_GetShipsInArea);
 	lua_register(_luaVM, "_ALERT", l_luaError);
 	lua_register(_luaVM, "SetDeathFunction", l_SetDeathFunction);
@@ -884,6 +1003,8 @@ LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* 
 	lua_register(_luaVM, "SetHostility", l_SetHostility);
 	lua_register(_luaVM, "DisplayMessage", l_DisplayMessage);
 	lua_register(_luaVM, "SetCounter", l_SetCounter);
+	lua_register(_luaVM, "GetCamera", l_GetCamera);
+	lua_register(_luaVM, "SetCamera", l_SetCamera);
 	lua_register(_luaVM, "KillShip", l_KillShip);
 
 	lua_register(_luaVM, "SpawnDesign", l_SpawnDesign);
@@ -1008,7 +1129,7 @@ ChallengeState::Enum LuaChallenge::Tick(float _timespan)
 	if(state_ == ChallengeState::Running)
 	{
 		sum_time_ += _timespan;
-		
+
 		// obtain coroutine
 		lua_rawgeti(luaVM_, LUA_REGISTRYINDEX, coroutine_reference_);
 		lua_State* thread = lua_tothread(luaVM_, -1);

@@ -1,6 +1,7 @@
 local owner_pointer = ...;
 require "Vector"
 require "ShipBuilder"
+require "Path"
 
 --Initialises the ship builder
 builder_:init(owner_pointer)
@@ -155,6 +156,49 @@ function challenge_:ClearArea(position, radius)
 	for i,v in ipairs(ships) do
 		self:KillShip(v.ship_id)
 	end
+end
+
+function challenge_:Inspect(ship_id)
+	local shipdata = self:GetShipData(ship_id)
+	coroutine.yield()
+	PauseGame(self.challenge_pointer)
+	
+	local end_time = self.time + 5
+	local start_time = self.time
+	local camera = GetCamera(self.challenge_pointer)
+	local cp = Vector:new(camera.cx, camera.cy)
+	local fp = Vector:new(camera.fx, camera.fy)
+	
+	path = Path:new(false)
+	path:addPoint(cp, 1)
+	path:addPoint(shipdata.position + Vector:new(-10, 10), 3)
+	path:addPoint(shipdata.position + Vector:new(10, -10), 0.5)
+	path:addPoint(cp, 1)
+	
+	widthpath = Path:new(false)
+	widthpath:addPoint(Vector:new(camera.w, 0), 1)
+	widthpath:addPoint(Vector:new(300, 0), 3)
+	widthpath:addPoint(Vector:new(400, 0), 0.5)
+	widthpath:addPoint(Vector:new(camera.w, 0), 1)
+	
+		
+	local last_time = self.time
+	local labelled = false
+	while(self.time < end_time) do
+		path:tick(self.time - last_time)
+		widthpath:tick(self.time - last_time)
+		SetCamera(self.challenge_pointer, path:getPosition().x, path:getPosition().y, fp.x, fp.y, widthpath:getPosition().x)
+		last_time = self.time
+		if (self.time - start_time) > 0.5 and labelled == false then
+			LabelShip(self.challenge_pointer, ship_id, 2)
+			labelled = true		
+		end
+		
+		
+		coroutine.yield()
+	end
+	
+	ResumeGame(self.challenge_pointer)
 end
 
 function challenge_:Victory()

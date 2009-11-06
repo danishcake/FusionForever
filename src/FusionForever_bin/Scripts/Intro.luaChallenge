@@ -189,11 +189,32 @@ function()
 
 
 	challenge:WaitFor(2)
+end,
+
+function()
+	player_id = challenge:SpawnShip("Largess", 0, Vector:new( 100, 100), 0, "TurretAI.luaAI", 1);
+	challenge:SpawnShip("MrFlak", 0, Vector:new( -100, -100), 0, "TurretAI.luaAI", 1);
+	challenge:WaitFor(1)
+	challenge:Inspect(player_id)
+	
+	challenge:SpawnShip("TheMine", 1, Vector:random_ring(1000, 1500), 0, "Ram_NoCam.luaAI", 0.01)
+	challenge:WaitFor(0.2)
+	challenge:SpawnShip("TheMine", 1, Vector:random_ring(1000, 1500), 0, "Ram_NoCam.luaAI", 0.01)
+	challenge:WaitFor(0.2)
+	challenge:WaitFor(5)
+	
+	mine_id = challenge:SpawnShip("TheMine", 1, Vector:random_ring(1000, 1500), 0, "Ram_NoCam.luaAI", 0.01)
+	challenge:Inspect(mine_id)
+	
+	for i = 0, 300 do
+		challenge:SpawnShip("TheMine", 1, Vector:random_ring(1000, 1500), 0, "Ram_NoCam.luaAI", 0.01)
+		challenge:WaitFor(0.1)
+	end
 end
 }
 
 --Pick a random intro
---local intro = math.random(1, #introlist)
+local intro = math.random(1, #introlist)
 local intro = #introlist
 print("Intro " .. intro)
 introlist[intro]()

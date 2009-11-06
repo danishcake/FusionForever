@@ -10,5 +10,8 @@
     <Category>Medium</Category>
     <Category>EnergyStorage</Category>
   </Categories>
-
+  <Tags>
+    <Tag>Generator</Tag>
+    <Tag>EnergyStorage</Tag>
+  </Tags>
 </SectionDefinition>

@@ -472,6 +472,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\Inspection.luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\Intro.luaChallenge"
 					>
 				</File>
@@ -525,6 +529,10 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\Deepcopy.lua"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\Path.lua"
 					>
 				</File>
 				<File
@@ -645,6 +653,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\Scripts\SpikeArmLH.XMLSection"
+						>
+					</File>
+					<File
 						RelativePath=".\Scripts\SpikeArmRH.XMLSection"
 						>
 					</File>
@@ -714,10 +726,6 @@
 					</File>
 					<File
 						RelativePath=".\Scripts\SmallRocket.XMLSection"
-						>
-					</File>
-					<File
-						RelativePath=".\Scripts\SpikeArmLH.XMLSection"
 						>
 					</File>
 					<File
@@ -1175,7 +1183,15 @@
 			Name="Textures"
 			>
 			<File
+				RelativePath=".\Textures\BeamIcon.texture"
+				>
+			</File>
+			<File
 				RelativePath=".\Textures\Defeat.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\EnergyStorageIcon.texture"
 				>
 			</File>
 			<File
@@ -1184,6 +1200,14 @@
 			</File>
 			<File
 				RelativePath=".\Textures\GasCloud.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\GeneratorIcon.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\JointIcon.texture"
 				>
 			</File>
 			<File
@@ -1271,12 +1295,24 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Textures\ShieldIcon.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\ThrusterIcon.texture"
+				>
+			</File>
+			<File
 				RelativePath=".\Textures\Victory.texture"
 				DeploymentContent="true"
 				>
 			</File>
 			<File
 				RelativePath=".\Textures\Warp.texture"
+				>
+			</File>
+			<File
+				RelativePath=".\Textures\WeaponIcon.texture"
 				>
 			</File>
 		</Filter>

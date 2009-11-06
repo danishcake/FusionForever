@@ -19,6 +19,14 @@ namespace Hostility
 	};
 }
 
+namespace GameState
+{
+	static enum Enum
+	{
+		Running, Pausing, Resuming, Paused
+	};
+}
+
 struct lua_State;
 class LuaChallenge;
 
@@ -43,6 +51,10 @@ public:
 
 	void DisplayMessage(std::string _message, float _time);
 	void SetCounter(int _counter_id, int _value, int _max, bool _visible);
+	void LabelShip(Core* _core, float _lifetime);
+
+	void Resume();
+	void Pause();
 
 protected:
 	std::vector<Projectile_ptr> projectiles_[MAX_FORCES];
@@ -58,10 +70,13 @@ protected:
 	Radar radar_;
 	LuaChallenge* challenge_;
 	lua_State* luaVM_;
+	float time_rate_;
 
 	GLuint victory_texture_;
 	GLuint defeat_texture_;
+	
 
 	int player_id_; //The id of the first player controlled by a keyboard
 	GameGUI gui_; //Contains counter data
+	GameState::Enum running_state_;
 };

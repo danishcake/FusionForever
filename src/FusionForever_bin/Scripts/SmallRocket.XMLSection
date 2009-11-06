@@ -13,4 +13,7 @@
     <Category>Medium</Category>
     <Category>Thruster</Category>
   </Categories>
+  <Tags>
+    <Tag>Thruster</Tag>
+  </Tags>
 </SectionDefinition>

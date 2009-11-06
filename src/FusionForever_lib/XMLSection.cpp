@@ -475,7 +475,6 @@ void XMLSection::Preload()
 						SectionMetadata::RegisterSectionKeyCoordinate(section_name,"default_sub_section_position", 
 							name_map_[section_name].default_subsection_position.x, 
 							name_map_[section_name].default_subsection_position.y);
-						 
 					} else
 					{
 						Logger::ErrorOut() << "Unable to lookup the preloaded data for " << section_name << "\n";

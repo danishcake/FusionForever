@@ -1,0 +1,56 @@
+local started = false
+
+playerLives = coroutine.wrap(function()
+	player_id = challenge:SpawnShip("Protoship", 0, Vector:new(0, 0), 0, "KeyboardAI", 1)
+	challenge:WaitFor(1.2)
+	challenge:Inspect(player_id)
+	started = true
+	challenge:WaitForDeath(player_id)
+	challenge:WaitFor(1)
+	challenge:Defeat()
+end)
+
+
+enemySpawn = coroutine.wrap(function()
+
+	challenge:WaitFor(1)
+	mine_id = challenge:SpawnShip("TheMine", 4, Vector:new(0, -700), 0, "Ram.luaAI", 3)
+	challenge:SetShipTarget(mine_id, player_id)
+	mine_id = challenge:SpawnShip("TheMine", 4, Vector:new(700, 0), 0, "Ram.luaAI", 3)
+	challenge:SetShipTarget(mine_id, player_id)
+	mine_id = challenge:SpawnShip("TheMine", 4, Vector:new(-700, 0), 0, "Ram.luaAI", 3)
+	challenge:SetShipTarget(mine_id, player_id)
+	for i = 1, 15 do
+		challenge:SpawnShip("Ramrod", 5, Vector:new(0, 700), 0, "FleesAtFifty.luaAI", 1)
+		challenge:WaitFor(0.2)
+	end
+	challenge:WaitFor(5)
+
+	local ship_id = challenge:SpawnShip("Lasership", 1, Vector:new(0, 500), 0, "AI_Backstabber.luaAI", 1)
+	challenge:SetDeathFunction(ship_id, SpawnMinions)
+	challenge:WaitFor(2)
+	challenge:SpawnShip("Grawp", 2, Vector:new(0, -500), 0, "GrawpAI.luaAI", 1)
+	challenge:WaitForAllEnemiesDead(0)
+	challenge:WaitFor(1)
+	challenge:SpawnShip("GunshipA", 1, Vector:new(500, 0), 0, "SimpleAI.luaAI", 1)
+	challenge:SpawnShip("KineticA", 2, Vector:new(-500, 0), 0, "SimpleAI.luaAI", 1)
+	challenge:SpawnShip("KineticB", 3, Vector:new(0, 500), 0, "SimpleAI.luaAI", 1)
+	challenge:SpawnShip("KineticC", 4, Vector:new(0, -500), 0, "SimpleAI.luaAI", 1)
+	challenge:SpawnShip("Razorsaw", 5, Vector:new(1000, 0), 0, "SimpleAI.luaAI", 1)
+	challenge:SpawnShip("TheBulk", 6, Vector:new(-1000, 0), 0, "SimpleAI.luaAI", 1)
+	challenge:SpawnShip("Grawp", 7, Vector:new(0, 1000), 0, "GrawpAI.luaAI", 1)
+	challenge:SpawnShip("Grawp", 0, Vector:new(0, -1000), 0, "GrawpAI.luaAI", 1)
+
+	challenge:WaitForAllEnemiesDead(0)
+	challenge:Victory()
+end)
+
+while true do
+	playerLives()
+	if started then
+		enemySpawn()
+	end
+	coroutine.yield()
+end
+
+

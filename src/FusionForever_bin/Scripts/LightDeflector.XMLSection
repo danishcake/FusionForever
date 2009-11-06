@@ -17,4 +17,7 @@
     <Category>Small</Category>
     <Category>Shield</Category>
   </Categories>
+  <Tags>
+    <Tag>Shield</Tag>
+  </Tags>
 </SectionDefinition>
