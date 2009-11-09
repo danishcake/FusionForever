@@ -62,6 +62,7 @@ public:
 	Enumeration GetEnumeration(){return enumeration_;}
 	void SetEnumerationValue(int _value);
 	std::string GetEnumerationItem();
+	int GetEnumerationIndex();
 
 	std::string GetDescription(){return description_;}
 

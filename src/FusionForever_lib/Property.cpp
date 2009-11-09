@@ -51,6 +51,14 @@ void Property::SetEnumerationValue(int _value)
 		setter_enum_(section_, _value);
 }
 
+int Property::GetEnumerationIndex()
+{
+	int enum_value = 0;
+	if(getter_enum_)
+		enum_value = getter_enum_(section_);
+	return enum_value;
+}
+
 std::string Property::GetEnumerationItem()
 {
 	int enum_value = 0;

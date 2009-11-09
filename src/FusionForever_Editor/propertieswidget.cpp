@@ -5,8 +5,7 @@
 
 #include <QLabel>
 #include <QGridLayout>
-#include <QDoubleSpinBox>
-#include <QComboBox>
+#include <EnumProperty.h>
 #include <ValueProperty.h>
 
 PropertiesWidget::PropertiesWidget(QWidget *parent)
@@ -57,13 +56,7 @@ void PropertiesWidget::selectionChanged(Section* _section)
 				text->setText((*it)->GetDescription().c_str());
 				layout_->addWidget(text, row, 0);
 
-				QComboBox* entry = new QComboBox(this);
-				entry->setEditable(false);
-				Enumeration options = (*it)->GetEnumeration();
-				for(Enumeration::iterator it = options.begin(); it != options.end(); ++it)
-				{
-					entry->addItem(it->second.c_str(), QVariant(it->first));
-				}
+				EnumProperty* entry = new EnumProperty(this, *it);
 				layout_->addWidget(entry, row, 1);
 
 				controls_.push_back(text);
