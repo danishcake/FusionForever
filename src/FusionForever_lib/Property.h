@@ -2,6 +2,7 @@
 #include "Subscriber.h"
 #include <string>
 #include <vector>
+#include <map>
 
 class Section;
 

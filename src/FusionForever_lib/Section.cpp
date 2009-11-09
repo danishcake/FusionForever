@@ -538,8 +538,13 @@ void Section::SetMaxHealth(float _max_health)
 	{
 		GetRoot()->AddTotalHealth(-health_.GetMaxValue());
 		GetRoot()->AddTotalHealth(_max_health);
+		health_.SetMaxValue(_max_health);
+	} else
+	{
+		health_.SetMaxValue(_max_health);
+		health_ = _max_health;
 	}
-	health_.SetMaxValue(_max_health);
+	
 }
 
 bool Section::PowerRequirement(float _minimum_power)
