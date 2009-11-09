@@ -28,7 +28,9 @@ FusionForever_Editor::FusionForever_Editor(QWidget *parent, Qt::WFlags flags)
 	popup_actions.push_back(ui.actionRemove);
 
 	selection_menu_ = new SectionPopup(this, popup_actions);
-	QObject::connect(ui.fusionForeverWidget, SIGNAL(selectionChanged(Section* , std::vector<Section*>)), selection_menu_, SLOT(selectionChanged(Section*, std::vector<Section*>))); 
+	QObject::connect(ui.fusionForeverWidget, SIGNAL(selectionChanged(Section*, std::vector<Section*>)), selection_menu_, SLOT(selectionChanged(Section*, std::vector<Section*>))); 
+	QObject::connect(ui.fusionForeverWidget, SIGNAL(selectionChanged(Section*)), ui.propertiesList, SLOT(selectionChanged(Section*))); 
+
 	QObject::connect(ui.fusionForeverWidget, SIGNAL(rightClick()), selection_menu_, SLOT(show_popup())); 
 	QObject::connect(ui.fusionForeverWidget, SIGNAL(initialisedSections(std::vector<std::pair<std::string, QPixmap*> >)), this, SLOT(reloadSectionList(std::vector<std::pair<std::string, QPixmap*> >))); 
 	QObject::connect(selection_menu_, SIGNAL(select_item(int)), ui.fusionForeverWidget, SLOT(SelectSection(int))); 

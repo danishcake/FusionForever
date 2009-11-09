@@ -144,6 +144,8 @@ void FusionForeverWidget::wheelEvent(QWheelEvent* we)
 
 void FusionForeverWidget::SetSelection(Section* _selection)
 {
+	if(selection_ != _selection)
+		emit selectionChanged(_selection);
 	selection_ = _selection;
 }
 

@@ -40,6 +40,7 @@ public slots:
 
 signals:
 	void selectionChanged(Section* /*_current_selection*/, std::vector<Section*> /*_all_possible_selections*/);
+	void selectionChanged(Section* /*_new_selection*/);
 	void rightClick();
 	void initialisedSections(std::vector<std::pair<std::string, QPixmap*> >);
 
