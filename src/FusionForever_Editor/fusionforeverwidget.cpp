@@ -341,7 +341,7 @@ void FusionForeverWidget::paintGL()
 		}
 
 		core_ = XMLCore::CreateXMLCore("SquareCore");
-		selection_ = core_;
+		SetSelection(core_);
 		icon_render_mode = false;
 
 		emit initialisedSections(section_icons);
