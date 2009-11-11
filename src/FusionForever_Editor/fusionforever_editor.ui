@@ -205,7 +205,7 @@ border: 0px solid white;
   </widget>
   <action name="actionDelete_selection">
    <property name="text">
-    <string>Delete selection</string>
+    <string>Remove recursively</string>
    </property>
    <property name="toolTip">
     <string>Deletes the currently selected item</string>

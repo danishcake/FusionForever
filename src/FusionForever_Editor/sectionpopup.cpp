@@ -29,10 +29,23 @@ void SectionPopup::selectionChanged(Section* _section, std::vector<Section*> _se
 		if(*it == _section)
 			select_action->setChecked(true);
 
-
 		QObject::connect(select_action, SIGNAL(triggered()), this, SLOT(selection_item_triggered()));
 		selections_->addAction(select_action);
 	}
+	if(!_section->IsCore())
+	{
+		Section* parent = _section->GetParent();
+
+		std::string name = std::string("Select parent: ") + parent->GetSectionType();
+		QAction* select_action = new QAction(name.c_str(), this);
+		select_action->setCheckable(true);
+		select_action->setData(parent->GetSectionID());
+
+		QObject::connect(select_action, SIGNAL(triggered()), this, SLOT(selection_item_triggered()));
+		selections_->addSeparator();
+		selections_->addAction(select_action);
+	}
+
 }
 
 void SectionPopup::show_popup()
