@@ -1,0 +1,147 @@
+<?xml version="1.0" ?>
+<Section x="0" y="0" Angle="0" Health="1800" Delay="0" SectionType="SquareCore" angle="0">
+    <Section x="0" y="25" Angle="0" Health="7000" Delay="0" SectionType="InverseBearEars">
+        <Section x="-15" y="7.5" Angle="0" Health="1800" Delay="0" SectionType="ProngLH">
+            <Section x="0" y="-2.5" Angle="-105" Health="1000" Delay="0" SectionType="SpikeArmRH" />
+            <Section x="2.5" y="15" Angle="0" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
+        </Section>
+        <Section x="15" y="7.5" Angle="0" Health="1800" Delay="0" SectionType="ProngRH">
+            <Section x="0" y="-2.5" Angle="105" Health="1000" Delay="0" SectionType="SpikeArmLH" />
+            <Section x="-2.5" y="15" Angle="0" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
+        </Section>
+        <Section x="0" y="17.5" Angle="0" Health="9000" Delay="0" SectionType="HeavyArm">
+            <Section x="-5" y="20" Angle="0" Health="9000" Delay="0" SectionType="HeavyArm">
+                <Section x="-5" y="20" Angle="0" Health="900" Delay="0" SectionType="HeavyArm">
+                    <Section x="0" y="30" Angle="0" Health="900" Delay="0" SectionType="HeavyLongSpike">
+                        <Section x="0" y="20" Angle="0" Health="50" Delay="0" SectionType="MilitaryShieldCube" />
+                    </Section>
+                </Section>
+                <Section x="-20" y="5" Angle="-90" Health="12000" Delay="0" SectionType="CenterFrontBody">
+                    <Section x="10" y="0" Angle="90" Health="3500" Delay="0" SectionType="CenterPiece">
+                        <Section x="-7.5" y="10" Angle="0" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
+                        <Section x="7.5" y="10" Angle="0" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
+                        <Section x="0" y="5" Angle="0" Health="700" Delay="0" SectionType="HeavyBlaster" />
+                    </Section>
+                    <Section x="-5" y="35" Angle="0" Health="2000" Delay="0" SectionType="LargeSquare">
+                        <Section x="0" y="0" Angle="0" Health="50" Delay="0" SectionType="LightDeflector" />
+                        <Section x="10" y="10" Angle="90" Health="800" Delay="0" SectionType="JointTracker" OnlyWhenFiring="0">
+                            <Section x="0" y="0" Angle="0" Health="1400" Delay="0" SectionType="OctoSection">
+                                <Section x="0" y="10" Angle="0" Health="600" Delay="0" SectionType="PhotonCannon" />
+                                <Section x="-5" y="5" Angle="0" Health="600" Delay="0" SectionType="PhotonCannon" />
+                                <Section x="5" y="5" Angle="0" Health="600" Delay="0" SectionType="PhotonCannon" />
+                            </Section>
+                        </Section>
+                        <Section x="10" y="-10" Angle="90" Health="800" Delay="0" SectionType="JointTracker" OnlyWhenFiring="0">
+                            <Section x="0" y="0" Angle="0" Health="1400" Delay="0" SectionType="OctoSection">
+                                <Section x="0" y="10" Angle="0" Health="600" Delay="0" SectionType="PhotonCannon" />
+                                <Section x="-7.5" y="7.5" Angle="0" Health="500" Delay="0" SectionType="ChainGun" />
+                                <Section x="7.5" y="7.5" Angle="0" Health="500" Delay="0" SectionType="ChainGun" />
+                            </Section>
+                        </Section>
+                        <Section x="-15" y="15" Angle="0" Health="1500" Delay="0" SectionType="DriveUnit" />
+                    </Section>
+                </Section>
+            </Section>
+            <Section x="5" y="20" Angle="0" Health="9000" Delay="0" SectionType="HeavyArm">
+                <Section x="5" y="20" Angle="0" Health="900" Delay="0" SectionType="HeavyArm">
+                    <Section x="0" y="30" Angle="0" Health="900" Delay="0" SectionType="HeavyLongSpike">
+                        <Section x="0" y="20" Angle="0" Health="50" Delay="0" SectionType="MilitaryShieldCube" />
+                    </Section>
+                </Section>
+                <Section x="20" y="5" Angle="90" Health="12000" Delay="0" SectionType="CenterFrontBody">
+                    <Section x="-10" y="0" Angle="-90" Health="3500" Delay="0" SectionType="CenterPiece">
+                        <Section x="-7.5" y="10" Angle="0" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
+                        <Section x="7.5" y="10" Angle="0" Health="1000" Delay="0" SectionType="HomingMissileLauncher" />
+                        <Section x="0" y="5" Angle="0" Health="700" Delay="0" SectionType="HeavyBlaster" />
+                    </Section>
+                    <Section x="5" y="35" Angle="0" Health="2000" Delay="0" SectionType="LargeSquare">
+                        <Section x="0" y="0" Angle="0" Health="50" Delay="0" SectionType="LightDeflector" />
+                        <Section x="-10" y="10" Angle="-90" Health="800" Delay="0" SectionType="JointTracker" OnlyWhenFiring="0">
+                            <Section x="0" y="0" Angle="0" Health="1400" Delay="0" SectionType="OctoSection">
+                                <Section x="0" y="10" Angle="0" Health="600" Delay="0" SectionType="PhotonCannon" />
+                                <Section x="-5" y="5" Angle="0" Health="600" Delay="0" SectionType="PhotonCannon" />
+                                <Section x="5" y="5" Angle="0" Health="600" Delay="0" SectionType="PhotonCannon" />
+                            </Section>
+                        </Section>
+                        <Section x="-10" y="-10" Angle="-90" Health="800" Delay="0" SectionType="JointTracker" OnlyWhenFiring="0">
+                            <Section x="0" y="0" Angle="0" Health="1400" Delay="0" SectionType="OctoSection">
+                                <Section x="0" y="10" Angle="0" Health="600" Delay="0" SectionType="PhotonCannon" />
+                                <Section x="-7.5" y="7.5" Angle="0" Health="500" Delay="0" SectionType="ChainGun" />
+                                <Section x="7.5" y="7.5" Angle="0" Health="500" Delay="0" SectionType="ChainGun" />
+                            </Section>
+                        </Section>
+                        <Section x="15" y="15" Angle="0" Health="1500" Delay="0" SectionType="DriveUnit" />
+                    </Section>
+                </Section>
+            </Section>
+            <Section x="0" y="40" Angle="0" Health="900" Delay="0" SectionType="HeavyArm">
+                <Section x="0" y="30" Angle="0" Health="900" Delay="0" SectionType="HeavyLongSpike">
+                    <Section x="0" y="20" Angle="0" Health="50" Delay="0" SectionType="MilitaryShieldCube" />
+                </Section>
+            </Section>
+        </Section>
+        <Section x="0" y="0" Angle="0" Health="1500" Delay="0" SectionType="DriveUnit" />
+        <Section x="0" y="0" Angle="0" Health="50" Delay="0" SectionType="SuperShieldCube" />
+    </Section>
+    <Section x="20" y="0" Angle="0" Health="2000" Delay="0" SectionType="LargeSquare">
+        <Section x="7.5" y="15" Angle="0" Health="1800" Delay="0" SectionType="ProngRH">
+            <Section x="-2.5" y="15" Angle="0" Health="700" Delay="0" SectionType="ShotgunArtillery" />
+        </Section>
+        <Section x="15" y="0" Angle="90" Health="6000" Delay="0" SectionType="SmallFlatBulkhead">
+            <Section x="-5" y="20" Angle="0" Health="12000" Delay="0" SectionType="CenterFrontBody">
+                <Section x="-15" y="0" Angle="-90" Health="900" Delay="0" SectionType="HeavyArm">
+                    <Section x="0" y="20" Angle="0" Health="800" Delay="0" SectionType="JointTracker" OnlyWhenFiring="0">
+                        <Section x="0" y="0" Angle="0" Health="750" Delay="0" SectionType="HeavyChainGun" />
+                    </Section>
+                </Section>
+                <Section x="30" y="0" Angle="90" Health="900" Delay="0" SectionType="HeavyLongSpike" />
+                <Section x="15" y="5" Angle="30" Health="1000" Delay="0" SectionType="SpikeArmLH" />
+                <Section x="-2.5" y="25" Angle="0" Health="500" Delay="0" SectionType="Spire" />
+                <Section x="12.5" y="-15" Angle="90" Health="900" Delay="0" SectionType="FlareArm">
+                    <Section x="0" y="20" Angle="0" Health="800" Delay="0" SectionType="LargeSpire" />
+                </Section>
+                <Section x="0" y="5" Angle="0" Health="100" Delay="0" SectionType="SuperGeneratorCube" />
+                <Section x="0" y="5" Angle="0" Health="50" Delay="0" SectionType="MilitaryShieldCube" />
+            </Section>
+            <Section x="-17.5" y="2.5" Angle="-90" Health="800" Delay="0" SectionType="LargeSpire" />
+        </Section>
+        <Section x="0" y="12.5" Angle="0" Health="700" Delay="0" SectionType="ShotgunArtillery" />
+        <Section x="10" y="-10" Angle="0" Health="500" Delay="0" SectionType="SmallRocket" />
+    </Section>
+    <Section x="-20" y="0" Angle="0" Health="2000" Delay="0" SectionType="LargeSquare">
+        <Section x="-7.5" y="15" Angle="0" Health="1800" Delay="0" SectionType="ProngLH">
+            <Section x="2.5" y="15" Angle="0" Health="700" Delay="0" SectionType="ShotgunArtillery" />
+        </Section>
+        <Section x="-15" y="0" Angle="-90" Health="6000" Delay="0" SectionType="SmallFlatBulkhead">
+            <Section x="5" y="20" Angle="0" Health="12000" Delay="0" SectionType="CenterFrontBody">
+                <Section x="15" y="0" Angle="90" Health="900" Delay="0" SectionType="HeavyArm">
+                    <Section x="0" y="20" Angle="0" Health="800" Delay="0" SectionType="JointTracker" OnlyWhenFiring="0">
+                        <Section x="0" y="0" Angle="0" Health="750" Delay="0" SectionType="HeavyChainGun" />
+                    </Section>
+                </Section>
+                <Section x="-30" y="0" Angle="-90" Health="900" Delay="0" SectionType="HeavyLongSpike" />
+                <Section x="-12.5" y="5" Angle="-30" Health="1000" Delay="0" SectionType="SpikeArmRH" />
+                <Section x="2.5" y="25" Angle="0" Health="500" Delay="0" SectionType="Spire" />
+                <Section x="-12.5" y="-15" Angle="-90" Health="900" Delay="0" SectionType="FlareArm">
+                    <Section x="0" y="20" Angle="0" Health="800" Delay="0" SectionType="LargeSpire" />
+                </Section>
+                <Section x="0" y="5" Angle="0" Health="100" Delay="0" SectionType="SuperGeneratorCube" />
+                <Section x="0" y="5" Angle="0" Health="50" Delay="0" SectionType="MilitaryShieldCube" />
+            </Section>
+            <Section x="17.5" y="2.5" Angle="90" Health="800" Delay="0" SectionType="LargeSpire" />
+        </Section>
+        <Section x="0" y="12.5" Angle="0" Health="700" Delay="0" SectionType="ShotgunArtillery" />
+        <Section x="-10" y="-10" Angle="0" Health="500" Delay="0" SectionType="SmallRocket" />
+    </Section>
+    <Section x="10" y="-10" Angle="-90" Health="700" Delay="0" SectionType="SweptWingLH">
+        <Section x="0" y="0" Angle="255" Health="1200" Delay="0" SectionType="LongRigidArm">
+            <Section x="0" y="17.5" Angle="0" Health="1200" Delay="0" SectionType="LongRigidArm" />
+        </Section>
+    </Section>
+    <Section x="-10" y="-10" Angle="90" Health="700" Delay="0" SectionType="SweptWingRH">
+        <Section x="0" y="0" Angle="105" Health="1200" Delay="0" SectionType="LongRigidArm">
+            <Section x="0" y="17.5" Angle="0" Health="1200" Delay="0" SectionType="LongRigidArm" />
+        </Section>
+    </Section>
+    <Section x="0" y="-10" Angle="-180" Health="1000" Delay="0" SectionType="TripleAdaptor" />
+</Section>

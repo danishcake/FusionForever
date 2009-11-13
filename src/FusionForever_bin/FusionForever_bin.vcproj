@@ -898,6 +898,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\Firepower.xmlShip"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\FlyA.xmlShip"
 					>
 				</File>
