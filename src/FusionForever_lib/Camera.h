@@ -186,6 +186,24 @@ public:
      */
 	float GetSmallestDimension(){return width_ < height_ ? width_:height_;}
 
+	/**
+      * Sets the smallest of width / height 
+	  */
+	void SetSmallestDimension(float _value)
+	{
+		if(width_ < height_)
+		{
+			width_ = _value;
+			desired_width_ = width_;
+			height_ = width_ / ratio_;
+		}else 
+		{
+			height_ = _value;
+			width_ = height_ * ratio_;
+			desired_width_ = width_;
+		}
+	}
+
    /**
      * Gets width of the game window.
      * @return The width of the game window
@@ -252,6 +270,7 @@ public:
 	{
 		height_ = _height;
 		width_ = height_ * ratio_;
+		desired_width_ = width_;
 	}
    /**
      * Causes the camera to shake

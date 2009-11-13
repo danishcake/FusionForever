@@ -36,13 +36,28 @@ void SectionPopup::selectionChanged(Section* _section, std::vector<Section*> _se
 	{
 		Section* parent = _section->GetParent();
 
-		std::string name = std::string("Select parent: ") + parent->GetSectionType();
+		std::string name = std::string("Parent: ") + parent->GetSectionType();
 		QAction* select_action = new QAction(name.c_str(), this);
 		select_action->setCheckable(true);
 		select_action->setData(parent->GetSectionID());
 
 		QObject::connect(select_action, SIGNAL(triggered()), this, SLOT(selection_item_triggered()));
 		selections_->addSeparator();
+		selections_->addAction(select_action);
+	}
+	std::vector<Section*>& subsections = _section->GetSubsections();
+	if(subsections.size())
+	{
+		selections_->addSeparator();
+	}
+	for(std::vector<Section*>::iterator it = subsections.begin(); it != subsections.end(); ++it)
+	{
+		std::string name = std::string("Child: ") + (*it)->GetSectionType();
+		QAction* select_action = new QAction(name.c_str(), this);
+		select_action->setCheckable(true);
+		select_action->setData((*it)->GetSectionID());
+
+		QObject::connect(select_action, SIGNAL(triggered()), this, SLOT(selection_item_triggered()));
 		selections_->addAction(select_action);
 	}
 

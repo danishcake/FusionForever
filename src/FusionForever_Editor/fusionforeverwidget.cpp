@@ -249,6 +249,7 @@ void FusionForeverWidget::New()
 {
 	delete core_;
 	core_ = XMLCore::CreateXMLCore("SquareCore");
+	SetSelection(core_);
 }
 
 void FusionForeverWidget::Open(std::string _filename)
@@ -259,6 +260,7 @@ void FusionForeverWidget::Open(std::string _filename)
 	{
 		core_ = XMLCore::CreateXMLCore("SquareCore");
 	}
+	SetSelection(core_);
 }
 
 
@@ -277,8 +279,6 @@ void FusionForeverWidget::DecreaseGridSize()
 	grid_snap_ *= sqrt(0.5);
 }
 
-
-
 void FusionForeverWidget::initializeGL()
 {
 	SectionTypes::RegisterSections();
@@ -286,8 +286,6 @@ void FusionForeverWidget::initializeGL()
 	glClearColor(0.0f,0.0f,0.0f,0.0f);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
 }
 
 void FusionForeverWidget::paintGL()
@@ -305,14 +303,14 @@ void FusionForeverWidget::paintGL()
 			{
 				float radius = section->GetRadius();
 				
-				Camera::Instance().SetHeight(radius*2);
-				Camera::Instance().SetWidth(radius*2);
+				Camera::Instance().SetSmallestDimension(40);
 
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 				Camera::Instance().SetupCamera();
 				glMatrixMode(GL_MODELVIEW);
 				glLoadIdentity();
 
+				//Draw Section
 				section->DeathTick();
 				section->SetOutlineColor(GLColor(0,0,0));
 				section->DrawSelf();
