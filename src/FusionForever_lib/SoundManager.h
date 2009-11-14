@@ -21,11 +21,16 @@ private:
 	std::map<std::string, Mix_Chunk*> samples_;
 	std::map<std::string, int> sample_queue_;
 
-	void PlayEnqueuedSample(std::string _filename, unsigned char _distance);
-
+	Mix_Chunk* GetChunk(std::string _filename);
+	int PlayEnqueuedSample(std::string _filename, unsigned char _distance);
+	
+	
 public:
 	static SoundManager& Instance();
 	void PlaySample(std::string _filename);
+	int PlayLoopingSample(std::string _filename);
+	void StopChannel(int _channel);
+	void SetVolume(int _channel, float _volume);
 	void Tick();
 
 };

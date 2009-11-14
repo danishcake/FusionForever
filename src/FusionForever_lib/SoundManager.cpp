@@ -40,12 +40,8 @@ void SoundManager::PlaySample(std::string _filename)
 	sample_queue_[_filename]++;
 }
 
-void SoundManager::PlayEnqueuedSample(std::string _filename, unsigned char _distance)
+Mix_Chunk* SoundManager::GetChunk(std::string _filename)
 {
-	//Look the sound up, it's probably already loaded. If not then load it.
-	if(status_ != SoundStatus::OK)
-		return;
-
 	Mix_Chunk* sample = NULL;
 	if(samples_.find(_filename) != samples_.end())
 	{
@@ -59,22 +55,55 @@ void SoundManager::PlayEnqueuedSample(std::string _filename, unsigned char _dist
 		else
 			Logger::ErrorOut() << "Unable to load sound:" << _filename << "\n";
 	}
+	return sample;
+}
 
+int SoundManager::PlayLoopingSample(std::string _filename)
+{
+	//Look the sound up, it's probably already loaded. If not then load it.
+	if(status_ != SoundStatus::OK)
+		return -1;
+
+	Mix_Chunk* sample = GetChunk(_filename);
+	if(sample)
+	{
+		//Play the sound
+		return Mix_PlayChannel(-1, sample, -1);
+	}
+	return -1;
+}
+
+int SoundManager::PlayEnqueuedSample(std::string _filename, unsigned char _distance)
+{
+	//Look the sound up, it's probably already loaded. If not then load it.
+	if(status_ != SoundStatus::OK)
+		return -1;
+
+	Mix_Chunk* sample = GetChunk(_filename);
 	if(sample)
 	{
 		//Play the sound
 		int channel = Mix_PlayChannel(-1, sample, 0);
 		
-		if(channel < 0)
-		{
-		//	Logger::ErrorOut() << Mix_GetError() << "\n";
-		}
-		else
-		{
-			Mix_SetDistance(channel, _distance);
-		//	Logger::DiagnosticOut() << "Playing on" << channel << "\n";
-		}
+		if(channel >= 0) Mix_SetDistance(channel, _distance);
+		return channel;
 	}
+	return -1;
+}
+
+void SoundManager::StopChannel(int _channel)
+{
+	if(status_ != SoundStatus::OK)
+		return;
+	Mix_HaltChannel(_channel);
+}
+
+void SoundManager::SetVolume(int _channel, float _volume)
+{
+	if(status_ != SoundStatus::OK)
+		return;
+	unsigned char distance = (1.0f - _volume) * 255;
+	Mix_SetDistance(_channel, distance);
 }
 
 void SoundManager::Tick()

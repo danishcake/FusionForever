@@ -33,4 +33,5 @@
 #include <TinyXML.h>
 
 #include "SoundManager.h"
+#include "LoopingBuffer.h"
 
