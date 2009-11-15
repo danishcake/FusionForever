@@ -218,12 +218,20 @@ void FusionForeverWidget::ReplaceSection(std::string _item_name)
 		Section_ptr nSection = SectionTypes::GetSection(_item_name);
 		if(nSection)
 		{
-			//Detach children, remove selection from them. Add new section and attach selection to it.
+			float angle = selection_->GetAngle();
+			Vector3f position = selection_->GetPosition();
+			//Detach children from parent, remove selection from them
+			//Detach children from selection.
+
 			Section_ptr parent = selection_->GetParent();
 			std::vector<Section_ptr> children = parent->DetachChildren();
+			std::vector<Section_ptr> sel_children = selection_->DetachChildren();
 			children.erase(std::remove(children.begin(), children.end(), selection_), children.end());
+			parent->AttachChildren(children);
+			nSection->AttachChildren(sel_children);
+			nSection->SetAngle(angle);
+			nSection->SetPosition(position);
 			parent->AddChild(nSection);
-			nSection->AttachChildren(children);
 			delete selection_;
 			SetSelection(nSection);
 		} else
