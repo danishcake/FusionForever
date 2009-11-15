@@ -130,8 +130,8 @@ void TrackerArm::GetProperties(std::vector<Property*>& _properties)
 	e[1] = "True";
 	_properties.push_back(new Property(this, sSetOnlyWhenFiring, sGetOnlyWhenFiring, e, "Only while firing"));
 
-	_properties.push_back(new Property(this, sSetAngleRange, sGetAngleRange, "Angle range"));
-	_properties.push_back(new Property(this, sSetTurnRate, sGetTurnRate, "Turn rate"));
+	_properties.push_back(new Property(this, sSetAngleRange, sGetAngleRange, "Angle range", 1, 3600, 5));
+	_properties.push_back(new Property(this, sSetTurnRate, sGetTurnRate, "Turn rate", 1, 3600, 5));
 }
 
 bool TrackerArm::ParseSpecific(TiXmlElement* _node)

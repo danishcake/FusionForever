@@ -631,8 +631,8 @@ static void sSetFiringDelay(Section* _section, float _value)
 
 void Section::GetProperties(std::vector<Property*>& _properties )
 {
-	_properties.push_back(new Property(this, sSetHealth, sGetHealth, "Health"));
-	_properties.push_back(new Property(this, sSetFiringDelay, sGetFiringDelay, "FiringDelay"));
+	_properties.push_back(new Property(this, sSetHealth, sGetHealth, "Health", 1, 10000000, 100));
+	_properties.push_back(new Property(this, sSetFiringDelay, sGetFiringDelay, "FiringDelay", 0, 25, 0.05));
 }
 
 bool Section::ParseSpecific(TiXmlElement* /*_node*/)

@@ -99,10 +99,10 @@ static void sSetPauseTime(Section_ptr _section, float _value){static_cast<JointA
 void JointAngles::GetProperties(std::vector<Property*>& _properties )
 {
 	Section::GetProperties(_properties);
-	_properties.push_back(new Property(this, sSetFirstAngle, sGetFirstAngle, "Angle 1"));
-	_properties.push_back(new Property(this, sSetSecondAngle, sGetSecondAngle, "Angle 2"));
-	_properties.push_back(new Property(this, sSetTransitionTime, sGetTransitionTime, "Transition(s)"));
-	_properties.push_back(new Property(this, sSetPauseTime, sGetPauseTime, "Pause(s)"));
+	_properties.push_back(new Property(this, sSetFirstAngle, sGetFirstAngle, "Angle 1", -3600.0f, 3600.0f, 5.0f));
+	_properties.push_back(new Property(this, sSetSecondAngle, sGetSecondAngle, "Angle 2", -3600.0f, 3600.0f, 5.0f));
+	_properties.push_back(new Property(this, sSetTransitionTime, sGetTransitionTime, "Transition(s)", 0.1f, 100.0f, 0.1f));
+	_properties.push_back(new Property(this, sSetPauseTime, sGetPauseTime, "Pause(s)", 0.1f, 100.0f, 0.1f));
 }
 
 void JointAngles::ToXML(TiXmlElement* _node)

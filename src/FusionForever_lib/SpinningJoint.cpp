@@ -72,7 +72,7 @@ static void sSetSpinRate(Section_ptr _section, float _value){static_cast<Spinnin
 void SpinningJoint::GetProperties(std::vector<Property*>& _properties )
 {
 	Section::GetProperties(_properties);
-	_properties.push_back(new Property(this, sSetSpinRate, sGetSpinRate, "Spin rate"));
+	_properties.push_back(new Property(this, sSetSpinRate, sGetSpinRate, "Spin rate", 1, 7200, 5));
 }
 
 void SpinningJoint::ToXML(TiXmlElement* _node)

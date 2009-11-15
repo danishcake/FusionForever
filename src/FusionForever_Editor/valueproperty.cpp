@@ -4,8 +4,9 @@
 ValueProperty::ValueProperty(QWidget *parent, Property* _property)
 	: QDoubleSpinBox(parent), property_(_property)
 {
-	setRange(0, 100000);
-	setSingleStep(0.1);
+
+	setRange(property_->GetSuggestedMinimum(), property_->GetSuggestedMaximum());
+	setSingleStep(property_->GetSuggestedIncrement());
 	if(property_->HasGetter())
 	{
 		setValue(property_->GetFloat());

@@ -28,10 +28,14 @@ private:
 
 	Section* section_;
 	std::string description_;
+	float suggested_increment_;
+	float suggested_min_;
+	float suggested_max_;
 
 	PropertyType::Enum property_type_;
 public:
-	Property(Section* _section, void (*_setter_float)(Section* _section, float _value), float (*_getter_float)(Section* _section), std::string _description);
+	Property(Section* _section, void (*_setter_float)(Section* _section, float _value), float (*_getter_float)(Section* _section), std::string _description, 
+			 float _suggested_min, float _suggested_max, float _suggested_increment);
 	Property(Section* _section, void (*_setter_enum)(Section* _section, int _value), int (*_getter_enum)(Section* _section), Enumeration _enumeration, std::string _description);
 	~Property(void);
 
@@ -65,6 +69,9 @@ public:
 	int GetEnumerationIndex();
 
 	std::string GetDescription(){return description_;}
+	float GetSuggestedIncrement(){return suggested_increment_;}
+	float GetSuggestedMinimum(){return suggested_min_;}
+	float GetSuggestedMaximum(){return suggested_max_;}
 
 	virtual void EndSubscription(Subscriber* _source);
 };

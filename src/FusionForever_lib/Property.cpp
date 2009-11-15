@@ -4,8 +4,10 @@
 
 Property::Property(Section* _section, void (*_setter_float)(Section* _section, float _value), 
 									  float (*_getter_float)(Section* _section),
-									  std::string _description)
-: setter_float_(_setter_float), getter_float_(_getter_float), section_(_section), description_(_description)
+									  std::string _description, float _suggested_min,
+									  float _suggested_max, float _suggested_increment)
+: setter_float_(_setter_float), getter_float_(_getter_float), section_(_section), description_(_description),
+ suggested_min_(_suggested_min), suggested_max_(_suggested_max), suggested_increment_(_suggested_increment)
 {
 	_section->AddSubscriber(this);
 	property_type_ = PropertyType::Float;
@@ -23,6 +25,9 @@ Property::Property(Section* _section, void (*_setter_enum)(Section* _section, in
 	property_type_ = PropertyType::EnumeratedList;
 	getter_float_ = NULL;
 	setter_float_ = NULL;
+	suggested_increment_ = 0;
+	suggested_min_ = 0;
+	suggested_max_ = 0;
 }
 
 Property::~Property(void)
