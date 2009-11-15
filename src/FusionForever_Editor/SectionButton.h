@@ -13,11 +13,13 @@ public:
 
 signals:
 	void sectionClicked(std::string);
+	void sectionRightClick(std::string);
 private:
 	std::string data_;
+protected:
+	virtual void contextMenuEvent(QContextMenuEvent*);
 private slots:
 	void reemit_clicked();
-	
 };
 
 #endif // SECTION_BUTTON_H

@@ -5,11 +5,9 @@ SectionButton::SectionButton(QWidget *parent, const QString& _text, const std::s
 {
 	QSize s(64,64);
 	setIconSize(s);
-	//QPixmap pm(64,64);
 	QIcon ic(_icon);
 	setIcon(ic);
 	QObject::connect(this, SIGNAL(clicked()), this, SLOT(reemit_clicked()));
-
 }
 
 SectionButton::~SectionButton()
@@ -20,4 +18,9 @@ SectionButton::~SectionButton()
 void SectionButton::reemit_clicked()
 {
 	emit sectionClicked(data_);
+}
+
+void SectionButton::contextMenuEvent(QContextMenuEvent*)
+{
+	emit sectionRightClick(data_);
 }

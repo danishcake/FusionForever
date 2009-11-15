@@ -4,6 +4,7 @@
 #include <SectionMetadata.h>
 #include "SectionButton.h"
 #include "SectionPopup.h"
+#include "ToolboxPopup.h"
 #include <set>
 #include <QFileDialog>
 #include "ScenarioDialog.h"
@@ -26,16 +27,22 @@ FusionForever_Editor::FusionForever_Editor(QWidget *parent, Qt::WFlags flags)
 	QList<QAction*> popup_actions;
 	popup_actions.push_back(ui.actionDelete_selection);
 	popup_actions.push_back(ui.actionRemove);
-
 	selection_menu_ = new SectionPopup(this, popup_actions);
+
+	toolbox_menu_ = new ToolboxPopup(this, ui.actionReplace, ui.actionAdd_as_parent, ui.actionAdd_as_child);
+
 	QObject::connect(ui.fusionForeverWidget, SIGNAL(selectionChanged(Section*, std::vector<Section*>)), selection_menu_, SLOT(selectionChanged(Section*, std::vector<Section*>))); 
 	QObject::connect(ui.fusionForeverWidget, SIGNAL(selectionChanged(Section*)), ui.propertiesList, SLOT(selectionChanged(Section*))); 
+	QObject::connect(ui.fusionForeverWidget, SIGNAL(selectionChanged(Section*)), toolbox_menu_, SLOT(selectionChanged(Section*))); 
 
 	QObject::connect(ui.fusionForeverWidget, SIGNAL(rightClick()), selection_menu_, SLOT(show_popup())); 
 	QObject::connect(ui.fusionForeverWidget, SIGNAL(initialisedSections(std::vector<std::pair<std::string, QPixmap*> >)), this, SLOT(reloadSectionList(std::vector<std::pair<std::string, QPixmap*> >))); 
 	QObject::connect(ui.fusionForeverWidget, SIGNAL(initialisedSections(std::vector<std::pair<std::string, QPixmap*> >)), ui.propertiesList, SLOT(receiveSectionPixmaps(std::vector<std::pair<std::string, QPixmap*> >))); 
-	QObject::connect(selection_menu_, SIGNAL(select_item(int)), ui.fusionForeverWidget, SLOT(SelectSection(int))); 
 	
+	QObject::connect(selection_menu_, SIGNAL(select_item(int)), ui.fusionForeverWidget, SLOT(SelectSection(int))); 
+	QObject::connect(toolbox_menu_, SIGNAL(sigInsert_after(std::string)), ui.fusionForeverWidget, SLOT(AddSection(std::string)));
+	QObject::connect(toolbox_menu_, SIGNAL(sigInsert_before(std::string)), ui.fusionForeverWidget, SLOT(InsertSection(std::string)));
+	QObject::connect(toolbox_menu_, SIGNAL(sigReplace(std::string)), ui.fusionForeverWidget, SLOT(ReplaceSection(std::string)));
 	
 	QObject::connect(ui.actionDelete_selection, SIGNAL(triggered()), ui.fusionForeverWidget, SLOT(DeleteSelection()));
 	QObject::connect(ui.actionRemove, SIGNAL(triggered()), ui.fusionForeverWidget, SLOT(RemoveSelection()));
@@ -54,6 +61,9 @@ FusionForever_Editor::FusionForever_Editor(QWidget *parent, Qt::WFlags flags)
 	QObject::connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(openShip()));
 	QObject::connect(ui.actionConfigure, SIGNAL(triggered()), scenario_dialog_, SLOT(showDialog()));
 	QObject::connect(ui.actionTry, SIGNAL(triggered()), this, SLOT(tryShip()));
+
+
+
 	
 }
 
@@ -75,6 +85,7 @@ void FusionForever_Editor::reloadSectionList(std::vector<std::pair<std::string, 
 		ui.gridLayoutAll->addWidget(itemButton);
 
 		QObject::connect(itemButton, SIGNAL(sectionClicked(std::string)), ui.fusionForeverWidget, SLOT(AddSection(std::string)));
+		QObject::connect(itemButton, SIGNAL(sectionRightClick(std::string)), toolbox_menu_, SLOT(show_popup(std::string)));
 
 		std::vector<std::string> tags = SectionMetadata::GetTags(it->first);
 		for(std::vector<std::string>::iterator tag = tags.begin(); tag != tags.end(); ++tag)
@@ -98,6 +109,7 @@ void FusionForever_Editor::reloadSectionList(std::vector<std::pair<std::string, 
 			toolbox_page_layout->addWidget(itemButton);
 
 			QObject::connect(itemButton, SIGNAL(sectionClicked(std::string)), ui.fusionForeverWidget, SLOT(AddSection(std::string)));
+			QObject::connect(itemButton, SIGNAL(sectionRightClick(std::string)), toolbox_menu_, SLOT(show_popup(std::string)));
 		}
 
 		QSpacerItem* spacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);

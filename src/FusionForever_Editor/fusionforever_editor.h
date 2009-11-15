@@ -17,6 +17,7 @@ public:
 private:
 	Ui::FusionForever_EditorClass ui;
 	QMenu* selection_menu_;
+	QMenu* toolbox_menu_;
 	ScenarioDialog* scenario_dialog_;
 	std::string filename_;
 

@@ -302,6 +302,30 @@ border: 0px solid white;
     <string>Save As</string>
    </property>
   </action>
+  <action name="actionAdd_as_child">
+   <property name="text">
+    <string>Add as child</string>
+   </property>
+   <property name="toolTip">
+    <string>Adds this section as a child to the current selection</string>
+   </property>
+  </action>
+  <action name="actionAdd_as_parent">
+   <property name="text">
+    <string>Add as parent</string>
+   </property>
+   <property name="toolTip">
+    <string>Inserts this item above the current selection</string>
+   </property>
+  </action>
+  <action name="actionReplace">
+   <property name="text">
+    <string>Replace selection</string>
+   </property>
+   <property name="toolTip">
+    <string>Replaces the current selection</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

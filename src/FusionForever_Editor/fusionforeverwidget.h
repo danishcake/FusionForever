@@ -29,8 +29,13 @@ public:
 
 public slots:
 	void Tick();
+	/* Adds as child */
 	void AddSection(std::string _item_name);
+	/* Inserts before selection */
 	void InsertSection(std::string _item_name);
+	/* Replaces the current selection */
+	void ReplaceSection(std::string _item_name);
+
 	void RemoveSelection();
 	void DeleteSelection();
 	void SelectSection(int /*_section_id*/);

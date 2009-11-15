@@ -189,16 +189,6 @@ void FusionForeverWidget::AddSection(std::string _item_name)
 	}
 }
 
-void FusionForeverWidget::DeleteSelection()
-{
-	//std::vector<Section*> detached = selection_->GetParent()->DetachChildren();
-
-	if(selection_ && core_ != selection_)
-	{
-		selection_->TakeDamage(selection_->GetMaxHealth() + 1, -1);	
-	}
-}
-
 void FusionForeverWidget::InsertSection(std::string _item_name)
 {
 	if(selection_ && selection_ != core_)
@@ -213,10 +203,43 @@ void FusionForeverWidget::InsertSection(std::string _item_name)
 			children.push_back(nSection);
 			nSection->AddChild(selection_);
 			parent->AttachChildren(children);
+			SetSelection(nSection);
 		} else
 		{
 			Logger::ErrorOut() << "Unable to create section of type '" << _item_name << "'\n";
 		}
+	}
+}
+
+void FusionForeverWidget::ReplaceSection(std::string _item_name)
+{
+	if(selection_ && selection_ != core_)
+	{
+		Section_ptr nSection = SectionTypes::GetSection(_item_name);
+		if(nSection)
+		{
+			//Detach children, remove selection from them. Add new section and attach selection to it.
+			Section_ptr parent = selection_->GetParent();
+			std::vector<Section_ptr> children = parent->DetachChildren();
+			children.erase(std::remove(children.begin(), children.end(), selection_), children.end());
+			parent->AddChild(nSection);
+			nSection->AttachChildren(children);
+			delete selection_;
+			SetSelection(nSection);
+		} else
+		{
+			Logger::ErrorOut() << "Unable to create section of type '" << _item_name << "'\n";
+		}
+	}
+}
+
+void FusionForeverWidget::DeleteSelection()
+{
+	//std::vector<Section*> detached = selection_->GetParent()->DetachChildren();
+
+	if(selection_ && core_ != selection_)
+	{
+		selection_->TakeDamage(selection_->GetMaxHealth() + 1, -1);	
 	}
 }
 
