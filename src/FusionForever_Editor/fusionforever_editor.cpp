@@ -155,7 +155,8 @@ void FusionForever_Editor::openShip()
 {
 	QString filename = QFileDialog::getOpenFileName(this, "Save Ship", "./Scripts/Ships/", "XMLShip format (*.xmlShip)");
 	filename_ = filename.toStdString();
-	ui.fusionForeverWidget->Open(filename_);
+	if(filename_.length() > 0)
+		ui.fusionForeverWidget->Open(filename_);
 }
 
 void FusionForever_Editor::tryShip()
