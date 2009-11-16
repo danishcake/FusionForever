@@ -12,9 +12,31 @@ Fire4.wav
 http://www.freesound.org/samplesViewSingle.php?id=30935
 Fire5.wav
 http://www.freesound.org/samplesViewSingle.php?id=39023
+Fire6.wav
+http://www.freesound.org/samplesViewSingle.php?id=28910
+Fire7.wav
+http://www.freesound.org/samplesViewSingle.php?id=28911
+Fire8.wav
+http://www.freesound.org/samplesViewSingle.php?id=28916
+Fire9.wav
+http://www.freesound.org/samplesViewSingle.php?id=18389
+Fire10.wav
+http://www.freesound.org/samplesViewSingle.php?id=51471
+Fire11.wav
+http://www.freesound.org/samplesViewSingle.php?id=42146
+Fire12.wav
+Section of http://www.freesound.org/samplesViewSingle.php?id=26141
+Fire13.wav
+Section of http://www.freesound.org/samplesViewSingle.php?id=26141
+
 
 hit1.wav
 http://www.freesound.org/samplesViewSingle.php?id=980
+hit2.wav
+http://www.freesound.org/samplesViewSingle.php?id=51470
+hit3.wav
+http://www.freesound.org/samplesViewSingle.php?id=51464
+
 load_challenge.wav
 http://www.freesound.org/samplesViewSingle.php?id=30351
 select1.wav

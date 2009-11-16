@@ -191,8 +191,6 @@ void FusionForeverWidget::AddSection(std::string _item_name)
 
 void FusionForeverWidget::DeleteSelection()
 {
-	//std::vector<Section*> detached = selection_->GetParent()->DetachChildren();
-
 	if(selection_ && core_ != selection_)
 	{
 		selection_->TakeDamage(selection_->GetMaxHealth() + 1, -1);	
@@ -230,7 +228,7 @@ void FusionForeverWidget::RemoveSelection()
 		children.erase(std::remove(children.begin(), children.end(), selection_), children.end());
 		children.insert(children.end(), selection_children.begin(), selection_children.end());
 		parent->AttachChildren(children);
-		selection_->TakeDamage(selection_->GetMaxHealth() + 1, -1);	
+		delete selection_;
 		SetSelection(parent);
 	}
 }
@@ -247,14 +245,24 @@ void FusionForeverWidget::Save(std::string _filename)
 
 void FusionForeverWidget::New()
 {
-	delete core_;
+	std::vector<Decoration_ptr> deathspawn;
+	core_->GetDeathSpawn(deathspawn);
+	for(std::vector<Decoration_ptr>::iterator it = deathspawn.begin(); it != deathspawn.end(); ++it)
+	{
+		delete *it;
+	}
 	core_ = XMLCore::CreateXMLCore("SquareCore");
 	SetSelection(core_);
 }
 
 void FusionForeverWidget::Open(std::string _filename)
 {
-	delete core_;
+	std::vector<Decoration_ptr> deathspawn;
+	core_->GetDeathSpawn(deathspawn);
+	for(std::vector<Decoration_ptr>::iterator it = deathspawn.begin(); it != deathspawn.end(); ++it)
+	{
+		delete *it;
+	}
 	core_ = Core::CreateCore(_filename);
 	if(!core_)
 	{

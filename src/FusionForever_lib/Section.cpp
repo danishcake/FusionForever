@@ -48,13 +48,11 @@ Section::Section(void)
 	mass_ = 100;
 	moment_ = 100;
 	time_since_damage_ = 1000; //Not yet taken damage, arbitary large #
-	Logger::DiagnosticOut() << "Section: " << section_count_ << "/" << section_freed_ << "\n";
 }
 
 Section::~Section(void)
 {
 	section_freed_++;
-	Logger::DiagnosticOut() << "Section: " << section_count_ << "/" << section_freed_ << "\n";
 }
 
 void Section::DrawSelf(void)

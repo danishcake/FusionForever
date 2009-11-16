@@ -16,7 +16,7 @@ BeamFiringSection::BeamFiringSection(void)
 	beam_energy_use_ = 5;
 	charge_up_sound_ = "";
 	firing_sound_ = "";
-	beam_sound_ = LoopingBuffer("fire1.wav");
+	//beam_sound_ = LoopingBuffer("fire1.wav");
 }
 
 BeamFiringSection::~BeamFiringSection(void)

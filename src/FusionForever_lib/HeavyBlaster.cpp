@@ -69,6 +69,7 @@ void HeavyBlaster::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj
 			cooldown_ = cooldown_time_;
 
 			PowerTick(-4);
+			SoundManager::Instance().PlaySample("Fire10.wav");
 		}
 	}
 }
