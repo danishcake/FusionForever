@@ -1,8 +1,10 @@
 #include "StdAfx.h"
 #include "LoopingBuffer.h"
 
+int LoopingBuffer::running_count_ = 0;
+
 LoopingBuffer::LoopingBuffer(std::string _filename) :
-filename_(_filename), channel_(-1)
+filename_(_filename), channel_(-1), volume_(1.0f)
 {
 }
 
@@ -29,6 +31,8 @@ void LoopingBuffer::Start()
 	{
 		channel_ = SoundManager::Instance().PlayLoopingSample(filename_);
 		SoundManager::Instance().SetVolume(channel_, volume_);
+		running_count_++;
+		Logger::DiagnosticOut() << "Active loops++=" << running_count_ << "\n";
 	}
 }
 
@@ -38,6 +42,8 @@ void LoopingBuffer::Stop()
 	{
 		SoundManager::Instance().StopChannel(channel_);
 		channel_ = -1;
+		running_count_--;
+		Logger::DiagnosticOut() << "Active loops--= " << running_count_ << "\n";
 	}
 }
 

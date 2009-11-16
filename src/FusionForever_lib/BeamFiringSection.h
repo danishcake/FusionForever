@@ -2,6 +2,7 @@
 #include "Section.h"
 #include "BeamSection.h"
 #include "BeamCharge.h"
+#include "LoopingBuffer.h"
 
 /**
   * The BeamFiringSection represents a section that fires a beam.
@@ -56,7 +57,7 @@ protected:
 	 * Sound to play while firing
 	 */
 	std::string firing_sound_;
-
+	LoopingBuffer beam_sound_;
 public:
    /**
      * Creates a BeamFiringSection.

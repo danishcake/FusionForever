@@ -10,6 +10,7 @@ private:
 	std::string filename_;
 	int channel_;
 	float volume_;
+	static int running_count_;
 public:
 	LoopingBuffer();
 	explicit LoopingBuffer(std::string _filename);
