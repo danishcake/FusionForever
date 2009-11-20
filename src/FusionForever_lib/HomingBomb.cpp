@@ -49,6 +49,7 @@ void HomingBomb::Hit(std::vector<Decoration_ptr>& _spawn, std::vector<Projectile
 		sb->SetVelocity(Vector3f(sb_speed * sin(sb->GetAngle() * M_PI / 180.0f), sb_speed * cos(sb->GetAngle() * M_PI / 180.0f), 0));
 		_projectile_spawn.push_back(sb);
 	}
+	SoundManager::Instance().PlaySample("Bomb1.wav");
 }
 
 void HomingBomb::InitialiseGraphics()

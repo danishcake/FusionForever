@@ -1324,6 +1324,10 @@
 			Name="Sounds"
 			>
 			<File
+				RelativePath=".\Sounds\Bomb1.wav"
+				>
+			</File>
+			<File
 				RelativePath=".\Sounds\Crash1.wav"
 				>
 			</File>
@@ -1368,6 +1372,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Sounds\Fire15.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Fire16.wav"
+				>
+			</File>
+			<File
 				RelativePath=".\Sounds\Fire2.wav"
 				>
 			</File>
@@ -1401,10 +1413,6 @@
 			</File>
 			<File
 				RelativePath=".\Sounds\hit2.wav"
-				>
-			</File>
-			<File
-				RelativePath=".\Sounds\hit3.wav"
 				>
 			</File>
 			<File

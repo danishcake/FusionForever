@@ -28,14 +28,20 @@ Fire12.wav
 Section of http://www.freesound.org/samplesViewSingle.php?id=26141
 Fire13.wav
 Section of http://www.freesound.org/samplesViewSingle.php?id=26141
-
+Fire14.wav
+http://www.freesound.org/samplesViewSingle.php?id=51470
+Fire15.wav
+http://www.freesound.org/samplesViewSingle.php?id=30436
+Fire16.wav
+http://www.freesound.org/samplesViewSingle.php?id=39624
 
 hit1.wav
 http://www.freesound.org/samplesViewSingle.php?id=980
 hit2.wav
-http://www.freesound.org/samplesViewSingle.php?id=51470
-hit3.wav
 http://www.freesound.org/samplesViewSingle.php?id=51464
+
+Bomb1.wav
+http://www.freesound.org/samplesViewSingle.php?id=14616
 
 load_challenge.wav
 http://www.freesound.org/samplesViewSingle.php?id=30351

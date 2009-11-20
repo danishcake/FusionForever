@@ -37,6 +37,8 @@ public slots:
 	void SetGridSize(float /*_snap*/);
 	void IncreaseGridSize();
 	void DecreaseGridSize();
+	void CutSection();
+	void PasteSection();
 
 signals:
 	void selectionChanged(Section* /*_current_selection*/, std::vector<Section*> /*_all_possible_selections*/);
@@ -59,6 +61,7 @@ private:
 	void SetSelection(Section*);
 	Section* core_;
 	Section* selection_;
+	Section* cut_section_;
 	std::vector<Section*> sections_under_mouse_;
 	size_t section_under_mouse_index_;
 
