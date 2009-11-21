@@ -91,6 +91,7 @@ void HeavyChainGun::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_pr
 			fire_projectile(new PlasmaRound(Vector3f(Random::RandomRange(-2, 2), Random::RandomRange(1, 7), 0)), _spawn_prj);
 			cooldown_ = start_fire_time_ - (start_fire_time_ - minimum_fire_time_) * spun_up_factor_;
 			PowerTick(-2);
+			SoundManager::Instance().PlaySample("Fire16.wav");
 		}
 	} else
 	{

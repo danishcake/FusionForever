@@ -73,7 +73,7 @@ void PhotonCannon::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj
 			Projectile_ptr p1 = new PhotonPulse(Vector3f(0, 2, 0));
 			fire_projectile(p1, _spawn_prj);
 			cooldown_ = cooldown_time_;
-
+			SoundManager::Instance().PlaySample("Fire7.wav");
 			PowerTick(-5);
 		}
 	}

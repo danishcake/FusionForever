@@ -63,8 +63,12 @@
      <addaction name="actionIncrease_snap"/>
      <addaction name="actionDecrease_snap"/>
     </widget>
+    <addaction name="actionCut"/>
+    <addaction name="actionPaste"/>
+    <addaction name="separator"/>
     <addaction name="actionDelete_selection"/>
     <addaction name="actionRemove"/>
+    <addaction name="separator"/>
     <addaction name="menuGrid"/>
    </widget>
    <widget class="QMenu" name="menuScenario">
@@ -316,6 +320,22 @@ border: 0px solid white;
    </property>
    <property name="toolTip">
     <string>Inserts this item above the current selection</string>
+   </property>
+  </action>
+  <action name="actionCut">
+   <property name="text">
+    <string>Cut</string>
+   </property>
+   <property name="toolTip">
+    <string>Cuts the current selection</string>
+   </property>
+  </action>
+  <action name="actionPaste">
+   <property name="text">
+    <string>Paste</string>
+   </property>
+   <property name="toolTip">
+    <string>Reattaches the cut selection</string>
    </property>
   </action>
   <action name="actionReplace">

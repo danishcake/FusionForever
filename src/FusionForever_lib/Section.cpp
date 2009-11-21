@@ -52,7 +52,7 @@ Section::Section(void)
 
 Section::~Section(void)
 {
-
+	section_freed_++;
 }
 
 void Section::DrawSelf(void)

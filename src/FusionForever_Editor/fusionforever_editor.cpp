@@ -53,6 +53,9 @@ FusionForever_Editor::FusionForever_Editor(QWidget *parent, Qt::WFlags flags)
 	QObject::connect(ui.actionIncrease_snap, SIGNAL(triggered()), ui.fusionForeverWidget, SLOT(IncreaseGridSize()));
 	QObject::connect(ui.actionDecrease_snap, SIGNAL(triggered()), ui.fusionForeverWidget, SLOT(DecreaseGridSize()));
 
+	QObject::connect(ui.actionCut, SIGNAL(triggered()), ui.fusionForeverWidget, SLOT(CutSection()));
+	QObject::connect(ui.actionPaste, SIGNAL(triggered()), ui.fusionForeverWidget, SLOT(PasteSection()));
+
 
 
 	QObject::connect(ui.actionSave, SIGNAL(triggered()), this, SLOT(saveShip()));

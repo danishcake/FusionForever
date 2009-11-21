@@ -500,6 +500,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\LoopingBuffer.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\LuaTimeout.cpp"
 					>
 				</File>
@@ -935,6 +939,10 @@
 				</File>
 				<File
 					RelativePath=".\Logger.h"
+					>
+				</File>
+				<File
+					RelativePath=".\LoopingBuffer.h"
 					>
 				</File>
 				<File

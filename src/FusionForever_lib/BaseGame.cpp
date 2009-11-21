@@ -41,6 +41,7 @@ BaseGame::~BaseGame(void)
 {
 	delete challenge_;
 
+	std::vector<Decoration_ptr> dec_spawn;
 	for(int force = 0; force < MAX_FORCES; force++)
 	{
 		BOOST_FOREACH(Projectile_ptr ptr, projectiles_[force])
@@ -49,10 +50,21 @@ BaseGame::~BaseGame(void)
 		}
 		BOOST_FOREACH(Core_ptr ptr, ships_[force])
 		{
-			delete ptr;
+			ptr->GetDeathSpawn(dec_spawn);
+			//delete ptr;
 		}
 	}
 	BOOST_FOREACH(Decoration_ptr ptr, decorations_)
+	{
+		delete ptr;
+	}
+	/*
+	 * This is a rather convoluted way to delete sections- it used to be that the destructors called children recursively.
+	 * After adding death decorations I stopped this to allow decorations to handle destruction of sections
+	 * Upshot is that to delete a section and guarantee children will also be deleted, GetDeathSpawn must be called and return
+	 * deleted.
+	 */
+	BOOST_FOREACH(Decoration_ptr ptr, dec_spawn)
 	{
 		delete ptr;
 	}

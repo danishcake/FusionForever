@@ -81,8 +81,8 @@ void ShotgunArtillery::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn
 			Projectile_ptr p1 = new ShotgunShell(Vector3f(0, 2, 0), 0);
 			fire_projectile(p1, _spawn_prj);
 			cooldown_ = cooldown_time_;
-
 			PowerTick(-8);
+			SoundManager::Instance().PlaySample("Fire12.wav");
 		}
 	}
 }

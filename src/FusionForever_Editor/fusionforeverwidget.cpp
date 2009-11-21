@@ -12,6 +12,7 @@ FusionForeverWidget::FusionForeverWidget(QWidget *parent)
 {
 	section_under_mouse_index_ = 0;	
 	selection_ = NULL;
+	cut_section_ = NULL;
 	drag_mode_ = EditorDragMode::NotDragging;
 	drag_occurred_ = false;
 	icon_render_mode = true;
@@ -191,7 +192,7 @@ void FusionForeverWidget::AddSection(std::string _item_name)
 
 void FusionForeverWidget::InsertSection(std::string _item_name)
 {
-	if(selection_ && selection_ != core_)
+	if(selection_ && core_ != selection_)
 	{
 		Section_ptr nSection = SectionTypes::GetSection(_item_name);
 		if(nSection)
@@ -261,7 +262,7 @@ void FusionForeverWidget::RemoveSelection()
 		children.erase(std::remove(children.begin(), children.end(), selection_), children.end());
 		children.insert(children.end(), selection_children.begin(), selection_children.end());
 		parent->AttachChildren(children);
-		selection_->TakeDamage(selection_->GetMaxHealth() + 1, -1);	
+		delete selection_;
 		SetSelection(parent);
 	}
 }
@@ -278,14 +279,24 @@ void FusionForeverWidget::Save(std::string _filename)
 
 void FusionForeverWidget::New()
 {
-	delete core_;
+	std::vector<Decoration_ptr> deathspawn;
+	core_->GetDeathSpawn(deathspawn);
+	for(std::vector<Decoration_ptr>::iterator it = deathspawn.begin(); it != deathspawn.end(); ++it)
+	{
+		delete *it;
+	}
 	core_ = XMLCore::CreateXMLCore("SquareCore");
 	SetSelection(core_);
 }
 
 void FusionForeverWidget::Open(std::string _filename)
 {
-	delete core_;
+	std::vector<Decoration_ptr> deathspawn;
+	core_->GetDeathSpawn(deathspawn);
+	for(std::vector<Decoration_ptr>::iterator it = deathspawn.begin(); it != deathspawn.end(); ++it)
+	{
+		delete *it;
+	}
 	core_ = Core::CreateCore(_filename);
 	if(!core_)
 	{
@@ -295,6 +306,32 @@ void FusionForeverWidget::Open(std::string _filename)
 }
 
 
+void FusionForeverWidget::CutSection()
+{
+	if(cut_section_)
+	{
+		delete cut_section_;
+		cut_section_ = NULL;
+	}
+	if(selection_ && core_ != selection_)
+	{
+		Section_ptr parent = selection_->GetParent();
+		std::vector<Section_ptr> children = parent->DetachChildren();
+		children.erase(std::remove(children.begin(), children.end(), selection_), children.end());
+		parent->AttachChildren(children);
+		cut_section_ = selection_;
+		SetSelection(parent);
+	}
+}
+void FusionForeverWidget::PasteSection()
+{
+	if(selection_ && cut_section_)
+	{
+		selection_->AddChild(cut_section_);
+		SetSelection(cut_section_);
+		cut_section_ = NULL;
+	}
+}
 void FusionForeverWidget::SetGridSize(float _snap)
 {
 	grid_snap_ = _snap;

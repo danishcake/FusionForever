@@ -1324,6 +1324,10 @@
 			Name="Sounds"
 			>
 			<File
+				RelativePath=".\Sounds\Bomb1.wav"
+				>
+			</File>
+			<File
 				RelativePath=".\Sounds\Crash1.wav"
 				>
 			</File>
@@ -1348,6 +1352,34 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Sounds\Fire10.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Fire11.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Fire12.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Fire13.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Fire14.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Fire15.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Fire16.wav"
+				>
+			</File>
+			<File
 				RelativePath=".\Sounds\Fire2.wav"
 				>
 			</File>
@@ -1360,7 +1392,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Sounds\Fire6.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Fire7.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Fire8.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Fire9.wav"
+				>
+			</File>
+			<File
 				RelativePath=".\Sounds\hit1.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\hit2.wav"
 				>
 			</File>
 			<File

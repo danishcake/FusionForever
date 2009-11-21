@@ -81,6 +81,7 @@ void SmartBomber::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj,
 			fire_projectile(bomb, _spawn_prj);
 			cooldown_ = cooldown_time_;
 			PowerTick(25);
+			SoundManager::Instance().PlaySample("Fire11.wav");
 		}
 	}
 }
