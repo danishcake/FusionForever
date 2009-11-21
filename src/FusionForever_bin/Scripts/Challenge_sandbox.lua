@@ -158,6 +158,10 @@ function challenge_:ClearArea(position, radius)
 	end
 end
 
+function challenge_:SetAccurateCollisions(enabled)
+	SetAccurateCollisions(self.challenge_pointer, enabled)
+end
+
 function challenge_:Inspect(ship_id)
 	local shipdata = self:GetShipData(ship_id)
 	coroutine.yield()

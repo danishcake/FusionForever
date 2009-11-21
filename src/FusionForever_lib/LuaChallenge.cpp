@@ -296,6 +296,15 @@ int LuaChallenge::l_SetCamera(lua_State* _luaVM)
 	return 0;
 }
 
+int LuaChallenge::l_SetAccurateCollisions(lua_State* _luaVM)
+{
+	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -2)));
+	assert(challenge);
+	bool accurate_collisions = static_cast<bool>(lua_toboolean(_luaVM, -1));
+	challenge->game_->SetAccurateCollision(accurate_collisions);
+	return 0;
+}
+
 int LuaChallenge::l_LabelShip(lua_State* _luaVM)
 {
 	if(!(lua_gettop(_luaVM) == 3))
@@ -1006,6 +1015,7 @@ LuaChallenge::LuaChallenge(lua_State* _luaVM, std::string _challenge, BaseGame* 
 	lua_register(_luaVM, "GetCamera", l_GetCamera);
 	lua_register(_luaVM, "SetCamera", l_SetCamera);
 	lua_register(_luaVM, "KillShip", l_KillShip);
+	lua_register(_luaVM, "SetAccurateCollisions", l_SetAccurateCollisions);
 
 	lua_register(_luaVM, "SpawnDesign", l_SpawnDesign);
 	lua_register(_luaVM, "UpdateDesign", l_UpdateDesign);

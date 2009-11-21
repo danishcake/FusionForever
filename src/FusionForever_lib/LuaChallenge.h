@@ -65,6 +65,7 @@ private:
 	static int l_SetCounter(lua_State* _luaVM);
 	static int l_GetCamera(lua_State* _luaVM);
 	static int l_SetCamera(lua_State* _luaVM);
+	static int l_SetAccurateCollisions(lua_State* _luaVM);
 
 	
 	static void ParseExistingShip(lua_State* _luaVM, Section* _section, int _child_key, int _stack_size);

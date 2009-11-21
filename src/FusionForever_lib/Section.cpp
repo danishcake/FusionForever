@@ -290,18 +290,34 @@ void Section::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 	}
 }
 
+void Section::CalculateTransformedFill()
+{
+	if(!transformed_fill_verts_valid_)
+	{
+		for(unsigned int vert = 0; vert < fill_.GetFillVerts()->size(); vert++)
+		{
+			transformed_fill_verts_.push_back(ltv_transform_ * (*fill_.GetFillVerts())[vert]);
+		}
+	}
+}
+void Section::CalculateTransformedOutline()
+{
+	if(!transformed_outline_verts_valid_)
+	{
+		for(unsigned int vert = 0; vert < outline_.GetOutlineVerts()->size(); vert++)
+		{
+			transformed_outline_verts_.push_back(ltv_transform_ * (*outline_.GetOutlineVerts())[vert]);
+		}
+	}
+}
+
+
 bool Section::CheckCollisions(Projectile_ptr _projectile)
 {
 	bool hasCollided = false;
 	if(Collisions2f::CirclesIntersect(_projectile->GetPosition(), _projectile->GetRadius(), ltv_position_, radius_))
 	{//Bounding circle test passed, do proper test
-		if(!transformed_fill_verts_valid_)
-		{
-			for(unsigned int vert = 0; vert < fill_.GetFillVerts()->size(); vert++)
-			{
-				transformed_fill_verts_.push_back(ltv_transform_ * (*fill_.GetFillVerts())[vert]);
-			}
-		}
+		CalculateTransformedFill();
 		for(unsigned int vert = 0; vert < transformed_fill_verts_.size(); vert+=3)
 		{
 			if(Collisions2f::LineTriangleIntersect(transformed_fill_verts_[vert],
@@ -354,13 +370,7 @@ bool Section::CheckCollisions(Vector3f _location, Section_ptr& _section)
 
 	if(Collisions2f::PointInCircle(_location, ltv_position_, radius_))
 	{//Bounding circle test passed, do proper test
-		if(!transformed_fill_verts_valid_)
-		{
-			for(unsigned int vert = 0; vert < fill_.GetFillVerts()->size(); vert++)
-			{
-				transformed_fill_verts_.push_back(ltv_transform_ * (*fill_.GetFillVerts())[vert]);
-			}
-		}
+		CalculateTransformedFill();
 		for(unsigned int vert = 0; vert < transformed_fill_verts_.size(); vert+=3)
 		{
 			if(Collisions2f::PointInTriangle(transformed_fill_verts_[vert], transformed_fill_verts_[vert + 1], transformed_fill_verts_[vert+2], _location))
@@ -387,14 +397,7 @@ void Section::CheckCollisions(Vector3f _location, std::vector<Section*>& _sectio
 {
 	if(Collisions2f::PointInCircle(_location, ltv_position_, radius_))
 	{//Bounding circle test passed, do proper test
-		if(!transformed_fill_verts_valid_)
-		{
-			for(unsigned int vert = 0; vert < fill_.GetFillVerts()->size(); vert++)
-			{
-				transformed_fill_verts_.push_back(ltv_transform_ * (*fill_.GetFillVerts())[vert]);
-			}
-			transformed_fill_verts_valid_ = true;
-		}
+		CalculateTransformedFill();
 		for(unsigned int vert = 0; vert < transformed_fill_verts_.size(); vert+=3)
 		{
 			if(Collisions2f::PointInTriangle(transformed_fill_verts_[vert], transformed_fill_verts_[vert + 1], transformed_fill_verts_[vert+2], _location))
@@ -412,14 +415,7 @@ void Section::CheckCollisions(Vector3f _location, std::vector<Section*>& _sectio
 
 bool Section::CheckCollisions(const Vector3f _lineP1, const Vector3f _lineP2, Vector3f& _collision_point)
 {
-	if(!transformed_outline_verts_valid_)
-	{
-		for(unsigned int vert = 0; vert < outline_.GetOutlineVerts()->size(); vert++)
-		{
-			transformed_outline_verts_.push_back(ltv_transform_ * (*outline_.GetOutlineVerts())[vert]);
-		}
-		transformed_outline_verts_valid_ = true;
-	}
+	
 
 	if(has_shield_ && shield_ > 0)
 	{
@@ -431,6 +427,7 @@ bool Section::CheckCollisions(const Vector3f _lineP1, const Vector3f _lineP2, Ve
 		}
 	} else
 	{
+		CalculateTransformedOutline();
 		Vector3f collision_point;
 		Vector3f* first_point = &transformed_outline_verts_[0];
 		int num_points = static_cast<int>(outline_.GetOutlineVerts()->size());
@@ -440,6 +437,18 @@ bool Section::CheckCollisions(const Vector3f _lineP1, const Vector3f _lineP2, Ve
 			_collision_point = collision_point;
 			return true;
 		}
+	}
+	return false;
+}
+
+bool Section::CheckCollisions(Section* _section)
+{
+	CalculateTransformedFill();
+	_section->CalculateTransformedFill();
+	//TODO check triangle-triangle collisions here
+	if(Collisions2f::PolygonIntersectsPolygon(&transformed_fill_verts_[0], transformed_fill_verts_.size() / 3, &_section->transformed_fill_verts_[0], _section->transformed_fill_verts_.size() / 3))
+	{
+		return true;
 	}
 	return false;
 }

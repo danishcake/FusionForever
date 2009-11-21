@@ -376,6 +376,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\An inside job.luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\Backstabber.luaChallenge"
 					>
 				</File>
@@ -862,6 +866,10 @@
 				Name="XMLShips"
 				>
 				<File
+					RelativePath=".\Scripts\Arena.xmlShip"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\ArmedWell.xmlShip"
 					>
 				</File>
@@ -1123,6 +1131,10 @@
 				</File>
 				<File
 					RelativePath=".\Scripts\GW_A.luaAI"
+					>
+				</File>
+				<File
+					RelativePath=".\Scripts\InsiderJob1.luaAI"
 					>
 				</File>
 				<File

@@ -52,6 +52,7 @@ public:
 	void DisplayMessage(std::string _message, float _time);
 	void SetCounter(int _counter_id, int _value, int _max, bool _visible);
 	void LabelShip(Core* _core, float _lifetime);
+	void SetAccurateCollision(bool _accurate){accurate_ship_collisions_ = _accurate;}
 
 	void Resume();
 	void Pause();
@@ -71,6 +72,7 @@ protected:
 	LuaChallenge* challenge_;
 	lua_State* luaVM_;
 	float time_rate_;
+	bool accurate_ship_collisions_;
 
 	GLuint victory_texture_;
 	GLuint defeat_texture_;

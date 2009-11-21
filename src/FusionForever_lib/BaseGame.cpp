@@ -35,6 +35,7 @@ BaseGame::BaseGame(std::string _challenge_filename)
 	Camera::Instance().SetFocus(0, 0, CameraLevel::Human);
 	time_rate_ = 1;
 	running_state_ = GameState::Running;
+	accurate_ship_collisions_ = false;
 }
 
 BaseGame::~BaseGame(void)
@@ -274,12 +275,23 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 								{
 									if(Collisions2f::CirclesIntersect(a->GetGlobalPosition(), a->GetRadius(), b->GetGlobalPosition(), b->GetRadius()))
 									{
-										//Circle-circle collisions seem to be close enough. 
-										//If a and b overlap then reduce both healths by minimum of the two healths
-										float lowest_health = a->GetHealth() < b->GetHealth() ? a->GetHealth() : b->GetHealth();
-										a->TakeDamage(lowest_health, b->GetRoot()->GetSectionID());
-										b->TakeDamage(lowest_health, a->GetRoot()->GetSectionID());
-										SoundManager::Instance().PlaySample("Crash1.wav");
+										bool collided = false;
+										if(accurate_ship_collisions_)
+										{
+											collided = a->CheckCollisions(b);
+										} else
+										{
+											collided = true;
+										}
+										if(collided)
+										{
+											//Circle-circle collisions seem to be close enough. 
+											//If a and b overlap then reduce both healths by minimum of the two healths
+											float lowest_health = a->GetHealth() < b->GetHealth() ? a->GetHealth() : b->GetHealth();
+											a->TakeDamage(lowest_health, b->GetRoot()->GetSectionID());
+											b->TakeDamage(lowest_health, a->GetRoot()->GetSectionID());
+											SoundManager::Instance().PlaySample("Crash1.wav");
+										}
 									}
 								}
 							}

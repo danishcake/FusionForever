@@ -37,6 +37,9 @@ private:
 	static int section_count_;
 	static int section_freed_;
 	bool first_tick_;
+
+	void CalculateTransformedFill();
+	void CalculateTransformedOutline();
 protected:
 	int section_id_;
 	std::string section_type_;
@@ -95,11 +98,16 @@ public:
 	virtual ~Section(void);
 	void AddChild(Section * child);
 	virtual void DrawSelf();
-
+	/* Checks collisions with projectile, nonrecursive */
 	bool CheckCollisions(Projectile_ptr _projectile);
+	/* Checks between a coordinate and section, recursive*/
 	bool CheckCollisions(Vector3f _location, Section_ptr& _section);
+	/* Checks collisions between a coordinate and sections, recursively, builds a list of collisions*/
 	void CheckCollisions(Vector3f _location, std::vector<Section*>& _sections);
+	/* Checks collisions between a line segment and sections, nonrecursive */
 	bool CheckCollisions(const Vector3f _lineP1, const Vector3f _lineP2, Vector3f& _collision_point);
+	/* Checks collisions between self and another section, nonrecursive */
+	bool CheckCollisions(Section* _section);
 	void RayCollisionFilter(Vector3f P1, Vector3f P2, std::vector<Section_ptr>& _valid_sections, float& _min_distance, float& _max_distance);
 	void SetColor(GLColor _color);
 	void SetOutlineColor(GLColor _color);

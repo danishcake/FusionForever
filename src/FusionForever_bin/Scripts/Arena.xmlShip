@@ -1,0 +1,259 @@
+<?xml version="1.0" ?>
+<Section x="0" y="0" Angle="0" Health="1000" Delay="0" SectionType="SquareCore" angle="0">
+    <Section x="0" y="287.5" Angle="45" Health="1000000" Delay="0" SectionType="BearEars">
+        <Section x="17.5" y="17.5" Angle="45" Health="1000000" Delay="0" SectionType="HeavyArm2">
+            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="15" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="25" Angle="0" Health="1000000" Delay="0" SectionType="Circle" />
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="-17.5" y="-17.5" Angle="-135" Health="1000000" Delay="0" SectionType="HeavyArm2">
+            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="-15" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="25" Angle="0" Health="1000000" Delay="0" SectionType="Circle" />
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="17.5" y="-17.5" Angle="135" Health="1000000" Delay="0" SectionType="Blaster" />
+    </Section>
+    <Section x="-287.5" y="0" Angle="-45" Health="1000000" Delay="0" SectionType="BearEars">
+        <Section x="17.5" y="17.5" Angle="45" Health="1000000" Delay="0" SectionType="HeavyArm2">
+            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="15" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="25" Angle="0" Health="1000000" Delay="0" SectionType="Circle" />
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="-17.5" y="-17.5" Angle="-135" Health="1000000" Delay="0" SectionType="HeavyArm2">
+            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="-15" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="25" Angle="0" Health="1000000" Delay="0" SectionType="Circle" />
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="17.5" y="-17.5" Angle="135" Health="1000000" Delay="2" SectionType="Blaster" />
+    </Section>
+    <Section x="287.5" y="0" Angle="45" Health="1000000" Delay="0" SectionType="BearEars">
+        <Section x="-17.5" y="17.5" Angle="-45" Health="1000000" Delay="0" SectionType="HeavyArm2">
+            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="-15" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="25" Angle="0" Health="1000000" Delay="0" SectionType="Circle" />
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="17.5" y="-17.5" Angle="135" Health="1000000" Delay="0" SectionType="HeavyArm2">
+            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="15" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="25" Angle="0" Health="1000000" Delay="0" SectionType="Circle" />
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="-17.5" y="-17.5" Angle="-135" Health="1000000" Delay="6" SectionType="Blaster" />
+    </Section>
+    <Section x="0" y="-287.5" Angle="45" Health="1000000" Delay="0" SectionType="BearEars">
+        <Section x="-17.5" y="-17.5" Angle="-135" Health="1000000" Delay="0" SectionType="HeavyArm2">
+            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="15" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="25" Angle="0" Health="1000000" Delay="0" SectionType="Circle" />
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="17.5" y="17.5" Angle="45" Health="1000000" Delay="0" SectionType="HeavyArm2">
+            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="-15" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="25" Angle="0" Health="1000000" Delay="0" SectionType="Circle" />
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="-17.5" y="17.5" Angle="-45" Health="1000000" Delay="4" SectionType="Blaster" />
+    </Section>
+    <Section x="202.5" y="-202.5" Angle="0" Health="1000000" Delay="0" SectionType="BearEars">
+        <Section x="17.5" y="17.5" Angle="45" Health="1000000" Delay="0" SectionType="HeavyArm2">
+            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="-15" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="25" Angle="0" Health="1000000" Delay="0" SectionType="Circle" />
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="-17.5" y="-17.5" Angle="-135" Health="1000000" Delay="0" SectionType="HeavyArm2">
+            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="15" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="25" Angle="0" Health="1000000" Delay="0" SectionType="Circle" />
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="-17.5" y="17.5" Angle="-45" Health="1000000" Delay="5" SectionType="Blaster" />
+    </Section>
+    <Section x="-202.5" y="-202.5" Angle="0" Health="1000000" Delay="0" SectionType="BearEars">
+        <Section x="-17.5" y="17.5" Angle="-45" Health="1000000" Delay="0" SectionType="HeavyArm2">
+            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="15" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="25" Angle="0" Health="1000000" Delay="0" SectionType="Circle" />
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="17.5" y="-17.5" Angle="135" Health="1000000" Delay="0" SectionType="HeavyArm2">
+            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="-15" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="25" Angle="0" Health="1000000" Delay="0" SectionType="Circle" />
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="17.5" y="17.5" Angle="45" Health="1000000" Delay="3" SectionType="Blaster" />
+    </Section>
+    <Section x="-202.5" y="202.5" Angle="-90" Health="1000000" Delay="0" SectionType="BearEars">
+        <Section x="-17.5" y="17.5" Angle="-45" Health="1000000" Delay="0" SectionType="HeavyArm2">
+            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="-15" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="25" Angle="0" Health="1000000" Delay="0" SectionType="Circle" />
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="17.5" y="-17.5" Angle="135" Health="1000000" Delay="0" SectionType="HeavyArm2">
+            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="15" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="25" Angle="0" Health="1000000" Delay="0" SectionType="Circle" />
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="-17.5" y="-17.5" Angle="-135" Health="1000000" Delay="1" SectionType="Blaster" />
+    </Section>
+    <Section x="202.5" y="202.5" Angle="0" Health="1000000" Delay="0" SectionType="BearEars">
+        <Section x="-17.5" y="17.5" Angle="-45" Health="1000000" Delay="0" SectionType="HeavyArm2">
+            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="-15" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="25" Angle="0" Health="1000000" Delay="0" SectionType="Circle" />
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="17.5" y="-17.5" Angle="135" Health="1000000" Delay="0" SectionType="HeavyArm2">
+            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="15" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="25" Angle="0" Health="1000000" Delay="0" SectionType="Circle" />
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+        <Section x="-17.5" y="-17.5" Angle="-135" Health="1000000" Delay="7" SectionType="Blaster" />
+    </Section>
+    <Section x="0" y="0" Angle="45" Health="10000" Delay="0" SectionType="SpinningJoint" RotationRate="15">
+        <Section x="0" y="0" Angle="0" Health="5000" Delay="0" SectionType="BearEars">
+            <Section x="17.5" y="17.5" Angle="45" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                        <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                                <Section x="0" y="60" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="Burner" />
+                                                </Section>
+                                            </Section>
+                                        </Section>
+                                    </Section>
+                                </Section>
+                            </Section>
+                        </Section>
+                    </Section>
+                </Section>
+            </Section>
+            <Section x="-17.5" y="-17.5" Angle="-135" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                    <Section x="0" y="60" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                        <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                                <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="Burner" />
+                                                </Section>
+                                            </Section>
+                                        </Section>
+                                    </Section>
+                                </Section>
+                            </Section>
+                        </Section>
+                    </Section>
+                </Section>
+            </Section>
+            <Section x="17.5" y="-17.5" Angle="135" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="60" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                        <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                                <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="Burner" />
+                                                </Section>
+                                            </Section>
+                                        </Section>
+                                    </Section>
+                                </Section>
+                            </Section>
+                        </Section>
+                    </Section>
+                </Section>
+            </Section>
+            <Section x="-17.5" y="17.5" Angle="-45" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                    <Section x="0" y="60" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                        <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                        <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                            <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                                <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="HeavyArm2">
+                                                    <Section x="0" y="20" Angle="0" Health="1000000" Delay="0" SectionType="Burner" />
+                                                </Section>
+                                            </Section>
+                                        </Section>
+                                    </Section>
+                                </Section>
+                            </Section>
+                        </Section>
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+    </Section>
+</Section>
