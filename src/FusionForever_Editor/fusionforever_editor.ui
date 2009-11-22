@@ -214,6 +214,9 @@ border: 0px solid white;
    <property name="toolTip">
     <string>Deletes the currently selected item</string>
    </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
   </action>
   <action name="actionNew">
    <property name="text">
@@ -329,6 +332,9 @@ border: 0px solid white;
    <property name="toolTip">
     <string>Cuts the current selection</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
   </action>
   <action name="actionPaste">
    <property name="text">
@@ -336,6 +342,9 @@ border: 0px solid white;
    </property>
    <property name="toolTip">
     <string>Reattaches the cut selection</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
    </property>
   </action>
   <action name="actionReplace">
