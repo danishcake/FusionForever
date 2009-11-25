@@ -372,151 +372,151 @@
 				Name="Challenges"
 				>
 				<File
-					RelativePath=".\Scripts\57 Varieties.luaChallenge"
+					RelativePath=".\Scripts\Challenges\57 Varieties.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\An inside job.luaChallenge"
+					RelativePath=".\Scripts\Challenges\An inside job.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Backstabber.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Backstabber.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Broadsided.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Broadsided.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\BulkFight.luaChallenge"
+					RelativePath=".\Scripts\Challenges\BulkFight.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\CoreBuilder.luaChallenge"
+					RelativePath=".\Scripts\Challenges\CoreBuilder.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Demo1.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Demo1.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Duel 1.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Duel 1.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Duel 2.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Duel 2.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Duel 3.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Duel 3.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Duel 4.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Duel 4.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Duel 5.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Duel 5.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Duel 6.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Duel 6.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\FleeingAI vs SimpleAI.luaChallenge"
+					RelativePath=".\Scripts\Challenges\FleeingAI vs SimpleAI.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Geometry Wars 1.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Geometry Wars 1.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Geometry Wars 2.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Geometry Wars 2.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Geometry Wars 3.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Geometry Wars 3.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Geometry Wars 4.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Geometry Wars 4.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\GrawpDemo.luaChallenge"
+					RelativePath=".\Scripts\Challenges\GrawpDemo.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Gunnery.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Gunnery.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\I lurk 1.luaChallenge"
+					RelativePath=".\Scripts\Challenges\I lurk 1.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\I lurk 2.luaChallenge"
+					RelativePath=".\Scripts\Challenges\I lurk 2.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\I lurk 3.luaChallenge"
+					RelativePath=".\Scripts\Challenges\I lurk 3.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Incoming! 1.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Incoming! 1.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Incoming! 2.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Incoming! 2.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Incoming! 3.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Incoming! 3.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Inspection.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Inspection.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Intro.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Intro.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\JuggernautFight.luaChallenge"
+					RelativePath=".\Scripts\Challenges\JuggernautFight.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Newships.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Newships.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Playground.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Playground.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\PVP.luaChallenge"
+					RelativePath=".\Scripts\Challenges\PVP.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\ReverseJuggernaut.luaChallenge"
+					RelativePath=".\Scripts\Challenges\ReverseJuggernaut.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Right Tool For The Job.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Right Tool For The Job.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\SurviveTheFeud.luaChallenge"
+					RelativePath=".\Scripts\Challenges\SurviveTheFeud.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\The Available Resources.luaChallenge"
+					RelativePath=".\Scripts\Challenges\The Available Resources.luaChallenge"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Wrong Tool for the Job.luaChallenge"
+					RelativePath=".\Scripts\Challenges\Wrong Tool for the Job.luaChallenge"
 					>
 				</File>
 			</Filter>
@@ -597,71 +597,71 @@
 					Name="Large - 40x40"
 					>
 					<File
-						RelativePath=".\Scripts\BearEars.XMLSection"
+						RelativePath=".\Scripts\Sections\BearEars.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\Bulkhead.XMLSection"
+						RelativePath=".\Scripts\Sections\Bulkhead.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\CenterFrontBody.XMLSection"
+						RelativePath=".\Scripts\Sections\CenterFrontBody.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\FlareArm.XMLSection"
+						RelativePath=".\Scripts\Sections\FlareArm.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\FlatBulkhead.XMLSection"
+						RelativePath=".\Scripts\Sections\FlatBulkhead.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\FrontPlatingLH.XMLSection"
+						RelativePath=".\Scripts\Sections\FrontPlatingLH.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\FrontPlatingRH.XMLSection"
+						RelativePath=".\Scripts\Sections\FrontPlatingRH.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\HeavyArm.XMLSection"
+						RelativePath=".\Scripts\Sections\HeavyArm.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\HeavyArm2.XMLSection"
+						RelativePath=".\Scripts\Sections\HeavyArm2.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\HeavyLongSpike.XMLSection"
+						RelativePath=".\Scripts\Sections\HeavyLongSpike.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\HeavySpike.XMLSection"
+						RelativePath=".\Scripts\Sections\HeavySpike.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\InverseBearEars.XMLSection"
+						RelativePath=".\Scripts\Sections\InverseBearEars.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\LargeSpire.XMLSection"
+						RelativePath=".\Scripts\Sections\LargeSpire.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\SmallBulkhead.XMLSection"
+						RelativePath=".\Scripts\Sections\SmallBulkhead.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\SmallFlatBulkhead.XMLSection"
+						RelativePath=".\Scripts\Sections\SmallFlatBulkhead.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\SpikeArmLH.XMLSection"
+						RelativePath=".\Scripts\Sections\SpikeArmLH.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\SpikeArmRH.XMLSection"
+						RelativePath=".\Scripts\Sections\SpikeArmRH.XMLSection"
 						>
 					</File>
 				</Filter>
@@ -669,99 +669,99 @@
 					Name="Medium 20x20"
 					>
 					<File
-						RelativePath=".\Scripts\BearEarMuff.XMLSection"
+						RelativePath=".\Scripts\Sections\BearEarMuff.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\BearEarMuff2.XMLSection"
+						RelativePath=".\Scripts\Sections\BearEarMuff2.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\Clamp.XMLSection"
+						RelativePath=".\Scripts\Sections\Clamp.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\DecoPlateSection.XMLSection"
+						RelativePath=".\Scripts\Sections\DecoPlateSection.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\DriveUnit.XMLSection"
+						RelativePath=".\Scripts\Sections\DriveUnit.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\EnergyStorageLarge.XMLSection"
+						RelativePath=".\Scripts\Sections\EnergyStorageLarge.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\ForwardWingLH.XMLSection"
+						RelativePath=".\Scripts\Sections\ForwardWingLH.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\ForwardWingRH.XMLSection"
+						RelativePath=".\Scripts\Sections\ForwardWingRH.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\FusionGenerator.XMLSection"
+						RelativePath=".\Scripts\Sections\FusionGenerator.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\GeneratorCross.XMLSection"
+						RelativePath=".\Scripts\Sections\GeneratorCross.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\LargeSquare.XMLSection"
+						RelativePath=".\Scripts\Sections\LargeSquare.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\LongRigidArm.XMLSection"
+						RelativePath=".\Scripts\Sections\LongRigidArm.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\OctoSection.XMLSection"
+						RelativePath=".\Scripts\Sections\OctoSection.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\ProngLH.XMLSection"
+						RelativePath=".\Scripts\Sections\ProngLH.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\ProngRH.XMLSection"
+						RelativePath=".\Scripts\Sections\ProngRH.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\SmallRocket.XMLSection"
+						RelativePath=".\Scripts\Sections\SmallRocket.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\Spire.XMLSection"
+						RelativePath=".\Scripts\Sections\Spire.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\SpunStar.XMLSection"
+						RelativePath=".\Scripts\Sections\SpunStar.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\SweptWingLH.XMLSection"
+						RelativePath=".\Scripts\Sections\SweptWingLH.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\SweptWingRH.XMLSection"
+						RelativePath=".\Scripts\Sections\SweptWingRH.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\TripleAdaptor.XMLSection"
+						RelativePath=".\Scripts\Sections\TripleAdaptor.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\WidePlate.XMLSection"
+						RelativePath=".\Scripts\Sections\WidePlate.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\WingLH.XMLSection"
+						RelativePath=".\Scripts\Sections\WingLH.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\WingRH.XMLSection"
+						RelativePath=".\Scripts\Sections\WingRH.XMLSection"
 						>
 					</File>
 				</Filter>
@@ -769,55 +769,55 @@
 					Name="Small - 10x10 or less"
 					>
 					<File
-						RelativePath=".\Scripts\Circle.XMLSection"
+						RelativePath=".\Scripts\Sections\Circle.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\EnergyStorageSmall.XMLSection"
+						RelativePath=".\Scripts\Sections\EnergyStorageSmall.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\GeneratorCube.XMLSection"
+						RelativePath=".\Scripts\Sections\GeneratorCube.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\GeneratorSpike.XMLSection"
+						RelativePath=".\Scripts\Sections\GeneratorSpike.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\NarrowProngLH.XMLSection"
+						RelativePath=".\Scripts\Sections\NarrowProngLH.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\NarrowProngRH.XMLSection"
+						RelativePath=".\Scripts\Sections\NarrowProngRH.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\RightAngleTriangle.XMLSection"
+						RelativePath=".\Scripts\Sections\RightAngleTriangle.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\RigidArm.XMLSection"
+						RelativePath=".\Scripts\Sections\RigidArm.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\SmallSquare.XMLSection"
+						RelativePath=".\Scripts\Sections\SmallSquare.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\Spike.XMLSection"
+						RelativePath=".\Scripts\Sections\Spike.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\SpikeLH.XMLSection"
+						RelativePath=".\Scripts\Sections\SpikeLH.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\SpikeRH.XMLSection"
+						RelativePath=".\Scripts\Sections\SpikeRH.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\SuperGeneratorCube.XMLSection"
+						RelativePath=".\Scripts\Sections\SuperGeneratorCube.XMLSection"
 						>
 					</File>
 				</Filter>
@@ -825,7 +825,7 @@
 					Name="Unsorted"
 					>
 					<File
-						RelativePath=".\Scripts\CenterPiece.XMLSection"
+						RelativePath=".\Scripts\Sections\CenterPiece.XMLSection"
 						>
 					</File>
 				</Filter>
@@ -833,31 +833,31 @@
 					Name="Shields"
 					>
 					<File
-						RelativePath=".\Scripts\AblativeShield.XMLSection"
+						RelativePath=".\Scripts\Sections\AblativeShield.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\HeavyDeflector.XMLSection"
+						RelativePath=".\Scripts\Sections\HeavyDeflector.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\HeavyShieldCube.XMLSection"
+						RelativePath=".\Scripts\Sections\HeavyShieldCube.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\LightDeflector.XMLSection"
+						RelativePath=".\Scripts\Sections\LightDeflector.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\MilitaryShieldCube.XMLSection"
+						RelativePath=".\Scripts\Sections\MilitaryShieldCube.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\ShieldCube.XMLSection"
+						RelativePath=".\Scripts\Sections\ShieldCube.XMLSection"
 						>
 					</File>
 					<File
-						RelativePath=".\Scripts\SuperShieldCube.XMLSection"
+						RelativePath=".\Scripts\Sections\SuperShieldCube.XMLSection"
 						>
 					</File>
 				</Filter>
@@ -866,231 +866,231 @@
 				Name="XMLShips"
 				>
 				<File
-					RelativePath=".\Scripts\Arena.xmlShip"
+					RelativePath=".\Scripts\Ships\Arena.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\ArmedWell.xmlShip"
+					RelativePath=".\Scripts\Ships\ArmedWell.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\ArmedWellBomber.xmlShip"
+					RelativePath=".\Scripts\Ships\ArmedWellBomber.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\BigSquare.xmlShip"
+					RelativePath=".\Scripts\Ships\BigSquare.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Broadside.xmlShip"
+					RelativePath=".\Scripts\Ships\Broadside.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Burnboy.xmlShip"
+					RelativePath=".\Scripts\Ships\Burnboy.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\BurnerGrawp.xmlShip"
+					RelativePath=".\Scripts\Ships\BurnerGrawp.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Cilia.xmlShip"
+					RelativePath=".\Scripts\Ships\Cilia.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\DevilHead.xmlShip"
+					RelativePath=".\Scripts\Ships\DevilHead.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\DevilHead2.xmlShip"
+					RelativePath=".\Scripts\Ships\DevilHead2.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Firepower.xmlShip"
+					RelativePath=".\Scripts\Ships\Firepower.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\FlyA.xmlShip"
+					RelativePath=".\Scripts\Ships\FlyA.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\FlyB.xmlShip"
+					RelativePath=".\Scripts\Ships\FlyB.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\FlyC.xmlShip"
+					RelativePath=".\Scripts\Ships\FlyC.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\FlyD.xmlShip"
+					RelativePath=".\Scripts\Ships\FlyD.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Fractal.xmlShip"
+					RelativePath=".\Scripts\Ships\Fractal.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\FractalB.xmlShip"
+					RelativePath=".\Scripts\Ships\FractalB.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\FractalC.xmlShip"
+					RelativePath=".\Scripts\Ships\FractalC.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\FractalD.xmlShip"
+					RelativePath=".\Scripts\Ships\FractalD.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Grawp.xmlShip"
+					RelativePath=".\Scripts\Ships\Grawp.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\GunshipA.xmlShip"
+					RelativePath=".\Scripts\Ships\GunshipA.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\GW_A.xmlShip"
+					RelativePath=".\Scripts\Ships\GW_A.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\GW_B.xmlShip"
+					RelativePath=".\Scripts\Ships\GW_B.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\GW_C.xmlShip"
+					RelativePath=".\Scripts\Ships\GW_C.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\GW_D.xmlShip"
+					RelativePath=".\Scripts\Ships\GW_D.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\GW_Player.xmlShip"
+					RelativePath=".\Scripts\Ships\GW_Player.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\GW_PlayerLaser.xmlShip"
+					RelativePath=".\Scripts\Ships\GW_PlayerLaser.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\HeavyTurret.xmlShip"
+					RelativePath=".\Scripts\Ships\HeavyTurret.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\JuggernautA.xmlShip"
+					RelativePath=".\Scripts\Ships\JuggernautA.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\JuggernautB.xmlShip"
+					RelativePath=".\Scripts\Ships\JuggernautB.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\KineticA.xmlShip"
+					RelativePath=".\Scripts\Ships\KineticA.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\KineticB.xmlShip"
+					RelativePath=".\Scripts\Ships\KineticB.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\KineticC.xmlShip"
+					RelativePath=".\Scripts\Ships\KineticC.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Largess.xmlShip"
+					RelativePath=".\Scripts\Ships\Largess.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Lasership.xmlShip"
+					RelativePath=".\Scripts\Ships\Lasership.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\LaserTurret.xmlShip"
+					RelativePath=".\Scripts\Ships\LaserTurret.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Manta.xmlShip"
+					RelativePath=".\Scripts\Ships\Manta.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\MantaB.xmlShip"
+					RelativePath=".\Scripts\Ships\MantaB.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\MissileSpew.xmlShip"
+					RelativePath=".\Scripts\Ships\MissileSpew.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\MrFlak.xmlShip"
+					RelativePath=".\Scripts\Ships\MrFlak.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\NewTech.xmlShip"
+					RelativePath=".\Scripts\Ships\NewTech.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Plasmo.xmlShip"
+					RelativePath=".\Scripts\Ships\Plasmo.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\PlasmoFast.xmlShip"
+					RelativePath=".\Scripts\Ships\PlasmoFast.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\PlasmoHeavy.xmlShip"
+					RelativePath=".\Scripts\Ships\PlasmoHeavy.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\PlayerMine.xmlShip"
+					RelativePath=".\Scripts\Ships\PlayerMine.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Protoship.xmlShip"
+					RelativePath=".\Scripts\Ships\Protoship.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Ramrod.xmlShip"
+					RelativePath=".\Scripts\Ships\Ramrod.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Razorback.xmlShip"
+					RelativePath=".\Scripts\Ships\Razorback.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Razorsaw.xmlShip"
+					RelativePath=".\Scripts\Ships\Razorsaw.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\ShieldCover.xmlShip"
+					RelativePath=".\Scripts\Ships\ShieldCover.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\ShieldTech.xmlShip"
+					RelativePath=".\Scripts\Ships\ShieldTech.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\SpaceStation.xmlShip"
+					RelativePath=".\Scripts\Ships\SpaceStation.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Spidernaut.xmlShip"
+					RelativePath=".\Scripts\Ships\Spidernaut.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\TheBulk.xmlShip"
+					RelativePath=".\Scripts\Ships\TheBulk.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\TheMine.xmlShip"
+					RelativePath=".\Scripts\Ships\TheMine.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Tortoise.xmlShip"
+					RelativePath=".\Scripts\Ships\Tortoise.xmlShip"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Turret.xmlShip"
+					RelativePath=".\Scripts\Ships\Turret.xmlShip"
 					>
 				</File>
 			</Filter>
@@ -1098,67 +1098,67 @@
 				Name="AI"
 				>
 				<File
-					RelativePath=".\Scripts\AI_BackStabber.luaAI"
+					RelativePath=".\Scripts\AI\AI_BackStabber.luaAI"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\BurnerAI.luaAI"
+					RelativePath=".\Scripts\AI\BurnerAI.luaAI"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\BurstTurretAI.luaAI"
+					RelativePath=".\Scripts\AI\BurstTurretAI.luaAI"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\CiliaAI.luaAI"
+					RelativePath=".\Scripts\AI\CiliaAI.luaAI"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\EditorAI.luaAI"
+					RelativePath=".\Scripts\AI\EditorAI.luaAI"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\FleeingAI.luaAI"
+					RelativePath=".\Scripts\AI\FleeingAI.luaAI"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\FleesAtFifty.luaAI"
+					RelativePath=".\Scripts\AI\FleesAtFifty.luaAI"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\GrawpAI.luaAI"
+					RelativePath=".\Scripts\AI\GrawpAI.luaAI"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\GW_A.luaAI"
+					RelativePath=".\Scripts\AI\GW_A.luaAI"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\InsiderJob1.luaAI"
+					RelativePath=".\Scripts\AI\InsiderJob1.luaAI"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Ram.luaAI"
+					RelativePath=".\Scripts\AI\Ram.luaAI"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\Ram_NoCam.luaAI"
+					RelativePath=".\Scripts\AI\Ram_NoCam.luaAI"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\RotatingAI.luaAI"
+					RelativePath=".\Scripts\AI\RotatingAI.luaAI"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\SimpleAI.luaAI"
+					RelativePath=".\Scripts\AI\SimpleAI.luaAI"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\SpaceStationAI.luaAI"
+					RelativePath=".\Scripts\AI\SpaceStationAI.luaAI"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\TurretAI.luaAI"
+					RelativePath=".\Scripts\AI\TurretAI.luaAI"
 					>
 				</File>
 			</Filter>
@@ -1166,31 +1166,31 @@
 				Name="XMLCores"
 				>
 				<File
-					RelativePath=".\Scripts\GiantCore.XMLCore"
+					RelativePath=".\Scripts\Sections\GiantCore.XMLCore"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\GW_A.XMLCore"
+					RelativePath=".\Scripts\Sections\GW_A.XMLCore"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\GW_B.XMLCore"
+					RelativePath=".\Scripts\Sections\GW_B.XMLCore"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\GW_C.XMLCore"
+					RelativePath=".\Scripts\Sections\GW_C.XMLCore"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\GW_Player.XMLCore"
+					RelativePath=".\Scripts\Sections\GW_Player.XMLCore"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\SquareCore.XMLCore"
+					RelativePath=".\Scripts\Sections\SquareCore.XMLCore"
 					>
 				</File>
 				<File
-					RelativePath=".\Scripts\TinyCore.XMLCore"
+					RelativePath=".\Scripts\Sections\TinyCore.XMLCore"
 					>
 				</File>
 			</Filter>
