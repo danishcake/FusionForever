@@ -9,7 +9,7 @@ src/FusionForever_bin/FusionForever_bin.vcproj.*.*.user
 src/FusionForever_lib/FusionForever_lib.vcproj.*.*.user
 src/Tests/Tests.vcproj.*.*.user
 src/FusionForever_Editor/FusionForever_Editor.vcproj.*.*.user
-src/FusionForever_Editor/GeneratedFiles/
+src/FusionForever_Editor/generatedfiles/
 bin/
 lib/
 obj/
