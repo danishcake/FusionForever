@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SectionDefinition> 
+	<Outline> M -7.5,-10 L -2.5,-5 L -2.5,5 L -7.5,10 L -7.5,15 L 7.5,15 L 7.5,10 L 2.5,5 L 2.5,-5 L 7.5,-10 L 7.5,-15 L -7.5,-15 L -7.5,-10 z </Outline>
+	<Health> 6000 </Health>
+	<SubSectionPosition x = "0" y = "0"/>
+	<Mass> 1000 </Mass>
+  <Categories>
+    <Category>Medium</Category>
+  </Categories>
+  <Tags>
+    <Tag>Octo</Tag>
+  </Tags>
+</SectionDefinition>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SectionDefinition> 
+	<Outline> M 0,5 L -2.5,2.5 L -5,2.5 L -5,-2.5 L -2.5,-5 L 0,-2.5 L 2.5,-5 L 5,-2.5 L 5,2.5 L 2.5,2.5 L 0,5 z </Outline>
+	<Health> 800 </Health>
+	<SubSectionPosition x = "0" y = "0"/>
+	<Mass> 200 </Mass>
+	<Thrust>
+		<Power>50</Power>
+		<TrailScale>1.15</TrailScale>
+		<TrailColor r="255" b="200" g="200"/>
+	</Thrust>
+  <Categories>
+    <Category>Small</Category>
+    <Category>Thruster</Category>
+  </Categories>
+  <Tags>
+    <Tag>Octo</Tag>
+    <Tag>Thruster</Tag>
+  </Tags>
+</SectionDefinition>

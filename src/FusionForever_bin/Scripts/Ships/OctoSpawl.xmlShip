@@ -1,0 +1,117 @@
+<?xml version="1.0" ?>
+<Section x="0" y="0" Angle="0" Health="1800" Delay="0" SectionType="SquareCore" angle="0">
+    <Section x="10" y="15" Angle="0" Health="850" Delay="0" SectionType="OctogonCap7RH">
+        <Section x="15" y="-5" Angle="90" Health="850" Delay="0" SectionType="OctogonCap7RH">
+            <Section x="10" y="-10" Angle="-105" Health="800" Delay="0" SectionType="OctoThruster" />
+            <Section x="15" y="5" Angle="-90" Health="3000" Delay="0" SectionType="OctoWing2RH" />
+        </Section>
+        <Section x="0" y="0" Angle="0" Health="50" Delay="0" SectionType="MilitaryShieldCube" />
+    </Section>
+    <Section x="-10" y="15" Angle="0" Health="850" Delay="0" SectionType="OctogonCap7LH">
+        <Section x="-15" y="-5" Angle="-90" Health="850" Delay="0" SectionType="OctogonCap7LH">
+            <Section x="-12.5" y="-7.5" Angle="105" Health="800" Delay="0" SectionType="OctoThruster" />
+            <Section x="-15" y="5" Angle="90" Health="3000" Delay="0" SectionType="OctoWing2LH" />
+        </Section>
+        <Section x="0" y="0" Angle="0" Health="50" Delay="0" SectionType="MilitaryShieldCube" />
+    </Section>
+    <Section x="0" y="25" Angle="0" Health="4000" Delay="0" SectionType="OctogonCap4">
+        <Section x="-10" y="12.5" Angle="-90" Health="2000" Delay="0" SectionType="Trim2">
+            <Section x="0" y="5" Angle="90" Health="3000" Delay="0" SectionType="FatWingLH" />
+            <Section x="0" y="0" Angle="0" Health="50" Delay="0" SectionType="MilitaryShieldCube" />
+        </Section>
+        <Section x="10" y="12.5" Angle="90" Health="2000" Delay="0" SectionType="Trim2">
+            <Section x="0" y="5" Angle="-90" Health="3000" Delay="0" SectionType="FatWingRH" />
+            <Section x="0" y="0" Angle="0" Health="50" Delay="0" SectionType="MilitaryShieldCube" />
+        </Section>
+        <Section x="0" y="27.5" Angle="0" Health="5000" Delay="0" SectionType="OctoConnectors">
+            <Section x="0" y="15" Angle="0" Health="3000" Delay="0" SectionType="OctogonCap6">
+                <Section x="-15" y="5" Angle="0" Health="850" Delay="0" SectionType="OctogonCap7LH">
+                    <Section x="0" y="0" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+                </Section>
+                <Section x="15" y="5" Angle="0" Health="850" Delay="0" SectionType="OctogonCap7RH">
+                    <Section x="0" y="0" Angle="0" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+                </Section>
+            </Section>
+            <Section x="-7.5" y="0" Angle="-15" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+            <Section x="10" y="0" Angle="15" Health="1500" Delay="0" SectionType="PlasmaArtillery" />
+        </Section>
+    </Section>
+    <Section x="0" y="-5" Angle="0" Health="3000" Delay="0" SectionType="InvOctogon">
+        <Section x="0" y="-10" Angle="0" Health="3000" Delay="0" SectionType="OctogonCap">
+            <Section x="0" y="-15" Angle="0" Health="3000" Delay="0" SectionType="OctogonCap2">
+                <Section x="0" y="-15" Angle="-180" Health="5000" Delay="0" SectionType="OctoConnectors2">
+                    <Section x="15" y="0" Angle="-90" Health="3000" Delay="0" SectionType="InvOctogon">
+                        <Section x="-12.5" y="-7.5" Angle="-180" Health="850" Delay="0" SectionType="OctoTrim5RH">
+                            <Section x="7.5" y="12.5" Angle="90" Health="850" Delay="0" SectionType="OctogonCap7LH">
+                                <Section x="0" y="0" Angle="0" Health="700" Delay="0" SectionType="ShotgunArtillery" />
+                            </Section>
+                        </Section>
+                        <Section x="0" y="-10" Angle="180" Health="2000" Delay="0" SectionType="Trim2">
+                            <Section x="-10" y="12.5" Angle="-90" Health="1800" Delay="0" SectionType="T-PieceSmall">
+                                <Section x="0" y="7.5" Angle="-180" Health="3000" Delay="0" SectionType="OctogonCap5">
+                                    <Section x="0" y="-12.5" Angle="0" Health="5000" Delay="0" SectionType="OctoConnectors">
+                                        <Section x="10" y="-15" Angle="0" Health="3000" Delay="0" SectionType="OctoWing2RH" />
+                                        <Section x="-10" y="-15" Angle="0" Health="3000" Delay="0" SectionType="OctoWing2LH" />
+                                        <Section x="0" y="-12.5" Angle="0" Health="800" Delay="0" SectionType="OctoThruster" />
+                                    </Section>
+                                </Section>
+                                <Section x="15" y="-10" Angle="-90" Health="3000" Delay="0" SectionType="OctogonCap5">
+                                    <Section x="0" y="-12.5" Angle="0" Health="5000" Delay="0" SectionType="OctoConnectors">
+                                        <Section x="-10" y="0" Angle="-90" Health="800" Delay="0" SectionType="HeatBeamGun" />
+                                        <Section x="15" y="-10" Angle="-90" Health="3000" Delay="0" SectionType="OctoWingLH" />
+                                        <Section x="12.5" y="0" Angle="-90" Health="800" Delay="0" SectionType="OctoThruster" />
+                                        <Section x="0" y="0" Angle="-90" Health="800" Delay="0" SectionType="TrackerArm" TurnRate="90" AngleRange="30" OnlyWhenFiring="0">
+                                            <Section x="0" y="0" Angle="0" Health="2000" Delay="0" SectionType="Trim2">
+                                                <Section x="7.5" y="0" Angle="0" Health="500" Delay="0" SectionType="Blaster" />
+                                                <Section x="-7.5" y="0" Angle="0" Health="500" Delay="0" SectionType="Blaster" />
+                                            </Section>
+                                        </Section>
+                                    </Section>
+                                    <Section x="-10" y="-2.5" Angle="-90" Health="800" Delay="0" SectionType="Burner" />
+                                    <Section x="0" y="0" Angle="0" Health="50" Delay="0" SectionType="MilitaryShieldCube" />
+                                </Section>
+                            </Section>
+                        </Section>
+                    </Section>
+                    <Section x="-15" y="0" Angle="90" Health="3000" Delay="0" SectionType="InvOctogon">
+                        <Section x="12.5" y="-7.5" Angle="180" Health="850" Delay="0" SectionType="OctoTrim5LH">
+                            <Section x="-7.5" y="12.5" Angle="-90" Health="850" Delay="0" SectionType="OctogonCap7RH">
+                                <Section x="0" y="0" Angle="0" Health="700" Delay="0" SectionType="ShotgunArtillery" />
+                            </Section>
+                        </Section>
+                        <Section x="0" y="-10" Angle="-180" Health="2000" Delay="0" SectionType="Trim2">
+                            <Section x="10" y="12.5" Angle="90" Health="1800" Delay="0" SectionType="T-PieceSmall">
+                                <Section x="0" y="7.5" Angle="-180" Health="3000" Delay="0" SectionType="OctogonCap5">
+                                    <Section x="0" y="-12.5" Angle="0" Health="5000" Delay="0" SectionType="OctoConnectors">
+                                        <Section x="-10" y="-15" Angle="0" Health="3000" Delay="0" SectionType="OctoWing2LH" />
+                                        <Section x="10" y="-15" Angle="0" Health="3000" Delay="0" SectionType="OctoWing2RH" />
+                                        <Section x="0" y="-12.5" Angle="0" Health="800" Delay="0" SectionType="OctoThruster" />
+                                    </Section>
+                                </Section>
+                                <Section x="-15" y="-10" Angle="90" Health="3000" Delay="0" SectionType="OctogonCap5">
+                                    <Section x="0" y="-12.5" Angle="0" Health="5000" Delay="0" SectionType="OctoConnectors">
+                                        <Section x="10" y="0" Angle="90" Health="800" Delay="0" SectionType="Burner" />
+                                        <Section x="-15" y="-10" Angle="90" Health="3000" Delay="0" SectionType="OctoWingRH" />
+                                        <Section x="-12.5" y="0" Angle="90" Health="800" Delay="0" SectionType="OctoThruster" />
+                                        <Section x="0" y="0" Angle="90" Health="800" Delay="0" SectionType="TrackerArm" TurnRate="90" AngleRange="30" OnlyWhenFiring="0">
+                                            <Section x="0" y="0" Angle="0" Health="2000" Delay="0" SectionType="Trim2">
+                                                <Section x="-7.5" y="0" Angle="0" Health="500" Delay="0" SectionType="Blaster" />
+                                                <Section x="7.5" y="0" Angle="0" Health="500" Delay="0" SectionType="Blaster" />
+                                            </Section>
+                                        </Section>
+                                    </Section>
+                                    <Section x="10" y="-2.5" Angle="90" Health="800" Delay="0" SectionType="Burner" />
+                                    <Section x="0" y="0" Angle="0" Health="50" Delay="0" SectionType="MilitaryShieldCube" />
+                                </Section>
+                            </Section>
+                        </Section>
+                    </Section>
+                    <Section x="0" y="10" Angle="-180" Health="1800" Delay="0" SectionType="T-PieceSmall">
+                        <Section x="-12.5" y="-10" Angle="0" Health="100" Delay="0" SectionType="SuperGeneratorCube" />
+                        <Section x="12.5" y="-10" Angle="0" Health="100" Delay="0" SectionType="SuperGeneratorCube" />
+                    </Section>
+                </Section>
+            </Section>
+        </Section>
+    </Section>
+</Section>
