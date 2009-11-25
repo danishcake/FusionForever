@@ -124,6 +124,7 @@ void LuaAI::ChangeAI(std::string _file_name)
 		luaL_unref(luaVM_, LUA_REGISTRYINDEX, environment_reference_);
 	if(target_)
 		target_->RemoveSubscriber(this);
+	target_ = NULL;
 
 	int chunk_reference = cache_->GetReference(_file_name);
 	if(chunk_reference == LUA_NOREF)
