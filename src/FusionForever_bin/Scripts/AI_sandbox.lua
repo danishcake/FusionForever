@@ -160,8 +160,9 @@ function ship_:AttackForAnd(time_to_attack, min_range, max_range, dothis)
     end
 end
 
-function ship_:ChangeAI(filename)
-    ChangeAI(self.ship_pointer, filename)
+function ship_:ChangeAI(ai_script)
+	ai_script = "Scripts/AI/" .. ai_script
+    ChangeAI(self.ship_pointer, ai_script)
 end
 
 local ship_mt = 

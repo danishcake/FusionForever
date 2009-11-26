@@ -27,11 +27,12 @@ function challenge_:SpawnShip(ship_name, force, position, angle, ai_script, heal
 	assert(type(angle) == "number", "angle must be a number")
 	assert(type(ai_script) == "string", "ai_script must be a string")
 
-	
+
+	--The editor passes full paths, so don't prepend/append with extensions and folders
 	if self.use_absolute_paths ~= true then
+		ship_name = "Scripts/Ships/" .. ship_name .. ".xmlShip"
 		local ts = string.sub(ai_script, 1, -2)
 		if (ts ~= "PlayerAI") and (ai_script ~= "KeyboardAI") then ai_script = "Scripts/AI/" .. ai_script end
-		ship_name = "Scripts/Ships/" .. ship_name .. ".xmlShip"
 	end
 
 	if health_scale ~= nil then 
