@@ -149,6 +149,11 @@ public:
 		return ltv_position_;
 	}
 
+	Matrix4f GetTransform()
+	{
+		return ltv_transform_;
+	}
+
 	void ImpartMomentum(Vector3f _momentum, Vector3f _position);
 
 	float GetMass(){return mass_;}

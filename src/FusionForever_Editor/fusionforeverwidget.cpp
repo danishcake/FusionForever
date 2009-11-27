@@ -417,8 +417,44 @@ void FusionForeverWidget::paintGL()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	Camera::Instance().SetupCamera();
 	glMatrixMode(GL_MODELVIEW);
+
+	if(selection_ && !selection_->IsCore())
+	{
+		glColor3ub(50, 50, 50);
+		Matrix4f transform = selection_->GetParent()->GetTransform();
+		glLoadMatrixf(&transform.data[0]);
+		//Draw grid
+		glBegin(GL_LINES);
+		float worst_width = sqrt(Camera::Instance().GetWidth() * Camera::Instance().GetWidth() +
+								 Camera::Instance().GetHeight() * Camera::Instance().GetHeight());
+		
+		//Calculate grid size to ensure 5px minimum size
+		float drawn_grid_size = grid_snap_;
+		const float min_screen_size = 5;
+		while(drawn_grid_size < min_screen_size * Camera::Instance().GetWidth() / Camera::Instance().GetWindowWidth())
+		{
+			drawn_grid_size *= 2.0f;
+		}	
+
+		for(float x = 0; x < worst_width; x+=drawn_grid_size)
+		{
+			glVertex3f(x, -10000, 0);
+			glVertex3f(x, 10000, 0);
+			glVertex3f(-x, -10000, 0);
+			glVertex3f(-x, 10000, 0);
+			
+			glVertex3f(-10000, x, 0);
+			glVertex3f(10000, x, 0);
+			glVertex3f(-10000, -x, 0);
+			glVertex3f(10000, -x, 0);
+		}
+		glEnd();
+	}
+
 	glLoadIdentity();
 	core_->DrawSelf();
+
+	//Calculate world space length so that constant 5px screenspace is achieved.
 	Vector3f scaled_line = Camera::Instance().ScreenDeltaToWorldDelta(Vector3f(5,0,0));
 	core_->DrawEditorSupport(scaled_line.x, selection_);
 	glFlush();
