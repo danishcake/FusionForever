@@ -225,6 +225,9 @@ void GameScene::Tick(float _timespan, std::vector<BaseScene_ptr>& _new_scenes)
 		} else if(state == ChallengeState::ReturnToEditor)
 		{
 			returning_to_editor_ = true;
+		} else if(state == ChallengeState::LoadError || state == ChallengeState::RunError)
+		{
+			returning_to_menu_ = true;
 		}
 	}
 

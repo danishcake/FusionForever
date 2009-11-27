@@ -1089,6 +1089,7 @@ bool LuaChallenge::loadChallenge()
 		std::string error_string = lua_tostring(luaVM_, -1);
 		lua_pop(luaVM_, 1);
 		Logger::ErrorOut() << "Load Challenge script error: " << error_string << "\n";
+		game_->DisplayMessage(error_string, 10);
 		return false;
 	}
 }
