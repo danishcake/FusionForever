@@ -417,10 +417,12 @@ void FusionForeverWidget::paintGL()
 	Camera::Instance().SetupCamera();
 	glMatrixMode(GL_MODELVIEW);
 
-	if(selection_ && !selection_->IsCore())
+	if(selection_)
 	{
 		glColor3ub(50, 50, 50);
-		Matrix4f transform = selection_->GetParent()->GetTransform();
+		Matrix4f transform;
+		if(!selection_->IsCore())
+			transform = selection_->GetParent()->GetTransform();
 		glLoadMatrixf(&transform.data[0]);
 		//Draw grid
 		glBegin(GL_LINES);
