@@ -102,32 +102,31 @@ void FusionForeverWidget::mouseMoveEvent(QMouseEvent* me)
 		Camera::Instance().SetCentre(Camera::Instance().GetCentreX() - world_move.x, Camera::Instance().GetCentreY() - world_move.y, CameraLevel::Human);
 	} else if(drag_mode_ == EditorDragMode::MoveDrag && selection_ && selection_ != core_)
 	{
-		accumulated_snap += world_move;
+		Vector3f rot_move = world_move;
+		rot_move.rotate(0, 0, selection_->GetParent()->GetGlobalAngle());
+		accumulated_snap += rot_move;
+
 		if(fabsf(accumulated_snap.x) >= grid_snap_)
 		{
-			//Rotate the move vector into the parents space
 			Vector3f delta = Vector3f(accumulated_snap.x, 0 , 0);
-			delta.rotate(0, 0, selection_->GetParent()->GetGlobalAngle());
 			Vector3f snap_to = (selection_->GetPosition() + delta).snap(grid_snap_);
 			selection_->SetPosition(snap_to);
 			accumulated_snap.x = 0;
 		}
 		if(fabsf(accumulated_snap.y) >= grid_snap_)
 		{
-			//Rotate the move vector into the parents space
 			Vector3f delta = Vector3f(0, accumulated_snap.y , 0);
-			delta.rotate(0, 0, selection_->GetParent()->GetGlobalAngle());
 			Vector3f snap_to = (selection_->GetPosition() + delta).snap(grid_snap_);
 			selection_->SetPosition(snap_to);
 			accumulated_snap.y = 0;
 		}
 	} else if(drag_mode_ == EditorDragMode::RotateDrag && selection_ && selection_ != core_)
 	{
-		accumulated_snap += world_move;
+		accumulated_snap.x += mouse_move.x;
 		//Rotate to face the mouse
-		if(fabs(accumulated_snap.x) >= 15)
+		if(fabs(accumulated_snap.x) >= 30)
 		{
-			float angle = floorf((selection_->GetAngle() + accumulated_snap.x) / 15 + 0.5f) * 15.0f;
+			float angle = floorf((selection_->GetAngle() + (accumulated_snap.x < 0 ? -15 : 15)) / 15 + 0.5f) * 15.0f;
 			selection_->SetAngle(angle);
 			accumulated_snap.x = 0;
 		}

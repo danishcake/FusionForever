@@ -149,6 +149,11 @@ public:
 		return ltv_position_;
 	}
 
+	/**
+	  * Gets the matrix that last transformed the entity.
+	  * @return The matrix. Transforming (0,0,0) by this gives the 
+	  *  world position of the centre of this baseEntity
+	  */
 	Matrix4f GetTransform()
 	{
 		return ltv_transform_;
