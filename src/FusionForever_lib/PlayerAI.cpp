@@ -16,6 +16,16 @@ namespace BindingType
 	{
 		Unbound, KeyboardBinding, JoystickButtonBinding, JoystickAxisBinding, MouseButtonBinding, MouseAxisBinding
 	};
+
+	static const std::string ToStr[] =
+	{
+		STR_ME( Unbound ),
+		STR_ME( KeyboardBinding ),
+		STR_ME( JoystickButtonBinding ),
+		STR_ME( JoystickAxisBinding ),
+		STR_ME( MouseButtonBinding ),
+		STR_ME( MouseAxisBinding )
+	};
 }
 
 namespace MouseAxis
@@ -24,15 +34,46 @@ namespace MouseAxis
 	{
 		MouseX, MouseY
 	};
+
+	static const std::string ToStr[] =
+	{
+		STR_ME( MouseX ),
+		STR_ME( MouseY )
+	};
 }
 
 namespace MouseButton
 {
 	enum Enum
 	{
-		LeftMouseButton = SDL_BUTTON_LEFT,
-		MiddleMouseButton = SDL_BUTTON_RIGHT,
-		RightMouseButton = SDL_BUTTON_MIDDLE
+		LeftMouseButton,
+		MiddleMouseButton,
+		RightMouseButton
+	};
+
+	static const int GetSDLCode(Enum _button)
+	{
+		switch(_button)
+		{
+		case LeftMouseButton:
+			return SDL_BUTTON_LEFT;
+			break;
+		case MiddleMouseButton:
+			return SDL_BUTTON_MIDDLE;
+			break;
+		case RightMouseButton:
+			return SDL_BUTTON_RIGHT;
+			break;
+		}
+		return 0;
+	}
+
+	static const std::string ToStr[] = 
+	{
+		"None",
+		STR_ME( LeftMouseButton ),
+		STR_ME( MiddleMouseButton ),
+		STR_ME( RightMouseButton )
 	};
 }
 
@@ -41,6 +82,7 @@ static std::map<int, SDL_Joystick*> joysticks;
 struct JoystickButton
 {
 	int button_index;
+	int joystick_index;
 	SDL_Joystick* joystick;
 	static JoystickButton Create(int _joystick_index, int _button_index)
 	{
@@ -58,6 +100,7 @@ struct JoystickButton
 			jb.joystick = joysticks[_joystick_index];
 		}
 		jb.button_index = _button_index;
+		jb.joystick_index = _joystick_index;
 		return jb;
 	}
 };
@@ -65,6 +108,7 @@ struct JoystickButton
 struct JoystickAxis
 {
 	int axis_index;
+	int joystick_index;
 	SDL_Joystick* joystick;
 	static JoystickAxis Create(int _joystick_index, int _axis_index)
 	{
@@ -84,6 +128,7 @@ struct JoystickAxis
 			ja.joystick = joysticks[_joystick_index];
 		}
 		ja.axis_index = _axis_index;
+		ja.joystick_index = _joystick_index;
 		return ja;
 	}
 };
@@ -143,6 +188,69 @@ struct InputConfig
 };
 
 std::map<int, std::vector<InputConfig> > bindings;
+
+void PlayerAI::SaveBindings()
+{
+	TiXmlDocument doc("Controls.xml");
+	TiXmlElement* root = new TiXmlElement("Controls");
+	doc.LinkEndChild(root);
+	for(std::map<int, std::vector<InputConfig> >::iterator it = bindings.begin(); it != bindings.end(); ++it)
+	{
+		TiXmlElement* player = new TiXmlElement("PlayerBindings");
+		player->SetAttribute("id", it->first);
+		for(std::vector<InputConfig>::iterator it2 = it->second.begin(); it2 != it->second.end(); it2++)
+		{
+			TiXmlElement* ic = new TiXmlElement("InputConfig");
+			ic->SetAttribute("Action", Action::ToStr[it2->action]);
+			ic->SetAttribute("BindingType", BindingType::ToStr[it2->type]);
+			switch(it2->type)
+			{
+			case BindingType::KeyboardBinding:
+				{
+					TiXmlElement* kb_el = new TiXmlElement("Binding");
+					kb_el->SetAttribute("Key", it2->binding.key);
+					ic->LinkEndChild(kb_el);
+				}
+				break;
+			case BindingType::JoystickButtonBinding:
+				{
+					TiXmlElement* jsb_el = new TiXmlElement("Binding");
+					jsb_el->SetAttribute("JoystickIndex", it2->binding.joystick_button.joystick_index);
+					jsb_el->SetAttribute("JoystickButton", it2->binding.joystick_button.button_index);
+					ic->LinkEndChild(jsb_el);
+				}
+				break;
+			case BindingType::MouseButtonBinding:
+				{
+					TiXmlElement* mb_el = new TiXmlElement("Binding");
+					mb_el->SetAttribute("MouseButton", MouseButton::ToStr[it2->binding.mouse_button]);
+					ic->LinkEndChild(mb_el);
+				}
+				break;
+			case BindingType::JoystickAxisBinding:
+				{
+					TiXmlElement* jsa_el = new TiXmlElement("Binding");
+					jsa_el->SetAttribute("JoystickAxis", it2->binding.joystick_axis.axis_index);
+					jsa_el->SetAttribute("JoystickIndex", it2->binding.joystick_axis.joystick_index);
+					ic->LinkEndChild(jsa_el);
+				}
+				break;
+			case BindingType::MouseAxisBinding:
+				{
+					TiXmlElement* ma_el = new TiXmlElement("Binding");
+					ma_el->SetAttribute("MouseAxis", MouseAxis::ToStr[it2->binding.mouse_axis]);
+					ic->LinkEndChild(ma_el);
+				}
+				break;
+			}
+			player->LinkEndChild(ic);
+		}
+		
+		root->LinkEndChild(player);
+	}
+
+	doc.SaveFile();
+}
 
 void PlayerAI::LoadBindings()
 {
@@ -236,11 +344,11 @@ AIAction PlayerAI::Tick(float _timespan, std::vector<Core*>& /*_allies*/, std::v
 			switch(it->binding.mouse_axis)
 			{
 			case MouseAxis::MouseX:
-				axis_value = mx;
+				axis_value = static_cast<float>(mx);
 				ltv_axis_value = ltv_mouse_position_.x;
 				break;
 			case MouseAxis::MouseY:
-				axis_value =  my;
+				axis_value = static_cast<float>(my);
 				ltv_axis_value = ltv_mouse_position_.y;
 				break;
 			}
@@ -302,7 +410,7 @@ AIAction PlayerAI::Tick(float _timespan, std::vector<Core*>& /*_allies*/, std::v
 		case BindingType::JoystickButtonBinding:
 
 			if((it->type == BindingType::KeyboardBinding && keystates[it->binding.key]) ||
-			   (it->type == BindingType::MouseButtonBinding && (mb & SDL_BUTTON(it->binding.mouse_button))) ||
+			   (it->type == BindingType::MouseButtonBinding && (mb & SDL_BUTTON(GetSDLCode(it->binding.mouse_button)))) ||
 			   (it->type == BindingType::JoystickButtonBinding && it->binding.joystick_button.joystick && SDL_JoystickGetButton(it->binding.joystick_button.joystick, it->binding.joystick_button.button_index)))
 			{
 				switch(it->action)
@@ -368,8 +476,8 @@ AIAction PlayerAI::Tick(float _timespan, std::vector<Core*>& /*_allies*/, std::v
 		Camera::Instance().SetFocus(_self->GetPosition().x, _self->GetPosition().y, CameraLevel::Human);
 	}
 
-	ltv_mouse_position_.x = mx;
-	ltv_mouse_position_.y = my;
+	ltv_mouse_position_.x = static_cast<float>(mx);
+	ltv_mouse_position_.y = static_cast<float>(my);
 
 	if(lock_movement)
 	{

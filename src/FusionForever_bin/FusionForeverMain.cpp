@@ -307,6 +307,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		Redraw();
 		Cull();
 	}
+	PlayerAI::SaveBindings();
 	SDL_Quit();
 
 	return 0;

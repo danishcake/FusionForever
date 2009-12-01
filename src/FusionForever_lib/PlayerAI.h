@@ -21,5 +21,6 @@ public:
 	virtual bool IsHuman(){return true;}
 
 	static void LoadBindings();
+	static void SaveBindings();
 	static std::vector<int> GetPlayerIDs(){return core_ids_;}
 };
