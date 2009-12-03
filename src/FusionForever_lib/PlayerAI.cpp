@@ -14,31 +14,55 @@ namespace BindingType
 {
 	enum Enum
 	{
-		Unbound, KeyboardBinding, JoystickButtonBinding, JoystickAxisBinding, MouseButtonBinding, MouseAxisBinding
+		InvalidFirst, Unbound, KeyboardBinding, JoystickButtonBinding, JoystickAxisBinding, MouseButtonBinding, MouseAxisBinding, InvalidLast
 	};
 
 	static const std::string ToStr[] =
 	{
+		"InvalidBindType",
 		STR_ME( Unbound ),
 		STR_ME( KeyboardBinding ),
 		STR_ME( JoystickButtonBinding ),
 		STR_ME( JoystickAxisBinding ),
 		STR_ME( MouseButtonBinding ),
-		STR_ME( MouseAxisBinding )
+		STR_ME( MouseAxisBinding ),
+		"InvalidBindType"
 	};
+
+	static const Enum FromStr(std::string _binding_type)
+	{
+		for(int i = InvalidFirst+1; i < InvalidLast; i++)
+		{
+			if(ToStr[i] == _binding_type)
+				return static_cast<Enum>(i);
+		}
+		return InvalidFirst;
+	}
 }
 
 namespace MouseAxis
 {
 	enum Enum
 	{
-		MouseX, MouseY
+		InvalidFirst, MouseX, MouseY, InvalidLast
 	};
 
 	static const std::string ToStr[] =
 	{
+		"InvalidMouseAxis",
 		STR_ME( MouseX ),
-		STR_ME( MouseY )
+		STR_ME( MouseY ),
+		"InvalidMouseAxis"
+	};
+
+	static const Enum FromStr(std::string _axis)
+	{
+		for(int i = InvalidFirst+1; i < InvalidLast; i++)
+		{
+			if(ToStr[i] == _axis)
+				return static_cast<Enum>(i);
+		}
+		return InvalidFirst;
 	};
 }
 
@@ -46,9 +70,11 @@ namespace MouseButton
 {
 	enum Enum
 	{
+		InvalidFirst,
 		LeftMouseButton,
 		MiddleMouseButton,
-		RightMouseButton
+		RightMouseButton,
+		InvalidLast
 	};
 
 	static const int GetSDLCode(Enum _button)
@@ -70,10 +96,21 @@ namespace MouseButton
 
 	static const std::string ToStr[] = 
 	{
-		"None",
+		"InvalidMouseButton",
 		STR_ME( LeftMouseButton ),
 		STR_ME( MiddleMouseButton ),
-		STR_ME( RightMouseButton )
+		STR_ME( RightMouseButton ),
+		"InvalidMouseButton"
+	};
+
+	static const Enum FromStr(std::string _btn)
+	{
+		for(int i = InvalidFirst+1; i < InvalidLast; i++)
+		{
+			if(ToStr[i] == _btn)
+				return static_cast<Enum>(i);
+		}
+		return InvalidFirst;
 	};
 }
 
@@ -152,11 +189,12 @@ namespace Action
 {
 	static enum Enum
 	{
-		XMovement, YMovement, MoveLeft, MoveRight, MoveUp, MoveDown, Fire, Target, Boost, LookXAxis, LookYAxis, LockMovement, LockAngle, LookBackwards
+		InvalidFirst, XMovement, YMovement, MoveLeft, MoveRight, MoveUp, MoveDown, Fire, Target, Boost, LookXAxis, LookYAxis, LockMovement, LockAngle, LookBackwards, InvalidLast
 	};
 
 	static const std::string ToStr[] = 
 	{
+		"InvalidSkill",
 		STR_ME( XMovement ),
 		STR_ME( YMovement ),
 		STR_ME( MoveLeft ),
@@ -170,7 +208,20 @@ namespace Action
 		STR_ME( LookYAxis ),
 		STR_ME( LockMovement ),
 		STR_ME( LockAngle ),
-		STR_ME( LookBackwards )
+		STR_ME( LookBackwards ),
+		"InvalidSkill"
+	};
+
+	static const Enum FromStr(std::string _skill)
+	{
+		for(int i = InvalidFirst+1; i < InvalidLast; i++)
+		{
+			if(ToStr[i] == _skill)
+			{
+				return static_cast<Enum>(i);
+			}
+		}
+		return InvalidFirst;
 	};
 }
 
@@ -255,10 +306,139 @@ void PlayerAI::SaveBindings()
 void PlayerAI::LoadBindings()
 {
 	TiXmlDocument doc("Controls.xml");
+	bool xml_error = false;
 	if(doc.LoadFile())
 	{
-		
-	} else
+		TiXmlElement* root = doc.FirstChildElement("Controls");
+		if(root)
+		{
+			TiXmlElement* player = root->FirstChildElement("PlayerBindings");
+			while(player)
+			{
+				int player_id = 0;
+				if(player->QueryIntAttribute("id", &player_id) == TIXML_SUCCESS)
+				{
+					TiXmlElement* ic = player->FirstChildElement("InputConfig");
+					while(ic)
+					{
+						std::string action_string;
+						if(ic->QueryValueAttribute("Action", &action_string) != TIXML_SUCCESS)
+						{
+							Logger::ErrorOut() << "Error reading action attribute, continuing\n";
+							continue;
+						}
+						std::string binding_type_string;
+						if(ic->QueryValueAttribute("BindingType", &binding_type_string) != TIXML_SUCCESS)
+						{
+							Logger::ErrorOut() << "Error reading binding attribute, continuing\n";
+							continue;
+						}
+						
+						Action::Enum action = Action::FromStr(action_string);
+						BindingType::Enum binding_type = BindingType::FromStr(binding_type_string);
+						TiXmlElement* binding = ic->FirstChildElement("Binding");
+						if(binding)
+						{
+							switch(binding_type)
+							{
+								case BindingType::KeyboardBinding:
+									{
+										int key = 0;
+										if(binding->QueryValueAttribute("Key", &key) == TIXML_SUCCESS)
+										{
+											bindings[player_id].push_back(InputConfig(binding_type, Binding((SDLKey)key), action));
+										} else
+										{
+											Logger::ErrorOut() << "Missing Key attribute, continuing\n";
+											continue;
+										}
+									}
+									break;
+								case BindingType::JoystickButtonBinding:
+									{
+										int joystick_index = 0;
+										int joystick_button_index = 0;
+										if(binding->QueryValueAttribute("JoystickIndex", &joystick_index) == TIXML_SUCCESS && 
+										   binding->QueryValueAttribute("JoystickButton", &joystick_button_index) == TIXML_SUCCESS)
+										{
+											bindings[player_id].push_back(InputConfig(binding_type, Binding(JoystickButton::Create(joystick_index, joystick_button_index)), action));
+										} else
+										{
+											Logger::ErrorOut() << "Missing JoystickIndex or JoystickButton atttribute, continuing\n";
+										}
+									}
+									break;
+								case BindingType::JoystickAxisBinding:
+									{
+										int joystick_index = 0;
+										int joystick_axis_index = 0;
+										if(binding->QueryValueAttribute("JoystickIndex", &joystick_index) == TIXML_SUCCESS && 
+										   binding->QueryValueAttribute("JoystickAxis", &joystick_axis_index) == TIXML_SUCCESS)
+										{
+											bindings[player_id].push_back(InputConfig(binding_type, Binding(JoystickAxis::Create(joystick_index, joystick_axis_index)), action));
+										} else
+										{
+											Logger::ErrorOut() << "Missing JoystickIndex or JoystickAxis atttribute, continuing\n";
+										}
+									}
+									break;
+								case BindingType::MouseAxisBinding:
+									{
+										std::string axis;
+										if(binding->QueryValueAttribute("MouseAxis", &axis) == TIXML_SUCCESS)
+										{
+											MouseAxis::Enum mouse_axis = MouseAxis::FromStr(axis);
+											if(mouse_axis != MouseAxis::InvalidFirst && mouse_axis != MouseAxis::InvalidLast)
+											{
+												bindings[player_id].push_back(InputConfig(binding_type, Binding(mouse_axis), action));
+											} else
+											{
+												Logger::ErrorOut() << "MouseAxis attribute incorrect: " << axis << "\n";
+											}
+										} else
+										{
+											Logger::ErrorOut() << "Missing MouseAxis attribute\n";
+										}
+									}
+									break;
+								case BindingType::MouseButtonBinding:
+									{
+										std::string button;
+										if(binding->QueryValueAttribute("MouseButton", &button) == TIXML_SUCCESS)
+										{
+											MouseButton::Enum mouse_button = MouseButton::FromStr(button);
+											if(mouse_button != MouseButton::InvalidFirst && mouse_button != MouseButton::InvalidLast)
+											{
+												bindings[player_id].push_back(InputConfig(binding_type, Binding(mouse_button), action));
+											} else
+											{
+												Logger::ErrorOut() << "Missing MouseAxis attribute\n";
+											}
+
+										} else
+										{
+											Logger::ErrorOut() << "Missing MouseButton attribute\n";
+										}
+									}
+									break;
+
+							}
+						} else 
+						{
+							xml_error = true;
+							Logger::ErrorOut() << "Missing Binding element\n";
+						}
+
+						
+						ic = ic->NextSiblingElement("InputConfig");
+					}
+					
+				} else xml_error = true;
+				player = player->NextSiblingElement("PlayerBindings");
+			}
+		} else xml_error = true;
+	} else xml_error = true;
+	if(xml_error)
 	{
 		std::vector<InputConfig> p1;
 		std::vector<InputConfig> p2;
