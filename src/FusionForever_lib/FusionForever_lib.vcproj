@@ -622,6 +622,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Binding.h"
+					>
+				</File>
+				<File
 					RelativePath=".\KeyboardAI.h"
 					>
 				</File>

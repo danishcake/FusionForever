@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ControlsConfig_binClass</class>
+ <widget class="QMainWindow" name="ControlsConfig_binClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>489</width>
+    <height>414</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ControlsConfig_bin</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QSDLInputWidget" name="widget" native="true"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>489</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuConfiguration">
+    <property name="title">
+     <string>Configuration</string>
+    </property>
+    <addaction name="actionSave_and_Exit"/>
+    <addaction name="actionReset_to_default"/>
+    <addaction name="actionExit_without_Saving"/>
+   </widget>
+   <addaction name="menuConfiguration"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionSave_and_Exit">
+   <property name="text">
+    <string>Save and Exit</string>
+   </property>
+  </action>
+  <action name="actionExit_without_Saving">
+   <property name="text">
+    <string>Exit without Saving</string>
+   </property>
+  </action>
+  <action name="actionReset_to_default">
+   <property name="text">
+    <string>Reset to default</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QSDLInputWidget</class>
+   <extends>QWidget</extends>
+   <header>qsdlinputwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="controlsconfig_bin.qrc"/>
+ </resources>
+ <connections/>
+</ui>

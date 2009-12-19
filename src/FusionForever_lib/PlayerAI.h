@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseAI.h"
+#include "vmath.h"
 
 class PlayerAI :
 	public BaseAI

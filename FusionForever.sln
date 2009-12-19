@@ -34,6 +34,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FusionForever_Editor", "src
 		{808546DA-755E-4123-9867-69BE06547FC5} = {808546DA-755E-4123-9867-69BE06547FC5}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ControlsConfig_bin", "src\ControlsConfig_bin\ControlsConfig_bin.vcproj", "{843CB70A-1DCC-4460-BA6A-60D1536A0250}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+	ProjectSection(ProjectDependencies) = postProject
+		{808546DA-755E-4123-9867-69BE06547FC5} = {808546DA-755E-4123-9867-69BE06547FC5}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -56,6 +65,10 @@ Global
 		{C33E2602-C728-42CD-B649-EC26670D0127}.Debug|Win32.Build.0 = Debug|Win32
 		{C33E2602-C728-42CD-B649-EC26670D0127}.Release|Win32.ActiveCfg = Release|Win32
 		{C33E2602-C728-42CD-B649-EC26670D0127}.Release|Win32.Build.0 = Release|Win32
+		{843CB70A-1DCC-4460-BA6A-60D1536A0250}.Debug|Win32.ActiveCfg = Debug|Win32
+		{843CB70A-1DCC-4460-BA6A-60D1536A0250}.Debug|Win32.Build.0 = Debug|Win32
+		{843CB70A-1DCC-4460-BA6A-60D1536A0250}.Release|Win32.ActiveCfg = Release|Win32
+		{843CB70A-1DCC-4460-BA6A-60D1536A0250}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
