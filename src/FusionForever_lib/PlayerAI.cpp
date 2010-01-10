@@ -3,13 +3,11 @@
 #include "TurningRoutines.h"
 #include "Core.h"
 #include "sdl.h"
-#include "Binding.h"
 
 
 std::vector<int> PlayerAI::core_ids_;
+std::map<int, std::vector<InputConfig> > PlayerAI::bindings;
 
-
-std::map<int, std::vector<InputConfig> > bindings;
 
 void PlayerAI::SaveBindings()
 {
@@ -211,34 +209,39 @@ void PlayerAI::LoadBindings()
 	} else xml_error = true;
 	if(xml_error)
 	{
-		std::vector<InputConfig> p1;
-		std::vector<InputConfig> p2;
-		p1.push_back(InputConfig(BindingType::KeyboardBinding, Binding(SDLK_a), Action::MoveLeft));
-		p1.push_back(InputConfig(BindingType::KeyboardBinding, Binding(SDLK_d), Action::MoveRight));
-		p1.push_back(InputConfig(BindingType::KeyboardBinding, Binding(SDLK_w), Action::MoveUp));
-		p1.push_back(InputConfig(BindingType::KeyboardBinding, Binding(SDLK_s), Action::MoveDown));
-		p1.push_back(InputConfig(BindingType::MouseAxisBinding, Binding(MouseAxis::MouseX), Action::LookXAxis));
-		p1.push_back(InputConfig(BindingType::MouseAxisBinding, Binding(MouseAxis::MouseY), Action::LookYAxis));
-		p1.push_back(InputConfig(BindingType::KeyboardBinding, Binding(SDLK_LCTRL), Action::Boost));
-		p1.push_back(InputConfig(BindingType::MouseButtonBinding, Binding(MouseButton::LeftMouseButton), Action::Fire));
-		p1.push_back(InputConfig(BindingType::MouseButtonBinding, Binding(MouseButton::RightMouseButton), Action::Boost));
-		p1.push_back(InputConfig(BindingType::MouseButtonBinding, Binding(MouseButton::MiddleMouseButton), Action::Target));
-		
-		p2.push_back(InputConfig(BindingType::JoystickAxisBinding, Binding(JoystickAxis::Create(0,0)), Action::XMovement));
-		p2.push_back(InputConfig(BindingType::JoystickAxisBinding, Binding(JoystickAxis::Create(0,1)), Action::YMovement));
-		p2.push_back(InputConfig(BindingType::JoystickAxisBinding, Binding(JoystickAxis::Create(0,0)), Action::LookXAxis));
-		p2.push_back(InputConfig(BindingType::JoystickAxisBinding, Binding(JoystickAxis::Create(0,1)), Action::LookYAxis));
-		p2.push_back(InputConfig(BindingType::JoystickButtonBinding, Binding(JoystickButton::Create(0,0)), Action::Fire));
-		p2.push_back(InputConfig(BindingType::JoystickButtonBinding, Binding(JoystickButton::Create(0,1)), Action::Boost));
-		p2.push_back(InputConfig(BindingType::JoystickButtonBinding, Binding(JoystickButton::Create(0,2)), Action::LockAngle));
-		p2.push_back(InputConfig(BindingType::JoystickButtonBinding, Binding(JoystickButton::Create(0,3)), Action::LockMovement));
-		p2.push_back(InputConfig(BindingType::JoystickButtonBinding, Binding(JoystickButton::Create(0,5)), Action::LookBackwards));
-
-		bindings[0] = p1;
-		bindings[1] = p2;
+		ResetToDefault();
 	}
 }
 
+void PlayerAI::ResetToDefault()
+{
+	bindings.clear();
+	std::vector<InputConfig> p1;
+	std::vector<InputConfig> p2;
+	p1.push_back(InputConfig(BindingType::KeyboardBinding, Binding(SDLK_a), Action::MoveLeft));
+	p1.push_back(InputConfig(BindingType::KeyboardBinding, Binding(SDLK_d), Action::MoveRight));
+	p1.push_back(InputConfig(BindingType::KeyboardBinding, Binding(SDLK_w), Action::MoveUp));
+	p1.push_back(InputConfig(BindingType::KeyboardBinding, Binding(SDLK_s), Action::MoveDown));
+	p1.push_back(InputConfig(BindingType::MouseAxisBinding, Binding(MouseAxis::MouseX), Action::LookXAxis));
+	p1.push_back(InputConfig(BindingType::MouseAxisBinding, Binding(MouseAxis::MouseY), Action::LookYAxis));
+	p1.push_back(InputConfig(BindingType::KeyboardBinding, Binding(SDLK_LCTRL), Action::Boost));
+	p1.push_back(InputConfig(BindingType::MouseButtonBinding, Binding(MouseButton::LeftMouseButton), Action::Fire));
+	p1.push_back(InputConfig(BindingType::MouseButtonBinding, Binding(MouseButton::RightMouseButton), Action::Boost));
+	p1.push_back(InputConfig(BindingType::MouseButtonBinding, Binding(MouseButton::MiddleMouseButton), Action::Target));
+	
+	p2.push_back(InputConfig(BindingType::JoystickAxisBinding, Binding(JoystickAxis::Create(0,0)), Action::XMovement));
+	p2.push_back(InputConfig(BindingType::JoystickAxisBinding, Binding(JoystickAxis::Create(0,1)), Action::YMovement));
+	p2.push_back(InputConfig(BindingType::JoystickAxisBinding, Binding(JoystickAxis::Create(0,0)), Action::LookXAxis));
+	p2.push_back(InputConfig(BindingType::JoystickAxisBinding, Binding(JoystickAxis::Create(0,1)), Action::LookYAxis));
+	p2.push_back(InputConfig(BindingType::JoystickButtonBinding, Binding(JoystickButton::Create(0,0)), Action::Fire));
+	p2.push_back(InputConfig(BindingType::JoystickButtonBinding, Binding(JoystickButton::Create(0,1)), Action::Boost));
+	p2.push_back(InputConfig(BindingType::JoystickButtonBinding, Binding(JoystickButton::Create(0,2)), Action::LockAngle));
+	p2.push_back(InputConfig(BindingType::JoystickButtonBinding, Binding(JoystickButton::Create(0,3)), Action::LockMovement));
+	p2.push_back(InputConfig(BindingType::JoystickButtonBinding, Binding(JoystickButton::Create(0,5)), Action::LookBackwards));
+
+	bindings[0] = p1;
+	bindings[1] = p2;
+}
 PlayerAI::PlayerAI(int _player_id)
 {
 	player_id_ = _player_id;

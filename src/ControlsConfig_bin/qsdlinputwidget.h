@@ -15,10 +15,11 @@ public:
 	QSDLInputWidget(QWidget *parent/*, QString action*/);
 	~QSDLInputWidget();
 
-	void SetDetails(QString _action, QString _description);
+	void SetDetails(QString _action_str, QString _description, Action::Enum _action);
 	QString GetAction();
 
 	void SetBinding(InputConfig _input_config);
+	void ClearBinding();
 	InputConfig& GetBinding();
 
 private:
@@ -27,6 +28,8 @@ private:
 	QPushButton* mConfigure;
 
 	InputConfig mInputConfig;
+
+	void UpdateInputConfig();
 private slots:
 	void Configure();
 };

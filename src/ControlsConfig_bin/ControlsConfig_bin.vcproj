@@ -38,8 +38,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\GeneratedFiles;&quot;$(QTDIR)\include&quot;;&quot;.\GeneratedFiles\$(ConfigurationName)&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;.\;..\FusionForever_lib;&quot;$(PROGRAMFILES)\SDL-1.2.12\include&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0&quot;"
-				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_THREAD_SUPPORT,QT_NO_DEBUG,NDEBUG,QT_CORE_LIB,QT_GUI_LIB"
+				AdditionalIncludeDirectories=".\GeneratedFiles;&quot;$(QTDIR)\include&quot;;&quot;.\GeneratedFiles\$(ConfigurationName)&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;.\;..\FusionForever_lib;&quot;$(PROGRAMFILES)\SDL-1.2.12\include&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0&quot;;&quot;$(PROGRAMFILES)\tinyxml&quot;"
+				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_THREAD_SUPPORT,QT_NO_DEBUG,NDEBUG,QT_CORE_LIB,QT_GUI_LIB,TIXML_USE_STL"
 				RuntimeLibrary="2"
 				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="0"
@@ -58,9 +58,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="QtCore4.lib QtGui4.lib"
+				AdditionalDependencies="QtCore4.lib QtGui4.lib tinyxml_STL.lib opengl32.lib glu32.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
-				AdditionalLibraryDirectories="$(QTDIR)\lib"
+				AdditionalLibraryDirectories="$(QTDIR)\lib;&quot;$(PROGRAMFILES)\tinyxml\Release_STL&quot;"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 			/>
@@ -113,8 +113,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\GeneratedFiles;&quot;$(QTDIR)\include&quot;;&quot;.\GeneratedFiles\$(ConfigurationName)&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;.\;..\FusionForever_lib;&quot;$(PROGRAMFILES)\SDL-1.2.12\include&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0&quot;"
-				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_THREAD_SUPPORT,QT_CORE_LIB,QT_GUI_LIB"
+				AdditionalIncludeDirectories=".\GeneratedFiles;&quot;$(QTDIR)\include&quot;;&quot;.\GeneratedFiles\$(ConfigurationName)&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;.\;..\FusionForever_lib;&quot;$(PROGRAMFILES)\SDL-1.2.12\include&quot;;&quot;$(PROGRAMFILES)\boost\boost_1_36_0&quot;;&quot;$(PROGRAMFILES)\tinyxml&quot;"
+				PreprocessorDefinitions="UNICODE,WIN32,QT_LARGEFILE_SUPPORT,QT_THREAD_SUPPORT,QT_CORE_LIB,QT_GUI_LIB, TIXML_USE_STL"
 				RuntimeLibrary="3"
 				TreatWChar_tAsBuiltInType="false"
 				UsePrecompiledHeader="0"
@@ -133,9 +133,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="QtCored4.lib QtGuid4.lib"
+				AdditionalDependencies="QtCored4.lib QtGuid4.lib tinyxmld_STL.lib opengl32.lib glu32.lib"
 				OutputFile="$(OutDir)\$(ProjectName).exe"
-				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(QTDIR)\lib&quot;;&quot;$(PROGRAMFILES)\tinyxml\Debug_STL&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 			/>
@@ -260,7 +260,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\.&quot; -I&quot;.\..\FusionForever_lib\.&quot; -I&quot;$(PROGRAMFILES)\SDL-1.2.12\include\.&quot; -I&quot;$(PROGRAMFILES)\boost\boost_1_36_0\.&quot; &quot;.\controlsconfig_bin.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DTIXML_USE_STL  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\.&quot; -I&quot;.\..\FusionForever_lib\.&quot; -I&quot;$(PROGRAMFILES)\SDL-1.2.12\include\.&quot; -I&quot;$(PROGRAMFILES)\boost\boost_1_36_0\.&quot; -I&quot;$(PROGRAMFILES)\tinyxml\.&quot; &quot;.\controlsconfig_bin.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
@@ -271,7 +271,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\.&quot; -I&quot;.\..\FusionForever_lib\.&quot; -I&quot;$(PROGRAMFILES)\SDL-1.2.12\include\.&quot; -I&quot;$(PROGRAMFILES)\boost\boost_1_36_0\.&quot; &quot;.\controlsconfig_bin.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB &quot;-D TIXML_USE_STL&quot;  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\.&quot; -I&quot;.\..\FusionForever_lib\.&quot; -I&quot;$(PROGRAMFILES)\SDL-1.2.12\include\.&quot; -I&quot;$(PROGRAMFILES)\boost\boost_1_36_0\.&quot; -I&quot;$(PROGRAMFILES)\tinyxml\.&quot; &quot;.\controlsconfig_bin.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
@@ -286,7 +286,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\.&quot; -I&quot;.\..\FusionForever_lib\.&quot; -I&quot;$(PROGRAMFILES)\SDL-1.2.12\include\.&quot; -I&quot;$(PROGRAMFILES)\boost\boost_1_36_0\.&quot; &quot;.\qsdlinputdialogue.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DTIXML_USE_STL  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\.&quot; -I&quot;.\..\FusionForever_lib\.&quot; -I&quot;$(PROGRAMFILES)\SDL-1.2.12\include\.&quot; -I&quot;$(PROGRAMFILES)\boost\boost_1_36_0\.&quot; -I&quot;$(PROGRAMFILES)\tinyxml\.&quot; &quot;.\qsdlinputdialogue.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
@@ -297,7 +297,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\.&quot; -I&quot;.\..\FusionForever_lib\.&quot; -I&quot;$(PROGRAMFILES)\SDL-1.2.12\include\.&quot; -I&quot;$(PROGRAMFILES)\boost\boost_1_36_0\.&quot; &quot;.\qsdlinputdialogue.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB &quot;-D TIXML_USE_STL&quot;  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\.&quot; -I&quot;.\..\FusionForever_lib\.&quot; -I&quot;$(PROGRAMFILES)\SDL-1.2.12\include\.&quot; -I&quot;$(PROGRAMFILES)\boost\boost_1_36_0\.&quot; -I&quot;$(PROGRAMFILES)\tinyxml\.&quot; &quot;.\qsdlinputdialogue.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
@@ -312,7 +312,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\.&quot; -I&quot;.\..\FusionForever_lib\.&quot; -I&quot;$(PROGRAMFILES)\SDL-1.2.12\include\.&quot; -I&quot;$(PROGRAMFILES)\boost\boost_1_36_0\.&quot; &quot;.\qsdlinputwidget.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DTIXML_USE_STL  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\.&quot; -I&quot;.\..\FusionForever_lib\.&quot; -I&quot;$(PROGRAMFILES)\SDL-1.2.12\include\.&quot; -I&quot;$(PROGRAMFILES)\boost\boost_1_36_0\.&quot; -I&quot;$(PROGRAMFILES)\tinyxml\.&quot; &quot;.\qsdlinputwidget.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
@@ -323,7 +323,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\.&quot; -I&quot;.\..\FusionForever_lib\.&quot; -I&quot;$(PROGRAMFILES)\SDL-1.2.12\include\.&quot; -I&quot;$(PROGRAMFILES)\boost\boost_1_36_0\.&quot; &quot;.\qsdlinputwidget.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_THREAD_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB &quot;-D TIXML_USE_STL&quot;  -I&quot;.\GeneratedFiles\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;.\GeneratedFiles\$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;.\.&quot; -I&quot;.\..\FusionForever_lib\.&quot; -I&quot;$(PROGRAMFILES)\SDL-1.2.12\include\.&quot; -I&quot;$(PROGRAMFILES)\boost\boost_1_36_0\.&quot; -I&quot;$(PROGRAMFILES)\tinyxml\.&quot; &quot;.\qsdlinputwidget.h&quot; -o &quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
@@ -434,18 +434,6 @@
 					RelativePath=".\GeneratedFiles\Release\moc_controlsconfig_bin.cpp"
 					>
 					<FileConfiguration
-						Name="Debug|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\GeneratedFiles\Release\moc_qsdlinputdialogue.cpp"
-					>
-					<FileConfiguration
 						Name="Release|Win32"
 						>
 						<Tool
@@ -462,8 +450,27 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath=".\GeneratedFiles\Release\moc_qsdlinputdialogue.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath=".\GeneratedFiles\Release\moc_qsdlinputwidget.cpp"
 					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 					<FileConfiguration
 						Name="Debug|Win32"
 						ExcludedFromBuild="true"
@@ -485,6 +492,13 @@
 					<FileConfiguration
 						Name="Release|Win32"
 						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"
