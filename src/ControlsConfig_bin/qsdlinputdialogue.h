@@ -19,11 +19,14 @@ private:
 	InputConfig* mInputConfig;
 	QString mKey;
 	QVector<SDL_Joystick*> mJoysticks;
+	QPoint mMouseStartPosition;
+	bool mMouseFirstPass;
 private slots:
 	void CheckInput();
 protected:
 	virtual void keyReleaseEvent(QKeyEvent* event);
 	virtual void mouseReleaseEvent(QMouseEvent* event);
+	virtual void mouseMoveEvent(QMouseEvent* event);
 };
 
 #endif // QSDLINPUTDIALOGUE_H

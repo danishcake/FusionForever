@@ -32,6 +32,8 @@ QSDLInputDialogue::QSDLInputDialogue(QWidget *parent, InputConfig* _input_config
 	QHBoxLayout* layout = new QHBoxLayout(this);
 	layout->addWidget(description);
 
+	setMouseTracking(true);
+	mMouseFirstPass = 1;
 
 	QTimer* timer = new QTimer(this);
 	timer->setInterval(10);
@@ -94,6 +96,27 @@ void QSDLInputDialogue::mouseReleaseEvent(QMouseEvent* event)
 		mInputConfig->binding.mouse_button = MouseButton::MiddleMouseButton;
 		done(QDialog::Accepted);
 		break;
+	}
+}
+
+void QSDLInputDialogue::mouseMoveEvent(QMouseEvent* event)
+{
+	if(mMouseFirstPass)
+	{
+		mMouseStartPosition.setX(event->x());
+		mMouseStartPosition.setY(event->y());
+		mMouseFirstPass = false;
+	}
+	if(abs(mMouseStartPosition.x() - event->x()) > 15)
+	{
+		mInputConfig->type = BindingType::MouseAxisBinding;
+		mInputConfig->binding.mouse_axis = MouseAxis::MouseX;
+		done(QDialog::Accepted);
+	} else if(abs(mMouseStartPosition.y() - event->y()) > 15)
+	{
+		mInputConfig->type = BindingType::MouseAxisBinding;
+		mInputConfig->binding.mouse_axis = MouseAxis::MouseY;
+		done(QDialog::Accepted);
 	}
 }
 

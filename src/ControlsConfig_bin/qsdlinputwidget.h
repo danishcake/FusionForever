@@ -32,6 +32,7 @@ private:
 	void UpdateInputConfig();
 private slots:
 	void Configure();
+	void Clear();
 };
 
 #endif // QSDLINPUTWIDGET_H

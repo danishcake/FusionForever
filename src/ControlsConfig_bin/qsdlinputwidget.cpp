@@ -16,10 +16,16 @@ QSDLInputWidget::QSDLInputWidget(QWidget *parent)
 	mConfigure->setText("Not bound");
 	QObject::connect(mConfigure, SIGNAL(clicked()), this, SLOT(Configure()));
 	
+	QPushButton* clear = new  QPushButton(this);
+	clear->setText("Clear");
+	clear->setSizePolicy(QSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed));
+	QObject::connect(clear, SIGNAL(clicked()), this, SLOT(Clear()));
+	
 	
 	layout->addWidget(mActionName);
 	layout->addWidget(mActionDescription);
 	layout->addWidget(mConfigure);
+	layout->addWidget(clear);
 }
 
 QSDLInputWidget::~QSDLInputWidget()
@@ -63,6 +69,11 @@ void QSDLInputWidget::Configure()
 		UpdateInputConfig();
 	} else
 		Logger::ErrorOut() << "rejected\n";
+}
+
+void QSDLInputWidget::Clear()
+{
+	ClearBinding();
 }
 
 void QSDLInputWidget::UpdateInputConfig()
