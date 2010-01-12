@@ -10,6 +10,8 @@ src/FusionForever_lib/FusionForever_lib.vcproj.*.*.user
 src/Tests/Tests.vcproj.*.*.user
 src/FusionForever_Editor/FusionForever_Editor.vcproj.*.*.user
 src/FusionForever_Editor/generatedfiles/
+src/ControlsConfig_bin/GeneratedFiles
+src/ControlsConfig_bin/ControlsConfig_bin.vcproj.*.*.user
 bin/
 lib/
 obj/
