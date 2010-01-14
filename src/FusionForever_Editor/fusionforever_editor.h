@@ -22,7 +22,7 @@ private:
 	std::string filename_;
 
 private slots:
-	void reloadSectionList(std::vector<std::pair<std::string, QPixmap*> >);
+	void reloadSectionList(std::vector<std::pair<std::string, QPixmap*> > /*_icons*/, std::vector<std::pair<std::string, QPixmap*> > /*_core_icons*/);
 	void saveShip();
 	void saveShipAs();
 	void newShip();

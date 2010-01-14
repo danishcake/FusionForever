@@ -241,6 +241,23 @@ void FusionForeverWidget::ReplaceSection(std::string _item_name)
 	}
 }
 
+void FusionForeverWidget::ReplaceCore(std::string _core_name)
+{
+	Core_ptr nCore = XMLCore::CreateXMLCore(_core_name);
+	if(nCore)
+	{
+		//Detach children from selection.
+		std::vector<Section_ptr> sel_children = core_->DetachChildren();
+		nCore->AttachChildren(sel_children);
+		delete core_;
+		core_ = nCore;
+		SetSelection(core_);
+	} else
+	{
+		Logger::ErrorOut() << "Unable to create Core of type '" << _core_name << "'\n";
+	}
+}
+
 void FusionForeverWidget::DeleteSelection()
 {
 	//std::vector<Section*> detached = selection_->GetParent()->DetachChildren();
@@ -355,61 +372,73 @@ void FusionForeverWidget::initializeGL()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
+
+
+void FusionForeverWidget::DrawSection(Section_ptr section, std::string name, std::vector<std::pair<std::string, QPixmap*> >& icons)
+{
+	if(section)
+	{
+		float radius = section->GetRadius();
+		
+		Camera::Instance().SetSmallestDimension(40);
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		Camera::Instance().SetupCamera();
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+
+		//Draw Section
+		section->DeathTick();
+		section->SetOutlineColor(GLColor(0,0,0));
+		section->DrawSelf();
+		
+		glFlush();
+
+
+		QImage icon = grabFrameBuffer();
+		if(height() > width())
+		{
+			int top = (height() - width()) / 2;
+			QImage icon2 = icon.copy(0, top, width(), width());
+			QPixmap pm = QPixmap::fromImage(icon2);
+			icons.push_back(std::pair<std::string, QPixmap*>(name, new QPixmap(pm.pixmapData())));
+		} else
+		{
+			int left = (width() - height()) / 2;
+			QImage icon2 = icon.copy(left, 0, height(), height());
+			QPixmap pm = QPixmap::fromImage(icon2);
+			icons.push_back(std::pair<std::string, QPixmap*>(name, new QPixmap(pm.pixmapData())));
+		}
+
+		delete section;
+	}
+}
 void FusionForeverWidget::paintGL()
 {
 	if(icon_render_mode) 
 	{ //On first pass render all sections to an icon
 		glClearColor(1.0f,1.0f,1.0f,0.0f);
-		std::vector<std::string> section_types = SectionTypes::GetNames();
+		std::vector<std::string> section_types = SectionTypes::GetSectionNames();
+		std::vector<std::string> core_types = SectionTypes::GetCoreNames();
 		std::vector<std::pair<std::string, QPixmap*> > section_icons;
+		std::vector<std::pair<std::string, QPixmap*> > core_icons;
 
 		for(std::vector<std::string>::iterator it = section_types.begin(); it != section_types.end(); ++it)
 		{
 			Section_ptr section = SectionTypes::GetSection(*it);
-			if(section)
-			{
-				float radius = section->GetRadius();
-				
-				Camera::Instance().SetSmallestDimension(40);
-
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-				Camera::Instance().SetupCamera();
-				glMatrixMode(GL_MODELVIEW);
-				glLoadIdentity();
-
-				//Draw Section
-				section->DeathTick();
-				section->SetOutlineColor(GLColor(0,0,0));
-				section->DrawSelf();
-				
-				glFlush();
-
-
-				QImage icon = grabFrameBuffer();
-				if(height() > width())
-				{
-					int top = (height() - width()) / 2;
-					QImage icon2 = icon.copy(0, top, width(), width());
-					QPixmap pm = QPixmap::fromImage(icon2);
-					section_icons.push_back(std::pair<std::string, QPixmap*>(*it, new QPixmap(pm.pixmapData())));
-				} else
-				{
-					int left = (width() - height()) / 2;
-					QImage icon2 = icon.copy(left, 0, height(), height());
-					QPixmap pm = QPixmap::fromImage(icon2);
-					section_icons.push_back(std::pair<std::string, QPixmap*>(*it, new QPixmap(pm.pixmapData())));
-				}
-
-				
-				delete section;
-			}
+			DrawSection(section, *it, section_icons);
+		}
+		for(std::vector<std::string>::iterator it = core_types.begin(); it != core_types.end(); ++it)
+		{
+			Section_ptr section = XMLCore::CreateXMLCore(*it);
+			DrawSection(section, *it, core_icons);
 		}
 
 		core_ = XMLCore::CreateXMLCore("SquareCore");
 		SetSelection(core_);
 		icon_render_mode = false;
 
-		emit initialisedSections(section_icons);
+		emit initialisedSections(section_icons, core_icons);
 		glClearColor(0.0f,0.0f,0.0f,0.0f);
 	}
 	

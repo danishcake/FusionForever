@@ -111,7 +111,7 @@
    <property name="minimumSize">
     <size>
      <width>120</width>
-     <height>104</height>
+     <height>138</height>
     </size>
    </property>
    <property name="contextMenuPolicy">
@@ -126,6 +126,9 @@
    <widget class="QWidget" name="dockWidgetContents">
     <layout class="QGridLayout" name="gridLayout_2">
      <property name="margin">
+      <number>0</number>
+     </property>
+     <property name="spacing">
       <number>0</number>
      </property>
      <item row="0" column="0">
@@ -148,18 +151,39 @@ border: 0px solid white;
         <number>1</number>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <property name="tabSpacing">
         <number>0</number>
        </property>
+       <widget class="QWidget" name="pageCores">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>120</width>
+          <height>693</height>
+         </rect>
+        </property>
+        <attribute name="label">
+         <string>Cores</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayoutCores">
+         <property name="margin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>3</number>
+         </property>
+        </layout>
+       </widget>
        <widget class="QWidget" name="pageAll">
         <property name="geometry">
          <rect>
           <x>0</x>
           <y>0</y>
           <width>120</width>
-          <height>727</height>
+          <height>705</height>
          </rect>
         </property>
         <attribute name="label">

@@ -29,9 +29,19 @@ PropertiesWidget::~PropertiesWidget()
 
 }
 
-void PropertiesWidget::receiveSectionPixmaps(std::vector<std::pair<std::string, QPixmap*> > _pixmaps)
+/*
+ * There is a potential bug here - as sections and core lists are merged together 
+ * there is no way to tell them apart, so if a core has the same name as a section
+ * then the section icon will be drawn as the core
+ */
+
+void PropertiesWidget::receiveSectionPixmaps(std::vector<std::pair<std::string, QPixmap*> > _section_pixmaps, std::vector<std::pair<std::string, QPixmap*> > _core_pixmaps)
 {
-	for(std::vector<std::pair<std::string, QPixmap*> >::iterator it = _pixmaps.begin(); it != _pixmaps.end(); ++it)
+	for(std::vector<std::pair<std::string, QPixmap*> >::iterator it = _section_pixmaps.begin(); it != _section_pixmaps.end(); ++it)
+	{
+		pixmaps_[it->first] = it->second;
+	}
+	for(std::vector<std::pair<std::string, QPixmap*> >::iterator it = _core_pixmaps.begin(); it != _core_pixmaps.end(); ++it)
 	{
 		pixmaps_[it->first] = it->second;
 	}
@@ -44,7 +54,6 @@ void PropertiesWidget::selectionChanged(Section* _section)
 		delete *it;
 	}
 	controls_.clear();
-	//delete layout_;
 	if(pixmaps_.find(_section->GetSectionType()) != pixmaps_.end())
 	{
 		item_label_->setPixmap(*pixmaps_[_section->GetSectionType()]);

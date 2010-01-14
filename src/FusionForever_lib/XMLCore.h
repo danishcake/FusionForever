@@ -37,5 +37,6 @@ public:
 	static XMLCore* CreateXMLCore(std::string _name);
 	static void Triangulate(std::vector<Vector3f>& _temp_outline);
 	virtual void ToXML(TiXmlElement* _node);
+	static void Preload();
 	
 };

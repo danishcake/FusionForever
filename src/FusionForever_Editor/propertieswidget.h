@@ -18,7 +18,7 @@ public:
 
 public slots:
 	void selectionChanged(Section* /*_section*/);
-	void receiveSectionPixmaps(std::vector<std::pair<std::string, QPixmap*> > /*_pixmaps*/);
+	void receiveSectionPixmaps(std::vector<std::pair<std::string, QPixmap*> > /*_section_pixmaps*/, std::vector<std::pair<std::string, QPixmap*> > /*_core_pixmaps*/);
 
 private:
 	std::vector<QWidget*> controls_;

@@ -35,6 +35,8 @@ public slots:
 	void InsertSection(std::string _item_name);
 	/* Replaces the current selection */
 	void ReplaceSection(std::string _item_name);
+	/* Replaces the current core */
+	void ReplaceCore(std::string _core_name);
 
 	void RemoveSelection();
 	void DeleteSelection();
@@ -49,7 +51,7 @@ signals:
 	void selectionChanged(Section* /*_current_selection*/, std::vector<Section*> /*_all_possible_selections*/);
 	void selectionChanged(Section* /*_new_selection*/);
 	void rightClick();
-	void initialisedSections(std::vector<std::pair<std::string, QPixmap*> >);
+	void initialisedSections(std::vector<std::pair<std::string, QPixmap*> > /*_section_icons*/, std::vector<std::pair<std::string, QPixmap*> > /*_core_icons*/);
 
 protected:
 	void initializeGL();
@@ -64,6 +66,7 @@ protected:
 
 private:
 	void SetSelection(Section*);
+	void DrawSection(Section* section, std::string name, std::vector<std::pair<std::string, QPixmap*> >& icons);
 	Section* core_;
 	Section* selection_;
 	Section* cut_section_;

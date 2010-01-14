@@ -23,10 +23,13 @@
 #include "ShotgunArtillery.h"
 #include "HeavyBlaster.h"
 #include "XMLSection.h"
+#include "XMLCore.h"
+#include <set>
 
 namespace SectionTypes
 {
 	std::map<std::string, Section*(*)()> p_map;
+	std::set<std::string> core_set;
 
 	Section* GetSection(std::string _name)
 	{
@@ -46,13 +49,23 @@ namespace SectionTypes
 		}
 	}
 
-	std::vector<std::string> GetNames()
+	std::vector<std::string> GetSectionNames()
 	{
 		std::vector<std::string> names;
 		std::pair<std::string, Section*(*)()> entry;
 		BOOST_FOREACH(entry, p_map)
 		{
 			names.push_back(entry.first);
+		}
+		return names;
+	}
+
+	std::vector<std::string> GetCoreNames()
+	{
+		std::vector<std::string> names;
+		BOOST_FOREACH(std::string entry, core_set)
+		{
+			names.push_back(entry);
 		}
 		return names;
 	}
@@ -70,6 +83,11 @@ namespace SectionTypes
 	void RegisterXMLSectionType(std::string _name)
 	{
 		p_map[_name] = NULL;
+	}
+
+	void RegisterXMLCoreType(std::string _name)
+	{
+		core_set.insert(_name);
 	}
 
 /* Factory methods - creates and instance of the section. Registered with
@@ -98,6 +116,7 @@ namespace SectionTypes
 	void RegisterSections()
 	{
 		XMLSection::Preload();
+		XMLCore::Preload();
 		SectionTypes::RegisterSectionType(CreatePlasmaArtillery, "PlasmaArtillery");
 		SectionTypes::RegisterSectionType(CreateSwarmerInstance, "Swarmer");
 		SectionTypes::RegisterSectionType(CreateSpinningJointInstance, "SpinningJoint");

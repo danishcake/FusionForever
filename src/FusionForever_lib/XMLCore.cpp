@@ -4,7 +4,8 @@
 #include "Triangulate.h"
 #include "SVGParser.h"
 #include "RotatingAI.h"
-
+#include <boost/filesystem.hpp>
+#include "SectionTypes.h"
 
 std::map<std::string, XMLCoreData> XMLCore::name_map_ = std::map<std::string, XMLCoreData>();
 
@@ -273,4 +274,40 @@ void XMLCore::ToXML(TiXmlElement* _node)
 {
 	Section::ToXML(_node);
 	_node->SetAttribute("SectionType", section_type_);
+}
+
+void XMLCore::Preload()
+{
+	int success_count = 0;
+	int total_count = 0;
+	Logger::DiagnosticOut() << "Preloading XMLCores\n";
+	/* Iterate over XML sections and load them. */
+	boost::filesystem::directory_iterator end_itr;
+	for(boost::filesystem::directory_iterator itr = boost::filesystem::directory_iterator("./Scripts/Sections");
+		itr != end_itr;
+		++itr)
+	{
+		if(boost::filesystem::is_regular((itr->status())))
+		{
+			std::string ext = boost::filesystem::extension(*itr);
+			if(ext == ".XMLCore")
+			{
+				std::string core_name = boost::filesystem::basename(itr->path());
+				XMLCore* core = XMLCore::CreateXMLCore(core_name);
+				if(core)
+				{
+					success_count++;
+					core->RegisterMetadata();
+					SectionTypes::RegisterXMLCoreType(core_name);
+				} else
+				{
+					Logger::ErrorOut() << "Unable to preload " << core_name << ". Scripts relying on it may fail\n";
+				}
+				
+				delete core;
+				total_count++;
+			}
+		}
+	}
+	Logger::DiagnosticOut() << "Preloaded " <<success_count << "/" << total_count << " successfully\n";
 }

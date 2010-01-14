@@ -684,7 +684,7 @@ EditorScene::EditorScene(void)
 	{
 		float width = 2;
 		float height = 1;
-		std::vector<std::string> names = SectionTypes::GetNames();
+		std::vector<std::string> names = SectionTypes::GetSectionNames();
 		BOOST_FOREACH(std::string name, names)
 		{
 			AddItemToTab(CEGUI::Event::Subscriber(&EditorScene::cbAddSection, this), name, pTabWeapons, width, height);
