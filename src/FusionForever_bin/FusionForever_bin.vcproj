@@ -1182,6 +1182,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\Ships\PewPew.xmlShip"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\Ships\Plasmo.xmlShip"
 					>
 				</File>
