@@ -29,8 +29,6 @@ Section::Section(void)
 	energy_ = FlexFloat(10,10);
 	power_generation_= FlexFloat(0);
 	thrust_ = FlexFloat(0);
-	thrust_color_ = GLColor(255, 255, 255);
-	thrust_scale_ = -1;
 	damage_flash_timer_ = 0;
 	flash_timer_ = 0;
 	flash_state_ = false;
@@ -220,10 +218,10 @@ void Section::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 		BillboardDeco* warp = new BillboardDeco("Warp", 0.5, BillboardDecoType::Warp);
 		warp->SetPosition(this->GetGlobalPosition());
 		_spawn_dec.push_back(warp);
-		if(thrust_ > 0 && thrust_scale_ > 0)
+		BOOST_FOREACH(ThrusterData td, trails_)
 		{
-			ThrusterTrail* trail = new ThrusterTrail(this, thrust_scale_, thrust_color_);
-			_spawn_dec.push_back(trail);
+			ThrusterTrail* trail = new ThrusterTrail(this, td.length_scale, td.width_scale, td.color, td.angle, td.position, td.angular_correction, td.antiparallel_factor);
+			_spawn_dec.push_back(trail);			
 		}
 
 

@@ -25,8 +25,7 @@ XMLCore::XMLCore(XMLCoreData _fill_outline_data, BaseAI* _AI)
 	energy_ = FlexFloat(_fill_outline_data.energy_storage, _fill_outline_data.energy_storage);
 	power_generation_ = FlexFloat(_fill_outline_data.power_generation);
 	thrust_ = FlexFloat(_fill_outline_data.thrust);
-	thrust_color_ = _fill_outline_data.thrust_color;
-	thrust_scale_ = _fill_outline_data.thrust_scale;
+	trails_ = _fill_outline_data.trails;
 	section_type_ = _fill_outline_data.filename;
 }
 
@@ -67,9 +66,8 @@ XMLCore* XMLCore::CreateXMLCore(std::string _name)
 			TiXmlElement* outline_element =					section_handle.FirstChild("CoreDefinition").FirstChild("Outline").Element();
 			TiXmlElement* subsection_position_element =		section_handle.FirstChild("CoreDefinition").FirstChild("SubSectionPosition").Element();
 			TiXmlElement* size_element =					section_handle.FirstChild("CoreDefinition").FirstChild("Size").Element();
-			TiXmlElement* thrust_element =					section_handle.FirstChild("CoreDefinition").FirstChild("Thrust").FirstChild("Power").Element();
-			TiXmlElement* thrust_scale_element =			section_handle.FirstChild("CoreDefinition").FirstChild("Thrust").FirstChild("TrailScale").Element();
-			TiXmlElement* thrust_color_element =			section_handle.FirstChild("CoreDefinition").FirstChild("Thrust").FirstChild("TrailColor").Element();
+			TiXmlElement* thrust_element =					section_handle.FirstChild("CoreDefinition").FirstChild("Thrust").Element();
+			TiXmlElement* thrust_power_element =			section_handle.FirstChild("CoreDefinition").FirstChild("Thrust").FirstChild("Power").Element();
 			TiXmlElement* power_generation_element =		section_handle.FirstChild("CoreDefinition").FirstChild("PowerGeneration").Element();
 			TiXmlElement* energy_storage_element =			section_handle.FirstChild("CoreDefinition").FirstChild("EnergyStorage").Element();
 
@@ -114,47 +112,137 @@ XMLCore* XMLCore::CreateXMLCore(std::string _name)
 			}
 
 			indicies.thrust = 0;
+			if(thrust_power_element)
+			{
+				try
+				{
+					indicies.thrust = boost::lexical_cast<float,std::string>(thrust_power_element->GetText());
+				}
+				catch(boost::bad_lexical_cast &)
+				{
+					Logger::ErrorOut() << "Thrust in " << file_name << " not numeric:" << thrust_power_element->GetText() << "\n";
+				}
+			}
+
 			if(thrust_element)
 			{
-				try
+				TiXmlElement* thrust_trail = thrust_element->FirstChildElement("Trail");
+				while(thrust_trail)
 				{
-					indicies.thrust = boost::lexical_cast<float,std::string>(thrust_element->GetText());
-				}
-				catch(boost::bad_lexical_cast &)
-				{
-					Logger::ErrorOut() << "Thrust in " << file_name << " not numeric:" << thrust_element->GetText() << "\n";
-				}
-			}
+					float thrust_length_scale = 1;
+					float thrust_width_scale = 1;
+					GLColor thrust_color(255, 255, 255);
+					Vector3f thrust_position;
+					float thrust_angle = 0;
+					bool angular_corrected = true;
+					float antiparallel_factor = 0.3f;
+					TiXmlElement* thrust_length_scale_element = thrust_trail->FirstChildElement("TrailLengthScale");
+					TiXmlElement* thrust_width_scale_element = thrust_trail->FirstChildElement("TrailWidthScale");
+					TiXmlElement* thrust_color_element = thrust_trail->FirstChildElement("TrailColor");
+					TiXmlElement* thrust_position_element = thrust_trail->FirstChildElement("TrailPosition");
+					TiXmlElement* thrust_angle_element = thrust_trail->FirstChildElement("TrailAngle");
+					TiXmlElement* thrust_angular_corrected_element = thrust_trail->FirstChildElement("TrailAngularCorrection");
+					TiXmlElement* thrust_antiparallel_factor_element = thrust_trail->FirstChildElement("TrailAntiparallelFactor");
+					// These are all optional and default to 1, white, (0,0), 0 and false respectively
+					if(thrust_length_scale_element)
+					{
+						try
+						{
+							thrust_length_scale = boost::lexical_cast<float,std::string>(thrust_length_scale_element->GetText());
+						}
+						catch(boost::bad_lexical_cast &)
+						{
+							Logger::ErrorOut() << "Thrust length scale in " << file_name << " not numeric:" << thrust_length_scale_element->GetText() << "\n";
+						}
+					}
+					if(thrust_width_scale_element)
+					{
+						try
+						{
+							thrust_width_scale = boost::lexical_cast<float,std::string>(thrust_width_scale_element->GetText());
+						}
+						catch(boost::bad_lexical_cast &)
+						{
+							Logger::ErrorOut() << "Thrust width scale in " << file_name << " not numeric:" << thrust_width_scale_element->GetText() << "\n";
+						}
+					}
+					if(thrust_color_element)
+					{
+						int r = 255;
+						int g = 255;
+						int b = 255;
+						if(thrust_color_element->QueryValueAttribute("r", &r) != TIXML_SUCCESS ||
+						   thrust_color_element->QueryValueAttribute("g", &g) != TIXML_SUCCESS ||
+						   thrust_color_element->QueryValueAttribute("b", &b)!= TIXML_SUCCESS)
+						{
+							Logger::ErrorOut() << "Thrust color in " << file_name << " does not contain all of r, g & b attributes, or they cannot be changed to unsigned char\n";
+						} else
+						{
+							thrust_color.r = r;
+							thrust_color.g = g;
+							thrust_color.b = b;
+						}
+					}
+					if(thrust_position_element)
+					{
+						float x = 0;
+						float y = 0;
+						if(thrust_position_element->QueryValueAttribute("x", &x) != TIXML_SUCCESS ||
+						   thrust_position_element->QueryValueAttribute("x", &x) != TIXML_SUCCESS)
+						{
+							Logger::ErrorOut() << "Thrust position in " << file_name << " does not contain x & y attributes, or they cannot be changed to float\n";
+						} else
+						{
+							thrust_position.x = x;
+							thrust_position.y = y;
+						}
+					}
+					if(thrust_angle_element)
+					{
+						try
+						{
+							thrust_angle = boost::lexical_cast<float,std::string>(thrust_angle_element->GetText());
+						}
+						catch(boost::bad_lexical_cast &)
+						{
+							Logger::ErrorOut() << "Thrust angle in " << file_name << " not numeric:" << thrust_angle_element->GetText() << "\n";
+						}
+					}
+					if(thrust_angular_corrected_element)
+					{
+						int thrust_angular_corrected = 0;
+						if(thrust_angular_corrected_element->QueryIntAttribute("value", &thrust_angular_corrected) != TIXML_SUCCESS)
+						{
+							Logger::ErrorOut() << "Thrust TrailAngularCorrection value attribute missing or not castable to int in" << file_name << "\n";
+						} else
+						{
+							angular_corrected = thrust_angular_corrected != 0;
+						}
+					}
+					if(thrust_antiparallel_factor_element)
+					{
+						try
+						{
+							antiparallel_factor = boost::lexical_cast<float,std::string>(thrust_antiparallel_factor_element->GetText());
+						}
+						catch(boost::bad_lexical_cast &)
+						{
+							Logger::ErrorOut() << "Thrust antiparallel factor in " << file_name << " not numeric:" << thrust_antiparallel_factor_element->GetText() << "\n";
+						}
+					}
 
-			indicies.thrust_scale = -1;
-			if(thrust_scale_element)
-			{
-				try
-				{
-					indicies.thrust_scale = boost::lexical_cast<float,std::string>(thrust_scale_element->GetText());
-				}
-				catch(boost::bad_lexical_cast &)
-				{
-					Logger::ErrorOut() << "Thrust scale in " << file_name << " not numeric:" << thrust_scale_element->GetText() << "\n";
-				}
-			}
+					ThrusterData td;
+					td.angle = thrust_angle;
+					td.color = thrust_color;
+					td.length_scale = thrust_length_scale;
+					td.width_scale = thrust_width_scale;
+					td.position = thrust_position;
+					td.angular_correction = angular_corrected;
+					td.antiparallel_factor = antiparallel_factor;
+					indicies.trails.push_back(td);
 
-			indicies.thrust_color = GLColor(255, 255, 255);
-			if(thrust_color_element)
-			{
-				int r = 255;
-				int g = 255;
-				int b = 255;
-				if(thrust_color_element->QueryValueAttribute("r", &r) != TIXML_SUCCESS ||
-				   thrust_color_element->QueryValueAttribute("g", &g) != TIXML_SUCCESS ||
-				   thrust_color_element->QueryValueAttribute("b", &b)!= TIXML_SUCCESS)
-				{
-					Logger::ErrorOut() << "Thrust color in " << file_name << " does not contain all of r, g & b attributes, or they cannot be changed to unsigned char\n";
-				} else
-				{
-					indicies.thrust_color.r = r;
-					indicies.thrust_color.g = g;
-					indicies.thrust_color.b = b;
+
+					thrust_trail = thrust_trail->NextSiblingElement("Trail");
 				}
 			}
 

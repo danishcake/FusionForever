@@ -6,8 +6,42 @@
 	<Mass> 200 </Mass>
 	<Thrust>
 		<Power>50</Power>
-		<TrailScale>1.15</TrailScale>
-		<TrailColor r="255" b="200" g="200"/>
+    <Trail>
+      <TrailLengthScale>0.5</TrailLengthScale>
+      <TrailWidthScale>0.85</TrailWidthScale>
+      <TrailColor r="242" b="11" g="86"/>
+      <TrailPosition x="0" y="0"/>
+      <TrailAngle>0</TrailAngle>
+      <TrailAngularCorrection value="0"/>
+      <TrailAntiparallelFactor>0.0</TrailAntiparallelFactor>
+    </Trail>
+    <Trail>
+      <TrailLengthScale>0.5</TrailLengthScale>
+      <TrailWidthScale>0.85</TrailWidthScale>
+      <TrailColor r="242" b="11" g="86"/>
+      <TrailPosition x="0" y="0"/>
+      <TrailAngle>90</TrailAngle>
+      <TrailAngularCorrection value="0"/>
+      <TrailAntiparallelFactor>0.0</TrailAntiparallelFactor>
+    </Trail>
+    <Trail>
+      <TrailLengthScale>0.5</TrailLengthScale>
+      <TrailWidthScale>0.85</TrailWidthScale>
+      <TrailColor r="242" b="11" g="86"/>
+      <TrailPosition x="0" y="0"/>
+      <TrailAngle>180</TrailAngle>
+      <TrailAngularCorrection value="0"/>
+      <TrailAntiparallelFactor>0.0</TrailAntiparallelFactor>
+    </Trail>
+    <Trail>
+      <TrailLengthScale>0.5</TrailLengthScale>
+      <TrailWidthScale>0.85</TrailWidthScale>
+      <TrailColor r="242" b="11" g="86"/>
+      <TrailPosition x="0" y="0"/>
+      <TrailAngle>270</TrailAngle>
+      <TrailAngularCorrection value="0"/>
+      <TrailAntiparallelFactor>0.0</TrailAntiparallelFactor>
+    </Trail>
 	</Thrust>
   <Categories>
     <Category>Small</Category>

@@ -15,8 +15,7 @@ struct XMLCoreData
 	float energy_storage;
 	float power_generation;
 	float thrust;
-	float thrust_scale;
-	GLColor thrust_color;
+	std::vector<ThrusterData> trails;
 
 	Vector3f default_subsection_position;
 	Vector3f size;

@@ -29,6 +29,16 @@ static const float SECTION_FLASH_TIME = 2.0f;
 //Forward declare TiXML element
 class TiXmlElement;
 
+struct ThrusterData
+{
+	float length_scale;
+	float width_scale;
+	GLColor color;
+	Vector3f position;
+	float angle;
+	bool angular_correction;
+	float antiparallel_factor;
+};
 
 class Section :
 	public BaseEntity
@@ -83,8 +93,7 @@ protected:
 	FlexFloat thrust_;
 	FlexFloat energy_;
 	FlexFloat power_generation_;
-	GLColor thrust_color_;
-	float thrust_scale_;
+	std::vector<ThrusterData> trails_;
 
 	/*
 	 * Drains power from core - expects a negative number

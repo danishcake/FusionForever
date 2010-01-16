@@ -17,8 +17,8 @@ struct XMLFilledOutlinedData
 	float energy_storage;
 	float power_generation;
 	float thrust;
-	float thrust_scale;
-	GLColor thrust_color;
+
+	std::vector<ThrusterData> trails;
 
 	bool has_shield;
 	float shield_health;
