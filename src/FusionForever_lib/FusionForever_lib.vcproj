@@ -308,6 +308,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PlasmaSeeker.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Projectile.cpp"
 					>
 				</File>
@@ -416,6 +420,14 @@
 					</File>
 					<File
 						RelativePath=".\PlasmaArtillery.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\PlasmaFlinger.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\PlasmaSpitter.cpp"
 						>
 					</File>
 					<File
@@ -742,6 +754,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PlasmaSeeker.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Projectile.h"
 					>
 				</File>
@@ -862,6 +878,14 @@
 					</File>
 					<File
 						RelativePath=".\PlasmaArtillery.h"
+						>
+					</File>
+					<File
+						RelativePath=".\PlasmaFlinger.h"
+						>
+					</File>
+					<File
+						RelativePath=".\PlasmaSpitter.h"
 						>
 					</File>
 					<File

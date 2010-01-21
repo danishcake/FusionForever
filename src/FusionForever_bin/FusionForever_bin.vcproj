@@ -1548,7 +1548,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Sounds\Fire17.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Fire18.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Fire19.wav"
+				>
+			</File>
+			<File
 				RelativePath=".\Sounds\Fire2.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Fire20.wav"
+				>
+			</File>
+			<File
+				RelativePath=".\Sounds\Fire21.wav"
 				>
 			</File>
 			<File

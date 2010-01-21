@@ -34,6 +34,16 @@ Fire15.wav
 http://www.freesound.org/samplesViewSingle.php?id=30436
 Fire16.wav
 http://www.freesound.org/samplesViewSingle.php?id=39624
+Fire17.wav
+http://www.freesound.org/samplesViewSingle.php?id=87457
+Fire18.wav
+http://www.freesound.org/samplesViewSingle.php?id=86321
+Fire19.wav
+http://www.freesound.org/samplesViewSingle.php?id=28892
+Fire20.wav
+http://www.freesound.org/samplesViewSingle.php?id=28894
+Fire21.wav
+http://www.freesound.org/samplesViewSingle.php?id=28890
 
 hit1.wav
 http://www.freesound.org/samplesViewSingle.php?id=980

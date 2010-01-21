@@ -21,12 +21,12 @@ ThrusterTrail::ThrusterTrail(BaseEntity* _source, float _length_scale, float _wi
 	/* Create initial array of points, triangles etc */
 	cartesian_points_.push_back(Vector3f(0,0,0));
 	cartesian_points_.push_back(Vector3f(0,0,0));
-	points_.push_back(0);
-	points_.push_back(0);
+	points_.push_back(source_->GetGlobalAngle());
+	points_.push_back(source_->GetGlobalAngle());
 		
 	for(int i = 2; i < 10; i++)
 	{
-		points_.push_back(0);
+		points_.push_back(source_->GetGlobalAngle());
 		cartesian_points_.push_back(Vector3f(0,0,0));
 		fill_points_.push_back(Vector3f(0, 0, 0));
 		fill_points_.push_back(Vector3f(0, 0, 0));

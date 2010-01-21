@@ -13,6 +13,7 @@ protected:
 	float turn_rate_;
 	float scalar_speed_;
 	float wave_sum_;
+	float wave_magnitude_;
 	virtual void EndSubscription(Subscriber* _source);
 };
 

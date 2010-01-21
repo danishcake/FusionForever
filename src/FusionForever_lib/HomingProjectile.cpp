@@ -9,6 +9,7 @@ HomingProjectile::HomingProjectile(BaseEntity* _target)
 	target_ = _target;
 	turn_rate_ = 10;
 	wave_sum_ = Random::RandomFactor() * 2 * M_PI;
+	wave_magnitude_ = 0.5f;
 	if(target_!=NULL)
 		target_->AddSubscriber(this);
 }
@@ -30,7 +31,7 @@ void HomingProjectile::Tick(float _timespan, std::vector<Decoration_ptr>& _spawn
 		turn_rate = turn_data.turn_factor;
 	}
 
-	turn_rate += 0.5f * sinf(wave_sum_);
+	turn_rate += wave_magnitude_ * sinf(wave_sum_);
 
 	angle_ += turn_rate * _timespan * turn_rate_; //TODO check!
 	velocity_  = Vector3f(scalar_speed_ * sin(angle_ * M_PI / 180.0f), scalar_speed_ * cos(angle_ * M_PI / 180.0f),0);

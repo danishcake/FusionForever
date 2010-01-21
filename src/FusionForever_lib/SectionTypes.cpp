@@ -22,6 +22,8 @@
 #include "PhotonCannon.h"
 #include "ShotgunArtillery.h"
 #include "HeavyBlaster.h"
+#include "PlasmaFlinger.h"
+#include "PlasmaSpitter.h"
 #include "XMLSection.h"
 #include "XMLCore.h"
 #include <set>
@@ -112,6 +114,9 @@ namespace SectionTypes
 	Section_ptr CreatePhotonCannonInstance(){return new PhotonCannon();}
 	Section_ptr CreateShotgunArtilleryInstance(){return new ShotgunArtillery();}
 	Section_ptr CreateHeavyBlasterInstance(){return new HeavyBlaster();}
+	Section_ptr CreatePlasmaFlingerInstance(){return new PlasmaFlinger();}
+	Section_ptr CreatePlasmaSpitterInstance(){return new PlasmaSpitter();}
+
 
 	void RegisterSections()
 	{
@@ -136,5 +141,7 @@ namespace SectionTypes
 		SectionTypes::RegisterSectionType(CreatePhotonCannonInstance, "PhotonCannon");
 		SectionTypes::RegisterSectionType(CreateShotgunArtilleryInstance, "ShotgunArtillery");
 		SectionTypes::RegisterSectionType(CreateHeavyBlasterInstance, "HeavyBlaster");
+		SectionTypes::RegisterSectionType(CreatePlasmaFlingerInstance, "PlasmaFlinger");
+		SectionTypes::RegisterSectionType(CreatePlasmaSpitterInstance, "PlasmaSpitter");
 	}
 }
