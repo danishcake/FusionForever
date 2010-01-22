@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "PlasmaSeeker.h"
 #include "ThrusterTrail.h"
+#include "Ricochet.h"
 
 bool PlasmaSeeker::initialised_ = false;
 int PlasmaSeeker::fill_dl_ = 0;
@@ -46,11 +47,12 @@ PlasmaSeeker::~PlasmaSeeker(void)
 
 void PlasmaSeeker::Hit(std::vector<Decoration_ptr>& _spawn, std::vector<Projectile_ptr>& /*_projectile_spawn*/)
 {
-/*
-	Puff* p = new Puff();
-	p->SetPosition(ltv_position_);
-	_spawn.push_back(Decoration_ptr(p));
-	*/
+	for(int i = 0; i < 5; i++)
+	{
+		Ricochet* p = new Ricochet(angle_ + Random::RandomRange(-15, 15), Random::RandomChance(0.25f));
+		p->SetPosition(ltv_position_);
+		_spawn.push_back(Decoration_ptr(p));
+	}
 }
 
 void PlasmaSeeker::InitialiseGraphics()
