@@ -83,7 +83,7 @@ void PlasmaSpitter::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_pr
 			target = _enemies[index];
 		}
 		float scale = 0.35f + 0.03f *(6.0f - (float)fire_count_);
-		float angle = fire_count_ * 8;
+		float angle = fire_count_ * 3;
 
 		PlasmaSeeker* hm = new PlasmaSeeker(Vector3f(0, 30, 0), target, GLColor(83, 255, 230), scale, 0.15);
 		hm->SetVelocity(Vector3f(sin(DEG2RAD(angle)), cos(DEG2RAD(angle)), 0));

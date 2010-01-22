@@ -7,7 +7,7 @@ int PlasmaSeeker::fill_dl_ = 0;
 int PlasmaSeeker::fill_verts_index_ = 0;
 
 static const float SPEED_START = 200;
-static const float SPEED_END = 800;
+static const float SPEED_END = 1500;
 static const float TURN_START = 300;
 static const float TURN_END = 50;
 static const float TRANSITION_TIME = 1;
