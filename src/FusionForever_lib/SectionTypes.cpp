@@ -24,6 +24,7 @@
 #include "HeavyBlaster.h"
 #include "PlasmaFlinger.h"
 #include "PlasmaSpitter.h"
+#include "LightDestroyer.h"
 #include "XMLSection.h"
 #include "XMLCore.h"
 #include <set>
@@ -116,6 +117,7 @@ namespace SectionTypes
 	Section_ptr CreateHeavyBlasterInstance(){return new HeavyBlaster();}
 	Section_ptr CreatePlasmaFlingerInstance(){return new PlasmaFlinger();}
 	Section_ptr CreatePlasmaSpitterInstance(){return new PlasmaSpitter();}
+	Section_ptr CreateLightDestroyerInstance(){return new LightDestroyer();}
 
 
 	void RegisterSections()
@@ -143,5 +145,6 @@ namespace SectionTypes
 		SectionTypes::RegisterSectionType(CreateHeavyBlasterInstance, "HeavyBlaster");
 		SectionTypes::RegisterSectionType(CreatePlasmaFlingerInstance, "PlasmaFlinger");
 		SectionTypes::RegisterSectionType(CreatePlasmaSpitterInstance, "PlasmaSpitter");
+		SectionTypes::RegisterSectionType(CreateLightDestroyerInstance, "LightDestroyer");
 	}
 }

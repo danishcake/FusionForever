@@ -415,6 +415,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\LightDestroyer.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\PhotonCannon.cpp"
 						>
 					</File>
@@ -870,6 +874,10 @@
 					</File>
 					<File
 						RelativePath=".\Lancer.h"
+						>
+					</File>
+					<File
+						RelativePath=".\LightDestroyer.h"
 						>
 					</File>
 					<File
