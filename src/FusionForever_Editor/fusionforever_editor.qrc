@@ -1,4 +1,15 @@
 <RCC>
-    <qresource prefix="FusionForever_Editor">
+    <qresource prefix="/FusionForever_Editor" >
+        <file>Icons/list-remove.png</file>
+        <file>Icons/document-new.png</file>
+        <file>Icons/document-open.png</file>
+        <file>Icons/document-save.png</file>
+        <file>Icons/document-save-as.png</file>
+        <file>Icons/edit-cut.png</file>
+        <file>Icons/edit-delete.png</file>
+        <file>Icons/edit-paste.png</file>
+        <file>Icons/list-add.png</file>
+        <file>Icons/preferences-desktop.png</file>
+        <file>Icons/media-playback-start.png</file>
     </qresource>
 </RCC>
