@@ -10,6 +10,7 @@
 #include "ScenarioDialog.h"
 #include <stdlib.h>
 #include <fstream>
+#include <QCoreApplication>
 
 FusionForever_Editor::FusionForever_Editor(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
@@ -64,10 +65,7 @@ FusionForever_Editor::FusionForever_Editor(QWidget *parent, Qt::WFlags flags)
 	QObject::connect(ui.actionOpen, SIGNAL(triggered()), this, SLOT(openShip()));
 	QObject::connect(ui.actionConfigure, SIGNAL(triggered()), scenario_dialog_, SLOT(showDialog()));
 	QObject::connect(ui.actionTry, SIGNAL(triggered()), this, SLOT(tryShip()));
-
-
-
-	
+	QObject::connect(ui.actionExit, SIGNAL(triggered()), this, SLOT(exitEditor()));
 }
 
 FusionForever_Editor::~FusionForever_Editor()
@@ -195,4 +193,9 @@ void FusionForever_Editor::setGridSize1()
 void FusionForever_Editor::setGridSize2_5()
 {
 	ui.fusionForeverWidget->SetGridSize(2.5f);
+}
+
+void FusionForever_Editor::exitEditor()
+{
+	QCoreApplication::exit(0);
 }

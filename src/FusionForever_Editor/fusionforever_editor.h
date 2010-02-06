@@ -29,6 +29,8 @@ private slots:
 	void openShip();
 	void tryShip();
 
+	void exitEditor();
+
 	void setGridSize0_5();
 	void setGridSize1();
 	void setGridSize2_5();
