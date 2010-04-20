@@ -49,6 +49,7 @@ void Camera::SetCentre(float _x, float _y, CameraLevel::Enum _level)
 		centre_y_ = _y;
 		target_centres_.clear();
 		target_centres_.push_back(Vector2f(_x, _y));
+		target_offsets_.clear();
 		centre_x_velocity_ = 0;
 		centre_y_velocity_ = 0;
 	}
