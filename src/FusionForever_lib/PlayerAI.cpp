@@ -3,6 +3,7 @@
 #include "TurningRoutines.h"
 #include "Core.h"
 #include "sdl.h"
+#include "Radar.h"
 
 
 std::vector<int> PlayerAI::core_ids_;
@@ -268,6 +269,11 @@ AIAction PlayerAI::Tick(float _timespan, std::vector<Core*>& /*_allies*/, std::v
 		}
 		else
 			Logger::ErrorOut() << "Player ID of -1 encountered\n";
+	}
+
+	if(core_ids_.size() == 1)
+	{
+		Radar::SetPlayerPosition(_self->GetGlobalPosition());
 	}
 
 	AIAction action;
