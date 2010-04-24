@@ -508,6 +508,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Scripts\Challenges\SectionTagging.luaChallenge"
+					>
+				</File>
+				<File
 					RelativePath=".\Scripts\Challenges\SurviveTheFeud.luaChallenge"
 					>
 				</File>

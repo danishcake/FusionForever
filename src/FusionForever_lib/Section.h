@@ -102,6 +102,11 @@ protected:
 	bool PowerRequirement(float _minimum_power);
 	void AddEnergyCap(float _energy_cap) {energy_.AddMaxValue(_energy_cap);}
 
+	/*
+	  * A reference to a lua function to be called on the death of the core
+	  */
+	int death_function_reference_;
+   
 public:
 	Section(void);
 	virtual ~Section(void);
@@ -123,6 +128,7 @@ public:
 	GLColor GetColor();
 	virtual void Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std::vector<Decoration_ptr>& _spawn_dec, Matrix4f _transform, std::vector<Core_ptr>& _enemies, ICollisionManager* _collision_manager);
 	void DeathTick();
+	void DetachDeadSections(std::vector<int>& death_callbacks);
 	void CollectShields(std::vector<Section_ptr>& _shields);
 	virtual void GetDeathSpawn(std::vector<Decoration_ptr>& _spawn_dec);
 
@@ -148,6 +154,12 @@ public:
 	bool HasShield(){return has_shield_;}
 	float GetShieldRadius(){return shield_radius_.GetValue();}
 	float GetShieldHealth(){return shield_.GetValue();}
+
+	/*
+	  * Gets or sets the reference to the lua function to be called on core death
+	  */
+	int GetDeathFunctionReference(){return death_function_reference_;}
+	void SetDeathFunctionReference(int _death_function_reference){death_function_reference_ = _death_function_reference;}
 
 	//Predicates
 	static bool IsRemovable(Section_ptr section)

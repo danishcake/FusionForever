@@ -28,11 +28,13 @@ function builder_:getDesign(ship_id)
 end
 
 --Spawns the ship prototype into the world
-function builder_:spawnDesign(core, position, angle, force, health_scale)
-	return SpawnDesign(self.challenge_pointer, core, position, angle, force, health_scale)
+--Will populate section IDs in the design
+function builder_:spawnDesign(core, position, angle, force, health_scale, ai_script)
+	return SpawnDesign(self.challenge_pointer, core, position, angle, force, health_scale, ai_script)
 end
 
 --Updates an existing ship with the new prototype
+--May change section ID in design
 function builder_:updateShip(core)
 	if core.edit_mode.edit_existing == true and core.edit_mode.ship_id ~= -1 then
 		UpdateDesign(self.challenge_pointer, core)

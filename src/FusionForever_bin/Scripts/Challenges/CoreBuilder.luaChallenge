@@ -93,7 +93,7 @@ for i = 1, 40 do
 	
 	x = ((i % 10) - 2) * 80
 	y = (math.floor(i / 10) - 5) * 80
-	ship_id = builder:spawnDesign(design, Vector:new(x, y), 0, i%8, 1)
+	ship_id = builder:spawnDesign(design, Vector:new(x, y), 0, i%8, 1, "RotatingAI.luaAI")
 	challenge:WaitFor(0.25)
 	--challenge:KillShip(ship_id)
 	

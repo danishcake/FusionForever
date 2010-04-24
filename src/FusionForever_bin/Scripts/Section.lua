@@ -12,6 +12,7 @@ Section =
 	child_count = 0,
 	edit_mode = {edit_existing = false, ship_id = -1},
 	action = "None",
+	health = {override = false, value = 100},
 }
 
 Section.__index = Section

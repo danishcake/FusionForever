@@ -125,7 +125,7 @@ function()
 		armour:attachChild(gun)
 	end
 
-	local ship_id = builder:spawnDesign(core, Vector:new(50, 50), 0, 0, 1)
+	local ship_id = builder:spawnDesign(core, Vector:new(50, 50), 0, 0, 1, "RotatingAI.luaAI")
 	challenge:DisplayMessage("Spawned a ship designed in lua", 2);
 	print("OK, created core")
 	challenge:WaitFor(1)

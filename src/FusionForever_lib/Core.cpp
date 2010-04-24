@@ -37,7 +37,6 @@ Core::Core(BaseAI* _AI)
 	energy_ = FlexFloat(100, 100);
 	thrust_ = FlexFloat(100);
 	target_ = NULL;
-	death_function_reference_ = 0;
 	total_damage_ = 0;
 	total_shield_damage_ = 0;
 	total_health_ = health_.GetMaxValue();

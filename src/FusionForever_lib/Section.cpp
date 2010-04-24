@@ -46,6 +46,7 @@ Section::Section(void)
 	mass_ = 100;
 	moment_ = 100;
 	time_since_damage_ = 1000; //Not yet taken damage, arbitary large #
+	death_function_reference_ = 0;
 }
 
 Section::~Section(void)
@@ -183,6 +184,18 @@ void Section::GetDeathSpawn(std::vector<Decoration_ptr>& _spawn_dec)
 	StopSubscribing();
 }
 
+void Section::DetachDeadSections(std::vector<int>& _death_callbacks)
+{
+	BOOST_FOREACH(Section_ptr section, sub_sections_)
+	{
+		section->DetachDeadSections(_death_callbacks);
+	}
+	sub_sections_.erase(std::remove_if(sub_sections_.begin(), sub_sections_.end(),
+		                Section::IsRemovable), sub_sections_.end());
+	if(death_function_reference_ && health_ <= 0 && (std::count(_death_callbacks.begin(), _death_callbacks.end(), death_function_reference_) == 0))
+		_death_callbacks.push_back(death_function_reference_);
+}
+
 void Section::DeathTick()
 {
 	BaseEntity::Tick(0, Matrix4f());
@@ -252,8 +265,6 @@ void Section::Tick(float _timespan, std::vector<Projectile_ptr>& _spawn_prj, std
 		}
 	}
 
-	sub_sections_.erase(std::remove_if(sub_sections_.begin(), sub_sections_.end(),
-		                Section::IsRemovable), sub_sections_.end());
 	time_since_damage_ += _timespan;
 	damage_flash_timer_ -= _timespan;
 	flash_timer_ += _timespan;

@@ -22,10 +22,6 @@ protected:
 	 */
 	Core* target_;
 	/*
-	  * A reference to a lua function to be called on the death of the core
-	  */
-	int death_function_reference_;
-	/*
 	 * The total health of this and all subsections
 	 */
 	float total_health_;
@@ -134,12 +130,6 @@ public:
 	 * Parses any attributes common to cores and sections
 	 */
 	static void ParseCommon(TiXmlElement* _section_element, Section* _section);
-	/*
-	  * Gets or sets the reference to the lua function to be called on core death
-	  */
-	int GetDeathFunctionReference(){return death_function_reference_;}
-	void SetDeathFunctionReference(int _death_function_reference){death_function_reference_ = _death_function_reference;}
-
 	/*
 	  * Called by 
 	  */

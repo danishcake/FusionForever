@@ -1,0 +1,97 @@
+
+challenge:DisplayMessage("Demos the use of section tagging", 2);
+challenge:WaitFor(0.5)
+
+local l_restore = challenge.time + 100000
+local r_restore = challenge.time + 100000
+
+function callback_l()
+  challenge:DisplayMessage("Left destroyed", 2)
+  l_restore = challenge.time + 2
+end
+
+function callback_r()
+  challenge:DisplayMessage("Right destroyed", 2)
+  r_restore = challenge.time + 2
+end
+
+playerSpawn = coroutine.wrap(function()
+  challenge:SpawnShip("ArmedWell", 1, Vector:new(0, 200), 0, "PlayerAI0", 100)
+  challenge:WaitFor(1)
+  challenge:WaitForForceCountLessThan(1, 1)
+  challenge:WaitFor(1)
+  challenge:Defeat()
+end)
+
+enemySpawn = coroutine.wrap(function()
+  design = builder:createNew("SquareCore")
+  design.health = {override = true, value = 1000}
+
+  local leftbit = builder:createNew("LargeSpire")
+  leftbit.angle = -90
+  leftbit.position.x = -10
+  leftbit.position.y = 0
+  leftbit.health = {override = true, value = 10}
+  design:attachChild(leftbit)
+
+  local rightbit = builder:createNew("LargeSpire")
+  rightbit.angle = 90
+  rightbit.position.x = 10
+  rightbit.position.y = 0
+  rightbit.health = {override = true, value = 10}
+  design:attachChild(rightbit)
+
+  ship_id = builder:spawnDesign(design, Vector:new(0, 0), 0, 0, 1, "RotatingAI.luaAI")
+
+  challenge:SetDeathFunction(leftbit.section_id, callback_l)
+  challenge:SetDeathFunction(rightbit.section_id, callback_r)
+  challenge:WaitFor(1)
+  challenge:WaitForForceCountLessThan(0, 1)
+  challenge:WaitFor(1)
+  challenge:Defeat()
+end)
+
+enemyRegen = coroutine.wrap(function()
+  while(true) do
+    if(l_restore < challenge.time) then
+      l_restore = challenge.time + 100000
+      design = builder:getDesign(ship_id)
+      local leftbit = builder:createNew("LargeSpire")
+      leftbit.angle = -90
+      leftbit.position.x = -10
+      leftbit.position.y = 0
+      leftbit.health = {override = true, value = 10}
+      design:attachChild(leftbit)
+      builder:updateShip(design)
+      challenge:SetDeathFunction(leftbit.section_id, callback_l)
+    end
+    if(r_restore < challenge.time) then
+      r_restore = challenge.time + 100000
+      design = builder:getDesign(ship_id)
+      local rightbit = builder:createNew("LargeSpire")
+      rightbit.angle = 90
+      rightbit.position.x = 10
+      rightbit.position.y = 0
+      rightbit.health = {override = true, value = 10}
+      design:attachChild(rightbit)
+      builder:updateShip(design)
+      challenge:SetDeathFunction(rightbit.section_id, callback_r)
+    end
+    coroutine.yield()
+  end
+end)
+
+
+
+
+
+
+
+while(true) do
+  playerSpawn()
+  enemySpawn()
+  enemyRegen()
+  coroutine.yield()
+end
+
+challenge:Victory()

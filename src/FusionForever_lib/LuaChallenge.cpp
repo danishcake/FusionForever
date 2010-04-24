@@ -198,7 +198,21 @@ int LuaChallenge::l_SetDeathFunction(lua_State* _luaVM)
 	int ship_id = static_cast<int>(lua_tointeger(_luaVM, -2));
 	int death_function_reference = luaL_ref(_luaVM, LUA_REGISTRYINDEX);
 	Core_ptr core = static_cast<Core_ptr>(challenge->GetShipData(ship_id));
-	core->SetDeathFunctionReference(death_function_reference);
+	if(core)
+	{
+		core->SetDeathFunctionReference(death_function_reference);
+	} else
+	{
+		Section_ptr section = static_cast<Section_ptr>(challenge->GetSectionData(ship_id));
+		if(section)
+		{
+			section->SetDeathFunctionReference(death_function_reference);
+		} else
+		{
+			Logger::DiagnosticOut() << "Unable to find a core or section with ID " << ship_id << ", death fn registration failed\n";
+		}
+	}
+	
 
 	return 0;
 }
@@ -611,52 +625,56 @@ int LuaChallenge::l_SpawnDesign(lua_State* _luaVM)
 {
 	//Stack = Challenge_ptr-core-position-angle-force-health_scale
 	//Refered to as BASE from hereon
-	if(!(lua_gettop(_luaVM) == 6))
+	if(!(lua_gettop(_luaVM) == 7))
 	{
-		luaL_error(_luaVM, "SpawnCoreDesign must be called with 2 parameters");
+		luaL_error(_luaVM, "SpawnCoreDesign must be called with 6 parameters");
 	}
 
-	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -6)));
+	LuaChallenge* challenge = ((LuaChallenge*) (lua_touserdata(_luaVM, -7)));
 	assert(challenge);
 
 	//Need to build the ship here
 	Core_ptr core = NULL;
 
-	if(!lua_isnumber(_luaVM, -1))
-		luaL_error(_luaVM, "Health-scale (param 6) should be numeric, not %s", lua_typename(_luaVM, lua_type(_luaVM, -1)));
+	if(!lua_isstring(_luaVM, -1))
+		luaL_error(_luaVM, "AI script (param 7) should be a string, not %s", lua_typename(_luaVM, lua_type(_luaVM, -1)));
 	if(!lua_isnumber(_luaVM, -2))
-		luaL_error(_luaVM, "Force (param 5) should be numeric, not %s", lua_typename(_luaVM, lua_type(_luaVM, -2)));
+		luaL_error(_luaVM, "Health-scale (param 6) should be numeric, not %s", lua_typename(_luaVM, lua_type(_luaVM, -1)));
 	if(!lua_isnumber(_luaVM, -3))
+		luaL_error(_luaVM, "Force (param 5) should be numeric, not %s", lua_typename(_luaVM, lua_type(_luaVM, -2)));
+	if(!lua_isnumber(_luaVM, -4))
 		luaL_error(_luaVM, "Angle (param 4) should be numeric, not %s", lua_typename(_luaVM, lua_type(_luaVM, -3)));
-	if(!lua_istable(_luaVM, -4))
-		luaL_error(_luaVM, "Position (param 3) should be a table, not %s", lua_typename(_luaVM, lua_type(_luaVM, -4)));
 	if(!lua_istable(_luaVM, -5))
+		luaL_error(_luaVM, "Position (param 3) should be a table, not %s", lua_typename(_luaVM, lua_type(_luaVM, -4)));
+	if(!lua_istable(_luaVM, -6))
 		luaL_error(_luaVM, "Core (param 2) should be a table, not %s", lua_typename(_luaVM, lua_type(_luaVM, -5)));
 	
 
 
-	float health_scale = static_cast<float>(lua_tonumber(_luaVM, -1));			//Stack = BASE
-	int force = static_cast<int>(lua_tointeger(_luaVM, -2));					//Stack = BASE
-	float angle = static_cast<float>(lua_tonumber(_luaVM, -3));					//Stack = BASE
+	std::string ai_script = lua_tostring(_luaVM, -1);
+	float health_scale = static_cast<float>(lua_tonumber(_luaVM, -2));			//Stack = BASE
+	int force = static_cast<int>(lua_tointeger(_luaVM, -3));					//Stack = BASE
+	float angle = static_cast<float>(lua_tonumber(_luaVM, -4));					//Stack = BASE
+	
 
-																				//Position at -4
+																				//Position at -5
 	Vector3f position;
 	lua_pushstring(_luaVM, "x");												//Stack = BASE-"x"
-	lua_gettable(_luaVM, -5);													//Stack = BASE-x
+	lua_gettable(_luaVM, -6);													//Stack = BASE-x
 	if(!lua_isnumber(_luaVM, -1))
 		luaL_error(_luaVM, "param 3 should be a table with a numeric x key");
 	position.x = static_cast<float>(lua_tonumber(_luaVM, -1));					//Stack = BASE-x
 	lua_pop(_luaVM, 1);															//Stack = BASE
 
 	lua_pushstring(_luaVM, "y");												//Stack = BASE-"y"
-	lua_gettable(_luaVM, -5);													//Stack = BASE-y
+	lua_gettable(_luaVM, -6);													//Stack = BASE-y
 	if(!lua_isnumber(_luaVM, -1))
 		luaL_error(_luaVM, "param 3 should be a table with a numeric y key");
 	position.y = static_cast<float>(lua_tonumber(_luaVM, -1));					//Stack = BASE-y
 	lua_pop(_luaVM, 1);															//Stack = BASE
 
 	std::stack<std::vector<int>> indices;
-	lua_pushvalue(_luaVM, -5);
+	lua_pushvalue(_luaVM, -6);
 	ParseLuaShip(_luaVM, (Section**)&core,  false, challenge, indices);
 	lua_pop(_luaVM, 1);
 	core->SetPosition(position);
@@ -741,6 +759,7 @@ void LuaChallenge::ParseLuaShip(lua_State* _luaVM, Section** _parent, bool _upda
 			current_section->SetPosition(position);
 			if(override_health)
 				current_section->SetMaxHealth(health);
+
 			if(*_parent)
 			{
 				(*_parent)->AddChild(current_section);
@@ -764,7 +783,8 @@ void LuaChallenge::ParseLuaShip(lua_State* _luaVM, Section** _parent, bool _upda
 					parent_children.erase(std::remove(parent_children.begin(), parent_children.end(), current_section), parent_children.end());
 					delete current_section;
 					current_section = NULL;
-								current_section = SectionTypes::GetSection(section_type);
+
+					current_section = SectionTypes::GetSection(section_type);
 					if(!current_section)
 						current_section = XMLSection::CreateXMLSection(section_type);
 					(*_parent)->AttachChildren(parent_children);
@@ -829,6 +849,11 @@ void LuaChallenge::ParseLuaShip(lua_State* _luaVM, Section** _parent, bool _upda
 	}
 	if(current_section)
 	{
+		//Update section with it's firm ID
+		lua_pushstring(_luaVM, "section_id");										//Stack = BASE-"section_id"
+		lua_pushinteger(_luaVM, current_section->GetSectionID());					//Stack = BASE-"section_id"-id
+		lua_settable(_luaVM, -3);													//Stack = BASE
+
 		/* Parse children and attach*/
 		lua_pushstring(_luaVM, "subsections");							//Stack = Section-"subsections"
 		lua_gettable(_luaVM, -2);										//Stack = Section-subsections[]
@@ -1217,11 +1242,17 @@ void LuaChallenge::CallDeathFunction(int _death_function_refence)
 	{
 		// obtain death function
 		lua_rawgeti(luaVM_, LUA_REGISTRYINDEX, _death_function_refence);
+		if(lua_isnil(luaVM_, -1))
+		{
+			Logger::ErrorOut() << "Error running death function - function is nil. Has it been run twice? Death function: " << _death_function_refence << "\n";
+			return;
+		}
+		
 		//This function should have been created in the correct environment, and thus inheritted it.
 		int run_result = lua_pcall(luaVM_, 0, 0, 0);
 		if(run_result != 0)
 		{
-			Logger::ErrorOut() << "Error running death function" << boost::lexical_cast<std::string, int>(_death_function_refence) << "\n";
+			Logger::ErrorOut() << "Error running death function " << boost::lexical_cast<std::string, int>(_death_function_refence) << "\n";
 			Logger::ErrorOut() << "Error:" << lua_tostring(luaVM_, -1) << "\n";
 			lua_pop(luaVM_, 1);
 		}

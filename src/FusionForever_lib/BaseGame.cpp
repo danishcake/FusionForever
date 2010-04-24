@@ -174,6 +174,7 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 		std::vector<Projectile_ptr> projectile_spawn;
 		projectile_spawn.reserve(50);
 		std::vector<std::vector<Section_ptr>> shields(MAX_FORCES, std::vector<Section_ptr>(8));
+		std::vector<int> death_callbacks;
 
 		for(int force = 0; force < MAX_FORCES; force++)
 		{
@@ -183,6 +184,7 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 			{
 				core->Tick(_timespan, projectile_spawn, decoration_spawn, identity, friends[force], enemies[force], &collision_managers_[force]);
 				core->CollectShields(shields[force]);
+				core->DetachDeadSections(death_callbacks);
 			}
 			//Add spawned projectiles
 			projectiles_[force].insert(projectiles_[force].end(), projectile_spawn.begin(), projectile_spawn.end());
@@ -310,9 +312,15 @@ int BaseGame::Tick(float _timespan, GameGUI& _gui)
 				if(core->GetHealth() <= 0)
 				{
 					core->GetDeathSpawn(decoration_spawn);
-					challenge_->CallDeathFunction(core->GetDeathFunctionReference());
+					core->DetachDeadSections(death_callbacks);
+					
 				}
 			}
+		}
+		//Service section death callbacks to let challenge know of dead parts
+		BOOST_FOREACH(int death_function_reference, death_callbacks)
+		{
+			challenge_->CallDeathFunction(death_function_reference);
 		}
 		//Add spawned decorations 
 		decorations_.insert(decorations_.end(), decoration_spawn.begin(), decoration_spawn.end());
